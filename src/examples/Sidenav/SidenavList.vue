@@ -59,6 +59,30 @@
           </template>
         </sidenav-collapse>
       </li>
+      <li class="nav-item">
+        <router-link :to="{ name: 'Mahasiswa' }">
+          <sidenav-collapse
+            nav-text="Mahasiswa"
+            :collapse="false"
+            url="#"
+            :aria-controls="''"
+            collapse-ref="/mahasiswa"
+            :class="getRoute() === 'mahasiswa' ? 'active' : ''"
+          >
+            <template #icon>
+              <i
+                class="ni ni-single-02 text-sm"
+                :class="
+                  $store.state.sidebarType === 'bg-default' ||
+                  $store.state.darkMode
+                    ? 'text-white'
+                    : 'text-dark'
+                "
+              ></i>
+            </template>
+          </sidenav-collapse>
+        </router-link>
+      </li>
       <li class="mt-3 nav-item">
         <h6
           class="text-xs ps-4 text-uppercase font-weight-bolder opacity-6"
@@ -835,15 +859,15 @@
             label: 'Documentation',
             route:
               'https://www.creative-tim.com/learning-lab/vue/overview/argon-dashboard/',
-            color: 'dark'
+            color: 'dark',
           },
           {
             label: 'Buy now',
             route:
               'https://www.creative-tim.com/product/vue-argon-dashboard-pro?ref=vadp',
-            color: 'success'
-          }
-        ]
+            color: 'success',
+          },
+        ],
       }"
     />
   </div>
@@ -860,13 +884,13 @@ export default {
     SidenavItem,
     SidenavCollapse,
     SidenavCard,
-    SidenavCollapseItem
+    SidenavCollapseItem,
   },
   methods: {
     getRoute() {
       const routeArr = this.$route.path.split("/");
       return routeArr[1];
-    }
-  }
+    },
+  },
 };
 </script>

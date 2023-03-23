@@ -1423,29 +1423,29 @@ export default {
   props: {
     btnBackground: {
       type: String,
-      default: ""
+      default: "",
     },
     isBlur: {
       type: String,
-      default: ""
+      default: "",
     },
     darkMode: {
       type: Boolean,
-      default: false
-    }
+      default: false,
+    },
   },
   data() {
     return {
       downArrWhite,
-      downArrBlack
+      downArrBlack,
     };
   },
   computed: {
     darkModes() {
       return {
-        "text-dark": this.darkMode
+        "text-dark": this.darkMode,
       };
-    }
-  }
+    },
+  },
 };
 </script>

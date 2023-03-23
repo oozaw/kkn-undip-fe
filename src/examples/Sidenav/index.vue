@@ -4,7 +4,7 @@
     class="position-absolute w-100 min-height-300 top-0"
     :style="{
       'background-image': 'url(' + image + ')',
-      'background-position-y': '50%'
+      'background-position-y': '50%',
     }"
   >
     <span class="mask bg-success opacity-6"></span>
@@ -29,16 +29,8 @@
         aria-hidden="true"
       ></i>
       <router-link class="m-0 navbar-brand" to="/">
-        <img
-          :src="
-            layout === 'landing' || darkMode || sidebarType === 'bg-default'
-              ? logoWhite
-              : logo
-          "
-          class="navbar-brand-img h-100"
-          alt="main_logo"
-        />
-        <span class="ms-2 font-weight-bold">Argon Dashboard 2 PRO</span>
+        <img :src="logo" class="navbar-brand-img h-100" alt="main_logo" />
+        <span class="ms-2 font-weight-bold">P2KKN Undip</span>
       </router-link>
     </div>
     <hr class="mt-0 horizontal dark" />
@@ -47,28 +39,26 @@
 </template>
 <script>
 import SidenavList from "./SidenavList.vue";
-import logo from "@/assets/img/logo-ct-dark.png";
-import logoWhite from "@/assets/img/logo-ct.png";
+import logo from "@/assets/img/logos/undip.png";
 import image from "@/assets/img/profile-layout-header.jpg";
 
 import { mapState } from "vuex";
 export default {
   name: "Index",
   components: {
-    SidenavList
+    SidenavList,
   },
   data() {
     return {
       logo,
-      logoWhite,
-      image
+      image,
     };
   },
   computed: {
-    ...mapState(["layout", "isRTL", "sidebarType", "darkMode"])
+    ...mapState(["layout", "isRTL", "sidebarType", "darkMode"]),
   },
   beforeUnmount() {
     this.$store.state.image;
-  }
+  },
 };
 </script>
