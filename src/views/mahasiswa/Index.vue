@@ -108,16 +108,9 @@
                 </thead>
                 <tbody>
                   <tr>
+                    <td class="text-sm">1</td>
                     <td>
                       <div class="d-flex">
-                        <div class="my-auto form-check">
-                          <input
-                            id="customCheck1"
-                            class="form-check-input"
-                            type="checkbox"
-                            checked
-                          />
-                        </div>
                         <img
                           class="w-10 ms-3"
                           src="https://raw.githubusercontent.com/creativetimofficial/public-assets/master/soft-ui-design-system/assets/img/ecommerce/adidas-hoodie.jpg"
@@ -161,16 +154,9 @@
                     </td>
                   </tr>
                   <tr>
+                    <td class="text-sm">2</td>
                     <td>
                       <div class="d-flex">
-                        <div class="my-auto form-check">
-                          <input
-                            id="customCheck2"
-                            class="form-check-input"
-                            type="checkbox"
-                            checked
-                          />
-                        </div>
                         <img
                           class="w-10 ms-3"
                           src="https://raw.githubusercontent.com/creativetimofficial/public-assets/master/soft-ui-design-system/assets/img/ecommerce/macbook-pro.jpg"
@@ -214,15 +200,9 @@
                     </td>
                   </tr>
                   <tr>
+                    <td class="text-sm">3</td>
                     <td>
                       <div class="d-flex">
-                        <div class="my-auto form-check">
-                          <input
-                            id="customCheck3"
-                            class="form-check-input"
-                            type="checkbox"
-                          />
-                        </div>
                         <img
                           class="w-10 ms-3"
                           src="https://raw.githubusercontent.com/creativetimofficial/public-assets/master/soft-ui-design-system/assets/img/ecommerce/metro-chair.jpg"
@@ -264,15 +244,9 @@
                     </td>
                   </tr>
                   <tr>
+                    <td class="text-sm">4</td>
                     <td>
                       <div class="d-flex">
-                        <div class="my-auto form-check">
-                          <input
-                            id="customCheck10"
-                            class="form-check-input"
-                            type="checkbox"
-                          />
-                        </div>
                         <img
                           class="w-10 ms-3"
                           src="https://raw.githubusercontent.com/creativetimofficial/public-assets/master/soft-ui-design-system/assets/img/ecommerce/alchimia-chair.jpg"
@@ -316,15 +290,9 @@
                     </td>
                   </tr>
                   <tr>
+                    <td class="text-sm">5</td>
                     <td>
                       <div class="d-flex">
-                        <div class="my-auto form-check">
-                          <input
-                            id="customCheck5"
-                            class="form-check-input"
-                            type="checkbox"
-                          />
-                        </div>
                         <img
                           class="w-10 ms-3"
                           src="https://raw.githubusercontent.com/creativetimofficial/public-assets/master/soft-ui-design-system/assets/img/ecommerce/fendi-coat.jpg"
@@ -366,15 +334,9 @@
                     </td>
                   </tr>
                   <tr>
+                    <td class="text-sm">6</td>
                     <td>
                       <div class="d-flex">
-                        <div class="my-auto form-check">
-                          <input
-                            id="customCheck6"
-                            class="form-check-input"
-                            type="checkbox"
-                          />
-                        </div>
                         <img
                           class="w-10 ms-3"
                           src="https://raw.githubusercontent.com/creativetimofficial/public-assets/master/soft-ui-design-system/assets/img/ecommerce/off-white-jacket.jpg"
@@ -416,16 +378,9 @@
                     </td>
                   </tr>
                   <tr>
+                    <td class="text-sm">7</td>
                     <td>
                       <div class="d-flex">
-                        <div class="my-auto form-check">
-                          <input
-                            id="customCheck7"
-                            class="form-check-input"
-                            type="checkbox"
-                            checked
-                          />
-                        </div>
                         <img
                           class="w-10 ms-3"
                           src="https://raw.githubusercontent.com/creativetimofficial/public-assets/master/soft-ui-design-system/assets/img/ecommerce/yohji-yamamoto.jpg"
@@ -467,16 +422,9 @@
                     </td>
                   </tr>
                   <tr>
+                    <td class="text-sm">8</td>
                     <td>
                       <div class="d-flex">
-                        <div class="my-auto form-check">
-                          <input
-                            id="customCheck9"
-                            class="form-check-input"
-                            type="checkbox"
-                            checked
-                          />
-                        </div>
                         <img
                           class="w-10 ms-3"
                           src="https://raw.githubusercontent.com/creativetimofficial/public-assets/master/soft-ui-design-system/assets/img/ecommerce/mcqueen-shirt.jpg"

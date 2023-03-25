@@ -41,7 +41,7 @@ export default {
     Sidenav,
     Configurator,
     Navbar,
-    AppFooter
+    AppFooter,
   },
   computed: {
     ...mapState([
@@ -50,8 +50,8 @@ export default {
       "showNavbar",
       "showFooter",
       "showConfig",
-      "hideConfigButton"
-    ])
-  }
+      "hideConfigButton",
+    ]),
+  },
 };
 </script>
