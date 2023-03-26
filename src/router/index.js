@@ -54,6 +54,7 @@ import Error500 from "../views/auth/error/Error500.vue";
 import lockBasic from "../views/auth/lock/Basic.vue";
 import lockCover from "../views/auth/lock/Cover.vue";
 import lockIllustration from "../views/auth/lock/Illustration.vue";
+import Login from "../views/auth/Login.vue";
 import Pengguna from "../views/pengguna/Index.vue";
 import AddPengguna from "../views/pengguna/AddPengguna.vue";
 import Mahasiswa from "../views/mahasiswa/Index.vue";
@@ -64,6 +65,11 @@ const routes = [
     path: "/",
     name: "/",
     redirect: "/dashboards/landing",
+  },
+  {
+    path: "/login",
+    name: "Login",
+    component: Login,
   },
   {
     path: "/pengguna",
