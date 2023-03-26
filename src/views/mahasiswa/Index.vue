@@ -97,11 +97,10 @@
               <table id="mhs-list" class="table table-flush">
                 <thead class="thead-light">
                   <tr>
-                    <th>No.</th>
+                    <th class="col-1">No.</th>
                     <th>Nama</th>
                     <th>NIM</th>
                     <th>Fakultas</th>
-                    <th>Quantity</th>
                     <th>Status</th>
                     <th>Action</th>
                   </tr>
@@ -110,22 +109,13 @@
                   <tr>
                     <td class="text-sm">1</td>
                     <td>
-                      <div class="d-flex">
-                        <img
-                          class="w-10 ms-3"
-                          src="https://raw.githubusercontent.com/creativetimofficial/public-assets/master/soft-ui-design-system/assets/img/ecommerce/adidas-hoodie.jpg"
-                          alt="hoodie"
-                        />
-                        <h6 class="my-auto ms-3">BKLGO Full Zip Hoodie</h6>
-                      </div>
+                      <h6 class="my-auto">Mahasiswa 1</h6>
                     </td>
-                    <td class="text-sm">Clothing</td>
-                    <td class="text-sm">$1,321</td>
-                    <td class="text-sm">243598234</td>
-                    <td class="text-sm">0</td>
+                    <td class="text-sm">83384182392</td>
+                    <td class="text-sm">FSM</td>
                     <td>
                       <span class="badge badge-danger badge-sm"
-                        >Out of Stock</span
+                        >Unregistered</span
                       >
                     </td>
                     <td class="text-sm">
@@ -134,7 +124,7 @@
                         data-bs-toggle="tooltip"
                         data-bs-original-title="Preview product"
                       >
-                        <i class="fas fa-eye text-secondary"></i>
+                        <i class="fas fa-eye text-info"></i>
                       </a>
                       <a
                         href="javascript:;"
@@ -142,36 +132,27 @@
                         data-bs-toggle="tooltip"
                         data-bs-original-title="Edit product"
                       >
-                        <i class="fas fa-user-edit text-secondary"></i>
+                        <i class="fas fa-user-edit text-primary"></i>
                       </a>
                       <a
                         href="javascript:;"
                         data-bs-toggle="tooltip"
                         data-bs-original-title="Delete product"
                       >
-                        <i class="fas fa-trash text-secondary"></i>
+                        <i class="fas fa-trash text-danger"></i>
                       </a>
                     </td>
                   </tr>
                   <tr>
                     <td class="text-sm">2</td>
                     <td>
-                      <div class="d-flex">
-                        <img
-                          class="w-10 ms-3"
-                          src="https://raw.githubusercontent.com/creativetimofficial/public-assets/master/soft-ui-design-system/assets/img/ecommerce/macbook-pro.jpg"
-                          alt="mac"
-                        />
-                        <h6 class="my-auto ms-3">MacBook Pro</h6>
-                      </div>
+                      <h6 class="my-auto">Mahasiswa 2</h6>
                     </td>
-                    <td class="text-sm">Electronics</td>
-                    <td class="text-sm">$1,869</td>
-                    <td class="text-sm">877712</td>
-                    <td class="text-sm">0</td>
+                    <td class="text-sm">45235234324</td>
+                    <td class="text-sm">FT</td>
                     <td>
-                      <span class="badge badge-danger badge-sm"
-                        >Out of Stock</span
+                      <span class="badge badge-success badge-sm"
+                        >Regisered</span
                       >
                     </td>
                     <td class="text-sm">
@@ -180,7 +161,7 @@
                         data-bs-toggle="tooltip"
                         data-bs-original-title="Preview product"
                       >
-                        <i class="fas fa-eye text-secondary"></i>
+                        <i class="fas fa-eye text-info"></i>
                       </a>
                       <a
                         href="javascript:;"
@@ -188,35 +169,28 @@
                         data-bs-toggle="tooltip"
                         data-bs-original-title="Edit product"
                       >
-                        <i class="fas fa-user-edit text-secondary"></i>
+                        <i class="fas fa-user-edit text-primary"></i>
                       </a>
                       <a
                         href="javascript:;"
                         data-bs-toggle="tooltip"
                         data-bs-original-title="Delete product"
                       >
-                        <i class="fas fa-trash text-secondary"></i>
+                        <i class="fas fa-trash text-danger"></i>
                       </a>
                     </td>
                   </tr>
                   <tr>
                     <td class="text-sm">3</td>
                     <td>
-                      <div class="d-flex">
-                        <img
-                          class="w-10 ms-3"
-                          src="https://raw.githubusercontent.com/creativetimofficial/public-assets/master/soft-ui-design-system/assets/img/ecommerce/metro-chair.jpg"
-                          alt="metro-chair"
-                        />
-                        <h6 class="my-auto ms-3">Metro Bar Stool</h6>
-                      </div>
+                      <h6 class="my-auto">Mahasiswa 3</h6>
                     </td>
-                    <td class="text-sm">Furniture</td>
-                    <td class="text-sm">$99</td>
-                    <td class="text-sm">0134729</td>
-                    <td class="text-sm">978</td>
+                    <td class="text-sm">56348767867</td>
+                    <td class="text-sm">FEB</td>
                     <td>
-                      <span class="badge badge-success badge-sm">in Stock</span>
+                      <span class="badge badge-success badge-sm"
+                        >Registered</span
+                      >
                     </td>
                     <td class="text-sm">
                       <a
@@ -224,7 +198,7 @@
                         data-bs-toggle="tooltip"
                         data-bs-original-title="Preview product"
                       >
-                        <i class="fas fa-eye text-secondary"></i>
+                        <i class="fas fa-eye text-info"></i>
                       </a>
                       <a
                         href="javascript:;"
@@ -232,36 +206,27 @@
                         data-bs-toggle="tooltip"
                         data-bs-original-title="Edit product"
                       >
-                        <i class="fas fa-user-edit text-secondary"></i>
+                        <i class="fas fa-user-edit text-primary"></i>
                       </a>
                       <a
                         href="javascript:;"
                         data-bs-toggle="tooltip"
                         data-bs-original-title="Delete product"
                       >
-                        <i class="fas fa-trash text-secondary"></i>
+                        <i class="fas fa-trash text-danger"></i>
                       </a>
                     </td>
                   </tr>
                   <tr>
                     <td class="text-sm">4</td>
                     <td>
-                      <div class="d-flex">
-                        <img
-                          class="w-10 ms-3"
-                          src="https://raw.githubusercontent.com/creativetimofficial/public-assets/master/soft-ui-design-system/assets/img/ecommerce/alchimia-chair.jpg"
-                          alt="alchimia"
-                        />
-                        <h6 class="my-auto ms-3">Alchimia Chair</h6>
-                      </div>
+                      <h6 class="my-auto">Mahasiswa 4</h6>
                     </td>
-                    <td class="text-sm">Furniture</td>
-                    <td class="text-sm">$2,999</td>
-                    <td class="text-sm">113213</td>
-                    <td class="text-sm">0</td>
+                    <td class="text-sm">87847384733</td>
+                    <td class="text-sm">FPP</td>
                     <td>
                       <span class="badge badge-danger badge-sm"
-                        >Out of Stock</span
+                        >Unregistered</span
                       >
                     </td>
                     <td class="text-sm">
@@ -270,7 +235,7 @@
                         data-bs-toggle="tooltip"
                         data-bs-original-title="Preview product"
                       >
-                        <i class="fas fa-eye text-secondary"></i>
+                        <i class="fas fa-eye text-info"></i>
                       </a>
                       <a
                         href="javascript:;"
@@ -278,190 +243,14 @@
                         data-bs-toggle="tooltip"
                         data-bs-original-title="Edit product"
                       >
-                        <i class="fas fa-user-edit text-secondary"></i>
+                        <i class="fas fa-user-edit text-primary"></i>
                       </a>
                       <a
                         href="javascript:;"
                         data-bs-toggle="tooltip"
                         data-bs-original-title="Delete product"
                       >
-                        <i class="fas fa-trash text-secondary"></i>
-                      </a>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td class="text-sm">5</td>
-                    <td>
-                      <div class="d-flex">
-                        <img
-                          class="w-10 ms-3"
-                          src="https://raw.githubusercontent.com/creativetimofficial/public-assets/master/soft-ui-design-system/assets/img/ecommerce/fendi-coat.jpg"
-                          alt="fendi"
-                        />
-                        <h6 class="my-auto ms-3">Fendi Gradient Coat</h6>
-                      </div>
-                    </td>
-                    <td class="text-sm">Clothing</td>
-                    <td class="text-sm">$869</td>
-                    <td class="text-sm">634729</td>
-                    <td class="text-sm">725</td>
-                    <td>
-                      <span class="badge badge-success badge-sm">in Stock</span>
-                    </td>
-                    <td class="text-sm">
-                      <a
-                        href="javascript:;"
-                        data-bs-toggle="tooltip"
-                        data-bs-original-title="Preview product"
-                      >
-                        <i class="fas fa-eye text-secondary"></i>
-                      </a>
-                      <a
-                        href="javascript:;"
-                        class="mx-3"
-                        data-bs-toggle="tooltip"
-                        data-bs-original-title="Edit product"
-                      >
-                        <i class="fas fa-user-edit text-secondary"></i>
-                      </a>
-                      <a
-                        href="javascript:;"
-                        data-bs-toggle="tooltip"
-                        data-bs-original-title="Delete product"
-                      >
-                        <i class="fas fa-trash text-secondary"></i>
-                      </a>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td class="text-sm">6</td>
-                    <td>
-                      <div class="d-flex">
-                        <img
-                          class="w-10 ms-3"
-                          src="https://raw.githubusercontent.com/creativetimofficial/public-assets/master/soft-ui-design-system/assets/img/ecommerce/off-white-jacket.jpg"
-                          alt="off_white"
-                        />
-                        <h6 class="my-auto ms-3">Off White Cotton Bomber</h6>
-                      </div>
-                    </td>
-                    <td class="text-sm">Clothing</td>
-                    <td class="text-sm">$1,869</td>
-                    <td class="text-sm">634729</td>
-                    <td class="text-sm">725</td>
-                    <td>
-                      <span class="badge badge-success badge-sm">in Stock</span>
-                    </td>
-                    <td class="text-sm">
-                      <a
-                        href="javascript:;"
-                        data-bs-toggle="tooltip"
-                        data-bs-original-title="Preview product"
-                      >
-                        <i class="fas fa-eye text-secondary"></i>
-                      </a>
-                      <a
-                        href="javascript:;"
-                        class="mx-3"
-                        data-bs-toggle="tooltip"
-                        data-bs-original-title="Edit product"
-                      >
-                        <i class="fas fa-user-edit text-secondary"></i>
-                      </a>
-                      <a
-                        href="javascript:;"
-                        data-bs-toggle="tooltip"
-                        data-bs-original-title="Delete product"
-                      >
-                        <i class="fas fa-trash text-secondary"></i>
-                      </a>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td class="text-sm">7</td>
-                    <td>
-                      <div class="d-flex">
-                        <img
-                          class="w-10 ms-3"
-                          src="https://raw.githubusercontent.com/creativetimofficial/public-assets/master/soft-ui-design-system/assets/img/ecommerce/yohji-yamamoto.jpg"
-                          alt="yohji"
-                        />
-                        <h6 class="my-auto ms-3">Y-3 Yohji Yamamoto</h6>
-                      </div>
-                    </td>
-                    <td class="text-sm">Shoes</td>
-                    <td class="text-sm">$869</td>
-                    <td class="text-sm">634729</td>
-                    <td class="text-sm">725</td>
-                    <td>
-                      <span class="badge badge-success badge-sm">In Stock</span>
-                    </td>
-                    <td class="text-sm">
-                      <a
-                        href="javascript:;"
-                        data-bs-toggle="tooltip"
-                        data-bs-original-title="Preview product"
-                      >
-                        <i class="fas fa-eye text-secondary"></i>
-                      </a>
-                      <a
-                        href="javascript:;"
-                        class="mx-3"
-                        data-bs-toggle="tooltip"
-                        data-bs-original-title="Edit product"
-                      >
-                        <i class="fas fa-user-edit text-secondary"></i>
-                      </a>
-                      <a
-                        href="javascript:;"
-                        data-bs-toggle="tooltip"
-                        data-bs-original-title="Delete product"
-                      >
-                        <i class="fas fa-trash text-secondary"></i>
-                      </a>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td class="text-sm">8</td>
-                    <td>
-                      <div class="d-flex">
-                        <img
-                          class="w-10 ms-3"
-                          src="https://raw.githubusercontent.com/creativetimofficial/public-assets/master/soft-ui-design-system/assets/img/ecommerce/mcqueen-shirt.jpg"
-                          alt="mcqueen"
-                        />
-                        <h6 class="my-auto ms-3">Alexander McQueen</h6>
-                      </div>
-                    </td>
-                    <td class="text-sm">Clothing</td>
-                    <td class="text-sm">$1,199</td>
-                    <td class="text-sm">00121399</td>
-                    <td class="text-sm">51293</td>
-                    <td>
-                      <span class="badge badge-success badge-sm">in Stock</span>
-                    </td>
-                    <td class="text-sm">
-                      <a
-                        href="javascript:;"
-                        data-bs-toggle="tooltip"
-                        data-bs-original-title="Preview product"
-                      >
-                        <i class="fas fa-eye text-secondary"></i>
-                      </a>
-                      <a
-                        href="javascript:;"
-                        class="mx-3"
-                        data-bs-toggle="tooltip"
-                        data-bs-original-title="Edit product"
-                      >
-                        <i class="fas fa-user-edit text-secondary"></i>
-                      </a>
-                      <a
-                        href="javascript:;"
-                        data-bs-toggle="tooltip"
-                        data-bs-original-title="Delete product"
-                      >
-                        <i class="fas fa-trash text-secondary"></i>
+                        <i class="fas fa-trash text-danger"></i>
                       </a>
                     </td>
                   </tr>

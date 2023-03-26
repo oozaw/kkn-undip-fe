@@ -3,10 +3,6 @@
     <div class="row">
       <div class="col-lg-6">
         <h4 class="text-white">Tambah Mahasiswa</h4>
-        <p class="text-white">
-          We’re constantly trying to express ourselves and actualize our dreams.
-          If you have the opportunity to play.
-        </p>
       </div>
       <div
         class="text-right col-lg-6 d-flex flex-column justify-content-center"
