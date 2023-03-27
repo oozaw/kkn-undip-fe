@@ -36,8 +36,9 @@
                         size="lg"
                       />
                     </div>
-                    <div class="mb-3">
+                    <div class="mb-2">
                       <argon-input
+                        class="mb-2"
                         id="password"
                         type="password"
                         placeholder="Kata sandi"
@@ -45,12 +46,16 @@
                         size="lg"
                       />
                     </div>
-                    <argon-switch id="rememberMe" name="rememberMe">
-                      Remember me
-                    </argon-switch>
+                    <div class="text-end me-2">
+                      <router-link
+                        :to="{ name: 'Reset' }"
+                        class="text-sm text-primary"
+                        >Lupa password?</router-link
+                      >
+                    </div>
                     <div class="text-center">
                       <argon-button
-                        class="mt-4"
+                        class="mt-3"
                         variant="gradient"
                         color="success"
                         full-width
@@ -108,7 +113,6 @@
 <script>
 import Navbar from "@/views/partials/Navbar.vue";
 import ArgonInput from "@/components/ArgonInput.vue";
-import ArgonSwitch from "@/components/ArgonSwitch.vue";
 import ArgonButton from "@/components/ArgonButton.vue";
 const body = document.getElementsByTagName("body")[0];
 import { mapMutations } from "vuex";
@@ -117,7 +121,6 @@ export default {
   components: {
     Navbar,
     ArgonInput,
-    ArgonSwitch,
     ArgonButton,
   },
   created() {

@@ -56,6 +56,7 @@ import lockCover from "../views/auth/lock/Cover.vue";
 import lockIllustration from "../views/auth/lock/Illustration.vue";
 import Login from "../views/auth/Login.vue";
 import Register from "../views/auth/Register.vue";
+import Reset from "../views/auth/Reset.vue";
 import Pengguna from "../views/pengguna/Index.vue";
 import AddPengguna from "../views/pengguna/AddPengguna.vue";
 import Mahasiswa from "../views/mahasiswa/Index.vue";
@@ -76,6 +77,11 @@ const routes = [
     path: "/register",
     name: "Register",
     component: Register,
+  },
+  {
+    path: "/reset",
+    name: "Reset",
+    component: Reset,
   },
   {
     path: "/pengguna",

@@ -35,14 +35,7 @@
                       placeholder="Nama pengguna (NIM)"
                       aria-label="username"
                     />
-                    <label>Email</label>
-                    <argon-input
-                      id="email"
-                      type="email"
-                      placeholder="Email"
-                      aria-label="Email"
-                    />
-                    <label class="mb-0">Verifikasi Email</label>
+                    <label class="mb-0">Email</label>
                     <argon-alert
                       type="fill"
                       color="danger"
@@ -55,6 +48,13 @@
                         tidak bisa diganti setelah pendaftaran akun KKN.</small
                       >
                     </argon-alert>
+                    <argon-input
+                      id="email"
+                      type="email"
+                      placeholder="Email"
+                      aria-label="Email"
+                    />
+                    <label>Verifikasi Email</label>
                     <argon-input
                       id="email_verif"
                       type="email"
