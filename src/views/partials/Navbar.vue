@@ -5,7 +5,7 @@
     :class="isBlur ? isBlur : 'shadow-none my-2 navbar-transparent w-100'"
   >
     <div class="container ps-1 pe-0">
-      <router-link class="navbar-brand ms-lg-0 me-0 w-50" to="/">
+      <router-link class="navbar-brand ms-lg-0 me-0 w-25" to="/">
         <img
           :src="logo"
           class="navbar-brand-img"

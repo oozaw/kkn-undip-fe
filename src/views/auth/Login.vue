@@ -64,7 +64,7 @@
                   <p class="mx-auto mb-4 text-sm">
                     Belum punya akun?
                     <router-link
-                      :to="{ name: 'Signup Illustration' }"
+                      :to="{ name: 'Register' }"
                       class="text-success text-gradient font-weight-bold"
                       >Daftar</router-link
                     >
