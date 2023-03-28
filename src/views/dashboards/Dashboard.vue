@@ -109,7 +109,7 @@
 <script>
 import MiniStatisticsCard from "@/views/dashboards/components/Cards/MiniStatisticsCard.vue";
 import Calendar from "@/views/dashboards/components/Calendar.vue";
-import CategoriesList from "@/examples/Cards/CategoriesList.vue";
+import CategoriesList from "@/views/dashboards/components/Cards/CategoriesList.vue";
 import MessageCard from "@/views/dashboards/components/MessageCard.vue";
 import image from "@/assets/img/kal-visuals-square.jpg";
 import MembersTable from "@/views/dashboards/components/MembersTable.vue";
