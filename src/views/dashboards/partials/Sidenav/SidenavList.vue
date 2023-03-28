@@ -31,15 +31,7 @@
             :class="getRoute() === 'pengguna' ? 'active' : ''"
           >
             <template #icon>
-              <i
-                class="ni ni-single-02 text-sm"
-                :class="
-                  $store.state.sidebarType === 'bg-default' ||
-                  $store.state.darkMode
-                    ? 'text-white'
-                    : 'text-dark'
-                "
-              ></i>
+              <i class="ni ni-single-02 text-success text-sm"></i>
             </template>
           </sidenav-collapse>
         </router-link>
@@ -55,15 +47,7 @@
             :class="getRoute() === 'mahasiswa' ? 'active' : ''"
           >
             <template #icon>
-              <i
-                class="ni ni-single-02 text-sm"
-                :class="
-                  $store.state.sidebarType === 'bg-default' ||
-                  $store.state.darkMode
-                    ? 'text-white'
-                    : 'text-dark'
-                "
-              ></i>
+              <i class="ni ni-single-02 text-primary text-sm"></i>
             </template>
           </sidenav-collapse>
         </router-link>
