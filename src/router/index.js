@@ -54,6 +54,8 @@ import Error500 from "../views/auth/error/Error500.vue";
 import lockBasic from "../views/auth/lock/Basic.vue";
 import lockCover from "../views/auth/lock/Cover.vue";
 import lockIllustration from "../views/auth/lock/Illustration.vue";
+//
+import Dashboard from "../views/dashboards/Dashboard.vue";
 import Login from "../views/auth/Login.vue";
 import Register from "../views/auth/Register.vue";
 import Reset from "../views/auth/Reset.vue";
@@ -66,7 +68,12 @@ const routes = [
   {
     path: "/",
     name: "/",
-    redirect: "/dashboards/landing",
+    redirect: "/dashboard",
+  },
+  {
+    path: "/dashboard",
+    name: "Dashboard",
+    component: Dashboard,
   },
   {
     path: "/login",
