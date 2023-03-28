@@ -31,7 +31,11 @@
             :class="getRoute() === 'pengguna' ? 'active' : ''"
           >
             <template #icon>
-              <i class="ni ni-single-02 text-success text-sm"></i>
+              <font-awesome-icon
+                icon="fa-solid fa-users"
+                class="text-success"
+              />
+              <!-- <i class="ni ni-single-02 text-success text-sm"></i> -->
             </template>
           </sidenav-collapse>
         </router-link>
@@ -47,7 +51,11 @@
             :class="getRoute() === 'mahasiswa' ? 'active' : ''"
           >
             <template #icon>
-              <i class="ni ni-single-02 text-primary text-sm"></i>
+              <font-awesome-icon
+                icon="fa-solid fa-users-rays"
+                class="text-primary"
+              />
+              <!-- <i class="ni ni-single-02 text-primary text-sm"></i> -->
             </template>
           </sidenav-collapse>
         </router-link>

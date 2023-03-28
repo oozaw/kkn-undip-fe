@@ -21,6 +21,11 @@
   },
   "dependencies": {
     "@babel/eslint-parser": "^7.18.9",
+    "@fortawesome/fontawesome-svg-core": "^6.4.0",
+    "@fortawesome/free-brands-svg-icons": "^6.4.0",
+    "@fortawesome/free-regular-svg-icons": "^6.4.0",
+    "@fortawesome/free-solid-svg-icons": "^6.4.0",
+    "@fortawesome/vue-fontawesome": "^3.0.3",
     "@fullcalendar/core": "5.11.2",
     "@fullcalendar/daygrid": "5.11.2",
     "@fullcalendar/interaction": "5.11.2",
