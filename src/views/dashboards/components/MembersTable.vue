@@ -1,5 +1,8 @@
 <template>
   <div class="card">
+    <div class="card-header pt-3 pb-0 font-weight-bold">
+      Daftar Anggota Kelompok
+    </div>
     <div class="table-responsive">
       <table class="table align-items-center mb-0">
         <thead>
@@ -38,20 +41,20 @@
                   />
                 </div>
                 <div class="d-flex flex-column justify-content-center">
-                  <h6 class="mb-0 text-xs">John Michael</h6>
+                  <h6 class="mb-0 text-sm">John Michael</h6>
                   <p class="text-xs text-secondary mb-0">24060219283129</p>
                 </div>
               </div>
             </td>
             <td>
-              <p class="text-xs font-weight-bold mb-0">FSM</p>
+              <p class="text-sm font-weight-bold mb-0">FSM</p>
               <p class="text-xs text-secondary mb-0">S1 Informatika</p>
             </td>
-            <td class="align-middle text-center text-sm">
-              <span class="badge badge-sm badge-success">2019</span>
+            <td class="align-middle text-center">
+              <span class="badge badge-success">2019</span>
             </td>
             <td class="align-middle text-center">
-              <span class="text-secondary text-xs font-weight-bold"
+              <span class="text-secondary text-sm font-weight-bold"
                 >Probolinggo</span
               >
             </td>
@@ -75,20 +78,20 @@
                   />
                 </div>
                 <div class="d-flex flex-column justify-content-center">
-                  <h6 class="mb-0 text-xs">Alexa Liras</h6>
+                  <h6 class="mb-0 text-sm">Alexa Liras</h6>
                   <p class="text-xs text-secondary mb-0">24060219283129</p>
                 </div>
               </div>
             </td>
             <td>
-              <p class="text-xs font-weight-bold mb-0">FT</p>
+              <p class="text-sm font-weight-bold mb-0">FT</p>
               <p class="text-xs text-secondary mb-0">S1 Teknik Sipil</p>
             </td>
-            <td class="align-middle text-center text-sm">
-              <span class="badge badge-sm badge-secondary">2020</span>
+            <td class="align-middle text-center">
+              <span class="badge badge-secondary">2020</span>
             </td>
             <td class="align-middle text-center">
-              <span class="text-secondary text-xs font-weight-bold"
+              <span class="text-secondary text-sm font-weight-bold"
                 >Bekasi</span
               >
             </td>
@@ -112,20 +115,20 @@
                   />
                 </div>
                 <div class="d-flex flex-column justify-content-center">
-                  <h6 class="mb-0 text-xs">Laurent Perrier</h6>
+                  <h6 class="mb-0 text-sm">Laurent Perrier</h6>
                   <p class="text-xs text-secondary mb-0">24060219283129</p>
                 </div>
               </div>
             </td>
             <td>
-              <p class="text-xs font-weight-bold mb-0">FEB</p>
+              <p class="text-sm font-weight-bold mb-0">FEB</p>
               <p class="text-xs text-secondary mb-0">S1 Bisnis</p>
             </td>
-            <td class="align-middle text-center text-sm">
-              <span class="badge badge-sm badge-success">2019</span>
+            <td class="align-middle text-center">
+              <span class="badge badge-success">2019</span>
             </td>
             <td class="align-middle text-center">
-              <span class="text-secondary text-xs font-weight-bold">Kudus</span>
+              <span class="text-secondary text-sm font-weight-bold">Kudus</span>
             </td>
             <td class="align-middle">
               <a
@@ -147,20 +150,20 @@
                   />
                 </div>
                 <div class="d-flex flex-column justify-content-center">
-                  <h6 class="mb-0 text-xs">Michael Levi</h6>
+                  <h6 class="mb-0 text-sm">Michael Levi</h6>
                   <p class="text-xs text-secondary mb-0">24060219283129</p>
                 </div>
               </div>
             </td>
             <td>
-              <p class="text-xs font-weight-bold mb-0">FEB</p>
+              <p class="text-sm font-weight-bold mb-0">FEB</p>
               <p class="text-xs text-secondary mb-0">S1 Akuntansi</p>
             </td>
-            <td class="align-middle text-center text-sm">
-              <span class="badge badge-sm badge-success">2018</span>
+            <td class="align-middle text-center">
+              <span class="badge badge-success">2018</span>
             </td>
             <td class="align-middle text-center">
-              <span class="text-secondary text-xs font-weight-bold"
+              <span class="text-secondary text-sm font-weight-bold"
                 >Samarinda</span
               >
             </td>
@@ -184,20 +187,20 @@
                   />
                 </div>
                 <div class="d-flex flex-column justify-content-center">
-                  <h6 class="mb-0 text-xs">Richard Gran</h6>
+                  <h6 class="mb-0 text-sm">Richard Gran</h6>
                   <p class="text-xs text-secondary mb-0">24060219283129</p>
                 </div>
               </div>
             </td>
             <td>
-              <p class="text-xs font-weight-bold mb-0">FT</p>
+              <p class="text-sm font-weight-bold mb-0">FT</p>
               <p class="text-xs text-secondary mb-0">S1 Teknik Lingkungan</p>
             </td>
-            <td class="align-middle text-center text-sm">
-              <span class="badge badge-sm badge-secondary">2020</span>
+            <td class="align-middle text-center">
+              <span class="badge badge-secondary">2020</span>
             </td>
             <td class="align-middle text-center">
-              <span class="text-secondary text-xs font-weight-bold"
+              <span class="text-secondary text-sm font-weight-bold"
                 >Padang</span
               >
             </td>
