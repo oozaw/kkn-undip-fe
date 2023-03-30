@@ -1,10 +1,10 @@
 <template>
   <div class="mb-3 card" style="min-height: 88%">
     <div class="p-3 card-body">
-      <div class="d-flex">
+      <div class="d-flex justify-content-end">
         <div
           class="text-center shadow icon icon-shape position-absolute"
-          style="margin-left: 70%"
+          :style="style"
           :class="[
             typeof icon === 'object'
               ? `${icon.background} ${icon.shape}`
@@ -12,12 +12,15 @@
             rowReverse ? 'me-2' : '',
           ]"
         >
-          <i
-            class="text-lg opacity-10"
-            :class="typeof icon === 'string' ? icon : icon.component"
+          <font-awesome-icon
+            class="text-lg opacity-10 text-white"
+            style="margin-top: 30%"
+            :icon="typeof icon === 'string' ? icon : icon.component"
             aria-hidden="true"
-          ></i>
+          ></font-awesome-icon>
         </div>
+      </div>
+      <div class="d-flex">
         <div :class="classContent">
           <div class="numbers">
             <p class="mb-0 text-sm font-weight-bold" :class="title.color">
@@ -118,6 +121,10 @@ export default {
       }),
     },
     classContent: {
+      type: String,
+      default: "",
+    },
+    style: {
       type: String,
       default: "",
     },
