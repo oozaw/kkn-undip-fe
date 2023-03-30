@@ -25,7 +25,7 @@
             <th
               class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"
             >
-              Asal
+              NIM
             </th>
             <th class="text-secondary opacity-7"></th>
           </tr>
@@ -42,7 +42,6 @@
                 </div>
                 <div class="d-flex flex-column justify-content-center">
                   <h6 class="mb-0 text-sm">John Michael</h6>
-                  <p class="text-xs text-secondary mb-0">24060219283129</p>
                 </div>
               </div>
             </td>
@@ -55,16 +54,7 @@
             </td>
             <td class="align-middle text-center">
               <span class="text-secondary text-sm font-weight-bold"
-                >Probolinggo</span
-              >
-            </td>
-            <td class="align-middle">
-              <a
-                href="javascript:;"
-                class="text-primary font-weight-bold text-xs"
-                data-toggle="tooltip"
-                data-original-title="Edit user"
-                >Edit</a
+                >2406011923849</span
               >
             </td>
           </tr>
@@ -79,7 +69,6 @@
                 </div>
                 <div class="d-flex flex-column justify-content-center">
                   <h6 class="mb-0 text-sm">Alexa Liras</h6>
-                  <p class="text-xs text-secondary mb-0">24060219283129</p>
                 </div>
               </div>
             </td>
@@ -88,20 +77,11 @@
               <p class="text-xs text-secondary mb-0">S1 Teknik Sipil</p>
             </td>
             <td class="align-middle text-center">
-              <span class="badge badge-secondary">2020</span>
+              <span class="badge badge-success">2020</span>
             </td>
             <td class="align-middle text-center">
               <span class="text-secondary text-sm font-weight-bold"
-                >Bekasi</span
-              >
-            </td>
-            <td class="align-middle">
-              <a
-                href="javascript:;"
-                class="text-primary font-weight-bold text-xs"
-                data-toggle="tooltip"
-                data-original-title="Edit user"
-                >Edit</a
+                >2406011923849</span
               >
             </td>
           </tr>
@@ -116,7 +96,6 @@
                 </div>
                 <div class="d-flex flex-column justify-content-center">
                   <h6 class="mb-0 text-sm">Laurent Perrier</h6>
-                  <p class="text-xs text-secondary mb-0">24060219283129</p>
                 </div>
               </div>
             </td>
@@ -128,15 +107,8 @@
               <span class="badge badge-success">2019</span>
             </td>
             <td class="align-middle text-center">
-              <span class="text-secondary text-sm font-weight-bold">Kudus</span>
-            </td>
-            <td class="align-middle">
-              <a
-                href="javascript:;"
-                class="text-primary font-weight-bold text-xs"
-                data-toggle="tooltip"
-                data-original-title="Edit user"
-                >Edit</a
+              <span class="text-secondary text-sm font-weight-bold"
+                >2406011923849</span
               >
             </td>
           </tr>
@@ -151,7 +123,6 @@
                 </div>
                 <div class="d-flex flex-column justify-content-center">
                   <h6 class="mb-0 text-sm">Michael Levi</h6>
-                  <p class="text-xs text-secondary mb-0">24060219283129</p>
                 </div>
               </div>
             </td>
@@ -164,16 +135,7 @@
             </td>
             <td class="align-middle text-center">
               <span class="text-secondary text-sm font-weight-bold"
-                >Samarinda</span
-              >
-            </td>
-            <td class="align-middle">
-              <a
-                href="javascript:;"
-                class="text-primary font-weight-bold text-xs"
-                data-toggle="tooltip"
-                data-original-title="Edit user"
-                >Edit</a
+                >2406011923849</span
               >
             </td>
           </tr>
@@ -188,7 +150,6 @@
                 </div>
                 <div class="d-flex flex-column justify-content-center">
                   <h6 class="mb-0 text-sm">Richard Gran</h6>
-                  <p class="text-xs text-secondary mb-0">24060219283129</p>
                 </div>
               </div>
             </td>
@@ -197,20 +158,11 @@
               <p class="text-xs text-secondary mb-0">S1 Teknik Lingkungan</p>
             </td>
             <td class="align-middle text-center">
-              <span class="badge badge-secondary">2020</span>
+              <span class="badge badge-success">2020</span>
             </td>
             <td class="align-middle text-center">
               <span class="text-secondary text-sm font-weight-bold"
-                >Padang</span
-              >
-            </td>
-            <td class="align-middle">
-              <a
-                href="javascript:;"
-                class="text-primary font-weight-bold text-xs"
-                data-toggle="tooltip"
-                data-original-title="Edit user"
-                >Edit</a
+                >2406011923849</span
               >
             </td>
           </tr>
