@@ -169,7 +169,7 @@ import team5 from "../../assets/img/team-5.jpg";
 import team4 from "../../assets/img/team-4.jpg";
 
 export default {
-  name: "DashboardDefault",
+  name: "Dashboard",
   components: {
     MiniStatisticsCard,
     Calendar,

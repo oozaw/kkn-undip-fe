@@ -12,7 +12,7 @@
 import SideNavItem from "@/views/dashboards/components/SideNavItem.vue";
 
 export default {
-  name: "Settings",
+  name: "EditDataDiri",
   components: {
     SideNavItem,
   },

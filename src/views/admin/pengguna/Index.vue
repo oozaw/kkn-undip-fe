@@ -233,7 +233,7 @@ import { DataTable } from "simple-datatables";
 import setTooltip from "@/assets/js/tooltip.js";
 
 export default {
-  name: "IndexMahasiswa",
+  name: "IndexPengguna",
   mounted() {
     if (document.getElementById("mhs-list")) {
       const dataTableSearch = new DataTable("#mhs-list", {

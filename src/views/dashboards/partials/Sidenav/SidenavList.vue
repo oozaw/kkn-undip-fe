@@ -78,7 +78,7 @@
                 text="Pendaftaran Diri"
               />
               <sidenav-item
-                :to="{ name: 'Profile Overview' }"
+                :to="{ name: 'Edit Data Berkas' }"
                 mini-icon="B"
                 text="Submit Berkas"
               />
