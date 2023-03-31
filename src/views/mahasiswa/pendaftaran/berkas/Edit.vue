@@ -2,45 +2,13 @@
   <div class="container-fluid">
     <div class="row mb-5 mt-4">
       <div class="col-lg-12 mt-lg-0 mt-4">
-        <div id="profile" class="card card-body">
-          <div class="row align-items-center">
-            <div class="col-sm-auto col-4">
-              <argon-avatar
-                :img="img"
-                alt="team-3"
-                size="xl"
-                shadow="sm"
-                border-radius="lg"
-              />
-            </div>
-            <div class="col-sm-auto col-8 my-auto">
-              <div class="h-100">
-                <h5 class="mb-1 font-weight-bolder">Tazki Hanifan Amri</h5>
-                <p class="mb-0 font-weight-bold text-sm">
-                  KKN Reguler Tim 1 2023
-                </p>
-              </div>
-            </div>
-            <div
-              class="col-sm-auto ms-sm-auto mt-sm-0 mt-3 d-flex justify-content-center"
-            >
-              <argon-button
-                :onclick="() => $router.push('/berkas')"
-                class="mb-0 me-2"
-                color="secondary"
-                size="sm"
-                >Batal</argon-button
-              >
-              <argon-button
-                class="mb-0 me-lg-2"
-                color="primary"
-                variant="gradient"
-                size="sm"
-                >Simpan data berkas</argon-button
-              >
-            </div>
-          </div>
-        </div>
+        <header-profile-card
+          :button="true"
+          button-text="Simpan data berkas"
+          name="Tazki Hanifan Amri"
+          description="KKN Reguler Tim 1 2023"
+          :img="img"
+        />
         <div class="p-4 pt-3 bg-white card mt-4">
           <h5 class="">Submit Berkas</h5>
           <div class="mt-3 row">
@@ -90,16 +58,15 @@
 </template>
 
 <script>
-import ArgonButton from "@/components/ArgonButton.vue";
-import ArgonAvatar from "@/components/ArgonAvatar.vue";
+import HeaderProfileCard from "@/views/dashboards/components/HeaderProfileCard.vue";
 import Dropzone from "dropzone";
+
 import img from "@/assets/img/team-3.jpg";
 
 export default {
   name: "EditBerkas",
   components: {
-    ArgonButton,
-    ArgonAvatar,
+    HeaderProfileCard,
   },
   data() {
     return {
