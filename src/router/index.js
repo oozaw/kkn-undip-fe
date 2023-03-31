@@ -54,294 +54,343 @@ import Error500 from "../views/auth/error/Error500.vue";
 import lockBasic from "../views/auth/lock/Basic.vue";
 import lockCover from "../views/auth/lock/Cover.vue";
 import lockIllustration from "../views/auth/lock/Illustration.vue";
+//
+import Dashboard from "../views/dashboards/Dashboard.vue";
+import Login from "../views/auth/Login.vue";
+import Register from "../views/auth/Register.vue";
+import Reset from "../views/auth/Reset.vue";
+import Pengguna from "../views/admin/pengguna/Index.vue";
+import AddPengguna from "../views/admin/pengguna/AddPengguna.vue";
+import Mahasiswa from "../views/admin/mahasiswa/Index.vue";
+import AddMahasiswa from "../views/admin/mahasiswa/AddMahasiswa.vue";
 
 const routes = [
   {
     path: "/",
     name: "/",
-    redirect: "/dashboards/landing"
+    redirect: "/dashboard",
+  },
+  {
+    path: "/dashboard",
+    name: "Dashboard",
+    component: Dashboard,
+  },
+  {
+    path: "/login",
+    name: "Login",
+    component: Login,
+  },
+  {
+    path: "/register",
+    name: "Register",
+    component: Register,
+  },
+  {
+    path: "/reset",
+    name: "Reset",
+    component: Reset,
+  },
+  {
+    path: "/pengguna",
+    name: "Pengguna",
+    component: Pengguna,
+  },
+  {
+    path: "/pengguna/add",
+    name: "Tambah Pengguna",
+    component: AddPengguna,
+  },
+  {
+    path: "/mahasiswa",
+    name: "Mahasiswa",
+    component: Mahasiswa,
+  },
+  {
+    path: "/mahasiswa/add",
+    name: "Tambah Mahasiswa",
+    component: AddMahasiswa,
   },
   {
     path: "/dashboards/dashboard-default",
     name: "Default",
-    component: Default
+    component: Default,
   },
   {
     path: "/dashboards/landing",
     name: "Landing",
-    component: Landing
+    component: Landing,
   },
   {
     path: "/dashboards/automotive",
     name: "Automotive",
-    component: Automotive
+    component: Automotive,
   },
   {
     path: "/dashboards/smart-home",
     name: "Smart Home",
-    component: SmartHome
+    component: SmartHome,
   },
   {
     path: "/dashboards/vr/vr-default",
     name: "VR Default",
-    component: VRDefault
+    component: VRDefault,
   },
   {
     path: "/dashboards/vr/vr-info",
     name: "VR Info",
-    component: VRInfo
+    component: VRInfo,
   },
   {
     path: "/dashboards/crm",
     name: "CRM",
-    component: CRM
+    component: CRM,
   },
   {
     path: "/pages/profile/overview",
     name: "Profile Overview",
-    component: Overview
+    component: Overview,
   },
   {
     path: "/pages/profile/teams",
     name: "Teams",
-    component: Teams
+    component: Teams,
   },
   {
     path: "/pages/profile/projects",
     name: "All Projects",
-    component: Projects
+    component: Projects,
   },
   {
     path: "/pages/projects/general",
     name: "General",
-    component: General
+    component: General,
   },
   {
     path: "/pages/projects/timeline",
     name: "Timeline",
-    component: Timeline
+    component: Timeline,
   },
   {
     path: "/pages/projects/new-project",
     name: "New Project",
-    component: NewProject
+    component: NewProject,
   },
   {
     path: "/pages/pricing-page",
     name: "Pricing Page",
-    component: Pricing
+    component: Pricing,
   },
   {
     path: "/pages/rtl-page",
     name: "RTL",
-    component: RTL
+    component: RTL,
   },
   {
     path: "/pages/charts",
     name: "Charts",
-    component: Charts
+    component: Charts,
   },
   {
     path: "/pages/widgets",
     name: "Widgets",
-    component: Widgets
+    component: Widgets,
   },
   {
     path: "/pages/sweet-alerts",
     name: "Sweet Alerts",
-    component: SweetAlerts
+    component: SweetAlerts,
   },
   {
     path: "/pages/notifications",
     name: "Notifications",
-    component: Notifications
+    component: Notifications,
   },
   {
     path: "/applications/kanban",
     name: "Kanban",
-    component: Kanban
+    component: Kanban,
   },
   {
     path: "/applications/wizard",
     name: "Wizard",
-    component: Wizard
+    component: Wizard,
   },
   {
     path: "/applications/data-tables",
     name: "Data Tables",
-    component: DataTables
+    component: DataTables,
   },
   {
     path: "/applications/calendar",
     name: "Calendar",
-    component: Calendar
+    component: Calendar,
   },
   {
     path: "/applications/analytics",
     name: "Analytics",
-    component: Analytics
+    component: Analytics,
   },
   {
     path: "/ecommerce/overview",
     name: "Overview",
-    component: EcommerceOverview
+    component: EcommerceOverview,
   },
   {
     path: "/ecommerce/products/new-product",
     name: "New Product",
-    component: NewProduct
+    component: NewProduct,
   },
   {
     path: "/ecommerce/products/edit-product",
     name: "Edit Product",
-    component: EditProduct
+    component: EditProduct,
   },
   {
     path: "/ecommerce/products/product-page",
     name: "Product Page",
-    component: ProductPage
+    component: ProductPage,
   },
   {
     path: "/ecommerce/products/products-list",
     name: "Products List",
-    component: ProductsList
+    component: ProductsList,
   },
   {
     path: "/ecommerce/Orders/order-details",
     name: "Order Details",
-    component: OrderDetails
+    component: OrderDetails,
   },
   {
     path: "/ecommerce/Orders/order-list",
     name: "Order List",
-    component: OrderList
+    component: OrderList,
   },
   {
     path: "/ecommerce/referral",
     name: "Referral",
-    component: Referral
+    component: Referral,
   },
   {
     path: "/pages/users/reports",
     name: "Reports",
-    component: Reports
+    component: Reports,
   },
   {
     path: "/pages/users/new-user",
     name: "New User",
-    component: NewUser
+    component: NewUser,
   },
   {
     path: "/pages/account/settings",
     name: "Settings",
-    component: Settings
+    component: Settings,
   },
   {
     path: "/pages/account/billing",
     name: "Billing",
-    component: Billing
+    component: Billing,
   },
   {
     path: "/pages/account/invoice",
     name: "Invoice",
-    component: Invoice
+    component: Invoice,
   },
   {
     path: "/pages/account/Security",
     name: "Security",
-    component: Security
+    component: Security,
   },
   {
     path: "/authentication/signin/basic",
     name: "Signin Basic",
-    component: Basic
+    component: Basic,
   },
   {
     path: "/authentication/signin/cover",
     name: "Signin Cover",
-    component: Cover
+    component: Cover,
   },
   {
     path: "/authentication/signin/illustration",
     name: "Signin Illustration",
-    component: Illustration
+    component: Illustration,
   },
   {
     path: "/authentication/reset/basic",
     name: "Reset Basic",
-    component: ResetBasic
+    component: ResetBasic,
   },
   {
     path: "/authentication/reset/cover",
     name: "Reset Cover",
-    component: ResetCover
+    component: ResetCover,
   },
   {
     path: "/authentication/reset/illustration",
     name: "Reset Illustration",
-    component: ResetIllustration
+    component: ResetIllustration,
   },
   {
     path: "/authentication/lock/basic",
     name: "Lock Basic",
-    component: lockBasic
+    component: lockBasic,
   },
   {
     path: "/authentication/lock/cover",
     name: "Lock Cover",
-    component: lockCover
+    component: lockCover,
   },
   {
     path: "/authentication/lock/illustration",
     name: "Lock Illustration",
-    component: lockIllustration
+    component: lockIllustration,
   },
   {
     path: "/authentication/verification/basic",
     name: "Verification Basic",
-    component: VerificationBasic
+    component: VerificationBasic,
   },
   {
     path: "/authentication/verification/cover",
     name: "Verification Cover",
-    component: VerificationCover
+    component: VerificationCover,
   },
   {
     path: "/authentication/verification/illustration",
     name: "Verification Illustration",
-    component: VerificationIllustration
+    component: VerificationIllustration,
   },
   {
     path: "/authentication/signup/basic",
     name: "Signup Basic",
-    component: SignupBasic
+    component: SignupBasic,
   },
   {
     path: "/authentication/signup/cover",
     name: "Signup Cover",
-    component: SignupCover
+    component: SignupCover,
   },
   {
     path: "/authentication/signup/illustration",
     name: "Signup Illustration",
-    component: SignupIllustration
+    component: SignupIllustration,
   },
   {
     path: "/authentication/error/error404",
     name: "Error Error404",
-    component: Error404
+    component: Error404,
   },
   {
     path: "/authentication/error/error500",
     name: "Error Error500",
-    component: Error500
-  }
+    component: Error500,
+  },
 ];
 
 const router = createRouter({
   history: createWebHistory(),
   routes,
-  linkActiveClass: "active"
+  linkActiveClass: "active",
 });
 
 export default router;

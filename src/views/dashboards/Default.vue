@@ -13,7 +13,7 @@
               :icon="{
                 component: 'ni ni-money-coins',
                 background: 'bg-gradient-primary',
-                shape: 'rounded-circle'
+                shape: 'rounded-circle',
               }"
             />
           </div>
@@ -27,7 +27,7 @@
               :icon="{
                 component: 'ni ni-world',
                 background: 'bg-gradient-danger',
-                shape: 'rounded-circle'
+                shape: 'rounded-circle',
               }"
             />
           </div>
@@ -41,7 +41,7 @@
               :icon="{
                 component: 'ni ni-paper-diploma',
                 background: 'bg-gradient-success',
-                shape: 'rounded-circle'
+                shape: 'rounded-circle',
               }"
             />
           </div>
@@ -55,7 +55,7 @@
               :icon="{
                 component: 'ni ni-cart',
                 background: 'bg-gradient-warning',
-                shape: 'rounded-circle'
+                shape: 'rounded-circle',
               }"
             />
           </div>
@@ -77,14 +77,14 @@
                   'Sep',
                   'Oct',
                   'Nov',
-                  'Dec'
+                  'Dec',
                 ],
                 datasets: [
                   {
                     label: 'Mobile Apps',
-                    data: [50, 40, 300, 220, 500, 250, 400, 230, 500]
-                  }
-                ]
+                    data: [50, 40, 300, 220, 500, 250, 400, 230, 500],
+                  },
+                ],
               }"
             />
           </div>
@@ -98,8 +98,8 @@
                     'There’s nothing I really wanted to do in life that I wasn’t able to get good at.',
                   icon: {
                     component: 'ni ni-camera-compact text-dark',
-                    background: 'bg-white'
-                  }
+                    background: 'bg-white',
+                  },
                 },
                 {
                   img: image1,
@@ -108,8 +108,8 @@
                     'That’s my skill. I’m not really specifically talented at anything except for the ability to learn.',
                   icon: {
                     component: 'ni ni-bulb-61 text-dark',
-                    background: 'bg-white'
-                  }
+                    background: 'bg-white',
+                  },
                 },
                 {
                   img: image3,
@@ -118,9 +118,9 @@
                     'Don’t be afraid to be wrong because you can’t learn anything from a compliment.',
                   icon: {
                     component: 'ni ni-trophy text-dark',
-                    background: 'bg-white'
-                  }
-                }
+                    background: 'bg-white',
+                  },
+                },
               ]"
             />
           </div>
@@ -132,23 +132,23 @@
                 {
                   img: team1,
                   profile: { name: 'John Michael', link: 'javascript:;' },
-                  badge: { label: 'Online', color: 'success' }
+                  badge: { label: 'Online', color: 'success' },
                 },
                 {
                   img: team2,
                   profile: { name: 'Alex Smith', link: 'javascript:;' },
-                  badge: { label: 'In meeting', color: 'danger' }
+                  badge: { label: 'In meeting', color: 'danger' },
                 },
                 {
                   img: team5,
                   profile: { name: 'Samantha Ivy', link: 'javascript:;' },
-                  badge: { label: 'Offline', color: 'danger' }
+                  badge: { label: 'Offline', color: 'danger' },
                 },
                 {
                   img: team4,
                   profile: { name: 'John Michael', link: 'javascript:;' },
-                  badge: { label: 'Online', color: 'success' }
-                }
+                  badge: { label: 'Online', color: 'success' },
+                },
               ]"
             />
           </div>
@@ -158,21 +158,21 @@
                 {
                   label: 'Call with Dave',
                   dateTime: '09:30 AM',
-                  isChecked: true
+                  isChecked: true,
                 },
                 {
                   label: 'Brunch Meeting',
-                  dateTime: '11:00 AM'
+                  dateTime: '11:00 AM',
                 },
                 {
                   label: 'Argon Dashboard Launch',
-                  dateTime: '02:00 PM'
+                  dateTime: '02:00 PM',
                 },
                 {
                   label: 'Winter Hackaton',
                   dateTime: '10:30 AM',
-                  isChecked: true
-                }
+                  isChecked: true,
+                },
               ]"
             />
           </div>
@@ -183,23 +183,23 @@
                 {
                   brand: { logo: jira, link: 'javascript:;' },
                   label: 'React Material Dashboard',
-                  progress: { percentage: 90, color: 'primary' }
+                  progress: { percentage: 90, color: 'primary' },
                 },
                 {
                   brand: { logo: asana, link: 'javascript:;' },
                   label: 'Argon Design System',
-                  progress: { percentage: 60, color: 'warning' }
+                  progress: { percentage: 60, color: 'warning' },
                 },
                 {
                   brand: { logo: spotify, link: 'javascript:;' },
                   label: 'VueJs Now UI Kit PRO',
-                  progress: { percentage: 100, color: 'success' }
+                  progress: { percentage: 100, color: 'success' },
                 },
                 {
                   brand: { logo: bootstrap, link: 'javascript:;' },
                   label: 'Soft UI Dashboard',
-                  progress: { percentage: 72, color: 'primary' }
-                }
+                  progress: { percentage: 72, color: 'primary' },
+                },
               ]"
             />
           </div>
@@ -216,42 +216,41 @@
                   brand: { logo: spotify, name: 'Spotify' },
                   badge: { text: 'working', color: 'info' },
                   progress: 60,
-                  budget: '$2,500'
+                  budget: '$2,500',
                 },
                 {
                   brand: { logo: invision, name: 'Invision' },
                   badge: { text: 'done', color: 'success' },
                   progress: 100,
-                  budget: '$5,000'
+                  budget: '$5,000',
                 },
                 {
                   brand: { logo: jira, name: 'Jira' },
                   badge: { text: 'canceled', color: 'danger' },
                   progress: 30,
-                  budget: '$3,400'
+                  budget: '$3,400',
                 },
                 {
                   brand: { logo: slack, name: 'Slack' },
                   badge: { text: 'canceled', color: 'danger' },
                   progress: 0,
-                  budget: '$1,000'
+                  budget: '$1,000',
                 },
                 {
                   brand: {
-                    logo:
-                      'https://demos.creative-tim.com/soft-ui-design-system-pro/assets/img/logos/small-logos/logo-webdev.svg',
-                    name: 'Webdev'
+                    logo: 'https://demos.creative-tim.com/soft-ui-design-system-pro/assets/img/logos/small-logos/logo-webdev.svg',
+                    name: 'Webdev',
                   },
                   badge: { text: 'working', color: 'info' },
                   progress: 80,
-                  budget: '$14,000'
+                  budget: '$14,000',
                 },
                 {
                   brand: { logo: adobe, name: 'Adobe XD' },
                   badge: { text: 'done', color: 'success' },
                   progress: 100,
-                  budget: '$2,300'
-                }
+                  budget: '$2,300',
+                },
               ]"
             />
             <div class="row mt-4">
@@ -327,29 +326,29 @@
                 {
                   icon: {
                     component: 'ni ni-mobile-button',
-                    background: 'dark'
+                    background: 'dark',
                   },
                   label: 'Devices',
-                  description: '250 in stock <strong>346+ sold</strong>'
+                  description: '250 in stock <strong>346+ sold</strong>',
                 },
                 {
                   icon: {
                     component: 'ni ni-tag',
-                    background: 'dark'
+                    background: 'dark',
                   },
                   label: 'Tickets',
-                  description: '123 closed <strong>15 open</strong>'
+                  description: '123 closed <strong>15 open</strong>',
                 },
                 {
                   icon: { component: 'ni ni-box-2', background: 'dark' },
                   label: 'Error logs',
-                  description: '1 is active <strong>40 closed</strong>'
+                  description: '1 is active <strong>40 closed</strong>',
                 },
                 {
                   icon: { component: 'ni ni-satisfied', background: 'dark' },
                   label: 'Happy Users',
-                  description: '1 is active <strong>+ 430</strong>'
-                }
+                  description: '1 is active <strong>+ 430</strong>',
+                },
               ]"
             />
           </div>
@@ -408,7 +407,7 @@ export default {
     CategoriesList,
     ProjectCard,
     CreditCard,
-    InfoCard
+    InfoCard,
   },
   data() {
     return {
@@ -432,31 +431,31 @@ export default {
           sale: 2500,
           value: "$230,900",
           bounce: "29.9%",
-          flag: US
+          flag: US,
         },
         germany: {
           country: "Germany",
           sale: "3.900",
           value: "$440,000",
           bounce: "40.22%",
-          flag: DE
+          flag: DE,
         },
         britain: {
           country: "Great Britain",
           sale: "1.400",
           value: "$190,700",
           bounce: "23.44%",
-          flag: GB
+          flag: GB,
         },
         brasil: {
           country: "Brasil",
           sale: "562",
           value: "$143,960",
           bounce: "32.14%",
-          flag: BR
-        }
-      }
+          flag: BR,
+        },
+      },
     };
-  }
+  },
 };
 </script>

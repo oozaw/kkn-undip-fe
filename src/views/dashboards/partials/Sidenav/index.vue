@@ -30,7 +30,8 @@
       ></i>
       <router-link class="m-0 navbar-brand" to="/">
         <img :src="logo" class="navbar-brand-img h-100" alt="main_logo" />
-        <span class="ms-2 font-weight-bold">P2KKN Undip</span>
+        <span class="ms-2 font-weight-bold">P2KKN Undip</span> <br />
+        <!-- <small class="ms-5">Mahasiswa</small> -->
       </router-link>
     </div>
     <hr class="mt-0 horizontal dark" />

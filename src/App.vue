@@ -1,18 +1,3 @@
-<!--
-=========================================================
-* Vue Argon Dashboard 2 PRO - v3.0.1
-=========================================================
-
-* Product Page: https://creative-tim.com/product/vue-argon-dashboard-pro
-* Copyright 2022 Creative Tim (https://www.creative-tim.com)
-
-Coded by www.creative-tim.com
-
-=========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
--->
-
 <template>
   <div
     v-show="layout === 'landing'"
@@ -29,10 +14,10 @@ Coded by www.creative-tim.com
   </main>
 </template>
 <script>
-import Sidenav from "./examples/Sidenav";
-import Configurator from "@/examples/Configurator.vue";
-import Navbar from "@/examples/Navbars/Navbar.vue";
-import AppFooter from "@/examples/Footer.vue";
+import Sidenav from "@/views/dashboards/partials/Sidenav/index.vue";
+import Configurator from "@/views/dashboards/components/Configurator.vue";
+import Navbar from "@/views/dashboards/partials/Navbars/Navbar.vue";
+import AppFooter from "@/views/dashboards/partials/Footer.vue";
 import { mapState } from "vuex";
 
 export default {
@@ -41,7 +26,7 @@ export default {
     Sidenav,
     Configurator,
     Navbar,
-    AppFooter
+    AppFooter,
   },
   computed: {
     ...mapState([
@@ -50,8 +35,8 @@ export default {
       "showNavbar",
       "showFooter",
       "showConfig",
-      "hideConfigButton"
-    ])
-  }
+      "hideConfigButton",
+    ]),
+  },
 };
 </script>
