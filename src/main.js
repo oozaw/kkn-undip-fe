@@ -25,9 +25,23 @@ import ArgonDashboard from "./argon-dashboard";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 // icon
-import { faUsers, faUsersRays } from "@fortawesome/free-solid-svg-icons";
+import {
+  faUsers,
+  faUsersRays,
+  faUserTie,
+  faAddressCard,
+  faMapLocationDot,
+  faFileLines,
+} from "@fortawesome/free-solid-svg-icons";
 
-const icon = [faUsers, faUsersRays];
+const icon = [
+  faUsers,
+  faUsersRays,
+  faUserTie,
+  faAddressCard,
+  faMapLocationDot,
+  faFileLines,
+];
 
 library.add(icon);
 

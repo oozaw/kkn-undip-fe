@@ -59,10 +59,10 @@ import Dashboard from "../views/dashboards/Dashboard.vue";
 import Login from "../views/auth/Login.vue";
 import Register from "../views/auth/Register.vue";
 import Reset from "../views/auth/Reset.vue";
-import Pengguna from "../views/pengguna/Index.vue";
-import AddPengguna from "../views/pengguna/AddPengguna.vue";
-import Mahasiswa from "../views/mahasiswa/Index.vue";
-import AddMahasiswa from "../views/mahasiswa/AddMahasiswa.vue";
+import Pengguna from "../views/admin/pengguna/Index.vue";
+import AddPengguna from "../views/admin/pengguna/AddPengguna.vue";
+import Mahasiswa from "../views/admin/mahasiswa/Index.vue";
+import AddMahasiswa from "../views/admin/mahasiswa/AddMahasiswa.vue";
 
 const routes = [
   {
