@@ -65,6 +65,7 @@ import Mahasiswa from "../views/admin/mahasiswa/Index.vue";
 import AddMahasiswa from "../views/admin/mahasiswa/AddMahasiswa.vue";
 import EditProfileMhs from "../views/mahasiswa/pendaftaran/profile/Edit.vue";
 import EditBerkasMhs from "../views/mahasiswa/pendaftaran/berkas/Edit.vue";
+import DaftarLokasi from "../views/mahasiswa/pendaftaran/lokasi/Daftar.vue";
 
 const routes = [
   {
@@ -121,6 +122,11 @@ const routes = [
     path: "/berkas/edit",
     name: "Edit Data Berkas",
     component: EditBerkasMhs,
+  },
+  {
+    path: "/lokasi/daftar",
+    name: "Daftar Lokasi",
+    component: DaftarLokasi,
   },
   {
     path: "/dashboards/dashboard-default",

@@ -64,7 +64,9 @@
         <sidenav-collapse
           collapse-ref="pendaftaran"
           nav-text="Pendaftaran KKN"
-          :class="getRoute() === 'profile' ? 'active' : ''"
+          :class="
+            getRoute() === 'profile' || 'berkas' || 'lokasi' ? 'active' : ''
+          "
         >
           <template #icon>
             <i class="ni ni-ungroup text-warning text-sm opacity-10"></i>
@@ -83,7 +85,7 @@
                 text="Submit Berkas"
               />
               <sidenav-item
-                :to="{ name: 'Profile Overview' }"
+                :to="{ name: 'Daftar Lokasi' }"
                 mini-icon="L"
                 text="Daftar Lokasi"
               />
