@@ -67,6 +67,7 @@ import EditProfileMhs from "../views/mahasiswa/pendaftaran/profile/Edit.vue";
 import EditBerkasMhs from "../views/mahasiswa/pendaftaran/berkas/Edit.vue";
 import DaftarLokasi from "../views/mahasiswa/pendaftaran/lokasi/Daftar.vue";
 import IndexPostTest from "../views/mahasiswa/test/Index.vue";
+import IndexLRK from "../views/mahasiswa/kegiatan/lrk/Index.vue";
 
 const routes = [
   {
@@ -133,6 +134,11 @@ const routes = [
     path: "/post-test",
     name: "Post Test",
     component: IndexPostTest,
+  },
+  {
+    path: "/lrk",
+    name: "LRK",
+    component: IndexLRK,
   },
   {
     path: "/dashboards/dashboard-default",

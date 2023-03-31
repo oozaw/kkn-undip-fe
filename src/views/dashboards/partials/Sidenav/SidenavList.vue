@@ -115,7 +115,7 @@
         <sidenav-collapse
           collapse-ref="kegiatanKKN"
           nav-text="Kegiatan KKN"
-          :class="getRoute() === 'ecommerce' ? 'active' : ''"
+          :class="getRoute() === 'lrk' ? 'active' : ''"
         >
           <template #icon>
             <i class="ni ni-archive-2 text-success text-sm opacity-10"></i>
@@ -123,10 +123,11 @@
           <template #list>
             <ul class="nav ms-4">
               <!-- nav links -->
+              <sidenav-item :to="{ name: 'LRK' }" mini-icon="L" text="LRK" />
               <sidenav-item
                 :to="{ name: 'Overview' }"
                 mini-icon="L"
-                text="LRK dan LPK"
+                text="LPK"
               />
               <sidenav-item
                 :to="{ name: 'Overview' }"
