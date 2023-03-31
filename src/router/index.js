@@ -66,6 +66,7 @@ import AddMahasiswa from "../views/admin/mahasiswa/AddMahasiswa.vue";
 import EditProfileMhs from "../views/mahasiswa/pendaftaran/profile/Edit.vue";
 import EditBerkasMhs from "../views/mahasiswa/pendaftaran/berkas/Edit.vue";
 import DaftarLokasi from "../views/mahasiswa/pendaftaran/lokasi/Daftar.vue";
+import IndexPostTest from "../views/mahasiswa/test/Index.vue";
 
 const routes = [
   {
@@ -127,6 +128,11 @@ const routes = [
     path: "/lokasi/daftar",
     name: "Daftar Lokasi",
     component: DaftarLokasi,
+  },
+  {
+    path: "/post-test",
+    name: "Post Test",
+    component: IndexPostTest,
   },
   {
     path: "/dashboards/dashboard-default",

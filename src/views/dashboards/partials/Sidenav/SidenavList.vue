@@ -95,30 +95,20 @@
       </li>
 
       <li class="nav-item">
-        <sidenav-collapse
-          collapse-ref="postTest"
-          nav-text="Post Test KKN"
-          :class="getRoute() === 'applications' ? 'active' : ''"
-        >
-          <template #icon>
-            <i class="ni ni-ui-04 text-info text-sm opacity-10"></i>
-          </template>
-          <template #list>
-            <ul class="nav ms-4">
-              <!-- nav links -->
-              <sidenav-item
-                :to="{ name: 'Kanban' }"
-                mini-icon="M"
-                text="Data Materi"
-              />
-              <sidenav-item
-                :to="{ name: 'Wizard' }"
-                mini-icon="P"
-                text="Post Test"
-              />
-            </ul>
-          </template>
-        </sidenav-collapse>
+        <router-link :to="{ name: 'Post Test' }">
+          <sidenav-collapse
+            nav-text="Post Test"
+            :collapse="false"
+            url="#"
+            :aria-controls="''"
+            collapse-ref="/post-test"
+            :class="getRoute() === 'post-test' ? 'active' : ''"
+          >
+            <template #icon>
+              <i class="ni ni-ui-04 text-info text-sm opacity-10"></i>
+            </template>
+          </sidenav-collapse>
+        </router-link>
       </li>
 
       <li class="nav-item">
