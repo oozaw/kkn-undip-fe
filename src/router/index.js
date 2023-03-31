@@ -63,6 +63,7 @@ import Pengguna from "../views/admin/pengguna/Index.vue";
 import AddPengguna from "../views/admin/pengguna/AddPengguna.vue";
 import Mahasiswa from "../views/admin/mahasiswa/Index.vue";
 import AddMahasiswa from "../views/admin/mahasiswa/AddMahasiswa.vue";
+import EditProfileMhs from "../views/mahasiswa/pendaftaran/profile/Edit.vue";
 
 const routes = [
   {
@@ -109,6 +110,11 @@ const routes = [
     path: "/mahasiswa/add",
     name: "Tambah Mahasiswa",
     component: AddMahasiswa,
+  },
+  {
+    path: "/profile/edit",
+    name: "Edit Data Diri",
+    component: EditProfileMhs,
   },
   {
     path: "/dashboards/dashboard-default",

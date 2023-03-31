@@ -64,7 +64,7 @@
         <sidenav-collapse
           collapse-ref="pendaftaran"
           nav-text="Pendaftaran KKN"
-          :class="getRoute() === 'pages' ? 'active' : ''"
+          :class="getRoute() === 'profile' ? 'active' : ''"
         >
           <template #icon>
             <i class="ni ni-ungroup text-warning text-sm opacity-10"></i>
@@ -73,7 +73,7 @@
             <ul class="nav ms-4">
               <!-- nav links -->
               <sidenav-item
-                :to="{ name: 'Profile Overview' }"
+                :to="{ name: 'Edit Data Diri' }"
                 mini-icon="P"
                 text="Pendaftaran Diri"
               />
