@@ -42,17 +42,17 @@
     </div>
     <div class="card-body pt-0">
       <div class="row">
-        <div class="col-6">
+        <div class="col-sm-6 col-12">
           <label class="form-label">Nama Lengkap</label>
           <argon-input id="fullname" type="text" placeholder="Nama lengkap" />
         </div>
-        <div class="col-6">
+        <div class="col-sm-6 col-12">
           <label class="form-label">NIM</label>
           <argon-input id="nim" type="number" placeholder="NIM" />
         </div>
       </div>
       <div class="row">
-        <div class="col-sm-4 col-6">
+        <div class="col-sm-4 col-12">
           <label class="form-label mt-2">Jenis Kelamin</label>
           <select
             id="choices-gender"
@@ -65,8 +65,8 @@
         </div>
         <div class="col-sm-8 mt-3 mt-sm-0">
           <div class="row">
+            <label class="form-label mt-2">Tanggal Lahir</label>
             <div class="col-sm-4 col-3">
-              <label class="form-label mt-2">Tanggal Lahir</label>
               <select
                 id="choices-day"
                 class="form-control"
@@ -74,7 +74,6 @@
               ></select>
             </div>
             <div class="col-sm-5 col-5">
-              <label class="form-label mt-2">&nbsp;</label>
               <select
                 id="choices-month"
                 class="form-control"
@@ -82,7 +81,6 @@
               ></select>
             </div>
             <div class="col-sm-3 col-4">
-              <label class="form-label mt-2">&nbsp;</label>
               <select
                 id="choices-year"
                 class="form-control"
@@ -93,7 +91,7 @@
         </div>
       </div>
       <div class="row mt-3">
-        <div class="col-6">
+        <div class="col-sm-6 col-12">
           <label class="form-label mt-2">Email</label>
           <argon-input
             id="email"
@@ -101,7 +99,7 @@
             placeholder="eg. contoh@email.com"
           />
         </div>
-        <div class="col-6">
+        <div class="col-sm-6 col-12">
           <label class="form-label mt-2">Domisili</label>
           <argon-input
             id="domisili"
@@ -111,17 +109,17 @@
         </div>
       </div>
       <div class="row">
-        <div class="col-6">
+        <div class="col-sm-6 col-12">
           <label class="form-label mt-2">Angkatan</label>
           <argon-input id="angkatan" type="text" placeholder="eg. 2019" />
         </div>
-        <div class="col-6">
+        <div class="col-sm-6 col-12">
           <label class="form-label mt-2">No. Telepon</label>
           <argon-input id="phone" type="text" placeholder="+628 745 765 439" />
         </div>
       </div>
       <div class="row">
-        <div class="col-md-6 align-self-center">
+        <div class="col-sm-6 align-self-center">
           <label class="form-label mt-2">Fakultas</label>
           <select
             id="choices-fakultas"
@@ -133,8 +131,8 @@
             <option value="FPsi">FPsi</option>
           </select>
         </div>
-        <div class="col-md-6 align-self-center">
-          <label class="form-label mt-4 mt-md-2">Jurusan</label>
+        <div class="col-sm-6 align-self-center">
+          <label class="form-label mt-4 mt-sm-2">Jurusan</label>
           <select
             id="choices-jurusan"
             class="form-control"
