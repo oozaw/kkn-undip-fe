@@ -1,6 +1,6 @@
 <template>
   <div id="profile" class="card card-body">
-    <div class="row justify-content-center align-items-center">
+    <div class="row align-items-center">
       <div class="col-sm-auto col-4">
         <argon-avatar
           :img="img"
@@ -16,7 +16,9 @@
           <p class="mb-0 font-weight-bold text-sm">KKN Reguler Tim 1 2023</p>
         </div>
       </div>
-      <div class="col-sm-auto ms-sm-auto mt-sm-0 mt-3 d-flex">
+      <div
+        class="col-sm-auto ms-sm-auto mt-sm-0 mt-3 d-flex justify-content-center"
+      >
         <argon-button
           :onclick="() => $router.push('/profile')"
           class="mb-0 me-2"
@@ -25,7 +27,7 @@
           >Batal</argon-button
         >
         <argon-button
-          class="mb-0 me-2"
+          class="mb-0 me-lg-2"
           color="primary"
           variant="gradient"
           size="sm"
