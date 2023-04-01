@@ -68,7 +68,8 @@ import EditBerkasMhs from "../views/mahasiswa/pendaftaran/berkas/Edit.vue";
 import DaftarLokasi from "../views/mahasiswa/pendaftaran/lokasi/Daftar.vue";
 import IndexPostTest from "../views/mahasiswa/test/Index.vue";
 import IndexLRK from "../views/mahasiswa/kegiatan/lrk/Index.vue";
-import AddLRK from "../views/mahasiswa/kegiatan/lrk/AddLRK.vue";
+import AddLRK from "../views/mahasiswa/kegiatan/lrk/Add.vue";
+import EditLRK from "../views/mahasiswa/kegiatan/lrk/Edit.vue";
 
 const routes = [
   {
@@ -145,6 +146,11 @@ const routes = [
     path: "/lrk/add",
     name: "Tambah LRK",
     component: AddLRK,
+  },
+  {
+    path: "/lrk/edit",
+    name: "Edit LRK",
+    component: EditLRK,
   },
   {
     path: "/dashboards/dashboard-default",
