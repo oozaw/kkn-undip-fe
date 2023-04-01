@@ -94,7 +94,7 @@
             <div class="row mt-2">
               <div class="col-12 mt-3 d-flex justify-content-end">
                 <argon-button
-                  :onclick="() => $router.push('/lrk')"
+                  :onclick="() => $router.push({ name: 'LRK' })"
                   class="mb-0 me-2"
                   color="secondary"
                   size="sm"
