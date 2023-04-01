@@ -68,6 +68,7 @@ import EditBerkasMhs from "../views/mahasiswa/pendaftaran/berkas/Edit.vue";
 import DaftarLokasi from "../views/mahasiswa/pendaftaran/lokasi/Daftar.vue";
 import IndexPostTest from "../views/mahasiswa/test/Index.vue";
 import IndexLRK from "../views/mahasiswa/kegiatan/lrk/Index.vue";
+import AddLRK from "../views/mahasiswa/kegiatan/lrk/AddLRK.vue";
 
 const routes = [
   {
@@ -139,6 +140,11 @@ const routes = [
     path: "/lrk",
     name: "LRK",
     component: IndexLRK,
+  },
+  {
+    path: "/lrk/add",
+    name: "Tambah LRK",
+    component: AddLRK,
   },
   {
     path: "/dashboards/dashboard-default",

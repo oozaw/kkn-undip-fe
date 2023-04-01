@@ -19,7 +19,7 @@
                 <div class="my-auto ms-auto">
                   <router-link
                     class="mb-0 btn bg-gradient-success btn-sm"
-                    :to="{ name: 'Tambah Mahasiswa' }"
+                    :to="{ name: 'Tambah LRK' }"
                     >+&nbsp; Tambah LRK
                   </router-link>
                   <button
@@ -280,9 +280,6 @@ export default {
   name: "IndexLRK",
   components: {
     HeaderProfileCard,
-  },
-  data() {
-    return {};
   },
   mounted() {
     if (document.getElementById("lrk-list")) {
