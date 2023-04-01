@@ -172,7 +172,7 @@ import HeaderProfileCard from "@/views/dashboards/components/HeaderProfileCard.v
 import ArgonButton from "@/components/ArgonButton.vue";
 
 export default {
-  name: "AddLRK",
+  name: "EditLRK",
   components: {
     HeaderProfileCard,
     ArgonButton,
