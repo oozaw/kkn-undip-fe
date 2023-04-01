@@ -40,7 +40,7 @@
                       <div class="modal-content">
                         <div class="modal-header">
                           <h5 id="ModalLabel" class="modal-title">
-                            Impor Data Mahasiswa via File Excel
+                            Impor Data LRK via File Excel
                           </h5>
                           <i class="fas fa-upload ms-3"></i>
                           <button
@@ -52,8 +52,7 @@
                         </div>
                         <div class="modal-body">
                           <p>
-                            Silahkan cari dan pilih file excel berisi data
-                            mahasiswa
+                            Silahkan cari dan pilih file excel berisi data LRK
                           </p>
                           <input
                             type="file"
