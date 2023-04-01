@@ -124,7 +124,7 @@
               <sidenav-item :to="{ name: 'LRK' }" mini-icon="R" text="LRK" />
               <sidenav-item :to="{ name: 'LPK' }" mini-icon="P" text="LPK" />
               <sidenav-item
-                :to="{ name: 'Overview' }"
+                :to="{ name: 'Reportase' }"
                 mini-icon="R"
                 text="Data Reportase"
               />

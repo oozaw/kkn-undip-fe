@@ -72,6 +72,9 @@ import AddLRK from "../views/mahasiswa/kegiatan/lrk/Add.vue";
 import EditLRK from "../views/mahasiswa/kegiatan/lrk/Edit.vue";
 import IndexLPK from "../views/mahasiswa/kegiatan/lpk/Index.vue";
 import EditLPK from "../views/mahasiswa/kegiatan/lpk/Edit.vue";
+import IndexReportase from "../views/mahasiswa/kegiatan/reportase/Index.vue";
+import AddReportase from "../views/mahasiswa/kegiatan/reportase/Add.vue";
+import EditReportase from "../views/mahasiswa/kegiatan/reportase/Edit.vue";
 
 const routes = [
   {
@@ -163,6 +166,21 @@ const routes = [
     path: "/kegiatan/lpk/edit",
     name: "Edit LPK",
     component: EditLPK,
+  },
+  {
+    path: "/kegiatan/reportase",
+    name: "Reportase",
+    component: IndexReportase,
+  },
+  {
+    path: "/kegiatan/reportase/add",
+    name: "Tambah Reportase",
+    component: AddReportase,
+  },
+  {
+    path: "/kegiatan/reportase/edit",
+    name: "Edit Reportase",
+    component: EditReportase,
   },
   {
     path: "/dashboards/dashboard-default",
