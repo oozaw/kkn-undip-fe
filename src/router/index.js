@@ -70,6 +70,8 @@ import IndexPostTest from "../views/mahasiswa/test/Index.vue";
 import IndexLRK from "../views/mahasiswa/kegiatan/lrk/Index.vue";
 import AddLRK from "../views/mahasiswa/kegiatan/lrk/Add.vue";
 import EditLRK from "../views/mahasiswa/kegiatan/lrk/Edit.vue";
+import IndexLPK from "../views/mahasiswa/kegiatan/lpk/Index.vue";
+import EditLPK from "../views/mahasiswa/kegiatan/lpk/Edit.vue";
 
 const routes = [
   {
@@ -151,6 +153,16 @@ const routes = [
     path: "/lrk/edit",
     name: "Edit LRK",
     component: EditLRK,
+  },
+  {
+    path: "/lpk",
+    name: "LPK",
+    component: IndexLPK,
+  },
+  {
+    path: "/lpk/edit",
+    name: "Edit LPK",
+    component: EditLPK,
   },
   {
     path: "/dashboards/dashboard-default",

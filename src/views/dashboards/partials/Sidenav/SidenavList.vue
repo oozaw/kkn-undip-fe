@@ -123,12 +123,8 @@
           <template #list>
             <ul class="nav ms-4">
               <!-- nav links -->
-              <sidenav-item :to="{ name: 'LRK' }" mini-icon="L" text="LRK" />
-              <sidenav-item
-                :to="{ name: 'Overview' }"
-                mini-icon="L"
-                text="LPK"
-              />
+              <sidenav-item :to="{ name: 'LRK' }" mini-icon="R" text="LRK" />
+              <sidenav-item :to="{ name: 'LPK' }" mini-icon="P" text="LPK" />
               <sidenav-item
                 :to="{ name: 'Overview' }"
                 mini-icon="R"
