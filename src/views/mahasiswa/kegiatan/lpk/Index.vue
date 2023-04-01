@@ -252,12 +252,9 @@
                 </tbody>
                 <tfoot>
                   <tr>
-                    <th>Product</th>
-                    <th>Category</th>
-                    <th>Price</th>
-                    <th>SKU</th>
-                    <th>Quantity</th>
-                    <th>Status</th>
+                    <th class="col-1">No.</th>
+                    <th>Judul Program Kerja</th>
+                    <th>Kategori Program Kerja</th>
                     <th>Action</th>
                   </tr>
                 </tfoot>
