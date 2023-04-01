@@ -140,6 +140,17 @@
                 </form>
               </div>
             </div>
+            <div class="mt-4 row">
+              <div class="col-12">
+                <label>9. Link Publikasi</label>
+                <input
+                  class="form-control"
+                  type="text"
+                  placeholder="eg. https://www.tirtosuworo.com/artikel/2023/2/4/penyadaran-pentingnya-edukasi-seni-bagi-anak-usia-sd-desa-tirtosuworo-melalui-kelas-menggambar"
+                  value="https://www.tirtosuworo.com/artikel/2023/2/4/penyadaran-pentingnya-edukasi-seni-bagi-anak-usia-sd-desa-tirtosuworo-melalui-kelas-menggambar"
+                />
+              </div>
+            </div>
             <div class="row mt-2">
               <div class="col-12 mt-3 d-flex justify-content-end">
                 <argon-button
