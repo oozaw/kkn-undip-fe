@@ -64,9 +64,7 @@
         <sidenav-collapse
           collapse-ref="pendaftaran"
           nav-text="Pendaftaran KKN"
-          :class="
-            getRoute() === 'profile' || 'berkas' || 'lokasi' ? 'active' : ''
-          "
+          :class="getRoute() === 'pendaftaran' ? 'active' : ''"
         >
           <template #icon>
             <i class="ni ni-ungroup text-warning text-sm opacity-10"></i>
@@ -115,7 +113,7 @@
         <sidenav-collapse
           collapse-ref="kegiatanKKN"
           nav-text="Kegiatan KKN"
-          :class="getRoute() === 'lrk' ? 'active' : ''"
+          :class="getRoute() === 'kegiatan' ? 'active' : ''"
         >
           <template #icon>
             <i class="ni ni-archive-2 text-success text-sm opacity-10"></i>

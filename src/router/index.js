@@ -120,17 +120,17 @@ const routes = [
     component: AddMahasiswa,
   },
   {
-    path: "/profile/edit",
+    path: "/pendaftaran/profile/edit",
     name: "Edit Data Diri",
     component: EditProfileMhs,
   },
   {
-    path: "/berkas/edit",
+    path: "/pendaftaran/berkas/edit",
     name: "Edit Data Berkas",
     component: EditBerkasMhs,
   },
   {
-    path: "/lokasi/daftar",
+    path: "/pendaftaran/lokasi/daftar",
     name: "Daftar Lokasi",
     component: DaftarLokasi,
   },
@@ -140,27 +140,27 @@ const routes = [
     component: IndexPostTest,
   },
   {
-    path: "/lrk",
+    path: "/kegiatan/lrk",
     name: "LRK",
     component: IndexLRK,
   },
   {
-    path: "/lrk/add",
+    path: "/kegiatan/lrk/add",
     name: "Tambah LRK",
     component: AddLRK,
   },
   {
-    path: "/lrk/edit",
+    path: "/kegiatan/lrk/edit",
     name: "Edit LRK",
     component: EditLRK,
   },
   {
-    path: "/lpk",
+    path: "/kegiatan/lpk",
     name: "LPK",
     component: IndexLPK,
   },
   {
-    path: "/lpk/edit",
+    path: "/kegiatan/lpk/edit",
     name: "Edit LPK",
     component: EditLPK,
   },
