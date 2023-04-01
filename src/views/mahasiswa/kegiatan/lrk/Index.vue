@@ -26,12 +26,12 @@
                     type="button"
                     class="mx-1 mb-0 btn btn-primary btn-sm"
                     data-bs-toggle="modal"
-                    data-bs-target="#import-mhs"
+                    data-bs-target="#import-lrk"
                   >
                     Impor
                   </button>
                   <div
-                    id="import-mhs"
+                    id="import-lrk"
                     class="modal fade"
                     tabindex="-1"
                     aria-hidden="true"
