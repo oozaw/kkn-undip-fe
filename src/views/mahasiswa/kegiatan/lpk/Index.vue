@@ -26,12 +26,12 @@
                     type="button"
                     class="mx-1 mb-0 btn btn-primary btn-sm"
                     data-bs-toggle="modal"
-                    data-bs-target="#import-mhs"
+                    data-bs-target="#import-lpk"
                   >
                     Impor
                   </button>
                   <div
-                    id="import-mhs"
+                    id="import-lpk"
                     class="modal fade"
                     tabindex="-1"
                     aria-hidden="true"
@@ -99,7 +99,7 @@
           </div>
           <div class="ms-2 pt-1 px-0 pb-0 card-body">
             <div class="table-responsive">
-              <table id="lrk-list" class="table table-flush">
+              <table id="lpk-list" class="table table-flush">
                 <thead class="thead-light">
                   <tr>
                     <th class="col-1">No.</th>
@@ -281,8 +281,8 @@ export default {
     HeaderProfileCard,
   },
   mounted() {
-    if (document.getElementById("lrk-list")) {
-      const dataTableSearch = new DataTable("#lrk-list", {
+    if (document.getElementById("lpk-list")) {
+      const dataTableSearch = new DataTable("#lpk-list", {
         searchable: true,
         fixedHeight: false,
         perPage: 7,
