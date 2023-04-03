@@ -10,7 +10,7 @@
           <!-- Card header -->
           <div class="pb-0 card-header">
             <div class="d-lg-flex">
-              <h5 class="mb-2">Tambah Reportase</h5>
+              <h5 class="mb-2">Edit Reportase</h5>
             </div>
           </div>
           <div class="ms-2 pt-1 ps-3 card-body">
@@ -23,6 +23,7 @@
                   class="form-control"
                   type="text"
                   placeholder="eg. Program Edukasi Kesehatan pada Masyarakat Desa Kedungkandang"
+                  value="Program Edukasi Kesehatan pada Masyarakat Desa Kedungkandang"
                 />
               </div>
             </div>
@@ -59,13 +60,22 @@
                   class="form-control"
                   type="text"
                   placeholder="eg. Gambar 1. Pakaian Adat Desa Kedungkandang"
+                  value="Gambar 1. Pakaian Adat Desa Kedungkandang"
                 />
               </div>
             </div>
             <div class="row mt-3">
               <div class="col-12">
                 <label>Deskripsi</label>
-                <div id="edit-deskripsi" class="h-50"></div>
+                <div id="edit-deskripsi" class="h-50">
+                  <p>
+                    Lorem ipsum dolor, sit amet consectetur adipisicing elit.
+                    Accusamus provident magni doloribus possimus quidem odit
+                    dolor officiis minus reprehenderit commodi facilis, nulla
+                    temporibus adipisci soluta porro id aliquam perspiciatis!
+                    Quidem.
+                  </p>
+                </div>
               </div>
             </div>
             <div class="row mt-3">
@@ -94,6 +104,7 @@
                   class="form-control"
                   type="text"
                   placeholder="eg. Gambar 2. Pakaian Adat Desa Kedungkandang 2"
+                  value="Gambar 2. Pakaian Adat Desa Kedungkandang 2"
                 />
               </div>
             </div>
@@ -103,7 +114,14 @@
                 <p class="text-xs form-text text-muted ms-1 d-inline">
                   (Lanjutan)
                 </p>
-                <div id="edit-deskripsi-lanjutan" class="h-50"></div>
+                <div id="edit-deskripsi-lanjutan" class="h-50">
+                  <p>
+                    Lorem ipsum dolor sit amet consectetur, adipisicing elit.
+                    Autem eos harum eaque molestiae assumenda praesentium
+                    sapiente alias ad commodi ducimus, ea doloribus, cumque
+                    dolorem perferendis, cum provident quibusdam. Eos, dolorem.
+                  </p>
+                </div>
               </div>
             </div>
             <div class="row mt-3">
@@ -131,6 +149,7 @@
                   class="form-control"
                   type="text"
                   placeholder="eg. Gambar 3. Pakaian Adat Desa Kedungkandang 3"
+                  value="Gambar 3. Pakaian Adat Desa Kedungkandang 3"
                 />
               </div>
             </div>
@@ -143,6 +162,7 @@
                   class="form-control"
                   type="text"
                   placeholder="Nama penulis"
+                  value="Tazki Hanifan Amri"
                 />
               </div>
             </div>
@@ -155,6 +175,7 @@
                   class="form-control"
                   type="text"
                   placeholder="Nama dosen pembimbing lapangan"
+                  value="Bambang Sutrisno, S.Pd., M.Pd."
                 />
               </div>
             </div>
@@ -167,6 +188,7 @@
                   class="form-control"
                   type="text"
                   placeholder="eg. Desa Kedungkandang"
+                  value="Desa Kedungkandang"
                 />
               </div>
             </div>
@@ -181,10 +203,10 @@
                 >
                 <argon-button
                   class="mb-0 me-lg-2"
-                  color="success"
+                  color="primary"
                   variant="gradient"
                   size="sm"
-                  >Tambah Reportase</argon-button
+                  >Simpan Perubahan</argon-button
                 >
               </div>
             </div>
@@ -202,7 +224,7 @@ import HeaderProfileCard from "@/views/dashboards/components/HeaderProfileCard.v
 import ArgonButton from "@/components/ArgonButton.vue";
 
 export default {
-  name: "AddReportase",
+  name: "EditReportase",
   components: {
     HeaderProfileCard,
     ArgonButton,
