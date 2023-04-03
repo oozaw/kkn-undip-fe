@@ -29,21 +29,21 @@ export default {
   props: {
     collapseRef: {
       type: String,
-      required: true
+      required: true,
     },
     navText: {
       type: String,
-      required: true
+      required: true,
     },
     collapse: {
       type: Boolean,
-      default: true
-    }
+      default: true,
+    },
   },
   data() {
     return {
-      isExpanded: false
+      isExpanded: false,
     };
-  }
+  },
 };
 </script>
