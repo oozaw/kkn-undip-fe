@@ -1,31 +1,37 @@
 <template>
-  <div class="py-4 container-fluid">
-    <div class="row">
-      <div class="col-12">
-        <div class="card">
+  <div class="container-fluid">
+    <div class="row mb-5 mt-4">
+      <div class="col-lg-12 mt-lg-0 mt-4">
+        <header-profile-card
+          name="Tazki Hanifan Amri"
+          description="KKN Reguler
+         Tim 1 2023"
+        />
+        <div class="bg-white card mt-4">
           <!-- Card header -->
           <div class="pb-0 card-header">
             <div class="d-lg-flex">
               <div>
-                <h5 class="mb-0">Daftar Pengguna</h5>
+                <h5 class="mb-2">LRK</h5>
+                <p class="text-sm mb-0">Laporan Rencana Kegiatan KKN</p>
               </div>
               <div class="my-auto mt-4 ms-auto mt-lg-0">
                 <div class="my-auto ms-auto">
                   <router-link
                     class="mb-0 btn bg-gradient-success btn-sm"
-                    :to="{ name: 'Tambah Pengguna' }"
-                    >+&nbsp; Tambah Pengguna
+                    :to="{ name: 'Tambah LRK' }"
+                    >+&nbsp; Tambah LRK
                   </router-link>
                   <button
                     type="button"
                     class="mx-1 mb-0 btn btn-primary btn-sm"
                     data-bs-toggle="modal"
-                    data-bs-target="#import-mhs"
+                    data-bs-target="#import-lrk"
                   >
                     Impor
                   </button>
                   <div
-                    id="import-mhs"
+                    id="import-lrk"
                     class="modal fade"
                     tabindex="-1"
                     aria-hidden="true"
@@ -34,7 +40,7 @@
                       <div class="modal-content">
                         <div class="modal-header">
                           <h5 id="ModalLabel" class="modal-title">
-                            Impor Data Pengguna via File Excel
+                            Impor Data LRK via File Excel
                           </h5>
                           <i class="fas fa-upload ms-3"></i>
                           <button
@@ -46,8 +52,7 @@
                         </div>
                         <div class="modal-body">
                           <p>
-                            Silahkan cari dan pilih file excel berisi data
-                            pengguna
+                            Silahkan cari dan pilih file excel berisi data LRK
                           </p>
                           <input
                             type="file"
@@ -92,15 +97,14 @@
               </div>
             </div>
           </div>
-          <div class="px-0 pb-0 card-body">
+          <div class="ms-2 pt-1 px-0 pb-0 card-body">
             <div class="table-responsive">
-              <table id="mhs-list" class="table table-flush">
+              <table id="lrk-list" class="table table-flush">
                 <thead class="thead-light">
                   <tr>
                     <th class="col-1">No.</th>
-                    <th>Nama</th>
-                    <th>Role</th>
-                    <th>Status</th>
+                    <th>Judul Program Kerja</th>
+                    <th>Kategori Program Kerja</th>
                     <th>Action</th>
                   </tr>
                 </thead>
@@ -108,11 +112,12 @@
                   <tr>
                     <td class="text-sm">1</td>
                     <td>
-                      <h6 class="my-auto">Pengguna 1</h6>
+                      <h6 class="my-auto">Program Kerja 1</h6>
                     </td>
-                    <td class="text-sm">Mahasiswa</td>
                     <td>
-                      <span class="badge badge-danger badge-sm">Offline</span>
+                      <span class="badge badge-primary badge-sm"
+                        >Monodisiplin</span
+                      >
                     </td>
                     <td class="text-sm">
                       <a
@@ -142,11 +147,12 @@
                   <tr>
                     <td class="text-sm">2</td>
                     <td>
-                      <h6 class="my-auto">Pengguna 2</h6>
+                      <h6 class="my-auto">Program Kerja 2</h6>
                     </td>
-                    <td class="text-sm">Bappeda</td>
                     <td>
-                      <span class="badge badge-danger badge-sm">Offline</span>
+                      <span class="badge badge-success badge-sm"
+                        >Multidisiplin</span
+                      >
                     </td>
                     <td class="text-sm">
                       <a
@@ -176,11 +182,47 @@
                   <tr>
                     <td class="text-sm">3</td>
                     <td>
-                      <h6 class="my-auto">Pengguna 3</h6>
+                      <h6 class="my-auto">Program Kerja 3</h6>
                     </td>
-                    <td class="text-sm">Dosen</td>
                     <td>
-                      <span class="badge badge-success badge-sm">Online</span>
+                      <span class="badge badge-success badge-sm"
+                        >Multidisiplin</span
+                      >
+                    </td>
+                    <td class="text-sm">
+                      <a
+                        href="javascript:;"
+                        data-bs-toggle="tooltip"
+                        data-bs-original-title="Preview product"
+                      >
+                        <i class="fas fa-eye text-info"></i>
+                      </a>
+                      <a
+                        href="javascript:;"
+                        class="mx-3"
+                        data-bs-toggle="tooltip"
+                        data-bs-original-title="Edit product"
+                      >
+                        <i class="fas fa-user-edit text-primary"></i>
+                      </a>
+                      <a
+                        href="javascript:;"
+                        data-bs-toggle="tooltip"
+                        data-bs-original-title="Delete product"
+                      >
+                        <i class="fas fa-trash text-danger"></i>
+                      </a>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="text-sm">4</td>
+                    <td>
+                      <h6 class="my-auto">Program Kerja 4</h6>
+                    </td>
+                    <td>
+                      <span class="badge badge-primary badge-sm"
+                        >Monodisiplin</span
+                      >
                     </td>
                     <td class="text-sm">
                       <a
@@ -210,12 +252,9 @@
                 </tbody>
                 <tfoot>
                   <tr>
-                    <th>Product</th>
-                    <th>Category</th>
-                    <th>Price</th>
-                    <th>SKU</th>
-                    <th>Quantity</th>
-                    <th>Status</th>
+                    <th class="col-1">No.</th>
+                    <th>Judul Program Kerja</th>
+                    <th>Kategori Program Kerja</th>
                     <th>Action</th>
                   </tr>
                 </tfoot>
@@ -231,12 +270,16 @@
 <script>
 import { DataTable } from "simple-datatables";
 import setTooltip from "@/assets/js/tooltip.js";
+import HeaderProfileCard from "@/views/dashboards/components/HeaderProfileCard.vue";
 
 export default {
-  name: "IndexPengguna",
+  name: "IndexLRK",
+  components: {
+    HeaderProfileCard,
+  },
   mounted() {
-    if (document.getElementById("mhs-list")) {
-      const dataTableSearch = new DataTable("#mhs-list", {
+    if (document.getElementById("lrk-list")) {
+      const dataTableSearch = new DataTable("#lrk-list", {
         searchable: true,
         fixedHeight: false,
         perPage: 7,

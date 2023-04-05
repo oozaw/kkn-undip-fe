@@ -63,6 +63,18 @@ import Pengguna from "../views/admin/pengguna/Index.vue";
 import AddPengguna from "../views/admin/pengguna/AddPengguna.vue";
 import Mahasiswa from "../views/admin/mahasiswa/Index.vue";
 import AddMahasiswa from "../views/admin/mahasiswa/AddMahasiswa.vue";
+import EditProfileMhs from "../views/mahasiswa/pendaftaran/profile/Edit.vue";
+import EditBerkasMhs from "../views/mahasiswa/pendaftaran/berkas/Edit.vue";
+import DaftarLokasi from "../views/mahasiswa/pendaftaran/lokasi/Daftar.vue";
+import IndexPostTest from "../views/mahasiswa/test/Index.vue";
+import IndexLRK from "../views/mahasiswa/kegiatan/lrk/Index.vue";
+import AddLRK from "../views/mahasiswa/kegiatan/lrk/Add.vue";
+import EditLRK from "../views/mahasiswa/kegiatan/lrk/Edit.vue";
+import IndexLPK from "../views/mahasiswa/kegiatan/lpk/Index.vue";
+import EditLPK from "../views/mahasiswa/kegiatan/lpk/Edit.vue";
+import IndexReportase from "../views/mahasiswa/kegiatan/reportase/Index.vue";
+import AddReportase from "../views/mahasiswa/kegiatan/reportase/Add.vue";
+import EditReportase from "../views/mahasiswa/kegiatan/reportase/Edit.vue";
 
 const routes = [
   {
@@ -109,6 +121,66 @@ const routes = [
     path: "/mahasiswa/add",
     name: "Tambah Mahasiswa",
     component: AddMahasiswa,
+  },
+  {
+    path: "/pendaftaran/profile/edit",
+    name: "Edit Data Diri",
+    component: EditProfileMhs,
+  },
+  {
+    path: "/pendaftaran/berkas/edit",
+    name: "Edit Data Berkas",
+    component: EditBerkasMhs,
+  },
+  {
+    path: "/pendaftaran/lokasi/daftar",
+    name: "Daftar Lokasi",
+    component: DaftarLokasi,
+  },
+  {
+    path: "/post-test",
+    name: "Post Test",
+    component: IndexPostTest,
+  },
+  {
+    path: "/kegiatan/lrk",
+    name: "LRK",
+    component: IndexLRK,
+  },
+  {
+    path: "/kegiatan/lrk/add",
+    name: "Tambah LRK",
+    component: AddLRK,
+  },
+  {
+    path: "/kegiatan/lrk/edit",
+    name: "Edit LRK",
+    component: EditLRK,
+  },
+  {
+    path: "/kegiatan/lpk",
+    name: "LPK",
+    component: IndexLPK,
+  },
+  {
+    path: "/kegiatan/lpk/edit",
+    name: "Edit LPK",
+    component: EditLPK,
+  },
+  {
+    path: "/kegiatan/reportase",
+    name: "Reportase",
+    component: IndexReportase,
+  },
+  {
+    path: "/kegiatan/reportase/add",
+    name: "Tambah Reportase",
+    component: AddReportase,
+  },
+  {
+    path: "/kegiatan/reportase/edit",
+    name: "Edit Reportase",
+    component: EditReportase,
   },
   {
     path: "/dashboards/dashboard-default",
