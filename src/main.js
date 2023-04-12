@@ -32,6 +32,7 @@ import {
   faAddressCard,
   faMapLocationDot,
   faFileLines,
+  faListCheck,
 } from "@fortawesome/free-solid-svg-icons";
 
 const icon = [
@@ -41,6 +42,7 @@ const icon = [
   faAddressCard,
   faMapLocationDot,
   faFileLines,
+  faListCheck,
 ];
 
 library.add(icon);

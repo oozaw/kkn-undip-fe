@@ -87,6 +87,18 @@
                   shape: 'rounded-circle',
                 }"
               />
+              <mini-statistics-card
+                :style="'margin-left: 70%'"
+                title="Data Diri"
+                title-color="primary"
+                :value="{ text: 'Sudah Lengkap', color: 'success' }"
+                description="Terakhir diubah 12/12/2020, 12.30 PM"
+                :icon="{
+                  component: 'fa-solid fa-address-card',
+                  background: 'bg-gradient-primary',
+                  shape: 'rounded-circle',
+                }"
+              />
               <div class="row">
                 <div class="col-lg-6 col-md-6 col-12">
                   <mini-statistics-card
@@ -144,9 +156,118 @@
                   />
                 </div>
               </div>
+              <div class="row">
+                <div class="col-lg-6 col-md-6 col-12">
+                  <mini-statistics-card
+                    :style="'margin-left: 70%'"
+                    title="Total Kecamatan Terdaftar"
+                    :value="{ text: '16', color: 'success' }"
+                    description="Diperbarui pada 12/12/2020, 12.30 AM"
+                    :icon="{
+                      component: 'fa-solid fa-list-check',
+                      background: 'bg-gradient-success',
+                      shape: 'rounded-circle',
+                    }"
+                  />
+                </div>
+                <div class="col-lg-6 col-md-6 col-12">
+                  <mini-statistics-card
+                    :style="'margin-left: 70%'"
+                    title="Total Kelurahan Terdaftar"
+                    :value="{ text: '177', color: 'success' }"
+                    description="Diperbarui pada 12/12/2020, 12.30 AM"
+                    :icon="{
+                      component: 'fa-solid fa-list-check',
+                      background: 'bg-gradient-warning',
+                      shape: 'rounded-circle',
+                    }"
+                  />
+                </div>
+              </div>
             </div>
             <div class="col-lg-12 col-sm-12 mt-sm-2">
               <members-table />
+            </div>
+          </div>
+          <div class="col-lg-12 col-sm-12">
+            <div class="bg-white card mt-4">
+              <!-- Card header -->
+              <div class="pb-0 card-header">
+                <div class="d-lg-flex">
+                  <div>
+                    <h5 class="mb-2">List Lokasi KKN</h5>
+                  </div>
+                </div>
+              </div>
+              <div class="ms-2 pt-1 px-0 pb-0 card-body">
+                <div class="table-responsive">
+                  <table id="location-list" class="table table-flush">
+                    <thead class="thead-light">
+                      <tr>
+                        <th class="col-1">No.</th>
+                        <th style="max-width: 50cm">Nama/ Tema KKN</th>
+                        <th>Lokasi</th>
+                        <th>Periode</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td class="text-sm font-weight-bold">1</td>
+                        <td>
+                          <h6 class="my-auto">KKN Reguler Tim I</h6>
+                        </td>
+                        <td class="text-sm font-weight-bold font-weight-bold">
+                          Desa Bergas, Kecamatan Bergas
+                        </td>
+                        <td class="text-sm font-weight-bold">2022/2023</td>
+                      </tr>
+                      <tr>
+                        <td class="text-sm font-weight-bold">2</td>
+                        <td>
+                          <h6 class="my-auto">KKN Reguler Tim II</h6>
+                        </td>
+                        <td class="text-sm font-weight-bold">
+                          Desa Gangga, Kecamatan Gangga
+                        </td>
+                        <td class="text-sm font-weight-bold">2022/2023</td>
+                      </tr>
+                      <tr>
+                        <td class="text-sm font-weight-bold">3</td>
+                        <td>
+                          <h6 class="my-auto">
+                            KKN Tematik Tanggap Bencana Banjir Cianjur
+                          </h6>
+                        </td>
+                        <td class="text-sm font-weight-bold">
+                          Desa Cianjur, Kecamatan Cianjur
+                        </td>
+                        <td class="text-sm font-weight-bold">2022/2023</td>
+                      </tr>
+                      <tr>
+                        <td class="text-sm font-weight-bold">4</td>
+                        <td>
+                          <h6 class="my-auto">
+                            KKN Tematik Pengurangan Risiko Bencana Berbasis
+                            Partisipasi Masyarakat dan Komunitas
+                          </h6>
+                        </td>
+                        <td class="text-sm font-weight-bold">
+                          Desa Kungkat, Kecamatan Kungkat
+                        </td>
+                        <td class="text-sm font-weight-bold">2022/2023</td>
+                      </tr>
+                    </tbody>
+                    <tfoot>
+                      <tr>
+                        <th class="col-1">No.</th>
+                        <th>Nama/ Tema KKN</th>
+                        <th>Lokasi</th>
+                        <th>Periode</th>
+                      </tr>
+                    </tfoot>
+                  </table>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -156,6 +277,8 @@
 </template>
 
 <script>
+import { DataTable } from "simple-datatables";
+import setTooltip from "@/assets/js/tooltip.js";
 import MiniStatisticsCard from "@/views/dashboards/components/Cards/MiniStatisticsCard.vue";
 import Calendar from "@/views/dashboards/components/Calendar.vue";
 import image from "@/assets/img/kal-visuals-square.jpg";
@@ -185,6 +308,33 @@ export default {
       team5,
       team4,
     };
+  },
+  mounted() {
+    if (document.getElementById("location-list")) {
+      const dataTableSearch = new DataTable("#location-list", {
+        searchable: true,
+        fixedHeight: false,
+        perPage: 7,
+      });
+
+      document.querySelectorAll(".export").forEach(function (el) {
+        el.addEventListener("click", function () {
+          var type = el.dataset.type;
+
+          var data = {
+            type: type,
+            filename: "soft-ui-" + type,
+          };
+
+          if (type === "csv") {
+            data.columnDelimiter = "|";
+          }
+
+          dataTableSearch.export(data);
+        });
+      });
+    }
+    setTooltip(this.$store.state.bootstrap);
   },
 };
 </script>
