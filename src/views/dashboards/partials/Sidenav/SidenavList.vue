@@ -87,6 +87,11 @@
                 mini-icon="L"
                 text="Daftar Lokasi"
               />
+              <sidenav-item
+                :to="{ name: 'Registrasi' }"
+                mini-icon="R"
+                text="Registrasi KKN"
+              />
             </ul>
           </template>
         </sidenav-collapse>

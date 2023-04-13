@@ -75,6 +75,8 @@ import EditLPK from "../views/mahasiswa/kegiatan/lpk/Edit.vue";
 import IndexReportase from "../views/mahasiswa/kegiatan/reportase/Index.vue";
 import AddReportase from "../views/mahasiswa/kegiatan/reportase/Add.vue";
 import EditReportase from "../views/mahasiswa/kegiatan/reportase/Edit.vue";
+import IndexRegistrasi from "../views/mahasiswa/pendaftaran/registrasi/Index.vue";
+import AddRegistrasi from "../views/mahasiswa/pendaftaran/registrasi/Add.vue";
 
 const routes = [
   {
@@ -182,6 +184,17 @@ const routes = [
     name: "Edit Reportase",
     component: EditReportase,
   },
+  {
+    path: "/pendaftaran/registrasi",
+    name: "Registrasi",
+    component: IndexRegistrasi,
+  },
+  {
+    path: "/pendaftaran/registrasi/add",
+    name: "Tambah Registrasi",
+    component: AddRegistrasi,
+  },
+
   {
     path: "/dashboards/dashboard-default",
     name: "Default",
