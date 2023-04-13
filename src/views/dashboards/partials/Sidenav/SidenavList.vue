@@ -110,6 +110,23 @@
       </li>
 
       <li class="nav-item">
+        <router-link :to="{ name: 'Post Test' }">
+          <sidenav-collapse
+            nav-text="Seleksi Mahasiswa"
+            :collapse="false"
+            url="#"
+            :aria-controls="''"
+            collapse-ref="/seleksi-mhs"
+            :class="getRoute() === 'seleksi-mhs' ? 'active' : ''"
+          >
+            <template #icon>
+              <i class="ni ni-ui-04 text-info text-sm opacity-10"></i>
+            </template>
+          </sidenav-collapse>
+        </router-link>
+      </li>
+
+      <li class="nav-item">
         <sidenav-collapse
           collapse-ref="kegiatanKKN"
           nav-text="Kegiatan KKN"

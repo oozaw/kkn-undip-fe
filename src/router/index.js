@@ -123,7 +123,7 @@ const routes = [
     component: AddMahasiswa,
   },
   {
-    path: "/pendaftaran/profile/edit",
+    path: "/pendaftaran/data-diri/edit",
     name: "Edit Data Diri",
     component: EditProfileMhs,
   },

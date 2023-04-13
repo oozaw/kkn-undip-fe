@@ -9,7 +9,7 @@
           description="KKN Reguler Tim 1 2023"
           :img="img3"
         />
-        <div id="basic-info" class="card mt-4 pb-3">
+        <div id="card-profile-mhs" class="card mt-4 pb-3">
           <div class="card-header">
             <h5>Data Diri</h5>
           </div>
@@ -127,6 +127,124 @@
             </div>
           </div>
         </div>
+        <div id="car-profile-dosen" class="card mt-4 pb-3">
+          <div class="card-header">
+            <h5>Data Diri</h5>
+          </div>
+          <div class="card-body pt-0">
+            <div class="row">
+              <div class="col-sm-6 col-12">
+                <label class="form-label">Nama Lengkap</label>
+                <argon-input
+                  id="fullname"
+                  type="text"
+                  placeholder="Nama lengkap"
+                />
+              </div>
+              <div class="col-sm-6 col-12">
+                <label class="form-label">NIP</label>
+                <argon-input id="nip" type="number" placeholder="NIP" />
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-sm-4 col-12">
+                <label class="form-label mt-2">Jenis Kelamin</label>
+                <select
+                  id="choices-gender-dosen"
+                  class="form-control"
+                  name="choices-gender"
+                >
+                  <option value="Male">Laki-laki</option>
+                  <option value="Female">Perempuan</option>
+                </select>
+              </div>
+              <div class="col-sm-8 mt-3 mt-sm-0">
+                <div class="row">
+                  <label class="form-label mt-2">Tanggal Lahir</label>
+                  <div class="col-sm-4 col-3">
+                    <select
+                      id="choices-day-dosen"
+                      class="form-control"
+                      name="choices-day"
+                    ></select>
+                  </div>
+                  <div class="col-sm-5 col-5">
+                    <select
+                      id="choices-month-dosen"
+                      class="form-control"
+                      name="choices-month"
+                    ></select>
+                  </div>
+                  <div class="col-sm-3 col-4">
+                    <select
+                      id="choices-year-dosen"
+                      class="form-control"
+                      name="choices-year"
+                    ></select>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row mt-3">
+              <div class="col-sm-6 col-12">
+                <label class="form-label mt-2">Email</label>
+                <argon-input
+                  id="email"
+                  type="email"
+                  placeholder="eg. contoh@email.com"
+                />
+              </div>
+              <div class="col-sm-6 col-12">
+                <label class="form-label mt-2">Domisili</label>
+                <argon-input
+                  id="domisili"
+                  type="text"
+                  placeholder="eg. Jakarta, Indonesia"
+                />
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-sm-6 col-12">
+                <label class="form-label mt-2">Angkatan</label>
+                <argon-input id="angkatan" type="text" placeholder="eg. 2019" />
+              </div>
+              <div class="col-sm-6 col-12">
+                <label class="form-label mt-2">No. Telepon</label>
+                <argon-input
+                  id="phone"
+                  type="text"
+                  placeholder="+628 745 765 439"
+                />
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-sm-6 align-self-center">
+                <label class="form-label mt-2">Fakultas</label>
+                <select
+                  id="choices-fakultas-dosen"
+                  class="form-control"
+                  name="choices-fakultas"
+                >
+                  <option value="FSM">FSM</option>
+                  <option value="FT">FT</option>
+                  <option value="FPsi">FPsi</option>
+                </select>
+              </div>
+              <div class="col-sm-6 align-self-center">
+                <label class="form-label mt-4 mt-sm-2">Jurusan</label>
+                <select
+                  id="choices-jurusan-dosen"
+                  class="form-control"
+                  name="choices-jurusan"
+                >
+                  <option value="Informatika">Informatika</option>
+                  <option value="Matematika">Matematika</option>
+                  <option value="Fisika">Fisika</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -158,103 +276,180 @@ export default {
     };
   },
   mounted() {
+    // mhs-section
     if (document.getElementById("choices-gender")) {
-      var gender = document.getElementById("choices-gender");
-      new Choices(gender, { allowHTML: true });
+      var genderMhs = document.getElementById("choices-gender");
+      new Choices(genderMhs, { allowHTML: true });
     }
 
     if (document.getElementById("choices-fakultas")) {
-      var fakultas = document.getElementById("choices-fakultas");
-      new Choices(fakultas, { allowHTML: true });
+      var fakultasMhs = document.getElementById("choices-fakultas");
+      new Choices(fakultasMhs, { allowHTML: true });
     }
 
     if (document.getElementById("choices-jurusan")) {
-      var jurusan = document.getElementById("choices-jurusan");
-      new Choices(jurusan, { allowHTML: true });
+      var jurusanMhs = document.getElementById("choices-jurusan");
+      new Choices(jurusanMhs, { allowHTML: true });
     }
 
     if (document.getElementById("choices-month")) {
-      var month = document.getElementById("choices-month");
+      var monthMhs = document.getElementById("choices-month");
       setTimeout(function () {
-        new Choices(month, { allowHTML: true });
+        new Choices(monthMhs, { allowHTML: true });
       }, 1);
 
       // eslint-disable-next-line no-unused-vars
-      var d = new Date();
-      var monthArray = new Array();
-      monthArray[0] = "January";
-      monthArray[1] = "February";
-      monthArray[2] = "March";
-      monthArray[3] = "April";
-      monthArray[4] = "May";
-      monthArray[5] = "June";
-      monthArray[6] = "July";
-      monthArray[7] = "August";
-      monthArray[8] = "September";
-      monthArray[9] = "October";
-      monthArray[10] = "November";
-      monthArray[11] = "December";
+      var dMhs = new Date();
+      var monthArrayMhs = new Array();
+      monthArrayMhs[0] = "January";
+      monthArrayMhs[1] = "February";
+      monthArrayMhs[2] = "March";
+      monthArrayMhs[3] = "April";
+      monthArrayMhs[4] = "May";
+      monthArrayMhs[5] = "June";
+      monthArrayMhs[6] = "July";
+      monthArrayMhs[7] = "August";
+      monthArrayMhs[8] = "September";
+      monthArrayMhs[9] = "October";
+      monthArrayMhs[10] = "November";
+      monthArrayMhs[11] = "December";
       for (let m = 0; m <= 11; m++) {
-        var optn = document.createElement("OPTION");
-        optn.text = monthArray[m];
+        var optnMhs = document.createElement("OPTION");
+        optnMhs.text = monthArrayMhs[m];
         // server side month start from one\
-        optn.value = m + 1;
+        optnMhs.value = m + 1;
         // if june selected
         if (m == 1) {
-          optn.selected = true;
+          optnMhs.selected = true;
         }
-        month.options.add(optn);
+        monthMhs.options.add(optnMhs);
       }
     }
 
     if (document.getElementById("choices-day")) {
-      var day = document.getElementById("choices-day");
+      var dayMhs = document.getElementById("choices-day");
       setTimeout(function () {
-        new Choices(day, { allowHTML: true });
+        new Choices(dayMhs, { allowHTML: true });
       }, 1);
 
       for (let y = 1; y <= 31; y++) {
-        var optn1 = document.createElement("OPTION");
-        optn1.text = y;
-        optn1.value = y;
+        var optn1Mhs = document.createElement("OPTION");
+        optn1Mhs.text = y;
+        optn1Mhs.value = y;
 
         if (y == 1) {
-          optn1.selected = true;
+          optn1Mhs.selected = true;
         }
 
-        day.options.add(optn1);
+        dayMhs.options.add(optn1Mhs);
       }
     }
 
     if (document.getElementById("choices-year")) {
-      var year = document.getElementById("choices-year");
+      var yearMhs = document.getElementById("choices-year");
       setTimeout(function () {
-        new Choices(year, { allowHTML: true });
+        new Choices(yearMhs, { allowHTML: true });
       }, 1);
 
       for (let y = 1900; y <= 2020; y++) {
-        var optn2 = document.createElement("OPTION");
-        optn2.text = y;
-        optn2.value = y;
+        var optn2Mhs = document.createElement("OPTION");
+        optn2Mhs.text = y;
+        optn2Mhs.value = y;
 
         if (y == 2020) {
-          optn.selected = true;
+          optn2Mhs.selected = true;
         }
 
-        year.options.add(optn2);
+        yearMhs.options.add(optn2Mhs);
       }
     }
 
-    if (document.getElementById("choices-skills")) {
-      var skills = document.getElementById("choices-skills");
-      new Choices(skills, {
-        delimiter: ",",
-        editItems: true,
-        maxItemCount: 5,
-        removeItemButton: true,
-        addItems: true,
-        allowHTML: true,
-      });
+    // dosen-section
+    if (document.getElementById("choices-gender-dosen")) {
+      var genderDosen = document.getElementById("choices-gender-dosen");
+      new Choices(genderDosen, { allowHTML: true });
+    }
+
+    if (document.getElementById("choices-fakultas-dosen")) {
+      var fakultasDosen = document.getElementById("choices-fakultas-dosen");
+      new Choices(fakultasDosen, { allowHTML: true });
+    }
+
+    if (document.getElementById("choices-jurusan-dosen")) {
+      var jurusanDosen = document.getElementById("choices-jurusan-dosen");
+      new Choices(jurusanDosen, { allowHTML: true });
+    }
+
+    if (document.getElementById("choices-month-dosen")) {
+      var monthDosen = document.getElementById("choices-month-dosen");
+      setTimeout(function () {
+        new Choices(monthDosen, { allowHTML: true });
+      }, 1);
+
+      // eslint-disable-next-line no-unused-vars
+      var dDosen = new Date();
+      var monthArrayDosen = new Array();
+      monthArrayDosen[0] = "January";
+      monthArrayDosen[1] = "February";
+      monthArrayDosen[2] = "March";
+      monthArrayDosen[3] = "April";
+      monthArrayDosen[4] = "May";
+      monthArrayDosen[5] = "June";
+      monthArrayDosen[6] = "July";
+      monthArrayDosen[7] = "August";
+      monthArrayDosen[8] = "September";
+      monthArrayDosen[9] = "October";
+      monthArrayDosen[10] = "November";
+      monthArrayDosen[11] = "December";
+      for (let m = 0; m <= 11; m++) {
+        var optnDosen = document.createElement("OPTION");
+        optnDosen.text = monthArrayDosen[m];
+        // server side month start from one\
+        optnDosen.value = m + 1;
+        // if june selected
+        if (m == 1) {
+          optnDosen.selected = true;
+        }
+        monthDosen.options.add(optnDosen);
+      }
+    }
+
+    if (document.getElementById("choices-day-dosen")) {
+      var dayDosen = document.getElementById("choices-day-dosen");
+      setTimeout(function () {
+        new Choices(dayDosen, { allowHTML: true });
+      }, 1);
+
+      for (let y = 1; y <= 31; y++) {
+        var optn1Dosen = document.createElement("OPTION");
+        optn1Dosen.text = y;
+        optn1Dosen.value = y;
+
+        if (y == 1) {
+          optn1Dosen.selected = true;
+        }
+
+        dayDosen.options.add(optn1Dosen);
+      }
+    }
+
+    if (document.getElementById("choices-year-dosen")) {
+      var yearDosen = document.getElementById("choices-year-dosen");
+      setTimeout(function () {
+        new Choices(yearDosen, { allowHTML: true });
+      }, 1);
+
+      for (let y = 1900; y <= 2020; y++) {
+        var optn2Dosen = document.createElement("OPTION");
+        optn2Dosen.text = y;
+        optn2Dosen.value = y;
+
+        if (y == 2020) {
+          optn2Dosen.selected = true;
+        }
+
+        yearDosen.options.add(optn2Dosen);
+      }
     }
   },
 };
