@@ -323,7 +323,7 @@ import ArgonCheckbox from "@/components/ArgonCheckbox.vue";
 import ArgonButton from "@/components/ArgonButton.vue";
 
 export default {
-  name: "IndexReportase",
+  name: "IndexSeleksiMhs",
   components: {
     HeaderProfileCard,
     ArgonCheckbox,
