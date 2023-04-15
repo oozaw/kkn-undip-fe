@@ -150,6 +150,11 @@
                 mini-icon="R"
                 text="Data Reportase"
               />
+              <sidenav-item
+                :to="{ name: 'Presensi' }"
+                mini-icon="P"
+                text="Presensi"
+              />
             </ul>
           </template>
         </sidenav-collapse>
