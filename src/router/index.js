@@ -77,6 +77,7 @@ import AddReportase from "../views/kegiatan/reportase/Add.vue";
 import EditReportase from "../views/kegiatan/reportase/Edit.vue";
 import IndexRegistrasi from "../views/pendaftaran/registrasi/Index.vue";
 import AddRegistrasi from "../views/pendaftaran/registrasi/Add.vue";
+import SeleksiMhs from "../views/seleksi/Index.vue";
 
 const routes = [
   {
@@ -194,7 +195,13 @@ const routes = [
     name: "Tambah Registrasi",
     component: AddRegistrasi,
   },
+  {
+    path: "/seleksi-mhs",
+    name: "Seleksi",
+    component: SeleksiMhs,
+  },
 
+  // =================================================================================================
   {
     path: "/dashboards/dashboard-default",
     name: "Default",

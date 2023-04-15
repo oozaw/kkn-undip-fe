@@ -115,7 +115,7 @@
       </li>
 
       <li class="nav-item">
-        <router-link :to="{ name: 'Post Test' }">
+        <router-link :to="{ name: 'Seleksi' }">
           <sidenav-collapse
             nav-text="Seleksi Mahasiswa"
             :collapse="false"
