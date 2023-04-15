@@ -202,7 +202,7 @@ const routes = [
     component: SeleksiMhs,
   },
   {
-    path: "/presensi",
+    path: "/kegiatan/presensi",
     name: "Presensi",
     component: Presensi,
   },
