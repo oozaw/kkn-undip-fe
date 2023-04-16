@@ -87,7 +87,7 @@
                       </div>
                     </div>
                     <button
-                      class="mt-1 mb-0 btn btn-outline-success btn-sm export mt-sm-0"
+                      class="mt-1 mb-0 btn btn-outline-success btn-sm export-mhs-sec mt-sm-0"
                       data-type="csv"
                       type="button"
                       name="button"
@@ -298,7 +298,7 @@
                 <div class="my-auto mt-4 ms-auto mt-lg-0">
                   <div class="my-auto ms-auto">
                     <button
-                      class="mt-1 mb-0 btn btn-outline-success btn-sm export mt-sm-0"
+                      class="mt-1 mb-0 btn btn-outline-success btn-sm export-dosen-sec mt-sm-0"
                       data-type="csv"
                       type="button"
                       name="button"
@@ -311,7 +311,7 @@
             </div>
             <div class="ms-2 pt-1 px-0 pb-0 card-body">
               <div class="table-responsive">
-                <table id="mhs-list" class="table table-flush">
+                <table id="lrk-dosen-section-list" class="table table-flush">
                   <thead class="thead-light">
                     <tr>
                       <th class="col-1 ps-2">No.</th>
@@ -532,7 +532,13 @@ export default {
   components: {
     HeaderProfileCard,
   },
+  data() {
+    return {
+      tema: "tema",
+    };
+  },
   mounted() {
+    this.getTema();
     this.getChoices("choices-tema");
 
     if (document.getElementById("lrk-list")) {
@@ -542,13 +548,13 @@ export default {
         perPage: 5,
       });
 
-      document.querySelectorAll(".export").forEach(function (el) {
+      document.querySelectorAll(".export-mhs-sec").forEach(function (el) {
         el.addEventListener("click", function () {
           var type = el.dataset.type;
 
           var data = {
             type: type,
-            filename: "Data LRK" + type,
+            filename: "Data LRK",
           };
 
           if (type === "csv") {
@@ -559,20 +565,22 @@ export default {
         });
       });
     }
-    if (document.getElementById("mhs-list")) {
-      const dataTableSearch = new DataTable("#mhs-list", {
+    if (document.getElementById("lrk-dosen-section-list")) {
+      const dataTableSearch = new DataTable("#lrk-dosen-section-list", {
         searchable: true,
         fixedHeight: false,
         perPage: 5,
       });
 
-      document.querySelectorAll(".export").forEach(function (el) {
+      document.querySelectorAll(".export-dosen-sec").forEach(function (el) {
         el.addEventListener("click", function () {
           var type = el.dataset.type;
+          var tema =
+            document.getElementById("choices-tema").selectedOptions[0].text;
 
           var data = {
             type: type,
-            filename: "Data LRK" + type,
+            filename: "Data LRK " + tema,
           };
 
           if (type === "csv") {
@@ -594,6 +602,11 @@ export default {
           allowHTML: true,
         });
       }
+    },
+
+    getTema() {
+      this.tema =
+        document.getElementById("choices-tema").selectedOptions[0].text;
     },
   },
 };
