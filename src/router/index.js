@@ -81,6 +81,7 @@ import SeleksiMhs from "../views/seleksi/Index.vue";
 import Presensi from "../views/kegiatan/presensi/Index.vue";
 import IndexNilai from "../views/kegiatan/nilai/Index.vue";
 import EditNilai from "../views/kegiatan/nilai/Edit.vue";
+import EditProfilWilayah from "../views/profile-wilayah/Edit.vue";
 
 const routes = [
   {
@@ -217,6 +218,11 @@ const routes = [
     path: "/kegiatan/nilai/edit",
     name: "Edit Nilai Akhir",
     component: EditNilai,
+  },
+  {
+    path: "/profil-wilayah/edit",
+    name: "Profil Wilayah",
+    component: EditProfilWilayah,
   },
 
   // =================================================================================================

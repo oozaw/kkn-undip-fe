@@ -61,6 +61,26 @@
         </router-link>
       </li>
       <li class="nav-item">
+        <router-link :to="{ name: 'Profil Wilayah' }">
+          <sidenav-collapse
+            nav-text="Profil Wilayah"
+            :collapse="false"
+            url="#"
+            :aria-controls="''"
+            collapse-ref="/profil-wilayah/edit"
+            :class="getRoute() === 'profil-wilayah' ? 'active' : ''"
+          >
+            <template #icon>
+              <font-awesome-icon
+                icon="fa-solid fa-map-location-dot"
+                class="text-warning"
+              />
+              <!-- <i class="ni ni-single-02 text-success text-sm"></i> -->
+            </template>
+          </sidenav-collapse>
+        </router-link>
+      </li>
+      <li class="nav-item">
         <sidenav-collapse
           collapse-ref="pendaftaran"
           nav-text="Pendaftaran KKN"
