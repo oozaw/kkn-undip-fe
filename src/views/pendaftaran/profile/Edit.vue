@@ -152,7 +152,7 @@
                 <select
                   id="choices-gender-dosen"
                   class="form-control"
-                  name="choices-gender"
+                  name="choices-gender-dosen"
                 >
                   <option value="Male">Laki-laki</option>
                   <option value="Female">Perempuan</option>
@@ -165,21 +165,21 @@
                     <select
                       id="choices-day-dosen"
                       class="form-control"
-                      name="choices-day"
+                      name="choices-day-dosen"
                     ></select>
                   </div>
                   <div class="col-sm-5 col-5">
                     <select
                       id="choices-month-dosen"
                       class="form-control"
-                      name="choices-month"
+                      name="choices-month-dosen"
                     ></select>
                   </div>
                   <div class="col-sm-3 col-4">
                     <select
                       id="choices-year-dosen"
                       class="form-control"
-                      name="choices-year"
+                      name="choices-year-dosen"
                     ></select>
                   </div>
                 </div>
@@ -223,7 +223,7 @@
                 <select
                   id="choices-fakultas-dosen"
                   class="form-control"
-                  name="choices-fakultas"
+                  name="choices-fakultas-dosen"
                 >
                   <option value="FSM">FSM</option>
                   <option value="FT">FT</option>
@@ -235,7 +235,7 @@
                 <select
                   id="choices-jurusan-dosen"
                   class="form-control"
-                  name="choices-jurusan"
+                  name="choices-jurusan-dosen"
                 >
                   <option value="Informatika">Informatika</option>
                   <option value="Matematika">Matematika</option>
@@ -251,7 +251,7 @@
 </template>
 
 <script>
-import * as Choices from "choices.js";
+import Choices from "choices.js";
 import HeaderProfileCard from "@/views/dashboards/components/HeaderProfileCard.vue";
 import ArgonInput from "@/components/ArgonInput.vue";
 import img from "@/assets/img/team-3.jpg";
@@ -277,20 +277,9 @@ export default {
   },
   mounted() {
     // mhs-section
-    if (document.getElementById("choices-gender")) {
-      var genderMhs = document.getElementById("choices-gender");
-      new Choices(genderMhs, { allowHTML: true });
-    }
-
-    if (document.getElementById("choices-fakultas")) {
-      var fakultasMhs = document.getElementById("choices-fakultas");
-      new Choices(fakultasMhs, { allowHTML: true });
-    }
-
-    if (document.getElementById("choices-jurusan")) {
-      var jurusanMhs = document.getElementById("choices-jurusan");
-      new Choices(jurusanMhs, { allowHTML: true });
-    }
+    this.getChoices("choices-gender");
+    this.getChoices("choices-fakultas");
+    this.getChoices("choices-jurusan");
 
     if (document.getElementById("choices-month")) {
       var monthMhs = document.getElementById("choices-month");
@@ -365,20 +354,9 @@ export default {
     }
 
     // dosen-section
-    if (document.getElementById("choices-gender-dosen")) {
-      var genderDosen = document.getElementById("choices-gender-dosen");
-      new Choices(genderDosen, { allowHTML: true });
-    }
-
-    if (document.getElementById("choices-fakultas-dosen")) {
-      var fakultasDosen = document.getElementById("choices-fakultas-dosen");
-      new Choices(fakultasDosen, { allowHTML: true });
-    }
-
-    if (document.getElementById("choices-jurusan-dosen")) {
-      var jurusanDosen = document.getElementById("choices-jurusan-dosen");
-      new Choices(jurusanDosen, { allowHTML: true });
-    }
+    this.getChoices("choices-gender-dosen");
+    this.getChoices("choices-fakultas-dosen");
+    this.getChoices("choices-jurusan-dosen");
 
     if (document.getElementById("choices-month-dosen")) {
       var monthDosen = document.getElementById("choices-month-dosen");
@@ -451,6 +429,17 @@ export default {
         yearDosen.options.add(optn2Dosen);
       }
     }
+  },
+  methods: {
+    getChoices(id) {
+      if (document.getElementById(id)) {
+        var element = document.getElementById(id);
+        return new Choices(element, {
+          searchEnabled: false,
+          allowHTML: true,
+        });
+      }
+    },
   },
 };
 </script>

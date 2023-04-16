@@ -47,7 +47,7 @@
 import HeaderProfileCard from "@/views/dashboards/components/HeaderProfileCard.vue";
 import TestCard from "@/views/dashboards/components/Cards/TestCard.vue";
 
-import slackLogo from "../../../assets/img/small-logos/logo-slack.svg";
+import slackLogo from "../../assets/img/small-logos/logo-slack.svg";
 
 export default {
   name: "IndexPostTest",

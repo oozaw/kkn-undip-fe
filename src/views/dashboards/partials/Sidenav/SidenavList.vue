@@ -87,6 +87,11 @@
                 mini-icon="L"
                 text="Daftar Lokasi"
               />
+              <sidenav-item
+                :to="{ name: 'Registrasi' }"
+                mini-icon="R"
+                text="Registrasi KKN"
+              />
             </ul>
           </template>
         </sidenav-collapse>
@@ -110,7 +115,7 @@
       </li>
 
       <li class="nav-item">
-        <router-link :to="{ name: 'Post Test' }">
+        <router-link :to="{ name: 'Seleksi' }">
           <sidenav-collapse
             nav-text="Seleksi Mahasiswa"
             :collapse="false"
@@ -144,6 +149,16 @@
                 :to="{ name: 'Reportase' }"
                 mini-icon="R"
                 text="Data Reportase"
+              />
+              <sidenav-item
+                :to="{ name: 'Presensi' }"
+                mini-icon="P"
+                text="Presensi"
+              />
+              <sidenav-item
+                :to="{ name: 'Nilai Akhir' }"
+                mini-icon="N"
+                text="Nilai Akhir Mahasiswa"
               />
             </ul>
           </template>

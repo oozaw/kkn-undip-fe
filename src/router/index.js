@@ -63,18 +63,24 @@ import Pengguna from "../views/admin/pengguna/Index.vue";
 import AddPengguna from "../views/admin/pengguna/AddPengguna.vue";
 import Mahasiswa from "../views/admin/mahasiswa/Index.vue";
 import AddMahasiswa from "../views/admin/mahasiswa/AddMahasiswa.vue";
-import EditProfileMhs from "../views/mahasiswa/pendaftaran/profile/Edit.vue";
-import EditBerkasMhs from "../views/mahasiswa/pendaftaran/berkas/Edit.vue";
-import DaftarLokasi from "../views/mahasiswa/pendaftaran/lokasi/Daftar.vue";
-import IndexPostTest from "../views/mahasiswa/test/Index.vue";
-import IndexLRK from "../views/mahasiswa/kegiatan/lrk/Index.vue";
-import AddLRK from "../views/mahasiswa/kegiatan/lrk/Add.vue";
-import EditLRK from "../views/mahasiswa/kegiatan/lrk/Edit.vue";
-import IndexLPK from "../views/mahasiswa/kegiatan/lpk/Index.vue";
-import EditLPK from "../views/mahasiswa/kegiatan/lpk/Edit.vue";
-import IndexReportase from "../views/mahasiswa/kegiatan/reportase/Index.vue";
-import AddReportase from "../views/mahasiswa/kegiatan/reportase/Add.vue";
-import EditReportase from "../views/mahasiswa/kegiatan/reportase/Edit.vue";
+import EditProfileMhs from "../views/pendaftaran/profile/Edit.vue";
+import EditBerkasMhs from "../views/pendaftaran/berkas/Edit.vue";
+import DaftarLokasi from "../views/pendaftaran/lokasi/Daftar.vue";
+import IndexPostTest from "../views/test/Index.vue";
+import IndexLRK from "../views/kegiatan/lrk/Index.vue";
+import AddLRK from "../views/kegiatan/lrk/Add.vue";
+import EditLRK from "../views/kegiatan/lrk/Edit.vue";
+import IndexLPK from "../views/kegiatan/lpk/Index.vue";
+import EditLPK from "../views/kegiatan/lpk/Edit.vue";
+import IndexReportase from "../views/kegiatan/reportase/Index.vue";
+import AddReportase from "../views/kegiatan/reportase/Add.vue";
+import EditReportase from "../views/kegiatan/reportase/Edit.vue";
+import IndexRegistrasi from "../views/pendaftaran/registrasi/Index.vue";
+import AddRegistrasi from "../views/pendaftaran/registrasi/Add.vue";
+import SeleksiMhs from "../views/seleksi/Index.vue";
+import Presensi from "../views/kegiatan/presensi/Index.vue";
+import IndexNilai from "../views/kegiatan/nilai/Index.vue";
+import EditNilai from "../views/kegiatan/nilai/Edit.vue";
 
 const routes = [
   {
@@ -182,6 +188,38 @@ const routes = [
     name: "Edit Reportase",
     component: EditReportase,
   },
+  {
+    path: "/pendaftaran/registrasi",
+    name: "Registrasi",
+    component: IndexRegistrasi,
+  },
+  {
+    path: "/pendaftaran/registrasi/add",
+    name: "Tambah Registrasi",
+    component: AddRegistrasi,
+  },
+  {
+    path: "/seleksi-mhs",
+    name: "Seleksi",
+    component: SeleksiMhs,
+  },
+  {
+    path: "/kegiatan/presensi",
+    name: "Presensi",
+    component: Presensi,
+  },
+  {
+    path: "/kegiatan/nilai",
+    name: "Nilai Akhir",
+    component: IndexNilai,
+  },
+  {
+    path: "/kegiatan/nilai/edit",
+    name: "Edit Nilai Akhir",
+    component: EditNilai,
+  },
+
+  // =================================================================================================
   {
     path: "/dashboards/dashboard-default",
     name: "Default",
