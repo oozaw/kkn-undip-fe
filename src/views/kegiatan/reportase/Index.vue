@@ -553,8 +553,6 @@ export default {
     this.getTema();
     this.getChoices("choices-tema");
 
-    const tema = this.tema;
-
     if (document.getElementById("reportase-list")) {
       const dataTableSearch = new DataTable("#reportase-list", {
         searchable: true,
@@ -568,7 +566,7 @@ export default {
 
           var data = {
             type: type,
-            filename: "Data Reportase " + tema + type,
+            filename: "Data Reportase",
           };
 
           if (type === "csv") {
@@ -590,10 +588,12 @@ export default {
       document.querySelectorAll(".export-dosen-sec").forEach(function (el) {
         el.addEventListener("click", function () {
           var type = el.dataset.type;
+          var tema =
+            document.getElementById("choices-tema").selectedOptions[0].text;
 
           var data = {
             type: type,
-            filename: "Data Reportase " + tema + type,
+            filename: "Data Reportase " + tema,
           };
 
           if (type === "csv") {
