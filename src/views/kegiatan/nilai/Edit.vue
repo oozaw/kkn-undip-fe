@@ -73,7 +73,7 @@
                   id="nila_lrk"
                   name="nila_lrk"
                   type="number"
-                  placeholder="Nilai lrk"
+                  placeholder="Nilai LRK"
                 />
               </div>
               <div class="col-sm-3 col-12">
@@ -86,12 +86,12 @@
                 />
               </div>
               <div class="col-sm-3 col-12">
-                <label class="form-label mt-2">Nilai Lpk</label>
+                <label class="form-label mt-2">Nilai LPK</label>
                 <argon-input
                   id="nilai_lpk"
                   name="nilai_lpk"
                   type="number"
-                  placeholder="Nilai lpk"
+                  placeholder="Nilai LPK"
                 />
               </div>
               <div class="col-sm-3 col-12">
