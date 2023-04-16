@@ -79,6 +79,8 @@ import IndexRegistrasi from "../views/pendaftaran/registrasi/Index.vue";
 import AddRegistrasi from "../views/pendaftaran/registrasi/Add.vue";
 import SeleksiMhs from "../views/seleksi/Index.vue";
 import Presensi from "../views/kegiatan/presensi/Index.vue";
+import IndexNilai from "../views/kegiatan/nilai/Index.vue";
+import EditNilai from "../views/kegiatan/nilai/Edit.vue";
 
 const routes = [
   {
@@ -205,6 +207,16 @@ const routes = [
     path: "/kegiatan/presensi",
     name: "Presensi",
     component: Presensi,
+  },
+  {
+    path: "/kegiatan/nilai",
+    name: "Nilai Akhir",
+    component: IndexNilai,
+  },
+  {
+    path: "/kegiatan/nilai/edit",
+    name: "Edit Nilai Akhir",
+    component: EditNilai,
   },
 
   // =================================================================================================

@@ -155,6 +155,11 @@
                 mini-icon="P"
                 text="Presensi"
               />
+              <sidenav-item
+                :to="{ name: 'Nilai Akhir' }"
+                mini-icon="N"
+                text="Nilai Akhir Mahasiswa"
+              />
             </ul>
           </template>
         </sidenav-collapse>
