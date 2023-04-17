@@ -83,6 +83,7 @@ import IndexNilai from "../views/kegiatan/nilai/Index.vue";
 import EditNilai from "../views/kegiatan/nilai/Edit.vue";
 import EditProfilWilayah from "../views/profile-wilayah/Edit.vue";
 import IndexPengajuanLokasi from "../views/pengajuan-lokasi/Index.vue";
+import AddKecamatan from "../views/pengajuan-lokasi/kecamatan/Add.vue";
 
 const routes = [
   {
@@ -229,6 +230,11 @@ const routes = [
     path: "/pengajuan-lokasi",
     name: "Pengajuan Lokasi",
     component: IndexPengajuanLokasi,
+  },
+  {
+    path: "/pengajuan-lokasi/kecamatan/add",
+    name: "Tambah Kecamatan",
+    component: AddKecamatan,
   },
 
   // =================================================================================================
