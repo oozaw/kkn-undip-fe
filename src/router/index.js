@@ -81,6 +81,12 @@ import SeleksiMhs from "../views/seleksi/Index.vue";
 import Presensi from "../views/kegiatan/presensi/Index.vue";
 import IndexNilai from "../views/kegiatan/nilai/Index.vue";
 import EditNilai from "../views/kegiatan/nilai/Edit.vue";
+import EditProfilWilayah from "../views/profile-wilayah/Edit.vue";
+import IndexPengajuanLokasi from "../views/pengajuan-lokasi/Index.vue";
+import AddKecamatan from "../views/pengajuan-lokasi/kecamatan/Add.vue";
+import EditKecamatan from "../views/pengajuan-lokasi/kecamatan/Edit.vue";
+import AddDesa from "../views/pengajuan-lokasi/desa/Add.vue";
+import EditDesa from "../views/pengajuan-lokasi/desa/Edit.vue";
 
 const routes = [
   {
@@ -217,6 +223,36 @@ const routes = [
     path: "/kegiatan/nilai/edit",
     name: "Edit Nilai Akhir",
     component: EditNilai,
+  },
+  {
+    path: "/profil-wilayah/edit",
+    name: "Profil Wilayah",
+    component: EditProfilWilayah,
+  },
+  {
+    path: "/pengajuan-lokasi",
+    name: "Pengajuan Lokasi",
+    component: IndexPengajuanLokasi,
+  },
+  {
+    path: "/pengajuan-lokasi/kecamatan/add",
+    name: "Tambah Kecamatan",
+    component: AddKecamatan,
+  },
+  {
+    path: "/pengajuan-lokasi/kecamatan/edit",
+    name: "Edit Kecamatan",
+    component: EditKecamatan,
+  },
+  {
+    path: "/pengajuan-lokasi/desa/add",
+    name: "Tambah Desa",
+    component: AddDesa,
+  },
+  {
+    path: "/pengajuan-lokasi/desa/edit",
+    name: "Edit Desa",
+    component: EditDesa,
   },
 
   // =================================================================================================

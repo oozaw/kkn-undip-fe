@@ -61,6 +61,66 @@
         </router-link>
       </li>
       <li class="nav-item">
+        <router-link :to="{ name: 'Edit Data Diri' }">
+          <sidenav-collapse
+            nav-text="Profil Diri"
+            :collapse="false"
+            url="#"
+            :aria-controls="''"
+            collapse-ref="/pendaftaran/data-diri/edit"
+            :class="getRoute2() === 'data-diri' ? 'active' : ''"
+          >
+            <template #icon>
+              <font-awesome-icon
+                icon="fa-solid fa-user-tie"
+                class="text-primary"
+              />
+              <!-- <i class="ni ni-single-02 text-success text-sm"></i> -->
+            </template>
+          </sidenav-collapse>
+        </router-link>
+      </li>
+      <li class="nav-item">
+        <router-link :to="{ name: 'Profil Wilayah' }">
+          <sidenav-collapse
+            nav-text="Profil Wilayah"
+            :collapse="false"
+            url="#"
+            :aria-controls="''"
+            collapse-ref="/profil-wilayah/edit"
+            :class="getRoute() === 'profil-wilayah' ? 'active' : ''"
+          >
+            <template #icon>
+              <font-awesome-icon
+                icon="fa-solid fa-map-location-dot"
+                class="text-warning"
+              />
+              <!-- <i class="ni ni-single-02 text-success text-sm"></i> -->
+            </template>
+          </sidenav-collapse>
+        </router-link>
+      </li>
+      <li class="nav-item">
+        <router-link :to="{ name: 'Pengajuan Lokasi' }">
+          <sidenav-collapse
+            nav-text="Pengajuan Lokasi KKN"
+            :collapse="false"
+            url="#"
+            :aria-controls="''"
+            collapse-ref="/pengajuan-lokasi"
+            :class="getRoute() === 'pengajuan-lokasi' ? 'active' : ''"
+          >
+            <template #icon>
+              <font-awesome-icon
+                icon="fa-solid fa-map-location-dot"
+                class="text-success"
+              />
+              <!-- <i class="ni ni-single-02 text-success text-sm"></i> -->
+            </template>
+          </sidenav-collapse>
+        </router-link>
+      </li>
+      <li class="nav-item">
         <sidenav-collapse
           collapse-ref="pendaftaran"
           nav-text="Pendaftaran KKN"
@@ -201,6 +261,11 @@ export default {
       const routeArr = this.$route.path.split("/");
       // console.log(this.$route.path.split("/")[1]);
       return routeArr[1];
+    },
+    getRoute2() {
+      const routeArr = this.$route.path.split("/");
+      // console.log(this.$route.path.split("/")[1]);
+      return routeArr[2];
     },
   },
 };
