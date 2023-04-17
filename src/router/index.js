@@ -85,6 +85,7 @@ import EditProfilWilayah from "../views/profile-wilayah/Edit.vue";
 import IndexPengajuanLokasi from "../views/pengajuan-lokasi/Index.vue";
 import AddKecamatan from "../views/pengajuan-lokasi/kecamatan/Add.vue";
 import EditKecamatan from "../views/pengajuan-lokasi/kecamatan/Edit.vue";
+import AddDesa from "../views/pengajuan-lokasi/desa/Add.vue";
 
 const routes = [
   {
@@ -241,6 +242,11 @@ const routes = [
     path: "/pengajuan-lokasi/kecamatan/edit",
     name: "Edit Kecamatan",
     component: EditKecamatan,
+  },
+  {
+    path: "/pengajuan-lokasi/desa/add",
+    name: "Tambah Desa",
+    component: AddDesa,
   },
 
   // =================================================================================================
