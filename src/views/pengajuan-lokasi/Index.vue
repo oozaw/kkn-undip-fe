@@ -3,8 +3,6 @@
     <div class="row mb-5 mt-4">
       <div class="col-lg-12 mt-lg-0 mt-4">
         <HeaderProfileCard
-          :button="true"
-          button-text="Simpan data wilayah"
           name="BAPPEDA Kota Semarang"
           description="Kota Semarang, Jawa Tengah, Indonesia"
         />
@@ -44,7 +42,7 @@
                 <div class="my-auto ms-auto">
                   <a
                     class="mb-0 btn btn-success btn-sm mt-sm-0 me-3"
-                    href="/pengajuan-lokasi/kec/add"
+                    href="/pengajuan-lokasi/kecamatan/add"
                   >
                     + Tambah Kecamatan
                   </a>
