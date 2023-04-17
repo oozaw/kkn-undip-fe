@@ -16,7 +16,7 @@
           <div class="card-body pt-0">
             <div class="row">
               <div class="col-12">
-                <label class="form-label">Kecmatan</label>
+                <label class="form-label">Kecamatan</label>
                 <argon-input
                   id="nama-kecamatan"
                   type="text"
