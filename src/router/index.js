@@ -86,6 +86,7 @@ import IndexPengajuanLokasi from "../views/pengajuan-lokasi/Index.vue";
 import AddKecamatan from "../views/pengajuan-lokasi/kecamatan/Add.vue";
 import EditKecamatan from "../views/pengajuan-lokasi/kecamatan/Edit.vue";
 import AddDesa from "../views/pengajuan-lokasi/desa/Add.vue";
+import EditDesa from "../views/pengajuan-lokasi/desa/Edit.vue";
 
 const routes = [
   {
@@ -247,6 +248,11 @@ const routes = [
     path: "/pengajuan-lokasi/desa/add",
     name: "Tambah Desa",
     component: AddDesa,
+  },
+  {
+    path: "/pengajuan-lokasi/desa/edit",
+    name: "Edit Desa",
+    component: EditDesa,
   },
 
   // =================================================================================================
