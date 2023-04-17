@@ -82,6 +82,7 @@ import Presensi from "../views/kegiatan/presensi/Index.vue";
 import IndexNilai from "../views/kegiatan/nilai/Index.vue";
 import EditNilai from "../views/kegiatan/nilai/Edit.vue";
 import EditProfilWilayah from "../views/profile-wilayah/Edit.vue";
+import IndexPengajuanLokasi from "../views/pengajuan-lokasi/Index.vue";
 
 const routes = [
   {
@@ -223,6 +224,11 @@ const routes = [
     path: "/profil-wilayah/edit",
     name: "Profil Wilayah",
     component: EditProfilWilayah,
+  },
+  {
+    path: "/pengajuan-lokasi",
+    name: "Pengajuan Lokasi",
+    component: IndexPengajuanLokasi,
   },
 
   // =================================================================================================

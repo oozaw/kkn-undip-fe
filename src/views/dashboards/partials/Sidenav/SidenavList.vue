@@ -81,6 +81,26 @@
         </router-link>
       </li>
       <li class="nav-item">
+        <router-link :to="{ name: 'Pengajuan Lokasi' }">
+          <sidenav-collapse
+            nav-text="Pengajuan Lokasi KKN"
+            :collapse="false"
+            url="#"
+            :aria-controls="''"
+            collapse-ref="/pengajuan-lokasi"
+            :class="getRoute() === 'pengajuan-lokasi' ? 'active' : ''"
+          >
+            <template #icon>
+              <font-awesome-icon
+                icon="fa-solid fa-map-location-dot"
+                class="text-success"
+              />
+              <!-- <i class="ni ni-single-02 text-success text-sm"></i> -->
+            </template>
+          </sidenav-collapse>
+        </router-link>
+      </li>
+      <li class="nav-item">
         <sidenav-collapse
           collapse-ref="pendaftaran"
           nav-text="Pendaftaran KKN"
