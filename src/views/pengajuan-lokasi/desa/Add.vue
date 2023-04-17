@@ -56,7 +56,6 @@
 </template>
 
 <script>
-import Quill from "quill";
 import Choices from "choices.js";
 import HeaderProfileCard from "@/views/dashboards/components/HeaderProfileCard.vue";
 import ArgonInput from "@/components/ArgonInput.vue";
@@ -82,13 +81,6 @@ export default {
     };
   },
   mounted() {
-    if (document.getElementById("edit-potensi")) {
-      new Quill("#edit-potensi", {
-        placeholder: "Isi dengan potensi kecamatan",
-        theme: "snow",
-      });
-    }
-
     if (document.getElementById("choices-kecamatan")) {
       new Choices("#choices-kecamatan", {
         searchEnabled: true,
