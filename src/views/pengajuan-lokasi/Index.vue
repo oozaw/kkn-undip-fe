@@ -64,8 +64,8 @@
                 <thead class="thead-light">
                   <tr>
                     <th class="col-1 ps-2">No.</th>
-                    <th class="ps-0">Kecamatan</th>
-                    <th>Total Desa</th>
+                    <th class="col-4 ps-0">Kecamatan</th>
+                    <th class="ps-0">Total Desa</th>
                     <th>Potensi</th>
                     <th>Status</th>
                     <th>Action</th>
