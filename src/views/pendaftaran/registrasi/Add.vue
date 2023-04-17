@@ -59,7 +59,7 @@
               </div>
               <div class="row mt-3">
                 <div class="col-12 mt-3 mt-lg-0">
-                  <label>KHS (Kartu Hasil Studi)</label>
+                  <label>Proposal</label>
                   <form
                     id="dropzone_proposal"
                     action="/file-upload"

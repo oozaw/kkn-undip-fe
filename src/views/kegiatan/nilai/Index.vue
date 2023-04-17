@@ -60,8 +60,8 @@
                     <th class="ps-0">Nama Lengkap</th>
                     <th>NIM</th>
                     <th>Fakultas</th>
-                    <th>Nilai (Angka)</th>
-                    <th>Nilai (Huruf)</th>
+                    <th>Nilai</th>
+                    <th>Grade</th>
                     <th>Status</th>
                     <th>Action</th>
                   </tr>
