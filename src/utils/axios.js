@@ -1,6 +1,6 @@
 import axios from "axios";
-import { baseApiUrl } from "@utils/constant";
-import { getCookies, delCookies } from "@utils/cookies";
+import { baseApiUrl } from "@/utils/constant";
+import { getCookies, delCookies } from "@/utils/cookies";
 
 axios.defaults.headers["Content-Type"] = "application/json";
 
