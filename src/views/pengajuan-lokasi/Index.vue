@@ -40,12 +40,12 @@
               </div>
               <div class="my-auto mt-4 ms-auto mt-lg-0">
                 <div class="my-auto ms-auto">
-                  <a
+                  <router-link
                     class="mb-0 btn btn-success btn-sm mt-sm-0 me-3"
-                    href="/pengajuan-lokasi/kecamatan/add"
+                    :to="{ name: 'Tambah Kecamatan' }"
                   >
                     + Tambah Kecamatan
-                  </a>
+                  </router-link>
                   <button
                     class="mt-2 mb-0 btn btn-outline-success btn-sm export-kec mt-sm-0"
                     data-type="csv"
@@ -284,12 +284,12 @@
               </div>
               <div class="my-auto mt-4 ms-auto mt-lg-0">
                 <div class="my-auto ms-auto">
-                  <a
+                  <router-link
                     class="mb-0 btn btn-success btn-sm mt-sm-0 me-3"
-                    href="/pengajuan-lokasi/desa/add"
+                    :to="{ name: 'Tambah Desa' }"
                   >
                     + Tambah Desa
-                  </a>
+                  </router-link>
                   <button
                     class="mt-2 mb-0 btn btn-outline-success btn-sm export-desa mt-sm-0"
                     data-type="csv"
@@ -505,8 +505,13 @@ export default {
   components: {
     HeaderProfileCard,
   },
+  data() {
+    return {
+      choicesTema: Choices,
+    };
+  },
   mounted() {
-    this.getChoices("choices-tema");
+    this.choicesTema = this.getChoices("choices-tema");
 
     if (document.getElementById("kecamatan-list")) {
       const dataTableSearch = new DataTable("#kecamatan-list", {
@@ -558,6 +563,9 @@ export default {
       });
     }
     setTooltip(this.$store.state.bootstrap);
+  },
+  beforeUnmount() {
+    this.choicesTema.destroy();
   },
   methods: {
     getChoices(id) {

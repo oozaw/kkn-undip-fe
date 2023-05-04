@@ -78,15 +78,19 @@ export default {
       img2,
       img3,
       img4,
+      choicesKec: Choices,
     };
   },
   mounted() {
     if (document.getElementById("choices-kecamatan")) {
-      new Choices("#choices-kecamatan", {
+      this.choicesKec = new Choices("#choices-kecamatan", {
         searchEnabled: true,
         allowHTML: true,
       });
     }
+  },
+  beforeUnmount() {
+    this.choicesKec.destroy();
   },
 };
 </script>
