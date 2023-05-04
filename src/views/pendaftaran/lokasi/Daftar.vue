@@ -90,28 +90,36 @@ import HeaderProfileCard from "@/views/dashboards/components/HeaderProfileCard.v
 import team1 from "@/assets/img/team-1.jpg";
 
 export default {
-  name: "EditBerkas",
+  name: "DaftarLokasi",
   components: {
     HeaderProfileCard,
   },
   data() {
     return {
       team1,
+      prov: Choices,
+      kab: Choices,
+      kec: Choices,
     };
   },
   mounted() {
     if (document.getElementById("choices-prov")) {
-      var prov = document.getElementById("choices-prov");
-      new Choices(prov, { allowHTML: true });
+      var elProv = document.getElementById("choices-prov");
+      this.prov = new Choices(elProv, { allowHTML: true });
     }
     if (document.getElementById("choices-kab")) {
-      var kab = document.getElementById("choices-kab");
-      new Choices(kab, { allowHTML: true });
+      var elKab = document.getElementById("choices-kab");
+      this.kab = new Choices(elKab, { allowHTML: true });
     }
     if (document.getElementById("choices-kec")) {
-      var kec = document.getElementById("choices-kec");
-      new Choices(kec, { allowHTML: true });
+      var elKec = document.getElementById("choices-kec");
+      this.kec = new Choices(elKec, { allowHTML: true });
     }
+  },
+  beforeUnmount() {
+    this.prov.destroy();
+    this.kab.destroy();
+    this.kec.destroy();
   },
 };
 </script>
