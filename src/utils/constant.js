@@ -1,4 +1,4 @@
-const host = import.meta.env.BASE_URL;
+const host = process.env.VUE_APP_BASE_URL;
 
 const baseApiUrl = `${host}`;
 
