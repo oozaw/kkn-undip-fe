@@ -43,7 +43,7 @@
               <div class="col-sm-8 mt-3 mt-sm-0">
                 <div class="row">
                   <label class="form-label mt-2">Tanggal Lahir</label>
-                  <div class="col-sm-4 col-3">
+                  <div class="col-sm-3 col-3">
                     <select
                       id="choices-day"
                       class="form-control"
@@ -57,7 +57,7 @@
                       name="choices-month"
                     ></select>
                   </div>
-                  <div class="col-sm-3 col-4">
+                  <div class="col-sm-4 col-4">
                     <select
                       id="choices-year"
                       class="form-control"
@@ -161,7 +161,7 @@
               <div class="col-sm-8 mt-3 mt-sm-0">
                 <div class="row">
                   <label class="form-label mt-2">Tanggal Lahir</label>
-                  <div class="col-sm-4 col-3">
+                  <div class="col-sm-3 col-3">
                     <select
                       id="choices-day-dosen"
                       class="form-control"
@@ -175,7 +175,7 @@
                       name="choices-month-dosen"
                     ></select>
                   </div>
-                  <div class="col-sm-3 col-4">
+                  <div class="col-sm-4 col-4">
                     <select
                       id="choices-year-dosen"
                       class="form-control"
