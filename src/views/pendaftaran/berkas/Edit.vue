@@ -13,42 +13,24 @@
           <h5 class="">Submit Berkas</h5>
           <div class="mt-3 row">
             <div class="col-lg-6 col-12">
-              <label>Foto Resmi/ Pas Photo</label>
-              <form
-                id="dropzone_pas_photo"
-                action="/file-upload"
-                class="form-control dropzone"
+              <label for="file-pas-photo" class="form-label"
+                >Foto Resmi/ Pas Photo (*.jpg, .jpeg, .png)</label
               >
-                <div class="fallback">
-                  <input name="file" type="file" multiple />
-                </div>
-              </form>
+              <input class="form-control" type="file" id="file-pas-photo" />
             </div>
             <div class="col-lg-6 col-12 mt-3 mt-lg-0">
-              <label>KHS (Kartu Hasil Studi)</label>
-              <form
-                id="dropzone_khs"
-                action="/file-upload"
-                class="form-control dropzone"
+              <label for="file-khs" class="form-label"
+                >KHS (Kartu Hasil Studi *.pdf)</label
               >
-                <div class="fallback">
-                  <input name="file" type="file" multiple />
-                </div>
-              </form>
+              <input class="form-control" type="file" id="file-khs" />
             </div>
           </div>
           <div class="row mt-3">
             <div class="col-lg-6 col-12">
-              <label>Surat Pernyataan</label>
-              <form
-                id="dropzone_sp"
-                action="/file-upload"
-                class="form-control dropzone"
+              <label for="file-sp" class="form-label"
+                >Surat Pernyataan (*pdf)</label
               >
-                <div class="fallback">
-                  <input name="file" type="file" multiple />
-                </div>
-              </form>
+              <input class="form-control" type="file" id="file-sp" />
             </div>
           </div>
         </div>
@@ -59,7 +41,6 @@
 
 <script>
 import HeaderProfileCard from "@/views/dashboards/components/HeaderProfileCard.vue";
-import Dropzone from "dropzone";
 
 import img from "@/assets/img/team-3.jpg";
 
@@ -73,23 +54,6 @@ export default {
       img,
     };
   },
-  mounted() {
-    Dropzone.autoDiscover = false;
-    var drop_pas_photo = document.getElementById("dropzone_pas_photo");
-    new Dropzone(drop_pas_photo, {
-      url: "/file/post",
-      addRemoveLinks: true,
-    });
-    var drop_khs = document.getElementById("dropzone_khs");
-    new Dropzone(drop_khs, {
-      url: "/file/post",
-      addRemoveLinks: true,
-    });
-    var drop_sp = document.getElementById("dropzone_sp");
-    new Dropzone(drop_sp, {
-      url: "/file/post",
-      addRemoveLinks: true,
-    });
-  },
+  mounted() {},
 };
 </script>
