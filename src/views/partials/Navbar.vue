@@ -70,9 +70,7 @@
                 <div class="col-6">
                   <div
                     class="py-6 h-100 w-100 d-flex border-radius-lg position-relative dropdown-image"
-                    style="
-                      background-image: url('../../assets/img/curved-images/curved8.jpg');
-                    "
+                    :style="{ 'background-image': 'url(' + curved8 + ')' }"
                   >
                     <div
                       class="mask bg-gradient-success border-radius-lg"
@@ -832,6 +830,7 @@
 import downArrWhite from "@/assets/img/down-arrow-white.svg";
 import downArrBlack from "@/assets/img/down-arrow-dark.svg";
 import logo from "@/assets/img/logos/undip.png";
+import curved8 from "@/assets/img/curved-images/curved8.jpg";
 
 export default {
   name: "Navbar",
@@ -854,6 +853,7 @@ export default {
       downArrWhite,
       downArrBlack,
       logo,
+      curved8,
     };
   },
   computed: {
