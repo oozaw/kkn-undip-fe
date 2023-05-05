@@ -20,7 +20,6 @@ import Navbar from "@/views/dashboards/partials/Navbars/Navbar.vue";
 import AppFooter from "@/views/dashboards/partials/Footer.vue";
 import { mapState } from "vuex";
 import d$auth from "@/store/auth";
-import certCookies from "@/utils/cookies";
 
 export default {
   name: "App",
@@ -40,8 +39,11 @@ export default {
       "hideConfigButton",
     ]),
   },
+
   setup() {
     const authStore = d$auth();
+
+    authStore.a$setUser();
 
     return {
       authStore,

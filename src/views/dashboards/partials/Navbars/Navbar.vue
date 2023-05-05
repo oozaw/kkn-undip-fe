@@ -57,57 +57,38 @@
           :class="isRTL ? 'me-md-auto' : 'ms-md-auto'"
         ></div>
         <ul class="navbar-nav justify-content-end">
-          <li class="nav-item d-flex align-items-center">
+          <!-- User name -->
+          <li class="nav-item d-flex align-items-center me-3">
             <router-link
-              :to="{ name: 'Signin Basic' }"
+              v-if="g$user.id"
+              :to="{ name: 'Edit Data Diri' }"
               class="px-0 nav-link font-weight-bold"
               :class="
                 isNavFixed && !darkMode ? ' opacity-8 text-dark' : 'text-white'
               "
-              target="_blank"
+            >
+              <i class="fa fa-user" :class="isRTL ? 'ms-sm-2' : 'me-sm-1'"></i>
+              <span v-if="isRTL" class="d-sm-inline d-none">
+                {{ g$user.name }}</span
+              >
+              <span v-else class="d-sm-inline d-none">{{ g$user.name }}</span>
+            </router-link>
+            <router-link
+              v-else
+              :to="{ name: 'Login' }"
+              class="px-0 nav-link font-weight-bold"
+              :class="
+                isNavFixed && !darkMode ? ' opacity-8 text-dark' : 'text-white'
+              "
             >
               <i class="fa fa-user" :class="isRTL ? 'ms-sm-2' : 'me-sm-1'"></i>
               <span v-if="isRTL" class="d-sm-inline d-none">يسجل دخول</span>
-              <span v-else class="d-sm-inline d-none">Sign In</span>
+              <span v-else class="d-sm-inline d-none">Login</span>
             </router-link>
           </li>
-          <li class="nav-item d-xl-none ps-3 d-flex align-items-center">
-            <a
-              id="iconNavbarSidenav"
-              href="#"
-              class="p-0 nav-link text-white"
-              @click.prevent="navbarMinimize"
-            >
-              <div class="sidenav-toggler-inner">
-                <i
-                  :class="`sidenav-toggler-line ${
-                    isNavFixed && !darkMode ? ' opacity-8 bg-dark' : 'bg-white'
-                  }`"
-                ></i>
-                <i
-                  :class="`sidenav-toggler-line ${
-                    isNavFixed && !darkMode ? ' opacity-8 bg-dark' : 'bg-white'
-                  }`"
-                ></i>
-                <i
-                  :class="`sidenav-toggler-line ${
-                    isNavFixed && !darkMode ? ' opacity-8 bg-dark' : 'bg-white'
-                  }`"
-                ></i>
-              </div>
-            </a>
-          </li>
-          <li class="px-3 nav-item d-flex align-items-center">
-            <a class="p-0 nav-link" @click="toggleConfigurator">
-              <i
-                :class="`cursor-pointer fa fa-cog fixed-plugin-button-nav ${
-                  !isNavFixed || darkMode ? 'text-white' : 'opacity-8 text-dark'
-                }`"
-              ></i>
-            </a>
-          </li>
+          <!-- Notification -->
           <li
-            class="nav-item dropdown d-flex align-items-center"
+            class="nav-item dropdown d-flex align-items-center me-2"
             :class="isRTL ? 'ps-2' : 'pe-2'"
           >
             <a
@@ -230,6 +211,23 @@
               </li>
             </ul>
           </li>
+          <!-- Logout -->
+          <li
+            class="nav-item dropdown d-flex align-items-center"
+            :class="isRTL ? 'ps-2' : 'pe-2'"
+          >
+            <a
+              href=""
+              @click.prevent="logout()"
+              class="px-0 nav-link font-weight-bold"
+              :class="
+                isNavFixed && !darkMode ? ' opacity-8 text-dark' : 'text-white'
+              "
+            >
+              <font-awesome-icon icon="fa-solid fa-right-from-bracket" />
+              Logout
+            </a>
+          </li>
         </ul>
       </div>
     </div>
@@ -238,6 +236,9 @@
 <script>
 import Breadcrumbs from "../Breadcrumbs.vue";
 import { mapState, mapMutations, mapActions } from "vuex";
+import { mapState as mapStatePinia } from "pinia";
+import d$auth from "@/store/auth";
+import { mapActions as mapActionsPinia } from "pinia";
 
 export default {
   name: "Navbar",
@@ -258,6 +259,8 @@ export default {
       let dir = this.$route.path.split("/")[1];
       return dir.charAt(0).toUpperCase() + dir.slice(1);
     },
+
+    ...mapStatePinia(d$auth, ["g$user"]),
   },
   created() {
     this.minNav;
@@ -271,6 +274,17 @@ export default {
     toggleNavigationOnMobile() {
       if (window.innerWidth < 1200) {
         this.navbarMinimize();
+      }
+    },
+
+    ...mapActionsPinia(d$auth, ["a$logout"]),
+
+    async logout() {
+      try {
+        await this.a$logout();
+        this.$router.push({ name: "Login" });
+      } catch (error) {
+        console.log(error);
       }
     },
   },
