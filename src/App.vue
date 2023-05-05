@@ -19,6 +19,8 @@ import Configurator from "@/views/dashboards/components/Configurator.vue";
 import Navbar from "@/views/dashboards/partials/Navbars/Navbar.vue";
 import AppFooter from "@/views/dashboards/partials/Footer.vue";
 import { mapState } from "vuex";
+import d$auth from "@/store/auth";
+import certCookies from "@/utils/cookies";
 
 export default {
   name: "App",
@@ -37,6 +39,13 @@ export default {
       "showConfig",
       "hideConfigButton",
     ]),
+  },
+  setup() {
+    const authStore = d$auth();
+
+    return {
+      authStore,
+    };
   },
 };
 </script>

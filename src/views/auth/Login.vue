@@ -26,24 +26,28 @@
                   </p>
                 </div>
                 <div class="card-body">
-                  <form role="form">
+                  <form role="form" @submit.prevent="login">
                     <div class="mb-3">
                       <argon-input
+                        v-model="input.username"
                         id="username"
                         type="text"
                         placeholder="Nama pengguna"
                         name="username"
                         size="lg"
+                        :isRequired="true"
                       />
                     </div>
                     <div class="mb-2">
                       <argon-input
-                        class="mb-2"
+                        v-model="input.password"
                         id="password"
+                        class="mb-2"
                         type="password"
                         placeholder="Kata sandi"
                         name="password"
                         size="lg"
+                        :isRequired="true"
                       />
                     </div>
                     <div class="text-end me-2">
@@ -60,6 +64,7 @@
                         color="success"
                         full-width
                         size="lg"
+                        type="submit"
                         >Login</argon-button
                       >
                     </div>
@@ -111,13 +116,25 @@
 </template>
 
 <script>
+import { mapActions } from "pinia";
+import d$auth from "@/store/auth";
+
 import Navbar from "@/views/partials/Navbar.vue";
 import ArgonInput from "@/components/ArgonInput.vue";
 import ArgonButton from "@/components/ArgonButton.vue";
 const body = document.getElementsByTagName("body")[0];
 import { mapMutations } from "vuex";
+
 export default {
-  name: "SigninIllustration",
+  name: "Login",
+  data() {
+    return {
+      input: {
+        username: "",
+        password: "",
+      },
+    };
+  },
   components: {
     Navbar,
     ArgonInput,
@@ -134,7 +151,17 @@ export default {
     body.classList.add("bg-gray-100");
   },
   methods: {
+    ...mapActions(d$auth, ["a$login"]),
     ...mapMutations(["toggleDefaultLayout"]),
+
+    async login() {
+      try {
+        await this.a$login(this.input);
+        this.$router.push({ name: "Dashboard" });
+      } catch (error) {
+        console.log(error);
+      }
+    },
   },
 };
 </script>

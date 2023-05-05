@@ -1,4 +1,6 @@
 import { createRouter, createWebHistory } from "vue-router";
+import { certCookies } from "@/utils/cookies";
+
 import Landing from "../views/dashboards/Landing.vue";
 import Default from "../views/dashboards/Default.vue";
 import Automotive from "../views/dashboards/Automotive.vue";
@@ -93,166 +95,265 @@ const routes = [
     path: "/",
     name: "/",
     redirect: "/dashboard",
+    meta: {
+      requiresAuth: true,
+    },
   },
   {
     path: "/dashboard",
     name: "Dashboard",
     component: Dashboard,
+    meta: {
+      requiresAuth: true,
+    },
   },
   {
     path: "/login",
     name: "Login",
     component: Login,
+    meta: {
+      guest: true,
+    },
   },
   {
     path: "/register",
     name: "Register",
     component: Register,
+    meta: {
+      guest: true,
+    },
   },
   {
     path: "/reset",
     name: "Reset",
     component: Reset,
+    meta: {
+      requiresAuth: true,
+    },
   },
   {
     path: "/pengguna",
     name: "Pengguna",
     component: Pengguna,
+    meta: {
+      requiresAuth: true,
+    },
   },
   {
     path: "/pengguna/add",
     name: "Tambah Pengguna",
     component: AddPengguna,
+    meta: {
+      requiresAuth: true,
+    },
   },
   {
     path: "/mahasiswa",
     name: "Mahasiswa",
     component: Mahasiswa,
+    meta: {
+      requiresAuth: true,
+    },
   },
   {
     path: "/mahasiswa/add",
     name: "Tambah Mahasiswa",
     component: AddMahasiswa,
+    meta: {
+      requiresAuth: true,
+    },
   },
   {
     path: "/pendaftaran/data-diri/edit",
     name: "Edit Data Diri",
     component: EditProfileMhs,
+    meta: {
+      requiresAuth: true,
+    },
   },
   {
     path: "/pendaftaran/berkas/edit",
     name: "Edit Data Berkas",
     component: EditBerkasMhs,
+    meta: {
+      requiresAuth: true,
+    },
   },
   {
     path: "/pendaftaran/lokasi/daftar",
     name: "Daftar Lokasi",
     component: DaftarLokasi,
+    meta: {
+      requiresAuth: true,
+    },
   },
   {
     path: "/post-test",
     name: "Post Test",
     component: IndexPostTest,
+    meta: {
+      requiresAuth: true,
+    },
   },
   {
     path: "/kegiatan/lrk",
     name: "LRK",
     component: IndexLRK,
+    meta: {
+      requiresAuth: true,
+    },
   },
   {
     path: "/kegiatan/lrk/add",
     name: "Tambah LRK",
     component: AddLRK,
+    meta: {
+      requiresAuth: true,
+    },
   },
   {
     path: "/kegiatan/lrk/edit",
     name: "Edit LRK",
     component: EditLRK,
+    meta: {
+      requiresAuth: true,
+    },
   },
   {
     path: "/kegiatan/lpk",
     name: "LPK",
     component: IndexLPK,
+    meta: {
+      requiresAuth: true,
+    },
   },
   {
     path: "/kegiatan/lpk/edit",
     name: "Edit LPK",
     component: EditLPK,
+    meta: {
+      requiresAuth: true,
+    },
   },
   {
     path: "/kegiatan/reportase",
     name: "Reportase",
     component: IndexReportase,
+    meta: {
+      requiresAuth: true,
+    },
   },
   {
     path: "/kegiatan/reportase/add",
     name: "Tambah Reportase",
     component: AddReportase,
+    meta: {
+      requiresAuth: true,
+    },
   },
   {
     path: "/kegiatan/reportase/edit",
     name: "Edit Reportase",
     component: EditReportase,
+    meta: {
+      requiresAuth: true,
+    },
   },
   {
     path: "/pendaftaran/registrasi",
     name: "Registrasi",
     component: IndexRegistrasi,
+    meta: {
+      requiresAuth: true,
+    },
   },
   {
     path: "/pendaftaran/registrasi/add",
     name: "Tambah Registrasi",
     component: AddRegistrasi,
+    meta: {
+      requiresAuth: true,
+    },
   },
   {
     path: "/seleksi-mhs",
     name: "Seleksi",
     component: SeleksiMhs,
+    meta: {
+      requiresAuth: true,
+    },
   },
   {
     path: "/kegiatan/presensi",
     name: "Presensi",
     component: Presensi,
+    meta: {
+      requiresAuth: true,
+    },
   },
   {
     path: "/kegiatan/nilai",
     name: "Nilai Akhir",
     component: IndexNilai,
+    meta: {
+      requiresAuth: true,
+    },
   },
   {
     path: "/kegiatan/nilai/edit",
     name: "Edit Nilai Akhir",
     component: EditNilai,
+    meta: {
+      requiresAuth: true,
+    },
   },
   {
     path: "/profil-wilayah/edit",
     name: "Profil Wilayah",
     component: EditProfilWilayah,
+    meta: {
+      requiresAuth: true,
+    },
   },
   {
     path: "/pengajuan-lokasi",
     name: "Pengajuan Lokasi",
     component: IndexPengajuanLokasi,
+    meta: {
+      requiresAuth: true,
+    },
   },
   {
     path: "/pengajuan-lokasi/kecamatan/add",
     name: "Tambah Kecamatan",
     component: AddKecamatan,
+    meta: {
+      requiresAuth: true,
+    },
   },
   {
     path: "/pengajuan-lokasi/kecamatan/edit",
     name: "Edit Kecamatan",
     component: EditKecamatan,
+    meta: {
+      requiresAuth: true,
+    },
   },
   {
     path: "/pengajuan-lokasi/desa/add",
     name: "Tambah Desa",
     component: AddDesa,
+    meta: {
+      requiresAuth: true,
+    },
   },
   {
     path: "/pengajuan-lokasi/desa/edit",
     name: "Edit Desa",
     component: EditDesa,
+    meta: {
+      requiresAuth: true,
+    },
   },
 
   // =================================================================================================
@@ -537,6 +638,17 @@ const router = createRouter({
   history: createWebHistory(),
   routes,
   linkActiveClass: "active",
+});
+
+router.beforeEach((to, from, next) => {
+  const { id } = certCookies();
+  if (to.meta.requiresAuth && !id) {
+    next({ name: "Login", query: { redirect: to.fullPath } });
+  } else if (to.meta.guest && id) {
+    next({ name: "Dashboard" });
+  } else {
+    next();
+  }
 });
 
 export default router;

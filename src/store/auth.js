@@ -4,7 +4,7 @@ import { delCookies, setCookies, certCookies } from "@/utils/cookies";
 
 import { parseISO } from "date-fns";
 
-const d$auth = defineStore({
+const d$auth = defineStore("authStore", {
   id: "auth",
   state: () => ({
     id: undefined,
