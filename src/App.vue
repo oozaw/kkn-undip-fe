@@ -8,14 +8,10 @@
     <navbar v-if="showNavbar" />
     <router-view />
     <app-footer v-show="showFooter" />
-    <configurator
-      :class="[showConfig ? 'show' : '', hideConfigButton ? 'd-none' : '']"
-    />
   </main>
 </template>
 <script>
 import Sidenav from "@/views/dashboards/partials/Sidenav/index.vue";
-import Configurator from "@/views/dashboards/components/Configurator.vue";
 import Navbar from "@/views/dashboards/partials/Navbars/Navbar.vue";
 import AppFooter from "@/views/dashboards/partials/Footer.vue";
 import { mapState } from "vuex";
@@ -25,7 +21,6 @@ export default {
   name: "App",
   components: {
     Sidenav,
-    Configurator,
     Navbar,
     AppFooter,
   },

@@ -1,27 +1,11 @@
 <template>
   <div class="card shadow-lg mx-4 mt-4">
     <div class="card shadow-lg">
-      <div class="card-body p-3">
-        <div class="row gx-4">
-          <div class="col-auto">
-            <div class="avatar avatar-xl position-relative">
-              <img
-                :src="team4"
-                alt="profile_image"
-                class="shadow-sm w-100 border-radius-lg"
-              />
-            </div>
-          </div>
-          <div class="col-auto my-auto">
-            <div class="h-100">
-              <h5 class="mb-1">Tazki Hanifan Amri</h5>
-              <p class="mb-0 font-weight-bold text-sm">
-                KKN Reguler Tim 1 2023
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
+      <HeaderProfileCard
+        :button="false"
+        description="KKN Reguler Tim 1 2023"
+        :img="team2"
+      />
     </div>
   </div>
   <div class="py-4 container-fluid">
@@ -285,6 +269,7 @@ import image from "@/assets/img/kal-visuals-square.jpg";
 import MembersTable from "@/views/dashboards/components/MembersTable.vue";
 import TimelineList from "@/views/dashboards/components/Cards/TimelineList.vue";
 import TimelineItem from "@/views/dashboards/components/Cards/TimelineItem.vue";
+import HeaderProfileCard from "@/views/dashboards/components/HeaderProfileCard.vue";
 
 import team1 from "../../assets/img/team-1.jpg";
 import team2 from "../../assets/img/team-2.jpg";
@@ -299,6 +284,7 @@ export default {
     MembersTable,
     TimelineList,
     TimelineItem,
+    HeaderProfileCard,
   },
   data() {
     return {
