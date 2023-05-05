@@ -10,26 +10,7 @@ import VueSweetalert2 from "vue-sweetalert2";
 import ArgonDashboard from "./argon-dashboard";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
-// icon
-import {
-  faUsers,
-  faUsersRays,
-  faUserTie,
-  faAddressCard,
-  faMapLocationDot,
-  faFileLines,
-  faListCheck,
-} from "@fortawesome/free-solid-svg-icons";
-
-const icon = [
-  faUsers,
-  faUsersRays,
-  faUserTie,
-  faAddressCard,
-  faMapLocationDot,
-  faFileLines,
-  faListCheck,
-];
+import icon from "@/assets/js/font-awesome-icon";
 
 library.add(icon);
 
