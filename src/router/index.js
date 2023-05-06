@@ -90,6 +90,7 @@ import EditKecamatan from "../views/pengajuan-lokasi/kecamatan/Edit.vue";
 import AddDesa from "../views/pengajuan-lokasi/desa/Add.vue";
 import EditDesa from "../views/pengajuan-lokasi/desa/Edit.vue";
 import IndexKKNTerdaftar from "../views/admin/menu-utama/kkn-terdaftar/Index.vue";
+import TambahKKNTerdaftar from "../views/admin/menu-utama/kkn-terdaftar/Add.vue";
 
 const routes = [
   {
@@ -360,6 +361,14 @@ const routes = [
     path: "/admin/kkn",
     name: "Index KKN Terdaftar",
     component: IndexKKNTerdaftar,
+    meta: {
+      requiresAuth: true,
+    },
+  },
+  {
+    path: "/admin/kkn/tambah",
+    name: "Tambah KKN Terdaftar",
+    component: TambahKKNTerdaftar,
     meta: {
       requiresAuth: true,
     },

@@ -1,6 +1,6 @@
 <template>
   <li class="nav-item">
-    <router-link class="nav-link" :to="to">
+    <router-link class="nav-link" :to="to" :class="{ active: isActive }">
       <span class="sidenav-mini-icon"> {{ miniIcon }} </span>
       <span class="sidenav-normal"> {{ text }} </span>
     </router-link>
@@ -21,6 +21,10 @@ export default {
     text: {
       type: String,
       required: true,
+    },
+    isActive: {
+      type: Boolean,
+      default: false,
     },
   },
 };

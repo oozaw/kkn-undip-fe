@@ -144,6 +144,7 @@
                 text="Statistik"
               />
               <sidenav-item
+                :isActive="getRoute2() === 'kkn'"
                 :to="{ name: 'Index KKN Terdaftar' }"
                 mini-icon="P"
                 text="Pendaftaran KKN"
@@ -322,7 +323,7 @@ export default {
     },
     getRoute2() {
       const routeArr = this.$route.path.split("/");
-      // console.log(this.$route.path.split("/")[1]);
+      // console.log(this.$route.path.split("/")[2]);
       return routeArr[2];
     },
   },

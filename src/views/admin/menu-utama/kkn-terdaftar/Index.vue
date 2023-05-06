@@ -19,7 +19,7 @@
                 <div class="my-auto ms-auto">
                   <router-link
                     class="mb-0 btn bg-gradient-success btn-sm me-2"
-                    :to="{ name: 'Tambah Registrasi' }"
+                    :to="{ name: 'Tambah KKN Terdaftar' }"
                     >+&nbsp; Daftarkan KKN Baru
                   </router-link>
                   <button
