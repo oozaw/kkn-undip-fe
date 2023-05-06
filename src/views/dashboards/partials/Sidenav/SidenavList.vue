@@ -20,6 +20,7 @@
           </sidenav-collapse>
         </router-link>
       </li>
+
       <li class="nav-item">
         <router-link :to="{ name: 'Pengguna' }">
           <sidenav-collapse
@@ -40,6 +41,7 @@
           </sidenav-collapse>
         </router-link>
       </li>
+
       <li class="nav-item">
         <router-link :to="{ name: 'Mahasiswa' }">
           <sidenav-collapse
@@ -60,6 +62,7 @@
           </sidenav-collapse>
         </router-link>
       </li>
+
       <li class="nav-item">
         <router-link :to="{ name: 'Edit Data Diri' }">
           <sidenav-collapse
@@ -80,6 +83,7 @@
           </sidenav-collapse>
         </router-link>
       </li>
+
       <li class="nav-item">
         <router-link :to="{ name: 'Profil Wilayah' }">
           <sidenav-collapse
@@ -100,6 +104,7 @@
           </sidenav-collapse>
         </router-link>
       </li>
+
       <li class="nav-item">
         <router-link :to="{ name: 'Pengajuan Lokasi' }">
           <sidenav-collapse
@@ -120,6 +125,59 @@
           </sidenav-collapse>
         </router-link>
       </li>
+
+      <li class="nav-item">
+        <sidenav-collapse
+          collapse-ref="main-menu"
+          nav-text="Menu Utama"
+          :class="getRoute() === 'admin' ? 'active' : ''"
+        >
+          <template #icon>
+            <i class="ni ni-ungroup text-warning text-sm opacity-10"></i>
+          </template>
+          <template #list>
+            <ul class="nav ms-4">
+              <!-- nav links -->
+              <sidenav-item
+                :to="{ name: 'Edit Data Diri' }"
+                mini-icon="S"
+                text="Statistik"
+              />
+              <sidenav-item
+                :to="{ name: 'Index KKN Terdaftar' }"
+                mini-icon="P"
+                text="Pendaftaran KKN"
+              />
+              <sidenav-item
+                :to="{ name: 'Daftar Lokasi' }"
+                mini-icon="L"
+                text="Pengajuan Lokasi"
+              />
+              <sidenav-item
+                :to="{ name: 'Registrasi' }"
+                mini-icon="K"
+                text="Kalender KKN"
+              />
+              <sidenav-item
+                :to="{ name: 'Registrasi' }"
+                mini-icon="P"
+                text="Pengumuman"
+              />
+              <sidenav-item
+                :to="{ name: 'Registrasi' }"
+                mini-icon="K"
+                text="Kelola Halaman"
+              />
+              <sidenav-item
+                :to="{ name: 'Registrasi' }"
+                mini-icon="K"
+                text="Download Area"
+              />
+            </ul>
+          </template>
+        </sidenav-collapse>
+      </li>
+
       <li class="nav-item">
         <sidenav-collapse
           collapse-ref="pendaftaran"

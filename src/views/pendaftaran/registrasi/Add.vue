@@ -100,7 +100,7 @@ import HeaderProfileCard from "@/views/dashboards/components/HeaderProfileCard.v
 import team1 from "@/assets/img/team-1.jpg";
 
 export default {
-  name: "EditBerkas",
+  name: "AddRegistrasiKKN",
   components: {
     HeaderProfileCard,
   },

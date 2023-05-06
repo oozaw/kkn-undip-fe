@@ -8,6 +8,7 @@ import {
   faFileLines,
   faListCheck,
   faRightFromBracket,
+  faXmark,
 } from "@fortawesome/free-solid-svg-icons";
 
 const icon = [
@@ -19,6 +20,7 @@ const icon = [
   faFileLines,
   faListCheck,
   faRightFromBracket,
+  faXmark,
 ];
 
 export default icon;
