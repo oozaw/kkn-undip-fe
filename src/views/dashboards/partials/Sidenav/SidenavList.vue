@@ -167,6 +167,7 @@
                 text="Pengumuman"
               />
               <sidenav-item
+                :isActive="getRoute2() === 'halaman'"
                 :to="{ name: 'Halaman' }"
                 mini-icon="H"
                 text="Kelola Halaman"

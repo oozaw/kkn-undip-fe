@@ -97,6 +97,7 @@ import TambahKalender from "../views/admin/menu-utama/kalender/Add.vue";
 import IndexPengumuman from "../views/admin/menu-utama/pengumuman/Index.vue";
 import TambahPengumuman from "../views/admin/menu-utama/pengumuman/Add.vue";
 import IndexKelolaHalaman from "../views/admin/menu-utama/halaman/Index.vue";
+import EditHalaman from "../views/admin/menu-utama/halaman/Edit.vue";
 
 const routes = [
   {
@@ -423,6 +424,14 @@ const routes = [
     path: "/admin/halaman",
     name: "Halaman",
     component: IndexKelolaHalaman,
+    meta: {
+      requiresAuth: true,
+    },
+  },
+  {
+    path: "/admin/halaman/edit",
+    name: "Edit Halaman",
+    component: EditHalaman,
     meta: {
       requiresAuth: true,
     },

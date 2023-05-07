@@ -91,20 +91,20 @@
                       <span class="badge badge-success">Aktif</span>
                     </td>
                     <td class="text-sm">
-                      <a
-                        href="javascript:;"
+                      <router-link
+                        :to="{ name: 'Edit Halaman' }"
                         class="me-3"
                         data-bs-toggle="tooltip"
-                        data-bs-original-title="Edit Pengumuman"
-                        title="Edit Pengumuman"
+                        data-bs-original-title="Edit Halaman"
+                        title="Edit Halaman"
                       >
                         <i class="fas fa-user-edit text-primary"></i>
-                      </a>
+                      </router-link>
                       <a
-                        href="javascript:;"
+                        href="javascript"
                         data-bs-toggle="tooltip"
-                        data-bs-original-title="Hapus Pengumuman"
-                        title="Hapus Pengumuman"
+                        data-bs-original-title="Hapus Halaman"
+                        title="Hapus Halaman"
                       >
                         <i class="fas fa-trash text-danger"></i>
                       </a>
@@ -121,20 +121,20 @@
                       <span class="badge badge-danger">Non-Aktif</span>
                     </td>
                     <td class="text-sm">
-                      <a
-                        href="javascript:;"
+                      <router-link
+                        :to="{ name: 'Edit Halaman' }"
                         class="me-3"
                         data-bs-toggle="tooltip"
-                        data-bs-original-title="Edit Pengumuman"
-                        title="Edit Pengumuman"
+                        data-bs-original-title="Edit Halaman"
+                        title="Edit Halaman"
                       >
                         <i class="fas fa-user-edit text-primary"></i>
-                      </a>
+                      </router-link>
                       <a
                         href="javascript:;"
                         data-bs-toggle="tooltip"
-                        data-bs-original-title="Hapus Pengumuman"
-                        title="Hapus Pengumuman"
+                        data-bs-original-title="Hapus Halaman"
+                        title="Hapus Halaman"
                       >
                         <i class="fas fa-trash text-danger"></i>
                       </a>
