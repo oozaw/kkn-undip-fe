@@ -56,7 +56,7 @@
                 <div class="my-auto ms-auto">
                   <router-link
                     class="mb-0 btn btn-success btn-sm mt-sm-0 me-2"
-                    :to="{ name: 'Tambah Kalender' }"
+                    :to="{ name: 'Tambah Pengumuman' }"
                   >
                     + Tambah Pengumuman
                   </router-link>

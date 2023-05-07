@@ -161,6 +161,7 @@
                 text="Kalender KKN"
               />
               <sidenav-item
+                :isActive="getRoute2() === 'pengumuman'"
                 :to="{ name: 'Pengumuman' }"
                 mini-icon="P"
                 text="Pengumuman"

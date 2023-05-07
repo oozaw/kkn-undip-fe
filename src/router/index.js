@@ -95,6 +95,7 @@ import IndexPengajuanWilayah from "../views/admin/menu-utama/pengajuan-wilayah/I
 import IndexKalender from "../views/admin/menu-utama/kalender/Index.vue";
 import TambahKalender from "../views/admin/menu-utama/kalender/Add.vue";
 import IndexPengumuman from "../views/admin/menu-utama/pengumuman/Index.vue";
+import TambahPengumuman from "../views/admin/menu-utama/pengumuman/Add.vue";
 
 const routes = [
   {
@@ -405,6 +406,14 @@ const routes = [
     path: "/admin/pengumuman",
     name: "Pengumuman",
     component: IndexPengumuman,
+    meta: {
+      requiresAuth: true,
+    },
+  },
+  {
+    path: "/admin/pengumuman/tambah",
+    name: "Tambah Pengumuman",
+    component: TambahPengumuman,
     meta: {
       requiresAuth: true,
     },
