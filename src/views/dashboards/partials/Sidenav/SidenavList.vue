@@ -161,7 +161,7 @@
                 text="Kalender KKN"
               />
               <sidenav-item
-                :to="{ name: 'Registrasi' }"
+                :to="{ name: 'Pengumuman' }"
                 mini-icon="P"
                 text="Pengumuman"
               />
