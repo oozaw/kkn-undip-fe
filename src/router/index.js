@@ -96,6 +96,7 @@ import IndexKalender from "../views/admin/menu-utama/kalender/Index.vue";
 import TambahKalender from "../views/admin/menu-utama/kalender/Add.vue";
 import IndexPengumuman from "../views/admin/menu-utama/pengumuman/Index.vue";
 import TambahPengumuman from "../views/admin/menu-utama/pengumuman/Add.vue";
+import IndexKelolaHalaman from "../views/admin/menu-utama/halaman/Index.vue";
 
 const routes = [
   {
@@ -414,6 +415,14 @@ const routes = [
     path: "/admin/pengumuman/tambah",
     name: "Tambah Pengumuman",
     component: TambahPengumuman,
+    meta: {
+      requiresAuth: true,
+    },
+  },
+  {
+    path: "/admin/halaman",
+    name: "Halaman",
+    component: IndexKelolaHalaman,
     meta: {
       requiresAuth: true,
     },

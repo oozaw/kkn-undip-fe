@@ -167,8 +167,8 @@
                 text="Pengumuman"
               />
               <sidenav-item
-                :to="{ name: 'Registrasi' }"
-                mini-icon="K"
+                :to="{ name: 'Halaman' }"
+                mini-icon="H"
                 text="Kelola Halaman"
               />
               <sidenav-item
