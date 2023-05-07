@@ -150,9 +150,9 @@
                 text="Pendaftaran KKN"
               />
               <sidenav-item
-                :to="{ name: 'Daftar Lokasi' }"
+                :to="{ name: 'Pengajuan Wilayah' }"
                 mini-icon="L"
-                text="Pengajuan Lokasi"
+                text="Pengajuan Wilayah"
               />
               <sidenav-item
                 :to="{ name: 'Registrasi' }"

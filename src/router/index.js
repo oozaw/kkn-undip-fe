@@ -91,6 +91,7 @@ import AddDesa from "../views/pengajuan-lokasi/desa/Add.vue";
 import EditDesa from "../views/pengajuan-lokasi/desa/Edit.vue";
 import IndexKKNTerdaftar from "../views/admin/menu-utama/kkn-terdaftar/Index.vue";
 import TambahKKNTerdaftar from "../views/admin/menu-utama/kkn-terdaftar/Add.vue";
+import IndexPengajuanWilayah from "../views/admin/menu-utama/pengajuan-wilayah/Index.vue";
 
 const routes = [
   {
@@ -369,6 +370,14 @@ const routes = [
     path: "/admin/kkn/tambah",
     name: "Tambah KKN Terdaftar",
     component: TambahKKNTerdaftar,
+    meta: {
+      requiresAuth: true,
+    },
+  },
+  {
+    path: "/admin/pengajuan-wilayah",
+    name: "Pengajuan Wilayah",
+    component: IndexPengajuanWilayah,
     meta: {
       requiresAuth: true,
     },
@@ -662,10 +671,13 @@ router.beforeEach((to, from, next) => {
   const { id } = certCookies();
   if (to.meta.requiresAuth && !id) {
     next({ name: "Login", query: { redirect: to.fullPath } });
+    console.log("ini redirect");
   } else if (to.meta.guest && id) {
     next({ name: "Dashboard" });
+    console.log("ini ke dashboard");
   } else {
     next();
+    console.log("ini langsung");
   }
 });
 
