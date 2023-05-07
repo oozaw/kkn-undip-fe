@@ -111,7 +111,7 @@ import img3 from "@/assets/img/small-logos/logo-atlassian.svg";
 import img4 from "@/assets/img/small-logos/logo-asana.svg";
 
 export default {
-  name: "EditDataDiri",
+  name: "TambahKKNTerdaftar",
   components: {
     HeaderProfileCard,
     ArgonInput,

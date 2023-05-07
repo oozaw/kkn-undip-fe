@@ -155,6 +155,7 @@
                 text="Pengajuan Wilayah"
               />
               <sidenav-item
+                :isActive="getRoute2() === 'kalender'"
                 :to="{ name: 'Kalender' }"
                 mini-icon="K"
                 text="Kalender KKN"
