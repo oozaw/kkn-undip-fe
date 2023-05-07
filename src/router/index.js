@@ -92,6 +92,7 @@ import EditDesa from "../views/pengajuan-lokasi/desa/Edit.vue";
 import IndexKKNTerdaftar from "../views/admin/menu-utama/kkn-terdaftar/Index.vue";
 import TambahKKNTerdaftar from "../views/admin/menu-utama/kkn-terdaftar/Add.vue";
 import IndexPengajuanWilayah from "../views/admin/menu-utama/pengajuan-wilayah/Index.vue";
+import IndexKalender from "../views/admin/menu-utama/kalender/Index.vue";
 
 const routes = [
   {
@@ -378,6 +379,14 @@ const routes = [
     path: "/admin/pengajuan-wilayah",
     name: "Pengajuan Wilayah",
     component: IndexPengajuanWilayah,
+    meta: {
+      requiresAuth: true,
+    },
+  },
+  {
+    path: "/admin/kalender",
+    name: "Kalender",
+    component: IndexKalender,
     meta: {
       requiresAuth: true,
     },

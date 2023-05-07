@@ -155,7 +155,7 @@
                 text="Pengajuan Wilayah"
               />
               <sidenav-item
-                :to="{ name: 'Registrasi' }"
+                :to="{ name: 'Kalender' }"
                 mini-icon="K"
                 text="Kalender KKN"
               />
