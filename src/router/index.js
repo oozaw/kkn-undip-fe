@@ -61,14 +61,15 @@ import Dashboard from "../views/dashboards/Dashboard.vue";
 import Login from "../views/auth/Login.vue";
 import Register from "../views/auth/Register.vue";
 import Reset from "../views/auth/Reset.vue";
-import Pengguna from "../views/admin/akun/pengguna/Index.vue";
-import AddPengguna from "../views/admin/akun/pengguna/AddPengguna.vue";
 import Mahasiswa from "../views/admin/akun/mahasiswa/Index.vue";
 import AddMahasiswa from "../views/admin/akun/mahasiswa/Add.vue";
 import EditMahasiswa from "../views/admin/akun/mahasiswa/Edit.vue";
 import IndexDosen from "../views/admin/akun/dosen/Index.vue";
 import AddDosen from "../views/admin/akun/dosen/Add.vue";
 import EditDosen from "../views/admin/akun/dosen/Edit.vue";
+import IndexBappeda from "../views/admin/akun/bappeda/Index.vue";
+import AddBappeda from "../views/admin/akun/bappeda/Add.vue";
+import EditBappeda from "../views/admin/akun/bappeda/Edit.vue";
 import EditProfile from "../views/pendaftaran/profile/Edit.vue";
 import EditBerkasMhs from "../views/pendaftaran/berkas/Edit.vue";
 import DaftarLokasi from "../views/pendaftaran/lokasi/Daftar.vue";
@@ -146,22 +147,6 @@ const routes = [
   },
   // Akun
   {
-    path: "/pengguna",
-    name: "Pengguna",
-    component: Pengguna,
-    meta: {
-      requiresAuth: true,
-    },
-  },
-  {
-    path: "/pengguna/add",
-    name: "Tambah Pengguna",
-    component: AddPengguna,
-    meta: {
-      requiresAuth: true,
-    },
-  },
-  {
     path: "/akun/mahasiswa",
     name: "Mahasiswa",
     component: Mahasiswa,
@@ -205,6 +190,30 @@ const routes = [
     path: "/akun/dosen/edit",
     name: "Edit Dosen",
     component: EditDosen,
+    meta: {
+      requiresAuth: true,
+    },
+  },
+  {
+    path: "/akun/bappeda",
+    name: "Bappeda",
+    component: IndexBappeda,
+    meta: {
+      requiresAuth: true,
+    },
+  },
+  {
+    path: "/akun/bappeda/add",
+    name: "Tambah Bappeda",
+    component: AddBappeda,
+    meta: {
+      requiresAuth: true,
+    },
+  },
+  {
+    path: "/akun/bappeda/edit",
+    name: "Edit Bappeda",
+    component: EditBappeda,
     meta: {
       requiresAuth: true,
     },

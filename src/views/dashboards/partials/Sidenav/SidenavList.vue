@@ -22,27 +22,6 @@
       </li>
 
       <li class="nav-item">
-        <router-link :to="{ name: 'Pengguna' }">
-          <sidenav-collapse
-            nav-text="Pengguna"
-            :collapse="false"
-            url="#"
-            :aria-controls="''"
-            collapse-ref="/pengguna"
-            :class="getRoute() === 'pengguna' ? 'active' : ''"
-          >
-            <template #icon>
-              <font-awesome-icon
-                icon="fa-solid fa-users"
-                class="text-success"
-              />
-              <!-- <i class="ni ni-single-02 text-success text-sm"></i> -->
-            </template>
-          </sidenav-collapse>
-        </router-link>
-      </li>
-
-      <li class="nav-item">
         <router-link :to="{ name: 'Edit Data Diri' }">
           <sidenav-collapse
             nav-text="Profil Diri"
@@ -193,8 +172,8 @@
                 text="Administrator"
               />
               <sidenav-item
-                :isActive="getRoute2() === 'kalender'"
-                :to="{ name: 'Kalender' }"
+                :isActive="getRoute2() === 'bappeda'"
+                :to="{ name: 'Bappeda' }"
                 mini-icon="B"
                 text="BAPPEDA"
               />
@@ -321,13 +300,12 @@
       </li>
 
       <li class="nav-item">
-        <router-link :to="{ name: 'Pengguna' }">
+        <router-link :to="{ name: 'Mahasiswa' }">
           <sidenav-collapse
             nav-text="Download Area"
             :collapse="false"
             url="#"
             :aria-controls="''"
-            collapse-ref="/pengguna"
             :class="getRoute() === 'pengguna' ? 'active' : ''"
           >
             <template #icon>

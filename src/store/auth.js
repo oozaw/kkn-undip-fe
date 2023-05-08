@@ -9,17 +9,20 @@ const d$auth = defineStore("authStore", {
   state: () => ({
     id: undefined,
     name: undefined,
+    role: undefined,
   }),
   actions: {
     async a$setUser() {
       try {
-        const { id, name } = certCookies();
+        const { id, name, role } = certCookies();
         this.id = id;
         this.name = name;
+        this.role = role;
         return "User Authenticated!";
       } catch ({ message }) {
         this.id = undefined;
         this.name = undefined;
+        this.role = undefined;
         throw message;
       }
     },

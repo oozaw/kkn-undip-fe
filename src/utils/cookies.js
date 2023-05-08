@@ -20,17 +20,19 @@ const delCookies = (name) => {
 const certCookies = () => {
   const token = getCookies("CERT");
   if (token) {
-    const { id, username: name, exp } = parseJwt(token);
+    const { id, username: name, role, exp } = parseJwt(token);
     if (!id) return delCookies("CERT");
     return {
       id,
       name,
+      role,
       exp,
     };
   }
   return {
     id: undefined,
     name: undefined,
+    role: undefined,
     exp: undefined,
   };
 };
