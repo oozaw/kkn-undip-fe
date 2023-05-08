@@ -167,7 +167,8 @@
                 text="Dosen"
               />
               <sidenav-item
-                :to="{ name: 'Pengajuan Wilayah' }"
+                :isActive="getRoute2() === 'administrator'"
+                :to="{ name: 'Administrator' }"
                 mini-icon="A"
                 text="Administrator"
               />

@@ -34,15 +34,15 @@
           <div class="pb-0 card-header">
             <div class="d-lg-flex">
               <div>
-                <h5 class="mb-2">Data BAPPEDA</h5>
-                <p class="text-sm mb-0">Data BAPPEDA terdaftar</p>
+                <h5 class="mb-2">Data Administrator</h5>
+                <p class="text-sm mb-0">Data administrator terdaftar</p>
               </div>
               <div class="my-auto mt-4 ms-auto mt-lg-0">
                 <div class="my-auto ms-auto">
                   <router-link
                     class="mb-0 btn bg-gradient-success btn-sm"
-                    :to="{ name: 'Tambah Bappeda' }"
-                    >+&nbsp; Tambah BAPPEDA
+                    :to="{ name: 'Tambah Administrator' }"
+                    >+&nbsp; Tambah Administrator
                   </router-link>
                   <button
                     type="button"
@@ -62,7 +62,7 @@
                       <div class="modal-content">
                         <div class="modal-header">
                           <h5 id="ModalLabel" class="modal-title">
-                            Impor Data BAPPEDA via File Excel
+                            Impor Data Administrator via File Excel
                           </h5>
                           <i class="fas fa-upload ms-3"></i>
                           <button
@@ -75,7 +75,7 @@
                         <div class="modal-body">
                           <p>
                             Silahkan cari dan pilih file excel berisi data
-                            BAPPEDA
+                            administrator
                           </p>
                           <input
                             type="file"
@@ -122,14 +122,12 @@
           </div>
           <div class="pt-1 px-0 pb-0 card-body">
             <div class="table-responsive">
-              <table id="bappeda-list" class="table table-flush">
+              <table id="administrator-list" class="table table-flush">
                 <thead class="thead-light">
                   <tr>
                     <th class="col-1">No.</th>
                     <th>Nama</th>
-                    <th>Nomor BAPPEDA</th>
-                    <th>Daerah (Kecamatan/Desa)</th>
-                    <th>Status</th>
+                    <th>NIP</th>
                     <th>Action</th>
                   </tr>
                 </thead>
@@ -137,19 +135,15 @@
                   <tr>
                     <td class="text-sm">1</td>
                     <td>
-                      <h6 class="my-auto">BAPPEDA 1</h6>
+                      <h6 class="my-auto">Administrator 1</h6>
                     </td>
                     <td class="text-sm">83384182392</td>
-                    <td class="text-sm">3/8</td>
-                    <td>
-                      <span class="badge badge-danger badge-sm">Ditolak</span>
-                    </td>
                     <td class="text-sm">
                       <a
                         href="javascript:;"
                         data-bs-toggle="tooltip"
-                        data-bs-original-title="Detail BAPPEDA"
-                        title="Detail BAPPEDA"
+                        data-bs-original-title="Detail Administrator"
+                        title="Detail Administrator"
                       >
                         <i class="fas fa-eye text-info"></i>
                       </a>
@@ -157,16 +151,16 @@
                         href="javascript:;"
                         class="mx-3"
                         data-bs-toggle="tooltip"
-                        data-bs-original-title="Edit BAPPEDA"
-                        title="Edit BAPPEDA"
+                        data-bs-original-title="Edit Administrator"
+                        title="Edit Administrator"
                       >
                         <i class="fas fa-user-edit text-primary"></i>
                       </a>
                       <a
                         href="javascript:;"
                         data-bs-toggle="tooltip"
-                        data-bs-original-title="Hapus BAPPEDA"
-                        title="Hapus BAPPEDA"
+                        data-bs-original-title="Hapus Administrator"
+                        title="Hapus Administrator"
                       >
                         <i class="fas fa-trash text-danger"></i>
                       </a>
@@ -175,13 +169,9 @@
                   <tr>
                     <td class="text-sm">2</td>
                     <td>
-                      <h6 class="my-auto">BAPPEDA 2</h6>
+                      <h6 class="my-auto">Administrator 2</h6>
                     </td>
                     <td class="text-sm">45235234324</td>
-                    <td class="text-sm">3/8</td>
-                    <td>
-                      <span class="badge badge-success badge-sm">Diterima</span>
-                    </td>
                     <td class="text-sm">
                       <a
                         href="javascript:;"
@@ -210,13 +200,9 @@
                   <tr>
                     <td class="text-sm">3</td>
                     <td>
-                      <h6 class="my-auto">BAPPEDA 3</h6>
+                      <h6 class="my-auto">Administrator 3</h6>
                     </td>
                     <td class="text-sm">56348767867</td>
-                    <td class="text-sm">3/8</td>
-                    <td>
-                      <span class="badge badge-success badge-sm">Diterima</span>
-                    </td>
                     <td class="text-sm">
                       <a
                         href="javascript:;"
@@ -245,15 +231,9 @@
                   <tr>
                     <td class="text-sm">4</td>
                     <td>
-                      <h6 class="my-auto">BAPPEDA 4</h6>
+                      <h6 class="my-auto">Administrator 4</h6>
                     </td>
                     <td class="text-sm">87847384733</td>
-                    <td class="text-sm">3/8</td>
-                    <td>
-                      <span class="badge badge-secondary badge-sm"
-                        >Verifikasi</span
-                      >
-                    </td>
                     <td class="text-sm">
                       <a
                         href="javascript:;"
@@ -284,9 +264,7 @@
                   <tr>
                     <th class="col-1">No.</th>
                     <th>Nama</th>
-                    <th>Nomor BAPPEDA</th>
-                    <th>Daerah (Kecamatan/Desa)</th>
-                    <th>Status</th>
+                    <th>NIP</th>
                     <th>Action</th>
                   </tr>
                 </tfoot>
@@ -306,7 +284,7 @@ import setTooltip from "@/assets/js/tooltip.js";
 import HeaderProfileCard from "@/views/dashboards/components/HeaderProfileCard.vue";
 
 export default {
-  name: "IndexBappeda",
+  name: "IndexAdministrator",
   components: {
     HeaderProfileCard,
   },
@@ -318,8 +296,8 @@ export default {
   mounted() {
     this.choicesTema = this.getChoices("choices-tema");
 
-    if (document.getElementById("bappeda-list")) {
-      const dataTableSearch = new DataTable("#bappeda-list", {
+    if (document.getElementById("administrator-list")) {
+      const dataTableSearch = new DataTable("#administrator-list", {
         searchable: true,
         fixedHeight: false,
         perPage: 5,

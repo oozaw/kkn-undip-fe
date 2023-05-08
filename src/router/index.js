@@ -69,7 +69,8 @@ import AddDosen from "../views/admin/akun/dosen/Add.vue";
 import EditDosen from "../views/admin/akun/dosen/Edit.vue";
 import IndexBappeda from "../views/admin/akun/bappeda/Index.vue";
 import AddBappeda from "../views/admin/akun/bappeda/Add.vue";
-import EditBappeda from "../views/admin/akun/bappeda/Edit.vue";
+import IndexAdministrator from "../views/admin/akun/administrator/Index.vue";
+import AddAdministrator from "../views/admin/akun/administrator/Add.vue";
 import EditProfile from "../views/pendaftaran/profile/Edit.vue";
 import EditBerkasMhs from "../views/pendaftaran/berkas/Edit.vue";
 import DaftarLokasi from "../views/pendaftaran/lokasi/Daftar.vue";
@@ -211,9 +212,17 @@ const routes = [
     },
   },
   {
-    path: "/akun/bappeda/edit",
-    name: "Edit Bappeda",
-    component: EditBappeda,
+    path: "/akun/administrator",
+    name: "Administrator",
+    component: IndexAdministrator,
+    meta: {
+      requiresAuth: true,
+    },
+  },
+  {
+    path: "/akun/administrator/add",
+    name: "Tambah Administrator",
+    component: AddAdministrator,
     meta: {
       requiresAuth: true,
     },
