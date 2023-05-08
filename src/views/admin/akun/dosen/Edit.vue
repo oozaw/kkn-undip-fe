@@ -13,7 +13,7 @@
       <div class="mt-4 mt-lg-0">
         <div class="card">
           <div class="card-body pb-5">
-            <h5 class="font-weight-bolder mb-3">Edit Mahasiswa</h5>
+            <h5 class="font-weight-bolder mb-3">Edit Dosen</h5>
             <div class="row">
               <div class="col-12 col-sm-6">
                 <label>Nama</label>
@@ -26,12 +26,12 @@
                 />
               </div>
               <div class="mt-3 col-12 col-sm-6 mt-sm-0">
-                <label>NIM</label>
+                <label>NIP</label>
                 <input
                   class="form-control"
                   type="number"
-                  name="nim"
-                  id="nim"
+                  name="nip"
+                  id="nip"
                   value="1234567890"
                 />
               </div>
@@ -80,7 +80,7 @@ import Choices from "choices.js";
 import HeaderProfileCard from "@/views/dashboards/components/HeaderProfileCard.vue";
 
 export default {
-  name: "EditMahasiswa",
+  name: "EditDosen",
   components: {
     HeaderProfileCard,
   },
