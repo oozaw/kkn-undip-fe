@@ -65,6 +65,7 @@ import Pengguna from "../views/admin/akun/pengguna/Index.vue";
 import AddPengguna from "../views/admin/akun/pengguna/AddPengguna.vue";
 import Mahasiswa from "../views/admin/akun/mahasiswa/Index.vue";
 import AddMahasiswa from "../views/admin/akun/mahasiswa/Add.vue";
+import EditMahasiswa from "../views/admin/akun/mahasiswa/Edit.vue";
 import EditProfileMhs from "../views/pendaftaran/profile/Edit.vue";
 import EditBerkasMhs from "../views/pendaftaran/berkas/Edit.vue";
 import DaftarLokasi from "../views/pendaftaran/lokasi/Daftar.vue";
@@ -169,6 +170,14 @@ const routes = [
     path: "/akun/mahasiswa/add",
     name: "Tambah Mahasiswa",
     component: AddMahasiswa,
+    meta: {
+      requiresAuth: true,
+    },
+  },
+  {
+    path: "/akun/mahasiswa/edit",
+    name: "Edit Mahasiswa",
+    component: EditMahasiswa,
     meta: {
       requiresAuth: true,
     },
