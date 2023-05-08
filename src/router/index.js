@@ -140,6 +140,7 @@ const routes = [
       requiresAuth: true,
     },
   },
+  // Akun
   {
     path: "/pengguna",
     name: "Pengguna",
@@ -157,7 +158,7 @@ const routes = [
     },
   },
   {
-    path: "/mahasiswa",
+    path: "/akun/mahasiswa",
     name: "Mahasiswa",
     component: Mahasiswa,
     meta: {
@@ -165,7 +166,7 @@ const routes = [
     },
   },
   {
-    path: "/mahasiswa/add",
+    path: "/akun/mahasiswa/add",
     name: "Tambah Mahasiswa",
     component: AddMahasiswa,
     meta: {

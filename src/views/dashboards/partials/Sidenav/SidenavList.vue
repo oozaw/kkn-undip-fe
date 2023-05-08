@@ -176,6 +176,7 @@
             <ul class="nav ms-4">
               <!-- nav links -->
               <sidenav-item
+                :isActive="getRoute2() === 'mahasiswa'"
                 :to="{ name: 'Mahasiswa' }"
                 mini-icon="M"
                 text="Mahasiswa"
