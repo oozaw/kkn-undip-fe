@@ -4,7 +4,7 @@
       <div class="col-lg-12 mt-lg-0">
         <HeaderProfileCard
           :button="true"
-          button-text="Tambah Dosen"
+          button-text="Tambah Bappeda"
           description="KKN Reguler Tim 1 2023"
         />
       </div>
@@ -13,7 +13,7 @@
       <div class="mt-4 mt-lg-0">
         <div class="card">
           <div class="card-body pb-5">
-            <h5 class="font-weight-bolder mb-3">Tambah Dosen</h5>
+            <h5 class="font-weight-bolder mb-3">Tambah Bappeda</h5>
             <div class="row">
               <div class="col-12 col-sm-6">
                 <label>Nama</label>
@@ -22,46 +22,22 @@
                   type="text"
                   name="nama"
                   id="nama"
-                  placeholder="Masukkan nama lengkap"
+                  placeholder="Masukkan nama BAPPEDA"
                 />
               </div>
               <div class="mt-3 col-12 col-sm-6 mt-sm-0">
-                <label>NIP</label>
+                <label>Nomor BAPPEDA</label>
                 <input
                   class="form-control"
                   type="number"
-                  name="nip"
-                  id="nip"
-                  placeholder="Masukkan NIP"
+                  name="nomor"
+                  id="nomor"
+                  placeholder="Masukkan nomor BAPPEDA"
                 />
               </div>
             </div>
             <div class="row">
-              <div class="col-3">
-                <label class="mt-4">Fakultas</label>
-                <select id="fakultas-add" class="form-control" name="fakultas">
-                  <option value="0" selected disabled hidden>
-                    -- Pilih fakultas --
-                  </option>
-                  <option value="Choice 2">Real Estate</option>
-                  <option value="Choice 3">Electronics</option>
-                  <option value="Choice 4">Clothing</option>
-                  <option value="Choice 5">Others</option>
-                </select>
-              </div>
-              <div class="col-3">
-                <label class="mt-4">Jurusan</label>
-                <select id="jurusan-add" class="form-control" name="fakultas">
-                  <option value="0" selected disabled hidden>
-                    -- Pilih jurusan --
-                  </option>
-                  <option value="Choice 2">Real Estate</option>
-                  <option value="Choice 3">Electronics</option>
-                  <option value="Choice 4">Clothing</option>
-                  <option value="Choice 5">Others</option>
-                </select>
-              </div>
-              <div class="col-3">
+              <div class="col-6">
                 <label class="mt-4">Username</label>
                 <input
                   class="form-control"
@@ -69,7 +45,7 @@
                   placeholder="Masukkan username"
                 />
               </div>
-              <div class="col-3">
+              <div class="col-6">
                 <label class="mt-4">Password</label>
                 <input
                   class="form-control"
@@ -90,23 +66,12 @@ import Choices from "choices.js";
 import HeaderProfileCard from "@/views/dashboards/components/HeaderProfileCard.vue";
 
 export default {
-  name: "AddDosen",
+  name: "AddBappeda",
   components: {
     HeaderProfileCard,
   },
   data() {
-    return {
-      choicesFakultas: undefined,
-      choicesJurusan: undefined,
-    };
-  },
-  mounted() {
-    this.choicesFakultas = this.getChoices("fakultas-add");
-    this.choicesJurusan = this.getChoices("jurusan-add");
-  },
-  beforeUnmount() {
-    this.choicesFakultas.destroy();
-    this.choicesJurusan.destroy();
+    return {};
   },
   methods: {
     getChoices(id) {
