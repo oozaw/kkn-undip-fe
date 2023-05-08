@@ -43,27 +43,6 @@
       </li>
 
       <li class="nav-item">
-        <router-link :to="{ name: 'Mahasiswa' }">
-          <sidenav-collapse
-            nav-text="Mahasiswa"
-            :collapse="false"
-            url="#"
-            :aria-controls="''"
-            collapse-ref="/mahasiswa"
-            :class="getRoute() === 'mahasiswa' ? 'active' : ''"
-          >
-            <template #icon>
-              <font-awesome-icon
-                icon="fa-solid fa-users-rays"
-                class="text-primary"
-              />
-              <!-- <i class="ni ni-single-02 text-primary text-sm"></i> -->
-            </template>
-          </sidenav-collapse>
-        </router-link>
-      </li>
-
-      <li class="nav-item">
         <router-link :to="{ name: 'Edit Data Diri' }">
           <sidenav-collapse
             nav-text="Profil Diri"
@@ -126,6 +105,7 @@
         </router-link>
       </li>
 
+      <!-- Menu Utama -->
       <li class="nav-item">
         <sidenav-collapse
           collapse-ref="main-menu"
@@ -133,7 +113,7 @@
           :class="getRoute() === 'admin' ? 'active' : ''"
         >
           <template #icon>
-            <i class="ni ni-ungroup text-warning text-sm opacity-10"></i>
+            <font-awesome-icon icon="fa-solid fa-list" class="text-primary" />
           </template>
           <template #list>
             <ul class="nav ms-4">
@@ -176,6 +156,58 @@
                 :to="{ name: 'Registrasi' }"
                 mini-icon="K"
                 text="Download Area"
+              />
+            </ul>
+          </template>
+        </sidenav-collapse>
+      </li>
+
+      <!-- Kelola Akun -->
+      <li class="nav-item">
+        <sidenav-collapse
+          collapse-ref="kelola-akun"
+          nav-text="Kelola Akun"
+          :class="getRoute() === 'akun' ? 'active' : ''"
+        >
+          <template #icon>
+            <font-awesome-icon icon="fa-solid fa-sliders" class="text-dark" />
+          </template>
+          <template #list>
+            <ul class="nav ms-4">
+              <!-- nav links -->
+              <sidenav-item
+                :to="{ name: 'Mahasiswa' }"
+                mini-icon="M"
+                text="Mahasiswa"
+              />
+              <sidenav-item
+                :isActive="getRoute2() === 'kkn'"
+                :to="{ name: 'Index KKN Terdaftar' }"
+                mini-icon="D"
+                text="Dosen"
+              />
+              <sidenav-item
+                :to="{ name: 'Pengajuan Wilayah' }"
+                mini-icon="A"
+                text="Administrator"
+              />
+              <sidenav-item
+                :isActive="getRoute2() === 'kalender'"
+                :to="{ name: 'Kalender' }"
+                mini-icon="B"
+                text="BAPPEDA"
+              />
+              <sidenav-item
+                :isActive="getRoute2() === 'pengumuman'"
+                :to="{ name: 'Pengumuman' }"
+                mini-icon="R"
+                text="Reviewer"
+              />
+              <sidenav-item
+                :isActive="getRoute2() === 'halaman'"
+                :to="{ name: 'Halaman' }"
+                mini-icon="P"
+                text="Pimpinan"
               />
             </ul>
           </template>

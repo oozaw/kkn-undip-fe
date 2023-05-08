@@ -13,6 +13,8 @@ import {
   faSquareCheck,
   faSquareXmark,
   faSquareMinus,
+  faList,
+  faSliders,
 } from "@fortawesome/free-solid-svg-icons";
 
 const icon = [
@@ -29,6 +31,8 @@ const icon = [
   faSquareCheck,
   faSquareXmark,
   faSquareMinus,
+  faList,
+  faSliders,
 ];
 
 export default icon;
