@@ -66,7 +66,10 @@ import AddPengguna from "../views/admin/akun/pengguna/AddPengguna.vue";
 import Mahasiswa from "../views/admin/akun/mahasiswa/Index.vue";
 import AddMahasiswa from "../views/admin/akun/mahasiswa/Add.vue";
 import EditMahasiswa from "../views/admin/akun/mahasiswa/Edit.vue";
-import EditProfileMhs from "../views/pendaftaran/profile/Edit.vue";
+import IndexDosen from "../views/admin/akun/dosen/Index.vue";
+import AddDosen from "../views/admin/akun/dosen/Add.vue";
+import EditDosen from "../views/admin/akun/dosen/Edit.vue";
+import EditProfile from "../views/pendaftaran/profile/Edit.vue";
 import EditBerkasMhs from "../views/pendaftaran/berkas/Edit.vue";
 import DaftarLokasi from "../views/pendaftaran/lokasi/Daftar.vue";
 import IndexPostTest from "../views/test/Index.vue";
@@ -183,9 +186,33 @@ const routes = [
     },
   },
   {
+    path: "/akun/dosen",
+    name: "Dosen",
+    component: IndexDosen,
+    meta: {
+      requiresAuth: true,
+    },
+  },
+  {
+    path: "/akun/dosen/add",
+    name: "Tambah Dosen",
+    component: AddDosen,
+    meta: {
+      requiresAuth: true,
+    },
+  },
+  {
+    path: "/akun/dosen/edit",
+    name: "Edit Dosen",
+    component: EditDosen,
+    meta: {
+      requiresAuth: true,
+    },
+  },
+  {
     path: "/pendaftaran/data-diri/edit",
     name: "Edit Data Diri",
-    component: EditProfileMhs,
+    component: EditProfile,
     meta: {
       requiresAuth: true,
     },

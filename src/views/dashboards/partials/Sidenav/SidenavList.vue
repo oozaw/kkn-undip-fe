@@ -182,8 +182,8 @@
                 text="Mahasiswa"
               />
               <sidenav-item
-                :isActive="getRoute2() === 'kkn'"
-                :to="{ name: 'Index KKN Terdaftar' }"
+                :isActive="getRoute2() === 'dosen'"
+                :to="{ name: 'Dosen' }"
                 mini-icon="D"
                 text="Dosen"
               />
