@@ -304,6 +304,8 @@ import Choices from "choices.js";
 import { DataTable } from "simple-datatables";
 import setTooltip from "@/assets/js/tooltip.js";
 import HeaderProfileCard from "@/views/dashboards/components/HeaderProfileCard.vue";
+import d$bappeda from "@/store/bappeda";
+import { mapActions, mapState } from "pinia";
 
 export default {
   name: "IndexBappeda",
@@ -315,7 +317,17 @@ export default {
       choicesTema: undefined,
     };
   },
-  mounted() {
+  computed: {
+    ...mapState(d$bappeda, ["g$listBappeda"]),
+  },
+  async created() {
+    try {
+    } catch (error) {
+      console.log(error);
+    }
+  },
+  async mounted() {
+    await this.a$listBappeda();
     this.choicesTema = this.getChoices("choices-tema");
 
     if (document.getElementById("bappeda-list")) {
@@ -348,6 +360,8 @@ export default {
     this.choicesTema.destroy();
   },
   methods: {
+    ...mapActions(d$bappeda, ["a$listBappeda"]),
+
     getChoices(id) {
       var element = document.getElementById(id);
       if (element) {
