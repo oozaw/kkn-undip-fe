@@ -322,12 +322,12 @@ export default {
   },
   async created() {
     try {
+      await this.a$listBappeda();
     } catch (error) {
       console.log(error);
     }
   },
   async mounted() {
-    await this.a$listBappeda();
     this.choicesTema = this.getChoices("choices-tema");
 
     if (document.getElementById("bappeda-list")) {
