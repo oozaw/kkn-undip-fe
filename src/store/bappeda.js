@@ -18,6 +18,15 @@ const d$bappeda = defineStore("bappedaStore", {
         throw message;
       }
     },
+    async a$addBappeda(body) {
+      try {
+        const status = await s$bappeda.addBappeda(body);
+        this.status = status;
+      } catch (error) {
+        this.status = false;
+        throw error;
+      }
+    },
   },
   getters: {
     g$listBappeda: ({ listBappeda }) => listBappeda,

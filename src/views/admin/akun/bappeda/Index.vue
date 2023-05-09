@@ -324,10 +324,10 @@ export default {
     try {
       await this.a$listBappeda();
     } catch (error) {
-      console.log(error);
+      console.log("sd");
     }
   },
-  async mounted() {
+  mounted() {
     this.choicesTema = this.getChoices("choices-tema");
 
     if (document.getElementById("bappeda-list")) {

@@ -2,12 +2,8 @@ import { baseApi } from "@/utils/axios";
 
 const api = `/bappeda`;
 
-const listBappeda = () => {
-  try {
-    baseApi.get(`${api}`);
-  } catch (error) {
-    console.log("error bro", error);
-  }
-};
+const listBappeda = () => baseApi.get(`${api}`);
 
-export { listBappeda };
+const addBappeda = (body) => baseApi.post(`${api}`, body);
+
+export { listBappeda, addBappeda };

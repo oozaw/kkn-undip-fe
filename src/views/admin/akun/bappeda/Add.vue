@@ -23,6 +23,7 @@
                   name="nama"
                   id="nama"
                   placeholder="Masukkan nama BAPPEDA"
+                  v-model="body.nama"
                 />
               </div>
               <div class="mt-3 col-12 col-sm-6 mt-sm-0">
@@ -33,6 +34,7 @@
                   name="nomor"
                   id="nomor"
                   placeholder="Masukkan nomor BAPPEDA"
+                  v-model="body.nomor"
                 />
               </div>
             </div>
@@ -43,6 +45,7 @@
                   class="form-control"
                   type="text"
                   placeholder="Masukkan username"
+                  v-model="body.username"
                 />
               </div>
               <div class="col-6">
@@ -51,6 +54,7 @@
                   class="form-control"
                   type="password"
                   placeholder="Masukkan password"
+                  v-model="body.password"
                 />
               </div>
             </div>
@@ -64,6 +68,8 @@
 <script>
 import Choices from "choices.js";
 import HeaderProfileCard from "@/views/dashboards/components/HeaderProfileCard.vue";
+import d$bappeda from "@/store/bappeda";
+import { mapActions } from "pinia";
 
 export default {
   name: "AddBappeda",
@@ -71,9 +77,17 @@ export default {
     HeaderProfileCard,
   },
   data() {
-    return {};
+    return {
+      body: {
+        nama: "",
+        nomor: "",
+        username: "",
+        password: "",
+      },
+    };
   },
   methods: {
+    ...mapActions(d$bappeda, ["a$addBappeda"]),
     getChoices(id) {
       if (document.getElementById(id)) {
         var element = document.getElementById(id);

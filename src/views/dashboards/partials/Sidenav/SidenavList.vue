@@ -304,6 +304,7 @@
         <router-link :to="{ name: 'Mahasiswa' }">
           <sidenav-collapse
             nav-text="Download Area"
+            collapse-ref=""
             :collapse="false"
             url="#"
             :aria-controls="''"
