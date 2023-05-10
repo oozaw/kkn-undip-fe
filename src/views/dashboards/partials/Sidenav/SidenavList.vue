@@ -279,7 +279,7 @@
               />
               <sidenav-item
                 :isActive="getRoute2() === 'presensi'"
-                :to="{ name: 'Presensi Mahasiswa Admin' }"
+                :to="{ name: 'Presensi Dosen Admin' }"
                 mini-icon="P"
                 text="Data Presensi Harian"
               />
