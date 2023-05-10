@@ -284,9 +284,9 @@
                 text="Data Presensi Harian"
               />
               <sidenav-item
-                :isActive="getRoute2() === 'lrk-lpk'"
-                :to="{ name: 'LRK & LPK Mahasiswa Admin' }"
-                mini-icon="L"
+                :isActive="getRoute2() === 'nilai-akhir'"
+                :to="{ name: 'Nilai Akhir Mahasiswa Admin' }"
+                mini-icon="N"
                 text="Data Nilai Akhir Mahasiswa"
               />
             </ul>

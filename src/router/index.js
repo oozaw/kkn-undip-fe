@@ -116,6 +116,7 @@ import IndexReportaseMhsAdmin from "../views/admin/kelola-mhs/reportase/Index.vu
 import IndexPendaftaranDosenAdmin from "../views/admin/kelola-dosen/pendaftaran-lokasi/Index.vue";
 import IndexPemilihanMhsAdmin from "../views/admin/kelola-dosen/pemilihan-mhs/Index.vue";
 import IndexPresensiDosenAdmin from "../views/admin/kelola-dosen/presensi/Index.vue";
+import IndexNilaiAkhirMhsAdmin from "../views/admin/kelola-dosen/nilai-akhir-mhs/Index.vue";
 
 const routes = [
   {
@@ -597,6 +598,14 @@ const routes = [
     path: "/kelola-dosen/presensi",
     name: "Presensi Dosen Admin",
     component: IndexPresensiDosenAdmin,
+    meta: {
+      requiresAuth: true,
+    },
+  },
+  {
+    path: "/kelola-dosen/nilai-akhir",
+    name: "Nilai Akhir Mahasiswa Admin",
+    component: IndexNilaiAkhirMhsAdmin,
     meta: {
       requiresAuth: true,
     },
