@@ -272,9 +272,9 @@
                 text="Data Pendaftaran & Lokasi"
               />
               <sidenav-item
-                :isActive="getRoute2() === 'post-test'"
-                :to="{ name: 'Nilai Post Test Mahasiswa Admin' }"
-                mini-icon="N"
+                :isActive="getRoute2() === 'pemilihan-mhs'"
+                :to="{ name: 'Pemilihan Mahasiswa Admin' }"
+                mini-icon="P"
                 text="Data Pemilihan Mahasiswa"
               />
               <sidenav-item
