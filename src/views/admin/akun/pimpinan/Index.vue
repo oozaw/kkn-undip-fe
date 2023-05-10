@@ -12,25 +12,25 @@
           <div class="pb-0 card-header">
             <div class="d-lg-flex">
               <div>
-                <h5 class="mb-2">Data Reviewers</h5>
+                <h5 class="mb-2">Data Pimpinan</h5>
               </div>
               <div class="my-auto mt-4 ms-auto mt-lg-0">
                 <div class="my-auto ms-auto">
                   <router-link
                     class="mb-0 btn bg-gradient-success btn-sm"
-                    :to="{ name: 'Tambah Reviewer' }"
-                    >+&nbsp; Tambah Reviewer
+                    :to="{ name: 'Tambah Pimpinan' }"
+                    >+&nbsp; Tambah Pimpinan
                   </router-link>
                   <button
                     type="button"
                     class="mx-2 mb-0 btn btn-primary btn-sm"
                     data-bs-toggle="modal"
-                    data-bs-target="#import-reviewer"
+                    data-bs-target="#import-pimpinan"
                   >
                     Impor
                   </button>
                   <div
-                    id="import-reviewer"
+                    id="import-pimpinan"
                     class="modal fade"
                     tabindex="-1"
                     aria-hidden="true"
@@ -39,7 +39,7 @@
                       <div class="modal-content">
                         <div class="modal-header">
                           <h5 id="ModalLabel" class="modal-title">
-                            Impor Data Reviewer via File Excel
+                            Impor Data Pimpinan via File Excel
                           </h5>
                           <i class="fas fa-upload ms-3"></i>
                           <button
@@ -52,7 +52,7 @@
                         <div class="modal-body">
                           <p>
                             Silahkan cari dan pilih file excel berisi data
-                            reviewer
+                            pimpinan
                           </p>
                           <input
                             type="file"
@@ -99,7 +99,7 @@
           </div>
           <div class="pt-1 px-0 pb-0 card-body">
             <div class="table-responsive">
-              <table id="reviewer-list" class="table table-flush">
+              <table id="pimpinan-list" class="table table-flush">
                 <thead class="thead-light">
                   <tr>
                     <th class="col-1">No.</th>
@@ -107,6 +107,7 @@
                     <th>NIP</th>
                     <th>Username</th>
                     <th>Password</th>
+                    <th>Status</th>
                     <th>Action</th>
                   </tr>
                 </thead>
@@ -114,10 +115,10 @@
                   <tr>
                     <td class="text-sm">1</td>
                     <td>
-                      <h6 class="my-auto">Reviewer 1</h6>
+                      <h6 class="my-auto">Pimpinan 1</h6>
                     </td>
                     <td class="text-sm">91024934098</td>
-                    <td class="text-sm">rev_1</td>
+                    <td class="text-sm">pim_1</td>
                     <td class="text-sm">
                       <span id="password_value" class="me-3">*******</span>
                       <a
@@ -160,12 +161,13 @@
                         </div>
                       </div>
                     </td>
+                    <td class="text-sm">Pimpinan LPPM</td>
                     <td class="text-sm">
                       <a
                         href="javascript:;"
                         data-bs-toggle="tooltip"
-                        data-bs-original-title="Detail Reviewer"
-                        title="Detail Reviewer"
+                        data-bs-original-title="Detail Pimpinan"
+                        title="Detail Pimpinan"
                       >
                         <i class="fas fa-eye text-info"></i>
                       </a>
@@ -173,16 +175,16 @@
                         href="javascript:;"
                         class="mx-3"
                         data-bs-toggle="tooltip"
-                        data-bs-original-title="Edit Reviewer"
-                        title="Edit Reviewer"
+                        data-bs-original-title="Edit Pimpinan"
+                        title="Edit Pimpinan"
                       >
                         <i class="fas fa-user-edit text-primary"></i>
                       </a>
                       <a
                         href="javascript:;"
                         data-bs-toggle="tooltip"
-                        data-bs-original-title="Hapus Reviewer"
-                        title="Hapus Reviewer"
+                        data-bs-original-title="Hapus Pimpinan"
+                        title="Hapus Pimpinan"
                       >
                         <i class="fas fa-trash text-danger"></i>
                       </a>
@@ -196,6 +198,7 @@
                     <th>NIP</th>
                     <th>Username</th>
                     <th>Password</th>
+                    <th>Status</th>
                     <th>Action</th>
                   </tr>
                 </tfoot>
@@ -214,13 +217,13 @@ import setTooltip from "@/assets/js/tooltip.js";
 import HeaderProfileCard from "@/views/dashboards/components/HeaderProfileCard.vue";
 
 export default {
-  name: "IndexReviewer",
+  name: "IndexPimpinan",
   components: {
     HeaderProfileCard,
   },
   mounted() {
-    if (document.getElementById("reviewer-list")) {
-      const dataTableSearch = new DataTable("#reviewer-list", {
+    if (document.getElementById("pimpinan-list")) {
+      const dataTableSearch = new DataTable("#pimpinan-list", {
         searchable: true,
         fixedHeight: false,
         perPage: 5,
@@ -232,7 +235,7 @@ export default {
 
           var data = {
             type: type,
-            filename: "Data Reviewer",
+            filename: "Data Pimpinan",
           };
 
           // if (type === "csv") {

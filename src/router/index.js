@@ -73,6 +73,8 @@ import IndexAdministrator from "../views/admin/akun/administrator/Index.vue";
 import AddAdministrator from "../views/admin/akun/administrator/Add.vue";
 import IndexReviewer from "../views/admin/akun/reviewer/Index.vue";
 import AddReviewer from "../views/admin/akun/reviewer/Add.vue";
+import IndexPimpinan from "../views/admin/akun/pimpinan/Index.vue";
+import AddPimpinan from "../views/admin/akun/pimpinan/Add.vue";
 import EditProfile from "../views/pendaftaran/profile/Edit.vue";
 import EditBerkasMhs from "../views/pendaftaran/berkas/Edit.vue";
 import DaftarLokasi from "../views/pendaftaran/lokasi/Daftar.vue";
@@ -241,6 +243,22 @@ const routes = [
     path: "/akun/reviewer/add",
     name: "Tambah Reviewer",
     component: AddReviewer,
+    meta: {
+      requiresAuth: true,
+    },
+  },
+  {
+    path: "/akun/pimpinan",
+    name: "Pimpinan",
+    component: IndexPimpinan,
+    meta: {
+      requiresAuth: true,
+    },
+  },
+  {
+    path: "/akun/pimpinan/add",
+    name: "Tambah Pimpinan",
+    component: AddPimpinan,
     meta: {
       requiresAuth: true,
     },

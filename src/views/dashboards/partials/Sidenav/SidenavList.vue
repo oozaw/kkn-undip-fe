@@ -185,8 +185,8 @@
                 text="Reviewer"
               />
               <sidenav-item
-                :isActive="getRoute2() === 'halaman'"
-                :to="{ name: 'Halaman' }"
+                :isActive="getRoute2() === 'pimpinan'"
+                :to="{ name: 'Pimpinan' }"
                 mini-icon="P"
                 text="Pimpinan"
               />
