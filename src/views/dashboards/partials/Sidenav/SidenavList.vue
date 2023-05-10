@@ -179,8 +179,8 @@
                 text="BAPPEDA"
               />
               <sidenav-item
-                :isActive="getRoute2() === 'pengumuman'"
-                :to="{ name: 'Pengumuman' }"
+                :isActive="getRoute2() === 'reviewer'"
+                :to="{ name: 'Reviewer' }"
                 mini-icon="R"
                 text="Reviewer"
               />
