@@ -249,6 +249,51 @@
         </sidenav-collapse>
       </li>
 
+      <!-- Kelola Dosen -->
+      <li class="nav-item">
+        <sidenav-collapse
+          collapse-ref="kelola-dosen"
+          nav-text="Kelola Dosen"
+          :class="getRoute() === 'kelola-dosen' ? 'active' : ''"
+        >
+          <template #icon>
+            <font-awesome-icon
+              icon="fa-solid fa-sliders"
+              class="text-warning"
+            />
+          </template>
+          <template #list>
+            <ul class="nav ms-4">
+              <!-- nav links -->
+              <sidenav-item
+                :isActive="getRoute2() === 'pendaftaran'"
+                :to="{ name: 'Pendaftaran Dosen Admin' }"
+                mini-icon="P"
+                text="Data Pendaftaran & Lokasi"
+              />
+              <sidenav-item
+                :isActive="getRoute2() === 'post-test'"
+                :to="{ name: 'Nilai Post Test Mahasiswa Admin' }"
+                mini-icon="N"
+                text="Data Pemilihan Mahasiswa"
+              />
+              <sidenav-item
+                :isActive="getRoute2() === 'presensi'"
+                :to="{ name: 'Presensi Mahasiswa Admin' }"
+                mini-icon="P"
+                text="Data Presensi Harian"
+              />
+              <sidenav-item
+                :isActive="getRoute2() === 'lrk-lpk'"
+                :to="{ name: 'LRK & LPK Mahasiswa Admin' }"
+                mini-icon="L"
+                text="Data Nilai Akhir Mahasiswa"
+              />
+            </ul>
+          </template>
+        </sidenav-collapse>
+      </li>
+
       <li class="nav-item">
         <sidenav-collapse
           collapse-ref="pendaftaran"

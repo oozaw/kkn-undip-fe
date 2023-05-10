@@ -113,6 +113,7 @@ import IndexNilaiPostTestMhsAdmin from "../views/admin/kelola-mhs/post-test/Inde
 import IndexPresensiMhsAdmin from "../views/admin/kelola-mhs/presensi/Index.vue";
 import IndexLRKLPKMhsAdmin from "../views/admin/kelola-mhs/lrk-lpk/Index.vue";
 import IndexReportaseMhsAdmin from "../views/admin/kelola-mhs/reportase/Index.vue";
+import IndexPendaftaranDosenAdmin from "../views/admin/kelola-dosen/pendaftaran-lokasi/Index.vue";
 
 const routes = [
   {
@@ -569,6 +570,15 @@ const routes = [
     path: "/kelola-mhs/reportase",
     name: "Reportase Mahasiswa Admin",
     component: IndexReportaseMhsAdmin,
+    meta: {
+      requiresAuth: true,
+    },
+  },
+  // Kelola Dosen
+  {
+    path: "/kelola-dosen/pendaftaran",
+    name: "Pendaftaran Dosen Admin",
+    component: IndexPendaftaranDosenAdmin,
     meta: {
       requiresAuth: true,
     },
