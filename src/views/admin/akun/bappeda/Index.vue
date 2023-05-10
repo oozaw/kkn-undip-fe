@@ -134,12 +134,15 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <tr>
-                    <td class="text-sm">1</td>
+                  <tr
+                    v-for="(bappeda, index) in g$listBappeda"
+                    :key="bappeda.id_bappeda"
+                  >
+                    <td class="text-sm">{{ index + 1 }}</td>
                     <td>
-                      <h6 class="my-auto">BAPPEDA 1</h6>
+                      <h6 class="my-auto">{{ bappeda.nama }}</h6>
                     </td>
-                    <td class="text-sm">83384182392</td>
+                    <td class="text-sm">{{ bappeda.nisn }}</td>
                     <td class="text-sm">3/8</td>
                     <td>
                       <span class="badge badge-danger badge-sm">Ditolak</span>
@@ -324,7 +327,7 @@ export default {
     try {
       await this.a$listBappeda();
     } catch (error) {
-      console.log("sd");
+      console.log(error);
     }
   },
   mounted() {
