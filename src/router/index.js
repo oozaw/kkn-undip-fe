@@ -108,6 +108,7 @@ import IndexPengumuman from "../views/admin/menu-utama/pengumuman/Index.vue";
 import TambahPengumuman from "../views/admin/menu-utama/pengumuman/Add.vue";
 import IndexKelolaHalaman from "../views/admin/menu-utama/halaman/Index.vue";
 import EditHalaman from "../views/admin/menu-utama/halaman/Edit.vue";
+import IndexPendaftaranMhsAdmin from "../views/admin/kelola-mhs/pendaftaran/Index.vue";
 
 const routes = [
   {
@@ -523,6 +524,14 @@ const routes = [
     path: "/admin/halaman/edit",
     name: "Edit Halaman",
     component: EditHalaman,
+    meta: {
+      requiresAuth: true,
+    },
+  },
+  {
+    path: "/kelola-mhs/pendaftaran",
+    name: "Pendaftaran Mahasiswa Admin",
+    component: IndexPendaftaranMhsAdmin,
     meta: {
       requiresAuth: true,
     },

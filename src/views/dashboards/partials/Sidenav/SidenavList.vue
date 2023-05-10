@@ -149,7 +149,10 @@
           :class="getRoute() === 'akun' ? 'active' : ''"
         >
           <template #icon>
-            <font-awesome-icon icon="fa-solid fa-sliders" class="text-dark" />
+            <font-awesome-icon
+              icon="fa-solid fa-users-gear"
+              class="text-dark"
+            />
           </template>
           <template #list>
             <ul class="nav ms-4">
@@ -189,6 +192,57 @@
                 :to="{ name: 'Pimpinan' }"
                 mini-icon="P"
                 text="Pimpinan"
+              />
+            </ul>
+          </template>
+        </sidenav-collapse>
+      </li>
+
+      <!-- Kelola Mahasiswa -->
+      <li class="nav-item">
+        <sidenav-collapse
+          collapse-ref="kelola-mhs"
+          nav-text="Kelola Mahasiswa"
+          :class="getRoute() === 'kelola-mhs' ? 'active' : ''"
+        >
+          <template #icon>
+            <font-awesome-icon
+              icon="fa-solid fa-sliders"
+              class="text-success"
+            />
+          </template>
+          <template #list>
+            <ul class="nav ms-4">
+              <!-- nav links -->
+              <sidenav-item
+                :isActive="getRoute2() === 'pendaftaran'"
+                :to="{ name: 'Pendaftaran Mahasiswa Admin' }"
+                mini-icon="P"
+                text="Data Pendaftaran"
+              />
+              <sidenav-item
+                :isActive="getRoute2() === 'dosen'"
+                :to="{ name: 'Dosen' }"
+                mini-icon="D"
+                text="Data Nilai Post Test"
+              />
+              <sidenav-item
+                :isActive="getRoute2() === 'administrator'"
+                :to="{ name: 'Administrator' }"
+                mini-icon="A"
+                text="Data Presensi Harian"
+              />
+              <sidenav-item
+                :isActive="getRoute2() === 'bappeda'"
+                :to="{ name: 'Bappeda' }"
+                mini-icon="B"
+                text="Data LRK & LPK"
+              />
+              <sidenav-item
+                :isActive="getRoute2() === 'reviewer'"
+                :to="{ name: 'Reviewer' }"
+                mini-icon="R"
+                text="Data Reportase"
               />
             </ul>
           </template>
