@@ -239,8 +239,8 @@
                 text="Data LRK & LPK"
               />
               <sidenav-item
-                :isActive="getRoute2() === 'reviewer'"
-                :to="{ name: 'Reviewer' }"
+                :isActive="getRoute2() === 'reportase'"
+                :to="{ name: 'Reportase Mahasiswa Admin' }"
                 mini-icon="R"
                 text="Data Reportase"
               />
