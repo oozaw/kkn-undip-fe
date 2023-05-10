@@ -227,9 +227,9 @@
                 text="Data Nilai Post Test"
               />
               <sidenav-item
-                :isActive="getRoute2() === 'administrator'"
-                :to="{ name: 'Administrator' }"
-                mini-icon="A"
+                :isActive="getRoute2() === 'presensi'"
+                :to="{ name: 'Presensi Mahasiswa Admin' }"
+                mini-icon="P"
                 text="Data Presensi Harian"
               />
               <sidenav-item
