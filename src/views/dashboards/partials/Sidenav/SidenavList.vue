@@ -233,9 +233,9 @@
                 text="Data Presensi Harian"
               />
               <sidenav-item
-                :isActive="getRoute2() === 'bappeda'"
-                :to="{ name: 'Bappeda' }"
-                mini-icon="B"
+                :isActive="getRoute2() === 'lrk-lpk'"
+                :to="{ name: 'LRK & LPK Mahasiswa Admin' }"
+                mini-icon="L"
                 text="Data LRK & LPK"
               />
               <sidenav-item
