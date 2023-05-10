@@ -49,13 +49,13 @@
           <div class="pb-0 card-header">
             <div class="d-lg-flex">
               <div>
-                <h5 class="mb-2">Data Pendaftaran Mahasiswa</h5>
-                <p class="text-sm mb-0">Data pendaftaran mahasiswa KKN</p>
+                <h5 class="mb-2">Data Nilai Post Test</h5>
+                <p class="text-sm mb-0">Data nilai post test mahasiswa KKN</p>
               </div>
               <div class="my-auto mt-4 ms-auto mt-lg-0">
                 <div class="my-auto ms-auto">
                   <button
-                    class="mt-2 mb-0 btn btn-outline-success btn-sm export-pendaftaran mt-sm-0"
+                    class="mt-2 mb-0 btn btn-outline-success btn-sm export-post-test mt-sm-0"
                     data-type="csv"
                     type="button"
                     name="button"
@@ -68,13 +68,14 @@
           </div>
           <div class="ms-2 pt-1 px-0 pb-0 card-body">
             <div class="table-responsive">
-              <table id="pendaftaran-list" class="table table-flush">
+              <table id="post-test-list" class="table table-flush">
                 <thead class="thead-light">
                   <tr>
                     <th class="col-1 ps-2">No.</th>
                     <th>Nama</th>
                     <th>NIM</th>
-                    <th>Gelombang</th>
+                    <th>Nama Test</th>
+                    <th>Nilai</th>
                     <th>Status</th>
                     <th>Action</th>
                   </tr>
@@ -86,9 +87,10 @@
                       <h6 class="my-auto">Mahasiswa 1</h6>
                     </td>
                     <td class="text-sm">1234352435234</td>
-                    <td class="text-sm">1</td>
+                    <td class="text-sm">Post Test</td>
+                    <td class="text-sm">70</td>
                     <td class="text-sm">
-                      <span class="badge badge-success">Diterima</span>
+                      <span class="badge badge-success">Lulus</span>
                     </td>
                     <td class="text-sm">
                       <a
@@ -123,10 +125,11 @@
                     <td class="ms-0 px-0">
                       <h6 class="my-auto">Mahasiswa 2</h6>
                     </td>
-                    <td class="text-sm">123214312421</td>
-                    <td class="text-sm">1</td>
+                    <td class="text-sm">2389476329746</td>
+                    <td class="text-sm">Post Test</td>
+                    <td class="text-sm">45</td>
                     <td class="text-sm">
-                      <span class="badge badge-danger">Ditolak</span>
+                      <span class="badge badge-danger">Tidak Lulus</span>
                     </td>
                     <td class="text-sm">
                       <a
@@ -162,9 +165,10 @@
                       <h6 class="my-auto">Mahasiswa 3</h6>
                     </td>
                     <td class="text-sm">123214312421</td>
-                    <td class="text-sm">1</td>
+                    <td class="text-sm">Remidi Post Test</td>
+                    <td class="text-sm">74</td>
                     <td class="text-sm">
-                      <span class="badge badge-secondary">Verifikasi</span>
+                      <span class="badge badge-success">Lulus</span>
                     </td>
                     <td class="text-sm">
                       <a
@@ -200,7 +204,8 @@
                     <th class="col-1 ps-2">No.</th>
                     <th>Nama</th>
                     <th>NIM</th>
-                    <th>Gelombang</th>
+                    <th>Nama Test</th>
+                    <th>Nilai</th>
                     <th>Status</th>
                     <th>Action</th>
                   </tr>
@@ -221,7 +226,7 @@ import setTooltip from "@/assets/js/tooltip.js";
 import HeaderProfileCard from "@/views/dashboards/components/HeaderProfileCard.vue";
 
 export default {
-  name: "IndexPendaftaranMhsAdmin",
+  name: "IndexNilaiPostTestAdmin",
   components: {
     HeaderProfileCard,
   },
@@ -235,21 +240,21 @@ export default {
     this.choicesTema = this.getChoices("choices-tema");
     this.choicesLokasi = this.getChoices("choices-lokasi");
 
-    if (document.getElementById("pendaftaran-list")) {
-      const dataTableSearch = new DataTable("#pendaftaran-list", {
+    if (document.getElementById("post-test-list")) {
+      const dataTableSearch = new DataTable("#post-test-list", {
         searchable: true,
         fixedHeight: false,
         perPage: 5,
       });
 
-      document.querySelectorAll(".export-pendaftaran").forEach(function (el) {
+      document.querySelectorAll(".export-post-test").forEach(function (el) {
         el.addEventListener("click", function () {
           var type = el.dataset.type;
 
           var data = {
             type: type,
             // tambah nama yang lebih spesifik, cth: nama desa
-            filename: "Data Pendaftaran",
+            filename: "Data Nilai Post Test",
           };
 
           // if (type === "csv") {

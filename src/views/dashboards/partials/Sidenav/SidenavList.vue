@@ -221,9 +221,9 @@
                 text="Data Pendaftaran"
               />
               <sidenav-item
-                :isActive="getRoute2() === 'dosen'"
-                :to="{ name: 'Dosen' }"
-                mini-icon="D"
+                :isActive="getRoute2() === 'post-test'"
+                :to="{ name: 'Nilai Post Test Mahasiswa Admin' }"
+                mini-icon="N"
                 text="Data Nilai Post Test"
               />
               <sidenav-item

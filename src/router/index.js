@@ -109,6 +109,7 @@ import TambahPengumuman from "../views/admin/menu-utama/pengumuman/Add.vue";
 import IndexKelolaHalaman from "../views/admin/menu-utama/halaman/Index.vue";
 import EditHalaman from "../views/admin/menu-utama/halaman/Edit.vue";
 import IndexPendaftaranMhsAdmin from "../views/admin/kelola-mhs/pendaftaran/Index.vue";
+import IndexNilaiPostTestMhsAdmin from "../views/admin/kelola-mhs/post-test/Index.vue";
 
 const routes = [
   {
@@ -528,10 +529,19 @@ const routes = [
       requiresAuth: true,
     },
   },
+  // Kelola Mahasiswa
   {
     path: "/kelola-mhs/pendaftaran",
     name: "Pendaftaran Mahasiswa Admin",
     component: IndexPendaftaranMhsAdmin,
+    meta: {
+      requiresAuth: true,
+    },
+  },
+  {
+    path: "/kelola-mhs/post-test",
+    name: "Nilai Post Test Mahasiswa Admin",
+    component: IndexNilaiPostTestMhsAdmin,
     meta: {
       requiresAuth: true,
     },
