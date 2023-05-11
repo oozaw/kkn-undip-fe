@@ -61,10 +61,6 @@ import Quill from "quill";
 import HeaderProfileCard from "@/views/dashboards/components/HeaderProfileCard.vue";
 import ArgonInput from "@/components/ArgonInput.vue";
 import img from "@/assets/img/team-3.jpg";
-import img1 from "@/assets/img/small-logos/logo-slack.svg";
-import img2 from "@/assets/img/small-logos/logo-spotify.svg";
-import img3 from "@/assets/img/small-logos/logo-atlassian.svg";
-import img4 from "@/assets/img/small-logos/logo-asana.svg";
 
 export default {
   name: "EditKecamatan",
@@ -75,10 +71,6 @@ export default {
   data() {
     return {
       img,
-      img1,
-      img2,
-      img3,
-      img4,
     };
   },
   mounted() {

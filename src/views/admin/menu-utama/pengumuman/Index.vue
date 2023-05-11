@@ -87,7 +87,7 @@
                 </thead>
                 <tbody>
                   <tr>
-                    <td class="text-sm ps-3 d-flex">1</td>
+                    <td class="text-sm ps-3">1</td>
                     <td class="ms-0 px-0">
                       <h6 class="my-auto">Pengumuman 1</h6>
                     </td>
