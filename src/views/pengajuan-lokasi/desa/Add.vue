@@ -78,7 +78,7 @@ export default {
       img2,
       img3,
       img4,
-      choicesKec: Choices,
+      choicesKec: undefined,
     };
   },
   mounted() {

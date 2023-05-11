@@ -68,7 +68,7 @@
                 </thead>
                 <tbody>
                   <tr>
-                    <td class="text-sm ps-3 d-flex">1</td>
+                    <td class="text-sm ps-3">1</td>
                     <td class="ms-0 px-0">
                       <h6 class="my-auto">Kecamatan 1</h6>
                     </td>
@@ -205,7 +205,7 @@
                     </td>
                   </tr>
                   <tr>
-                    <td class="text-sm ps-3 d-flex">2</td>
+                    <td class="text-sm ps-3">2</td>
                     <td class="ms-0 px-0">
                       <h6 class="my-auto">Kecamatan 2</h6>
                     </td>
@@ -338,7 +338,7 @@
                     </td>
                   </tr>
                   <tr>
-                    <td class="text-sm ps-3 d-flex">3</td>
+                    <td class="text-sm ps-3">3</td>
                     <td class="ms-0 px-0">
                       <h6 class="my-auto">Kecamatan 3</h6>
                     </td>
@@ -471,7 +471,7 @@
                     </td>
                   </tr>
                   <tr>
-                    <td class="text-sm ps-3 d-flex">4</td>
+                    <td class="text-sm ps-3">4</td>
                     <td class="ms-0 px-0">
                       <h6 class="my-auto">Kecamatan 4</h6>
                     </td>
@@ -604,7 +604,7 @@
                     </td>
                   </tr>
                   <tr>
-                    <td class="text-sm ps-3 d-flex">5</td>
+                    <td class="text-sm ps-3">5</td>
                     <td class="ms-0 px-0">
                       <h6 class="my-auto">Kecamatan 5</h6>
                     </td>

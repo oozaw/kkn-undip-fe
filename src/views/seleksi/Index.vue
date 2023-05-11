@@ -83,7 +83,7 @@
                 </thead>
                 <tbody>
                   <tr>
-                    <td class="text-sm ps-3 d-flex">
+                    <td class="text-sm ps-3">
                       <span class="me-2">1</span>
                       <argon-checkbox
                         id="checkbox-mhs-1"
@@ -118,7 +118,7 @@
                     </td>
                   </tr>
                   <tr>
-                    <td class="text-sm ps-3 d-flex">
+                    <td class="text-sm ps-3">
                       <span class="me-2">2</span>
                       <argon-checkbox
                         id="checkbox-mhs-1"
@@ -153,7 +153,7 @@
                     </td>
                   </tr>
                   <tr>
-                    <td class="text-sm ps-3 d-flex">
+                    <td class="text-sm ps-3">
                       <span class="me-2">3</span>
                       <argon-checkbox
                         id="checkbox-mhs-1"
@@ -188,7 +188,7 @@
                     </td>
                   </tr>
                   <tr>
-                    <td class="text-sm ps-3 d-flex">
+                    <td class="text-sm ps-3">
                       <span class="me-2">4</span>
                       <argon-checkbox
                         id="checkbox-mhs-1"
@@ -223,7 +223,7 @@
                     </td>
                   </tr>
                   <tr>
-                    <td class="text-sm ps-3 d-flex">
+                    <td class="text-sm ps-3">
                       <span class="me-2">5</span>
                       <argon-checkbox
                         id="checkbox-mhs-1"
@@ -258,7 +258,7 @@
                     </td>
                   </tr>
                   <tr>
-                    <td class="text-sm ps-3 d-flex">
+                    <td class="text-sm ps-3">
                       <span class="me-2">6</span>
                       <argon-checkbox
                         id="checkbox-mhs-1"
