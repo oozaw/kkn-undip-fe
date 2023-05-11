@@ -21,6 +21,46 @@
         </router-link>
       </li>
       <li class="nav-item">
+        <router-link :to="{ name: 'Pengguna' }">
+          <sidenav-collapse
+            nav-text="Pengguna"
+            :collapse="false"
+            url="#"
+            :aria-controls="''"
+            collapse-ref="/pengguna"
+            :class="getRoute() === 'pengguna' ? 'active' : ''"
+          >
+            <template #icon>
+              <font-awesome-icon
+                icon="fa-solid fa-users"
+                class="text-success"
+              />
+              <!-- <i class="ni ni-single-02 text-success text-sm"></i> -->
+            </template>
+          </sidenav-collapse>
+        </router-link>
+      </li>
+      <li class="nav-item">
+        <router-link :to="{ name: 'Mahasiswa' }">
+          <sidenav-collapse
+            nav-text="Mahasiswa"
+            :collapse="false"
+            url="#"
+            :aria-controls="''"
+            collapse-ref="/mahasiswa"
+            :class="getRoute() === 'mahasiswa' ? 'active' : ''"
+          >
+            <template #icon>
+              <font-awesome-icon
+                icon="fa-solid fa-users-rays"
+                class="text-primary"
+              />
+              <!-- <i class="ni ni-single-02 text-primary text-sm"></i> -->
+            </template>
+          </sidenav-collapse>
+        </router-link>
+      </li>
+      <li class="nav-item">
         <sidenav-collapse
           collapse-ref="pendaftaran"
           nav-text="Pendaftaran KKN"

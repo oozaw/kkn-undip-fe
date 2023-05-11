@@ -388,9 +388,6 @@ const routes = [
     path: "/kegiatan/nilai/edit",
     name: "Edit Nilai Akhir",
     component: EditNilai,
-    meta: {
-      requiresAuth: true,
-    },
   },
 
   // =================================================================================================
