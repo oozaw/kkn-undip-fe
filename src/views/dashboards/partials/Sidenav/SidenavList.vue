@@ -20,46 +20,7 @@
           </sidenav-collapse>
         </router-link>
       </li>
-      <li class="nav-item">
-        <router-link :to="{ name: 'Pengguna' }">
-          <sidenav-collapse
-            nav-text="Pengguna"
-            :collapse="false"
-            url="#"
-            :aria-controls="''"
-            collapse-ref="/pengguna"
-            :class="getRoute() === 'pengguna' ? 'active' : ''"
-          >
-            <template #icon>
-              <font-awesome-icon
-                icon="fa-solid fa-users"
-                class="text-success"
-              />
-              <!-- <i class="ni ni-single-02 text-success text-sm"></i> -->
-            </template>
-          </sidenav-collapse>
-        </router-link>
-      </li>
-      <li class="nav-item">
-        <router-link :to="{ name: 'Mahasiswa' }">
-          <sidenav-collapse
-            nav-text="Mahasiswa"
-            :collapse="false"
-            url="#"
-            :aria-controls="''"
-            collapse-ref="/mahasiswa"
-            :class="getRoute() === 'mahasiswa' ? 'active' : ''"
-          >
-            <template #icon>
-              <font-awesome-icon
-                icon="fa-solid fa-users-rays"
-                class="text-primary"
-              />
-              <!-- <i class="ni ni-single-02 text-primary text-sm"></i> -->
-            </template>
-          </sidenav-collapse>
-        </router-link>
-      </li>
+
       <li class="nav-item">
         <router-link :to="{ name: 'Edit Data Diri' }">
           <sidenav-collapse
@@ -80,6 +41,7 @@
           </sidenav-collapse>
         </router-link>
       </li>
+
       <li class="nav-item">
         <router-link :to="{ name: 'Profil Wilayah' }">
           <sidenav-collapse
@@ -100,6 +62,7 @@
           </sidenav-collapse>
         </router-link>
       </li>
+
       <li class="nav-item">
         <router-link :to="{ name: 'Pengajuan Lokasi' }">
           <sidenav-collapse
@@ -120,6 +83,217 @@
           </sidenav-collapse>
         </router-link>
       </li>
+
+      <!-- Menu Utama -->
+      <li class="nav-item">
+        <sidenav-collapse
+          collapse-ref="main-menu"
+          nav-text="Menu Utama"
+          :class="getRoute() === 'admin' ? 'active' : ''"
+        >
+          <template #icon>
+            <font-awesome-icon icon="fa-solid fa-list" class="text-primary" />
+          </template>
+          <template #list>
+            <ul class="nav ms-4">
+              <!-- nav links -->
+              <sidenav-item
+                :to="{ name: 'Edit Data Diri' }"
+                mini-icon="S"
+                text="Statistik"
+              />
+              <sidenav-item
+                :isActive="getRoute2() === 'kkn'"
+                :to="{ name: 'Index KKN Terdaftar' }"
+                mini-icon="P"
+                text="Pendaftaran KKN"
+              />
+              <sidenav-item
+                :to="{ name: 'Pengajuan Wilayah' }"
+                mini-icon="L"
+                text="Pengajuan Wilayah"
+              />
+              <sidenav-item
+                :isActive="getRoute2() === 'kalender'"
+                :to="{ name: 'Kalender' }"
+                mini-icon="K"
+                text="Kalender KKN"
+              />
+              <sidenav-item
+                :isActive="getRoute2() === 'pengumuman'"
+                :to="{ name: 'Pengumuman' }"
+                mini-icon="P"
+                text="Pengumuman"
+              />
+              <sidenav-item
+                :isActive="getRoute2() === 'halaman'"
+                :to="{ name: 'Halaman' }"
+                mini-icon="H"
+                text="Kelola Halaman"
+              />
+              <sidenav-item
+                :to="{ name: 'Registrasi' }"
+                mini-icon="K"
+                text="Download Area"
+              />
+            </ul>
+          </template>
+        </sidenav-collapse>
+      </li>
+
+      <!-- Kelola Akun -->
+      <li class="nav-item">
+        <sidenav-collapse
+          collapse-ref="kelola-akun"
+          nav-text="Kelola Akun"
+          :class="getRoute() === 'akun' ? 'active' : ''"
+        >
+          <template #icon>
+            <font-awesome-icon
+              icon="fa-solid fa-users-gear"
+              class="text-dark"
+            />
+          </template>
+          <template #list>
+            <ul class="nav ms-4">
+              <!-- nav links -->
+              <sidenav-item
+                :isActive="getRoute2() === 'mahasiswa'"
+                :to="{ name: 'Mahasiswa' }"
+                mini-icon="M"
+                text="Mahasiswa"
+              />
+              <sidenav-item
+                :isActive="getRoute2() === 'dosen'"
+                :to="{ name: 'Dosen' }"
+                mini-icon="D"
+                text="Dosen"
+              />
+              <sidenav-item
+                :isActive="getRoute2() === 'administrator'"
+                :to="{ name: 'Administrator' }"
+                mini-icon="A"
+                text="Administrator"
+              />
+              <sidenav-item
+                :isActive="getRoute2() === 'bappeda'"
+                :to="{ name: 'Bappeda' }"
+                mini-icon="B"
+                text="BAPPEDA"
+              />
+              <sidenav-item
+                :isActive="getRoute2() === 'reviewer'"
+                :to="{ name: 'Reviewer' }"
+                mini-icon="R"
+                text="Reviewer"
+              />
+              <sidenav-item
+                :isActive="getRoute2() === 'pimpinan'"
+                :to="{ name: 'Pimpinan' }"
+                mini-icon="P"
+                text="Pimpinan"
+              />
+            </ul>
+          </template>
+        </sidenav-collapse>
+      </li>
+
+      <!-- Kelola Mahasiswa -->
+      <li class="nav-item">
+        <sidenav-collapse
+          collapse-ref="kelola-mhs"
+          nav-text="Kelola Mahasiswa"
+          :class="getRoute() === 'kelola-mhs' ? 'active' : ''"
+        >
+          <template #icon>
+            <font-awesome-icon
+              icon="fa-solid fa-sliders"
+              class="text-success"
+            />
+          </template>
+          <template #list>
+            <ul class="nav ms-4">
+              <!-- nav links -->
+              <sidenav-item
+                :isActive="getRoute2() === 'pendaftaran'"
+                :to="{ name: 'Pendaftaran Mahasiswa Admin' }"
+                mini-icon="P"
+                text="Data Pendaftaran"
+              />
+              <sidenav-item
+                :isActive="getRoute2() === 'post-test'"
+                :to="{ name: 'Nilai Post Test Mahasiswa Admin' }"
+                mini-icon="N"
+                text="Data Nilai Post Test"
+              />
+              <sidenav-item
+                :isActive="getRoute2() === 'presensi'"
+                :to="{ name: 'Presensi Mahasiswa Admin' }"
+                mini-icon="P"
+                text="Data Presensi Harian"
+              />
+              <sidenav-item
+                :isActive="getRoute2() === 'lrk-lpk'"
+                :to="{ name: 'LRK & LPK Mahasiswa Admin' }"
+                mini-icon="L"
+                text="Data LRK & LPK"
+              />
+              <sidenav-item
+                :isActive="getRoute2() === 'reportase'"
+                :to="{ name: 'Reportase Mahasiswa Admin' }"
+                mini-icon="R"
+                text="Data Reportase"
+              />
+            </ul>
+          </template>
+        </sidenav-collapse>
+      </li>
+
+      <!-- Kelola Dosen -->
+      <li class="nav-item">
+        <sidenav-collapse
+          collapse-ref="kelola-dosen"
+          nav-text="Kelola Dosen"
+          :class="getRoute() === 'kelola-dosen' ? 'active' : ''"
+        >
+          <template #icon>
+            <font-awesome-icon
+              icon="fa-solid fa-sliders"
+              class="text-warning"
+            />
+          </template>
+          <template #list>
+            <ul class="nav ms-4">
+              <!-- nav links -->
+              <sidenav-item
+                :isActive="getRoute2() === 'pendaftaran'"
+                :to="{ name: 'Pendaftaran Dosen Admin' }"
+                mini-icon="P"
+                text="Data Pendaftaran & Lokasi"
+              />
+              <sidenav-item
+                :isActive="getRoute2() === 'pemilihan-mhs'"
+                :to="{ name: 'Pemilihan Mahasiswa Admin' }"
+                mini-icon="P"
+                text="Data Pemilihan Mahasiswa"
+              />
+              <sidenav-item
+                :isActive="getRoute2() === 'presensi'"
+                :to="{ name: 'Presensi Dosen Admin' }"
+                mini-icon="P"
+                text="Data Presensi Harian"
+              />
+              <sidenav-item
+                :isActive="getRoute2() === 'nilai-akhir'"
+                :to="{ name: 'Nilai Akhir Mahasiswa Admin' }"
+                mini-icon="N"
+                text="Data Nilai Akhir Mahasiswa"
+              />
+            </ul>
+          </template>
+        </sidenav-collapse>
+      </li>
+
       <li class="nav-item">
         <sidenav-collapse
           collapse-ref="pendaftaran"
@@ -226,13 +400,13 @@
       </li>
 
       <li class="nav-item">
-        <router-link :to="{ name: 'Pengguna' }">
+        <router-link :to="{ name: 'Mahasiswa' }">
           <sidenav-collapse
             nav-text="Download Area"
+            collapse-ref=""
             :collapse="false"
             url="#"
             :aria-controls="''"
-            collapse-ref="/pengguna"
             :class="getRoute() === 'pengguna' ? 'active' : ''"
           >
             <template #icon>
@@ -264,7 +438,7 @@ export default {
     },
     getRoute2() {
       const routeArr = this.$route.path.split("/");
-      // console.log(this.$route.path.split("/")[1]);
+      // console.log(this.$route.path.split("/")[2]);
       return routeArr[2];
     },
   },

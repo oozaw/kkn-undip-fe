@@ -12,7 +12,7 @@
       </div>
       <div class="col-sm-auto col-8 my-auto">
         <div class="h-100">
-          <h5 class="mb-1 font-weight-bolder">{{ name }}</h5>
+          <h5 class="mb-1 font-weight-bolder">{{ g$user.name }}</h5>
           <p class="mb-0 font-weight-bold text-sm">{{ description }}</p>
         </div>
       </div>
@@ -42,6 +42,8 @@
 <script>
 import ArgonButton from "@/components/ArgonButton.vue";
 import ArgonAvatar from "@/components/ArgonAvatar.vue";
+import { mapState } from "pinia";
+import d$auth from "@/store/auth";
 
 import imgDefault from "@/assets/img/team-3.jpg";
 
@@ -77,6 +79,9 @@ export default {
     return {
       imgDefault,
     };
+  },
+  computed: {
+    ...mapState(d$auth, ["g$user"]),
   },
 };
 </script>

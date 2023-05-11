@@ -212,7 +212,7 @@ import setTooltip from "@/assets/js/tooltip.js";
 import HeaderProfileCard from "@/views/dashboards/components/HeaderProfileCard.vue";
 
 export default {
-  name: "IndexReportase",
+  name: "IndexRegistrasiKKN",
   components: {
     HeaderProfileCard,
   },

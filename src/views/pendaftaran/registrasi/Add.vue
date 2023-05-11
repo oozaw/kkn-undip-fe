@@ -59,16 +59,10 @@
               </div>
               <div class="row mt-3">
                 <div class="col-12 mt-3 mt-lg-0">
-                  <label>KHS (Kartu Hasil Studi)</label>
-                  <form
-                    id="dropzone_proposal"
-                    action="/file-upload"
-                    class="form-control dropzone"
+                  <label for="file-prposal" class="form-label"
+                    >Proposal (*.pdf)</label
                   >
-                    <div class="fallback">
-                      <input name="file-proposal" type="file" multiple />
-                    </div>
-                  </form>
+                  <input class="form-control" type="file" id="file-prposal" />
                 </div>
               </div>
             </div>
@@ -101,44 +95,41 @@
 
 <script>
 import * as Choices from "choices.js";
-import Dropzone from "dropzone";
 import HeaderProfileCard from "@/views/dashboards/components/HeaderProfileCard.vue";
 
 import team1 from "@/assets/img/team-1.jpg";
 
 export default {
-  name: "EditBerkas",
+  name: "AddRegistrasiKKN",
   components: {
     HeaderProfileCard,
   },
   data() {
     return {
       team1,
+      choicesJenis: Choices,
+      choicesPeriode: Choices,
+      choicesWilayah: Choices,
     };
   },
   mounted() {
     if (document.getElementById("choices-jenis")) {
       var jenis = document.getElementById("choices-jenis");
-      new Choices(jenis, { allowHTML: true });
+      this.choicesJenis = new Choices(jenis, { allowHTML: true });
     }
     if (document.getElementById("choices-periode")) {
       var periode = document.getElementById("choices-periode");
-      new Choices(periode, { allowHTML: true });
+      this.choicesPeriode = new Choices(periode, { allowHTML: true });
     }
     if (document.getElementById("choices-wilayah")) {
       var kab = document.getElementById("choices-wilayah");
-      new Choices(kab, { allowHTML: true });
+      this.choicesWilayah = new Choices(kab, { allowHTML: true });
     }
-    if (document.getElementById("choices-kec")) {
-      var kec = document.getElementById("choices-kec");
-      new Choices(kec, { allowHTML: true });
-    }
-    Dropzone.autoDiscover = false;
-    var drop_proposal = document.getElementById("dropzone_proposal");
-    new Dropzone(drop_proposal, {
-      url: "/file/post",
-      addRemoveLinks: true,
-    });
+  },
+  beforeUnmount() {
+    this.choicesJenis.destroy();
+    this.choicesPeriode.destroy();
+    this.choicesWilayah.destroy();
   },
 };
 </script>

@@ -1,0 +1,89 @@
+<template>
+  <div class="py-4 container-fluid">
+    <div class="row">
+      <div class="col-lg-12 mt-lg-0">
+        <HeaderProfileCard
+          :button="true"
+          button-text="Tambah Administrator"
+          description="KKN Reguler Tim 1 2023"
+        />
+      </div>
+    </div>
+    <div class="mt-4">
+      <div class="mt-4 mt-lg-0">
+        <div class="card">
+          <div class="card-body pb-5">
+            <h5 class="font-weight-bolder mb-3">Tambah Administrator</h5>
+            <div class="row">
+              <div class="col-12 col-sm-6">
+                <label>Nama</label>
+                <input
+                  class="form-control"
+                  type="text"
+                  name="nama"
+                  id="nama"
+                  placeholder="Masukkan nama administrator"
+                />
+              </div>
+              <div class="mt-3 col-12 col-sm-6 mt-sm-0">
+                <label>NIP</label>
+                <input
+                  class="form-control"
+                  type="number"
+                  name="nip"
+                  id="nip"
+                  placeholder="Masukkan NIP administrator"
+                />
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-6">
+                <label class="mt-4">Username</label>
+                <input
+                  class="form-control"
+                  type="text"
+                  placeholder="Masukkan username"
+                />
+              </div>
+              <div class="col-6">
+                <label class="mt-4">Password</label>
+                <input
+                  class="form-control"
+                  type="password"
+                  placeholder="Masukkan password"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script>
+import Choices from "choices.js";
+import HeaderProfileCard from "@/views/dashboards/components/HeaderProfileCard.vue";
+
+export default {
+  name: "AddAdministrator",
+  components: {
+    HeaderProfileCard,
+  },
+  data() {
+    return {};
+  },
+  methods: {
+    getChoices(id) {
+      if (document.getElementById(id)) {
+        var element = document.getElementById(id);
+        return new Choices(element, {
+          searchEnabled: false,
+          allowHTML: true,
+          shouldSort: false,
+        });
+      }
+    },
+  },
+};
+</script>

@@ -43,7 +43,7 @@
               <div class="col-sm-8 mt-3 mt-sm-0">
                 <div class="row">
                   <label class="form-label mt-2">Tanggal Lahir</label>
-                  <div class="col-sm-4 col-3">
+                  <div class="col-sm-3 col-3">
                     <select
                       id="choices-day"
                       class="form-control"
@@ -57,7 +57,7 @@
                       name="choices-month"
                     ></select>
                   </div>
-                  <div class="col-sm-3 col-4">
+                  <div class="col-sm-4 col-4">
                     <select
                       id="choices-year"
                       class="form-control"
@@ -161,7 +161,7 @@
               <div class="col-sm-8 mt-3 mt-sm-0">
                 <div class="row">
                   <label class="form-label mt-2">Tanggal Lahir</label>
-                  <div class="col-sm-4 col-3">
+                  <div class="col-sm-3 col-3">
                     <select
                       id="choices-day-dosen"
                       class="form-control"
@@ -175,7 +175,7 @@
                       name="choices-month-dosen"
                     ></select>
                   </div>
-                  <div class="col-sm-3 col-4">
+                  <div class="col-sm-4 col-4">
                     <select
                       id="choices-year-dosen"
                       class="form-control"
@@ -273,42 +273,57 @@ export default {
       img2,
       img3,
       img4,
+      choicesGender: Choices,
+      choicesFakultas: Choices,
+      choicesJurusan: Choices,
+      choicesMonth: Choices,
+      choicesDay: Choices,
+      choicesYear: Choices,
+      choicesGenderDosen: Choices,
+      choicesFakultasDosen: Choices,
+      choicesJurusanDosen: Choices,
+      choicesMonthDosen: Choices,
+      choicesDayDosen: Choices,
+      choicesYearDosen: Choices,
     };
   },
   mounted() {
     // mhs-section
-    this.getChoices("choices-gender");
-    this.getChoices("choices-fakultas");
-    this.getChoices("choices-jurusan");
+    this.choicesGender = this.getChoices("choices-gender");
+    this.choicesFakultas = this.getChoices("choices-fakultas");
+    this.choicesJurusan = this.getChoices("choices-jurusan");
 
     if (document.getElementById("choices-month")) {
       var monthMhs = document.getElementById("choices-month");
-      setTimeout(function () {
-        new Choices(monthMhs, { allowHTML: true });
+      setTimeout(() => {
+        this.choicesMonth = new Choices(monthMhs, {
+          allowHTML: true,
+          shouldSort: false,
+        });
       }, 1);
 
       // eslint-disable-next-line no-unused-vars
       var dMhs = new Date();
       var monthArrayMhs = new Array();
-      monthArrayMhs[0] = "January";
-      monthArrayMhs[1] = "February";
-      monthArrayMhs[2] = "March";
+      monthArrayMhs[0] = "Januari";
+      monthArrayMhs[1] = "Februari";
+      monthArrayMhs[2] = "Maret";
       monthArrayMhs[3] = "April";
-      monthArrayMhs[4] = "May";
-      monthArrayMhs[5] = "June";
-      monthArrayMhs[6] = "July";
-      monthArrayMhs[7] = "August";
+      monthArrayMhs[4] = "Mei";
+      monthArrayMhs[5] = "Juni";
+      monthArrayMhs[6] = "Juli";
+      monthArrayMhs[7] = "Agustus";
       monthArrayMhs[8] = "September";
-      monthArrayMhs[9] = "October";
+      monthArrayMhs[9] = "Oktober";
       monthArrayMhs[10] = "November";
-      monthArrayMhs[11] = "December";
+      monthArrayMhs[11] = "Desember";
       for (let m = 0; m <= 11; m++) {
         var optnMhs = document.createElement("OPTION");
         optnMhs.text = monthArrayMhs[m];
         // server side month start from one\
         optnMhs.value = m + 1;
         // if june selected
-        if (m == 1) {
+        if (m == 0) {
           optnMhs.selected = true;
         }
         monthMhs.options.add(optnMhs);
@@ -317,8 +332,8 @@ export default {
 
     if (document.getElementById("choices-day")) {
       var dayMhs = document.getElementById("choices-day");
-      setTimeout(function () {
-        new Choices(dayMhs, { allowHTML: true });
+      setTimeout(() => {
+        this.choicesDay = new Choices(dayMhs, { allowHTML: true });
       }, 1);
 
       for (let y = 1; y <= 31; y++) {
@@ -336,8 +351,8 @@ export default {
 
     if (document.getElementById("choices-year")) {
       var yearMhs = document.getElementById("choices-year");
-      setTimeout(function () {
-        new Choices(yearMhs, { allowHTML: true });
+      setTimeout(() => {
+        this.choicesYear = new Choices(yearMhs, { allowHTML: true });
       }, 1);
 
       for (let y = 1900; y <= 2020; y++) {
@@ -354,38 +369,41 @@ export default {
     }
 
     // dosen-section
-    this.getChoices("choices-gender-dosen");
-    this.getChoices("choices-fakultas-dosen");
-    this.getChoices("choices-jurusan-dosen");
+    this.choicesGenderDosen = this.getChoices("choices-gender-dosen");
+    this.choicesFakultasDosen = this.getChoices("choices-fakultas-dosen");
+    this.choicesJurusanDosen = this.getChoices("choices-jurusan-dosen");
 
     if (document.getElementById("choices-month-dosen")) {
       var monthDosen = document.getElementById("choices-month-dosen");
-      setTimeout(function () {
-        new Choices(monthDosen, { allowHTML: true });
+      setTimeout(() => {
+        this.choicesMonthDosen = new Choices(monthDosen, {
+          allowHTML: true,
+          shouldSort: false,
+        });
       }, 1);
 
       // eslint-disable-next-line no-unused-vars
       var dDosen = new Date();
       var monthArrayDosen = new Array();
-      monthArrayDosen[0] = "January";
-      monthArrayDosen[1] = "February";
-      monthArrayDosen[2] = "March";
+      monthArrayDosen[0] = "Januari";
+      monthArrayDosen[1] = "Februari";
+      monthArrayDosen[2] = "Maret";
       monthArrayDosen[3] = "April";
-      monthArrayDosen[4] = "May";
-      monthArrayDosen[5] = "June";
-      monthArrayDosen[6] = "July";
-      monthArrayDosen[7] = "August";
+      monthArrayDosen[4] = "Mei";
+      monthArrayDosen[5] = "Juni";
+      monthArrayDosen[6] = "Juli";
+      monthArrayDosen[7] = "Agustus";
       monthArrayDosen[8] = "September";
-      monthArrayDosen[9] = "October";
+      monthArrayDosen[9] = "Oktober";
       monthArrayDosen[10] = "November";
-      monthArrayDosen[11] = "December";
+      monthArrayDosen[11] = "Desember";
       for (let m = 0; m <= 11; m++) {
         var optnDosen = document.createElement("OPTION");
         optnDosen.text = monthArrayDosen[m];
         // server side month start from one\
         optnDosen.value = m + 1;
         // if june selected
-        if (m == 1) {
+        if (m == 0) {
           optnDosen.selected = true;
         }
         monthDosen.options.add(optnDosen);
@@ -394,8 +412,8 @@ export default {
 
     if (document.getElementById("choices-day-dosen")) {
       var dayDosen = document.getElementById("choices-day-dosen");
-      setTimeout(function () {
-        new Choices(dayDosen, { allowHTML: true });
+      setTimeout(() => {
+        this.choicesDayDosen = new Choices(dayDosen, { allowHTML: true });
       }, 1);
 
       for (let y = 1; y <= 31; y++) {
@@ -413,8 +431,8 @@ export default {
 
     if (document.getElementById("choices-year-dosen")) {
       var yearDosen = document.getElementById("choices-year-dosen");
-      setTimeout(function () {
-        new Choices(yearDosen, { allowHTML: true });
+      setTimeout(() => {
+        this.choicesYearDosen = new Choices(yearDosen, { allowHTML: true });
       }, 1);
 
       for (let y = 1900; y <= 2020; y++) {
@@ -430,6 +448,29 @@ export default {
       }
     }
   },
+  beforeUnmount() {
+    // mhs-section
+    this.choicesGender.destroy();
+    this.choicesFakultas.destroy();
+    this.choicesJurusan.destroy();
+    this.choicesMonth.destroy();
+    this.removeAllOptions("choices-month");
+    this.choicesDay.destroy();
+    this.removeAllOptions("choices-day");
+    this.choicesYear.destroy();
+    this.removeAllOptions("choices-year");
+
+    // dosen-section
+    this.choicesGenderDosen.destroy();
+    this.choicesFakultasDosen.destroy();
+    this.choicesJurusanDosen.destroy();
+    this.choicesMonthDosen.destroy();
+    this.removeAllOptions("choices-month-dosen");
+    this.choicesDayDosen.destroy();
+    this.removeAllOptions("choices-day-dosen");
+    this.choicesYearDosen.destroy();
+    this.removeAllOptions("choices-year-dosen");
+  },
   methods: {
     getChoices(id) {
       if (document.getElementById(id)) {
@@ -438,6 +479,14 @@ export default {
           searchEnabled: false,
           allowHTML: true,
         });
+      }
+    },
+    removeAllOptions(id) {
+      var element = document.getElementById(id);
+      if (element) {
+        while (element.options.length > 0) {
+          element.remove(0);
+        }
       }
     },
   },

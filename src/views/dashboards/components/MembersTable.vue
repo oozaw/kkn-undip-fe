@@ -13,6 +13,11 @@
               Nama
             </th>
             <th
+              class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"
+            >
+              NIM
+            </th>
+            <th
               class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2"
             >
               Fakultas/ Prodi
@@ -21,11 +26,6 @@
               class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"
             >
               Angkatan
-            </th>
-            <th
-              class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"
-            >
-              NIM
             </th>
             <th class="text-secondary opacity-7"></th>
           </tr>
@@ -45,17 +45,17 @@
                 </div>
               </div>
             </td>
+            <td class="align-middle text-center">
+              <span class="text-secondary text-sm font-weight-bold"
+                >2406011923849</span
+              >
+            </td>
             <td>
               <p class="text-sm font-weight-bold mb-0">FSM</p>
               <p class="text-xs text-secondary mb-0">S1 Informatika</p>
             </td>
             <td class="align-middle text-center">
               <span class="badge badge-success">2019</span>
-            </td>
-            <td class="align-middle text-center">
-              <span class="text-secondary text-sm font-weight-bold"
-                >2406011923849</span
-              >
             </td>
           </tr>
           <tr>
@@ -72,17 +72,17 @@
                 </div>
               </div>
             </td>
+            <td class="align-middle text-center">
+              <span class="text-secondary text-sm font-weight-bold"
+                >2406011923849</span
+              >
+            </td>
             <td>
               <p class="text-sm font-weight-bold mb-0">FT</p>
               <p class="text-xs text-secondary mb-0">S1 Teknik Sipil</p>
             </td>
             <td class="align-middle text-center">
               <span class="badge badge-success">2020</span>
-            </td>
-            <td class="align-middle text-center">
-              <span class="text-secondary text-sm font-weight-bold"
-                >2406011923849</span
-              >
             </td>
           </tr>
           <tr>
@@ -99,17 +99,17 @@
                 </div>
               </div>
             </td>
+            <td class="align-middle text-center">
+              <span class="text-secondary text-sm font-weight-bold"
+                >2406011923849</span
+              >
+            </td>
             <td>
               <p class="text-sm font-weight-bold mb-0">FEB</p>
               <p class="text-xs text-secondary mb-0">S1 Bisnis</p>
             </td>
             <td class="align-middle text-center">
               <span class="badge badge-success">2019</span>
-            </td>
-            <td class="align-middle text-center">
-              <span class="text-secondary text-sm font-weight-bold"
-                >2406011923849</span
-              >
             </td>
           </tr>
           <tr>
@@ -126,17 +126,17 @@
                 </div>
               </div>
             </td>
+            <td class="align-middle text-center">
+              <span class="text-secondary text-sm font-weight-bold"
+                >2406011923849</span
+              >
+            </td>
             <td>
               <p class="text-sm font-weight-bold mb-0">FEB</p>
               <p class="text-xs text-secondary mb-0">S1 Akuntansi</p>
             </td>
             <td class="align-middle text-center">
               <span class="badge badge-success">2018</span>
-            </td>
-            <td class="align-middle text-center">
-              <span class="text-secondary text-sm font-weight-bold"
-                >2406011923849</span
-              >
             </td>
           </tr>
           <tr>
@@ -153,17 +153,17 @@
                 </div>
               </div>
             </td>
+            <td class="align-middle text-center">
+              <span class="text-secondary text-sm font-weight-bold"
+                >2406011923849</span
+              >
+            </td>
             <td>
               <p class="text-sm font-weight-bold mb-0">FT</p>
               <p class="text-xs text-secondary mb-0">S1 Teknik Lingkungan</p>
             </td>
             <td class="align-middle text-center">
               <span class="badge badge-success">2020</span>
-            </td>
-            <td class="align-middle text-center">
-              <span class="text-secondary text-sm font-weight-bold"
-                >2406011923849</span
-              >
             </td>
           </tr>
         </tbody>

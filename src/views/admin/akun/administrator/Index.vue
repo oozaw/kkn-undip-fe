@@ -1,31 +1,59 @@
 <template>
   <div class="py-4 container-fluid">
     <div class="row">
-      <div class="col-12">
-        <div class="card">
+      <div class="col-lg-12 mt-lg-0 mt-4">
+        <header-profile-card
+          name="Tazki Hanifan Amri"
+          description="KKN Reguler
+           Tim 1 2023"
+        />
+        <div class="bg-white card mt-4">
+          <div class="card-header pb-0 pt-3">
+            <p class="font-weight-bold text-dark mb-2">
+              Pilih Tema KKN Terdaftar
+            </p>
+          </div>
+          <div class="pb-3 pt-0 card-body">
+            <div class="col-12 align-self-center">
+              <select
+                id="choices-tema"
+                class="form-control"
+                name="choices-tema"
+              >
+                <option value="reguler">
+                  KKN Tematik Pengurangan Risiko Bencana Berbasis Partisipasi
+                  Masyarakat dan Komunitas
+                </option>
+                <option value="tematik">KKN Reguler Tim I</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="bg-white card mt-4">
           <!-- Card header -->
           <div class="pb-0 card-header">
             <div class="d-lg-flex">
               <div>
-                <h5 class="mb-0">Daftar Mahasiswa</h5>
+                <h5 class="mb-2">Data Administrator</h5>
+                <p class="text-sm mb-0">Data administrator terdaftar</p>
               </div>
               <div class="my-auto mt-4 ms-auto mt-lg-0">
                 <div class="my-auto ms-auto">
                   <router-link
                     class="mb-0 btn bg-gradient-success btn-sm"
-                    :to="{ name: 'Tambah Mahasiswa' }"
-                    >+&nbsp; Tambah Mahasiswa
+                    :to="{ name: 'Tambah Administrator' }"
+                    >+&nbsp; Tambah Administrator
                   </router-link>
                   <button
                     type="button"
-                    class="mx-1 mb-0 btn btn-primary btn-sm"
+                    class="mx-2 mb-0 btn btn-primary btn-sm"
                     data-bs-toggle="modal"
-                    data-bs-target="#import-mhs"
+                    data-bs-target="#import-bappeda"
                   >
                     Impor
                   </button>
                   <div
-                    id="import-mhs"
+                    id="import-bappeda"
                     class="modal fade"
                     tabindex="-1"
                     aria-hidden="true"
@@ -34,7 +62,7 @@
                       <div class="modal-content">
                         <div class="modal-header">
                           <h5 id="ModalLabel" class="modal-title">
-                            Impor Data Mahasiswa via File Excel
+                            Impor Data Administrator via File Excel
                           </h5>
                           <i class="fas fa-upload ms-3"></i>
                           <button
@@ -47,7 +75,7 @@
                         <div class="modal-body">
                           <p>
                             Silahkan cari dan pilih file excel berisi data
-                            mahasiswa
+                            administrator
                           </p>
                           <input
                             type="file"
@@ -86,22 +114,20 @@
                     type="button"
                     name="button"
                   >
-                    Expor
+                    Ekspor
                   </button>
                 </div>
               </div>
             </div>
           </div>
-          <div class="px-0 pb-0 card-body">
+          <div class="pt-1 px-0 pb-0 card-body">
             <div class="table-responsive">
-              <table id="mhs-list" class="table table-flush">
+              <table id="administrator-list" class="table table-flush">
                 <thead class="thead-light">
                   <tr>
                     <th class="col-1">No.</th>
                     <th>Nama</th>
-                    <th>NIM</th>
-                    <th>Fakultas</th>
-                    <th>Status</th>
+                    <th>NIP</th>
                     <th>Action</th>
                   </tr>
                 </thead>
@@ -109,20 +135,15 @@
                   <tr>
                     <td class="text-sm">1</td>
                     <td>
-                      <h6 class="my-auto">Mahasiswa 1</h6>
+                      <h6 class="my-auto">Administrator 1</h6>
                     </td>
                     <td class="text-sm">83384182392</td>
-                    <td class="text-sm">FSM</td>
-                    <td>
-                      <span class="badge badge-danger badge-sm"
-                        >Unregistered</span
-                      >
-                    </td>
                     <td class="text-sm">
                       <a
                         href="javascript:;"
                         data-bs-toggle="tooltip"
-                        data-bs-original-title="Preview product"
+                        data-bs-original-title="Detail Administrator"
+                        title="Detail Administrator"
                       >
                         <i class="fas fa-eye text-info"></i>
                       </a>
@@ -130,14 +151,16 @@
                         href="javascript:;"
                         class="mx-3"
                         data-bs-toggle="tooltip"
-                        data-bs-original-title="Edit product"
+                        data-bs-original-title="Edit Administrator"
+                        title="Edit Administrator"
                       >
                         <i class="fas fa-user-edit text-primary"></i>
                       </a>
                       <a
                         href="javascript:;"
                         data-bs-toggle="tooltip"
-                        data-bs-original-title="Delete product"
+                        data-bs-original-title="Hapus Administrator"
+                        title="Hapus Administrator"
                       >
                         <i class="fas fa-trash text-danger"></i>
                       </a>
@@ -146,15 +169,9 @@
                   <tr>
                     <td class="text-sm">2</td>
                     <td>
-                      <h6 class="my-auto">Mahasiswa 2</h6>
+                      <h6 class="my-auto">Administrator 2</h6>
                     </td>
                     <td class="text-sm">45235234324</td>
-                    <td class="text-sm">FT</td>
-                    <td>
-                      <span class="badge badge-success badge-sm"
-                        >Regisered</span
-                      >
-                    </td>
                     <td class="text-sm">
                       <a
                         href="javascript:;"
@@ -183,15 +200,9 @@
                   <tr>
                     <td class="text-sm">3</td>
                     <td>
-                      <h6 class="my-auto">Mahasiswa 3</h6>
+                      <h6 class="my-auto">Administrator 3</h6>
                     </td>
                     <td class="text-sm">56348767867</td>
-                    <td class="text-sm">FEB</td>
-                    <td>
-                      <span class="badge badge-success badge-sm"
-                        >Registered</span
-                      >
-                    </td>
                     <td class="text-sm">
                       <a
                         href="javascript:;"
@@ -220,15 +231,9 @@
                   <tr>
                     <td class="text-sm">4</td>
                     <td>
-                      <h6 class="my-auto">Mahasiswa 4</h6>
+                      <h6 class="my-auto">Administrator 4</h6>
                     </td>
                     <td class="text-sm">87847384733</td>
-                    <td class="text-sm">FPP</td>
-                    <td>
-                      <span class="badge badge-danger badge-sm"
-                        >Unregistered</span
-                      >
-                    </td>
                     <td class="text-sm">
                       <a
                         href="javascript:;"
@@ -257,12 +262,9 @@
                 </tbody>
                 <tfoot>
                   <tr>
-                    <th>Product</th>
-                    <th>Category</th>
-                    <th>Price</th>
-                    <th>SKU</th>
-                    <th>Quantity</th>
-                    <th>Status</th>
+                    <th class="col-1">No.</th>
+                    <th>Nama</th>
+                    <th>NIP</th>
                     <th>Action</th>
                   </tr>
                 </tfoot>
@@ -276,17 +278,29 @@
 </template>
 
 <script>
+import Choices from "choices.js";
 import { DataTable } from "simple-datatables";
 import setTooltip from "@/assets/js/tooltip.js";
+import HeaderProfileCard from "@/views/dashboards/components/HeaderProfileCard.vue";
 
 export default {
-  name: "IndexMahasiswa",
+  name: "IndexAdministrator",
+  components: {
+    HeaderProfileCard,
+  },
+  data() {
+    return {
+      choicesTema: undefined,
+    };
+  },
   mounted() {
-    if (document.getElementById("mhs-list")) {
-      const dataTableSearch = new DataTable("#mhs-list", {
+    this.choicesTema = this.getChoices("choices-tema");
+
+    if (document.getElementById("administrator-list")) {
+      const dataTableSearch = new DataTable("#administrator-list", {
         searchable: true,
         fixedHeight: false,
-        perPage: 7,
+        perPage: 5,
       });
 
       document.querySelectorAll(".export").forEach(function (el) {
@@ -295,18 +309,32 @@ export default {
 
           var data = {
             type: type,
-            filename: "soft-ui-" + type,
+            filename: "Data Bappeda",
           };
 
-          if (type === "csv") {
-            data.columnDelimiter = "|";
-          }
+          // if (type === "csv") {
+          //   data.columnDelimiter = "|";
+          // }
 
           dataTableSearch.export(data);
         });
       });
     }
     setTooltip(this.$store.state.bootstrap);
+  },
+  beforeUnmount() {
+    this.choicesTema.destroy();
+  },
+  methods: {
+    getChoices(id) {
+      var element = document.getElementById(id);
+      if (element) {
+        return new Choices(element, {
+          searchEnabled: true,
+          allowHTML: true,
+        });
+      }
+    },
   },
 };
 </script>

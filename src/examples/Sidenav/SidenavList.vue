@@ -60,30 +60,6 @@
         </sidenav-collapse>
       </li>
       <li class="nav-item">
-        <router-link :to="{ name: 'Pengguna' }">
-          <sidenav-collapse
-            nav-text="Pengguna"
-            :collapse="false"
-            url="#"
-            :aria-controls="''"
-            collapse-ref="/pengguna"
-            :class="getRoute() === 'pengguna' ? 'active' : ''"
-          >
-            <template #icon>
-              <i
-                class="ni ni-single-02 text-sm"
-                :class="
-                  $store.state.sidebarType === 'bg-default' ||
-                  $store.state.darkMode
-                    ? 'text-white'
-                    : 'text-dark'
-                "
-              ></i>
-            </template>
-          </sidenav-collapse>
-        </router-link>
-      </li>
-      <li class="nav-item">
         <router-link :to="{ name: 'Mahasiswa' }">
           <sidenav-collapse
             nav-text="Mahasiswa"

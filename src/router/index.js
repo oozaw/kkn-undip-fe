@@ -1,4 +1,6 @@
 import { createRouter, createWebHistory } from "vue-router";
+import { certCookies } from "@/utils/cookies";
+
 import Landing from "../views/dashboards/Landing.vue";
 import Default from "../views/dashboards/Default.vue";
 import Automotive from "../views/dashboards/Automotive.vue";
@@ -59,11 +61,21 @@ import Dashboard from "../views/dashboards/Dashboard.vue";
 import Login from "../views/auth/Login.vue";
 import Register from "../views/auth/Register.vue";
 import Reset from "../views/auth/Reset.vue";
-import Pengguna from "../views/admin/pengguna/Index.vue";
-import AddPengguna from "../views/admin/pengguna/AddPengguna.vue";
-import Mahasiswa from "../views/admin/mahasiswa/Index.vue";
-import AddMahasiswa from "../views/admin/mahasiswa/AddMahasiswa.vue";
-import EditProfileMhs from "../views/pendaftaran/profile/Edit.vue";
+import Mahasiswa from "../views/admin/akun/mahasiswa/Index.vue";
+import AddMahasiswa from "../views/admin/akun/mahasiswa/Add.vue";
+import EditMahasiswa from "../views/admin/akun/mahasiswa/Edit.vue";
+import IndexDosen from "../views/admin/akun/dosen/Index.vue";
+import AddDosen from "../views/admin/akun/dosen/Add.vue";
+import EditDosen from "../views/admin/akun/dosen/Edit.vue";
+import IndexBappeda from "../views/admin/akun/bappeda/Index.vue";
+import AddBappeda from "../views/admin/akun/bappeda/Add.vue";
+import IndexAdministrator from "../views/admin/akun/administrator/Index.vue";
+import AddAdministrator from "../views/admin/akun/administrator/Add.vue";
+import IndexReviewer from "../views/admin/akun/reviewer/Index.vue";
+import AddReviewer from "../views/admin/akun/reviewer/Add.vue";
+import IndexPimpinan from "../views/admin/akun/pimpinan/Index.vue";
+import AddPimpinan from "../views/admin/akun/pimpinan/Add.vue";
+import EditProfile from "../views/pendaftaran/profile/Edit.vue";
 import EditBerkasMhs from "../views/pendaftaran/berkas/Edit.vue";
 import DaftarLokasi from "../views/pendaftaran/lokasi/Daftar.vue";
 import IndexPostTest from "../views/test/Index.vue";
@@ -87,172 +99,516 @@ import AddKecamatan from "../views/pengajuan-lokasi/kecamatan/Add.vue";
 import EditKecamatan from "../views/pengajuan-lokasi/kecamatan/Edit.vue";
 import AddDesa from "../views/pengajuan-lokasi/desa/Add.vue";
 import EditDesa from "../views/pengajuan-lokasi/desa/Edit.vue";
+import IndexKKNTerdaftar from "../views/admin/menu-utama/kkn-terdaftar/Index.vue";
+import TambahKKNTerdaftar from "../views/admin/menu-utama/kkn-terdaftar/Add.vue";
+import IndexPengajuanWilayah from "../views/admin/menu-utama/pengajuan-wilayah/Index.vue";
+import IndexKalender from "../views/admin/menu-utama/kalender/Index.vue";
+import TambahKalender from "../views/admin/menu-utama/kalender/Add.vue";
+import IndexPengumuman from "../views/admin/menu-utama/pengumuman/Index.vue";
+import TambahPengumuman from "../views/admin/menu-utama/pengumuman/Add.vue";
+import IndexKelolaHalaman from "../views/admin/menu-utama/halaman/Index.vue";
+import EditHalaman from "../views/admin/menu-utama/halaman/Edit.vue";
+import IndexPendaftaranMhsAdmin from "../views/admin/kelola-mhs/pendaftaran/Index.vue";
+import IndexNilaiPostTestMhsAdmin from "../views/admin/kelola-mhs/post-test/Index.vue";
+import IndexPresensiMhsAdmin from "../views/admin/kelola-mhs/presensi/Index.vue";
+import IndexLRKLPKMhsAdmin from "../views/admin/kelola-mhs/lrk-lpk/Index.vue";
+import IndexReportaseMhsAdmin from "../views/admin/kelola-mhs/reportase/Index.vue";
+import IndexPendaftaranDosenAdmin from "../views/admin/kelola-dosen/pendaftaran-lokasi/Index.vue";
+import IndexPemilihanMhsAdmin from "../views/admin/kelola-dosen/pemilihan-mhs/Index.vue";
+import IndexPresensiDosenAdmin from "../views/admin/kelola-dosen/presensi/Index.vue";
+import IndexNilaiAkhirMhsAdmin from "../views/admin/kelola-dosen/nilai-akhir-mhs/Index.vue";
 
 const routes = [
   {
     path: "/",
     name: "/",
     redirect: "/dashboard",
+    meta: {
+      requiresAuth: true,
+    },
   },
   {
     path: "/dashboard",
     name: "Dashboard",
     component: Dashboard,
+    meta: {
+      requiresAuth: true,
+    },
   },
   {
     path: "/login",
     name: "Login",
     component: Login,
+    meta: {
+      guest: true,
+    },
   },
   {
     path: "/register",
     name: "Register",
     component: Register,
+    meta: {
+      guest: true,
+    },
   },
   {
     path: "/reset",
     name: "Reset",
     component: Reset,
+    meta: {
+      requiresAuth: true,
+    },
   },
+  // Akun
   {
-    path: "/pengguna",
-    name: "Pengguna",
-    component: Pengguna,
-  },
-  {
-    path: "/pengguna/add",
-    name: "Tambah Pengguna",
-    component: AddPengguna,
-  },
-  {
-    path: "/mahasiswa",
+    path: "/akun/mahasiswa",
     name: "Mahasiswa",
     component: Mahasiswa,
+    meta: {
+      requiresAuth: true,
+    },
   },
   {
-    path: "/mahasiswa/add",
+    path: "/akun/mahasiswa/add",
     name: "Tambah Mahasiswa",
     component: AddMahasiswa,
+    meta: {
+      requiresAuth: true,
+    },
+  },
+  {
+    path: "/akun/mahasiswa/edit",
+    name: "Edit Mahasiswa",
+    component: EditMahasiswa,
+    meta: {
+      requiresAuth: true,
+    },
+  },
+  {
+    path: "/akun/dosen",
+    name: "Dosen",
+    component: IndexDosen,
+    meta: {
+      requiresAuth: true,
+    },
+  },
+  {
+    path: "/akun/dosen/add",
+    name: "Tambah Dosen",
+    component: AddDosen,
+    meta: {
+      requiresAuth: true,
+    },
+  },
+  {
+    path: "/akun/dosen/edit",
+    name: "Edit Dosen",
+    component: EditDosen,
+    meta: {
+      requiresAuth: true,
+    },
+  },
+  {
+    path: "/akun/bappeda",
+    name: "Bappeda",
+    component: IndexBappeda,
+    meta: {
+      requiresAuth: true,
+    },
+  },
+  {
+    path: "/akun/bappeda/add",
+    name: "Tambah Bappeda",
+    component: AddBappeda,
+    meta: {
+      requiresAuth: true,
+    },
+  },
+  {
+    path: "/akun/administrator",
+    name: "Administrator",
+    component: IndexAdministrator,
+    meta: {
+      requiresAuth: true,
+    },
+  },
+  {
+    path: "/akun/administrator/add",
+    name: "Tambah Administrator",
+    component: AddAdministrator,
+    meta: {
+      requiresAuth: true,
+    },
+  },
+  {
+    path: "/akun/reviewer",
+    name: "Reviewer",
+    component: IndexReviewer,
+    meta: {
+      requiresAuth: true,
+    },
+  },
+  {
+    path: "/akun/reviewer/add",
+    name: "Tambah Reviewer",
+    component: AddReviewer,
+    meta: {
+      requiresAuth: true,
+    },
+  },
+  {
+    path: "/akun/pimpinan",
+    name: "Pimpinan",
+    component: IndexPimpinan,
+    meta: {
+      requiresAuth: true,
+    },
+  },
+  {
+    path: "/akun/pimpinan/add",
+    name: "Tambah Pimpinan",
+    component: AddPimpinan,
+    meta: {
+      requiresAuth: true,
+    },
   },
   {
     path: "/pendaftaran/data-diri/edit",
     name: "Edit Data Diri",
-    component: EditProfileMhs,
+    component: EditProfile,
+    meta: {
+      requiresAuth: true,
+    },
   },
   {
     path: "/pendaftaran/berkas/edit",
     name: "Edit Data Berkas",
     component: EditBerkasMhs,
+    meta: {
+      requiresAuth: true,
+    },
   },
   {
     path: "/pendaftaran/lokasi/daftar",
     name: "Daftar Lokasi",
     component: DaftarLokasi,
+    meta: {
+      requiresAuth: true,
+    },
   },
   {
     path: "/post-test",
     name: "Post Test",
     component: IndexPostTest,
+    meta: {
+      requiresAuth: true,
+    },
   },
   {
     path: "/kegiatan/lrk",
     name: "LRK",
     component: IndexLRK,
+    meta: {
+      requiresAuth: true,
+    },
   },
   {
     path: "/kegiatan/lrk/add",
     name: "Tambah LRK",
     component: AddLRK,
+    meta: {
+      requiresAuth: true,
+    },
   },
   {
     path: "/kegiatan/lrk/edit",
     name: "Edit LRK",
     component: EditLRK,
+    meta: {
+      requiresAuth: true,
+    },
   },
   {
     path: "/kegiatan/lpk",
     name: "LPK",
     component: IndexLPK,
+    meta: {
+      requiresAuth: true,
+    },
   },
   {
     path: "/kegiatan/lpk/edit",
     name: "Edit LPK",
     component: EditLPK,
+    meta: {
+      requiresAuth: true,
+    },
   },
   {
     path: "/kegiatan/reportase",
     name: "Reportase",
     component: IndexReportase,
+    meta: {
+      requiresAuth: true,
+    },
   },
   {
     path: "/kegiatan/reportase/add",
     name: "Tambah Reportase",
     component: AddReportase,
+    meta: {
+      requiresAuth: true,
+    },
   },
   {
     path: "/kegiatan/reportase/edit",
     name: "Edit Reportase",
     component: EditReportase,
+    meta: {
+      requiresAuth: true,
+    },
   },
   {
     path: "/pendaftaran/registrasi",
     name: "Registrasi",
     component: IndexRegistrasi,
+    meta: {
+      requiresAuth: true,
+    },
   },
   {
     path: "/pendaftaran/registrasi/add",
     name: "Tambah Registrasi",
     component: AddRegistrasi,
+    meta: {
+      requiresAuth: true,
+    },
   },
   {
     path: "/seleksi-mhs",
     name: "Seleksi",
     component: SeleksiMhs,
+    meta: {
+      requiresAuth: true,
+    },
   },
   {
     path: "/kegiatan/presensi",
     name: "Presensi",
     component: Presensi,
+    meta: {
+      requiresAuth: true,
+    },
   },
   {
     path: "/kegiatan/nilai",
     name: "Nilai Akhir",
     component: IndexNilai,
+    meta: {
+      requiresAuth: true,
+    },
   },
   {
     path: "/kegiatan/nilai/edit",
     name: "Edit Nilai Akhir",
     component: EditNilai,
+    meta: {
+      requiresAuth: true,
+    },
   },
   {
     path: "/profil-wilayah/edit",
     name: "Profil Wilayah",
     component: EditProfilWilayah,
+    meta: {
+      requiresAuth: true,
+    },
   },
   {
     path: "/pengajuan-lokasi",
     name: "Pengajuan Lokasi",
     component: IndexPengajuanLokasi,
+    meta: {
+      requiresAuth: true,
+    },
   },
   {
     path: "/pengajuan-lokasi/kecamatan/add",
     name: "Tambah Kecamatan",
     component: AddKecamatan,
+    meta: {
+      requiresAuth: true,
+    },
   },
   {
     path: "/pengajuan-lokasi/kecamatan/edit",
     name: "Edit Kecamatan",
     component: EditKecamatan,
+    meta: {
+      requiresAuth: true,
+    },
   },
   {
     path: "/pengajuan-lokasi/desa/add",
     name: "Tambah Desa",
     component: AddDesa,
+    meta: {
+      requiresAuth: true,
+    },
   },
   {
     path: "/pengajuan-lokasi/desa/edit",
     name: "Edit Desa",
     component: EditDesa,
+    meta: {
+      requiresAuth: true,
+    },
+  },
+  {
+    path: "/admin/kkn",
+    name: "Index KKN Terdaftar",
+    component: IndexKKNTerdaftar,
+    meta: {
+      requiresAuth: true,
+    },
+  },
+  {
+    path: "/admin/kkn/tambah",
+    name: "Tambah KKN Terdaftar",
+    component: TambahKKNTerdaftar,
+    meta: {
+      requiresAuth: true,
+    },
+  },
+  {
+    path: "/admin/pengajuan-wilayah",
+    name: "Pengajuan Wilayah",
+    component: IndexPengajuanWilayah,
+    meta: {
+      requiresAuth: true,
+    },
+  },
+  {
+    path: "/admin/kalender",
+    name: "Kalender",
+    component: IndexKalender,
+    meta: {
+      requiresAuth: true,
+    },
+  },
+  {
+    path: "/admin/kalender/tambah",
+    name: "Tambah Kalender",
+    component: TambahKalender,
+    meta: {
+      requiresAuth: true,
+    },
+  },
+  {
+    path: "/admin/pengumuman",
+    name: "Pengumuman",
+    component: IndexPengumuman,
+    meta: {
+      requiresAuth: true,
+    },
+  },
+  {
+    path: "/admin/pengumuman/tambah",
+    name: "Tambah Pengumuman",
+    component: TambahPengumuman,
+    meta: {
+      requiresAuth: true,
+    },
+  },
+  {
+    path: "/admin/halaman",
+    name: "Halaman",
+    component: IndexKelolaHalaman,
+    meta: {
+      requiresAuth: true,
+    },
+  },
+  {
+    path: "/admin/halaman/edit",
+    name: "Edit Halaman",
+    component: EditHalaman,
+    meta: {
+      requiresAuth: true,
+    },
+  },
+  // Kelola Mahasiswa
+  {
+    path: "/kelola-mhs/pendaftaran",
+    name: "Pendaftaran Mahasiswa Admin",
+    component: IndexPendaftaranMhsAdmin,
+    meta: {
+      requiresAuth: true,
+    },
+  },
+  {
+    path: "/kelola-mhs/post-test",
+    name: "Nilai Post Test Mahasiswa Admin",
+    component: IndexNilaiPostTestMhsAdmin,
+    meta: {
+      requiresAuth: true,
+    },
+  },
+  {
+    path: "/kelola-mhs/presensi",
+    name: "Presensi Mahasiswa Admin",
+    component: IndexPresensiMhsAdmin,
+    meta: {
+      requiresAuth: true,
+    },
+  },
+  {
+    path: "/kelola-mhs/lrk-lpk",
+    name: "LRK & LPK Mahasiswa Admin",
+    component: IndexLRKLPKMhsAdmin,
+    meta: {
+      requiresAuth: true,
+    },
+  },
+  {
+    path: "/kelola-mhs/reportase",
+    name: "Reportase Mahasiswa Admin",
+    component: IndexReportaseMhsAdmin,
+    meta: {
+      requiresAuth: true,
+    },
+  },
+  // Kelola Dosen
+  {
+    path: "/kelola-dosen/pendaftaran",
+    name: "Pendaftaran Dosen Admin",
+    component: IndexPendaftaranDosenAdmin,
+    meta: {
+      requiresAuth: true,
+    },
+  },
+  {
+    path: "/kelola-dosen/pemilihan-mhs",
+    name: "Pemilihan Mahasiswa Admin",
+    component: IndexPemilihanMhsAdmin,
+    meta: {
+      requiresAuth: true,
+    },
+  },
+  {
+    path: "/kelola-dosen/presensi",
+    name: "Presensi Dosen Admin",
+    component: IndexPresensiDosenAdmin,
+    meta: {
+      requiresAuth: true,
+    },
+  },
+  {
+    path: "/kelola-dosen/nilai-akhir",
+    name: "Nilai Akhir Mahasiswa Admin",
+    component: IndexNilaiAkhirMhsAdmin,
+    meta: {
+      requiresAuth: true,
+    },
   },
 
   // =================================================================================================
@@ -537,6 +893,20 @@ const router = createRouter({
   history: createWebHistory(),
   routes,
   linkActiveClass: "active",
+});
+
+router.beforeEach((to, from, next) => {
+  const { id } = certCookies();
+  if (to.meta.requiresAuth && !id) {
+    next({ name: "Login", query: { redirect: to.fullPath } });
+    console.log("ini redirect");
+  } else if (to.meta.guest && id) {
+    next({ name: "Dashboard" });
+    console.log("ini ke dashboard");
+  } else {
+    next();
+    console.log("ini langsung");
+  }
 });
 
 export default router;

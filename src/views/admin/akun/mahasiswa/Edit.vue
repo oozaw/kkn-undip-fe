@@ -1,25 +1,19 @@
 <template>
   <div class="py-4 container-fluid">
     <div class="row">
-      <div class="col-lg-6">
-        <h4 class="text-white">Tambah Mahasiswa</h4>
-      </div>
-      <div
-        class="text-right col-lg-6 d-flex flex-column justify-content-center"
-      >
-        <button
-          type="button"
-          class="mt-2 mb-0 btn btn-primary ms-lg-auto me-lg-0 me-auto mt-lg-0"
-        >
-          Tambah
-        </button>
+      <div class="col-lg-12 mt-lg-0">
+        <HeaderProfileCard
+          :button="true"
+          button-text="Simpan Perubahan"
+          description="KKN Reguler Tim 1 2023"
+        />
       </div>
     </div>
     <div class="mt-4">
       <div class="mt-4 mt-lg-0">
         <div class="card">
           <div class="card-body pb-5">
-            <h5 class="font-weight-bolder">Data Mahasiswa Baru</h5>
+            <h5 class="font-weight-bolder mb-3">Edit Mahasiswa</h5>
             <div class="row">
               <div class="col-12 col-sm-6">
                 <label>Nama</label>
@@ -28,7 +22,7 @@
                   type="text"
                   name="nama"
                   id="nama"
-                  placeholder="Nama mahasiswa"
+                  value="John Cena"
                 />
               </div>
               <div class="mt-3 col-12 col-sm-6 mt-sm-0">
@@ -38,7 +32,7 @@
                   type="number"
                   name="nim"
                   id="nim"
-                  placeholder="NIM mahasiswa"
+                  value="1234567890"
                 />
               </div>
             </div>
@@ -46,11 +40,8 @@
               <div class="col-3">
                 <label class="mt-4">Fakultas</label>
                 <select id="fakultas-add" class="form-control" name="fakultas">
-                  <option value="0" selected disabled hidden>
-                    -- Pilih fakultas --
-                  </option>
                   <option value="Choice 2">Real Estate</option>
-                  <option value="Choice 3">Electronics</option>
+                  <option value="Choice 3" selected>Electronics</option>
                   <option value="Choice 4">Clothing</option>
                   <option value="Choice 5">Others</option>
                 </select>
@@ -58,22 +49,23 @@
               <div class="col-3">
                 <label class="mt-4">Jurusan</label>
                 <select id="jurusan-add" class="form-control" name="fakultas">
-                  <option value="0" selected disabled hidden>
-                    -- Pilih jurusan --
-                  </option>
-                  <option value="Choice 2">Real Estate</option>
+                  <option value="Choice 2" selected>Real Estate</option>
                   <option value="Choice 3">Electronics</option>
                   <option value="Choice 4">Clothing</option>
                   <option value="Choice 5">Others</option>
                 </select>
               </div>
               <div class="col-3">
-                <label class="mt-4">Price</label>
-                <input class="form-control" type="text" value="$90" />
+                <label class="mt-4">Username</label>
+                <input class="form-control" type="text" value="johncena123" />
               </div>
               <div class="col-3">
-                <label class="mt-4">Quantity</label>
-                <input class="form-control" type="number" value="50" />
+                <label class="mt-4">Password</label>
+                <input
+                  class="form-control"
+                  type="password"
+                  value="johncena123"
+                />
               </div>
             </div>
           </div>
@@ -85,15 +77,27 @@
 
 <script>
 import Choices from "choices.js";
+import HeaderProfileCard from "@/views/dashboards/components/HeaderProfileCard.vue";
 
 export default {
-  name: "AddMahasiswa",
-
-  mounted() {
-    this.getChoices("fakultas-add");
-    this.getChoices("jurusan-add");
+  name: "EditMahasiswa",
+  components: {
+    HeaderProfileCard,
   },
-
+  data() {
+    return {
+      choicesFakultas: undefined,
+      choicesJurusan: undefined,
+    };
+  },
+  mounted() {
+    this.choicesFakultas = this.getChoices("fakultas-add");
+    this.choicesJurusan = this.getChoices("jurusan-add");
+  },
+  beforeUnmount() {
+    this.choicesFakultas.destroy();
+    this.choicesJurusan.destroy();
+  },
   methods: {
     getChoices(id) {
       if (document.getElementById(id)) {
@@ -101,6 +105,7 @@ export default {
         return new Choices(element, {
           searchEnabled: false,
           allowHTML: true,
+          shouldSort: false,
         });
       }
     },
