@@ -157,7 +157,8 @@ export default {
     async login() {
       try {
         await this.a$login(this.input);
-        this.$router.push({ name: "Dashboard" });
+        this.$router.push(this.$route.query.redirect || "/dashboard");
+        // this.$router.push({ name: "Dashboard" });
       } catch (error) {
         console.log(error);
       }
