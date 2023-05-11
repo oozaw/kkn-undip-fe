@@ -13,7 +13,7 @@
       <div class="col-sm-auto col-8 my-auto">
         <div class="h-100">
           <h5 class="mb-1 font-weight-bolder">{{ g$user.name }}</h5>
-          <p class="mb-0 font-weight-bold text-sm">{{ description }}</p>
+          <p id="role" class="mb-0 font-weight-bold text-sm"></p>
         </div>
       </div>
       <div
@@ -82,6 +82,35 @@ export default {
   },
   computed: {
     ...mapState(d$auth, ["g$user"]),
+  },
+  mounted() {
+    if (this.g$user.role) {
+      document.getElementById("role").innerHTML = this.checkRole(
+        this.g$user.role
+      );
+    }
+  },
+  methods: {
+    checkRole(role) {
+      switch (role) {
+        case "SUPERADMIN":
+          return "Super Administrator";
+        case "ADMIN":
+          return "Administrator";
+        case "USER":
+          return "User";
+        case "MAHASISWA":
+          return "Mahasiswa";
+        case "DOSEN":
+          return "Dosen";
+        case "BAPPEDA":
+          return "BAPPEDA";
+        case "REVIEWER":
+          return "Reviewer";
+        default:
+          return "";
+      }
+    },
   },
 };
 </script>

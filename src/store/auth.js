@@ -48,7 +48,7 @@ const d$auth = defineStore("authStore", {
     },
   },
   getters: {
-    g$user: ({ id, name }) => ({ id, name }),
+    g$user: ({ id, name, role }) => ({ id, name, role }),
   },
 });
 
