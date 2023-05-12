@@ -427,6 +427,7 @@ const routes = [
   {
     path: "/pengajuan-lokasi",
     name: "Pengajuan Lokasi",
+    props: true,
     component: IndexPengajuanLokasi,
     meta: {
       requiresAuth: true,
@@ -899,13 +900,13 @@ router.beforeEach((to, from, next) => {
   const { id } = certCookies();
   if (to.meta.requiresAuth && !id) {
     next({ name: "Login", query: { redirect: to.fullPath } });
-    console.log("ini redirect");
+    // console.log("ini redirect");
   } else if (to.meta.guest && id) {
     next({ name: "Dashboard" });
-    console.log("ini ke dashboard");
+    // console.log("ini ke dashboard");
   } else {
     next();
-    console.log("ini langsung");
+    // console.log("ini langsung");
   }
 });
 

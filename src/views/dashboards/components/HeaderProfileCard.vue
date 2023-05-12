@@ -16,6 +16,7 @@
           <p id="role" class="mb-0 font-weight-bold text-sm"></p>
         </div>
       </div>
+      <slot name="button"></slot>
       <div
         class="col-sm-auto ms-sm-auto mt-sm-0 mt-3 d-flex justify-content-center"
         v-if="button === true"
