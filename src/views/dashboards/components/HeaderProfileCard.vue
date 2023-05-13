@@ -16,32 +16,16 @@
           <p id="role" class="mb-0 font-weight-bold text-sm"></p>
         </div>
       </div>
-      <slot name="button"></slot>
       <div
         class="col-sm-auto ms-sm-auto mt-sm-0 mt-3 d-flex justify-content-center"
-        v-if="button === true"
       >
-        <argon-button
-          :onclick="() => $router.push('/profile')"
-          class="mb-0 me-2"
-          color="secondary"
-          size="sm"
-          >Batal</argon-button
-        >
-        <argon-button
-          class="mb-0 me-lg-2"
-          color="primary"
-          variant="gradient"
-          size="sm"
-          >{{ buttonText }}</argon-button
-        >
+        <slot name="button"></slot>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import ArgonButton from "@/components/ArgonButton.vue";
 import ArgonAvatar from "@/components/ArgonAvatar.vue";
 import { mapState } from "pinia";
 import d$auth from "@/store/auth";
@@ -51,29 +35,12 @@ import imgDefault from "@/assets/img/team-3.jpg";
 export default {
   name: "HeaderProfileCard",
   components: {
-    ArgonButton,
     ArgonAvatar,
   },
   props: {
     img: {
       type: String,
       default: imgDefault,
-    },
-    name: {
-      type: String,
-      default: "",
-    },
-    description: {
-      type: String,
-      default: "",
-    },
-    button: {
-      type: Boolean,
-      default: false,
-    },
-    buttonText: {
-      type: String,
-      default: "",
     },
   },
   data() {
