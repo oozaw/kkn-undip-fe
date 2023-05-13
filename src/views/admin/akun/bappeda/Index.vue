@@ -218,8 +218,7 @@ export default {
     } catch (error) {
       console.log(error);
     }
-  },
-  mounted() {
+
     this.choicesTema = this.getChoices("choices-tema");
 
     if (document.getElementById("bappeda-list")) {

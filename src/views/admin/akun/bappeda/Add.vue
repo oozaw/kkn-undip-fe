@@ -125,7 +125,7 @@ export default {
         kabupaten: "",
         nama_pj: "belum diketahui",
       },
-      choicesKab: undefined,
+      choicesKab: "",
     };
   },
   computed: {
@@ -134,12 +134,10 @@ export default {
   async created() {
     try {
       await this.a$listKabupaten();
+      this.choicesKab = this.getChoices("choices-kabupaten");
     } catch (error) {
       console.log(error);
     }
-  },
-  mounted() {
-    this.choicesKab = this.getChoices("choices-kabupaten");
   },
   methods: {
     ...mapActions(d$bappeda, ["a$addBappeda"]),
