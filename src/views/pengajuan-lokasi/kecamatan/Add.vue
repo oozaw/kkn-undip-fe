@@ -279,17 +279,6 @@ export default {
       }
     },
 
-    checkAlert(status) {
-      if (status) {
-        this.status = "success";
-      } else {
-        this.status = "fail";
-      }
-      setTimeout(() => {
-        this.status = "idle";
-      }, 5000);
-    },
-
     showSwal(type, text) {
       if (type === "success-message") {
         this.$swal({
@@ -310,15 +299,6 @@ export default {
           type: type,
           timerProgressBar: true,
           showConfirmButton: false,
-        });
-      } else if (type === "title-and-text") {
-        this.$swal({
-          title: "Sweet!",
-          text: "Modal with a custom image.",
-          imageUrl: "https://unsplash.it/400/200",
-          imageWidth: 400,
-          imageHeight: 200,
-          imageAlt: "Custom image",
         });
       } else if (type === "auto-close") {
         let timerInterval;

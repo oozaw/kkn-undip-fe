@@ -4,11 +4,22 @@ import * as s$wilayah from "@/service/wilayah";
 const d$wilayah = defineStore("wilayahStore", {
   id: "wilayah",
   state: () => ({
-    listKecmatan: [],
+    listKecamatan: [],
     listDesa: [],
     status: null,
   }),
   actions: {
+    async a$listKecamatan(body) {
+      try {
+        const { data, status } = await s$wilayah.listKecamatan(body);
+        this.listKecamatan = data ?? [];
+        this.status = status;
+      } catch (error) {
+        this.status = false;
+        throw error;
+      }
+    },
+
     async a$addKecamatan(body) {
       try {
         const status = await s$wilayah.addKecamatan(body);
@@ -18,6 +29,9 @@ const d$wilayah = defineStore("wilayahStore", {
         throw error;
       }
     },
+  },
+  getters: {
+    g$listKecamatan: ({ listKecamatan }) => listKecamatan,
   },
 });
 

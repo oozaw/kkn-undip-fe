@@ -19,11 +19,11 @@
                 class="form-control"
                 name="choices-tema"
               >
-                <option value="reguler">
+                <option value="1" selected>KKN Reguler Tim I</option>
+                <option value="2">
                   KKN Tematik Pengurangan Risiko Bencana Berbasis Partisipasi
                   Masyarakat dan Komunitas
                 </option>
-                <option value="tematik">KKN Reguler Tim I</option>
               </select>
             </div>
           </div>
@@ -72,23 +72,69 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <tr>
-                    <td class="text-sm ps-3">1</td>
+                  <tr
+                    v-for="(kec, index) in g$listKecamatan"
+                    v-bind:key="kec.id_kecamatan"
+                  >
+                    <td class="text-sm ps-3">{{ index + 1 }}</td>
                     <td class="ms-0 px-0">
-                      <h6 class="my-auto">Kecamatan 1</h6>
+                      <h6 class="my-auto">{{ kec.nama }}</h6>
                     </td>
                     <td class="text-sm">10</td>
                     <td class="text-sm">
-                      <a href="#" class="text-sm text-primary">Lihat</a>
+                      <a
+                        type="button"
+                        class="mb-0 text-primary"
+                        data-bs-toggle="modal"
+                        :data-bs-target="'#potensi_' + kec.id_kecamatan"
+                      >
+                        Lihat
+                      </a>
+                      <div
+                        :id="'potensi_' + kec.id_kecamatan"
+                        class="modal fade"
+                        tabindex="-1"
+                        aria-hidden="true"
+                      >
+                        <div class="modal-dialog mt-lg-10">
+                          <div class="modal-content">
+                            <div class="modal-header">
+                              <h5 id="ModalLabel" class="modal-title">
+                                Potensi Kecamatan {{ kec.nama }}
+                              </h5>
+                              <button
+                                type="button"
+                                class="btn-close text-dark mb-0"
+                                data-bs-dismiss="modal"
+                                aria-label="Close"
+                              >
+                                <font-awesome-icon icon="fa-solid fa-xmark" />
+                              </button>
+                            </div>
+                            <div class="modal-body">
+                              <span v-html="kec.potensi"></span>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
                     </td>
                     <td class="text-sm">
-                      <span class="badge badge-secondary">Verifikasi</span>
+                      <span v-if="kec.status == 1" class="badge badge-success"
+                        >Diterima</span
+                      >
+                      <span
+                        v-else-if="kec.status == 0"
+                        class="badge badge-secondary"
+                        >Verifikasi</span
+                      >
+                      <span v-else class="badge badge-danger">Ditolak</span>
                     </td>
                     <td class="text-sm">
                       <a
                         href="javascript:;"
                         data-bs-toggle="tooltip"
-                        data-bs-original-title="Preview product"
+                        data-bs-original-title="Detail kecamatan"
+                        title="Detail kecamatan"
                       >
                         <i class="fas fa-eye text-info"></i>
                       </a>
@@ -96,164 +142,16 @@
                         href="javascript:;"
                         class="mx-3"
                         data-bs-toggle="tooltip"
-                        data-bs-original-title="Edit product"
+                        data-bs-original-title="Edit kecamatan"
+                        title="Edit kecamatan"
                       >
                         <i class="fas fa-user-edit text-primary"></i>
                       </a>
                       <a
                         href="javascript:;"
                         data-bs-toggle="tooltip"
-                        data-bs-original-title="Delete product"
-                      >
-                        <i class="fas fa-trash text-danger"></i>
-                      </a>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td class="text-sm ps-3">2</td>
-                    <td class="ms-0 px-0">
-                      <h6 class="my-auto">Kecamatan 2</h6>
-                    </td>
-                    <td class="text-sm">7</td>
-                    <td class="text-sm">
-                      <a href="#" class="text-sm text-primary">Lihat</a>
-                    </td>
-                    <td class="text-sm">
-                      <span class="badge badge-success"
-                        >Diterima Reviewers</span
-                      >
-                    </td>
-                    <td class="text-sm">
-                      <a
-                        href="javascript:;"
-                        data-bs-toggle="tooltip"
-                        data-bs-original-title="Preview product"
-                      >
-                        <i class="fas fa-eye text-info"></i>
-                      </a>
-                      <a
-                        href="javascript:;"
-                        class="mx-3"
-                        data-bs-toggle="tooltip"
-                        data-bs-original-title="Edit product"
-                      >
-                        <i class="fas fa-user-edit text-primary"></i>
-                      </a>
-                      <a
-                        href="javascript:;"
-                        data-bs-toggle="tooltip"
-                        data-bs-original-title="Delete product"
-                      >
-                        <i class="fas fa-trash text-danger"></i>
-                      </a>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td class="text-sm ps-3">3</td>
-                    <td class="ms-0 px-0">
-                      <h6 class="my-auto">Kecamatan 3</h6>
-                    </td>
-                    <td class="text-sm">8</td>
-                    <td class="text-sm">
-                      <a href="#" class="text-sm text-primary">Lihat</a>
-                    </td>
-                    <td class="text-sm">
-                      <span class="badge badge-danger">Ditolak Admin</span>
-                    </td>
-                    <td class="text-sm">
-                      <a
-                        href="javascript:;"
-                        data-bs-toggle="tooltip"
-                        data-bs-original-title="Preview product"
-                      >
-                        <i class="fas fa-eye text-info"></i>
-                      </a>
-                      <a
-                        href="javascript:;"
-                        class="mx-3"
-                        data-bs-toggle="tooltip"
-                        data-bs-original-title="Edit product"
-                      >
-                        <i class="fas fa-user-edit text-primary"></i>
-                      </a>
-                      <a
-                        href="javascript:;"
-                        data-bs-toggle="tooltip"
-                        data-bs-original-title="Delete product"
-                      >
-                        <i class="fas fa-trash text-danger"></i>
-                      </a>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td class="text-sm ps-3">4</td>
-                    <td class="ms-0 px-0">
-                      <h6 class="my-auto">Kecamatan 4</h6>
-                    </td>
-                    <td class="text-sm">9</td>
-                    <td class="text-sm">
-                      <a href="#" class="text-sm text-primary">Lihat</a>
-                    </td>
-                    <td class="text-sm">
-                      <span class="badge badge-success">Diterima Admin</span>
-                    </td>
-                    <td class="text-sm">
-                      <a
-                        href="javascript:;"
-                        data-bs-toggle="tooltip"
-                        data-bs-original-title="Preview product"
-                      >
-                        <i class="fas fa-eye text-info"></i>
-                      </a>
-                      <a
-                        href="javascript:;"
-                        class="mx-3"
-                        data-bs-toggle="tooltip"
-                        data-bs-original-title="Edit product"
-                      >
-                        <i class="fas fa-user-edit text-primary"></i>
-                      </a>
-                      <a
-                        href="javascript:;"
-                        data-bs-toggle="tooltip"
-                        data-bs-original-title="Delete product"
-                      >
-                        <i class="fas fa-trash text-danger"></i>
-                      </a>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td class="text-sm ps-3">5</td>
-                    <td class="ms-0 px-0">
-                      <h6 class="my-auto">Kecamatan 5</h6>
-                    </td>
-                    <td class="text-sm">6</td>
-                    <td class="text-sm">
-                      <a href="#" class="text-sm text-primary">Lihat</a>
-                    </td>
-                    <td class="text-sm">
-                      <span class="badge badge-danger">Ditolak Reviewers</span>
-                    </td>
-                    <td class="text-sm">
-                      <a
-                        href="javascript:;"
-                        data-bs-toggle="tooltip"
-                        data-bs-original-title="Preview product"
-                      >
-                        <i class="fas fa-eye text-info"></i>
-                      </a>
-                      <a
-                        href="javascript:;"
-                        class="mx-3"
-                        data-bs-toggle="tooltip"
-                        data-bs-original-title="Edit product"
-                      >
-                        <i class="fas fa-user-edit text-primary"></i>
-                      </a>
-                      <a
-                        href="javascript:;"
-                        data-bs-toggle="tooltip"
-                        data-bs-original-title="Delete product"
+                        data-bs-original-title="Hapus kecamatan"
+                        title="Hapus kecamatan"
                       >
                         <i class="fas fa-trash text-danger"></i>
                       </a>
@@ -499,6 +397,8 @@ import { DataTable } from "simple-datatables";
 import Choices from "choices.js";
 import setTooltip from "@/assets/js/tooltip.js";
 import HeaderProfileCard from "@/views/dashboards/components/HeaderProfileCard.vue";
+import { mapActions, mapState } from "pinia";
+import d$wilayah from "@/store/wilayah";
 
 export default {
   name: "IndexPengajuanLokasi",
@@ -508,9 +408,23 @@ export default {
   data() {
     return {
       choicesTema: Choices,
+      input: {
+        id_periode: 1,
+        id_kabupaten: 1,
+      },
     };
   },
-  mounted() {
+  computed: {
+    ...mapState(d$wilayah, ["g$listKecamatan"]),
+  },
+  async mounted() {
+    try {
+      await this.a$listKecamatan(this.input);
+    } catch (error) {
+      this.showSwal("failed-message", "Terjadi kesalahan saat memuat data!");
+      console.log(error);
+    }
+
     this.choicesTema = this.getChoices("choices-tema");
 
     if (document.getElementById("kecamatan-list")) {
@@ -568,12 +482,56 @@ export default {
     this.choicesTema.destroy();
   },
   methods: {
+    ...mapActions(d$wilayah, ["a$listKecamatan"]),
+
     getChoices(id) {
       var element = document.getElementById(id);
       if (element) {
         return new Choices(element, {
           searchEnabled: false,
           allowHTML: true,
+        });
+      }
+    },
+
+    showSwal(type, text) {
+      if (type === "success-message") {
+        this.$swal({
+          icon: "success",
+          title: "Berhasil!",
+          text: text,
+          timer: 2500,
+          type: type,
+          timerProgressBar: true,
+          showConfirmButton: false,
+        });
+      } else if (type === "failed-message") {
+        this.$swal({
+          icon: "error",
+          title: "Gagal!",
+          text: text,
+          timer: 2500,
+          type: type,
+          timerProgressBar: true,
+          showConfirmButton: false,
+        });
+      } else if (type === "auto-close") {
+        let timerInterval;
+        this.$swal({
+          title: "Auto close alert!",
+          html: "I will close in <b></b> milliseconds.",
+          timer: 2000,
+          timerProgressBar: true,
+          didOpen: () => {
+            this.$swal.showLoading();
+            const b = this.$swal.getHtmlContainer().querySelector("b");
+            timerInterval = setInterval(() => {
+              b.textContent = this.$swal.getTimerLeft();
+            }, 100);
+          },
+          willClose: () => {
+            clearInterval(timerInterval);
+          },
         });
       }
     },
