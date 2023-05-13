@@ -12,7 +12,7 @@
       </div>
       <div class="col-sm-auto col-8 my-auto">
         <div class="h-100">
-          <h5 class="mb-1 font-weight-bolder">{{ g$user.name }}</h5>
+          <h5 class="mb-1 font-weight-bolder">{{ g$user.username }}</h5>
           <p id="role" class="mb-0 font-weight-bold text-sm"></p>
         </div>
       </div>
