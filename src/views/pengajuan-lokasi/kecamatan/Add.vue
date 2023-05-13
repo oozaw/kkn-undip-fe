@@ -2,34 +2,24 @@
   <div class="container-fluid">
     <div class="row mb-5 mt-4">
       <div class="col-lg-12 mt-lg-0 mt-4">
-        <HeaderProfileCard
-          :button="false"
-          button-text="Tambah data kecamatan"
-          name="BAPPEDA Kota Semarang"
-          description="Kota Semarang, Jawa Tengah, Indonesia"
-          :img="img"
-        >
+        <HeaderProfileCard>
           <template #button>
-            <div
-              class="col-sm-auto ms-sm-auto mt-sm-0 mt-3 d-flex justify-content-center"
+            <argon-button
+              :onclick="() => $router.push({ name: 'Pengajuan Lokasi' })"
+              class="mb-0 me-2"
+              color="secondary"
+              size="sm"
+              >Batal</argon-button
             >
-              <argon-button
-                :onclick="() => $router.push({ name: 'Pengajuan Lokasi' })"
-                class="mb-0 me-2"
-                color="secondary"
-                size="sm"
-                >Batal</argon-button
-              >
-              <argon-button
-                type="submit"
-                form="form-kec"
-                class="mb-0 me-lg-2"
-                color="success"
-                variant="gradient"
-                size="sm"
-                >Tambah Kecamatan</argon-button
-              >
-            </div>
+            <argon-button
+              type="submit"
+              form="form-kec"
+              class="mb-0 me-lg-2"
+              color="success"
+              variant="gradient"
+              size="sm"
+              >Tambah Kecamatan</argon-button
+            >
           </template>
         </HeaderProfileCard>
         <div id="card-profile-wilayah" class="card mt-4 pb-3">
