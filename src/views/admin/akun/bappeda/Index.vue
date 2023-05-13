@@ -2,11 +2,7 @@
   <div class="py-4 container-fluid">
     <div class="row">
       <div class="col-lg-12 mt-lg-0 mt-4">
-        <header-profile-card
-          name="Tazki Hanifan Amri"
-          description="KKN Reguler
-           Tim 1 2023"
-        />
+        <header-profile-card />
         <div class="bg-white card mt-4">
           <div class="card-header pb-0 pt-3">
             <p class="font-weight-bold text-dark mb-2">
