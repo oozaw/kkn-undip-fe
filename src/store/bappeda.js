@@ -18,6 +18,7 @@ const d$bappeda = defineStore("bappedaStore", {
         throw message;
       }
     },
+
     async a$addBappeda(body) {
       try {
         const status = await s$bappeda.addBappeda(body);
