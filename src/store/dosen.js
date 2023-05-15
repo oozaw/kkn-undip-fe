@@ -18,6 +18,16 @@ const d$dosen = defineStore("dosenStore", {
         throw message;
       }
     },
+
+    async a$addDosen(body) {
+      try {
+        const status = await s$dosen.addDosen(body);
+        this.status = status;
+      } catch (error) {
+        this.status = false;
+        throw error;
+      }
+    },
   },
   getters: {
     g$listDosen: ({ listDosen }) => listDosen,

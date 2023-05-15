@@ -4,4 +4,6 @@ const api = `/dosen`;
 
 const listDosen = () => baseApi.get(`${api}`);
 
-export { listDosen };
+const addDosen = (body) => baseApi.post(`${api}`, body);
+
+export { listDosen, addDosen };
