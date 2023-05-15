@@ -100,9 +100,7 @@ export default {
       try {
         await this.a$addReviewer(this.body);
         this.showSwal("success-message", "Data Reviewer berhasil ditambahkan!");
-        setTimeout(() => {
-          this.$router.push({ name: "Reviewer" });
-        }, 2600);
+        this.$router.push({ name: "Reviewer" });
       } catch (error) {
         this.showSwal("failed-message", error);
         console.log(error);

@@ -149,9 +149,7 @@ export default {
         console.log(this.body);
         await this.a$addBappeda(this.body);
         this.showSwal("success-message", "Data BAPPEDA berhasil ditambahkan!");
-        setTimeout(() => {
-          this.$router.push({ name: "Bappeda" });
-        }, 2600);
+        this.$router.push({ name: "Bappeda" });
       } catch (error) {
         this.showSwal("failed-message", error);
         console.log(error);
