@@ -111,12 +111,15 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <tr>
-                    <td class="text-sm">1</td>
+                  <tr
+                    v-for="(rev, index) in g$listReviewer"
+                    :key="rev.id_reviewer"
+                  >
+                    <td class="text-sm">{{ index + 1 }}</td>
                     <td>
-                      <h6 class="my-auto">Reviewer 1</h6>
+                      <h6 class="my-auto">{{ rev.nama }}</h6>
                     </td>
-                    <td class="text-sm">91024934098</td>
+                    <td class="text-sm">{{ rev.nip }}</td>
                     <td class="text-sm">rev_1</td>
                     <td class="text-sm">
                       <span id="password_value" class="me-3">*******</span>
@@ -212,13 +215,27 @@
 import { DataTable } from "simple-datatables";
 import setTooltip from "@/assets/js/tooltip.js";
 import HeaderProfileCard from "@/views/dashboards/components/HeaderProfileCard.vue";
+import d$reviewer from "@/store/reviewer";
+import { mapActions, mapState } from "pinia";
 
 export default {
   name: "IndexReviewer",
   components: {
     HeaderProfileCard,
   },
-  mounted() {
+  computed: {
+    ...mapState(d$reviewer, ["g$listReviewer"]),
+  },
+  async mounted() {
+    try {
+      await this.a$listReviewer();
+    } catch (error) {
+      if (error) this.showSwal("failed-message", error);
+      else
+        this.showSwal("failed-message", "Terjadi kesalahan saat memuat data!");
+      console.log(error);
+    }
+
     if (document.getElementById("reviewer-list")) {
       const dataTableSearch = new DataTable("#reviewer-list", {
         searchable: true,
@@ -245,6 +262,8 @@ export default {
     }
     setTooltip(this.$store.state.bootstrap);
   },
-  methods: {},
+  methods: {
+    ...mapActions(d$reviewer, ["a$listReviewer"]),
+  },
 };
 </script>
