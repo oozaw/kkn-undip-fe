@@ -218,7 +218,7 @@ export default {
       console.log(error);
     }
 
-    this.choicesTema = this.getChoices("choices-tema");
+    // this.choicesTema = this.getChoices("choices-tema");
 
     if (document.getElementById("administrator-list")) {
       const dataTableSearch = new DataTable("#administrator-list", {
@@ -247,7 +247,7 @@ export default {
     setTooltip(this.$store.state.bootstrap);
   },
   beforeUnmount() {
-    this.choicesTema.destroy();
+    // this.choicesTema.destroy();
   },
   methods: {
     ...mapActions(d$admin, ["a$listAdmin"]),

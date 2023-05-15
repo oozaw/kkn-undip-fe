@@ -6,37 +6,60 @@
           :button="true"
           button-text="Tambah Administrator"
           description="KKN Reguler Tim 1 2023"
-        />
+        >
+          <template #button>
+            <argon-button
+              :onclick="() => $router.push({ name: 'Administrator' })"
+              class="mb-0 me-2"
+              color="secondary"
+              size="sm"
+              >Batal</argon-button
+            >
+            <argon-button
+              type="submit"
+              form="form-admin"
+              class="mb-0 me-lg-2"
+              color="success"
+              variant="gradient"
+              size="sm"
+              >Tambah Administrator</argon-button
+            >
+          </template>
+        </HeaderProfileCard>
       </div>
     </div>
     <div class="mt-4">
       <div class="mt-4 mt-lg-0">
         <div class="card">
-          <div class="card-body pb-5">
-            <h5 class="font-weight-bolder mb-3">Tambah Administrator</h5>
-            <div class="row">
-              <div class="col-12 col-sm-6">
-                <label>Nama</label>
-                <input
-                  class="form-control"
-                  type="text"
-                  name="nama"
-                  id="nama"
-                  placeholder="Masukkan nama administrator"
-                />
+          <form id="form-admin" role="form" @submit.prevent="addAdmin()">
+            <div class="card-body pb-5">
+              <h5 class="font-weight-bolder mb-3">Tambah Administrator</h5>
+              <div class="row">
+                <div class="col-12 col-sm-6">
+                  <label>Nama</label>
+                  <input
+                    class="form-control"
+                    type="text"
+                    name="nama"
+                    id="nama"
+                    placeholder="Masukkan nama administrator"
+                    v-model="body.nama"
+                  />
+                </div>
+                <div class="mt-3 col-12 col-sm-6 mt-sm-0">
+                  <label>NIP</label>
+                  <input
+                    class="form-control"
+                    type="number"
+                    name="nip"
+                    id="nip"
+                    placeholder="Masukkan NIP administrator"
+                    v-model="body.nip"
+                  />
+                </div>
               </div>
-              <div class="mt-3 col-12 col-sm-6 mt-sm-0">
-                <label>NIP</label>
-                <input
-                  class="form-control"
-                  type="number"
-                  name="nip"
-                  id="nip"
-                  placeholder="Masukkan NIP administrator"
-                />
-              </div>
-            </div>
-            <div class="row">
+              <!-- Username & Password Section -->
+              <!-- <div class="row">
               <div class="col-6">
                 <label class="mt-4">Username</label>
                 <input
@@ -53,8 +76,9 @@
                   placeholder="Masukkan password"
                 />
               </div>
+            </div> -->
             </div>
-          </div>
+          </form>
         </div>
       </div>
     </div>
@@ -63,17 +87,50 @@
 
 <script>
 import Choices from "choices.js";
+import ArgonButton from "@/components/ArgonButton.vue";
 import HeaderProfileCard from "@/views/dashboards/components/HeaderProfileCard.vue";
+import d$admin from "@/store/admin";
+import { mapActions } from "pinia";
 
 export default {
   name: "AddAdministrator",
   components: {
     HeaderProfileCard,
+    ArgonButton,
   },
   data() {
-    return {};
+    return {
+      body: {
+        nama: "",
+        nip: "",
+      },
+    };
   },
   methods: {
+    ...mapActions(d$admin, ["a$addAdmin"]),
+
+    async addAdmin() {
+      this.body.nip = this.body.nip.toString();
+
+      // validation
+      if (this.body.nama.length === 0 || this.body.nip.length === 0) {
+        this.showSwal("failed-message", "Data belum lengkap!");
+        return;
+      }
+
+      try {
+        console.log(this.body);
+        await this.a$addAdmin(this.body);
+        this.showSwal("success-message", "Data Admin berhasil ditambahkan!");
+        setTimeout(() => {
+          this.$router.push({ name: "Administrator" });
+        }, 2600);
+      } catch (error) {
+        this.showSwal("failed-message", error);
+        console.log(error);
+      }
+    },
+
     getChoices(id) {
       if (document.getElementById(id)) {
         var element = document.getElementById(id);
@@ -81,6 +138,48 @@ export default {
           searchEnabled: false,
           allowHTML: true,
           shouldSort: false,
+        });
+      }
+    },
+
+    showSwal(type, text) {
+      if (type === "success-message") {
+        this.$swal({
+          icon: "success",
+          title: "Berhasil!",
+          text: text,
+          timer: 2500,
+          type: type,
+          timerProgressBar: true,
+          showConfirmButton: false,
+        });
+      } else if (type === "failed-message") {
+        this.$swal({
+          icon: "error",
+          title: "Gagal!",
+          text: text,
+          timer: 2500,
+          type: type,
+          timerProgressBar: true,
+          showConfirmButton: false,
+        });
+      } else if (type === "auto-close") {
+        let timerInterval;
+        this.$swal({
+          title: "Auto close alert!",
+          html: "I will close in <b></b> milliseconds.",
+          timer: 2000,
+          timerProgressBar: true,
+          didOpen: () => {
+            this.$swal.showLoading();
+            const b = this.$swal.getHtmlContainer().querySelector("b");
+            timerInterval = setInterval(() => {
+              b.textContent = this.$swal.getTimerLeft();
+            }, 100);
+          },
+          willClose: () => {
+            clearInterval(timerInterval);
+          },
         });
       }
     },
