@@ -214,7 +214,9 @@ export default {
     try {
       await this.a$listAdmin();
     } catch (error) {
-      this.showSwal("failed-message", error);
+      if (error) this.showSwal("failed-message", error);
+      else
+        this.showSwal("failed-message", "Terjadi kesalahan saat memuat data!");
       console.log(error);
     }
 

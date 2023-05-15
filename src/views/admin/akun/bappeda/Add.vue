@@ -57,40 +57,30 @@
                 </div>
               </div>
               <div class="row mt-3">
-                <div class="col-12">
+                <div class="col-12 col-sm-6 mt-sm-0">
                   <label class="form-label" for="kabupaten">Kabupaten</label>
-                  <select
-                    class="form-control"
-                    name="choices-kabupaten"
-                    id="choices-kabupaten"
-                    v-model="body.kabupaten"
-                  >
-                    <option value="" disabled>-- Pilih Kabupaten --</option>
-                    <option
-                      v-for="kab in g$listKabupaten"
-                      :value="kab.nama"
-                      v-bind:key="kab.id_kabupaten"
-                    >
-                      {{ kab.nama }}
-                    </option>
-                  </select>
-                </div>
-              </div>
-              <div class="row">
-                <div class="col-6">
-                  <label class="mt-4">Username</label>
                   <input
                     class="form-control"
                     type="text"
-                    placeholder="Masukkan username"
+                    name="kabupaten"
+                    id="kabupaten"
+                    placeholder="Masukkan nama kabupaten"
+                    v-model="body.kabupaten"
+                    required
                   />
                 </div>
-                <div class="col-6">
-                  <label class="mt-4">Password</label>
+                <div class="mt-3 col-12 col-sm-6 mt-sm-0">
+                  <label class="form-label" for="nama-pj"
+                    >Nama Penanggung Jawab</label
+                  >
                   <input
                     class="form-control"
-                    type="password"
-                    placeholder="Masukkan password"
+                    type="text"
+                    name="nama-pj"
+                    id="nama-pj"
+                    placeholder="Masukkan nama penanggung jawab"
+                    v-model="body.nama_pj"
+                    required
                   />
                 </div>
               </div>
@@ -107,8 +97,7 @@ import Choices from "choices.js";
 import ArgonButton from "@/components/ArgonButton.vue";
 import HeaderProfileCard from "@/views/dashboards/components/HeaderProfileCard.vue";
 import d$bappeda from "@/store/bappeda";
-import d$wilayah from "@/store/wilayah";
-import { mapActions, mapState } from "pinia";
+import { mapActions } from "pinia";
 
 export default {
   name: "AddBappeda",
@@ -123,25 +112,13 @@ export default {
         nama: "",
         nisn: "",
         kabupaten: "",
-        nama_pj: "belum diketahui",
+        nama_pj: "",
       },
       choicesKab: "",
     };
   },
-  computed: {
-    ...mapState(d$wilayah, ["g$listKabupaten"]),
-  },
-  async created() {
-    try {
-      await this.a$listKabupaten();
-      this.choicesKab = this.getChoices("choices-kabupaten");
-    } catch (error) {
-      console.log(error);
-    }
-  },
   methods: {
     ...mapActions(d$bappeda, ["a$addBappeda"]),
-    ...mapActions(d$wilayah, ["a$listKabupaten"]),
 
     getChoices(id) {
       if (document.getElementById(id)) {
@@ -155,8 +132,14 @@ export default {
     },
 
     async addBappeda() {
-      if (this.body.kabupaten === "") {
-        this.showSwal("failed-message", "Kabupaten belum dipilih!");
+      // validation
+      if (
+        this.body.kabupaten === "" ||
+        this.body.nama === "" ||
+        this.body.nama_pj === "" ||
+        this.nomor === ""
+      ) {
+        this.showSwal("failed-message", "Data belum lengkap!");
         return;
       }
 
@@ -216,9 +199,6 @@ export default {
         });
       }
     },
-  },
-  beforeUnmount() {
-    this.choicesKab.destroy();
   },
 };
 </script>
