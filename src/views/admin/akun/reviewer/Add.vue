@@ -2,11 +2,7 @@
   <div class="py-4 container-fluid">
     <div class="row">
       <div class="col-lg-12 mt-lg-0">
-        <HeaderProfileCard
-          :button="true"
-          button-text="Tambah Reviewer"
-          description="KKN Reguler Tim 1 2023"
-        >
+        <HeaderProfileCard>
           <template #button>
             <argon-button
               :onclick="() => $router.push({ name: 'Reviewer' })"
@@ -44,6 +40,7 @@
                     id="nama"
                     placeholder="Masukkan nama reviewer"
                     v-model="body.nama"
+                    required
                   />
                 </div>
                 <div class="mt-3 col-12 col-sm-6 mt-sm-0">
@@ -55,6 +52,7 @@
                     id="nip"
                     placeholder="Masukkan NIP reviewer"
                     v-model="body.nip"
+                    required
                   />
                 </div>
               </div>
