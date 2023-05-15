@@ -48,12 +48,12 @@
                     type="button"
                     class="mx-2 mb-0 btn btn-primary btn-sm"
                     data-bs-toggle="modal"
-                    data-bs-target="#import-mhs"
+                    data-bs-target="#import-dosen"
                   >
                     Impor
                   </button>
                   <div
-                    id="import-mhs"
+                    id="import-dosen"
                     class="modal fade"
                     tabindex="-1"
                     aria-hidden="true"
@@ -133,12 +133,15 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <tr>
-                    <td class="text-sm">1</td>
+                  <tr
+                    v-for="(dosen, index) in g$listDosen"
+                    :key="dosen.id_dosen"
+                  >
+                    <td class="text-sm">{{ index + 1 }}</td>
                     <td>
-                      <h6 class="my-auto">Dosen 1</h6>
+                      <h6 class="my-auto">{{ dosen.nama }}</h6>
                     </td>
-                    <td class="text-sm">83384182392</td>
+                    <td class="text-sm">{{ dosen.nip }}</td>
                     <td class="text-sm">FSM</td>
                     <td>
                       <span class="badge badge-danger badge-sm"
@@ -309,18 +312,32 @@ import Choices from "choices.js";
 import { DataTable } from "simple-datatables";
 import setTooltip from "@/assets/js/tooltip.js";
 import HeaderProfileCard from "@/views/dashboards/components/HeaderProfileCard.vue";
+import d$dosen from "@/store/dosen";
+import { mapActions, mapState } from "pinia";
 
 export default {
   name: "IndexDosen",
   components: {
     HeaderProfileCard,
   },
+  computed: {
+    ...mapState(d$dosen, ["g$listDosen"]),
+  },
   data() {
     return {
       choicesTema: undefined,
     };
   },
-  mounted() {
+  async mounted() {
+    try {
+      await this.a$listDosen();
+    } catch (error) {
+      if (error) this.showSwal("failed-message", error);
+      else
+        this.showSwal("failed-message", "Terjadi kesalahan saat memuat data!");
+      console.log(error);
+    }
+
     this.choicesTema = this.getChoices("choices-tema");
 
     if (document.getElementById("dosen-list")) {
@@ -353,6 +370,8 @@ export default {
     this.choicesTema.destroy();
   },
   methods: {
+    ...mapActions(d$dosen, ["a$listDosen"]),
+
     getChoices(id) {
       var element = document.getElementById(id);
       if (element) {
