@@ -296,7 +296,7 @@ export default {
         await this.a$importMahasiswa(this.body);
         await this.a$listMahasiswa(this.tema, "");
         this.indexComp++;
-        this.showSwal("success-message", "Berhasil mengimport data mahasiswa!");
+        this.showSwal("success-message", "Data mahasiswa berhasil diimpor!");
         document.getElementById("button-close-modal").click();
       } catch (error) {
         this.showSwal("failed-message", error);
