@@ -31,7 +31,7 @@
                     class="modal fade"
                     tabindex="-1"
                     aria-hidden="true"
-                    :key="indexModalImport"
+                    :key="indexComponent"
                   >
                     <div class="modal-dialog mt-lg-10">
                       <div class="modal-content">
@@ -119,7 +119,7 @@
             </div>
           </div>
           <div class="pt-1 px-0 pb-0 card-body">
-            <div class="table-responsive">
+            <div class="table-responsive" :key="indexComponent">
               <table id="dosen-list" class="table table-flush">
                 <thead class="thead-light">
                   <tr>
@@ -213,7 +213,8 @@ export default {
   },
   data() {
     return {
-      indexModalImport: 0,
+      indexComponent: 0,
+      dataTable: undefined,
       body: {
         file: "",
       },
@@ -229,30 +230,8 @@ export default {
       console.log(error);
     }
 
-    if (document.getElementById("dosen-list")) {
-      const dataTableSearch = new DataTable("#dosen-list", {
-        searchable: true,
-        fixedHeight: false,
-        perPage: 5,
-      });
+    this.setupDataTable();
 
-      document.querySelectorAll(".export").forEach(function (el) {
-        el.addEventListener("click", function () {
-          var type = el.dataset.type;
-
-          var data = {
-            type: type,
-            filename: "Data Dosen",
-          };
-
-          // if (type === "csv") {
-          //   data.columnDelimiter = "|";
-          // }
-
-          dataTableSearch.export(data);
-        });
-      });
-    }
     setTooltip(this.$store.state.bootstrap);
   },
   methods: {
@@ -260,16 +239,52 @@ export default {
 
     async importDosen() {
       this.body.file = this.$refs.file.files[0];
+      this.indexComponent++;
+      document.getElementById("button-close-modal").click();
 
       try {
         await this.a$importDosen(this.body);
         await this.a$listDosen();
-        this.indexModalImport++;
         this.showSwal("success-message", "Data dosen berhasil diimpor!");
-        document.getElementById("button-close-modal").click();
       } catch (error) {
         this.showSwal("failed-message", error);
         console.log(error);
+      }
+
+      this.setupDataTable();
+    },
+
+    setupDataTable() {
+      if (this.dataTable) {
+        this.dataTable.clear();
+        this.dataTable.destroy();
+      }
+
+      if (document.getElementById("dosen-list")) {
+        const dataTableSearch = new DataTable("#dosen-list", {
+          searchable: true,
+          fixedHeight: false,
+          perPage: 5,
+        });
+
+        document.querySelectorAll(".export").forEach(function (el) {
+          el.addEventListener("click", function () {
+            var type = el.dataset.type;
+
+            var data = {
+              type: type,
+              filename: "Data Dosen",
+            };
+
+            // if (type === "csv") {
+            //   data.columnDelimiter = "|";
+            // }
+
+            dataTableSearch.export(data);
+          });
+        });
+
+        this.dataTable = dataTableSearch;
       }
     },
 
