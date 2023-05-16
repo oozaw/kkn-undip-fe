@@ -55,7 +55,7 @@
                     class="modal fade"
                     tabindex="-1"
                     aria-hidden="true"
-                    :key="indexComp"
+                    :key="indexModalImport"
                   >
                     <div class="modal-dialog mt-lg-10">
                       <div class="modal-content">
@@ -143,8 +143,7 @@
             </div>
           </div>
           <div class="pt-1 px-0 pb-0 card-body">
-            <div class="table-responsive">
-              <!-- <mahasiswa-table :list-mahasiswa="g$listMahasiswa" :key="tema" /> -->
+            <div class="table-responsive" :key="tema">
               <table id="mhs-list" class="table table-flush">
                 <thead class="thead-light">
                   <tr>
@@ -152,7 +151,7 @@
                     <th>Nama</th>
                     <th>NIM</th>
                     <th>Prodi</th>
-                    <th>Status</th>
+                    <!-- <th>Status</th> -->
                     <th>Action</th>
                   </tr>
                 </thead>
@@ -167,11 +166,11 @@
                     </td>
                     <td class="text-sm">{{ mhs.nim }}</td>
                     <td class="text-sm">{{ mhs.prodi }}</td>
-                    <td>
+                    <!-- <td>
                       <span class="badge badge-danger badge-sm"
                         >Unregistered</span
                       >
-                    </td>
+                    </td> -->
                     <td class="text-sm">
                       <a
                         href="javascript:;"
@@ -207,7 +206,7 @@
                     <th>Nama</th>
                     <th>NIM</th>
                     <th>Prodi</th>
-                    <th>Status</th>
+                    <!-- <th>Status</th> -->
                     <th>Action</th>
                   </tr>
                 </tfoot>
@@ -225,7 +224,6 @@ import Choices from "choices.js";
 import { DataTable } from "simple-datatables";
 import setTooltip from "@/assets/js/tooltip.js";
 import HeaderProfileCard from "@/views/dashboards/components/HeaderProfileCard.vue";
-// import MahasiswaTable from "./components/MahasiswaTable.vue";
 import d$mahasiswa from "@/store/mahasiswa";
 import { mapActions, mapState } from "pinia";
 
@@ -233,14 +231,13 @@ export default {
   name: "IndexMahasiswa",
   components: {
     HeaderProfileCard,
-    // MahasiswaTable,
   },
   computed: {
     ...mapState(d$mahasiswa, ["g$listMahasiswa"]),
   },
   data() {
     return {
-      indexComp: 0,
+      indexModalImport: 0,
       tema: "1",
       body: {
         file: "",
@@ -255,17 +252,7 @@ export default {
 
     this.choicesTema = this.getChoices("choices-tema");
 
-    // this.setupDataTable();
-
     setTooltip(this.$store.state.bootstrap);
-  },
-  beforeUpdate() {
-    // console.log("beforeUpdate");
-    // this.dataTable.rows().invalidate().draw();
-  },
-  updated() {
-    // console.log("updated");
-    // this.setupDataTable();
   },
   beforeUnmount() {
     this.choicesTema.destroy();
@@ -276,6 +263,7 @@ export default {
     async getListMahasiswa() {
       try {
         await this.a$listMahasiswa(this.tema, "");
+        this.setupDataTable();
         console.log(this.g$listMahasiswa);
       } catch (error) {
         if (error) this.showSwal("failed-message", error);
@@ -295,7 +283,7 @@ export default {
       try {
         await this.a$importMahasiswa(this.body);
         await this.a$listMahasiswa(this.tema, "");
-        this.indexComp++;
+        this.indexModalImport++;
         this.showSwal("success-message", "Data mahasiswa berhasil diimpor!");
         document.getElementById("button-close-modal").click();
       } catch (error) {
@@ -316,33 +304,33 @@ export default {
     },
 
     setupDataTable() {
-      if (this.dataTable != undefined) {
+      if (this.dataTable) {
         this.dataTable.clear();
         this.dataTable.destroy();
-      } else {
-        if (document.getElementById("mhs-list")) {
-          const dataTableSearch = new DataTable("#mhs-list", {
-            searchable: true,
-            fixedHeight: false,
-            perPage: 5,
-          });
+      }
 
-          document.querySelectorAll(".export").forEach(function (el) {
-            el.addEventListener("click", function () {
-              var type = el.dataset.type;
-              var data = {
-                type: type,
-                filename: "Data Mahasiswa",
-              };
-              // if (type === "csv") {
-              //   data.columnDelimiter = "|";
-              // }
-              dataTableSearch.export(data);
-            });
-          });
+      if (document.getElementById("mhs-list")) {
+        const dataTableSearch = new DataTable("#mhs-list", {
+          searchable: true,
+          fixedHeight: false,
+          perPage: 5,
+        });
 
-          this.dataTable = dataTableSearch;
-        }
+        document.querySelectorAll(".export").forEach(function (el) {
+          el.addEventListener("click", function () {
+            var type = el.dataset.type;
+            var data = {
+              type: type,
+              filename: "Data Mahasiswa",
+            };
+            // if (type === "csv") {
+            //   data.columnDelimiter = "|";
+            // }
+            dataTableSearch.export(data);
+          });
+        });
+
+        this.dataTable = dataTableSearch;
       }
     },
 
