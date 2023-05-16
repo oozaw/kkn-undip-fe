@@ -217,7 +217,7 @@ export default {
       choicesTema: undefined,
     };
   },
-  async mounted() {
+  async created() {
     try {
       await this.a$listDosen();
     } catch (error) {

@@ -2,11 +2,7 @@
   <div class="py-4 container-fluid">
     <div class="row">
       <div class="col-lg-12 mt-lg-0 mt-4">
-        <header-profile-card
-          name="Tazki Hanifan Amri"
-          description="KKN Reguler
-           Tim 1 2023"
-        />
+        <header-profile-card />
         <div class="bg-white card mt-4">
           <div class="card-header pb-0 pt-3">
             <p class="font-weight-bold text-dark mb-2">
@@ -19,12 +15,14 @@
                 id="choices-tema"
                 class="form-control"
                 name="choices-tema"
+                v-model="tema"
+                @change="getListMahasiswa()"
               >
-                <option value="reguler">
+                <option value="1" selected>KKN Reguler Tim I</option>
+                <option value="2">
                   KKN Tematik Pengurangan Risiko Bencana Berbasis Partisipasi
                   Masyarakat dan Komunitas
                 </option>
-                <option value="tematik">KKN Reguler Tim I</option>
               </select>
             </div>
           </div>
@@ -122,25 +120,29 @@
           </div>
           <div class="pt-1 px-0 pb-0 card-body">
             <div class="table-responsive">
+              <!-- <mahasiswa-table :list-mahasiswa="g$listMahasiswa" :key="tema" /> -->
               <table id="mhs-list" class="table table-flush">
                 <thead class="thead-light">
                   <tr>
                     <th class="col-1">No.</th>
                     <th>Nama</th>
                     <th>NIM</th>
-                    <th>Fakultas</th>
+                    <th>Prodi</th>
                     <th>Status</th>
                     <th>Action</th>
                   </tr>
                 </thead>
                 <tbody>
-                  <tr>
-                    <td class="text-sm">1</td>
+                  <tr
+                    v-for="(mhs, index) in g$listMahasiswa"
+                    :key="mhs.id_mahasiswa"
+                  >
+                    <td class="text-sm">{{ index + 1 }}</td>
                     <td>
-                      <h6 class="my-auto">Mahasiswa 1</h6>
+                      <h6 class="my-auto">{{ mhs.nama }}</h6>
                     </td>
-                    <td class="text-sm">83384182392</td>
-                    <td class="text-sm">FSM</td>
+                    <td class="text-sm">{{ mhs.nim }}</td>
+                    <td class="text-sm">{{ mhs.id_prodi }}</td>
                     <td>
                       <span class="badge badge-danger badge-sm"
                         >Unregistered</span
@@ -174,124 +176,13 @@
                       </a>
                     </td>
                   </tr>
-                  <tr>
-                    <td class="text-sm">2</td>
-                    <td>
-                      <h6 class="my-auto">Mahasiswa 2</h6>
-                    </td>
-                    <td class="text-sm">45235234324</td>
-                    <td class="text-sm">FT</td>
-                    <td>
-                      <span class="badge badge-success badge-sm"
-                        >Regisered</span
-                      >
-                    </td>
-                    <td class="text-sm">
-                      <a
-                        href="javascript:;"
-                        data-bs-toggle="tooltip"
-                        data-bs-original-title="Preview product"
-                      >
-                        <i class="fas fa-eye text-info"></i>
-                      </a>
-                      <a
-                        href="javascript:;"
-                        class="mx-3"
-                        data-bs-toggle="tooltip"
-                        data-bs-original-title="Edit product"
-                      >
-                        <i class="fas fa-user-edit text-primary"></i>
-                      </a>
-                      <a
-                        href="javascript:;"
-                        data-bs-toggle="tooltip"
-                        data-bs-original-title="Delete product"
-                      >
-                        <i class="fas fa-trash text-danger"></i>
-                      </a>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td class="text-sm">3</td>
-                    <td>
-                      <h6 class="my-auto">Mahasiswa 3</h6>
-                    </td>
-                    <td class="text-sm">56348767867</td>
-                    <td class="text-sm">FEB</td>
-                    <td>
-                      <span class="badge badge-success badge-sm"
-                        >Registered</span
-                      >
-                    </td>
-                    <td class="text-sm">
-                      <a
-                        href="javascript:;"
-                        data-bs-toggle="tooltip"
-                        data-bs-original-title="Preview product"
-                      >
-                        <i class="fas fa-eye text-info"></i>
-                      </a>
-                      <a
-                        href="javascript:;"
-                        class="mx-3"
-                        data-bs-toggle="tooltip"
-                        data-bs-original-title="Edit product"
-                      >
-                        <i class="fas fa-user-edit text-primary"></i>
-                      </a>
-                      <a
-                        href="javascript:;"
-                        data-bs-toggle="tooltip"
-                        data-bs-original-title="Delete product"
-                      >
-                        <i class="fas fa-trash text-danger"></i>
-                      </a>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td class="text-sm">4</td>
-                    <td>
-                      <h6 class="my-auto">Mahasiswa 4</h6>
-                    </td>
-                    <td class="text-sm">87847384733</td>
-                    <td class="text-sm">FPP</td>
-                    <td>
-                      <span class="badge badge-danger badge-sm"
-                        >Unregistered</span
-                      >
-                    </td>
-                    <td class="text-sm">
-                      <a
-                        href="javascript:;"
-                        data-bs-toggle="tooltip"
-                        data-bs-original-title="Preview product"
-                      >
-                        <i class="fas fa-eye text-info"></i>
-                      </a>
-                      <a
-                        href="javascript:;"
-                        class="mx-3"
-                        data-bs-toggle="tooltip"
-                        data-bs-original-title="Edit product"
-                      >
-                        <i class="fas fa-user-edit text-primary"></i>
-                      </a>
-                      <a
-                        href="javascript:;"
-                        data-bs-toggle="tooltip"
-                        data-bs-original-title="Delete product"
-                      >
-                        <i class="fas fa-trash text-danger"></i>
-                      </a>
-                    </td>
-                  </tr>
                 </tbody>
                 <tfoot>
                   <tr>
                     <th class="col-1">No.</th>
                     <th>Nama</th>
                     <th>NIM</th>
-                    <th>Fakultas</th>
+                    <th>Prodi</th>
                     <th>Status</th>
                     <th>Action</th>
                   </tr>
@@ -310,56 +201,144 @@ import Choices from "choices.js";
 import { DataTable } from "simple-datatables";
 import setTooltip from "@/assets/js/tooltip.js";
 import HeaderProfileCard from "@/views/dashboards/components/HeaderProfileCard.vue";
+// import MahasiswaTable from "./components/MahasiswaTable.vue";
+import d$mahasiswa from "@/store/mahasiswa";
+import { mapActions, mapState } from "pinia";
 
 export default {
   name: "IndexMahasiswa",
   components: {
     HeaderProfileCard,
+    // MahasiswaTable,
+  },
+  computed: {
+    ...mapState(d$mahasiswa, ["g$listMahasiswa"]),
   },
   data() {
     return {
+      tema: "1",
       choicesTema: undefined,
+      dataTable: undefined,
     };
   },
-  mounted() {
+  async created() {
+    await this.getListMahasiswa();
+
     this.choicesTema = this.getChoices("choices-tema");
 
-    if (document.getElementById("mhs-list")) {
-      const dataTableSearch = new DataTable("#mhs-list", {
-        searchable: true,
-        fixedHeight: false,
-        perPage: 5,
-      });
+    // this.setupDataTable();
 
-      document.querySelectorAll(".export").forEach(function (el) {
-        el.addEventListener("click", function () {
-          var type = el.dataset.type;
-
-          var data = {
-            type: type,
-            filename: "Data Mahasiswa",
-          };
-
-          // if (type === "csv") {
-          //   data.columnDelimiter = "|";
-          // }
-
-          dataTableSearch.export(data);
-        });
-      });
-    }
     setTooltip(this.$store.state.bootstrap);
+  },
+  beforeUpdate() {
+    console.log("beforeUpdate");
+    // this.dataTable.rows().invalidate().draw();
+  },
+  updated() {
+    console.log("updated");
+    // this.setupDataTable();
   },
   beforeUnmount() {
     this.choicesTema.destroy();
   },
   methods: {
+    ...mapActions(d$mahasiswa, ["a$listMahasiswa"]),
+
+    async getListMahasiswa() {
+      try {
+        await this.a$listMahasiswa(this.tema, "");
+        console.log(this.g$listMahasiswa);
+      } catch (error) {
+        if (error) this.showSwal("failed-message", error);
+        else
+          this.showSwal(
+            "failed-message",
+            "Terjadi kesalahan saat memuat data!"
+          );
+        console.log(error);
+      }
+    },
+
     getChoices(id) {
       var element = document.getElementById(id);
       if (element) {
         return new Choices(element, {
           searchEnabled: true,
           allowHTML: true,
+          shouldSort: false,
+        });
+      }
+    },
+
+    setupDataTable() {
+      if (this.dataTable != undefined) {
+        this.dataTable.clear();
+        this.dataTable.destroy();
+      } else {
+        if (document.getElementById("mhs-list")) {
+          const dataTableSearch = new DataTable("#mhs-list", {
+            searchable: true,
+            fixedHeight: false,
+            perPage: 5,
+          });
+
+          document.querySelectorAll(".export").forEach(function (el) {
+            el.addEventListener("click", function () {
+              var type = el.dataset.type;
+              var data = {
+                type: type,
+                filename: "Data Mahasiswa",
+              };
+              // if (type === "csv") {
+              //   data.columnDelimiter = "|";
+              // }
+              dataTableSearch.export(data);
+            });
+          });
+
+          this.dataTable = dataTableSearch;
+        }
+      }
+    },
+
+    showSwal(type, text) {
+      if (type === "success-message") {
+        this.$swal({
+          icon: "success",
+          title: "Berhasil!",
+          text: text,
+          timer: 2500,
+          type: type,
+          timerProgressBar: true,
+          showConfirmButton: false,
+        });
+      } else if (type === "failed-message") {
+        this.$swal({
+          icon: "error",
+          title: "Gagal!",
+          text: text,
+          timer: 2500,
+          type: type,
+          timerProgressBar: true,
+          showConfirmButton: false,
+        });
+      } else if (type === "auto-close") {
+        let timerInterval;
+        this.$swal({
+          title: "Auto close alert!",
+          html: "I will close in <b></b> milliseconds.",
+          timer: 2000,
+          timerProgressBar: true,
+          didOpen: () => {
+            this.$swal.showLoading();
+            const b = this.$swal.getHtmlContainer().querySelector("b");
+            timerInterval = setInterval(() => {
+              b.textContent = this.$swal.getTimerLeft();
+            }, 100);
+          },
+          willClose: () => {
+            clearInterval(timerInterval);
+          },
         });
       }
     },
