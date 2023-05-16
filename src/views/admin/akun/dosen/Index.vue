@@ -2,33 +2,7 @@
   <div class="py-4 container-fluid">
     <div class="row">
       <div class="col-lg-12 mt-lg-0 mt-4">
-        <header-profile-card
-          name="Tazki Hanifan Amri"
-          description="KKN Reguler
-           Tim 1 2023"
-        />
-        <div class="bg-white card mt-4">
-          <div class="card-header pb-0 pt-3">
-            <p class="font-weight-bold text-dark mb-2">
-              Pilih Tema KKN Terdaftar
-            </p>
-          </div>
-          <div class="pb-3 pt-0 card-body">
-            <div class="col-12 align-self-center">
-              <select
-                id="choices-tema"
-                class="form-control"
-                name="choices-tema"
-              >
-                <option value="reguler">
-                  KKN Tematik Pengurangan Risiko Bencana Berbasis Partisipasi
-                  Masyarakat dan Komunitas
-                </option>
-                <option value="tematik">KKN Reguler Tim I</option>
-              </select>
-            </div>
-          </div>
-        </div>
+        <header-profile-card />
         <div class="bg-white card mt-4">
           <!-- Card header -->
           <div class="pb-0 card-header">
@@ -57,6 +31,7 @@
                     class="modal fade"
                     tabindex="-1"
                     aria-hidden="true"
+                    :key="indexModalImport"
                   >
                     <div class="modal-dialog mt-lg-10">
                       <div class="modal-content">
@@ -73,14 +48,36 @@
                           ></button>
                         </div>
                         <div class="modal-body">
-                          <p>
+                          <p class="mb-1">
                             Silahkan cari dan pilih file excel berisi data dosen
                           </p>
-                          <input
-                            type="file"
-                            placeholder="Browse file..."
-                            class="mb-1 form-control"
-                          />
+                          <a
+                            href="../others/Format Import Dosen - KKN UNDIP.xlsx"
+                            target="_blank"
+                            class="btn btn-success d-inline-block"
+                          >
+                            <font-awesome-icon
+                              class="me-1"
+                              icon="fa-solid fa-file-arrow-down"
+                            />
+                            Download Format File
+                          </a>
+                          <form
+                            role="form"
+                            id="form-import-dosen"
+                            @submit.prevent="importDosen()"
+                            enctype="multipart/form-data"
+                          >
+                            <input
+                              id="file"
+                              name="file"
+                              ref="file"
+                              type="file"
+                              placeholder="Browse file..."
+                              class="mb-1 form-control"
+                              required
+                            />
+                          </form>
                           <div>
                             <small class="text-danger text-sm-start">
                               <i class="fas fa-info-circle"></i>
@@ -91,6 +88,7 @@
                         </div>
                         <div class="modal-footer">
                           <button
+                            id="button-close-modal"
                             type="button"
                             class="btn bg-gradient-secondary btn-sm"
                             data-bs-dismiss="modal"
@@ -98,8 +96,9 @@
                             Batal
                           </button>
                           <button
-                            type="button"
-                            class="btn bg-gradient-success btn-sm"
+                            form="form-import-dosen"
+                            type="submit"
+                            class="btn bg-gradient-primary btn-sm"
                           >
                             Unggah
                           </button>
@@ -127,8 +126,8 @@
                     <th class="col-1">No.</th>
                     <th>Nama</th>
                     <th>NIP</th>
-                    <th>Fakultas</th>
-                    <th>Status</th>
+                    <!-- <th>Fakultas</th>
+                    <th>Status</th> -->
                     <th>Action</th>
                   </tr>
                 </thead>
@@ -142,12 +141,12 @@
                       <h6 class="my-auto">{{ dosen.nama }}</h6>
                     </td>
                     <td class="text-sm">{{ dosen.nip }}</td>
-                    <td class="text-sm">FSM</td>
+                    <!-- <td class="text-sm">FSM</td>
                     <td>
                       <span class="badge badge-danger badge-sm"
                         >Unregistered</span
                       >
-                    </td>
+                    </td> -->
                     <td class="text-sm">
                       <a
                         href="javascript:;"
@@ -214,7 +213,10 @@ export default {
   },
   data() {
     return {
-      choicesTema: undefined,
+      indexModalImport: 0,
+      body: {
+        file: "",
+      },
     };
   },
   async created() {
@@ -226,8 +228,6 @@ export default {
         this.showSwal("failed-message", "Terjadi kesalahan saat memuat data!");
       console.log(error);
     }
-
-    this.choicesTema = this.getChoices("choices-tema");
 
     if (document.getElementById("dosen-list")) {
       const dataTableSearch = new DataTable("#dosen-list", {
@@ -255,11 +255,23 @@ export default {
     }
     setTooltip(this.$store.state.bootstrap);
   },
-  beforeUnmount() {
-    this.choicesTema.destroy();
-  },
   methods: {
-    ...mapActions(d$dosen, ["a$listDosen"]),
+    ...mapActions(d$dosen, ["a$listDosen", "a$importDosen"]),
+
+    async importDosen() {
+      this.body.file = this.$refs.file.files[0];
+
+      try {
+        await this.a$importDosen(this.body);
+        await this.a$listDosen();
+        this.indexModalImport++;
+        this.showSwal("success-message", "Data dosen berhasil diimpor!");
+        document.getElementById("button-close-modal").click();
+      } catch (error) {
+        this.showSwal("failed-message", error);
+        console.log(error);
+      }
+    },
 
     getChoices(id) {
       var element = document.getElementById(id);
@@ -267,6 +279,48 @@ export default {
         return new Choices(element, {
           searchEnabled: true,
           allowHTML: true,
+        });
+      }
+    },
+
+    showSwal(type, text) {
+      if (type === "success-message") {
+        this.$swal({
+          icon: "success",
+          title: "Berhasil!",
+          text: text,
+          timer: 2500,
+          type: type,
+          timerProgressBar: true,
+          showConfirmButton: false,
+        });
+      } else if (type === "failed-message") {
+        this.$swal({
+          icon: "error",
+          title: "Gagal!",
+          text: text,
+          timer: 2500,
+          type: type,
+          timerProgressBar: true,
+          showConfirmButton: false,
+        });
+      } else if (type === "auto-close") {
+        let timerInterval;
+        this.$swal({
+          title: "Auto close alert!",
+          html: "I will close in <b></b> milliseconds.",
+          timer: 2000,
+          timerProgressBar: true,
+          didOpen: () => {
+            this.$swal.showLoading();
+            const b = this.$swal.getHtmlContainer().querySelector("b");
+            timerInterval = setInterval(() => {
+              b.textContent = this.$swal.getTimerLeft();
+            }, 100);
+          },
+          willClose: () => {
+            clearInterval(timerInterval);
+          },
         });
       }
     },

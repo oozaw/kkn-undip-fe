@@ -28,6 +28,16 @@ const d$dosen = defineStore("dosenStore", {
         throw error;
       }
     },
+
+    async a$importDosen(body) {
+      try {
+        const status = await s$dosen.importDosen(body);
+        this.status = status;
+      } catch (error) {
+        this.status = false;
+        throw error;
+      }
+    },
   },
   getters: {
     g$listDosen: ({ listDosen }) => listDosen,

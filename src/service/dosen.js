@@ -1,9 +1,16 @@
 import { baseApi } from "@/utils/axios";
 
-const api = `/dosen`;
+const api = `/`;
 
-const listDosen = () => baseApi.get(`${api}`);
+const listDosen = () => baseApi.get(`${api}dosen`);
 
-const addDosen = (body) => baseApi.post(`${api}`, body);
+const addDosen = (body) => baseApi.post(`${api}admin/dosen/single`, body);
 
-export { listDosen, addDosen };
+const importDosen = (body) =>
+  baseApi.post(`${api}admin/dosen`, body, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  });
+
+export { listDosen, addDosen, importDosen };
