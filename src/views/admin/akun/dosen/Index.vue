@@ -49,7 +49,7 @@
                         </div>
                         <div class="modal-body">
                           <p class="mb-1">
-                            Silahkan cari dan pilih file excel berisi data dosen
+                            Silahkan download dan isi format file di bawah ini!
                           </p>
                           <a
                             href="../others/Format Import Dosen - KKN UNDIP.xlsx"

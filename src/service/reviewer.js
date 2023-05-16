@@ -1,9 +1,16 @@
 import { baseApi } from "@/utils/axios";
 
-const api = `/reviewer`;
+const api = `/`;
 
-const listReviewer = () => baseApi.get(`${api}`);
+const listReviewer = () => baseApi.get(`${api}reviewer`);
 
-const addReviewer = (body) => baseApi.post(`${api}`, body);
+const addReviewer = (body) => baseApi.post(`${api}admin/reviewer/single`, body);
 
-export { listReviewer, addReviewer };
+const importReviewer = (body) =>
+  baseApi.post(`${api}admin/reviewer`, body, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  });
+
+export { listReviewer, addReviewer, importReviewer };

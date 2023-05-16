@@ -28,6 +28,16 @@ const d$reviewer = defineStore("reviewerStore", {
         throw error;
       }
     },
+
+    async a$importReviewer(body) {
+      try {
+        const status = await s$reviewer.importReviewer(body);
+        this.status = status;
+      } catch (error) {
+        this.status = false;
+        throw error;
+      }
+    },
   },
   getters: {
     g$listReviewer: ({ listReviewer }) => listReviewer,
