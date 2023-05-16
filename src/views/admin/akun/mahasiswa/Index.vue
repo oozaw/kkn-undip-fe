@@ -55,6 +55,7 @@
                     class="modal fade"
                     tabindex="-1"
                     aria-hidden="true"
+                    :key="indexComp"
                   >
                     <div class="modal-dialog mt-lg-10">
                       <div class="modal-content">
@@ -71,15 +72,36 @@
                           ></button>
                         </div>
                         <div class="modal-body">
-                          <p>
-                            Silahkan cari dan pilih file excel berisi data
-                            mahasiswa
+                          <p class="mb-1">
+                            Silahkan download dan isi format file di bawah ini!
                           </p>
-                          <input
-                            type="file"
-                            placeholder="Browse file..."
-                            class="mb-1 form-control"
-                          />
+                          <a
+                            href="../others/Format Import Mahasiswa - KKN UNDIP.xlsx"
+                            target="_blank"
+                            class="btn btn-success d-inline-block"
+                          >
+                            <font-awesome-icon
+                              class="me-1"
+                              icon="fa-solid fa-file-arrow-down"
+                            />
+                            Download Format File
+                          </a>
+                          <form
+                            role="form"
+                            id="form-import-mhs"
+                            @submit.prevent="importMahasiswa()"
+                            enctype="multipart/form-data"
+                          >
+                            <input
+                              id="file"
+                              ref="file"
+                              type="file"
+                              name="file"
+                              placeholder="Browse file..."
+                              class="mb-1 form-control"
+                              required
+                            />
+                          </form>
                           <div>
                             <small class="text-danger text-sm-start">
                               <i class="fas fa-info-circle"></i>
@@ -90,6 +112,7 @@
                         </div>
                         <div class="modal-footer">
                           <button
+                            id="button-close-modal"
                             type="button"
                             class="btn bg-gradient-secondary btn-sm"
                             data-bs-dismiss="modal"
@@ -97,8 +120,9 @@
                             Batal
                           </button>
                           <button
-                            type="button"
-                            class="btn bg-gradient-success btn-sm"
+                            form="form-import-mhs"
+                            type="submit"
+                            class="btn bg-gradient-primary btn-sm"
                           >
                             Unggah
                           </button>
@@ -142,7 +166,7 @@
                       <h6 class="my-auto">{{ mhs.nama }}</h6>
                     </td>
                     <td class="text-sm">{{ mhs.nim }}</td>
-                    <td class="text-sm">{{ mhs.id_prodi }}</td>
+                    <td class="text-sm">{{ mhs.prodi }}</td>
                     <td>
                       <span class="badge badge-danger badge-sm"
                         >Unregistered</span
@@ -216,7 +240,12 @@ export default {
   },
   data() {
     return {
+      indexComp: 0,
       tema: "1",
+      body: {
+        file: "",
+        id_periode: "",
+      },
       choicesTema: undefined,
       dataTable: undefined,
     };
@@ -231,18 +260,18 @@ export default {
     setTooltip(this.$store.state.bootstrap);
   },
   beforeUpdate() {
-    console.log("beforeUpdate");
+    // console.log("beforeUpdate");
     // this.dataTable.rows().invalidate().draw();
   },
   updated() {
-    console.log("updated");
+    // console.log("updated");
     // this.setupDataTable();
   },
   beforeUnmount() {
     this.choicesTema.destroy();
   },
   methods: {
-    ...mapActions(d$mahasiswa, ["a$listMahasiswa"]),
+    ...mapActions(d$mahasiswa, ["a$listMahasiswa", "a$importMahasiswa"]),
 
     async getListMahasiswa() {
       try {
@@ -255,6 +284,22 @@ export default {
             "failed-message",
             "Terjadi kesalahan saat memuat data!"
           );
+        console.log(error);
+      }
+    },
+
+    async importMahasiswa() {
+      this.body.file = this.$refs.file.files[0];
+      this.body.id_periode = this.tema;
+
+      try {
+        await this.a$importMahasiswa(this.body);
+        await this.a$listMahasiswa(this.tema, "");
+        this.indexComp++;
+        this.showSwal("success-message", "Berhasil mengimport data mahasiswa!");
+        document.getElementById("button-close-modal").click();
+      } catch (error) {
+        this.showSwal("failed-message", error);
         console.log(error);
       }
     },

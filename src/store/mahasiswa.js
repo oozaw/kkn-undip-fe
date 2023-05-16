@@ -32,6 +32,16 @@ const d$mahasiswa = defineStore("mahasiswaStore", {
         throw error;
       }
     },
+
+    async a$importMahasiswa(body) {
+      try {
+        const status = await s$mahasiswa.importMahasiswa(body);
+        this.status = status;
+      } catch (error) {
+        this.status = false;
+        throw error;
+      }
+    },
   },
   getters: {
     g$listMahasiswa: ({ listMahasiswa }) => listMahasiswa,

@@ -8,4 +8,11 @@ const listMahasiswa = (periode, prodi) =>
 const addMahasiswa = (body) =>
   baseApi.post(`${api}admin/mahasiswa/single`, body);
 
-export { listMahasiswa, addMahasiswa };
+const importMahasiswa = (body) =>
+  baseApi.post(`${api}admin/mahasiswa`, body, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  });
+
+export { listMahasiswa, addMahasiswa, importMahasiswa };
