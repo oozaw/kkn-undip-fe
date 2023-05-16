@@ -28,6 +28,16 @@ const d$bappeda = defineStore("bappedaStore", {
         throw error;
       }
     },
+
+    async a$importBappeda(body) {
+      try {
+        const status = await s$bappeda.importBappeda(body);
+        this.status = status;
+      } catch (error) {
+        this.status = false;
+        throw error;
+      }
+    },
   },
   getters: {
     g$listBappeda: ({ listBappeda }) => listBappeda,
