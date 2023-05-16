@@ -55,7 +55,7 @@
                     class="modal fade"
                     tabindex="-1"
                     aria-hidden="true"
-                    :key="indexModalImport"
+                    :key="indexComponent"
                   >
                     <div class="modal-dialog mt-lg-10">
                       <div class="modal-content">
@@ -143,7 +143,7 @@
             </div>
           </div>
           <div class="pt-1 px-0 pb-0 card-body">
-            <div class="table-responsive" :key="tema">
+            <div class="table-responsive" :key="indexComponent">
               <table id="mhs-list" class="table table-flush">
                 <thead class="thead-light">
                   <tr>
@@ -237,7 +237,7 @@ export default {
   },
   data() {
     return {
-      indexModalImport: 0,
+      indexComponent: 0,
       tema: "1",
       body: {
         file: "",
@@ -261,10 +261,10 @@ export default {
     ...mapActions(d$mahasiswa, ["a$listMahasiswa", "a$importMahasiswa"]),
 
     async getListMahasiswa() {
+      this.indexComponent++;
       try {
         await this.a$listMahasiswa(this.tema, "");
         this.setupDataTable();
-        console.log(this.g$listMahasiswa);
       } catch (error) {
         if (error) this.showSwal("failed-message", error);
         else
@@ -279,17 +279,18 @@ export default {
     async importMahasiswa() {
       this.body.file = this.$refs.file.files[0];
       this.body.id_periode = this.tema;
+      this.indexComponent++;
+      document.getElementById("button-close-modal").click();
 
       try {
         await this.a$importMahasiswa(this.body);
         await this.a$listMahasiswa(this.tema, "");
-        this.indexModalImport++;
         this.showSwal("success-message", "Data mahasiswa berhasil diimpor!");
-        document.getElementById("button-close-modal").click();
       } catch (error) {
         this.showSwal("failed-message", error);
         console.log(error);
       }
+      this.setupDataTable();
     },
 
     getChoices(id) {
