@@ -264,7 +264,6 @@ export default {
       this.indexComponent++;
       try {
         await this.a$listMahasiswa(this.tema, "");
-        this.setupDataTable();
       } catch (error) {
         if (error) this.showSwal("failed-message", error);
         else
@@ -274,6 +273,7 @@ export default {
           );
         console.log(error);
       }
+      this.setupDataTable();
     },
 
     async importMahasiswa() {
