@@ -162,7 +162,7 @@
                     <td>
                       <h6 class="my-auto">{{ bappeda.nama }}</h6>
                     </td>
-                    <td class="text-sm">{{ bappeda.nisn }}</td>
+                    <td class="text-sm">{{ bappeda.nb }}</td>
                     <td class="text-sm">3/8</td>
                     <td>
                       <span class="badge badge-danger badge-sm">Ditolak</span>

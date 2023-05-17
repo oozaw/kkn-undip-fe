@@ -110,7 +110,7 @@ export default {
       nomor: "",
       body: {
         nama: "",
-        nisn: "",
+        nb: "",
         kabupaten: "",
         nama_pj: "",
       },
@@ -143,7 +143,7 @@ export default {
         return;
       }
 
-      this.body.nisn = this.nomor.toString();
+      this.body.nb = this.nomor.toString();
 
       try {
         console.log(this.body);
