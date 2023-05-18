@@ -18,6 +18,8 @@
                 id="choices-tema"
                 class="form-control"
                 name="choices-tema"
+                v-model="tema"
+                @change="getListKecamatan()"
               >
                 <option value="1" selected>KKN Reguler Tim I</option>
                 <option value="2">
@@ -59,7 +61,7 @@
             </div>
           </div>
           <div class="ms-2 pt-1 px-0 pb-0 card-body">
-            <div class="table-responsive">
+            <div class="table-responsive" :key="indexComponent">
               <table id="kecamatan-list" class="table table-flush">
                 <thead class="thead-light">
                   <tr>
@@ -80,7 +82,7 @@
                     <td class="ms-0 px-0">
                       <h6 class="my-auto">{{ kec.nama }}</h6>
                     </td>
-                    <td class="text-sm">10</td>
+                    <td class="text-sm">{{ kec.desa.length }}</td>
                     <td class="text-sm">
                       <a
                         type="button"
@@ -172,7 +174,7 @@
             </div>
           </div>
         </div>
-        <div class="bg-white card mt-4">
+        <div class="bg-white card mt-4" :key="indexComponent">
           <!-- Card header -->
           <div class="pb-0 card-header">
             <div class="d-lg-flex">
@@ -399,6 +401,7 @@ import setTooltip from "@/assets/js/tooltip.js";
 import HeaderProfileCard from "@/views/dashboards/components/HeaderProfileCard.vue";
 import { mapActions, mapState } from "pinia";
 import d$wilayah from "@/store/wilayah";
+import d$auth from "@/store/auth";
 
 export default {
   name: "IndexPengajuanLokasi",
@@ -407,82 +410,47 @@ export default {
   },
   data() {
     return {
-      choicesTema: Choices,
-      input: {
-        id_periode: 1,
-        id_kabupaten: 1,
-      },
+      tema: "1",
+      indexComponent: 0,
+      choicesTema: undefined,
+      dataTableKec: undefined,
+      dataTableDesa: undefined,
     };
   },
   computed: {
-    ...mapState(d$wilayah, ["g$listKecamatan"]),
+    ...mapState(d$wilayah, ["g$listKabupaten", "g$listKecamatan"]),
+    ...mapState(d$auth, ["g$infoUser"]),
   },
-  async mounted() {
-    try {
-      await this.a$listKecamatan(this.input);
-    } catch (error) {
-      this.showSwal("failed-message", "Terjadi kesalahan saat memuat data!");
-      console.log(error);
-    }
+  async created() {
+    await this.getListKecamatan();
 
     this.choicesTema = this.getChoices("choices-tema");
 
-    if (document.getElementById("kecamatan-list")) {
-      const dataTableSearchKec = new DataTable("#kecamatan-list", {
-        searchable: true,
-        fixedHeight: false,
-        perPage: 5,
-      });
-
-      document.querySelectorAll(".export-kec").forEach(function (el) {
-        el.addEventListener("click", function () {
-          var type = el.dataset.type;
-
-          var data = {
-            type: type,
-            filename: "Data Kecamatan",
-          };
-
-          // if (type === "csv") {
-          //   data.columnDelimiter = "|";
-          // }
-
-          dataTableSearchKec.export(data);
-        });
-      });
-    }
-
-    if (document.getElementById("desa-list")) {
-      const dataTableSearchDesa = new DataTable("#desa-list", {
-        searchable: true,
-        fixedHeight: false,
-        perPage: 5,
-      });
-
-      document.querySelectorAll(".export-desa").forEach(function (el) {
-        el.addEventListener("click", function () {
-          var type = el.dataset.type;
-
-          var data = {
-            type: type,
-            filename: "Data Desa",
-          };
-
-          // if (type === "csv") {
-          //   data.columnDelimiter = "|";
-          // }
-
-          dataTableSearchDesa.export(data);
-        });
-      });
-    }
     setTooltip(this.$store.state.bootstrap);
   },
   beforeUnmount() {
     this.choicesTema.destroy();
   },
   methods: {
-    ...mapActions(d$wilayah, ["a$listKecamatan"]),
+    ...mapActions(d$wilayah, ["a$listKabupaten"]),
+
+    async getListKecamatan() {
+      this.indexComponent++;
+
+      try {
+        await this.a$listKabupaten(this.tema, this.g$infoUser.id_bappeda);
+      } catch (error) {
+        if (error) this.showSwal("failed-message", error);
+        else
+          this.showSwal(
+            "failed-message",
+            "Terjadi kesalahan saat memuat data!"
+          );
+        console.log(error);
+      }
+
+      this.setupDataTable();
+    },
 
     getChoices(id) {
       var element = document.getElementById(id);
@@ -491,6 +459,72 @@ export default {
           searchEnabled: false,
           allowHTML: true,
         });
+      }
+    },
+
+    setupDataTable() {
+      // if (this.dataTableKec) {
+      //   this.dataTableKec.clear();
+      //   this.dataTableKec.destroy();
+      // }
+
+      // if (this.dataTableDesa) {
+      //   this.dataTableDesa.clear();
+      //   this.dataTableDesa.destroy();
+      // }
+
+      if (document.getElementById("kecamatan-list")) {
+        const dataTableSearchKec = new DataTable("#kecamatan-list", {
+          searchable: true,
+          fixedHeight: false,
+          perPage: 5,
+        });
+
+        document.querySelectorAll(".export-kec").forEach(function (el) {
+          el.addEventListener("click", function () {
+            var type = el.dataset.type;
+
+            var data = {
+              type: type,
+              filename: "Data Kecamatan",
+            };
+
+            // if (type === "csv") {
+            //   data.columnDelimiter = "|";
+            // }
+
+            dataTableSearchKec.export(data);
+          });
+        });
+
+        this.dataTableKec = dataTableSearchKec;
+      }
+
+      if (document.getElementById("desa-list")) {
+        const dataTableSearchDesa = new DataTable("#desa-list", {
+          searchable: true,
+          fixedHeight: false,
+          perPage: 5,
+        });
+
+        document.querySelectorAll(".export-desa").forEach(function (el) {
+          el.addEventListener("click", function () {
+            var type = el.dataset.type;
+
+            var data = {
+              type: type,
+              filename: "Data Desa",
+            };
+
+            // if (type === "csv") {
+            //   data.columnDelimiter = "|";
+            // }
+
+            dataTableSearchDesa.export(data);
+          });
+        });
+
+        this.dataTableDesa = dataTableSearchDesa;
       }
     },
 

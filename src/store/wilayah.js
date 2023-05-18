@@ -10,9 +10,25 @@ const d$wilayah = defineStore("wilayahStore", {
     status: null,
   }),
   actions: {
-    async a$listKabupaten() {
+    async a$listKabupaten(id_tema, id_bappeda) {
       try {
-        const { data, status } = await s$wilayah.listKabupaten();
+        const { data, status } = await s$wilayah.listKabupaten(
+          id_tema,
+          id_bappeda
+        );
+        this.listKabupaten = data ?? [];
+        if (data.length > 0) this.listKecamatan = data[0].kecamatan ?? [];
+        else this.listKecamatan = [];
+        this.status = status;
+      } catch (error) {
+        this.status = false;
+        throw error;
+      }
+    },
+
+    async a$listAllKabupaten(id_tema) {
+      try {
+        const { data, status } = await s$wilayah.listAllKabupaten(id_tema);
         this.listKabupaten = data ?? [];
         this.status = status;
       } catch (error) {
@@ -21,9 +37,20 @@ const d$wilayah = defineStore("wilayahStore", {
       }
     },
 
-    async a$listKecamatan(body) {
+    async a$listKecamatan(id_kabupaten) {
       try {
-        const { data, status } = await s$wilayah.listKecamatan(body);
+        const { data, status } = await s$wilayah.listKecamatan(id_kabupaten);
+        this.listKecamatan = data ?? [];
+        this.status = status;
+      } catch (error) {
+        this.status = false;
+        throw error;
+      }
+    },
+
+    async a$listAllKecamatan(id_tema) {
+      try {
+        const { data, status } = await s$wilayah.listAllKecamatan(id_tema);
         this.listKecamatan = data ?? [];
         this.status = status;
       } catch (error) {
@@ -45,6 +72,7 @@ const d$wilayah = defineStore("wilayahStore", {
   getters: {
     g$listKabupaten: ({ listKabupaten }) => listKabupaten,
     g$listKecamatan: ({ listKecamatan }) => listKecamatan,
+    g$listDesa: ({ listDesa }) => listDesa,
   },
 });
 
