@@ -117,13 +117,13 @@ export default {
       }
 
       try {
-        console.log(this.body);
+        // console.log(this.body);
         await this.a$addAdmin(this.body);
         this.showSwal("success-message", "Data Admin berhasil ditambahkan!");
         this.$router.push({ name: "Administrator" });
       } catch (error) {
         this.showSwal("failed-message", error);
-        console.log(error);
+        // console.log(error);
       }
     },
 
