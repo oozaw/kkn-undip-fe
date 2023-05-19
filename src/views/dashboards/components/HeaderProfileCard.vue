@@ -12,7 +12,7 @@
       </div>
       <div class="col-sm-auto col-8 my-auto">
         <div class="h-100">
-          <h5 class="mb-1 font-weight-bolder">{{ g$user.username }}</h5>
+          <h5 class="mb-1 font-weight-bolder">{{ g$infoUser.nama }}</h5>
           <p id="role" class="mb-0 font-weight-bold text-sm"></p>
         </div>
       </div>
@@ -49,7 +49,7 @@ export default {
     };
   },
   computed: {
-    ...mapState(d$auth, ["g$user"]),
+    ...mapState(d$auth, ["g$user", "g$infoUser"]),
   },
   mounted() {
     if (this.g$user.role) {
@@ -62,19 +62,19 @@ export default {
     checkRole(role) {
       switch (role) {
         case "SUPERADMIN":
-          return "Super Administrator";
+          return "Super Administrator KKN UNDIP";
         case "ADMIN":
-          return "Administrator";
-        case "USER":
-          return "User";
+          return "Tim Administrasi KKN UNDIP";
+        case "PIMPINAN":
+          return "Pimpinan P2KKN UNDIP";
         case "MAHASISWA":
-          return "Mahasiswa";
+          return "Mahasiswa KKN UNDIP";
         case "DOSEN":
-          return "Dosen";
+          return "Dosen KKN UNDIP";
         case "BAPPEDA":
-          return "BAPPEDA";
+          return "BAPPEDA Kota " + this.g$infoUser.kabupaten[0].nama;
         case "REVIEWER":
-          return "Reviewer";
+          return "Tim Reviewer KKN UNDIP";
         default:
           return "";
       }
