@@ -33,7 +33,7 @@ baseApi.interceptors.response.use(
       default:
         break;
     }
-    throw error?.response?.data?.error ?? error;
+    throw error?.response?.data ?? error;
   }
 );
 

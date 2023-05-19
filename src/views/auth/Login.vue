@@ -116,7 +116,7 @@
 </template>
 
 <script>
-import { mapActions } from "pinia";
+import { mapActions, mapState } from "pinia";
 import d$auth from "@/store/auth";
 
 import Navbar from "@/views/partials/Navbar.vue";
@@ -134,6 +134,9 @@ export default {
         password: "",
       },
     };
+  },
+  computed: {
+    ...mapState(d$auth, ["g$infoUser"]),
   },
   components: {
     Navbar,
@@ -157,10 +160,56 @@ export default {
     async login() {
       try {
         await this.a$login(this.input);
-        this.$router.push(this.$route.query.redirect || "/dashboard");
-        // this.$router.push({ name: "Dashboard" });
+        this.$router.push(this.$route.query.redirect || { name: "Dashboard" });
+        this.showSwal(
+          "success-message",
+          "Selamat datang " + this.g$infoUser.nama
+        );
       } catch (error) {
-        console.log(error);
+        this.showSwal("failed-message", error);
+        // console.log(error);
+      }
+    },
+
+    showSwal(type, text) {
+      if (type === "success-message") {
+        this.$swal({
+          icon: "success",
+          title: "Login Berhasil!",
+          text: text,
+          timer: 2500,
+          type: type,
+          timerProgressBar: true,
+          showConfirmButton: false,
+        });
+      } else if (type === "failed-message") {
+        this.$swal({
+          icon: "error",
+          title: "Login Gagal!",
+          text: text,
+          timer: 2500,
+          type: type,
+          timerProgressBar: true,
+          showConfirmButton: false,
+        });
+      } else if (type === "auto-close") {
+        let timerInterval;
+        this.$swal({
+          title: "Auto close alert!",
+          html: "I will close in <b></b> milliseconds.",
+          timer: 2000,
+          timerProgressBar: true,
+          didOpen: () => {
+            this.$swal.showLoading();
+            const b = this.$swal.getHtmlContainer().querySelector("b");
+            timerInterval = setInterval(() => {
+              b.textContent = this.$swal.getTimerLeft();
+            }, 100);
+          },
+          willClose: () => {
+            clearInterval(timerInterval);
+          },
+        });
       }
     },
   },
