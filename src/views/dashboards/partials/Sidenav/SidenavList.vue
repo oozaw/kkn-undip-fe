@@ -104,9 +104,9 @@
               />
               <sidenav-item
                 :isActive="getRoute2() === 'kkn'"
-                :to="{ name: 'Index KKN Terdaftar' }"
+                :to="{ name: 'Tema KKN' }"
                 mini-icon="P"
-                text="Pendaftaran KKN"
+                text="Tema KKN"
               />
               <sidenav-item
                 :to="{ name: 'Pengajuan Wilayah' }"

@@ -2,24 +2,20 @@
   <div class="container-fluid">
     <div class="row mb-5 mt-4">
       <div class="col-lg-12 mt-lg-0 mt-4">
-        <header-profile-card
-          name="Tazki Hanifan Amri"
-          description="KKN Reguler
-           Tim 1 2023"
-        />
+        <header-profile-card />
         <div class="bg-white card mt-4">
           <!-- Card header -->
           <div class="pb-0 card-header">
             <div class="d-lg-flex">
               <div>
-                <h5 class="mb-2">KKN Terdaftar</h5>
-                <p class="text-sm mb-0">List KKN Terdaftar</p>
+                <h5 class="mb-2">Tema KKN</h5>
+                <p class="text-sm mb-0">List Tema KKN Terdaftar</p>
               </div>
               <div class="my-auto mt-4 ms-auto mt-lg-0">
                 <div class="my-auto ms-auto">
                   <router-link
                     class="mb-0 btn bg-gradient-success btn-sm me-2"
-                    :to="{ name: 'Tambah KKN Terdaftar' }"
+                    :to="{ name: 'Tambah Tema KKN' }"
                     >+&nbsp; Daftarkan KKN Baru
                   </router-link>
                   <button
@@ -48,12 +44,12 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <tr>
-                    <td class="text-sm">1</td>
+                  <tr v-for="(tema, index) in g$listTema" :key="tema.id_tema">
+                    <td class="text-sm">{{ index + 1 }}</td>
                     <td>
-                      <h6 class="my-auto">KKN Reguler Tim 1</h6>
+                      <h6 class="my-auto">{{ tema.nama }}</h6>
                     </td>
-                    <td class="text-sm">Reguler</td>
+                    <td class="text-sm">{{ tema.nama }}</td>
                     <td class="text-sm">
                       <a
                         type="button"
@@ -171,38 +167,109 @@
 import { DataTable } from "simple-datatables";
 import setTooltip from "@/assets/js/tooltip.js";
 import HeaderProfileCard from "@/views/dashboards/components/HeaderProfileCard.vue";
+import { mapActions, mapState } from "pinia";
+import d$tema from "@/store/tema";
 
 export default {
-  name: "IndexKKNTerdaftar",
+  name: "IndexTemaKKN",
   components: {
     HeaderProfileCard,
   },
+  computed: {
+    ...mapState(d$tema, ["g$listTema"]),
+  },
+  async created() {
+    await this.getListTema();
+  },
   mounted() {
-    if (document.getElementById("kkn-list")) {
-      const dataTableSearch = new DataTable("#kkn-list", {
-        searchable: true,
-        fixedHeight: false,
-        perPage: 5,
-      });
-
-      document.querySelectorAll(".export").forEach(function (el) {
-        el.addEventListener("click", function () {
-          var type = el.dataset.type;
-
-          var data = {
-            type: type,
-            filename: "Data KKN Terdaftar",
-          };
-
-          //  if (type === "csv") {
-          //    data.columnDelimiter = "|";
-          //  }
-
-          dataTableSearch.export(data);
-        });
-      });
-    }
     setTooltip(this.$store.state.bootstrap);
+  },
+
+  methods: {
+    ...mapActions(d$tema, ["a$listTema"]),
+
+    async getListTema() {
+      try {
+        await this.a$listTema();
+      } catch (error) {
+        this.showSwal(
+          "failed-message",
+          error ?? "Terjadi kesalahan saat memuat data"
+        );
+        console.log(error);
+      }
+
+      this.setupDataTable();
+    },
+
+    setupDataTable() {
+      if (document.getElementById("kkn-list")) {
+        const dataTableSearch = new DataTable("#kkn-list", {
+          searchable: true,
+          fixedHeight: false,
+          perPage: 5,
+        });
+
+        document.querySelectorAll(".export").forEach(function (el) {
+          el.addEventListener("click", function () {
+            var type = el.dataset.type;
+
+            var data = {
+              type: type,
+              filename: "Data Tema KKN Terdaftar",
+            };
+
+            //  if (type === "csv") {
+            //    data.columnDelimiter = "|";
+            //  }
+
+            dataTableSearch.export(data);
+          });
+        });
+      }
+    },
+
+    showSwal(type, text) {
+      if (type === "success-message") {
+        this.$swal({
+          icon: "success",
+          title: "Berhasil!",
+          text: text,
+          timer: 2500,
+          type: type,
+          timerProgressBar: true,
+          showConfirmButton: false,
+        });
+      } else if (type === "failed-message") {
+        this.$swal({
+          icon: "error",
+          title: "Gagal!",
+          text: text,
+          timer: 2500,
+          type: type,
+          timerProgressBar: true,
+          showConfirmButton: false,
+        });
+      } else if (type === "auto-close") {
+        let timerInterval;
+        this.$swal({
+          title: "Auto close alert!",
+          html: "I will close in <b></b> milliseconds.",
+          timer: 2000,
+          timerProgressBar: true,
+          didOpen: () => {
+            this.$swal.showLoading();
+            const b = this.$swal.getHtmlContainer().querySelector("b");
+            timerInterval = setInterval(() => {
+              b.textContent = this.$swal.getTimerLeft();
+            }, 100);
+          },
+          willClose: () => {
+            clearInterval(timerInterval);
+          },
+        });
+      }
+    },
   },
 };
 </script>
