@@ -209,147 +209,17 @@
                   <tr>
                     <th class="col-1 ps-2">No.</th>
                     <th class="ps-0">Desa</th>
-                    <th>Kelurahan</th>
                     <th>Kecamatan</th>
                     <th>Action</th>
                   </tr>
                 </thead>
                 <tbody>
-                  <tr>
-                    <td class="text-sm ps-3">1</td>
+                  <tr v-for="(desa, index) in listDesa" :key="desa.id_desa">
+                    <td class="text-sm ps-3">{{ index + 1 }}</td>
                     <td class="ms-0 px-0">
-                      <h6 class="my-auto">Desa 1</h6>
+                      <h6 class="my-auto">{{ desa.nama }}</h6>
                     </td>
-                    <td class="text-sm">Kelurahan 1</td>
-                    <td class="text-sm">Kecamatan 1</td>
-                    <td class="text-sm">
-                      <a
-                        href="javascript:;"
-                        data-bs-toggle="tooltip"
-                        data-bs-original-title="Preview product"
-                      >
-                        <i class="fas fa-eye text-info"></i>
-                      </a>
-                      <a
-                        href="javascript:;"
-                        class="mx-3"
-                        data-bs-toggle="tooltip"
-                        data-bs-original-title="Edit product"
-                      >
-                        <i class="fas fa-user-edit text-primary"></i>
-                      </a>
-                      <a
-                        href="javascript:;"
-                        data-bs-toggle="tooltip"
-                        data-bs-original-title="Delete product"
-                      >
-                        <i class="fas fa-trash text-danger"></i>
-                      </a>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td class="text-sm ps-3">2</td>
-                    <td class="ms-0 px-0">
-                      <h6 class="my-auto">Desa 2</h6>
-                    </td>
-                    <td class="text-sm">Kelurahan 2</td>
-                    <td class="text-sm">Kecamatan 2</td>
-                    <td class="text-sm">
-                      <a
-                        href="javascript:;"
-                        data-bs-toggle="tooltip"
-                        data-bs-original-title="Preview product"
-                      >
-                        <i class="fas fa-eye text-info"></i>
-                      </a>
-                      <a
-                        href="javascript:;"
-                        class="mx-3"
-                        data-bs-toggle="tooltip"
-                        data-bs-original-title="Edit product"
-                      >
-                        <i class="fas fa-user-edit text-primary"></i>
-                      </a>
-                      <a
-                        href="javascript:;"
-                        data-bs-toggle="tooltip"
-                        data-bs-original-title="Delete product"
-                      >
-                        <i class="fas fa-trash text-danger"></i>
-                      </a>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td class="text-sm ps-3">3</td>
-                    <td class="ms-0 px-0">
-                      <h6 class="my-auto">Desa 3</h6>
-                    </td>
-                    <td class="text-sm">Kelurahan 3</td>
-                    <td class="text-sm">Kecamatan 3</td>
-                    <td class="text-sm">
-                      <a
-                        href="javascript:;"
-                        data-bs-toggle="tooltip"
-                        data-bs-original-title="Preview product"
-                      >
-                        <i class="fas fa-eye text-info"></i>
-                      </a>
-                      <a
-                        href="javascript:;"
-                        class="mx-3"
-                        data-bs-toggle="tooltip"
-                        data-bs-original-title="Edit product"
-                      >
-                        <i class="fas fa-user-edit text-primary"></i>
-                      </a>
-                      <a
-                        href="javascript:;"
-                        data-bs-toggle="tooltip"
-                        data-bs-original-title="Delete product"
-                      >
-                        <i class="fas fa-trash text-danger"></i>
-                      </a>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td class="text-sm ps-3">4</td>
-                    <td class="ms-0 px-0">
-                      <h6 class="my-auto">Desa 4</h6>
-                    </td>
-                    <td class="text-sm">Kelurahan 4</td>
-                    <td class="text-sm">Kecamatan 4</td>
-                    <td class="text-sm">
-                      <a
-                        href="javascript:;"
-                        data-bs-toggle="tooltip"
-                        data-bs-original-title="Preview product"
-                      >
-                        <i class="fas fa-eye text-info"></i>
-                      </a>
-                      <a
-                        href="javascript:;"
-                        class="mx-3"
-                        data-bs-toggle="tooltip"
-                        data-bs-original-title="Edit product"
-                      >
-                        <i class="fas fa-user-edit text-primary"></i>
-                      </a>
-                      <a
-                        href="javascript:;"
-                        data-bs-toggle="tooltip"
-                        data-bs-original-title="Delete product"
-                      >
-                        <i class="fas fa-trash text-danger"></i>
-                      </a>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td class="text-sm ps-3">5</td>
-                    <td class="ms-0 px-0">
-                      <h6 class="my-auto">Desa 5</h6>
-                    </td>
-                    <td class="text-sm">Kelurahan 5</td>
-                    <td class="text-sm">Kecamatan 5</td>
+                    <td class="text-sm">{{ desa.nama_kecamatan }}</td>
                     <td class="text-sm">
                       <a
                         href="javascript:;"
@@ -380,7 +250,6 @@
                   <tr>
                     <th class="col-1 ps-2">No.</th>
                     <th class="ps-0">Desa</th>
-                    <th>Kelurahan</th>
                     <th>Kecamatan</th>
                     <th>Action</th>
                   </tr>
@@ -415,6 +284,7 @@ export default {
       choicesTema: undefined,
       dataTableKec: undefined,
       dataTableDesa: undefined,
+      listDesa: [],
     };
   },
   computed: {
@@ -439,6 +309,7 @@ export default {
 
       try {
         await this.a$listKabupaten(this.tema, this.g$infoUser.id_bappeda);
+        await this.getListDesa();
       } catch (error) {
         if (error) this.showSwal("failed-message", error);
         else
@@ -526,6 +397,19 @@ export default {
 
         this.dataTableDesa = dataTableSearchDesa;
       }
+    },
+
+    async getListDesa() {
+      this.listDesa = [];
+      await this.g$listKecamatan.forEach((kec) => {
+        var elementKec = {
+          nama_kecamatan: kec.nama,
+        };
+        kec.desa.forEach((desa) => {
+          var newDesaWithKecamatan = Object.assign({}, desa, elementKec);
+          this.listDesa.push(newDesaWithKecamatan);
+        });
+      });
     },
 
     showSwal(type, text) {
