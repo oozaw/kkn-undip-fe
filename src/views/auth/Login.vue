@@ -154,12 +154,13 @@ export default {
     body.classList.add("bg-gray-100");
   },
   methods: {
-    ...mapActions(d$auth, ["a$login"]),
+    ...mapActions(d$auth, ["a$login", "a$getUser"]),
     ...mapMutations(["toggleDefaultLayout"]),
 
     async login() {
       try {
         await this.a$login(this.input);
+        await this.a$getUser();
         this.$router.push(this.$route.query.redirect || { name: "Dashboard" });
         this.showSwal(
           "success-message",

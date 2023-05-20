@@ -15,17 +15,15 @@ const d$auth = defineStore("authStore", {
   actions: {
     async a$setUser() {
       try {
-        const { id, username, role, info } = certCookies();
+        const { id, username, role } = certCookies();
         this.id = id;
         this.username = username;
         this.role = role;
-        this.infoUser = info;
         return "User Authenticated!";
       } catch ({ message }) {
         this.id = undefined;
         this.username = undefined;
         this.role = undefined;
-        this.infoUser = undefined;
         throw message;
       }
     },
@@ -38,6 +36,19 @@ const d$auth = defineStore("authStore", {
         return true;
       } catch ({ error, message }) {
         throw message ?? error;
+      }
+    },
+
+    async a$getUser() {
+      try {
+        const { data } = await s$auth.getUser();
+        this.infoUser = data ?? {
+          nama: this.username,
+        };
+        return true;
+      } catch (error) {
+        this.infoUser = undefined;
+        throw error;
       }
     },
 
@@ -54,6 +65,7 @@ const d$auth = defineStore("authStore", {
     g$user: ({ id, username, role }) => ({ id, username, role }),
     g$infoUser: ({ infoUser }) => infoUser,
   },
+  persist: true,
 });
 
 export default d$auth;
