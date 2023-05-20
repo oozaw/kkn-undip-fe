@@ -13,9 +13,9 @@ const d$admin = defineStore("adminStore", {
         const { data, status } = await s$admin.listAdmin();
         this.listAdmin = data ?? [];
         this.status = status;
-      } catch ({ message }) {
+      } catch ({ message, error }) {
         this.status = false;
-        throw message;
+        throw message ?? error;
       }
     },
 

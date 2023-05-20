@@ -13,9 +13,9 @@ const d$dosen = defineStore("dosenStore", {
         const { data, status } = await s$dosen.listDosen();
         this.listDosen = data ?? [];
         this.status = status;
-      } catch ({ message }) {
+      } catch ({ message, error }) {
         this.status = false;
-        throw message;
+        throw message ?? error;
       }
     },
 

@@ -17,9 +17,9 @@ const d$mahasiswa = defineStore("mahasiswaStore", {
         );
         this.listMahasiswa = data ?? [];
         this.status = status;
-      } catch ({ message }) {
+      } catch ({ message, error }) {
         this.status = false;
-        throw message;
+        throw message ?? error;
       }
     },
 

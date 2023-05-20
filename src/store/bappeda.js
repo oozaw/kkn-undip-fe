@@ -13,9 +13,9 @@ const d$bappeda = defineStore("bappedaStore", {
         const { data, status } = await s$bappeda.listBappeda();
         this.listBappeda = data ?? [];
         this.status = status;
-      } catch ({ message }) {
+      } catch ({ message, error }) {
         this.status = false;
-        throw message;
+        throw message ?? error;
       }
     },
 

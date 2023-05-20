@@ -13,9 +13,9 @@ const d$reviewer = defineStore("reviewerStore", {
         const { data, status } = await s$reviewer.listReviewer();
         this.listReviewer = data ?? [];
         this.status = status;
-      } catch ({ message }) {
+      } catch ({ message, error }) {
         this.status = false;
-        throw message;
+        throw message ?? error;
       }
     },
 

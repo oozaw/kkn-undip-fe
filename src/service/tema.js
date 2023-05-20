@@ -4,4 +4,6 @@ const api = `/`;
 
 const listTema = () => baseApi.get(`${api}tema`);
 
-export { listTema };
+const addTema = (body) => baseApi.post(`${api}admin/tema`, body);
+
+export { listTema, addTema };

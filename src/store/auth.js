@@ -20,11 +20,11 @@ const d$auth = defineStore("authStore", {
         this.username = username;
         this.role = role;
         return "User Authenticated!";
-      } catch ({ message }) {
+      } catch ({ message, error }) {
         this.id = undefined;
         this.username = undefined;
         this.role = undefined;
-        throw message;
+        throw message ?? error;
       }
     },
 
@@ -56,8 +56,8 @@ const d$auth = defineStore("authStore", {
       try {
         delCookies("CERT");
         return true;
-      } catch ({ message }) {
-        throw message;
+      } catch ({ message, error }) {
+        throw message ?? error;
       }
     },
   },
