@@ -246,14 +246,11 @@ export default {
 
         try {
           await this.a$addKecamatan(data);
-          // this.$router.push({ name: "Pengajuan Lokasi" });
+          this.$router.push({ name: "Pengajuan Lokasi" });
           this.showSwal(
             "success-message",
             "Data kecamatan berhasil ditambahkan!"
           );
-          setTimeout(() => {
-            this.$router.push({ name: "Pengajuan Lokasi" });
-          }, 2600);
         } catch (error) {
           this.showSwal("failed-message", error.meta.field_name);
           console.log(error);

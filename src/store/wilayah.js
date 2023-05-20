@@ -12,7 +12,7 @@ const d$wilayah = defineStore("wilayahStore", {
   actions: {
     async a$listKabupaten(id_tema, id_bappeda) {
       try {
-        const { data, status } = await s$wilayah.listKabupaten(
+        const { data, status } = await s$wilayah.listWilayah(
           id_tema,
           id_bappeda
         );
@@ -28,7 +28,7 @@ const d$wilayah = defineStore("wilayahStore", {
 
     async a$listAllKabupaten(id_tema) {
       try {
-        const { data, status } = await s$wilayah.listAllKabupaten(id_tema);
+        const { data, status } = await s$wilayah.listAllWilayah(id_tema);
         this.listKabupaten = data ?? [];
         this.status = status;
       } catch (error) {

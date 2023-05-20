@@ -72,7 +72,7 @@ export default {
         case "DOSEN":
           return "Dosen KKN UNDIP";
         case "BAPPEDA":
-          return "BAPPEDA Kota " + this.g$infoUser.kabupaten[0].nama;
+          return "BAPPEDA " + this.g$infoUser.kabupaten[0].nama;
         case "REVIEWER":
           return "Tim Reviewer KKN UNDIP";
         default:
