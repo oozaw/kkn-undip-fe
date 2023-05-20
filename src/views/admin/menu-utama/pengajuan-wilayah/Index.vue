@@ -84,12 +84,12 @@
                         type="button"
                         class="mb-0 text-primary"
                         data-bs-toggle="modal"
-                        data-bs-target="#lokasi-kkn"
+                        :data-bs-target="'#potensi_' + kec.id_kecamatan"
                       >
                         Lihat
                       </a>
                       <div
-                        id="lokasi-kkn"
+                        :id="'potensi_' + kec.id_kecamatan"
                         class="modal fade"
                         tabindex="-1"
                         aria-hidden="true"
@@ -98,7 +98,7 @@
                           <div class="modal-content">
                             <div class="modal-header">
                               <h5 id="ModalLabel" class="modal-title">
-                                Potensi Kecamatan .......
+                                Potensi Kecamatan {{ kec.nama }}
                               </h5>
                               <button
                                 type="button"
@@ -110,38 +110,9 @@
                               </button>
                             </div>
                             <div class="modal-body">
-                              <p>
-                                Silahkan cari dan pilih file excel berisi data
-                                mahasiswa
-                              </p>
-                              <input
-                                type="file"
-                                placeholder="Browse file..."
-                                class="mb-1 form-control"
-                              />
-                              <div>
-                                <small class="text-danger text-sm-start">
-                                  <i class="fas fa-info-circle"></i>
-                                  File yang diizinkan hanya file excel dengan
-                                  ekstensi .xls atau .xlsx
-                                </small>
-                              </div>
+                              <span v-html="kec.potensi"></span>
                             </div>
-                            <div class="modal-footer">
-                              <button
-                                type="button"
-                                class="btn bg-gradient-secondary btn-sm"
-                                data-bs-dismiss="modal"
-                              >
-                                Batal
-                              </button>
-                              <button
-                                type="button"
-                                class="btn bg-gradient-success btn-sm"
-                              >
-                                Unggah
-                              </button>
-                            </div>
+                            <div class="modal-footer"></div>
                           </div>
                         </div>
                       </div>
@@ -161,16 +132,16 @@
                     </td>
                     <td class="text-sm">
                       <a
-                        class="me-2"
+                        class="me-3"
                         href="javascript:;"
                         data-bs-toggle="tooltip"
                         data-bs-original-title="Detail Kecamatan"
-                        title="Detail"
+                        title="Detail Kecamatan"
                       >
                         <i class="fas fa-eye text-info"></i>
                       </a>
                       <a
-                        class="me-2"
+                        class="me-3"
                         href="javascript:;"
                         data-bs-toggle="tooltip"
                         data-bs-original-title="Hapus Kecamatan"
@@ -179,8 +150,9 @@
                         <i class="fas fa-trash text-danger"></i>
                       </a>
                       <a
-                        class="me-2"
-                        href="javascript:;"
+                        :id="'tolak-' + kec.id_kecamatan"
+                        class="me-3"
+                        href=""
                         data-bs-toggle="tooltip"
                         data-bs-original-title="Tolak Kecamatan"
                         title="Tolak"
@@ -191,8 +163,8 @@
                           size="xl"
                         />
                       </a>
-                      <a
-                        class="me-2"
+                      <!-- <a
+                        class="me-3"
                         href="javascript:;"
                         data-bs-toggle="tooltip"
                         data-bs-original-title="Verifikasi Kecamatan"
@@ -203,10 +175,11 @@
                           icon="fa-solid fa-square-minus"
                           size="xl"
                         />
-                      </a>
+                      </a> -->
                       <a
-                        class="me-2"
-                        href="javascript:;"
+                        :id="'terima-' + kec.id_kecamatan"
+                        class="me-3"
+                        href=""
                         data-bs-toggle="tooltip"
                         data-bs-original-title="Terima Kecamatan"
                         title="Terima"
@@ -797,8 +770,6 @@ export default {
   },
   async created() {
     await this.getListKecamatan();
-  },
-  mounted() {
     this.choicesTema = this.getChoices("choices-tema");
 
     setTooltip(this.$store.state.bootstrap);
@@ -807,7 +778,11 @@ export default {
     this.choicesTema.destroy();
   },
   methods: {
-    ...mapActions(d$wilayah, ["a$listAllKabupaten"]),
+    ...mapActions(d$wilayah, [
+      "a$listAllKabupaten",
+      "a$accKecamatan",
+      "a$decKecamatan",
+    ]),
 
     async getListKecamatan() {
       this.tema = parseInt(this.tema);
@@ -824,6 +799,43 @@ export default {
       }
 
       this.setupDataTable();
+      this.setupTableAction();
+    },
+
+    async accKecamatan(id_kecamatan) {
+      this.showSwal("loading");
+
+      try {
+        await this.a$accKecamatan(id_kecamatan);
+        await this.getListKecamatan();
+        console.log("acc");
+      } catch (error) {
+        this.showSwal(
+          "failed-message",
+          error ?? "Terjadi kesalahan saat mengubah data"
+        );
+        console.log(error);
+      }
+
+      // this.showSwal("close");
+    },
+
+    async decKecamatan(id_kecamatan) {
+      this.showSwal("loading");
+
+      try {
+        await this.a$decKecamatan(id_kecamatan);
+        await this.getListKecamatan();
+        console.log("dec");
+      } catch (error) {
+        this.showSwal(
+          "failed-message",
+          error ?? "Terjadi kesalahan saat mengubah data"
+        );
+        console.log(error);
+      }
+
+      // this.showSwal("close");
     },
 
     setupDataTable() {
@@ -853,17 +865,51 @@ export default {
       }
     },
 
+    setupTableAction() {
+      this.g$listKecamatan.forEach((kec) => {
+        if (document.getElementById(`terima-${kec.id_kecamatan}`)) {
+          document
+            .getElementById(`terima-${kec.id_kecamatan}`)
+            .addEventListener("click", (e) => {
+              this.showSwal(
+                "warning-confirmation",
+                `Menerima pengajuan kecamatan ${kec.nama}?`,
+                "Berhasil memperbarui data",
+                kec.id_kecamatan,
+                true
+              );
+              e.preventDefault();
+            });
+        }
+
+        if (document.getElementById(`tolak-${kec.id_kecamatan}`)) {
+          document
+            .getElementById(`tolak-${kec.id_kecamatan}`)
+            .addEventListener("click", (e) => {
+              this.showSwal(
+                "warning-confirmation",
+                `Menolak pengajuan kecamatan ${kec.nama}?`,
+                "Berhasil memperbarui data",
+                kec.id_kecamatan,
+                false
+              );
+              e.preventDefault();
+            });
+        }
+      });
+    },
+
     getChoices(id) {
       var element = document.getElementById(id);
       if (element) {
         return new Choices(element, {
-          searchEnabled: false,
+          searchEnabled: true,
           allowHTML: true,
         });
       }
     },
 
-    showSwal(type, text) {
+    showSwal(type, text, toastText, id_kecamatan, status) {
       if (type === "success-message") {
         this.$swal({
           icon: "success",
@@ -902,6 +948,56 @@ export default {
             clearInterval(timerInterval);
           },
         });
+      } else if (type === "warning-confirmation") {
+        this.$swal({
+          title: "Apakah Anda yakin?",
+          text: text,
+          showCancelButton: true,
+          confirmButtonText: "Ya!",
+          cancelButtonText: "Batal!",
+          customClass: {
+            confirmButton: "btn bg-gradient-success",
+            cancelButton: "btn bg-gradient-secondary",
+          },
+          buttonsStyling: false,
+        }).then((result) => {
+          if (result.isConfirmed) {
+            if (status) this.accKecamatan(id_kecamatan);
+            else this.decKecamatan(id_kecamatan);
+            this.$swal({
+              toast: true,
+              position: "top-end",
+              title: toastText,
+              icon: "success",
+              showConfirmButton: false,
+              timer: 2000,
+              timerProgressBar: true,
+            });
+          } else if (
+            /* Read more about handling dismissals below */
+            result.dismiss === this.$swal.DismissReason.cancel
+          ) {
+            this.$swal.close();
+          }
+        });
+      } else if (type === "loading") {
+        this.$swal({
+          title: "Memuat...",
+          timerProgressBar: true,
+          showConfirmButton: false,
+          allowOutsideClick: false,
+          allowEscapeKey: false,
+          didOpen: () => {
+            this.$swal.isLoading();
+            if (this.$swal.isLoading()) this.$swal.showLoading();
+          },
+          didDestroy: () => {
+            !this.$swal.isLoading();
+            this.$swal.hideLoading();
+          },
+        });
+      } else if (type === "close") {
+        this.$swal.close();
       }
     },
   },

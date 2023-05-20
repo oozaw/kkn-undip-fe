@@ -9,4 +9,16 @@ const listAllWilayah = (id_tema) => baseApi.get(`${api}wilayah/${id_tema}`);
 
 const addKecamatan = (body) => baseApi.post(`${api}bappeda/kecamatan`, body);
 
-export { listAllWilayah, listWilayah, addKecamatan };
+const accKecamatan = (id_kecamatan) =>
+  baseApi.put(`${api}admin/kecamatan/acc/${id_kecamatan}`);
+
+const decKecamatan = (id_kecamatan) =>
+  baseApi.put(`${api}admin/kecamatan/dec/${id_kecamatan}`);
+
+export {
+  listAllWilayah,
+  listWilayah,
+  addKecamatan,
+  accKecamatan,
+  decKecamatan,
+};
