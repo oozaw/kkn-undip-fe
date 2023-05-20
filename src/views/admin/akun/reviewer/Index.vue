@@ -34,6 +34,7 @@
                     class="modal fade"
                     tabindex="-1"
                     aria-hidden="true"
+                    :key="indexComponent"
                   >
                     <div class="modal-dialog mt-lg-10">
                       <div class="modal-content">
@@ -50,15 +51,36 @@
                           ></button>
                         </div>
                         <div class="modal-body">
-                          <p>
-                            Silahkan cari dan pilih file excel berisi data
-                            reviewer
+                          <p class="mb-1">
+                            Silahkan download dan isi format file di bawah ini!
                           </p>
-                          <input
-                            type="file"
-                            placeholder="Browse file..."
-                            class="mb-1 form-control"
-                          />
+                          <a
+                            href="../others/Format Import Reviewer - KKN UNDIP.xlsx"
+                            target="_blank"
+                            class="btn btn-success d-inline-block"
+                          >
+                            <font-awesome-icon
+                              class="me-1"
+                              icon="fa-solid fa-file-arrow-down"
+                            />
+                            Download Format File
+                          </a>
+                          <form
+                            role="form"
+                            id="form-import-reviewer"
+                            enctype="multipart/form-data"
+                            @submit.prevent="importReviewer()"
+                          >
+                            <input
+                              id="file"
+                              name="file"
+                              ref="file"
+                              type="file"
+                              placeholder="Browse file..."
+                              class="mb-1 form-control"
+                              required
+                            />
+                          </form>
                           <div>
                             <small class="text-danger text-sm-start">
                               <i class="fas fa-info-circle"></i>
@@ -69,6 +91,7 @@
                         </div>
                         <div class="modal-footer">
                           <button
+                            id="button-close-modal"
                             type="button"
                             class="btn bg-gradient-secondary btn-sm"
                             data-bs-dismiss="modal"
@@ -76,8 +99,9 @@
                             Batal
                           </button>
                           <button
-                            type="button"
-                            class="btn bg-gradient-success btn-sm"
+                            form="form-import-reviewer"
+                            type="submit"
+                            class="btn bg-gradient-primary btn-sm"
                           >
                             Unggah
                           </button>
@@ -98,26 +122,27 @@
             </div>
           </div>
           <div class="pt-1 px-0 pb-0 card-body">
-            <div class="table-responsive">
+            <div class="table-responsive" :key="indexComponent">
               <table id="reviewer-list" class="table table-flush">
                 <thead class="thead-light">
                   <tr>
                     <th class="col-1">No.</th>
                     <th>Nama</th>
                     <th>NIP</th>
-                    <th>Username</th>
-                    <th>Password</th>
                     <th>Action</th>
                   </tr>
                 </thead>
                 <tbody>
-                  <tr>
-                    <td class="text-sm">1</td>
+                  <tr
+                    v-for="(rev, index) in g$listReviewer"
+                    :key="rev.id_reviewer"
+                  >
+                    <td class="text-sm">{{ index + 1 }}</td>
                     <td>
-                      <h6 class="my-auto">Reviewer 1</h6>
+                      <h6 class="my-auto">{{ rev.nama }}</h6>
                     </td>
-                    <td class="text-sm">91024934098</td>
-                    <td class="text-sm">rev_1</td>
+                    <td class="text-sm">{{ rev.nip }}</td>
+                    <!-- <td class="text-sm">rev_1</td>
                     <td class="text-sm">
                       <span id="password_value" class="me-3">*******</span>
                       <a
@@ -159,7 +184,7 @@
                           </div>
                         </div>
                       </div>
-                    </td>
+                    </td> -->
                     <td class="text-sm">
                       <a
                         href="javascript:;"
@@ -194,8 +219,6 @@
                     <th class="col-1">No.</th>
                     <th>Nama</th>
                     <th>NIP</th>
-                    <th>Username</th>
-                    <th>Password</th>
                     <th>Action</th>
                   </tr>
                 </tfoot>
@@ -212,39 +235,140 @@
 import { DataTable } from "simple-datatables";
 import setTooltip from "@/assets/js/tooltip.js";
 import HeaderProfileCard from "@/views/dashboards/components/HeaderProfileCard.vue";
+import d$reviewer from "@/store/reviewer";
+import { mapActions, mapState } from "pinia";
 
 export default {
   name: "IndexReviewer",
   components: {
     HeaderProfileCard,
   },
-  mounted() {
-    if (document.getElementById("reviewer-list")) {
-      const dataTableSearch = new DataTable("#reviewer-list", {
-        searchable: true,
-        fixedHeight: false,
-        perPage: 5,
-      });
-
-      document.querySelectorAll(".export").forEach(function (el) {
-        el.addEventListener("click", function () {
-          var type = el.dataset.type;
-
-          var data = {
-            type: type,
-            filename: "Data Reviewer",
-          };
-
-          // if (type === "csv") {
-          //   data.columnDelimiter = "|";
-          // }
-
-          dataTableSearch.export(data);
-        });
-      });
+  data() {
+    return {
+      body: {
+        file: "",
+      },
+      indexComponent: 0,
+      dataTable: undefined,
+    };
+  },
+  computed: {
+    ...mapState(d$reviewer, ["g$listReviewer"]),
+  },
+  async created() {
+    try {
+      await this.a$listReviewer();
+    } catch (error) {
+      if (error) this.showSwal("failed-message", error);
+      else
+        this.showSwal("failed-message", "Terjadi kesalahan saat memuat data!");
+      console.log(error);
     }
+
+    this.setupDataTable();
+
     setTooltip(this.$store.state.bootstrap);
   },
-  methods: {},
+  methods: {
+    ...mapActions(d$reviewer, ["a$listReviewer", "a$importReviewer"]),
+
+    async importReviewer() {
+      this.body.file = this.$refs.file.files[0];
+      this.indexComponent++;
+      document.getElementById("button-close-modal").click();
+
+      try {
+        await this.a$importReviewer(this.body);
+        await this.a$listReviewer();
+        this.showSwal("success-message", "Data reviewer berhasil diimpor!");
+      } catch (error) {
+        if (error) this.showSwal("failed-message", error);
+        else
+          this.showSwal(
+            "failed-message",
+            "Terjadi kesalahan saat mengunggah data!"
+          );
+        console.log(error);
+      }
+
+      this.setupDataTable();
+    },
+
+    setupDataTable() {
+      if (this.dataTable) {
+        this.dataTable.clear();
+        this.dataTable.destroy();
+      }
+
+      if (document.getElementById("reviewer-list")) {
+        const dataTableSearch = new DataTable("#reviewer-list", {
+          searchable: true,
+          fixedHeight: false,
+          perPage: 5,
+        });
+
+        document.querySelectorAll(".export").forEach(function (el) {
+          el.addEventListener("click", function () {
+            var type = el.dataset.type;
+
+            var data = {
+              type: type,
+              filename: "Data Reviewer",
+            };
+
+            // if (type === "csv") {
+            //   data.columnDelimiter = "|";
+            // }
+
+            dataTableSearch.export(data);
+          });
+        });
+
+        this.dataTable = dataTableSearch;
+      }
+    },
+
+    showSwal(type, text) {
+      if (type === "success-message") {
+        this.$swal({
+          icon: "success",
+          title: "Berhasil!",
+          text: text,
+          timer: 2500,
+          type: type,
+          timerProgressBar: true,
+          showConfirmButton: false,
+        });
+      } else if (type === "failed-message") {
+        this.$swal({
+          icon: "error",
+          title: "Gagal!",
+          text: text,
+          timer: 2500,
+          type: type,
+          timerProgressBar: true,
+          showConfirmButton: false,
+        });
+      } else if (type === "auto-close") {
+        let timerInterval;
+        this.$swal({
+          title: "Auto close alert!",
+          html: "I will close in <b></b> milliseconds.",
+          timer: 2000,
+          timerProgressBar: true,
+          didOpen: () => {
+            this.$swal.showLoading();
+            const b = this.$swal.getHtmlContainer().querySelector("b");
+            timerInterval = setInterval(() => {
+              b.textContent = this.$swal.getTimerLeft();
+            }, 100);
+          },
+          willClose: () => {
+            clearInterval(timerInterval);
+          },
+        });
+      }
+    },
+  },
 };
 </script>

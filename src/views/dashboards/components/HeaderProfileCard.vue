@@ -12,35 +12,20 @@
       </div>
       <div class="col-sm-auto col-8 my-auto">
         <div class="h-100">
-          <h5 class="mb-1 font-weight-bolder">{{ g$user.name }}</h5>
-          <p class="mb-0 font-weight-bold text-sm">{{ description }}</p>
+          <h5 class="mb-1 font-weight-bolder">{{ g$infoUser.nama }}</h5>
+          <p id="role" class="mb-0 font-weight-bold text-sm"></p>
         </div>
       </div>
       <div
         class="col-sm-auto ms-sm-auto mt-sm-0 mt-3 d-flex justify-content-center"
-        v-if="button === true"
       >
-        <argon-button
-          :onclick="() => $router.push('/profile')"
-          class="mb-0 me-2"
-          color="secondary"
-          size="sm"
-          >Batal</argon-button
-        >
-        <argon-button
-          class="mb-0 me-lg-2"
-          color="primary"
-          variant="gradient"
-          size="sm"
-          >{{ buttonText }}</argon-button
-        >
+        <slot name="button"></slot>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import ArgonButton from "@/components/ArgonButton.vue";
 import ArgonAvatar from "@/components/ArgonAvatar.vue";
 import { mapState } from "pinia";
 import d$auth from "@/store/auth";
@@ -50,29 +35,12 @@ import imgDefault from "@/assets/img/team-3.jpg";
 export default {
   name: "HeaderProfileCard",
   components: {
-    ArgonButton,
     ArgonAvatar,
   },
   props: {
     img: {
       type: String,
       default: imgDefault,
-    },
-    name: {
-      type: String,
-      default: "",
-    },
-    description: {
-      type: String,
-      default: "",
-    },
-    button: {
-      type: Boolean,
-      default: false,
-    },
-    buttonText: {
-      type: String,
-      default: "",
     },
   },
   data() {
@@ -81,7 +49,36 @@ export default {
     };
   },
   computed: {
-    ...mapState(d$auth, ["g$user"]),
+    ...mapState(d$auth, ["g$user", "g$infoUser"]),
+  },
+  mounted() {
+    if (this.g$user.role) {
+      document.getElementById("role").innerHTML = this.checkRole(
+        this.g$user.role
+      );
+    }
+  },
+  methods: {
+    checkRole(role) {
+      switch (role) {
+        case "SUPERADMIN":
+          return "Super Administrator KKN UNDIP";
+        case "ADMIN":
+          return "Tim Administrasi KKN UNDIP";
+        case "PIMPINAN":
+          return "Pimpinan P2KKN UNDIP";
+        case "MAHASISWA":
+          return "Mahasiswa KKN UNDIP";
+        case "DOSEN":
+          return "Dosen KKN UNDIP";
+        case "BAPPEDA":
+          return "BAPPEDA " + this.g$infoUser.kabupaten[0].nama;
+        case "REVIEWER":
+          return "Tim Reviewer KKN UNDIP";
+        default:
+          return "";
+      }
+    },
   },
 };
 </script>

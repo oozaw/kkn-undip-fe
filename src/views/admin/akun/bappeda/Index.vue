@@ -2,11 +2,7 @@
   <div class="py-4 container-fluid">
     <div class="row">
       <div class="col-lg-12 mt-lg-0 mt-4">
-        <header-profile-card
-          name="Tazki Hanifan Amri"
-          description="KKN Reguler
-           Tim 1 2023"
-        />
+        <header-profile-card />
         <div class="bg-white card mt-4">
           <div class="card-header pb-0 pt-3">
             <p class="font-weight-bold text-dark mb-2">
@@ -57,6 +53,7 @@
                     class="modal fade"
                     tabindex="-1"
                     aria-hidden="true"
+                    :key="indexComponent"
                   >
                     <div class="modal-dialog mt-lg-10">
                       <div class="modal-content">
@@ -73,15 +70,36 @@
                           ></button>
                         </div>
                         <div class="modal-body">
-                          <p>
-                            Silahkan cari dan pilih file excel berisi data
-                            BAPPEDA
+                          <p class="mb-1">
+                            Silahkan download dan isi format file di bawah ini!
                           </p>
-                          <input
-                            type="file"
-                            placeholder="Browse file..."
-                            class="mb-1 form-control"
-                          />
+                          <a
+                            href="../others/Format Import BAPPEDA - KKN UNDIP.xlsx"
+                            target="_blank"
+                            class="btn btn-success d-inline-block"
+                          >
+                            <font-awesome-icon
+                              class="me-1"
+                              icon="fa-solid fa-file-arrow-down"
+                            />
+                            Download Format File
+                          </a>
+                          <form
+                            role="form"
+                            id="form-import-bappeda"
+                            enctype="multipart/form-data"
+                            @submit.prevent="importBappeda()"
+                          >
+                            <input
+                              id="file"
+                              name="file"
+                              ref="file"
+                              type="file"
+                              placeholder="Browse file..."
+                              class="mb-1 form-control"
+                              required
+                            />
+                          </form>
                           <div>
                             <small class="text-danger text-sm-start">
                               <i class="fas fa-info-circle"></i>
@@ -92,6 +110,7 @@
                         </div>
                         <div class="modal-footer">
                           <button
+                            id="button-close-modal"
                             type="button"
                             class="btn bg-gradient-secondary btn-sm"
                             data-bs-dismiss="modal"
@@ -99,8 +118,9 @@
                             Batal
                           </button>
                           <button
-                            type="button"
-                            class="btn bg-gradient-success btn-sm"
+                            form="form-import-bappeda"
+                            type="submit"
+                            class="btn bg-gradient-primary btn-sm"
                           >
                             Unggah
                           </button>
@@ -121,7 +141,7 @@
             </div>
           </div>
           <div class="pt-1 px-0 pb-0 card-body">
-            <div class="table-responsive">
+            <div class="table-responsive" :key="indexComponent">
               <table id="bappeda-list" class="table table-flush">
                 <thead class="thead-light">
                   <tr>
@@ -142,7 +162,7 @@
                     <td>
                       <h6 class="my-auto">{{ bappeda.nama }}</h6>
                     </td>
-                    <td class="text-sm">{{ bappeda.nisn }}</td>
+                    <td class="text-sm">{{ bappeda.nb }}</td>
                     <td class="text-sm">3/8</td>
                     <td>
                       <span class="badge badge-danger badge-sm">Ditolak</span>
@@ -170,113 +190,6 @@
                         data-bs-toggle="tooltip"
                         data-bs-original-title="Hapus BAPPEDA"
                         title="Hapus BAPPEDA"
-                      >
-                        <i class="fas fa-trash text-danger"></i>
-                      </a>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td class="text-sm">2</td>
-                    <td>
-                      <h6 class="my-auto">BAPPEDA 2</h6>
-                    </td>
-                    <td class="text-sm">45235234324</td>
-                    <td class="text-sm">3/8</td>
-                    <td>
-                      <span class="badge badge-success badge-sm">Diterima</span>
-                    </td>
-                    <td class="text-sm">
-                      <a
-                        href="javascript:;"
-                        data-bs-toggle="tooltip"
-                        data-bs-original-title="Preview product"
-                      >
-                        <i class="fas fa-eye text-info"></i>
-                      </a>
-                      <a
-                        href="javascript:;"
-                        class="mx-3"
-                        data-bs-toggle="tooltip"
-                        data-bs-original-title="Edit product"
-                      >
-                        <i class="fas fa-user-edit text-primary"></i>
-                      </a>
-                      <a
-                        href="javascript:;"
-                        data-bs-toggle="tooltip"
-                        data-bs-original-title="Delete product"
-                      >
-                        <i class="fas fa-trash text-danger"></i>
-                      </a>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td class="text-sm">3</td>
-                    <td>
-                      <h6 class="my-auto">BAPPEDA 3</h6>
-                    </td>
-                    <td class="text-sm">56348767867</td>
-                    <td class="text-sm">3/8</td>
-                    <td>
-                      <span class="badge badge-success badge-sm">Diterima</span>
-                    </td>
-                    <td class="text-sm">
-                      <a
-                        href="javascript:;"
-                        data-bs-toggle="tooltip"
-                        data-bs-original-title="Preview product"
-                      >
-                        <i class="fas fa-eye text-info"></i>
-                      </a>
-                      <a
-                        href="javascript:;"
-                        class="mx-3"
-                        data-bs-toggle="tooltip"
-                        data-bs-original-title="Edit product"
-                      >
-                        <i class="fas fa-user-edit text-primary"></i>
-                      </a>
-                      <a
-                        href="javascript:;"
-                        data-bs-toggle="tooltip"
-                        data-bs-original-title="Delete product"
-                      >
-                        <i class="fas fa-trash text-danger"></i>
-                      </a>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td class="text-sm">4</td>
-                    <td>
-                      <h6 class="my-auto">BAPPEDA 4</h6>
-                    </td>
-                    <td class="text-sm">87847384733</td>
-                    <td class="text-sm">3/8</td>
-                    <td>
-                      <span class="badge badge-secondary badge-sm"
-                        >Verifikasi</span
-                      >
-                    </td>
-                    <td class="text-sm">
-                      <a
-                        href="javascript:;"
-                        data-bs-toggle="tooltip"
-                        data-bs-original-title="Preview product"
-                      >
-                        <i class="fas fa-eye text-info"></i>
-                      </a>
-                      <a
-                        href="javascript:;"
-                        class="mx-3"
-                        data-bs-toggle="tooltip"
-                        data-bs-original-title="Edit product"
-                      >
-                        <i class="fas fa-user-edit text-primary"></i>
-                      </a>
-                      <a
-                        href="javascript:;"
-                        data-bs-toggle="tooltip"
-                        data-bs-original-title="Delete product"
                       >
                         <i class="fas fa-trash text-danger"></i>
                       </a>
@@ -317,7 +230,12 @@ export default {
   },
   data() {
     return {
+      indexComponent: 0,
+      body: {
+        file: "",
+      },
       choicesTema: undefined,
+      dataTable: undefined,
     };
   },
   computed: {
@@ -327,43 +245,79 @@ export default {
     try {
       await this.a$listBappeda();
     } catch (error) {
+      if (error) this.showSwal("failed-message", error);
+      else
+        this.showSwal("failed-message", "Terjadi kesalahan saat memuat data!");
       console.log(error);
     }
-  },
-  mounted() {
+
     this.choicesTema = this.getChoices("choices-tema");
 
-    if (document.getElementById("bappeda-list")) {
-      const dataTableSearch = new DataTable("#bappeda-list", {
-        searchable: true,
-        fixedHeight: false,
-        perPage: 5,
-      });
+    this.setupDataTable();
 
-      document.querySelectorAll(".export").forEach(function (el) {
-        el.addEventListener("click", function () {
-          var type = el.dataset.type;
-
-          var data = {
-            type: type,
-            filename: "Data Bappeda",
-          };
-
-          // if (type === "csv") {
-          //   data.columnDelimiter = "|";
-          // }
-
-          dataTableSearch.export(data);
-        });
-      });
-    }
     setTooltip(this.$store.state.bootstrap);
   },
   beforeUnmount() {
     this.choicesTema.destroy();
   },
   methods: {
-    ...mapActions(d$bappeda, ["a$listBappeda"]),
+    ...mapActions(d$bappeda, ["a$listBappeda", "a$importBappeda"]),
+
+    async importBappeda() {
+      this.file = this.$refs.file.files[0];
+      this.indexComponent++;
+      document.getElementById("button-close-modal").click();
+
+      try {
+        await this.a$importBappeda(this.body);
+        await this.a$listBappeda();
+        this.showSwal("success-message", "Data BAPPEDA berhasil diimpor!");
+      } catch (error) {
+        if (error) this.showSwal("failed-message", error);
+        else
+          this.showSwal(
+            "failed-message",
+            "Terjadi kesalahan saat mengimpor data!"
+          );
+        console.log(error);
+      }
+
+      this.setupDataTable();
+    },
+
+    setupDataTable() {
+      if (this.dataTable) {
+        this.dataTable.clear();
+        this.dataTable.destroy();
+      }
+
+      if (document.getElementById("bappeda-list")) {
+        const dataTableSearch = new DataTable("#bappeda-list", {
+          searchable: true,
+          fixedHeight: false,
+          perPage: 5,
+        });
+
+        document.querySelectorAll(".export").forEach(function (el) {
+          el.addEventListener("click", function () {
+            var type = el.dataset.type;
+
+            var data = {
+              type: type,
+              filename: "Data Bappeda",
+            };
+
+            // if (type === "csv") {
+            //   data.columnDelimiter = "|";
+            // }
+
+            dataTableSearch.export(data);
+          });
+        });
+
+        this.dataTable = dataTableSearch;
+      }
+    },
 
     getChoices(id) {
       var element = document.getElementById(id);
@@ -371,6 +325,48 @@ export default {
         return new Choices(element, {
           searchEnabled: true,
           allowHTML: true,
+        });
+      }
+    },
+
+    showSwal(type, text) {
+      if (type === "success-message") {
+        this.$swal({
+          icon: "success",
+          title: "Berhasil!",
+          text: text,
+          timer: 2500,
+          type: type,
+          timerProgressBar: true,
+          showConfirmButton: false,
+        });
+      } else if (type === "failed-message") {
+        this.$swal({
+          icon: "error",
+          title: "Gagal!",
+          text: text,
+          timer: 2500,
+          type: type,
+          timerProgressBar: true,
+          showConfirmButton: false,
+        });
+      } else if (type === "auto-close") {
+        let timerInterval;
+        this.$swal({
+          title: "Auto close alert!",
+          html: "I will close in <b></b> milliseconds.",
+          timer: 2000,
+          timerProgressBar: true,
+          didOpen: () => {
+            this.$swal.showLoading();
+            const b = this.$swal.getHtmlContainer().querySelector("b");
+            timerInterval = setInterval(() => {
+              b.textContent = this.$swal.getTimerLeft();
+            }, 100);
+          },
+          willClose: () => {
+            clearInterval(timerInterval);
+          },
         });
       }
     },

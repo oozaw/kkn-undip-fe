@@ -70,7 +70,7 @@
                     </div>
                   </form>
                 </div>
-                <div class="px-1 pt-0 text-center card-footer px-lg-2">
+                <!-- <div class="px-1 pt-0 text-center card-footer px-lg-2">
                   <p class="mx-auto mb-4 text-sm">
                     Belum punya akun?
                     <router-link
@@ -79,7 +79,7 @@
                       >Daftar</router-link
                     >
                   </p>
-                </div>
+                </div> -->
               </div>
             </div>
             <div
@@ -116,7 +116,7 @@
 </template>
 
 <script>
-import { mapActions } from "pinia";
+import { mapActions, mapState } from "pinia";
 import d$auth from "@/store/auth";
 
 import Navbar from "@/views/partials/Navbar.vue";
@@ -135,6 +135,9 @@ export default {
       },
     };
   },
+  computed: {
+    ...mapState(d$auth, ["g$infoUser"]),
+  },
   components: {
     Navbar,
     ArgonInput,
@@ -151,16 +154,81 @@ export default {
     body.classList.add("bg-gray-100");
   },
   methods: {
-    ...mapActions(d$auth, ["a$login"]),
+    ...mapActions(d$auth, ["a$login", "a$getUser"]),
     ...mapMutations(["toggleDefaultLayout"]),
 
     async login() {
+      this.showSwal("loading");
+
       try {
         await this.a$login(this.input);
-        this.$router.push(this.$route.query.redirect || "/dashboard");
-        // this.$router.push({ name: "Dashboard" });
+        await this.a$getUser();
+        this.$router.push(this.$route.query.redirect || { name: "Dashboard" });
+        this.showSwal(
+          "success-message",
+          "Selamat datang " + this.g$infoUser.nama
+        );
       } catch (error) {
-        console.log(error);
+        this.showSwal("failed-message", error);
+        // console.log(error);
+      }
+    },
+
+    showSwal(type, text) {
+      if (type === "success-message") {
+        this.$swal({
+          icon: "success",
+          title: "Login Berhasil!",
+          text: text,
+          timer: 2500,
+          type: type,
+          timerProgressBar: true,
+          showConfirmButton: false,
+        });
+      } else if (type === "failed-message") {
+        this.$swal({
+          icon: "error",
+          title: "Login Gagal!",
+          text: text,
+          timer: 2500,
+          type: type,
+          timerProgressBar: true,
+          showConfirmButton: false,
+        });
+      } else if (type === "auto-close") {
+        let timerInterval;
+        this.$swal({
+          title: "Auto close alert!",
+          html: "I will close in <b></b> milliseconds.",
+          timer: 2000,
+          timerProgressBar: true,
+          didOpen: () => {
+            this.$swal.showLoading();
+            const b = this.$swal.getHtmlContainer().querySelector("b");
+            timerInterval = setInterval(() => {
+              b.textContent = this.$swal.getTimerLeft();
+            }, 100);
+          },
+          willClose: () => {
+            clearInterval(timerInterval);
+          },
+        });
+      } else if (type === "loading") {
+        this.$swal({
+          title: "Memuat...",
+          timerProgressBar: true,
+          showConfirmButton: false,
+          allowOutsideClick: false,
+          allowEscapeKey: false,
+          didOpen: () => {
+            this.$swal.showLoading();
+          },
+          didDestroy: () => {
+            this.$swal.hideLoading();
+          },
+        });
+      } else if (type === "close") {
+        this.$swal.close();
       }
     },
   },

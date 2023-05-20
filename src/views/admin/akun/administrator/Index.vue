@@ -7,7 +7,8 @@
           description="KKN Reguler
            Tim 1 2023"
         />
-        <div class="bg-white card mt-4">
+        <!-- Tema Choices -->
+        <!-- <div class="bg-white card mt-4">
           <div class="card-header pb-0 pt-3">
             <p class="font-weight-bold text-dark mb-2">
               Pilih Tema KKN Terdaftar
@@ -28,7 +29,8 @@
               </select>
             </div>
           </div>
-        </div>
+        </div> -->
+
         <div class="bg-white card mt-4">
           <!-- Card header -->
           <div class="pb-0 card-header">
@@ -48,12 +50,12 @@
                     type="button"
                     class="mx-2 mb-0 btn btn-primary btn-sm"
                     data-bs-toggle="modal"
-                    data-bs-target="#import-bappeda"
+                    data-bs-target="#import-admin"
                   >
                     Impor
                   </button>
                   <div
-                    id="import-bappeda"
+                    id="import-admin"
                     class="modal fade"
                     tabindex="-1"
                     aria-hidden="true"
@@ -132,12 +134,15 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <tr>
-                    <td class="text-sm">1</td>
+                  <tr
+                    v-for="(admin, index) in g$listAdmin"
+                    :key="admin.id_admin"
+                  >
+                    <td class="text-sm">{{ index + 1 }}</td>
                     <td>
-                      <h6 class="my-auto">Administrator 1</h6>
+                      <h6 class="my-auto">{{ admin.nama }}</h6>
                     </td>
-                    <td class="text-sm">83384182392</td>
+                    <td class="text-sm">{{ admin.nip }}</td>
                     <td class="text-sm">
                       <a
                         href="javascript:;"
@@ -166,99 +171,6 @@
                       </a>
                     </td>
                   </tr>
-                  <tr>
-                    <td class="text-sm">2</td>
-                    <td>
-                      <h6 class="my-auto">Administrator 2</h6>
-                    </td>
-                    <td class="text-sm">45235234324</td>
-                    <td class="text-sm">
-                      <a
-                        href="javascript:;"
-                        data-bs-toggle="tooltip"
-                        data-bs-original-title="Preview product"
-                      >
-                        <i class="fas fa-eye text-info"></i>
-                      </a>
-                      <a
-                        href="javascript:;"
-                        class="mx-3"
-                        data-bs-toggle="tooltip"
-                        data-bs-original-title="Edit product"
-                      >
-                        <i class="fas fa-user-edit text-primary"></i>
-                      </a>
-                      <a
-                        href="javascript:;"
-                        data-bs-toggle="tooltip"
-                        data-bs-original-title="Delete product"
-                      >
-                        <i class="fas fa-trash text-danger"></i>
-                      </a>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td class="text-sm">3</td>
-                    <td>
-                      <h6 class="my-auto">Administrator 3</h6>
-                    </td>
-                    <td class="text-sm">56348767867</td>
-                    <td class="text-sm">
-                      <a
-                        href="javascript:;"
-                        data-bs-toggle="tooltip"
-                        data-bs-original-title="Preview product"
-                      >
-                        <i class="fas fa-eye text-info"></i>
-                      </a>
-                      <a
-                        href="javascript:;"
-                        class="mx-3"
-                        data-bs-toggle="tooltip"
-                        data-bs-original-title="Edit product"
-                      >
-                        <i class="fas fa-user-edit text-primary"></i>
-                      </a>
-                      <a
-                        href="javascript:;"
-                        data-bs-toggle="tooltip"
-                        data-bs-original-title="Delete product"
-                      >
-                        <i class="fas fa-trash text-danger"></i>
-                      </a>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td class="text-sm">4</td>
-                    <td>
-                      <h6 class="my-auto">Administrator 4</h6>
-                    </td>
-                    <td class="text-sm">87847384733</td>
-                    <td class="text-sm">
-                      <a
-                        href="javascript:;"
-                        data-bs-toggle="tooltip"
-                        data-bs-original-title="Preview product"
-                      >
-                        <i class="fas fa-eye text-info"></i>
-                      </a>
-                      <a
-                        href="javascript:;"
-                        class="mx-3"
-                        data-bs-toggle="tooltip"
-                        data-bs-original-title="Edit product"
-                      >
-                        <i class="fas fa-user-edit text-primary"></i>
-                      </a>
-                      <a
-                        href="javascript:;"
-                        data-bs-toggle="tooltip"
-                        data-bs-original-title="Delete product"
-                      >
-                        <i class="fas fa-trash text-danger"></i>
-                      </a>
-                    </td>
-                  </tr>
                 </tbody>
                 <tfoot>
                   <tr>
@@ -282,19 +194,33 @@ import Choices from "choices.js";
 import { DataTable } from "simple-datatables";
 import setTooltip from "@/assets/js/tooltip.js";
 import HeaderProfileCard from "@/views/dashboards/components/HeaderProfileCard.vue";
+import d$admin from "@/store/admin";
+import { mapState, mapActions } from "pinia";
 
 export default {
   name: "IndexAdministrator",
   components: {
     HeaderProfileCard,
   },
+  computed: {
+    ...mapState(d$admin, ["g$listAdmin"]),
+  },
   data() {
     return {
       choicesTema: undefined,
     };
   },
-  mounted() {
-    this.choicesTema = this.getChoices("choices-tema");
+  async mounted() {
+    try {
+      await this.a$listAdmin();
+    } catch (error) {
+      if (error) this.showSwal("failed-message", error);
+      else
+        this.showSwal("failed-message", "Terjadi kesalahan saat memuat data!");
+      console.log(error);
+    }
+
+    // this.choicesTema = this.getChoices("choices-tema");
 
     if (document.getElementById("administrator-list")) {
       const dataTableSearch = new DataTable("#administrator-list", {
@@ -309,7 +235,7 @@ export default {
 
           var data = {
             type: type,
-            filename: "Data Bappeda",
+            filename: "Data Administrator",
           };
 
           // if (type === "csv") {
@@ -323,15 +249,59 @@ export default {
     setTooltip(this.$store.state.bootstrap);
   },
   beforeUnmount() {
-    this.choicesTema.destroy();
+    // this.choicesTema.destroy();
   },
   methods: {
+    ...mapActions(d$admin, ["a$listAdmin"]),
+
     getChoices(id) {
       var element = document.getElementById(id);
       if (element) {
         return new Choices(element, {
           searchEnabled: true,
           allowHTML: true,
+        });
+      }
+    },
+
+    showSwal(type, text) {
+      if (type === "success-message") {
+        this.$swal({
+          icon: "success",
+          title: "Berhasil!",
+          text: text,
+          timer: 2500,
+          type: type,
+          timerProgressBar: true,
+          showConfirmButton: false,
+        });
+      } else if (type === "failed-message") {
+        this.$swal({
+          icon: "error",
+          title: "Gagal!",
+          text: text,
+          timer: 2500,
+          type: type,
+          timerProgressBar: true,
+          showConfirmButton: false,
+        });
+      } else if (type === "auto-close") {
+        let timerInterval;
+        this.$swal({
+          title: "Auto close alert!",
+          html: "I will close in <b></b> milliseconds.",
+          timer: 2000,
+          timerProgressBar: true,
+          didOpen: () => {
+            this.$swal.showLoading();
+            const b = this.$swal.getHtmlContainer().querySelector("b");
+            timerInterval = setInterval(() => {
+              b.textContent = this.$swal.getTimerLeft();
+            }, 100);
+          },
+          willClose: () => {
+            clearInterval(timerInterval);
+          },
         });
       }
     },

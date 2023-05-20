@@ -1,17 +1,17 @@
 import { defineStore } from "pinia";
-import * as s$bappeda from "@/service/bappeda";
+import * as s$dosen from "@/service/dosen";
 
-const d$bappeda = defineStore("bappedaStore", {
-  id: "bappeda",
+const d$dosen = defineStore("dosenStore", {
+  id: "dosen",
   state: () => ({
-    listBappeda: [],
+    listDosen: [],
     status: null,
   }),
   actions: {
-    async a$listBappeda() {
+    async a$listDosen() {
       try {
-        const { data, status } = await s$bappeda.listBappeda();
-        this.listBappeda = data ?? [];
+        const { data, status } = await s$dosen.listDosen();
+        this.listDosen = data ?? [];
         this.status = status;
       } catch ({ message, error }) {
         this.status = false;
@@ -19,9 +19,9 @@ const d$bappeda = defineStore("bappedaStore", {
       }
     },
 
-    async a$addBappeda(body) {
+    async a$addDosen(body) {
       try {
-        const status = await s$bappeda.addBappeda(body);
+        const status = await s$dosen.addDosen(body);
         this.status = status;
       } catch (error) {
         this.status = false;
@@ -29,9 +29,9 @@ const d$bappeda = defineStore("bappedaStore", {
       }
     },
 
-    async a$importBappeda(body) {
+    async a$importDosen(body) {
       try {
-        const status = await s$bappeda.importBappeda(body);
+        const status = await s$dosen.importDosen(body);
         this.status = status;
       } catch (error) {
         this.status = false;
@@ -40,8 +40,8 @@ const d$bappeda = defineStore("bappedaStore", {
     },
   },
   getters: {
-    g$listBappeda: ({ listBappeda }) => listBappeda,
+    g$listDosen: ({ listDosen }) => listDosen,
   },
 });
 
-export default d$bappeda;
+export default d$dosen;

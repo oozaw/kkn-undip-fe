@@ -2,11 +2,7 @@
   <div class="py-4 container-fluid">
     <div class="row">
       <div class="col-lg-12 mt-lg-0 mt-4">
-        <header-profile-card
-          name="Tazki Hanifan Amri"
-          description="KKN Reguler
-           Tim 1 2023"
-        />
+        <header-profile-card />
         <div class="bg-white card mt-4">
           <div class="card-header pb-0 pt-3">
             <p class="font-weight-bold text-dark mb-2">
@@ -19,12 +15,14 @@
                 id="choices-tema"
                 class="form-control"
                 name="choices-tema"
+                v-model="tema"
+                @change="getListMahasiswa()"
               >
-                <option value="reguler">
+                <option value="1" selected>KKN Reguler Tim I</option>
+                <option value="2">
                   KKN Tematik Pengurangan Risiko Bencana Berbasis Partisipasi
                   Masyarakat dan Komunitas
                 </option>
-                <option value="tematik">KKN Reguler Tim I</option>
               </select>
             </div>
           </div>
@@ -57,6 +55,7 @@
                     class="modal fade"
                     tabindex="-1"
                     aria-hidden="true"
+                    :key="indexComponent"
                   >
                     <div class="modal-dialog mt-lg-10">
                       <div class="modal-content">
@@ -73,15 +72,36 @@
                           ></button>
                         </div>
                         <div class="modal-body">
-                          <p>
-                            Silahkan cari dan pilih file excel berisi data
-                            mahasiswa
+                          <p class="mb-1">
+                            Silahkan download dan isi format file di bawah ini!
                           </p>
-                          <input
-                            type="file"
-                            placeholder="Browse file..."
-                            class="mb-1 form-control"
-                          />
+                          <a
+                            href="../others/Format Import Mahasiswa - KKN UNDIP.xlsx"
+                            target="_blank"
+                            class="btn btn-success d-inline-block"
+                          >
+                            <font-awesome-icon
+                              class="me-1"
+                              icon="fa-solid fa-file-arrow-down"
+                            />
+                            Download Format File
+                          </a>
+                          <form
+                            role="form"
+                            id="form-import-mhs"
+                            @submit.prevent="importMahasiswa()"
+                            enctype="multipart/form-data"
+                          >
+                            <input
+                              id="file"
+                              ref="file"
+                              type="file"
+                              name="file"
+                              placeholder="Browse file..."
+                              class="mb-1 form-control"
+                              required
+                            />
+                          </form>
                           <div>
                             <small class="text-danger text-sm-start">
                               <i class="fas fa-info-circle"></i>
@@ -92,6 +112,7 @@
                         </div>
                         <div class="modal-footer">
                           <button
+                            id="button-close-modal"
                             type="button"
                             class="btn bg-gradient-secondary btn-sm"
                             data-bs-dismiss="modal"
@@ -99,8 +120,9 @@
                             Batal
                           </button>
                           <button
-                            type="button"
-                            class="btn bg-gradient-success btn-sm"
+                            form="form-import-mhs"
+                            type="submit"
+                            class="btn bg-gradient-primary btn-sm"
                           >
                             Unggah
                           </button>
@@ -121,31 +143,34 @@
             </div>
           </div>
           <div class="pt-1 px-0 pb-0 card-body">
-            <div class="table-responsive">
+            <div class="table-responsive" :key="indexComponent">
               <table id="mhs-list" class="table table-flush">
                 <thead class="thead-light">
                   <tr>
                     <th class="col-1">No.</th>
                     <th>Nama</th>
                     <th>NIM</th>
-                    <th>Fakultas</th>
-                    <th>Status</th>
+                    <th>Prodi</th>
+                    <!-- <th>Status</th> -->
                     <th>Action</th>
                   </tr>
                 </thead>
                 <tbody>
-                  <tr>
-                    <td class="text-sm">1</td>
+                  <tr
+                    v-for="(mhs, index) in g$listMahasiswa"
+                    :key="mhs.id_mahasiswa"
+                  >
+                    <td class="text-sm">{{ index + 1 }}</td>
                     <td>
-                      <h6 class="my-auto">Mahasiswa 1</h6>
+                      <h6 class="my-auto">{{ mhs.nama }}</h6>
                     </td>
-                    <td class="text-sm">83384182392</td>
-                    <td class="text-sm">FSM</td>
-                    <td>
+                    <td class="text-sm">{{ mhs.nim }}</td>
+                    <td class="text-sm">{{ mhs.prodi }}</td>
+                    <!-- <td>
                       <span class="badge badge-danger badge-sm"
                         >Unregistered</span
                       >
-                    </td>
+                    </td> -->
                     <td class="text-sm">
                       <a
                         href="javascript:;"
@@ -174,125 +199,14 @@
                       </a>
                     </td>
                   </tr>
-                  <tr>
-                    <td class="text-sm">2</td>
-                    <td>
-                      <h6 class="my-auto">Mahasiswa 2</h6>
-                    </td>
-                    <td class="text-sm">45235234324</td>
-                    <td class="text-sm">FT</td>
-                    <td>
-                      <span class="badge badge-success badge-sm"
-                        >Regisered</span
-                      >
-                    </td>
-                    <td class="text-sm">
-                      <a
-                        href="javascript:;"
-                        data-bs-toggle="tooltip"
-                        data-bs-original-title="Preview product"
-                      >
-                        <i class="fas fa-eye text-info"></i>
-                      </a>
-                      <a
-                        href="javascript:;"
-                        class="mx-3"
-                        data-bs-toggle="tooltip"
-                        data-bs-original-title="Edit product"
-                      >
-                        <i class="fas fa-user-edit text-primary"></i>
-                      </a>
-                      <a
-                        href="javascript:;"
-                        data-bs-toggle="tooltip"
-                        data-bs-original-title="Delete product"
-                      >
-                        <i class="fas fa-trash text-danger"></i>
-                      </a>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td class="text-sm">3</td>
-                    <td>
-                      <h6 class="my-auto">Mahasiswa 3</h6>
-                    </td>
-                    <td class="text-sm">56348767867</td>
-                    <td class="text-sm">FEB</td>
-                    <td>
-                      <span class="badge badge-success badge-sm"
-                        >Registered</span
-                      >
-                    </td>
-                    <td class="text-sm">
-                      <a
-                        href="javascript:;"
-                        data-bs-toggle="tooltip"
-                        data-bs-original-title="Preview product"
-                      >
-                        <i class="fas fa-eye text-info"></i>
-                      </a>
-                      <a
-                        href="javascript:;"
-                        class="mx-3"
-                        data-bs-toggle="tooltip"
-                        data-bs-original-title="Edit product"
-                      >
-                        <i class="fas fa-user-edit text-primary"></i>
-                      </a>
-                      <a
-                        href="javascript:;"
-                        data-bs-toggle="tooltip"
-                        data-bs-original-title="Delete product"
-                      >
-                        <i class="fas fa-trash text-danger"></i>
-                      </a>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td class="text-sm">4</td>
-                    <td>
-                      <h6 class="my-auto">Mahasiswa 4</h6>
-                    </td>
-                    <td class="text-sm">87847384733</td>
-                    <td class="text-sm">FPP</td>
-                    <td>
-                      <span class="badge badge-danger badge-sm"
-                        >Unregistered</span
-                      >
-                    </td>
-                    <td class="text-sm">
-                      <a
-                        href="javascript:;"
-                        data-bs-toggle="tooltip"
-                        data-bs-original-title="Preview product"
-                      >
-                        <i class="fas fa-eye text-info"></i>
-                      </a>
-                      <a
-                        href="javascript:;"
-                        class="mx-3"
-                        data-bs-toggle="tooltip"
-                        data-bs-original-title="Edit product"
-                      >
-                        <i class="fas fa-user-edit text-primary"></i>
-                      </a>
-                      <a
-                        href="javascript:;"
-                        data-bs-toggle="tooltip"
-                        data-bs-original-title="Delete product"
-                      >
-                        <i class="fas fa-trash text-danger"></i>
-                      </a>
-                    </td>
-                  </tr>
                 </tbody>
                 <tfoot>
                   <tr>
                     <th class="col-1">No.</th>
                     <th>Nama</th>
                     <th>NIM</th>
-                    <th>Fakultas</th>
-                    <th>Status</th>
+                    <th>Prodi</th>
+                    <!-- <th>Status</th> -->
                     <th>Action</th>
                   </tr>
                 </tfoot>
@@ -310,56 +224,155 @@ import Choices from "choices.js";
 import { DataTable } from "simple-datatables";
 import setTooltip from "@/assets/js/tooltip.js";
 import HeaderProfileCard from "@/views/dashboards/components/HeaderProfileCard.vue";
+import d$mahasiswa from "@/store/mahasiswa";
+import { mapActions, mapState } from "pinia";
 
 export default {
   name: "IndexMahasiswa",
   components: {
     HeaderProfileCard,
   },
+  computed: {
+    ...mapState(d$mahasiswa, ["g$listMahasiswa"]),
+  },
   data() {
     return {
+      indexComponent: 0,
+      tema: "1",
+      body: {
+        file: "",
+        id_periode: "",
+      },
       choicesTema: undefined,
+      dataTable: undefined,
     };
   },
-  mounted() {
+  async created() {
+    await this.getListMahasiswa();
+
     this.choicesTema = this.getChoices("choices-tema");
 
-    if (document.getElementById("mhs-list")) {
-      const dataTableSearch = new DataTable("#mhs-list", {
-        searchable: true,
-        fixedHeight: false,
-        perPage: 5,
-      });
-
-      document.querySelectorAll(".export").forEach(function (el) {
-        el.addEventListener("click", function () {
-          var type = el.dataset.type;
-
-          var data = {
-            type: type,
-            filename: "Data Mahasiswa",
-          };
-
-          // if (type === "csv") {
-          //   data.columnDelimiter = "|";
-          // }
-
-          dataTableSearch.export(data);
-        });
-      });
-    }
     setTooltip(this.$store.state.bootstrap);
   },
   beforeUnmount() {
     this.choicesTema.destroy();
   },
   methods: {
+    ...mapActions(d$mahasiswa, ["a$listMahasiswa", "a$importMahasiswa"]),
+
+    async getListMahasiswa() {
+      this.indexComponent++;
+      try {
+        await this.a$listMahasiswa(this.tema, "");
+      } catch (error) {
+        if (error) this.showSwal("failed-message", error);
+        else
+          this.showSwal(
+            "failed-message",
+            "Terjadi kesalahan saat memuat data!"
+          );
+        console.log(error);
+      }
+      this.setupDataTable();
+    },
+
+    async importMahasiswa() {
+      this.body.file = this.$refs.file.files[0];
+      this.body.id_periode = this.tema;
+      this.indexComponent++;
+      document.getElementById("button-close-modal").click();
+
+      try {
+        await this.a$importMahasiswa(this.body);
+        await this.a$listMahasiswa(this.tema, "");
+        this.showSwal("success-message", "Data mahasiswa berhasil diimpor!");
+      } catch (error) {
+        this.showSwal("failed-message", error);
+        console.log(error);
+      }
+      this.setupDataTable();
+    },
+
     getChoices(id) {
       var element = document.getElementById(id);
       if (element) {
         return new Choices(element, {
           searchEnabled: true,
           allowHTML: true,
+          shouldSort: false,
+        });
+      }
+    },
+
+    setupDataTable() {
+      if (this.dataTable) {
+        this.dataTable.clear();
+        this.dataTable.destroy();
+      }
+
+      if (document.getElementById("mhs-list")) {
+        const dataTableSearch = new DataTable("#mhs-list", {
+          searchable: true,
+          fixedHeight: false,
+          perPage: 5,
+        });
+
+        document.querySelectorAll(".export").forEach(function (el) {
+          el.addEventListener("click", function () {
+            var type = el.dataset.type;
+            var data = {
+              type: type,
+              filename: "Data Mahasiswa",
+            };
+            // if (type === "csv") {
+            //   data.columnDelimiter = "|";
+            // }
+            dataTableSearch.export(data);
+          });
+        });
+
+        this.dataTable = dataTableSearch;
+      }
+    },
+
+    showSwal(type, text) {
+      if (type === "success-message") {
+        this.$swal({
+          icon: "success",
+          title: "Berhasil!",
+          text: text,
+          timer: 2500,
+          type: type,
+          timerProgressBar: true,
+          showConfirmButton: false,
+        });
+      } else if (type === "failed-message") {
+        this.$swal({
+          icon: "error",
+          title: "Gagal!",
+          text: text,
+          timer: 2500,
+          type: type,
+          timerProgressBar: true,
+          showConfirmButton: false,
+        });
+      } else if (type === "auto-close") {
+        let timerInterval;
+        this.$swal({
+          title: "Auto close alert!",
+          html: "I will close in <b></b> milliseconds.",
+          timer: 2000,
+          timerProgressBar: true,
+          didOpen: () => {
+            this.$swal.showLoading();
+            const b = this.$swal.getHtmlContainer().querySelector("b");
+            timerInterval = setInterval(() => {
+              b.textContent = this.$swal.getTimerLeft();
+            }, 100);
+          },
+          willClose: () => {
+            clearInterval(timerInterval);
+          },
         });
       }
     },

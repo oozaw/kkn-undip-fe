@@ -1,5 +1,6 @@
 import { createApp } from "vue";
 import { createPinia } from "pinia";
+import piniaPluginPersistedState from "pinia-plugin-persistedstate";
 import App from "./App.vue";
 import store from "./store";
 import router from "./router";
@@ -14,8 +15,11 @@ import icon from "@/assets/js/font-awesome-icon";
 
 library.add(icon);
 
+const pinia = createPinia();
+pinia.use(piniaPluginPersistedState);
+
 const appInstance = createApp(App);
-appInstance.use(createPinia());
+appInstance.use(pinia);
 appInstance.use(store);
 appInstance.use(router);
 appInstance.use(VueTilt);

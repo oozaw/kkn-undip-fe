@@ -8,22 +8,23 @@ const d$auth = defineStore("authStore", {
   id: "auth",
   state: () => ({
     id: undefined,
-    name: undefined,
+    username: undefined,
     role: undefined,
+    infoUser: undefined,
   }),
   actions: {
     async a$setUser() {
       try {
-        const { id, name, role } = certCookies();
+        const { id, username, role } = certCookies();
         this.id = id;
-        this.name = name;
+        this.username = username;
         this.role = role;
         return "User Authenticated!";
-      } catch ({ message }) {
+      } catch ({ message, error }) {
         this.id = undefined;
-        this.name = undefined;
+        this.username = undefined;
         this.role = undefined;
-        throw message;
+        throw message ?? error;
       }
     },
 
@@ -38,18 +39,33 @@ const d$auth = defineStore("authStore", {
       }
     },
 
+    async a$getUser() {
+      try {
+        const { data } = await s$auth.getUser();
+        this.infoUser = data ?? {
+          nama: this.username,
+        };
+        return true;
+      } catch (error) {
+        this.infoUser = undefined;
+        throw error;
+      }
+    },
+
     async a$logout() {
       try {
         delCookies("CERT");
         return true;
-      } catch ({ message }) {
-        throw message;
+      } catch ({ message, error }) {
+        throw message ?? error;
       }
     },
   },
   getters: {
-    g$user: ({ id, name }) => ({ id, name }),
+    g$user: ({ id, username, role }) => ({ id, username, role }),
+    g$infoUser: ({ infoUser }) => infoUser,
   },
+  persist: true,
 });
 
 export default d$auth;

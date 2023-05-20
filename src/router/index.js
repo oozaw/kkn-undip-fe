@@ -99,8 +99,8 @@ import AddKecamatan from "../views/pengajuan-lokasi/kecamatan/Add.vue";
 import EditKecamatan from "../views/pengajuan-lokasi/kecamatan/Edit.vue";
 import AddDesa from "../views/pengajuan-lokasi/desa/Add.vue";
 import EditDesa from "../views/pengajuan-lokasi/desa/Edit.vue";
-import IndexKKNTerdaftar from "../views/admin/menu-utama/kkn-terdaftar/Index.vue";
-import TambahKKNTerdaftar from "../views/admin/menu-utama/kkn-terdaftar/Add.vue";
+import IndexTemaKKN from "../views/admin/menu-utama/tema/Index.vue";
+import TambahTemaKKN from "../views/admin/menu-utama/tema/Add.vue";
 import IndexPengajuanWilayah from "../views/admin/menu-utama/pengajuan-wilayah/Index.vue";
 import IndexKalender from "../views/admin/menu-utama/kalender/Index.vue";
 import TambahKalender from "../views/admin/menu-utama/kalender/Add.vue";
@@ -427,6 +427,7 @@ const routes = [
   {
     path: "/pengajuan-lokasi",
     name: "Pengajuan Lokasi",
+    props: true,
     component: IndexPengajuanLokasi,
     meta: {
       requiresAuth: true,
@@ -465,17 +466,17 @@ const routes = [
     },
   },
   {
-    path: "/admin/kkn",
-    name: "Index KKN Terdaftar",
-    component: IndexKKNTerdaftar,
+    path: "/admin/tema",
+    name: "Tema KKN",
+    component: IndexTemaKKN,
     meta: {
       requiresAuth: true,
     },
   },
   {
-    path: "/admin/kkn/tambah",
-    name: "Tambah KKN Terdaftar",
-    component: TambahKKNTerdaftar,
+    path: "/admin/tema/tambah",
+    name: "Tambah Tema KKN",
+    component: TambahTemaKKN,
     meta: {
       requiresAuth: true,
     },
@@ -899,13 +900,13 @@ router.beforeEach((to, from, next) => {
   const { id } = certCookies();
   if (to.meta.requiresAuth && !id) {
     next({ name: "Login", query: { redirect: to.fullPath } });
-    console.log("ini redirect");
+    // console.log("ini redirect");
   } else if (to.meta.guest && id) {
     next({ name: "Dashboard" });
-    console.log("ini ke dashboard");
+    // console.log("ini ke dashboard");
   } else {
     next();
-    console.log("ini langsung");
+    // console.log("ini langsung");
   }
 });
 

@@ -16,6 +16,7 @@ import {
   faList,
   faSliders,
   faUsersGear,
+  faFileArrowDown,
 } from "@fortawesome/free-solid-svg-icons";
 
 const icon = [
@@ -35,6 +36,7 @@ const icon = [
   faList,
   faSliders,
   faUsersGear,
+  faFileArrowDown,
 ];
 
 export default icon;
