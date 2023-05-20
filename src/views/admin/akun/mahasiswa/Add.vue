@@ -34,16 +34,14 @@
           >
             <div class="card-body pb-5">
               <h5 class="font-weight-bolder mb-3">Tambah Mahasiswa</h5>
-              <div class="row">
+              <!-- <div class="row">
                 <div class="col-12 align-self-center">
-                  <label for="choices-periode" class="form-label"
-                    >Periode</label
-                  >
+                  <label for="choices-tema" class="form-label">Tema</label>
                   <select
-                    id="choices-periode"
+                    id="choices-tema"
                     class="form-control"
-                    name="choices-periode"
-                    v-model="body.id_periode"
+                    name="choices-tema"
+                    v-model="body.id_tema"
                   >
                     <option value="" disabled hidden>
                       -- Pilih periode --
@@ -55,8 +53,8 @@
                     </option>
                   </select>
                 </div>
-              </div>
-              <div class="row mt-3">
+              </div> -->
+              <div class="row">
                 <div class="col-12 col-sm-6">
                   <label>Nama</label>
                   <input
@@ -82,7 +80,7 @@
                   />
                 </div>
               </div>
-              <div class="row mt-3">
+              <!-- <div class="row mt-3">
                 <div class="col-12">
                   <label class="form-label" for="prodi">Prodi</label>
                   <input
@@ -95,7 +93,7 @@
                     v-model="body.prodi"
                   />
                 </div>
-              </div>
+              </div> -->
               <!-- <div class="row">
               <div class="col-3">
                 <label class="mt-4">Fakultas</label>
@@ -162,35 +160,35 @@ export default {
   data() {
     return {
       body: {
-        id_periode: "",
+        // id_tema: "",
         nama: "",
         nim: "",
-        prodi: "",
+        // prodi: "",
       },
-      choicesPeriode: undefined,
+      choicesTema: undefined,
     };
   },
   mounted() {
-    this.choicesPeriode = this.getChoices("choices-periode");
+    // this.choicesTema = this.getChoices("choices-tema");
   },
   beforeUnmount() {
-    this.choicesPeriode.destroy();
+    // this.choicesTema.destroy();
   },
   methods: {
     ...mapActions(d$mahasiswa, ["a$addMahasiswa"]),
 
     async addMahasiswa() {
       if (
-        !this.body.id_periode ||
+        // !this.body.id_tema ||
         this.body.nama === "" ||
-        this.body.nim === "" ||
-        this.body.prodi === ""
+        this.body.nim === ""
+        // this.body.prodi === ""
       ) {
         this.showSwal("failed-message", "Data masih belum lengkap!");
         return;
       }
 
-      this.body.id_periode = parseInt(this.body.id_periode);
+      // this.body.id_tema = parseInt(this.body.id_tema);
       this.body.nim = this.body.nim.toString();
 
       console.log(this.body);
