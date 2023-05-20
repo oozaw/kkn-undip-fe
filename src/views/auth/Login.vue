@@ -70,7 +70,7 @@
                     </div>
                   </form>
                 </div>
-                <div class="px-1 pt-0 text-center card-footer px-lg-2">
+                <!-- <div class="px-1 pt-0 text-center card-footer px-lg-2">
                   <p class="mx-auto mb-4 text-sm">
                     Belum punya akun?
                     <router-link
@@ -79,7 +79,7 @@
                       >Daftar</router-link
                     >
                   </p>
-                </div>
+                </div> -->
               </div>
             </div>
             <div
@@ -158,6 +158,8 @@ export default {
     ...mapMutations(["toggleDefaultLayout"]),
 
     async login() {
+      this.showSwal("loading");
+
       try {
         await this.a$login(this.input);
         await this.a$getUser();
@@ -211,6 +213,22 @@ export default {
             clearInterval(timerInterval);
           },
         });
+      } else if (type === "loading") {
+        this.$swal({
+          title: "Memuat...",
+          timerProgressBar: true,
+          showConfirmButton: false,
+          allowOutsideClick: false,
+          allowEscapeKey: false,
+          didOpen: () => {
+            this.$swal.showLoading();
+          },
+          didDestroy: () => {
+            this.$swal.hideLoading();
+          },
+        });
+      } else if (type === "close") {
+        this.$swal.close();
       }
     },
   },

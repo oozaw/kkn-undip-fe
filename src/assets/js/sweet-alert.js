@@ -1,4 +1,4 @@
-function showSwal(type, text) {
+function showSwal(type, text, toastText, id_kecamatan, status) {
   if (type === "success-message") {
     this.$swal({
       icon: "success",
@@ -37,6 +37,54 @@ function showSwal(type, text) {
         clearInterval(timerInterval);
       },
     });
+  } else if (type === "warning-confirmation") {
+    this.$swal({
+      title: "Apakah Anda yakin?",
+      text: text,
+      showCancelButton: true,
+      confirmButtonText: "Ya!",
+      cancelButtonText: "Batal!",
+      customClass: {
+        confirmButton: "btn bg-gradient-success",
+        cancelButton: "btn bg-gradient-secondary",
+      },
+      buttonsStyling: false,
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.$swal({
+          toast: true,
+          position: "top-end",
+          title: toastText,
+          icon: "success",
+          showConfirmButton: false,
+          timer: 2500,
+          timerProgressBar: true,
+        });
+      } else if (
+        /* Read more about handling dismissals below */
+        result.dismiss === this.$swal.DismissReason.cancel
+      ) {
+        this.$swal.close();
+      }
+    });
+  } else if (type === "loading") {
+    this.$swal({
+      title: "Memuat...",
+      timerProgressBar: true,
+      showConfirmButton: false,
+      allowOutsideClick: false,
+      allowEscapeKey: false,
+      didOpen: () => {
+        this.$swal.isLoading();
+        if (this.$swal.isLoading()) this.$swal.showLoading();
+      },
+      didDestroy: () => {
+        !this.$swal.isLoading();
+        this.$swal.hideLoading();
+      },
+    });
+  } else if (type === "close") {
+    this.$swal.close();
   }
 }
 
