@@ -29,29 +29,21 @@ const d$wilayah = defineStore("wilayahStore", {
     async a$listAllKabupaten(id_tema) {
       try {
         const { data, status } = await s$wilayah.listAllWilayah(id_tema);
-        this.listKabupaten = data ?? [];
-        this.status = status;
-      } catch (error) {
-        this.status = false;
-        throw error;
-      }
-    },
-
-    async a$listKecamatan(id_kabupaten) {
-      try {
-        const { data, status } = await s$wilayah.listKecamatan(id_kabupaten);
-        this.listKecamatan = data ?? [];
-        this.status = status;
-      } catch (error) {
-        this.status = false;
-        throw error;
-      }
-    },
-
-    async a$listAllKecamatan(id_tema) {
-      try {
-        const { data, status } = await s$wilayah.listAllKecamatan(id_tema);
-        this.listKecamatan = data ?? [];
+        var dataKecamatan = [];
+        data.forEach((kab) => {
+          var namaKabupatenObject = {
+            nama_kabupaten: kab.nama,
+          };
+          kab.kecamatan.forEach((kec) => {
+            var newKecamatanWithKabupaten = Object.assign(
+              {},
+              kec,
+              namaKabupatenObject
+            );
+            dataKecamatan.push(newKecamatanWithKabupaten);
+          });
+        });
+        this.listKecamatan = dataKecamatan;
         this.status = status;
       } catch (error) {
         this.status = false;

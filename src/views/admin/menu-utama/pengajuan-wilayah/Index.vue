@@ -18,12 +18,14 @@
                 id="choices-tema"
                 class="form-control"
                 name="choices-tema"
+                @change="getListKecamatan()"
+                v-model="tema"
               >
-                <option value="reguler">
+                <option value="1">KKN Reguler Tim I</option>
+                <option value="2">
                   KKN Tematik Pengurangan Risiko Bencana Berbasis Partisipasi
                   Masyarakat dan Komunitas
                 </option>
-                <option value="tematik">KKN Reguler Tim I</option>
               </select>
             </div>
           </div>
@@ -53,7 +55,7 @@
             </div>
           </div>
           <div class="ms-2 pt-1 px-0 pb-0 card-body">
-            <div class="table-responsive">
+            <div class="table-responsive" :key="indexComponent">
               <table id="wilayah-list" class="table table-flush">
                 <thead class="thead-light">
                   <tr>
@@ -67,13 +69,16 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <tr>
-                    <td class="text-sm ps-3">1</td>
+                  <tr
+                    v-for="(kec, index) in g$listKecamatan"
+                    :key="kec.id_kecamatan"
+                  >
+                    <td class="text-sm ps-3">{{ index + 1 }}</td>
                     <td class="ms-0 px-0">
-                      <h6 class="my-auto">Kecamatan 1</h6>
+                      <h6 class="my-auto">{{ kec.nama }}</h6>
                     </td>
-                    <td class="text-sm">10</td>
-                    <td class="text-sm">Kota Semarang</td>
+                    <td class="text-sm">{{ kec.desa.length }}</td>
+                    <td class="text-sm">{{ kec.nama_kabupaten }}</td>
                     <td class="text-sm">
                       <a
                         type="button"
@@ -142,7 +147,17 @@
                       </div>
                     </td>
                     <td class="text-sm">
-                      <span class="badge badge-warning">Verifikasi</span>
+                      <span
+                        class="badge badge-secondary"
+                        v-if="kec.status === 0"
+                        >Dalam Proses</span
+                      >
+                      <span
+                        class="badge badge-success"
+                        v-else-if="kec.status === 1"
+                        >Diterima</span
+                      >
+                      <span class="badge badge-danger" v-else>Ditolak</span>
                     </td>
                     <td class="text-sm">
                       <a
@@ -204,7 +219,7 @@
                       </a>
                     </td>
                   </tr>
-                  <tr>
+                  <!-- <tr>
                     <td class="text-sm ps-3">2</td>
                     <td class="ms-0 px-0">
                       <h6 class="my-auto">Kecamatan 2</h6>
@@ -735,7 +750,7 @@
                         />
                       </a>
                     </td>
-                  </tr>
+                  </tr> -->
                 </tbody>
                 <tfoot>
                   <tr>
@@ -762,6 +777,8 @@ import { DataTable } from "simple-datatables";
 import Choices from "choices.js";
 import setTooltip from "@/assets/js/tooltip.js";
 import HeaderProfileCard from "@/views/dashboards/components/HeaderProfileCard.vue";
+import { mapActions, mapState } from "pinia";
+import d$wilayah from "@/store/wilayah";
 
 export default {
   name: "IndexPengajuanWilayah",
@@ -770,42 +787,19 @@ export default {
   },
   data() {
     return {
-      choicesTema: Choices,
+      indexComponent: 0,
+      choicesTema: undefined,
+      tema: "1",
     };
+  },
+  computed: {
+    ...mapState(d$wilayah, ["g$listKecamatan"]),
+  },
+  async created() {
+    await this.getListKecamatan();
   },
   mounted() {
     this.choicesTema = this.getChoices("choices-tema");
-    if (document.getElementById("choices-status")) {
-      new Choices(document.getElementById("choices-status"), {
-        searchEnabled: false,
-        allowHTML: true,
-      });
-    }
-
-    if (document.getElementById("wilayah-list")) {
-      const dataTableSearch = new DataTable("#wilayah-list", {
-        searchable: true,
-        fixedHeight: false,
-        perPage: 5,
-      });
-
-      document.querySelectorAll(".export-kec").forEach(function (el) {
-        el.addEventListener("click", function () {
-          var type = el.dataset.type;
-
-          var data = {
-            type: type,
-            filename: "Data Pengajuan Wilayah",
-          };
-
-          // if (type === "csv") {
-          //   data.columnDelimiter = "|";
-          // }
-
-          dataTableSearch.export(data);
-        });
-      });
-    }
 
     setTooltip(this.$store.state.bootstrap);
   },
@@ -813,12 +807,100 @@ export default {
     this.choicesTema.destroy();
   },
   methods: {
+    ...mapActions(d$wilayah, ["a$listAllKabupaten"]),
+
+    async getListKecamatan() {
+      this.tema = parseInt(this.tema);
+      this.indexComponent++;
+
+      try {
+        await this.a$listAllKabupaten(this.tema);
+      } catch (error) {
+        this.showSwal(
+          "failed-message",
+          error ?? "Terjadi kesalahaan saat memuat data"
+        );
+        console.log(error);
+      }
+
+      this.setupDataTable();
+    },
+
+    setupDataTable() {
+      if (document.getElementById("wilayah-list")) {
+        const dataTableSearch = new DataTable("#wilayah-list", {
+          searchable: true,
+          fixedHeight: false,
+          perPage: 5,
+        });
+
+        document.querySelectorAll(".export-kec").forEach(function (el) {
+          el.addEventListener("click", function () {
+            var type = el.dataset.type;
+
+            var data = {
+              type: type,
+              filename: "Data Pengajuan Wilayah",
+            };
+
+            // if (type === "csv") {
+            //   data.columnDelimiter = "|";
+            // }
+
+            dataTableSearch.export(data);
+          });
+        });
+      }
+    },
+
     getChoices(id) {
       var element = document.getElementById(id);
       if (element) {
         return new Choices(element, {
           searchEnabled: false,
           allowHTML: true,
+        });
+      }
+    },
+
+    showSwal(type, text) {
+      if (type === "success-message") {
+        this.$swal({
+          icon: "success",
+          title: "Berhasil!",
+          text: text,
+          timer: 2500,
+          type: type,
+          timerProgressBar: true,
+          showConfirmButton: false,
+        });
+      } else if (type === "failed-message") {
+        this.$swal({
+          icon: "error",
+          title: "Gagal!",
+          text: text,
+          timer: 2500,
+          type: type,
+          timerProgressBar: true,
+          showConfirmButton: false,
+        });
+      } else if (type === "auto-close") {
+        let timerInterval;
+        this.$swal({
+          title: "Auto close alert!",
+          html: "I will close in <b></b> milliseconds.",
+          timer: 2000,
+          timerProgressBar: true,
+          didOpen: () => {
+            this.$swal.showLoading();
+            const b = this.$swal.getHtmlContainer().querySelector("b");
+            timerInterval = setInterval(() => {
+              b.textContent = this.$swal.getTimerLeft();
+            }, 100);
+          },
+          willClose: () => {
+            clearInterval(timerInterval);
+          },
         });
       }
     },
