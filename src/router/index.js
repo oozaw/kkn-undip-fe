@@ -298,7 +298,7 @@ const routes = [
     },
   },
   {
-    path: "/pendaftaran/lokasi/daftar/:id_gelombang",
+    path: "/pendaftaran/lokasi/daftar/:id_tema/:id_gelombang",
     name: "Daftar Lokasi",
     component: DaftarLokasi,
     meta: {

@@ -23,7 +23,9 @@
           </template>
         </HeaderProfileCard>
         <div class="p-4 pt-3 bg-white card mt-4">
-          <h5 class="">Daftar Lokasi</h5>
+          <h5 class="">
+            {{ "Daftar Lokasi di Gelombang " + $route.params.id_gelombang }}
+          </h5>
           <div class="mt-2 row">
             <div class="col-md-4 col-12">
               <div class="row">
@@ -64,7 +66,7 @@
               </div>
               <div class="row mt-3">
                 <div class="col-12 align-self-center">
-                  <label class="form-label mt-2">Pilih Kecamatan</label>
+                  <label class="form-label mt-2">Kecamatan</label>
                   <select
                     id="choices-kec"
                     class="form-control"
@@ -84,7 +86,7 @@
             <div class="col-md-8 col-12 mt-3 mt-md-0">
               <div class="col-12 ms-md-2 pe-1">
                 <label class="form-label">Potensi Kecamatan ....:</label>
-                <span id="description" class=""
+                <span id="potensi" class=""
                   ><ul>
                     <li>
                       The most beautiful curves of this swivel stool adds an

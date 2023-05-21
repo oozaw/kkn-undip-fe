@@ -49,7 +49,10 @@
               <router-link
                 :to="{
                   name: 'Daftar Lokasi',
-                  params: { id_gelombang: gel.id_gelombang },
+                  params: {
+                    id_tema: gel.id_tema,
+                    id_gelombang: gel.id_gelombang,
+                  },
                 }"
                 type="button"
                 class="mb-0 btn btn-sm bg-gradient-primary"
