@@ -77,6 +77,7 @@ import IndexPimpinan from "../views/admin/akun/pimpinan/Index.vue";
 import AddPimpinan from "../views/admin/akun/pimpinan/Add.vue";
 import EditProfile from "../views/pendaftaran/profile/Edit.vue";
 import EditBerkasMhs from "../views/pendaftaran/berkas/Edit.vue";
+import IndexLokasiMhs from "../views/pendaftaran/lokasi/Index.vue";
 import DaftarLokasi from "../views/pendaftaran/lokasi/Daftar.vue";
 import IndexPostTest from "../views/test/Index.vue";
 import IndexLRK from "../views/kegiatan/lrk/Index.vue";
@@ -289,7 +290,15 @@ const routes = [
     },
   },
   {
-    path: "/pendaftaran/lokasi/daftar",
+    path: "/pendaftaran/lokasi",
+    name: "Index Lokasi",
+    component: IndexLokasiMhs,
+    meta: {
+      requiresAuth: true,
+    },
+  },
+  {
+    path: "/pendaftaran/lokasi/daftar/:id_gelombang",
     name: "Daftar Lokasi",
     component: DaftarLokasi,
     meta: {

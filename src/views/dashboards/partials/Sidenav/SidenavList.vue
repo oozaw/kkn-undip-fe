@@ -317,7 +317,7 @@
                 text="Submit Berkas"
               />
               <sidenav-item
-                :to="{ name: 'Daftar Lokasi' }"
+                :to="{ name: 'Index Lokasi' }"
                 mini-icon="L"
                 text="Daftar Lokasi"
               />
