@@ -4,6 +4,7 @@
     class="collapse navbar-collapse w-auto h-auto h-100"
   >
     <ul class="navbar-nav">
+      <!-- Dashboard -->
       <li class="nav-item">
         <router-link :to="{ name: 'Dashboard' }">
           <sidenav-collapse
@@ -21,7 +22,8 @@
         </router-link>
       </li>
 
-      <li class="nav-item">
+      <!-- Profile Diri -->
+      <li class="nav-item" v-if="a$checkAuth(['REVIEWER'])">
         <router-link :to="{ name: 'Edit Data Diri' }">
           <sidenav-collapse
             nav-text="Profil Diri"
@@ -34,15 +36,36 @@
             <template #icon>
               <font-awesome-icon
                 icon="fa-solid fa-user-tie"
-                class="text-primary"
+                class="text-success"
               />
-              <!-- <i class="ni ni-single-02 text-success text-sm"></i> -->
             </template>
           </sidenav-collapse>
         </router-link>
       </li>
 
-      <li class="nav-item">
+      <!-- Pengajuan Proposal Dosen -->
+      <li class="nav-item" v-if="a$checkAuth(['REVIEWER'])">
+        <router-link :to="{ name: 'Pendaftaran Dosen Admin' }">
+          <sidenav-collapse
+            nav-text="Pengajuan Proposal Dosen"
+            :collapse="false"
+            url="#"
+            :aria-controls="''"
+            collapse-ref="/kelola-dosen/pendaftaran"
+            :class="getRoute2() === 'pendaftaran' ? 'active' : ''"
+          >
+            <template #icon>
+              <font-awesome-icon
+                icon="fa-solid fa-file-lines"
+                class="text-secondary"
+              />
+            </template>
+          </sidenav-collapse>
+        </router-link>
+      </li>
+
+      <!-- Profile Wilayah -->
+      <li class="nav-item" v-if="a$checkAuth(['BAPPEDA'])">
         <router-link :to="{ name: 'Profil Wilayah' }">
           <sidenav-collapse
             nav-text="Profil Wilayah"
@@ -63,7 +86,8 @@
         </router-link>
       </li>
 
-      <li class="nav-item">
+      <!-- Pengajuan Lokasi -->
+      <li class="nav-item" v-if="a$checkAuth(['BAPPEDA'])">
         <router-link :to="{ name: 'Pengajuan Lokasi' }">
           <sidenav-collapse
             nav-text="Pengajuan Lokasi KKN"
@@ -85,7 +109,7 @@
       </li>
 
       <!-- Menu Utama -->
-      <li class="nav-item">
+      <li class="nav-item" v-if="a$checkAuth(['ADMIN'])">
         <sidenav-collapse
           collapse-ref="main-menu"
           nav-text="Menu Utama"
@@ -142,7 +166,7 @@
       </li>
 
       <!-- Kelola Akun -->
-      <li class="nav-item">
+      <li class="nav-item" v-if="a$checkAuth(['ADMIN', 'SUPERADMIN'])">
         <sidenav-collapse
           collapse-ref="kelola-akun"
           nav-text="Kelola Akun"
@@ -162,36 +186,42 @@
                 :to="{ name: 'Mahasiswa' }"
                 mini-icon="M"
                 text="Mahasiswa"
+                v-if="a$checkAuth(['ADMIN'])"
               />
               <sidenav-item
                 :isActive="getRoute2() === 'dosen'"
                 :to="{ name: 'Dosen' }"
                 mini-icon="D"
                 text="Dosen"
+                v-if="a$checkAuth(['ADMIN'])"
               />
               <sidenav-item
                 :isActive="getRoute2() === 'administrator'"
                 :to="{ name: 'Administrator' }"
                 mini-icon="A"
                 text="Administrator"
+                v-if="a$checkAuth(['SUPERADMIN'])"
               />
               <sidenav-item
                 :isActive="getRoute2() === 'bappeda'"
                 :to="{ name: 'Bappeda' }"
                 mini-icon="B"
                 text="BAPPEDA"
+                v-if="a$checkAuth(['ADMIN'])"
               />
               <sidenav-item
                 :isActive="getRoute2() === 'reviewer'"
                 :to="{ name: 'Reviewer' }"
                 mini-icon="R"
                 text="Reviewer"
+                v-if="a$checkAuth(['ADMIN'])"
               />
               <sidenav-item
                 :isActive="getRoute2() === 'pimpinan'"
                 :to="{ name: 'Pimpinan' }"
                 mini-icon="P"
                 text="Pimpinan"
+                v-if="a$checkAuth(['ADMIN'])"
               />
             </ul>
           </template>
@@ -199,7 +229,7 @@
       </li>
 
       <!-- Kelola Mahasiswa -->
-      <li class="nav-item">
+      <li class="nav-item" v-if="a$checkAuth(['ADMIN'])">
         <sidenav-collapse
           collapse-ref="kelola-mhs"
           nav-text="Kelola Mahasiswa"
@@ -250,7 +280,7 @@
       </li>
 
       <!-- Kelola Dosen -->
-      <li class="nav-item">
+      <li class="nav-item" v-if="a$checkAuth(['ADMIN'])">
         <sidenav-collapse
           collapse-ref="kelola-dosen"
           nav-text="Kelola Dosen"
@@ -294,7 +324,8 @@
         </sidenav-collapse>
       </li>
 
-      <li class="nav-item">
+      <!-- Pendaftaran KKN -->
+      <li class="nav-item" v-if="a$checkAuth(['DOSEN', 'MAHASISWA'])">
         <sidenav-collapse
           collapse-ref="pendaftaran"
           nav-text="Pendaftaran KKN"
@@ -315,23 +346,27 @@
                 :to="{ name: 'Edit Data Berkas' }"
                 mini-icon="B"
                 text="Submit Berkas"
+                v-if="a$checkAuth(['MAHASISWA'])"
               />
               <sidenav-item
                 :to="{ name: 'Index Lokasi' }"
                 mini-icon="L"
                 text="Daftar Lokasi"
+                v-if="a$checkAuth(['MAHASISWA'])"
               />
               <sidenav-item
                 :to="{ name: 'Registrasi' }"
                 mini-icon="R"
                 text="Registrasi KKN"
+                v-if="a$checkAuth(['DOSEN'])"
               />
             </ul>
           </template>
         </sidenav-collapse>
       </li>
 
-      <li class="nav-item">
+      <!-- Post Test -->
+      <li class="nav-item" v-if="a$checkAuth(['MAHASISWA'])">
         <router-link :to="{ name: 'Post Test' }">
           <sidenav-collapse
             nav-text="Post Test"
@@ -348,7 +383,8 @@
         </router-link>
       </li>
 
-      <li class="nav-item">
+      <!-- Seleksi Mahasiswa -->
+      <li class="nav-item" v-if="a$checkAuth(['DOSEN'])">
         <router-link :to="{ name: 'Seleksi' }">
           <sidenav-collapse
             nav-text="Seleksi Mahasiswa"
@@ -365,7 +401,8 @@
         </router-link>
       </li>
 
-      <li class="nav-item">
+      <!-- Kegiatan KKN -->
+      <li class="nav-item" v-if="a$checkAuth(['DOSEN', 'MAHASISWA'])">
         <sidenav-collapse
           collapse-ref="kegiatanKKN"
           nav-text="Kegiatan KKN"
@@ -390,15 +427,23 @@
                 text="Presensi"
               />
               <sidenav-item
+                :to="{ name: 'Review Presensi Mahasiswa' }"
+                mini-icon="P"
+                text="Presensi Mahasiswa"
+                v-if="a$checkAuth(['DOSEN'])"
+              />
+              <sidenav-item
                 :to="{ name: 'Nilai Akhir' }"
                 mini-icon="N"
                 text="Nilai Akhir Mahasiswa"
+                v-if="a$checkAuth(['DOSEN'])"
               />
             </ul>
           </template>
         </sidenav-collapse>
       </li>
 
+      <!-- Download Area -->
       <li class="nav-item">
         <router-link :to="{ name: 'Mahasiswa' }">
           <sidenav-collapse
@@ -423,6 +468,8 @@
 <script>
 import SidenavItem from "./SidenavItem.vue";
 import SidenavCollapse from "./SidenavCollapse.vue";
+import d$auth from "@/store/auth";
+import { mapActions } from "pinia";
 
 export default {
   name: "SidenavList",
@@ -431,11 +478,14 @@ export default {
     SidenavCollapse,
   },
   methods: {
+    ...mapActions(d$auth, ["a$getUser", "a$checkAuth"]),
+
     getRoute() {
       const routeArr = this.$route.path.split("/");
       // console.log(this.$route.path.split("/")[1]);
       return routeArr[1];
     },
+
     getRoute2() {
       const routeArr = this.$route.path.split("/");
       // console.log(this.$route.path.split("/")[2]);

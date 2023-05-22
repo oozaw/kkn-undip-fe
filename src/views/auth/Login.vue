@@ -144,6 +144,8 @@ export default {
     ArgonButton,
   },
   created() {
+    this.checkError();
+
     this.$store.state.hideConfigButton = true;
     this.toggleDefaultLayout();
     body.classList.remove("bg-gray-100");
@@ -174,6 +176,16 @@ export default {
       }
     },
 
+    checkError() {
+      const error = this.$route.params.error;
+      console.log(error);
+
+      if (error) {
+        if (error === "unauthenticated")
+          this.showSwal("failed-message", "Silahkan login terlebih dahulu!");
+      }
+    },
+
     showSwal(type, text) {
       if (type === "success-message") {
         this.$swal({
@@ -188,7 +200,7 @@ export default {
       } else if (type === "failed-message") {
         this.$swal({
           icon: "error",
-          title: "Login Gagal!",
+          title: "Gagal!",
           text: text,
           timer: 2500,
           type: type,
