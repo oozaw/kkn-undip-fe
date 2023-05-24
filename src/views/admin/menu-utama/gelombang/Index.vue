@@ -97,7 +97,7 @@
                               class="choices-halaman-modal form-select"
                               v-model="body.id_halaman"
                             >
-                              <option value="0" hidden>
+                              <option value="0" selected hidden>
                                 -- Pilih Halaman --
                               </option>
                               <option
@@ -303,9 +303,7 @@ export default {
     await this.getListGelombang();
     await this.a$listHalaman();
 
-    // this.choicesTema = this.getChoices("choices-tema");
-    this.choicesTemaModal = this.getChoices("choices-tema-modal");
-    this.choicesHalamanModal = this.getChoices("choices-halaman-modal");
+    this.setupChoices();
 
     setTooltip(this.$store.state.bootstrap);
   },
@@ -325,7 +323,7 @@ export default {
 
     async addGelombang() {
       // validation
-      if (!this.body.id_halaman) {
+      if (!this.body.id_halaman || this.body.id_halaman === "0") {
         this.showSwal("warning-message", "Lengkapi data terlebih dahulu!");
         return;
       }
@@ -335,11 +333,14 @@ export default {
       this.body.id_halaman = parseInt(this.body.id_halaman);
 
       try {
+        document.getElementById("button-close-modal").click();
         await this.a$addGelombang(this.body);
         await this.getListGelombang();
         this.showSwal("success-message", "Berhasil menambahkan gelombang");
-        document.getElementById("button-close-modal").click();
-        this.indexComponent++;
+        // this.indexComponent++;
+        this.setupChoices();
+        this.body.id_halaman = "0";
+        this.body.nama = "";
       } catch (error) {
         this.showSwal(
           "failed-message",
@@ -438,6 +439,12 @@ export default {
           });
         });
       }
+    },
+
+    setupChoices() {
+      // this.choicesTema = this.getChoices("choices-tema");
+      this.choicesTemaModal = this.getChoices("choices-tema-modal");
+      this.choicesHalamanModal = this.getChoices("choices-halaman-modal");
     },
 
     getChoices(id) {
