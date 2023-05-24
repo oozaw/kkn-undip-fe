@@ -19,9 +19,9 @@ const d$gelombang = defineStore("gelombangStore", {
       }
     },
 
-    async a$adGelombang(body) {
+    async a$addGelombang(body) {
       try {
-        const status = await s$gelombang.adGelombang(body);
+        const status = await s$gelombang.addGelombang(body);
         this.status = status;
       } catch (error) {
         this.status = false;

@@ -2,7 +2,7 @@ import { baseApi } from "@/utils/axios";
 
 const api = `/`;
 
-const listGelombang = () => baseApi.get(`${api}gelombang`);
+const listGelombang = () => baseApi.get(`${api}admin/gelombang`);
 
 const addGelombang = (body) => baseApi.post(`${api}admin/gelombang`, body);
 

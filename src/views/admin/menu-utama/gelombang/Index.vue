@@ -3,7 +3,7 @@
     <div class="row mb-5 mt-4">
       <div class="col-lg-12 mt-lg-0 mt-4">
         <header-profile-card />
-        <div class="bg-white card mt-4">
+        <!-- <div class="bg-white card mt-4">
           <div class="card-header pb-0 pt-3">
             <p class="font-weight-bold text-dark mb-2">
               Pilih Tema KKN Terdaftar
@@ -28,16 +28,14 @@
               </select>
             </div>
           </div>
-        </div>
+        </div> -->
         <div class="bg-white card mt-4">
           <!-- Card header -->
           <div class="pb-0 card-header">
             <div class="d-lg-flex">
               <div>
                 <h5 class="mb-2">Gelombang Pendaftaran</h5>
-                <p class="text-sm mb-0">
-                  Daftar gelombang pendaftaran tema KKN
-                </p>
+                <p class="text-sm mb-0">Daftar gelombang pendaftaran KKN</p>
               </div>
               <div class="my-auto mt-4 ms-auto mt-lg-0">
                 <div class="my-auto ms-auto">
@@ -76,7 +74,7 @@
                             id="form-add-gelombang"
                             @submit.prevent="addGelombang()"
                           >
-                            <label class="form-label">Tema</label>
+                            <!-- <label class="form-label">Tema</label>
                             <select
                               name="jenis"
                               id="choices-tema-modal"
@@ -91,7 +89,7 @@
                               >
                                 {{ tema.nama }}
                               </option>
-                            </select>
+                            </select> -->
                             <label class="form-label">Halaman</label>
                             <select
                               name="jenis"
@@ -103,11 +101,11 @@
                                 -- Pilih Halaman --
                               </option>
                               <option
-                                v-for="tema in g$listTema"
-                                :key="tema.id_tema"
-                                :value="tema.id_tema"
+                                v-for="halaman in g$listHalaman"
+                                :key="halaman.id_halaman"
+                                :value="halaman.id_halaman"
                               >
-                                {{ tema.nama }}
+                                {{ halaman.nama }}
                               </option>
                             </select>
                             <label class="form-label">Nama</label>
@@ -134,7 +132,7 @@
                           <button
                             form="form-add-gelombang"
                             type="submit"
-                            class="btn bg-gradient-primary btn-sm"
+                            class="btn bg-gradient-success btn-sm"
                           >
                             Tambah
                           </button>
@@ -161,91 +159,26 @@
                   <tr>
                     <th class="col-1">No.</th>
                     <th>Nama</th>
-                    <th>Jenis</th>
-                    <th>Lokasi</th>
+                    <th>Halaman</th>
                     <th>Periode</th>
                     <th>Status</th>
                     <th>Action</th>
                   </tr>
                 </thead>
-                <!-- <tbody>
-                  <tr v-for="(tema, index) in g$listTema" :key="tema.id_tema">
+                <tbody>
+                  <tr
+                    v-for="(gelombang, index) in g$listGelombang"
+                    :key="gelombang.id_gelombang"
+                  >
                     <td class="text-sm">{{ index + 1 }}</td>
                     <td>
-                      <h6 class="my-auto">{{ tema.nama }}</h6>
+                      <h6 class="my-auto">{{ gelombang.nama }}</h6>
                     </td>
-                    <td class="text-sm">{{ tema.nama }}</td>
-                    <td class="text-sm">
-                      <a
-                        type="button"
-                        class="mb-0 text-primary"
-                        data-bs-toggle="modal"
-                        data-bs-target="#lokasi-kkn"
-                      >
-                        Lihat
-                      </a>
-                      <div
-                        id="lokasi-kkn"
-                        class="modal fade"
-                        tabindex="-1"
-                        aria-hidden="true"
-                      >
-                        <div class="modal-dialog mt-lg-10">
-                          <div class="modal-content">
-                            <div class="modal-header">
-                              <h5 id="ModalLabel" class="modal-title">
-                                Lokasi KKN Reguler Tim 1
-                              </h5>
-                              <button
-                                type="button"
-                                class="btn-close text-dark mb-0"
-                                data-bs-dismiss="modal"
-                                aria-label="Close"
-                              >
-                                <font-awesome-icon icon="fa-solid fa-xmark" />
-                              </button>
-                            </div>
-                            <div class="modal-body">
-                              <p>
-                                Silahkan cari dan pilih file excel berisi data
-                                mahasiswa
-                              </p>
-                              <input
-                                type="file"
-                                placeholder="Browse file..."
-                                class="mb-1 form-control"
-                              />
-                              <div>
-                                <small class="text-danger text-sm-start">
-                                  <i class="fas fa-info-circle"></i>
-                                  File yang diizinkan hanya file excel dengan
-                                  ekstensi .xls atau .xlsx
-                                </small>
-                              </div>
-                            </div>
-                            <div class="modal-footer">
-                              <button
-                                type="button"
-                                class="btn bg-gradient-secondary btn-sm"
-                                data-bs-dismiss="modal"
-                              >
-                                Batal
-                              </button>
-                              <button
-                                type="button"
-                                class="btn bg-gradient-success btn-sm"
-                              >
-                                Unggah
-                              </button>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </td>
+                    <td class="text-sm">{{ gelombang.nama }}</td>
                     <td class="text-sm">2022/2023</td>
                     <td>
                       <span
-                        v-if="tema.status"
+                        v-if="gelombang.status"
                         class="badge badge-sm badge-success"
                       >
                         Aktif
@@ -280,13 +213,13 @@
                         <i class="fas fa-trash text-danger"></i>
                       </a>
                       <a
-                        v-if="tema.status"
-                        :id="'non-aktif-' + tema.id_tema"
+                        v-if="gelombang.status"
+                        :id="'non-aktif-' + gelombang.id_gelombang"
                         class="me-3"
                         href=""
                         data-bs-toggle="tooltip"
-                        data-bs-original-title="Non-aktifkan Tema"
-                        title="Non-aktifkan Tema"
+                        data-bs-original-title="Non-aktifkan gelombang"
+                        title="Non-aktifkan gelombang"
                       >
                         <font-awesome-icon
                           class="text-danger"
@@ -296,12 +229,12 @@
                       </a>
                       <a
                         v-else
-                        :id="'aktif-' + tema.id_tema"
+                        :id="'aktif-' + gelombang.id_gelombang"
                         class="me-3"
                         href=""
                         data-bs-toggle="tooltip"
-                        data-bs-original-title="Aktifkan Tema"
-                        title="Aktifkan Tema"
+                        data-bs-original-title="Aktifkan gelombang"
+                        title="Aktifkan gelombang"
                       >
                         <font-awesome-icon
                           class="text-success"
@@ -311,13 +244,12 @@
                       </a>
                     </td>
                   </tr>
-                </tbody> -->
+                </tbody>
                 <tfoot>
                   <tr>
                     <th class="col-1">No.</th>
-                    <th>Tema KKN</th>
-                    <th>Jenis</th>
-                    <th>Lokasi</th>
+                    <th>Nama</th>
+                    <th>Halaman</th>
                     <th>Periode</th>
                     <th>Status</th>
                     <th>Action</th>
@@ -340,6 +272,7 @@ import HeaderProfileCard from "@/views/dashboards/components/HeaderProfileCard.v
 import { mapActions, mapState } from "pinia";
 import d$tema from "@/store/tema";
 import d$gelombang from "@/store/gelombang";
+import d$halaman from "@/store/halaman";
 
 export default {
   name: "IndexGelombang",
@@ -354,7 +287,7 @@ export default {
       choicesTemaModal: undefined,
       choicesHalamanModal: undefined,
       body: {
-        id_tema: "",
+        // id_tema: "",
         id_halaman: "",
         nama: "",
       },
@@ -362,21 +295,24 @@ export default {
   },
   computed: {
     ...mapState(d$tema, ["g$listTema"]),
+    ...mapState(d$gelombang, ["g$listGelombang"]),
+    ...mapState(d$halaman, ["g$listHalaman"]),
   },
   async created() {
     await this.a$listTema();
     await this.getListGelombang();
+    await this.a$listHalaman();
 
-    this.choicesTema = this.getChoices("choices-tema");
+    // this.choicesTema = this.getChoices("choices-tema");
     this.choicesTemaModal = this.getChoices("choices-tema-modal");
     this.choicesHalamanModal = this.getChoices("choices-halaman-modal");
 
     setTooltip(this.$store.state.bootstrap);
   },
   beforeUnmount() {
-    this.choicesTema.destroy();
-    this.choicesTemaModal.destroy();
-    this.choicesHalamanModal.destroy();
+    if (this.choicesTema) this.choicesTema.destroy();
+    if (this.choicesTemaModal) this.choicesTemaModal.destroy();
+    if (this.choicesHalamanModal) this.choicesHalamanModal.destroy();
   },
   methods: {
     ...mapActions(d$tema, ["a$listTema", "a$switchGelombang"]),
@@ -385,28 +321,29 @@ export default {
       "a$switchGelombang",
       "a$addGelombang",
     ]),
+    ...mapActions(d$halaman, ["a$listHalaman"]),
 
     async addGelombang() {
       // validation
-      if (!this.body.id_tema || !this.body.id_halaman) {
+      if (!this.body.id_halaman) {
         this.showSwal("warning-message", "Lengkapi data terlebih dahulu!");
         return;
       }
 
       this.showSwal("loading");
-      this.body.id_tema = parseInt(this.body.id_tema);
+      // this.body.id_tema = parseInt(this.body.id_tema);
       this.body.id_halaman = parseInt(this.body.id_halaman);
 
       try {
         await this.a$addGelombang(this.body);
         await this.getListGelombang();
         this.showSwal("success-message", "Berhasil menambahkan gelombang");
-        this.indexComponent++;
         document.getElementById("button-close-modal").click();
+        this.indexComponent++;
       } catch (error) {
         this.showSwal(
           "failed-message",
-          error ?? "Terjadi kesalahan saat menambahkan gelombang"
+          error.error ?? "Terjadi kesalahan saat menambahkan gelombang"
         );
         // console.log(error);
       }
@@ -441,7 +378,7 @@ export default {
       }
 
       this.setupDataTable();
-      // this.setupTableAction();
+      this.setupTableAction();
     },
 
     setupTableAction() {
@@ -519,6 +456,16 @@ export default {
         this.$swal({
           icon: "success",
           title: "Berhasil!",
+          text: text,
+          timer: 2500,
+          type: type,
+          timerProgressBar: true,
+          showConfirmButton: false,
+        });
+      } else if (type === "warning-message") {
+        this.$swal({
+          icon: "warning",
+          title: "Peringatan!",
           text: text,
           timer: 2500,
           type: type,
