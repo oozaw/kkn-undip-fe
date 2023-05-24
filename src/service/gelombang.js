@@ -2,6 +2,11 @@ import { baseApi } from "@/utils/axios";
 
 const api = `/`;
 
+const listGelombang = () => baseApi.get(`${api}gelombang`);
+
 const addGelombang = (body) => baseApi.post(`${api}admin/gelombang`, body);
 
-export { addGelombang };
+const switchGelombang = (id_gelombang) =>
+  baseApi.patch(`${api}admin/gelombang/${id_gelombang}`);
+
+export { listGelombang, addGelombang, switchGelombang };

@@ -155,6 +155,12 @@
                 text="Tema KKN"
               />
               <sidenav-item
+                :isActive="getRoute2() === 'gelombang'"
+                :to="{ name: 'Gelombang' }"
+                mini-icon="G"
+                text="Gelombang Pendaftaran"
+              />
+              <sidenav-item
                 :to="{ name: 'Pengajuan Wilayah' }"
                 mini-icon="L"
                 text="Pengajuan Wilayah"

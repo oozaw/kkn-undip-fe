@@ -49,7 +49,6 @@
                             role="form"
                             id="form-add-keikutsertaan-wilayah"
                             @submit.prevent="addKeikutsertaan()"
-                            enctype="multipart/form-data"
                           >
                             <p>Silahkan pilih tema KKN yang Anda inginkan</p>
                             <label class="form-label">Tema</label>
