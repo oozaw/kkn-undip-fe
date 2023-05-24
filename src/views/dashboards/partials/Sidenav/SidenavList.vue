@@ -149,7 +149,7 @@
                 text="Statistik"
               />
               <sidenav-item
-                :isActive="getRoute2() === 'kkn'"
+                :isActive="getRoute2() === 'tema'"
                 :to="{ name: 'Tema KKN' }"
                 mini-icon="P"
                 text="Tema KKN"

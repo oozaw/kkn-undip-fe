@@ -795,7 +795,7 @@ export default {
           "failed-message",
           error ?? "Terjadi kesalahaan saat memuat data"
         );
-        console.log(error);
+        // console.log(error);
       }
 
       this.setupDataTable();
@@ -808,13 +808,12 @@ export default {
       try {
         await this.a$accKecamatan(id_kecamatan);
         await this.getListKecamatan();
-        console.log("acc");
       } catch (error) {
         this.showSwal(
           "failed-message",
           error ?? "Terjadi kesalahan saat mengubah data"
         );
-        console.log(error);
+        // console.log(error);
       }
 
       // this.showSwal("close");
@@ -826,13 +825,12 @@ export default {
       try {
         await this.a$decKecamatan(id_kecamatan);
         await this.getListKecamatan();
-        console.log("dec");
       } catch (error) {
         this.showSwal(
           "failed-message",
           error ?? "Terjadi kesalahan saat mengubah data"
         );
-        console.log(error);
+        // console.log(error);
       }
 
       // this.showSwal("close");

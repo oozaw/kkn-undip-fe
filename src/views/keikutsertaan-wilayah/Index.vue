@@ -233,7 +233,6 @@ export default {
 
     async addKeikutsertaan() {
       this.tema = parseInt(this.tema);
-      console.log(this.tema);
 
       if (!this.tema) {
         this.showSwal("warning-message", "Pilih tema terlebih dahulu!");

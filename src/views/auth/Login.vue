@@ -179,7 +179,6 @@ export default {
 
     checkError() {
       const error = this.$route.params.error;
-      console.log(error);
 
       if (error) {
         if (error === "unauthenticated")

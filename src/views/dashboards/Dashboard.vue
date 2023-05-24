@@ -327,7 +327,6 @@ export default {
   methods: {
     checkError() {
       const error = this.$route.params.error;
-      console.log(error);
 
       if (error) {
         if (error === "unauthorized")

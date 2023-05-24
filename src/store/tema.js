@@ -21,9 +21,18 @@ const d$tema = defineStore("temaStore", {
 
     async a$addTema(body) {
       try {
-        const { data, status } = await s$tema.addTema(body);
+        const { status } = await s$tema.addTema(body);
         this.status = status;
-        return data;
+      } catch ({ message, error }) {
+        this.status = false;
+        throw message ?? error;
+      }
+    },
+
+    async a$switchTema(id_tema) {
+      try {
+        const { status } = await s$tema.switchTema(id_tema);
+        this.status = status;
       } catch ({ message, error }) {
         this.status = false;
         throw message ?? error;
