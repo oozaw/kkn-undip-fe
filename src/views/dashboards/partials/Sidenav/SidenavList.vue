@@ -383,6 +383,7 @@
                 v-if="a$checkAuth(['MAHASISWA'])"
               />
               <sidenav-item
+                :isActive="getRoute2() === 'registrasi'"
                 :to="{ name: 'Registrasi' }"
                 mini-icon="R"
                 text="Registrasi KKN"

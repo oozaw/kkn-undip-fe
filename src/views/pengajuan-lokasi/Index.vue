@@ -2,10 +2,7 @@
   <div class="container-fluid">
     <div class="row mb-5 mt-4">
       <div class="col-lg-12 mt-lg-0 mt-4">
-        <HeaderProfileCard
-          name="BAPPEDA Kota Semarang"
-          description="Kota Semarang, Jawa Tengah, Indonesia"
-        />
+        <HeaderProfileCard />
         <div class="bg-white card mt-4">
           <div class="card-header pb-0 pt-3">
             <p class="font-weight-bold text-dark mb-2">
