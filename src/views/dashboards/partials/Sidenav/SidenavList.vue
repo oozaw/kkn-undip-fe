@@ -86,6 +86,28 @@
         </router-link>
       </li>
 
+      <!-- Keikutsertaan Kabupaten -->
+      <li class="nav-item" v-if="a$checkAuth(['BAPPEDA'])">
+        <router-link :to="{ name: 'Keikutsertaan Wilayah' }">
+          <sidenav-collapse
+            nav-text="Keikutsertaan Wilayah"
+            :collapse="false"
+            url="#"
+            :aria-controls="''"
+            collapse-ref="/keikutsertaan-wilayah"
+            :class="getRoute() === 'keikutsertaan-wilayah' ? 'active' : ''"
+          >
+            <template #icon>
+              <font-awesome-icon
+                icon="fa-solid fa-map-location-dot"
+                class="text-primary"
+              />
+              <!-- <i class="ni ni-single-02 text-success text-sm"></i> -->
+            </template>
+          </sidenav-collapse>
+        </router-link>
+      </li>
+
       <!-- Pengajuan Lokasi -->
       <li class="nav-item" v-if="a$checkAuth(['BAPPEDA'])">
         <router-link :to="{ name: 'Pengajuan Lokasi' }">

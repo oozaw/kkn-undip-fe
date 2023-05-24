@@ -7,6 +7,8 @@ const listWilayah = (id_tema, id_bappeda) =>
 
 const listAllWilayah = (id_tema) => baseApi.get(`${api}wilayah/${id_tema}`);
 
+const addKabupaten = (body) => baseApi.post(`${api}bappeda/kabupaten`, body);
+
 const addKecamatan = (body) => baseApi.post(`${api}bappeda/kecamatan`, body);
 
 const accKecamatan = (id_kecamatan) =>
@@ -18,6 +20,7 @@ const decKecamatan = (id_kecamatan) =>
 export {
   listAllWilayah,
   listWilayah,
+  addKabupaten,
   addKecamatan,
   accKecamatan,
   decKecamatan,

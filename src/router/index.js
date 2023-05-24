@@ -96,6 +96,7 @@ import Presensi from "../views/kegiatan/presensi/Index.vue";
 import IndexNilai from "../views/kegiatan/nilai/Index.vue";
 import EditNilai from "../views/kegiatan/nilai/Edit.vue";
 import EditProfilWilayah from "../views/profile-wilayah/Edit.vue";
+import IndexKeikutsertaanWilayah from "../views/keikutsertaan-wilayah/Index.vue";
 import IndexPengajuanLokasi from "../views/pengajuan-lokasi/Index.vue";
 import AddKecamatan from "../views/pengajuan-lokasi/kecamatan/Add.vue";
 import EditKecamatan from "../views/pengajuan-lokasi/kecamatan/Edit.vue";
@@ -438,6 +439,14 @@ const routes = [
     path: "/profil-wilayah/edit",
     name: "Profil Wilayah",
     component: EditProfilWilayah,
+    meta: {
+      requiresAuth: [Role.bappeda],
+    },
+  },
+  {
+    path: "/keikutsertaan-wilayah",
+    name: "Keikutsertaan Wilayah",
+    component: IndexKeikutsertaanWilayah,
     meta: {
       requiresAuth: [Role.bappeda],
     },

@@ -9,6 +9,16 @@ function showSwal(type, text, toastText, id_kecamatan, status) {
       timerProgressBar: true,
       showConfirmButton: false,
     });
+  } else if (type === "warning-message") {
+    this.$swal({
+      icon: "warning",
+      title: "Peringatan!",
+      text: text,
+      timer: 2500,
+      type: type,
+      timerProgressBar: true,
+      showConfirmButton: false,
+    });
   } else if (type === "failed-message") {
     this.$swal({
       icon: "error",

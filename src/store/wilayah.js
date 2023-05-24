@@ -51,6 +51,16 @@ const d$wilayah = defineStore("wilayahStore", {
       }
     },
 
+    async a$addKabupaten(body) {
+      try {
+        const status = await s$wilayah.addKabupaten(body);
+        this.status = status;
+      } catch (error) {
+        this.status = false;
+        throw error;
+      }
+    },
+
     async a$addKecamatan(body) {
       try {
         const status = await s$wilayah.addKecamatan(body);
