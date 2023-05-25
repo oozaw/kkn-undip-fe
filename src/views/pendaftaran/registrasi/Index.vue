@@ -13,7 +13,7 @@
                   Registrasi KKN, Submit Proposal, Daftar Lokasi
                 </p>
               </div>
-              <div class="my-auto mt-4 ms-auto mt-lg-0">
+              <!-- <div class="my-auto mt-4 ms-auto mt-lg-0">
                 <div class="my-auto ms-auto">
                   <router-link
                     class="mb-0 btn bg-gradient-success btn-sm"
@@ -21,7 +21,7 @@
                     >+&nbsp; Tambah Data Registrasi
                   </router-link>
                 </div>
-              </div>
+              </div> -->
             </div>
           </div>
           <div class="ms-2 pt-1 px-0 pb-0 card-body">
@@ -224,7 +224,7 @@
         <div id="card-section" class="row pe-0" :key="indexComponent">
           <div
             class="col-lg-6 pe-0"
-            v-for="gel in g$listGelombang"
+            v-for="gel in listGelombang"
             :key="gel.id_gelombang"
           >
             <GelombangCard
@@ -241,9 +241,8 @@
               <template #button v-if="gel.status === 'Diterima'">
                 <router-link
                   :to="{
-                    name: 'Daftar Lokasi',
+                    name: 'Tambah Registrasi',
                     params: {
-                      id_tema: gel.id_tema,
                       id_gelombang: gel.id_gelombang,
                     },
                   }"
@@ -282,6 +281,7 @@ export default {
       tema: 1,
       choicesTema: undefined,
       indexComponent: 0,
+      listGelombang: [],
     };
   },
   computed: {
@@ -290,7 +290,7 @@ export default {
   },
   mounted() {
     // this.a$listProposal();
-    // this.a$listGelombang();
+    this.getListGelombang();
 
     this.setupDataTable();
 
@@ -299,6 +299,80 @@ export default {
   methods: {
     ...mapActions(d$proposal, ["a$listProposal"]),
     ...mapActions(d$gelombang, ["a$listGelombang"]),
+
+    async getListGelombang() {
+      this.indexComponent++;
+      this.tema = parseInt(this.tema);
+      this.listGelombang = [];
+      if (this.tema === 1) {
+        this.listGelombang.push(
+          {
+            id_gelombang: 1,
+            id_tema: 1,
+            nama: "Gelombang 1 Dosen",
+            status: 1,
+          },
+          {
+            id_gelombang: 3,
+            id_tema: 1,
+            nama: "Gelombang 3 Dosen",
+            status: 0,
+          }
+        );
+      } else if (this.tema === 2) {
+        this.listGelombang.push(
+          {
+            id_gelombang: 2,
+            id_tema: 2,
+            nama: "Gelombang 2 Dosen",
+            status: -1,
+          },
+          {
+            id_gelombang: 4,
+            id_tema: 2,
+            nama: "Gelombang 4 Dosen",
+            status: 1,
+          }
+        );
+      }
+
+      var newListGelombang = [];
+      this.listGelombang.forEach((gelombang) => {
+        if (gelombang.status === 0) {
+          gelombang.status = "Sedang diproses";
+          let newGelombang = Object.assign({}, gelombang, {
+            status_color: "secondary",
+          });
+          newListGelombang.push(newGelombang);
+        } else if (gelombang.status === 1) {
+          gelombang.status = "Diterima";
+          let newGelombang = Object.assign({}, gelombang, {
+            status_color: "success",
+          });
+          newListGelombang.push(newGelombang);
+        } else {
+          gelombang.status = "Ditolak";
+          let newGelombang = Object.assign({}, gelombang, {
+            status_color: "danger",
+          });
+          newListGelombang.push(newGelombang);
+        }
+      });
+
+      this.listGelombang = newListGelombang;
+
+      console.log(this.listGelombang);
+
+      // try {
+      //   await this.a$listGelombang(this.tema);
+      // } catch (error) {
+      //   this.showSwal(
+      //     "failed-message",
+      //     error ?? "Terjadi kesalahan saat memuat data"
+      //   );
+      //   console.log(error);
+      // }
+    },
 
     showSwal(type, text) {
       if (type === "success-message") {
