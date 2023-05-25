@@ -30,18 +30,16 @@
             <form id="form-kec" role="form" @submit.prevent="addKecamatan()">
               <div class="row">
                 <div class="col-12">
-                  <label class="form-label">Jenis KKN</label>
+                  <label class="form-label">Tema KKN</label>
                   <select
-                    name="jenis"
-                    id="choices-jenis"
-                    class="choices-jenis"
-                    v-model="input.id_periode"
-                    required
+                    name="tema"
+                    id="choices-tema"
+                    class="choices-tema"
+                    v-model="input.id_tema"
                   >
-                    <option value="0" selected disabled hidden>
+                    <option value="" selected disabled hidden>
                       -- Pilih KKN --
                     </option>
-                    <option value="1">KKN Reguler Tim 1 2023</option>
                   </select>
                 </div>
               </div>
@@ -106,7 +104,9 @@ import HeaderProfileCard from "@/views/dashboards/components/HeaderProfileCard.v
 import ArgonButton from "@/components/ArgonButton.vue";
 import img from "@/assets/img/team-3.jpg";
 import d$wilayah from "@/store/wilayah";
-import { mapActions } from "pinia";
+import d$auth from "@/store/auth";
+import d$tema from "@/store/tema";
+import { mapActions, mapState } from "pinia";
 
 export default {
   name: "AddKecamatan",
@@ -118,12 +118,12 @@ export default {
   data() {
     return {
       img,
-      choicesJenis: undefined,
+      choicesTema: undefined,
       jmlDesa: 1,
       formDesa: [],
       valueFormDesa: "",
       input: {
-        id_periode: 0,
+        id_tema: "",
         kecamatan: "",
         desa: [
           {
@@ -132,20 +132,74 @@ export default {
         ],
         potensi: "",
       },
+      listKabupatenTerdaftar: [],
     };
   },
-  created() {
-    this.formDesa.push(this.valueFormDesa);
+  computed: {
+    ...mapState(d$tema, ["g$listTemaActive"]),
+    ...mapState(d$auth, ["g$infoUser"]),
+    ...mapState(d$wilayah, ["g$listKabupaten"]),
+  },
+  async created() {
+    await this.getListTemaRegistered();
+    // this.formDesa.push(this.valueFormDesa);
   },
   mounted() {
     this.showFormDesa();
-    this.choicesJenis = this.getChoices("choices-jenis");
+    this.choicesTema = this.getChoices("choices-tema");
   },
   beforeUnmount() {
-    this.choicesJenis.destroy();
+    this.choicesTema.destroy();
   },
   methods: {
-    ...mapActions(d$wilayah, ["a$addKecamatan"]),
+    ...mapActions(d$wilayah, ["a$addKecamatan", "a$listKabupaten"]),
+    ...mapActions(d$tema, ["a$listTema"]),
+
+    async getListTemaRegistered() {
+      try {
+        this.listKabupatenTerdaftar = [];
+        // this.choicesTema.clearChoices();
+        await this.a$listTema();
+        await this.g$listTemaActive.forEach((tema) => {
+          this.getListKabupaten(tema.id_tema, tema.nama);
+        });
+      } catch (error) {
+        console.log(error);
+      }
+    },
+
+    async getListKabupaten(id_tema, nama_tema) {
+      try {
+        let temaData = {
+          nama_tema,
+        };
+        await this.a$listKabupaten(id_tema, this.g$infoUser.id_bappeda);
+        await this.g$listKabupaten.forEach((kabupaten) => {
+          let newData = {
+            ...kabupaten,
+            ...temaData,
+          };
+          this.listKabupatenTerdaftar.push(newData);
+        });
+        this.setChoices(this.choicesTema, this.listKabupatenTerdaftar);
+      } catch (error) {
+        console.log(error);
+      }
+    },
+
+    setChoices(choices, option) {
+      if (choices) {
+        choices.clearChoices();
+        let newOption = [];
+        option.forEach((item) => {
+          newOption.push({
+            value: Object.values(item)[0],
+            label: item.nama_tema,
+          });
+        });
+        choices.setChoices(newOption);
+      }
+    },
 
     getChoices(id) {
       if (document.getElementById(id)) {
@@ -222,6 +276,15 @@ export default {
       }
 
       // validation
+      if (
+        !this.input.id_tema ||
+        this.input.id_tema === "" ||
+        this.input.id_tema === "0"
+      ) {
+        this.showSwal("failed-message", "Tema tidak boleh kosong!");
+        return;
+      }
+
       var potensiEditor = document.getElementById("potensi-editor");
       var potensiValidation = document.getElementById("potensi-validation");
       var potensiRow = document.getElementById("potensi-row");
@@ -238,13 +301,14 @@ export default {
         potensiRow.classList.remove("pb-7");
 
         var data = {
-          id_periode: parseInt(this.input.id_periode),
+          id_kabupaten: parseInt(this.input.id_tema),
           nama: this.input.kecamatan,
           desa: this.input.desa,
           potensi: this.input.potensi,
         };
 
         try {
+          console.log(data);
           await this.a$addKecamatan(data);
           this.$router.push({ name: "Pengajuan Lokasi" });
           this.showSwal(

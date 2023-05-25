@@ -5,6 +5,7 @@ const d$tema = defineStore("temaStore", {
   id: "tema",
   state: () => ({
     listTema: [],
+    listTemaActive: [],
     status: null,
   }),
   actions: {
@@ -12,6 +13,12 @@ const d$tema = defineStore("temaStore", {
       try {
         const { data, status } = await s$tema.listTema();
         this.listTema = data ?? [];
+        this.listTemaActive = [];
+        data.forEach((tema) => {
+          if (tema.status) {
+            this.listTemaActive.push(tema);
+          }
+        });
         this.status = status;
       } catch ({ message, error }) {
         this.status = false;
@@ -41,6 +48,7 @@ const d$tema = defineStore("temaStore", {
   },
   getters: {
     g$listTema: ({ listTema }) => listTema,
+    g$listTemaActive: ({ listTemaActive }) => listTemaActive,
   },
 });
 

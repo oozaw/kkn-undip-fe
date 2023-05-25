@@ -29,6 +29,7 @@ const d$wilayah = defineStore("wilayahStore", {
     async a$listAllKabupaten(id_tema) {
       try {
         const { data, status } = await s$wilayah.listAllWilayah(id_tema);
+        this.listKabupaten = data ?? [];
         var dataKecamatan = [];
         data.forEach((kab) => {
           var namaKabupatenObject = {
