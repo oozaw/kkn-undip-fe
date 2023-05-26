@@ -8,9 +8,9 @@ const d$proposal = defineStore("proposalStore", {
     listProposal: [],
   }),
   actions: {
-    async a$listProposal() {
+    async a$listProposal(id_tema) {
       try {
-        const { data, status } = await s$proposal.listProposal();
+        const { data, status } = await s$proposal.listProposal(id_tema);
         this.listProposal = data ?? [];
         this.status = status;
       } catch (error) {

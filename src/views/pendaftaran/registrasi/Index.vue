@@ -4,6 +4,32 @@
       <div class="col-lg-12 mt-lg-0 mt-4">
         <header-profile-card />
         <div class="bg-white card mt-4">
+          <div class="card-header pb-0 pt-3">
+            <p class="font-weight-bold text-dark mb-2">
+              Pilih Tema KKN Terdaftar
+            </p>
+          </div>
+          <div class="pb-3 pt-0 card-body">
+            <div class="col-12 align-self-center">
+              <select
+                id="choices-tema"
+                class="form-control"
+                name="choices-tema"
+                v-model="tema"
+                @change="getListGelombangAndProposal()"
+              >
+                <option
+                  v-for="tema in g$listTemaActive"
+                  :key="tema.id_tema"
+                  :value="tema.id_tema"
+                >
+                  {{ tema.nama }}
+                </option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="bg-white card mt-4">
           <!-- Card header -->
           <div class="pb-0 card-header">
             <div class="d-lg-flex">
@@ -13,149 +39,52 @@
                   Registrasi KKN, Submit Proposal, Daftar Lokasi
                 </p>
               </div>
-              <!-- <div class="my-auto mt-4 ms-auto mt-lg-0">
-                <div class="my-auto ms-auto">
-                  <router-link
-                    class="mb-0 btn bg-gradient-success btn-sm"
-                    :to="{ name: 'Tambah Registrasi' }"
-                    >+&nbsp; Tambah Data Registrasi
-                  </router-link>
-                </div>
-              </div> -->
             </div>
           </div>
           <div class="ms-2 pt-1 px-0 pb-0 card-body">
-            <div class="table-responsive">
+            <div class="table-responsive" :key="indexComponent">
               <table id="registrasi-list" class="table table-flush">
                 <thead class="thead-light">
                   <tr>
                     <th class="col-1">No.</th>
                     <th>Wilayah KKN</th>
-                    <th>Jenis</th>
                     <th>Periode</th>
+                    <th>Proposal</th>
                     <th>Status</th>
                     <th>Action</th>
                   </tr>
                 </thead>
                 <tbody>
-                  <tr>
-                    <td class="text-sm">1</td>
+                  <tr
+                    v-for="(proposal, index) in g$listProposal"
+                    :key="proposal.id_proposal"
+                  >
+                    <td class="text-sm">{{ index + 1 }}</td>
                     <td>
-                      <h6 class="my-auto">Desa Bergas, Kecamatan Bergas</h6>
+                      <h6 class="my-auto">{{ proposal.nama_kecamatan }}</h6>
                     </td>
-                    <td class="text-sm">Reguler Tim I</td>
-                    <td class="text-sm">2022/2023</td>
-                    <td class="text-sm">
-                      <span class="badge badge-success">Diterima</span>
-                    </td>
+                    <td class="text-sm">{{ proposal.periode }}</td>
                     <td class="text-sm">
                       <a
-                        href="javascript:;"
-                        data-bs-toggle="tooltip"
-                        data-bs-original-title="Preview product"
+                        :id="proposal.id_dokumen"
+                        type="button"
+                        class="mb-0 text-primary proposal-download"
                       >
-                        <i class="fas fa-eye text-info"></i>
+                        Download
                       </a>
-                      <a
-                        href="javascript:;"
-                        class="mx-3"
-                        data-bs-toggle="tooltip"
-                        data-bs-original-title="Edit product"
-                      >
-                        <i class="fas fa-user-edit text-primary"></i>
-                      </a>
-                      <a
-                        href="javascript:;"
-                        data-bs-toggle="tooltip"
-                        data-bs-original-title="Delete product"
-                      >
-                        <i class="fas fa-trash text-danger"></i>
-                      </a>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td class="text-sm">2</td>
-                    <td>
-                      <h6 class="my-auto">Desa Hankaf, Kecamatan Hankaf</h6>
-                    </td>
-                    <td class="text-sm">Reguler Tim II</td>
-                    <td class="text-sm">2022/2023</td>
-                    <td class="text-sm">
-                      <span class="badge badge-danger">Ditolak</span>
                     </td>
                     <td class="text-sm">
-                      <a
-                        href="javascript:;"
-                        data-bs-toggle="tooltip"
-                        data-bs-original-title="Preview product"
+                      <span
+                        v-if="proposal.status === 1"
+                        class="badge badge-success"
+                        >Diterima</span
                       >
-                        <i class="fas fa-eye text-info"></i>
-                      </a>
-                      <a
-                        href="javascript:;"
-                        class="mx-3"
-                        data-bs-toggle="tooltip"
-                        data-bs-original-title="Edit product"
+                      <span
+                        v-if="proposal.status === 0"
+                        class="badge badge-secondary"
+                        >Sedang Diproses</span
                       >
-                        <i class="fas fa-user-edit text-primary"></i>
-                      </a>
-                      <a
-                        href="javascript:;"
-                        data-bs-toggle="tooltip"
-                        data-bs-original-title="Delete product"
-                      >
-                        <i class="fas fa-trash text-danger"></i>
-                      </a>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td class="text-sm">3</td>
-                    <td>
-                      <h6 class="my-auto">
-                        Desa Gunungmas, Kecamatan Gunungmas
-                      </h6>
-                    </td>
-                    <td class="text-sm">Reguler Tim I</td>
-                    <td class="text-sm">2022/2023</td>
-                    <td class="text-sm">
-                      <span class="badge badge-secondary">Ditunda</span>
-                    </td>
-                    <td class="text-sm">
-                      <a
-                        href="javascript:;"
-                        data-bs-toggle="tooltip"
-                        data-bs-original-title="Preview product"
-                      >
-                        <i class="fas fa-eye text-info"></i>
-                      </a>
-                      <a
-                        href="javascript:;"
-                        class="mx-3"
-                        data-bs-toggle="tooltip"
-                        data-bs-original-title="Edit product"
-                      >
-                        <i class="fas fa-user-edit text-primary"></i>
-                      </a>
-                      <a
-                        href="javascript:;"
-                        data-bs-toggle="tooltip"
-                        data-bs-original-title="Delete product"
-                      >
-                        <i class="fas fa-trash text-danger"></i>
-                      </a>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td class="text-sm">4</td>
-                    <td>
-                      <h6 class="my-auto">
-                        Desa Jatimulyo, Kecamatan Jatimulyo
-                      </h6>
-                    </td>
-                    <td class="text-sm">Tematik</td>
-                    <td class="text-sm">2022/2023</td>
-                    <td class="text-sm">
-                      <span class="badge badge-success">Diterima</span>
+                      <span v-else class="badge badge-danger">Ditolak</span>
                     </td>
                     <td class="text-sm">
                       <a
@@ -187,7 +116,6 @@
                   <tr>
                     <th class="col-1">No.</th>
                     <th>Wilayah KKN</th>
-                    <th>Jenis</th>
                     <th>Periode</th>
                     <th>Status</th>
                     <th>Action</th>
@@ -197,33 +125,9 @@
             </div>
           </div>
         </div>
-        <div class="bg-white card mt-4">
-          <div class="card-header pb-0 pt-3">
-            <p class="font-weight-bold text-dark mb-2">
-              Pilih Tema KKN Terdaftar
-            </p>
-          </div>
-          <div class="pb-3 pt-0 card-body">
-            <div class="col-12 align-self-center">
-              <select
-                id="choices-tema"
-                class="form-control"
-                name="choices-tema"
-                v-model="tema"
-                @change="getListGelombang()"
-              >
-                <option value="1" selected>KKN Reguler Tim I</option>
-                <option value="2">
-                  KKN Tematik Pengurangan Risiko Bencana Berbasis Partisipasi
-                  Masyarakat dan Komunitas
-                </option>
-              </select>
-            </div>
-          </div>
-        </div>
-        <div id="card-section" class="row pe-0" :key="indexComponent">
+        <div id="card-section" class="row" :key="indexComponent">
           <div
-            class="col-lg-6 pe-0"
+            class="col-lg-6"
             v-for="gel in listGelombang"
             :key="gel.id_gelombang"
           >
@@ -261,6 +165,7 @@
 </template>
 
 <script>
+import $ from "jquery";
 import Choices from "choices.js";
 import { DataTable } from "simple-datatables";
 import setTooltip from "@/assets/js/tooltip.js";
@@ -269,6 +174,8 @@ import GelombangCard from "@/views/dashboards/components/Cards/GelombangCard.vue
 import { mapActions, mapState } from "pinia";
 import d$proposal from "@/store/proposal";
 import d$gelombang from "@/store/gelombang";
+import d$tema from "@/store/tema";
+import d$dokumen from "@/store/dokumen";
 
 export default {
   name: "IndexRegistrasiKKN",
@@ -287,22 +194,33 @@ export default {
   computed: {
     ...mapState(d$proposal, ["g$listProposal"]),
     ...mapState(d$gelombang, ["g$listGelombang"]),
+    ...mapState(d$tema, ["g$listTemaActive"]),
+    ...mapState(d$dokumen, ["g$dokumenLink"]),
   },
-  mounted() {
-    // this.a$listProposal();
-    this.getListGelombang();
+  async created() {
+    await this.a$listTema();
+    this.tema = this.g$listTemaActive[0].id_tema;
+    this.getListGelombangAndProposal();
 
-    this.setupDataTable();
+    this.choicesTema = this.getChoices("choices-tema");
 
     setTooltip(this.$store.state.bootstrap);
+  },
+  beforeUnmount() {
+    if (this.choicesTema) this.choicesTema.destroy();
   },
   methods: {
     ...mapActions(d$proposal, ["a$listProposal"]),
     ...mapActions(d$gelombang, ["a$listGelombang"]),
+    ...mapActions(d$tema, ["a$listTema"]),
+    ...mapActions(d$dokumen, ["a$getDokumenLink"]),
 
-    async getListGelombang() {
+    async getListGelombangAndProposal() {
       this.indexComponent++;
       this.tema = parseInt(this.tema);
+
+      await this.getListProposal(this.tema);
+
       this.listGelombang = [];
       if (this.tema === 1) {
         this.listGelombang.push(
@@ -361,8 +279,6 @@ export default {
 
       this.listGelombang = newListGelombang;
 
-      console.log(this.listGelombang);
-
       // try {
       //   await this.a$listGelombang(this.tema);
       // } catch (error) {
@@ -372,6 +288,21 @@ export default {
       //   );
       //   console.log(error);
       // }
+    },
+
+    async getListProposal(id_tema) {
+      try {
+        await this.a$listProposal(id_tema);
+      } catch (error) {
+        this.showSwal(
+          "failed-message",
+          error ?? "Terjadi kesalahan saat memuat data"
+        );
+        console.log(error);
+      }
+
+      this.setupDataTable();
+      this.setupTableAction();
     },
 
     showSwal(type, text) {
@@ -420,7 +351,7 @@ export default {
       var element = document.getElementById(id);
       if (element) {
         return new Choices(element, {
-          searchEnabled: false,
+          searchEnabled: true,
           allowHTML: true,
         });
       }
@@ -451,6 +382,15 @@ export default {
           });
         });
       }
+    },
+
+    setupTableAction() {
+      let outerThis = this;
+      $("#registrasi-list").on("click", `.proposal-download`, function (e) {
+        let proposal = this;
+        outerThis.a$getDokumenLink(proposal.id).then((res) => window.open(res));
+        e.preventDefault();
+      });
     },
   },
 };

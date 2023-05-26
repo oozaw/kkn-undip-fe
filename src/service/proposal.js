@@ -2,7 +2,7 @@ import { baseApi } from "@/utils/axios";
 
 const api = `/`;
 
-const listProposal = () => baseApi.get(`${api}/proposal`);
+const listProposal = (id_tema) => baseApi.get(`${api}proposal/${id_tema}`);
 
 const addProposal = (body) =>
   baseApi.post(`${api}dosen/proposal`, body, {
