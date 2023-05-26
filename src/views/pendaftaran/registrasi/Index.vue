@@ -56,7 +56,7 @@
                 </thead>
                 <tbody>
                   <tr
-                    v-for="(proposal, index) in g$listProposal"
+                    v-for="(proposal, index) in listProposalDosen"
                     :key="proposal.id_proposal"
                   >
                     <td class="text-sm">{{ index + 1 }}</td>
@@ -176,6 +176,7 @@ import d$proposal from "@/store/proposal";
 import d$gelombang from "@/store/gelombang";
 import d$tema from "@/store/tema";
 import d$dokumen from "@/store/dokumen";
+import d$auth from "@/store/auth";
 
 export default {
   name: "IndexRegistrasiKKN",
@@ -189,9 +190,11 @@ export default {
       choicesTema: undefined,
       indexComponent: 0,
       listGelombang: [],
+      listProposalDosen: [],
     };
   },
   computed: {
+    ...mapState(d$auth, ["g$infoUser"]),
     ...mapState(d$proposal, ["g$listProposal"]),
     ...mapState(d$gelombang, ["g$listGelombang"]),
     ...mapState(d$tema, ["g$listTemaActive"]),
@@ -293,6 +296,11 @@ export default {
     async getListProposal(id_tema) {
       try {
         await this.a$listProposal(id_tema);
+        this.listProposalDosen = [];
+        await this.g$listProposal.forEach((proposal) => {
+          if (proposal.id_dosen === this.g$infoUser.id_dosen)
+            this.listProposalDosen.push(proposal);
+        });
       } catch (error) {
         this.showSwal(
           "failed-message",
@@ -374,9 +382,9 @@ export default {
               filename: "Data Registrasi Dosen",
             };
 
-            if (type === "csv") {
-              data.columnDelimiter = "|";
-            }
+            // if (type === "csv") {
+            //   data.columnDelimiter = "|";
+            // }
 
             dataTableSearch.export(data);
           });
