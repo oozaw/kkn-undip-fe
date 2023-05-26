@@ -178,6 +178,7 @@
                     <td class="text-sm">2022/2023</td>
                     <td>
                       <span
+                        id="delete-product"
                         v-if="gelombang.status"
                         class="badge badge-sm badge-success"
                       >
@@ -214,9 +215,10 @@
                       </a>
                       <a
                         v-if="gelombang.status"
-                        :id="'non-aktif-' + gelombang.id_gelombang"
-                        class="me-3"
-                        href=""
+                        :id="gelombang.id_gelombang"
+                        :name="gelombang.nama"
+                        class="me-3 non-aktif"
+                        href="#"
                         data-bs-toggle="tooltip"
                         data-bs-original-title="Non-aktifkan gelombang"
                         title="Non-aktifkan gelombang"
@@ -229,9 +231,10 @@
                       </a>
                       <a
                         v-else
-                        :id="'aktif-' + gelombang.id_gelombang"
-                        class="me-3"
-                        href=""
+                        :id="gelombang.id_gelombang"
+                        :name="gelombang.nama"
+                        class="me-3 aktif"
+                        href="#"
                         data-bs-toggle="tooltip"
                         data-bs-original-title="Aktifkan gelombang"
                         title="Aktifkan gelombang"
@@ -265,6 +268,7 @@
 </template>
 
 <script>
+import $ from "jquery";
 import Choices from "choices.js";
 import { DataTable } from "simple-datatables";
 import setTooltip from "@/assets/js/tooltip.js";
@@ -286,6 +290,7 @@ export default {
       choicesTema: undefined,
       choicesTemaModal: undefined,
       choicesHalamanModal: undefined,
+      dataTable: undefined,
       body: {
         // id_tema: "",
         id_halaman: "",
@@ -383,34 +388,26 @@ export default {
     },
 
     setupTableAction() {
-      this.g$listGelombang.forEach((gelombang) => {
-        if (document.getElementById(`aktif-${gelombang.id_gelombang}`)) {
-          document
-            .getElementById(`aktif-${gelombang.id_gelombang}`)
-            .addEventListener("click", (e) => {
-              this.showSwal(
-                "warning-confirmation",
-                `Mengaktifkan gelombang ${gelombang.nama}?`,
-                "Berhasil memperbarui data",
-                gelombang.id_gelombang
-              );
-              e.preventDefault();
-            });
-        }
-
-        if (document.getElementById(`non-aktif-${gelombang.id_gelombang}`)) {
-          document
-            .getElementById(`non-aktif-${gelombang.id_gelombang}`)
-            .addEventListener("click", (e) => {
-              this.showSwal(
-                "warning-confirmation",
-                `Menonaktifkan gelombang ${gelombang.nama}?`,
-                "Berhasil memperbarui data",
-                gelombang.id_gelombang
-              );
-              e.preventDefault();
-            });
-        }
+      let outerThis = this;
+      $("#gelombang-list").on("click", `.aktif`, function (e) {
+        let gelombang = this;
+        outerThis.showSwal(
+          "warning-confirmation",
+          `Mengaktifkan gelombang ${gelombang.name}?`,
+          "Berhasil memperbarui data",
+          gelombang.id
+        );
+        e.preventDefault();
+      });
+      $("#gelombang-list").on("click", `.non-aktif`, function (e) {
+        let gelombang = this;
+        outerThis.showSwal(
+          "warning-confirmation",
+          `Menonaktifkan gelombang ${gelombang.name}?`,
+          "Berhasil memperbarui data",
+          gelombang.id
+        );
+        e.preventDefault();
       });
     },
 
@@ -438,6 +435,8 @@ export default {
             dataTableSearch.export(data);
           });
         });
+
+        this.dataTable = dataTableSearch;
       }
     },
 

@@ -181,9 +181,10 @@
                       </a>
                       <a
                         v-if="halaman.status"
-                        :id="'non-aktif-' + halaman.id_halaman"
-                        class="me-3"
-                        href=""
+                        :id="halaman.id_halaman"
+                        :name="halaman.nama"
+                        class="me-3 non-aktif"
+                        href="#"
                         data-bs-toggle="tooltip"
                         data-bs-original-title="Non-aktifkan halaman"
                         title="Non-aktifkan halaman"
@@ -196,9 +197,10 @@
                       </a>
                       <a
                         v-else
-                        :id="'aktif-' + halaman.id_halaman"
-                        class="me-3"
-                        href=""
+                        :id="halaman.id_halaman"
+                        :name="halaman.nama"
+                        class="me-3 aktif"
+                        href="#"
                         data-bs-toggle="tooltip"
                         data-bs-original-title="Aktifkan halaman"
                         title="Aktifkan halaman"
@@ -232,6 +234,7 @@
 </template>
 
 <script>
+import $ from "jquery";
 import { DataTable } from "simple-datatables";
 import Choices from "choices.js";
 import setTooltip from "@/assets/js/tooltip.js";
@@ -328,6 +331,27 @@ export default {
     },
 
     setupTableAction() {
+      let outerThis = this;
+      $("#halaman-list").on("click", `.aktif`, function (e) {
+        let halaman = this;
+        outerThis.showSwal(
+          "warning-confirmation",
+          `Mengaktifkan halaman ${halaman.name}?`,
+          "Berhasil memperbarui data",
+          halaman.id
+        );
+        e.preventDefault();
+      });
+      $("#halaman-list").on("click", `.non-aktif`, function (e) {
+        let halaman = this;
+        outerThis.showSwal(
+          "warning-confirmation",
+          `Menonaktifkan halaman ${halaman.name}?`,
+          "Berhasil memperbarui data",
+          halaman.id
+        );
+        e.preventDefault();
+      });
       this.g$listHalaman.forEach((halaman) => {
         if (document.getElementById(`aktif-${halaman.id_halaman}`)) {
           document

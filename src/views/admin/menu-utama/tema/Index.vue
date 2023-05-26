@@ -157,9 +157,10 @@
                       </a>
                       <a
                         v-if="tema.status"
-                        :id="'non-aktif-' + tema.id_tema"
-                        class="me-3"
-                        href=""
+                        :id="tema.id_tema"
+                        :name="tema.nama"
+                        class="me-3 non-aktif"
+                        href="#"
                         data-bs-toggle="tooltip"
                         data-bs-original-title="Non-aktifkan Tema"
                         title="Non-aktifkan Tema"
@@ -172,9 +173,10 @@
                       </a>
                       <a
                         v-else
-                        :id="'aktif-' + tema.id_tema"
-                        class="me-3"
-                        href=""
+                        :id="tema.id_tema"
+                        :name="tema.nama"
+                        class="me-3 aktif"
+                        href="#"
                         data-bs-toggle="tooltip"
                         data-bs-original-title="Aktifkan Tema"
                         title="Aktifkan Tema"
@@ -209,6 +211,7 @@
 </template>
 
 <script>
+import $ from "jquery";
 import { DataTable } from "simple-datatables";
 import setTooltip from "@/assets/js/tooltip.js";
 import HeaderProfileCard from "@/views/dashboards/components/HeaderProfileCard.vue";
@@ -268,34 +271,26 @@ export default {
     },
 
     setupTableAction() {
-      this.g$listTema.forEach((tema) => {
-        if (document.getElementById(`aktif-${tema.id_tema}`)) {
-          document
-            .getElementById(`aktif-${tema.id_tema}`)
-            .addEventListener("click", (e) => {
-              this.showSwal(
-                "warning-confirmation",
-                `Mengaktifkan tema ${tema.nama}?`,
-                "Berhasil memperbarui data",
-                tema.id_tema
-              );
-              e.preventDefault();
-            });
-        }
-
-        if (document.getElementById(`non-aktif-${tema.id_tema}`)) {
-          document
-            .getElementById(`non-aktif-${tema.id_tema}`)
-            .addEventListener("click", (e) => {
-              this.showSwal(
-                "warning-confirmation",
-                `Menonaktifkan tema ${tema.nama}?`,
-                "Berhasil memperbarui data",
-                tema.id_tema
-              );
-              e.preventDefault();
-            });
-        }
+      let outerThis = this;
+      $("#kkn-list").on("click", `.aktif`, function (e) {
+        let tema = this;
+        outerThis.showSwal(
+          "warning-confirmation",
+          `Mengaktifkan tema ${tema.name}?`,
+          "Berhasil memperbarui data",
+          tema.id
+        );
+        e.preventDefault();
+      });
+      $("#kkn-list").on("click", `.non-aktif`, function (e) {
+        let tema = this;
+        outerThis.showSwal(
+          "warning-confirmation",
+          `Menonaktifkan tema ${tema.name}?`,
+          "Berhasil memperbarui data",
+          tema.id
+        );
+        e.preventDefault();
       });
     },
 

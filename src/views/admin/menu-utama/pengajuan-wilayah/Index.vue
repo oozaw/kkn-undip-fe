@@ -150,8 +150,9 @@
                         <i class="fas fa-trash text-danger"></i>
                       </a>
                       <a
-                        :id="'tolak-' + kec.id_kecamatan"
-                        class="me-3"
+                        :id="kec.id_kecamatan"
+                        :name="kec.nama"
+                        class="me-3 tolak"
                         href=""
                         data-bs-toggle="tooltip"
                         data-bs-original-title="Tolak Kecamatan"
@@ -177,8 +178,9 @@
                         />
                       </a> -->
                       <a
-                        :id="'terima-' + kec.id_kecamatan"
-                        class="me-3"
+                        :id="kec.id_kecamatan"
+                        :name="kec.nama"
+                        class="me-3 terima"
                         href=""
                         data-bs-toggle="tooltip"
                         data-bs-original-title="Terima Kecamatan"
@@ -192,538 +194,6 @@
                       </a>
                     </td>
                   </tr>
-                  <!-- <tr>
-                    <td class="text-sm ps-3">2</td>
-                    <td class="ms-0 px-0">
-                      <h6 class="my-auto">Kecamatan 2</h6>
-                    </td>
-                    <td class="text-sm">7</td>
-                    <td class="text-sm">Kota Semarang</td>
-                    <td class="text-sm">
-                      <a
-                        type="button"
-                        class="mb-0 text-primary"
-                        data-bs-toggle="modal"
-                        data-bs-target="#lokasi-kkn"
-                      >
-                        Lihat
-                      </a>
-                      <div
-                        id="lokasi-kkn"
-                        class="modal fade"
-                        tabindex="-1"
-                        aria-hidden="true"
-                      >
-                        <div class="modal-dialog mt-lg-10">
-                          <div class="modal-content">
-                            <div class="modal-header">
-                              <h5 id="ModalLabel" class="modal-title">
-                                Potensi Kecamatan .......
-                              </h5>
-                              <button
-                                type="button"
-                                class="btn-close text-dark mb-0"
-                                data-bs-dismiss="modal"
-                                aria-label="Close"
-                              >
-                                <font-awesome-icon icon="fa-solid fa-xmark" />
-                              </button>
-                            </div>
-                            <div class="modal-body">
-                              <p>
-                                Silahkan cari dan pilih file excel berisi data
-                                mahasiswa
-                              </p>
-                              <input
-                                type="file"
-                                placeholder="Browse file..."
-                                class="mb-1 form-control"
-                              />
-                              <div>
-                                <small class="text-danger text-sm-start">
-                                  <i class="fas fa-info-circle"></i>
-                                  File yang diizinkan hanya file excel dengan
-                                  ekstensi .xls atau .xlsx
-                                </small>
-                              </div>
-                            </div>
-                            <div class="modal-footer">
-                              <button
-                                type="button"
-                                class="btn bg-gradient-secondary btn-sm"
-                                data-bs-dismiss="modal"
-                              >
-                                Batal
-                              </button>
-                              <button
-                                type="button"
-                                class="btn bg-gradient-success btn-sm"
-                              >
-                                Unggah
-                              </button>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </td>
-                    <td class="text-sm">
-                      <span class="badge badge-success">Diterima</span>
-                    </td>
-                    <td class="text-sm">
-                      <a
-                        class="me-2"
-                        href="javascript:;"
-                        data-bs-toggle="tooltip"
-                        data-bs-original-title="Detail Kecamatan"
-                        title="Detail"
-                      >
-                        <i class="fas fa-eye text-info"></i>
-                      </a>
-                      <a
-                        class="me-2"
-                        href="javascript:;"
-                        data-bs-toggle="tooltip"
-                        data-bs-original-title="Delete product"
-                      >
-                        <i class="fas fa-trash text-danger"></i>
-                      </a>
-                      <a
-                        class="me-2"
-                        href="javascript:;"
-                        data-bs-toggle="tooltip"
-                        data-bs-original-title="Delete product"
-                      >
-                        <font-awesome-icon
-                          class="text-danger"
-                          icon="fa-solid fa-square-xmark"
-                          size="xl"
-                        />
-                      </a>
-                      <a
-                        class="me-2"
-                        href="javascript:;"
-                        data-bs-toggle="tooltip"
-                        data-bs-original-title="Delete product"
-                      >
-                        <font-awesome-icon
-                          class="text-warning"
-                          icon="fa-solid fa-square-minus"
-                          size="xl"
-                        />
-                      </a>
-                      <a
-                        class="me-2"
-                        href="javascript:;"
-                        data-bs-toggle="tooltip"
-                        data-bs-original-title="Delete product"
-                      >
-                        <font-awesome-icon
-                          class="text-success"
-                          icon="fa-solid fa-square-check"
-                          size="xl"
-                        />
-                      </a>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td class="text-sm ps-3">3</td>
-                    <td class="ms-0 px-0">
-                      <h6 class="my-auto">Kecamatan 3</h6>
-                    </td>
-                    <td class="text-sm">8</td>
-                    <td class="text-sm">Kota Semarang</td>
-                    <td class="text-sm">
-                      <a
-                        type="button"
-                        class="mb-0 text-primary"
-                        data-bs-toggle="modal"
-                        data-bs-target="#lokasi-kkn"
-                      >
-                        Lihat
-                      </a>
-                      <div
-                        id="lokasi-kkn"
-                        class="modal fade"
-                        tabindex="-1"
-                        aria-hidden="true"
-                      >
-                        <div class="modal-dialog mt-lg-10">
-                          <div class="modal-content">
-                            <div class="modal-header">
-                              <h5 id="ModalLabel" class="modal-title">
-                                Potensi Kecamatan .......
-                              </h5>
-                              <button
-                                type="button"
-                                class="btn-close text-dark mb-0"
-                                data-bs-dismiss="modal"
-                                aria-label="Close"
-                              >
-                                <font-awesome-icon icon="fa-solid fa-xmark" />
-                              </button>
-                            </div>
-                            <div class="modal-body">
-                              <p>
-                                Silahkan cari dan pilih file excel berisi data
-                                mahasiswa
-                              </p>
-                              <input
-                                type="file"
-                                placeholder="Browse file..."
-                                class="mb-1 form-control"
-                              />
-                              <div>
-                                <small class="text-danger text-sm-start">
-                                  <i class="fas fa-info-circle"></i>
-                                  File yang diizinkan hanya file excel dengan
-                                  ekstensi .xls atau .xlsx
-                                </small>
-                              </div>
-                            </div>
-                            <div class="modal-footer">
-                              <button
-                                type="button"
-                                class="btn bg-gradient-secondary btn-sm"
-                                data-bs-dismiss="modal"
-                              >
-                                Batal
-                              </button>
-                              <button
-                                type="button"
-                                class="btn bg-gradient-success btn-sm"
-                              >
-                                Unggah
-                              </button>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </td>
-                    <td class="text-sm">
-                      <span class="badge badge-danger">Ditolak</span>
-                    </td>
-                    <td class="text-sm">
-                      <a
-                        class="me-2"
-                        href="javascript:;"
-                        data-bs-toggle="tooltip"
-                        data-bs-original-title="Detail Kecamatan"
-                        title="Detail"
-                      >
-                        <i class="fas fa-eye text-info"></i>
-                      </a>
-                      <a
-                        class="me-2"
-                        href="javascript:;"
-                        data-bs-toggle="tooltip"
-                        data-bs-original-title="Delete product"
-                      >
-                        <i class="fas fa-trash text-danger"></i>
-                      </a>
-                      <a
-                        class="me-2"
-                        href="javascript:;"
-                        data-bs-toggle="tooltip"
-                        data-bs-original-title="Delete product"
-                      >
-                        <font-awesome-icon
-                          class="text-danger"
-                          icon="fa-solid fa-square-xmark"
-                          size="xl"
-                        />
-                      </a>
-                      <a
-                        class="me-2"
-                        href="javascript:;"
-                        data-bs-toggle="tooltip"
-                        data-bs-original-title="Delete product"
-                      >
-                        <font-awesome-icon
-                          class="text-warning"
-                          icon="fa-solid fa-square-minus"
-                          size="xl"
-                        />
-                      </a>
-                      <a
-                        class="me-2"
-                        href="javascript:;"
-                        data-bs-toggle="tooltip"
-                        data-bs-original-title="Delete product"
-                      >
-                        <font-awesome-icon
-                          class="text-success"
-                          icon="fa-solid fa-square-check"
-                          size="xl"
-                        />
-                      </a>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td class="text-sm ps-3">4</td>
-                    <td class="ms-0 px-0">
-                      <h6 class="my-auto">Kecamatan 4</h6>
-                    </td>
-                    <td class="text-sm">9</td>
-                    <td class="text-sm">Kota Semarang</td>
-                    <td class="text-sm">
-                      <a
-                        type="button"
-                        class="mb-0 text-primary"
-                        data-bs-toggle="modal"
-                        data-bs-target="#lokasi-kkn"
-                      >
-                        Lihat
-                      </a>
-                      <div
-                        id="lokasi-kkn"
-                        class="modal fade"
-                        tabindex="-1"
-                        aria-hidden="true"
-                      >
-                        <div class="modal-dialog mt-lg-10">
-                          <div class="modal-content">
-                            <div class="modal-header">
-                              <h5 id="ModalLabel" class="modal-title">
-                                Potensi Kecamatan .......
-                              </h5>
-                              <button
-                                type="button"
-                                class="btn-close text-dark mb-0"
-                                data-bs-dismiss="modal"
-                                aria-label="Close"
-                              >
-                                <font-awesome-icon icon="fa-solid fa-xmark" />
-                              </button>
-                            </div>
-                            <div class="modal-body">
-                              <p>
-                                Silahkan cari dan pilih file excel berisi data
-                                mahasiswa
-                              </p>
-                              <input
-                                type="file"
-                                placeholder="Browse file..."
-                                class="mb-1 form-control"
-                              />
-                              <div>
-                                <small class="text-danger text-sm-start">
-                                  <i class="fas fa-info-circle"></i>
-                                  File yang diizinkan hanya file excel dengan
-                                  ekstensi .xls atau .xlsx
-                                </small>
-                              </div>
-                            </div>
-                            <div class="modal-footer">
-                              <button
-                                type="button"
-                                class="btn bg-gradient-secondary btn-sm"
-                                data-bs-dismiss="modal"
-                              >
-                                Batal
-                              </button>
-                              <button
-                                type="button"
-                                class="btn bg-gradient-success btn-sm"
-                              >
-                                Unggah
-                              </button>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </td>
-                    <td class="text-sm">
-                      <span class="badge badge-success">Diterima</span>
-                    </td>
-                    <td class="text-sm">
-                      <a
-                        class="me-2"
-                        href="javascript:;"
-                        data-bs-toggle="tooltip"
-                        data-bs-original-title="Detail Kecamatan"
-                        title="Detail"
-                      >
-                        <i class="fas fa-eye text-info"></i>
-                      </a>
-                      <a
-                        class="me-2"
-                        href="javascript:;"
-                        data-bs-toggle="tooltip"
-                        data-bs-original-title="Delete product"
-                      >
-                        <i class="fas fa-trash text-danger"></i>
-                      </a>
-                      <a
-                        class="me-2"
-                        href="javascript:;"
-                        data-bs-toggle="tooltip"
-                        data-bs-original-title="Delete product"
-                      >
-                        <font-awesome-icon
-                          class="text-danger"
-                          icon="fa-solid fa-square-xmark"
-                          size="xl"
-                        />
-                      </a>
-                      <a
-                        class="me-2"
-                        href="javascript:;"
-                        data-bs-toggle="tooltip"
-                        data-bs-original-title="Delete product"
-                      >
-                        <font-awesome-icon
-                          class="text-warning"
-                          icon="fa-solid fa-square-minus"
-                          size="xl"
-                        />
-                      </a>
-                      <a
-                        class="me-2"
-                        href="javascript:;"
-                        data-bs-toggle="tooltip"
-                        data-bs-original-title="Delete product"
-                      >
-                        <font-awesome-icon
-                          class="text-success"
-                          icon="fa-solid fa-square-check"
-                          size="xl"
-                        />
-                      </a>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td class="text-sm ps-3">5</td>
-                    <td class="ms-0 px-0">
-                      <h6 class="my-auto">Kecamatan 5</h6>
-                    </td>
-                    <td class="text-sm">6</td>
-                    <td class="text-sm">Kota Semarang</td>
-                    <td class="text-sm">
-                      <a
-                        type="button"
-                        class="mb-0 text-primary"
-                        data-bs-toggle="modal"
-                        data-bs-target="#lokasi-kkn"
-                      >
-                        Lihat
-                      </a>
-                      <div
-                        id="lokasi-kkn"
-                        class="modal fade"
-                        tabindex="-1"
-                        aria-hidden="true"
-                      >
-                        <div class="modal-dialog mt-lg-10">
-                          <div class="modal-content">
-                            <div class="modal-header">
-                              <h5 id="ModalLabel" class="modal-title">
-                                Potensi Kecamatan .......
-                              </h5>
-                              <button
-                                type="button"
-                                class="btn-close text-dark mb-0"
-                                data-bs-dismiss="modal"
-                                aria-label="Close"
-                              >
-                                <font-awesome-icon icon="fa-solid fa-xmark" />
-                              </button>
-                            </div>
-                            <div class="modal-body">
-                              <p>
-                                Silahkan cari dan pilih file excel berisi data
-                                mahasiswa
-                              </p>
-                              <input
-                                type="file"
-                                placeholder="Browse file..."
-                                class="mb-1 form-control"
-                              />
-                              <div>
-                                <small class="text-danger text-sm-start">
-                                  <i class="fas fa-info-circle"></i>
-                                  File yang diizinkan hanya file excel dengan
-                                  ekstensi .xls atau .xlsx
-                                </small>
-                              </div>
-                            </div>
-                            <div class="modal-footer">
-                              <button
-                                type="button"
-                                class="btn bg-gradient-secondary btn-sm"
-                                data-bs-dismiss="modal"
-                              >
-                                Batal
-                              </button>
-                              <button
-                                type="button"
-                                class="btn bg-gradient-success btn-sm"
-                              >
-                                Unggah
-                              </button>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </td>
-                    <td class="text-sm">
-                      <span class="badge badge-danger">Ditolak</span>
-                    </td>
-                    <td class="text-sm">
-                      <a
-                        class="me-2"
-                        href="javascript:;"
-                        data-bs-toggle="tooltip"
-                        data-bs-original-title="Detail Kecamatan"
-                        title="Detail"
-                      >
-                        <i class="fas fa-eye text-info"></i>
-                      </a>
-                      <a
-                        class="me-2"
-                        href="javascript:;"
-                        data-bs-toggle="tooltip"
-                        data-bs-original-title="Delete product"
-                      >
-                        <i class="fas fa-trash text-danger"></i>
-                      </a>
-                      <a
-                        class="me-2"
-                        href="javascript:;"
-                        data-bs-toggle="tooltip"
-                        data-bs-original-title="Delete product"
-                      >
-                        <font-awesome-icon
-                          class="text-danger"
-                          icon="fa-solid fa-square-xmark"
-                          size="xl"
-                        />
-                      </a>
-                      <a
-                        class="me-2"
-                        href="javascript:;"
-                        data-bs-toggle="tooltip"
-                        data-bs-original-title="Delete product"
-                      >
-                        <font-awesome-icon
-                          class="text-warning"
-                          icon="fa-solid fa-square-minus"
-                          size="xl"
-                        />
-                      </a>
-                      <a
-                        class="me-2"
-                        href="javascript:;"
-                        data-bs-toggle="tooltip"
-                        data-bs-original-title="Delete product"
-                      >
-                        <font-awesome-icon
-                          class="text-success"
-                          icon="fa-solid fa-square-check"
-                          size="xl"
-                        />
-                      </a>
-                    </td>
-                  </tr> -->
                 </tbody>
                 <tfoot>
                   <tr>
@@ -746,6 +216,7 @@
 </template>
 
 <script>
+import $ from "jquery";
 import { DataTable } from "simple-datatables";
 import Choices from "choices.js";
 import setTooltip from "@/assets/js/tooltip.js";
@@ -864,36 +335,28 @@ export default {
     },
 
     setupTableAction() {
-      this.g$listKecamatan.forEach((kec) => {
-        if (document.getElementById(`terima-${kec.id_kecamatan}`)) {
-          document
-            .getElementById(`terima-${kec.id_kecamatan}`)
-            .addEventListener("click", (e) => {
-              this.showSwal(
-                "warning-confirmation",
-                `Menerima pengajuan kecamatan ${kec.nama}?`,
-                "Berhasil memperbarui data",
-                kec.id_kecamatan,
-                true
-              );
-              e.preventDefault();
-            });
-        }
-
-        if (document.getElementById(`tolak-${kec.id_kecamatan}`)) {
-          document
-            .getElementById(`tolak-${kec.id_kecamatan}`)
-            .addEventListener("click", (e) => {
-              this.showSwal(
-                "warning-confirmation",
-                `Menolak pengajuan kecamatan ${kec.nama}?`,
-                "Berhasil memperbarui data",
-                kec.id_kecamatan,
-                false
-              );
-              e.preventDefault();
-            });
-        }
+      let outerThis = this;
+      $("#wilayah-list").on("click", `.terima`, function (e) {
+        let kec = this;
+        outerThis.showSwal(
+          "warning-confirmation",
+          `Menerima pengajuan kecamatan ${kec.name}?`,
+          "Berhasil memperbarui data",
+          kec.id,
+          true
+        );
+        e.preventDefault();
+      });
+      $("#wilayah-list").on("click", `.tolak`, function (e) {
+        let kec = this;
+        outerThis.showSwal(
+          "warning-confirmation",
+          `Menolak pengajuan kecamatan ${kec.name}?`,
+          "Berhasil memperbarui data",
+          kec.id,
+          false
+        );
+        e.preventDefault();
       });
     },
 
