@@ -21,10 +21,12 @@
                 @change="getListKecamatan()"
                 v-model="tema"
               >
-                <option value="1">KKN Reguler Tim I</option>
-                <option value="2">
-                  KKN Tematik Pengurangan Risiko Bencana Berbasis Partisipasi
-                  Masyarakat dan Komunitas
+                <option
+                  v-for="tema in g$listTemaActive"
+                  :key="tema.id_tema"
+                  :value="tema.id_tema"
+                >
+                  {{ tema.nama }}
                 </option>
               </select>
             </div>
@@ -223,6 +225,7 @@ import setTooltip from "@/assets/js/tooltip.js";
 import HeaderProfileCard from "@/views/dashboards/components/HeaderProfileCard.vue";
 import { mapActions, mapState } from "pinia";
 import d$wilayah from "@/store/wilayah";
+import d$tema from "@/store/tema";
 
 export default {
   name: "IndexPengajuanWilayah",
@@ -233,13 +236,16 @@ export default {
     return {
       indexComponent: 0,
       choicesTema: undefined,
-      tema: "1",
+      tema: "",
     };
   },
   computed: {
     ...mapState(d$wilayah, ["g$listKecamatan"]),
+    ...mapState(d$tema, ["g$listTemaActive"]),
   },
   async created() {
+    await this.a$listTema();
+    this.tema = this.g$listTemaActive[0].id_tema;
     await this.getListKecamatan();
     this.choicesTema = this.getChoices("choices-tema");
 
@@ -254,6 +260,7 @@ export default {
       "a$accKecamatan",
       "a$decKecamatan",
     ]),
+    ...mapActions(d$tema, ["a$listTema"]),
 
     async getListKecamatan() {
       this.tema = parseInt(this.tema);

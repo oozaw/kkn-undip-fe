@@ -4,28 +4,6 @@
       <div class="col-lg-12 mt-lg-0 mt-4">
         <header-profile-card />
         <div class="bg-white card mt-4">
-          <div class="card-header pb-0 pt-3">
-            <p class="font-weight-bold text-dark mb-2">
-              Pilih Tema KKN Terdaftar
-            </p>
-          </div>
-          <div class="pb-3 pt-0 card-body">
-            <div class="col-12 align-self-center">
-              <select
-                id="choices-tema"
-                class="form-control"
-                name="choices-tema"
-              >
-                <option value="reguler">
-                  KKN Tematik Pengurangan Risiko Bencana Berbasis Partisipasi
-                  Masyarakat dan Komunitas
-                </option>
-                <option value="tematik">KKN Reguler Tim I</option>
-              </select>
-            </div>
-          </div>
-        </div>
-        <div class="bg-white card mt-4">
           <!-- Card header -->
           <div class="pb-0 card-header">
             <div class="d-lg-flex">
@@ -149,7 +127,7 @@
                     <th>Nama</th>
                     <th>Nomor BAPPEDA</th>
                     <th>Daerah (Kecamatan/Desa)</th>
-                    <th>Status</th>
+                    <th>Penanggung Jawab</th>
                     <th>Action</th>
                   </tr>
                 </thead>
@@ -164,9 +142,7 @@
                     </td>
                     <td class="text-sm">{{ bappeda.nb }}</td>
                     <td class="text-sm">3/8</td>
-                    <td>
-                      <span class="badge badge-danger badge-sm">Ditolak</span>
-                    </td>
+                    <td class="text-sm">{{ bappeda.nama_pj }}</td>
                     <td class="text-sm">
                       <a
                         href="javascript:;"
@@ -251,14 +227,14 @@ export default {
       console.log(error);
     }
 
-    this.choicesTema = this.getChoices("choices-tema");
+    // this.choicesTema = this.getChoices("choices-tema");
 
     this.setupDataTable();
 
     setTooltip(this.$store.state.bootstrap);
   },
   beforeUnmount() {
-    this.choicesTema.destroy();
+    // if (this.choicesTema) this.choicesTema.destroy();
   },
   methods: {
     ...mapActions(d$bappeda, ["a$listBappeda", "a$importBappeda"]),

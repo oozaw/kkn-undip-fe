@@ -211,7 +211,7 @@ export default {
   },
   computed: {
     ...mapState(d$wilayah, ["g$listKabupaten", "g$listAllKabupaten"]),
-    ...mapState(d$tema, ["g$listTema"]),
+    ...mapState(d$tema, ["g$listTema", "g$listTemaActive"]),
     ...mapState(d$auth, ["g$infoUser"]),
   },
   async created() {
@@ -263,7 +263,7 @@ export default {
         temaSelected.push(kab.id_tema);
       });
 
-      this.g$listTema.forEach((tema) => {
+      this.g$listTemaActive.forEach((tema) => {
         if (!temaSelected.includes(tema.id_tema)) {
           this.listTemaAvailable.push(tema);
         }
