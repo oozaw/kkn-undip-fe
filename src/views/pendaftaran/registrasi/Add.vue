@@ -190,6 +190,7 @@ export default {
       filterJenis,
       file: "",
       tema: "",
+      provinsi: "",
       kabupaten: "",
       kecamatan: "",
       potensi: "",
@@ -198,13 +199,12 @@ export default {
       choicesProvinsi: undefined,
       choicesKabupaten: undefined,
       choicesKecamatan: undefined,
-      listTemaActive: [],
       listKecamatan: [],
     };
   },
   computed: {
     ...mapState(d$wilayah, ["g$listKabupaten", "g$listKecamatan"]),
-    ...mapState(d$tema, ["g$listTema"]),
+    ...mapState(d$tema, ["g$listTema", "g$listTemaActive"]),
   },
   mounted() {
     this.choicesJenis = this.getChoices("choices-jenis");
@@ -226,6 +226,7 @@ export default {
     ...mapActions(d$proposal, ["a$addProposal"]),
 
     async addProposal() {
+      this.showSwal("loading");
       this.file = this.$refs.file.files[0];
       this.kecamatan = parseInt(this.kecamatan);
 
@@ -237,12 +238,11 @@ export default {
 
       try {
         await this.a$addProposal(body);
-        this.$router.push({ name: "RegistrasiKKN" });
+        this.$router.push({ name: "Registrasi" });
         this.showSwal(
           "success-message",
           "Pengajuan proposal berhasil ditambahkan!"
         );
-        this.sho;
       } catch (error) {
         this.showSwal(
           "failed-message",
@@ -267,7 +267,10 @@ export default {
 
       try {
         await this.g$listKecamatan.forEach((kecamatan) => {
-          if (kecamatan.id_kabupaten === this.kabupaten && kecamatan.status) {
+          if (
+            kecamatan.id_kabupaten === this.kabupaten &&
+            kecamatan.status === 1
+          ) {
             this.listKecamatan.push(kecamatan);
           }
         });
@@ -290,14 +293,10 @@ export default {
 
     async getListTema() {
       // tambahin filter jenis
-      this.listTemaActive = [];
 
       try {
         await this.a$listTema();
-        this.g$listTema.forEach((tema) => {
-          if (tema.status) this.listTemaActive.push(tema);
-        });
-        this.setChoices(this.choicesTema, this.listTemaActive);
+        this.setChoices(this.choicesTema, this.g$listTemaActive);
         this.checkJenisSelection();
       } catch (error) {
         console.log(error);
@@ -374,6 +373,22 @@ export default {
             clearInterval(timerInterval);
           },
         });
+      } else if (type === "loading") {
+        this.$swal({
+          title: "Memuat...",
+          timerProgressBar: true,
+          showConfirmButton: false,
+          allowOutsideClick: false,
+          allowEscapeKey: false,
+          didOpen: () => {
+            this.$swal.showLoading();
+          },
+          didDestroy: () => {
+            this.$swal.hideLoading();
+          },
+        });
+      } else if (type === "close") {
+        this.$swal.close();
       }
     },
   },
