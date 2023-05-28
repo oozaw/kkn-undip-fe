@@ -14,26 +14,48 @@
           <h6 class="mb-0 font-weight-bolder">{{ title }}</h6>
           <p class="mb-0 text-sm">
             Status:
-            <span class="font-weight-bolder" :class="'text-' + statusColor">
-              {{ status }}
+            <span v-if="status" class="font-weight-bolder text-success">
+              Dibuka
             </span>
+            <span v-else class="font-weight-bolder text-danger">Ditutup</span>
           </p>
         </div>
       </div>
       <!-- eslint-disable-next-line vue/no-v-html -->
       <div class="text-secondary">
-        <p class="mt-3 mb-0" v-html="'Batas Pengisian: ' + deadline" />
+        <p class="mt-3 mb-0">
+          Status Pendaftaran:
+          <span
+            v-if="statusPendaftaran == 1"
+            class="font-weight-bolder text-success"
+          >
+            Diterima
+          </span>
+          <span
+            v-else-if="statusPendaftaran == 0"
+            class="font-weight-bolder text-warning"
+          >
+            Sedang diproses
+          </span>
+          <span
+            v-else-if="statusPendaftaran == -1"
+            class="font-weight-bolder text-danger"
+          >
+            Ditolak
+          </span>
+          <span v-else class="font-weight-bolder text-secondary">
+            Belum Mendaftar
+          </span>
+        </p>
+      </div>
+      <div class="text-secondary">
+        <p class="mb-0" v-html="'Batas Pengisian: ' + deadline" />
       </div>
       <hr class="horizontal dark" />
       <div class="d-flex">
-        <router-link
-          :to="action.route"
-          type="button"
-          class="mb-0 btn btn-sm me-2"
-          :class="`bg-gradient-${action.color}`"
-        >
-          {{ action.label }}
-        </router-link>
+        <button type="button" class="mb-0 btn btn-sm me-2 bg-gradient-info">
+          Lihat
+        </button>
         <slot name="button"></slot>
       </div>
     </div>
@@ -53,12 +75,12 @@ export default {
       default: "",
     },
     status: {
-      type: String,
-      default: "",
+      type: Boolean,
+      default: false,
     },
-    statusColor: {
-      type: String,
-      default: "",
+    statusPendaftaran: {
+      type: Number,
+      default: -2,
     },
     deadline: {
       type: String,

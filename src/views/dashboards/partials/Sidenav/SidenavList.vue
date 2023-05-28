@@ -381,6 +381,7 @@
                 v-if="a$checkAuth(['MAHASISWA'])"
               />
               <sidenav-item
+                :isActive="getRoute2() === 'lokasi'"
                 :to="{ name: 'Index Lokasi' }"
                 mini-icon="L"
                 text="Daftar Lokasi"

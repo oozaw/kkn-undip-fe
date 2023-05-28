@@ -39,27 +39,16 @@
           <card
             :title="gel.nama"
             :status="gel.status"
-            :status-pendaftaran="gel.mahasiswa_kecamatan[0]?.status"
             deadline="31 Juni 2023 | 11:00 AM"
+            :action="{
+              route: {
+                name: 'Index Lokasi',
+                params: { id_gelombang: gel.id_gelombang },
+              },
+              label: 'Lihat',
+              color: 'primary',
+            }"
           >
-            <template
-              #button
-              v-if="!gel.mahasiswa_kecamatan[0]?.status && gel.status"
-            >
-              <router-link
-                :to="{
-                  name: 'Daftar Lokasi',
-                  params: {
-                    id_tema: tema,
-                    id_gelombang: gel.id_gelombang,
-                  },
-                }"
-                type="button"
-                class="mb-0 btn btn-sm bg-gradient-success"
-              >
-                Daftar
-              </router-link>
-            </template>
           </card>
         </div>
       </div>
@@ -74,12 +63,11 @@ import Card from "@/views/dashboards/components/Cards/GelombangCard.vue";
 import { mapActions, mapState } from "pinia";
 import d$gelombang from "@/store/gelombang";
 import d$tema from "@/store/tema";
-import d$auth from "@/store/auth";
 
 import slackLogo from "@/assets/img/small-logos/logo-slack.svg";
 
 export default {
-  name: "IndexDaftarLokasi",
+  name: "IndexGelombangDaftarLokasi",
   components: {
     HeaderProfileCard,
     Card,
@@ -98,7 +86,6 @@ export default {
   computed: {
     ...mapState(d$gelombang, ["g$listGelombang"]),
     ...mapState(d$tema, ["g$listTemaActive"]),
-    ...mapState(d$auth, ["g$infoUser"]),
   },
   async created() {
     await this.a$listTema();
@@ -107,11 +94,8 @@ export default {
 
     this.choicesTema = this.getChoices("choices-tema");
   },
-  beforeUnmount() {
-    if (this.choicesTema) this.choicesTema.destroy();
-  },
   methods: {
-    ...mapActions(d$gelombang, ["a$listGelombangMahasiswa"]),
+    ...mapActions(d$gelombang, ["a$listGelombang"]),
     ...mapActions(d$tema, ["a$listTema"]),
 
     async getListGelombang() {
@@ -119,11 +103,7 @@ export default {
       this.tema = parseInt(this.tema);
 
       try {
-        await this.a$listGelombangMahasiswa(
-          this.tema,
-          this.id_halaman,
-          this.g$infoUser.id_mahasiswa
-        );
+        await this.a$listGelombang(this.tema, this.id_halaman);
       } catch (error) {
         this.showSwal(
           "failed-message",
@@ -131,6 +111,70 @@ export default {
         );
         console.log(error);
       }
+    },
+
+    async getListGelombangStatis() {
+      this.indexComponent++;
+      this.tema = parseInt(this.tema);
+      this.listGelombang = [];
+      if (this.tema === 1) {
+        this.listGelombang.push(
+          {
+            id_gelombang: 1,
+            id_tema: 1,
+            nama: "Gelombang 1 Dosen",
+            status: 1,
+          },
+          {
+            id_gelombang: 3,
+            id_tema: 1,
+            nama: "Gelombang 3 Dosen",
+            status: 0,
+          }
+        );
+      } else if (this.tema === 2) {
+        this.listGelombang.push(
+          {
+            id_gelombang: 2,
+            id_tema: 2,
+            nama: "Gelombang 2 Dosen",
+            status: -1,
+          },
+          {
+            id_gelombang: 4,
+            id_tema: 2,
+            nama: "Gelombang 4 Dosen",
+            status: 1,
+          }
+        );
+      }
+
+      var newListGelombang = [];
+      this.listGelombang.forEach((gelombang) => {
+        if (gelombang.status === 0) {
+          gelombang.status = "Sedang diproses";
+          let newGelombang = Object.assign({}, gelombang, {
+            status_color: "secondary",
+          });
+          newListGelombang.push(newGelombang);
+        } else if (gelombang.status === 1) {
+          gelombang.status = "Diterima";
+          let newGelombang = Object.assign({}, gelombang, {
+            status_color: "success",
+          });
+          newListGelombang.push(newGelombang);
+        } else {
+          gelombang.status = "Ditolak";
+          let newGelombang = Object.assign({}, gelombang, {
+            status_color: "danger",
+          });
+          newListGelombang.push(newGelombang);
+        }
+      });
+
+      this.listGelombang = newListGelombang;
+
+      console.log(this.listGelombang);
     },
 
     getChoices(id) {

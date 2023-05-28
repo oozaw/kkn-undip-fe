@@ -15,4 +15,16 @@ const importMahasiswa = (body) =>
     },
   });
 
-export { listMahasiswa, addMahasiswa, importMahasiswa };
+const listMahasiswaWilayah = (id_kecamatan) =>
+  baseApi.get(`${api}dosen/mahasiswa/${id_kecamatan}`);
+
+const daftarLokasi = (body) =>
+  baseApi.post(`${api}mahasiswa/daftar_lokasi`, body);
+
+export {
+  listMahasiswa,
+  addMahasiswa,
+  importMahasiswa,
+  listMahasiswaWilayah,
+  daftarLokasi,
+};

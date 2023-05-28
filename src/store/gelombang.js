@@ -6,12 +6,19 @@ const d$gelombang = defineStore("gelombangStore", {
   state: () => ({
     status: null,
     listGelombang: [],
+    listGelombangActive: [],
   }),
   actions: {
     async a$listAllGelombang() {
       try {
         const { data, status } = await s$gelombang.listAllGelombang();
         this.listGelombang = data ?? [];
+        this.listGelombangActive = [];
+        data.forEach((gelombang) => {
+          if (gelombang.status) {
+            this.listGelombangActive.push(gelombang);
+          }
+        });
         this.status = status;
       } catch (error) {
         this.status = false;
@@ -26,6 +33,31 @@ const d$gelombang = defineStore("gelombangStore", {
           id_halaman
         );
         this.listGelombang = data ?? [];
+        data.forEach((gelombang) => {
+          if (gelombang.status) {
+            this.listGelombangActive.push(gelombang);
+          }
+        });
+        this.status = status;
+      } catch (error) {
+        this.status = false;
+        throw error;
+      }
+    },
+
+    async a$listGelombangMahasiswa(id_tema, id_halaman, id_mahasiswa) {
+      try {
+        const { data, status } = await s$gelombang.listGelombangMahasiswa(
+          id_tema,
+          id_halaman,
+          id_mahasiswa
+        );
+        this.listGelombang = data ?? [];
+        data.forEach((gelombang) => {
+          if (gelombang.status) {
+            this.listGelombangActive.push(gelombang);
+          }
+        });
         this.status = status;
       } catch (error) {
         this.status = false;
@@ -55,6 +87,7 @@ const d$gelombang = defineStore("gelombangStore", {
   },
   getters: {
     g$listGelombang: ({ listGelombang }) => listGelombang,
+    g$listGelombangActive: ({ listGelombangActive }) => listGelombangActive,
   },
 });
 

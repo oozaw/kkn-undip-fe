@@ -27,9 +27,9 @@ const d$mahasiswa = defineStore("mahasiswaStore", {
       try {
         const status = await s$mahasiswa.addMahasiswa(body);
         this.status = status;
-      } catch (error) {
+      } catch ({ message, error }) {
         this.status = false;
-        throw error;
+        throw message ?? error;
       }
     },
 
@@ -37,9 +37,33 @@ const d$mahasiswa = defineStore("mahasiswaStore", {
       try {
         const status = await s$mahasiswa.importMahasiswa(body);
         this.status = status;
-      } catch (error) {
+      } catch ({ message, error }) {
         this.status = false;
-        throw error;
+        throw message ?? error;
+      }
+    },
+
+    async a$listMahasiswaWilayah(id_kecamatan) {
+      try {
+        const { data, status } = await s$mahasiswa.listMahasiswaWilayah(
+          id_kecamatan
+        );
+        this.listMahasiswa = data ?? [];
+        this.status = status;
+      } catch ({ message, error }) {
+        this.status = false;
+        throw message ?? error;
+      }
+    },
+
+    async a$daftarLokasi(body) {
+      try {
+        const { data, status } = await s$mahasiswa.daftarLokasi(body);
+        this.listMahasiswa = data ?? [];
+        this.status = status;
+      } catch ({ message, error }) {
+        this.status = false;
+        throw message ?? error;
       }
     },
   },

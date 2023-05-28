@@ -78,6 +78,7 @@ import IndexPimpinan from "../views/admin/akun/pimpinan/Index.vue";
 import AddPimpinan from "../views/admin/akun/pimpinan/Add.vue";
 import EditProfile from "../views/pendaftaran/profile/Edit.vue";
 import EditBerkasMhs from "../views/pendaftaran/berkas/Edit.vue";
+import IndexGelombangMhs from "../views/pendaftaran/lokasi/gelombang/Index.vue";
 import IndexLokasiMhs from "../views/pendaftaran/lokasi/Index.vue";
 import DaftarLokasi from "../views/pendaftaran/lokasi/Daftar.vue";
 import IndexPostTest from "../views/test/Index.vue";
@@ -288,6 +289,14 @@ const routes = [
     path: "/pendaftaran/berkas/edit",
     name: "Edit Data Berkas",
     component: EditBerkasMhs,
+    meta: {
+      requiresAuth: [Role.mahasiswa],
+    },
+  },
+  {
+    path: "/pendaftaran/lokasi/gelombang",
+    name: "Index Gelombang Daftar Lokasi",
+    component: IndexGelombangMhs,
     meta: {
       requiresAuth: [Role.mahasiswa],
     },
