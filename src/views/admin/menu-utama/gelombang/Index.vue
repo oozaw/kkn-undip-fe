@@ -160,7 +160,7 @@
                     <th class="col-1">No.</th>
                     <th>Nama</th>
                     <th>Halaman</th>
-                    <th>Periode</th>
+                    <th>Tema</th>
                     <th>Status</th>
                     <th>Action</th>
                   </tr>
@@ -174,8 +174,12 @@
                     <td>
                       <h6 class="my-auto">{{ gelombang.nama }}</h6>
                     </td>
-                    <td class="text-sm">{{ gelombang.nama }}</td>
-                    <td class="text-sm">2022/2023</td>
+                    <td class="text-sm">
+                      {{ gelombang.tema_halaman.halaman.nama }}
+                    </td>
+                    <td class="text-sm">
+                      {{ gelombang.tema_halaman.tema.nama }}
+                    </td>
                     <td>
                       <span
                         id="delete-product"
@@ -253,7 +257,7 @@
                     <th class="col-1">No.</th>
                     <th>Nama</th>
                     <th>Halaman</th>
-                    <th>Periode</th>
+                    <th>Tema</th>
                     <th>Status</th>
                     <th>Action</th>
                   </tr>
@@ -320,7 +324,7 @@ export default {
   methods: {
     ...mapActions(d$tema, ["a$listTema", "a$switchGelombang"]),
     ...mapActions(d$gelombang, [
-      "a$listGelombang",
+      "a$listAllGelombang",
       "a$switchGelombang",
       "a$addGelombang",
     ]),
@@ -374,7 +378,7 @@ export default {
       this.indexComponent++;
 
       try {
-        await this.a$listGelombang();
+        await this.a$listAllGelombang();
       } catch (error) {
         this.showSwal(
           "failed-message",

@@ -8,9 +8,23 @@ const d$gelombang = defineStore("gelombangStore", {
     listGelombang: [],
   }),
   actions: {
-    async a$listGelombang() {
+    async a$listAllGelombang() {
       try {
-        const { data, status } = await s$gelombang.listGelombang();
+        const { data, status } = await s$gelombang.listAllGelombang();
+        this.listGelombang = data ?? [];
+        this.status = status;
+      } catch (error) {
+        this.status = false;
+        throw error;
+      }
+    },
+
+    async a$listGelombang(id_tema, id_halaman) {
+      try {
+        const { data, status } = await s$gelombang.listGelombang(
+          id_tema,
+          id_halaman
+        );
         this.listGelombang = data ?? [];
         this.status = status;
       } catch (error) {
