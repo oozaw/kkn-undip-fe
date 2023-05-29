@@ -180,8 +180,6 @@ export default {
 
       this.body.id_kecamatan = parseInt(this.body.id_kecamatan);
 
-      console.log(this.body);
-
       try {
         await this.a$daftarLokasi(this.body);
         this.$router.push({

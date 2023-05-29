@@ -2,6 +2,8 @@
   <div class="mt-4 card">
     <div class="p-3 card-body">
       <div class="d-flex">
+        <span id="jumlah-gelombang" hidden>{{ jumlahGelombang }}</span>
+        <span id="id-gelombang" hidden>{{ idGelombang }}</span>
         <div class="icon me-4 mt-1 ms-2">
           <!-- <img alt="Image placeholder" :src="img" /> -->
           <font-awesome-icon
@@ -53,9 +55,81 @@
       </div>
       <hr class="horizontal dark" />
       <div class="d-flex">
-        <button type="button" class="mb-0 btn btn-sm me-2 bg-gradient-info">
+        <a
+          type="button"
+          class="mb-0 btn btn-sm me-2 bg-gradient-info"
+          data-bs-toggle="modal"
+          :data-bs-target="'#lihat_' + idPendaftaran"
+        >
           Lihat
-        </button>
+        </a>
+        <div
+          :id="'lihat_' + idPendaftaran"
+          class="modal fade"
+          tabindex="-1"
+          aria-hidden="true"
+        >
+          <div class="modal-dialog modal-lg mt-lg-10">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 id="ModalLabel" class="modal-title">
+                  Pendaftaran Pada Tema {{ namaTema }} di {{ namaGelombang }}
+                </h5>
+                <button
+                  type="button"
+                  class="btn-close text-dark mb-0"
+                  data-bs-dismiss="modal"
+                  aria-label="Close"
+                >
+                  <font-awesome-icon icon="fa-solid fa-xmark" />
+                </button>
+              </div>
+              <div class="modal-body">
+                <table
+                  :id="'pendaftaran-list-' + idGelombang"
+                  class="table table-flush"
+                >
+                  <thead class="thead-light">
+                    <tr>
+                      <th>No.</th>
+                      <th>Kecamatan</th>
+                      <th>Status</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr v-if="statusPendaftaran !== -2">
+                      <td class="text-sm ps-3">1</td>
+                      <td class="ms-0 px-0">
+                        <h6 class="my-auto">{{ namaKecamatan }}</h6>
+                      </td>
+                      <td class="text-sm">
+                        <span
+                          class="badge badge-secondary"
+                          v-if="statusPendaftaran === 0"
+                          >Sedang diproses
+                        </span>
+                        <span
+                          class="badge badge-success"
+                          v-else-if="statusPendaftaran === 1"
+                          >Diterima
+                        </span>
+                        <span class="badge badge-danger" v-else>Ditolak</span>
+                      </td>
+                    </tr>
+                  </tbody>
+                  <tfoot>
+                    <tr>
+                      <th>No.</th>
+                      <th>Kecamatan</th>
+                      <th>Status</th>
+                    </tr>
+                  </tfoot>
+                </table>
+              </div>
+              <div class="modal-footer"></div>
+            </div>
+          </div>
+        </div>
         <slot name="button"></slot>
       </div>
     </div>
@@ -63,9 +137,34 @@
 </template>
 
 <script>
+import { DataTable } from "simple-datatables";
 export default {
   name: "EventCard",
   props: {
+    idGelombang: {
+      type: Number,
+      default: 0,
+    },
+    idPendaftaran: {
+      type: Number,
+      default: 0,
+    },
+    namaKecamatan: {
+      type: String,
+      default: "",
+    },
+    namaTema: {
+      type: String,
+      default: "",
+    },
+    namaGelombang: {
+      type: String,
+      default: "",
+    },
+    jumlahGelombang: {
+      type: Number,
+      default: 0,
+    },
     nilai: {
       type: String,
       default: "",
@@ -96,6 +195,27 @@ export default {
       color: String,
       label: String,
       default: () => {},
+    },
+  },
+  mounted() {
+    // this.setupDataTable();
+  },
+  methods: {
+    setupDataTable() {
+      let jmlGelombang = parseInt(
+        document.getElementById("jumlah-gelombang").innerHTML
+      );
+      let id = document.getElementById("id-gelombang").innerHTML;
+
+      for (let i = 1; i <= jmlGelombang; i++) {
+        if (document.getElementById(`pendaftaran-list-${id}`)) {
+          return new DataTable(`#pendaftaran-list-${id}`, {
+            searchable: false,
+            fixedHeight: false,
+            perPage: 1,
+          });
+        }
+      }
     },
   },
 };

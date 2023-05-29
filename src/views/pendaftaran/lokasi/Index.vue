@@ -40,11 +40,21 @@
             :title="gel.nama"
             :status="gel.status"
             :status-pendaftaran="gel.mahasiswa_kecamatan[0]?.status"
+            :id-pendaftaran="gel.mahasiswa_kecamatan[0]?.id_mahasiswa_kecamatan"
+            :nama-kecamatan="gel.mahasiswa_kecamatan[0]?.kecamatan.nama"
+            :nama-tema="namaTema"
+            :id-gelombang="gel.id_gelombang"
+            :nama-gelombang="gel.nama"
+            :jumlah-gelombang="g$listGelombang.length"
             deadline="31 Juni 2023 | 11:00 AM"
           >
             <template
               #button
-              v-if="!gel.mahasiswa_kecamatan[0]?.status && gel.status"
+              v-if="
+                !gel.mahasiswa_kecamatan[0]?.status &&
+                gel.status &&
+                gel.mahasiswa_kecamatan[0]?.status != 0
+              "
             >
               <router-link
                 :to="{
@@ -68,6 +78,7 @@
 </template>
 
 <script>
+import { DataTable } from "simple-datatables";
 import Choices from "choices.js";
 import HeaderProfileCard from "@/views/dashboards/components/HeaderProfileCard.vue";
 import Card from "@/views/dashboards/components/Cards/GelombangCard.vue";
@@ -89,6 +100,7 @@ export default {
       id_halaman: 2,
       slackLogo,
       tema: "",
+      namaTema: "",
       choicesTema: undefined,
       indexComponent: 0,
       idGelombang: "",
@@ -119,6 +131,7 @@ export default {
       this.tema = parseInt(this.tema);
 
       try {
+        await this.getTema();
         await this.a$listGelombangMahasiswa(
           this.tema,
           this.id_halaman,
@@ -131,6 +144,17 @@ export default {
         );
         console.log(error);
       }
+
+      this.setupDataTable();
+    },
+
+    async getTema() {
+      await this.g$listTemaActive.forEach((tema) => {
+        if (tema.id_tema == this.tema) {
+          this.namaTema = tema.nama;
+          return;
+        }
+      });
     },
 
     getChoices(id) {
@@ -142,6 +166,18 @@ export default {
           shouldSort: false,
         });
       }
+    },
+
+    setupDataTable() {
+      this.g$listGelombang.forEach((gel) => {
+        if (document.getElementById(`pendaftaran-list-${gel.id_gelombang}`)) {
+          return new DataTable(`#pendaftaran-list-${gel.id_gelombang}`, {
+            searchable: false,
+            fixedHeight: false,
+            perPage: 1,
+          });
+        }
+      });
     },
 
     showSwal(type, text, toastText) {
