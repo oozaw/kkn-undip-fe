@@ -5,7 +5,7 @@
         <header-profile-card>
           <template #button>
             <argon-button
-              :onclick="() => $router.push({ name: 'Index LRK' })"
+              :onclick="() => $router.push({ name: 'LRK' })"
               class="mb-0 me-2"
               color="secondary"
               size="sm"
@@ -29,7 +29,13 @@
               <h5 class="mb-2">Tambah LRK</h5>
             </div>
           </div>
-          <form role="form" id="form-add-lrk" @submit.prevent="addLRK()">
+          <form
+            class="was-validated"
+            role="form"
+            id="form-add-lrk"
+            enctype="multipart/form-data"
+            @submit.prevent="addLRK()"
+          >
             <div class="ms-2 pt-1 ps-3 card-body">
               <div class="mt-2 row">
                 <div class="col-12">
@@ -41,6 +47,7 @@
                     placeholder="eg. Program Edukasi Kesehatan pada Masyarakat Desa Kedungkandang"
                     v-model="body.judul"
                   />
+                  <div class="invalid-feedback">Judul tidak boleh kosong</div>
                 </div>
               </div>
               <div class="mt-3 row">
@@ -51,7 +58,8 @@
                     id="choices-kategori"
                     v-model="body.kategori"
                   >
-                    <option value="mono" selected>Monodisiplin</option>
+                    <option value="">-- Pilih kategori --</option>
+                    <option value="mono">Monodisiplin</option>
                     <option value="multi">Multidisiplin</option>
                   </select>
                 </div>
@@ -62,16 +70,30 @@
                   <quill-editor
                     id="latar-belakang-editor"
                     style="height: 180px"
-                    v-model:content="body.potensi"
+                    v-model:content="body.latar_belakang"
                     contentType="html"
                     theme="snow"
                     placeholder="Isi dengan paragraf latar belakang program kerja"
+                    disabled
                   ></quill-editor>
                 </div>
               </div>
               <div class="row">
                 <div class="col-12">
-                  <label class="pt-4">2. Usulan Program</label>
+                  <label class="pt-4">2. Potensi atau Masalah</label>
+                  <quill-editor
+                    id="potensi-editor"
+                    style="height: 180px"
+                    v-model:content="body.potensi"
+                    contentType="html"
+                    theme="snow"
+                    placeholder="Isi dengan potensi atau permasalahan yang ingin diselesaikan"
+                  ></quill-editor>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-12">
+                  <label class="pt-4">3. Usulan Program</label>
                   <quill-editor
                     id="usulan-editor"
                     style="height: 180px"
@@ -84,7 +106,7 @@
               </div>
               <div class="row">
                 <div class="col-12">
-                  <label class="pt-4">3. Sasaran Program</label>
+                  <label class="pt-4">4. Sasaran Program</label>
                   <quill-editor
                     id="sasaran-editor"
                     style="height: 180px"
@@ -97,21 +119,22 @@
               </div>
               <div class="row">
                 <div class="col-12">
-                  <label class="pt-4">4. Rencana Pelaksanaan</label>
-                  <form
-                    id="dropzone_rencana_pelaksanaan"
-                    action="/file-upload"
-                    class="form-control dropzone"
-                  >
-                    <div class="fallback">
-                      <input name="file" type="file" multiple />
-                    </div>
-                  </form>
+                  <label class="pt-4">5. Rencana Pelaksanaan</label>
+                  <input
+                    class="form-control"
+                    type="file"
+                    name="file-rencana-pelaksanaan"
+                    id="file-rencana-pelaksanaan"
+                    required
+                  />
+                  <div class="invalid-feedback">
+                    Unggah file rencana pelaksaan program
+                  </div>
                 </div>
               </div>
-              <div class="row mt-4">
+              <div class="row mt-3">
                 <div class="col-12">
-                  <label>5. Metode IPTEKS yang Digunakan</label>
+                  <label>6. Metode IPTEKS yang Digunakan</label>
                   <quill-editor
                     id="metode-editor"
                     style="height: 180px"
@@ -124,7 +147,7 @@
               </div>
               <div class="row">
                 <div class="col-12">
-                  <label class="pt-3">6. Output Program</label>
+                  <label class="pt-4">7. Luaran Program</label>
                   <quill-editor
                     id="output-editor"
                     style="height: 180px"
@@ -137,31 +160,16 @@
               </div>
               <div class="row">
                 <div class="col-12">
-                  <label class="pt-3">7. Keberlanjutan Program</label>
-                  <quill-editor
-                    id="keberlanjutan-editor"
-                    style="height: 180px"
-                    contentType="html"
-                    theme="snow"
-                    placeholder="Isi dengan keberlanjutan program"
-                  ></quill-editor>
-                </div>
-              </div>
-              <div class="row">
-                <div class="col-12">
-                  <label class="pt-3">8. Dokumentasi</label>
+                  <label class="pt-4">8. Dokumentasi</label>
                   <p class="text-xs form-text text-muted ms-1 d-inline">
                     (*.rar)
                   </p>
-                  <form
-                    id="dropzone-dokumentasi"
-                    action="/file-upload"
-                    class="form-control dropzone"
-                  >
-                    <div class="fallback">
-                      <input name="file" type="file" multiple />
-                    </div>
-                  </form>
+                  <input
+                    class="form-control"
+                    type="file"
+                    name="file-dokumentasi"
+                    id="file-dokumentasi"
+                  />
                 </div>
               </div>
             </div>
@@ -175,7 +183,6 @@
 <script>
 import { QuillEditor } from "@vueup/vue-quill";
 import Choices from "choices.js";
-import Dropzone from "dropzone";
 import HeaderProfileCard from "@/views/dashboards/components/HeaderProfileCard.vue";
 import ArgonButton from "@/components/ArgonButton.vue";
 import d$laporan from "@/store/laporan";
@@ -199,33 +206,21 @@ export default {
       quillKeberlanjutan: undefined,
       choicesKategori: undefined,
       body: {
-        id_tema: this.$route.params.id_tema,
+        id_tema: parseInt(this.$route.params.id_tema),
         judul: "",
         kategori: "",
+        latar_belakang: "",
         potensi: "",
         program: "",
+        file: "",
         sasaran: "",
         metode: "",
         luaran: "",
+        dokumentasi: "",
       },
     };
   },
   mounted() {
-    Dropzone.autoDiscover = false;
-    var drop_rencana_pelaksanaan = document.getElementById(
-      "dropzone_rencana_pelaksanaan"
-    );
-    new Dropzone(drop_rencana_pelaksanaan, {
-      url: "/file/post",
-      addRemoveLinks: true,
-    });
-
-    var drop_dokumentasi = document.getElementById("dropzone-dokumentasi");
-    new Dropzone(drop_dokumentasi, {
-      url: "/file/post",
-      addRemoveLinks: true,
-    });
-
     this.choicesKategori = this.getChoices("choices-kategori");
   },
   methods: {
@@ -235,6 +230,9 @@ export default {
       this.showSwal("loading");
 
       if (
+        this.body.judul == "" ||
+        this.body.kategori == "" ||
+        this.isQuillEmpty(this.body.latar_belakang) ||
         this.isQuillEmpty(this.body.potensi) ||
         this.isQuillEmpty(this.body.program) ||
         this.isQuillEmpty(this.body.sasaran) ||
@@ -249,8 +247,6 @@ export default {
       }
 
       try {
-        this.body.id_tema = parseInt(this.body.id_tema);
-
         let data = {
           id_tema: this.body.id_tema,
           potensi: this.body.potensi,
