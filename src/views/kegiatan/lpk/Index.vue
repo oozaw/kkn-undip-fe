@@ -2,11 +2,7 @@
   <div class="container-fluid">
     <div class="row mb-5 mt-4">
       <div class="col-lg-12 mt-lg-0 mt-4">
-        <header-profile-card
-          name="Tazki Hanifan Amri"
-          description="KKN Reguler
-         Tim 1 2023"
-        />
+        <header-profile-card />
         <section id="mhs-section">
           <div class="bg-white card mt-4">
             <!-- Card header -->
@@ -18,14 +14,9 @@
                 </div>
                 <div class="my-auto mt-4 ms-auto mt-lg-0">
                   <div class="my-auto ms-auto">
-                    <router-link
-                      class="mb-0 btn bg-gradient-success btn-sm"
-                      :to="{ name: 'Tambah LRK' }"
-                      >+&nbsp; Tambah LPK
-                    </router-link>
                     <button
                       type="button"
-                      class="mx-1 mb-0 btn btn-primary btn-sm"
+                      class="mx-2 mb-0 btn btn-primary btn-sm"
                       data-bs-toggle="modal"
                       data-bs-target="#import-lpk"
                     >

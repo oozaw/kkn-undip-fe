@@ -334,7 +334,7 @@ const routes = [
     },
   },
   {
-    path: "/kegiatan/lrk/add",
+    path: "/kegiatan/lrk/add/:id_tema",
     name: "Tambah LRK",
     component: AddLRK,
     meta: {
