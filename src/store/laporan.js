@@ -5,9 +5,20 @@ const d$laporan = defineStore("laporanStore", {
   id: "laporan",
   state: () => ({
     status: null,
-    listLaporan: [],
+    listLRK: [],
   }),
   actions: {
+    async a$listLRK() {
+      try {
+        const { data, status } = await s$laporan.listLRK();
+        this.listLRK = data ?? [];
+        this.status = status;
+      } catch (error) {
+        this.status = false;
+        throw error;
+      }
+    },
+
     async a$addLRK(body) {
       try {
         const status = await s$laporan.addLRK(body);
@@ -19,7 +30,7 @@ const d$laporan = defineStore("laporanStore", {
     },
   },
   getters: {
-    g$listLaporan: ({ listLaporan }) => listLaporan,
+    g$listLRK: ({ listLRK }) => listLRK,
   },
 });
 
