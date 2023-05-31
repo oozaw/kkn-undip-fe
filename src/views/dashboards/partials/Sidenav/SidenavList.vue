@@ -454,7 +454,12 @@
                 mini-icon="R"
                 text="LRK"
               />
-              <sidenav-item :to="{ name: 'LPK' }" mini-icon="P" text="LPK" />
+              <sidenav-item
+                :isActive="getRoute2() === 'lpk'"
+                :to="{ name: 'LPK' }"
+                mini-icon="P"
+                text="LPK"
+              />
               <sidenav-item
                 :to="{ name: 'Reportase' }"
                 mini-icon="R"

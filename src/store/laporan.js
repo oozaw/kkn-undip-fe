@@ -6,6 +6,8 @@ const d$laporan = defineStore("laporanStore", {
   state: () => ({
     status: null,
     listLRK: [],
+    listLPK: [],
+    laporan: {},
   }),
   actions: {
     async a$listLRK() {
@@ -28,9 +30,43 @@ const d$laporan = defineStore("laporanStore", {
         throw error;
       }
     },
+
+    async a$listLPK() {
+      try {
+        const { data, status } = await s$laporan.listLPK();
+        this.listLPK = data ?? [];
+        this.status = status;
+      } catch (error) {
+        this.status = false;
+        throw error;
+      }
+    },
+
+    async a$getLaporan(id_laporan) {
+      try {
+        const { data, status } = await s$laporan.getLaporan(id_laporan);
+        this.laporan = data ?? {};
+        this.status = status;
+      } catch (error) {
+        this.status = false;
+        throw error;
+      }
+    },
+
+    async a$addLPK(body) {
+      try {
+        const status = await s$laporan.addLPK(body);
+        this.status = status;
+      } catch (error) {
+        this.status = false;
+        throw error;
+      }
+    },
   },
   getters: {
     g$listLRK: ({ listLRK }) => listLRK,
+    g$listLPK: ({ listLPK }) => listLPK,
+    g$getLaporan: ({ laporan }) => laporan,
   },
 });
 
