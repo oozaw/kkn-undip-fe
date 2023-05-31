@@ -2,10 +2,26 @@
   <div class="container-fluid">
     <div class="row mb-5 mt-4">
       <div class="col-lg-12 mt-lg-0 mt-4">
-        <header-profile-card
-          name="Tazki Hanifan Amri"
-          description="KKN Reguler Tim 1 2023"
-        />
+        <header-profile-card>
+          <template #button>
+            <argon-button
+              :onclick="() => $router.push({ name: 'Reportase' })"
+              class="mb-0 me-2"
+              color="secondary"
+              size="sm"
+              >Batal</argon-button
+            >
+            <argon-button
+              type="submit"
+              form="form-add-reportase"
+              class="mb-0 me-lg-2"
+              color="success"
+              variant="gradient"
+              size="sm"
+              >Tambah Reportase</argon-button
+            >
+          </template>
+        </header-profile-card>
         <div class="bg-white pb-2 card mt-4">
           <!-- Card header -->
           <div class="pb-0 card-header">
@@ -14,180 +30,61 @@
             </div>
           </div>
           <div class="ms-2 pt-1 ps-3 card-body">
-            <div class="mt-2 row">
-              <div class="col-12">
-                <label>Judul Program Kerja</label>
-                <input
-                  id="judul-program-kerja"
-                  name="judul-program-kerja"
-                  class="form-control"
-                  type="text"
-                  placeholder="eg. Program Edukasi Kesehatan pada Masyarakat Desa Kedungkandang"
-                />
+            <form
+              role="form"
+              id="form-add-reportase"
+              @submit.prevent="addReportase()"
+            >
+              <div class="mt-2 row">
+                <div class="col-12">
+                  <label>Judul Reportase</label>
+                  <input
+                    id="judul"
+                    name="judul"
+                    class="form-control"
+                    type="text"
+                    required
+                    placeholder="Judul reportase"
+                    v-model="body.judul"
+                  />
+                </div>
               </div>
-            </div>
-            <div class="row mt-1">
-              <div class="col-12">
-                <label class="pt-3">Dokumentasi</label>
-                <p class="text-xs form-text text-muted ms-1 d-inline">
-                  (Header)
-                </p>
-                <form
-                  id="dropzone-dokumentasi-header"
-                  action="/file-upload"
-                  class="form-control dropzone"
-                >
-                  <div class="fallback">
-                    <input
-                      name="file-dokumentasi-header"
-                      type="file"
-                      multiple
-                    />
-                  </div>
-                </form>
+              <div class="row pb-7">
+                <div class="col-12">
+                  <label class="mt-4">Isi Reportase</label>
+                  <div id="isi-editor" class="h-100"></div>
+                  <!-- <quill-editor
+                    id="isi-editor"
+                    :options="options"
+                    style="height: 280px"
+                    v-model:content="body.isi"
+                    contentType="html"
+                    theme="snow"
+                    placeholder="Isi dengan konten reportase program kerja"
+                    ref="isiEditor"
+                  ></quill-editor> -->
+                </div>
               </div>
-            </div>
-            <div class="mt-3 row">
-              <div class="col-12">
-                <label>Judul Dokumentasi</label>
-                <p class="text-xs form-text text-muted ms-1 d-inline">
-                  (Header)
-                </p>
-                <input
-                  id="judul-dokumentasi-header"
-                  name="judul-dokumentasi-header"
-                  class="form-control"
-                  type="text"
-                  placeholder="eg. Gambar 1. Pakaian Adat Desa Kedungkandang"
-                />
+              <div class="row mt-2">
+                <div class="col-12 mt-3 d-flex justify-content-end">
+                  <argon-button
+                    :onclick="() => $router.push({ name: 'Reportase' })"
+                    class="mb-0 me-2"
+                    color="secondary"
+                    size="sm"
+                    >Batal</argon-button
+                  >
+                  <argon-button
+                    class="mb-0 me-lg-2"
+                    form="form-add-reportase"
+                    color="success"
+                    variant="gradient"
+                    size="sm"
+                    >Tambah Reportase</argon-button
+                  >
+                </div>
               </div>
-            </div>
-            <div class="row mt-3">
-              <div class="col-12">
-                <label>Deskripsi</label>
-                <div id="edit-deskripsi" class="h-50"></div>
-              </div>
-            </div>
-            <div class="row mt-3">
-              <div class="col-12">
-                <label class="pt-3">Dokumentasi</label>
-                <p class="text-xs form-text text-muted ms-1 d-inline">(2)</p>
-                <form
-                  id="dropzone-dokumentasi-2"
-                  kripsi-2
-                  action="/file-upload"
-                  class="form-control dropzone"
-                >
-                  <div class="fallback">
-                    <input name="file-dokumentasi-2" type="file" multiple />
-                  </div>
-                </form>
-              </div>
-            </div>
-            <div class="mt-3 row">
-              <div class="col-12">
-                <label>Judul Dokumentasi</label>
-                <p class="text-xs form-text text-muted ms-1 d-inline">(2)</p>
-                <input
-                  id="judul-dokumentasi-2"
-                  name="judul-dokumentasi-2"
-                  class="form-control"
-                  type="text"
-                  placeholder="eg. Gambar 2. Pakaian Adat Desa Kedungkandang 2"
-                />
-              </div>
-            </div>
-            <div class="row mt-2">
-              <div class="col-12">
-                <label class="pt-3">Deskripsi</label>
-                <p class="text-xs form-text text-muted ms-1 d-inline">
-                  (Lanjutan)
-                </p>
-                <div id="edit-deskripsi-lanjutan" class="h-50"></div>
-              </div>
-            </div>
-            <div class="row mt-3">
-              <div class="col-12">
-                <label class="pt-3">Dokumentasi</label>
-                <p class="text-xs form-text text-muted ms-1 d-inline">(3)</p>
-                <form
-                  id="dropzone-dokumentasi-3"
-                  action="/file-upload"
-                  class="form-control dropzone"
-                >
-                  <div class="fallback">
-                    <input name="file-dokumentasi-3" type="file" multiple />
-                  </div>
-                </form>
-              </div>
-            </div>
-            <div class="mt-3 row">
-              <div class="col-12">
-                <label>Judul Dokumentasi</label>
-                <p class="text-xs form-text text-muted ms-1 d-inline">(3)</p>
-                <input
-                  id="judul-dokumentasi-3"
-                  name="judul-dokumentasi-3"
-                  class="form-control"
-                  type="text"
-                  placeholder="eg. Gambar 3. Pakaian Adat Desa Kedungkandang 3"
-                />
-              </div>
-            </div>
-            <div class="mt-3 row">
-              <div class="col-12">
-                <label>Penulis</label>
-                <input
-                  id="penulis"
-                  name="penulis"
-                  class="form-control"
-                  type="text"
-                  placeholder="Nama penulis"
-                />
-              </div>
-            </div>
-            <div class="mt-3 row">
-              <div class="col-12">
-                <label>DPL (Dosen Pembimbing Lapangan)</label>
-                <input
-                  id="dpl"
-                  name="dpl"
-                  class="form-control"
-                  type="text"
-                  placeholder="Nama dosen pembimbing lapangan"
-                />
-              </div>
-            </div>
-            <div class="mt-3 row">
-              <div class="col-12">
-                <label>Lokasi KKN</label>
-                <input
-                  id="lokasi"
-                  name="lokasi"
-                  class="form-control"
-                  type="text"
-                  placeholder="eg. Desa Kedungkandang"
-                />
-              </div>
-            </div>
-            <div class="row mt-2">
-              <div class="col-12 mt-3 d-flex justify-content-end">
-                <argon-button
-                  :onclick="() => $router.push({ name: 'Reportase' })"
-                  class="mb-0 me-2"
-                  color="secondary"
-                  size="sm"
-                  >Batal</argon-button
-                >
-                <argon-button
-                  class="mb-0 me-lg-2"
-                  color="success"
-                  variant="gradient"
-                  size="sm"
-                  >Tambah Reportase</argon-button
-                >
-              </div>
-            </div>
+            </form>
           </div>
         </div>
       </div>
@@ -197,9 +94,11 @@
 
 <script>
 import Quill from "quill";
-import Dropzone from "dropzone";
 import HeaderProfileCard from "@/views/dashboards/components/HeaderProfileCard.vue";
 import ArgonButton from "@/components/ArgonButton.vue";
+import { mapActions, mapState } from "pinia";
+import d$auth from "@/store/auth";
+import d$reportase from "@/store/reportase";
 
 export default {
   name: "AddReportase",
@@ -207,40 +106,187 @@ export default {
     HeaderProfileCard,
     ArgonButton,
   },
+  data() {
+    return {
+      quill: undefined,
+      body: {
+        id_tema: "",
+        judul: "",
+        isi: "",
+      },
+      options: {
+        modules: {
+          toolbar: {
+            container: [["bold", "image"]],
+            handlers: {
+              image: "",
+            },
+          },
+        },
+      },
+    };
+  },
+  computed: {
+    ...mapState(d$auth, ["g$infoUser"]),
+  },
   mounted() {
-    if (document.getElementById("edit-deskripsi")) {
-      new Quill("#edit-deskripsi", {
-        placeholder: "Deskripsikan dokumentasi 1 yang akan ditambahkan",
+    this.setupQuill();
+  },
+  methods: {
+    ...mapActions(d$reportase, ["a$addReportase"]),
+
+    async addReportase() {
+      this.showSwal("loading");
+
+      try {
+        this.body.isi =
+          document.getElementById("isi-editor").children[0].innerHTML;
+
+        if (
+          !this.body.judul ||
+          this.body.judul == "" ||
+          this.isQuillEmpty(this.body.isi)
+        ) {
+          this.showSwal(
+            "warning-message",
+            "Data belum lengkap, lengkapi semua data terlebih dahulu!"
+          );
+          return;
+        }
+
+        this.body.id_tema = parseInt(this.g$infoUser.id_tema);
+
+        // const size =
+        //   encodeURI(JSON.stringify(this.body)).split(/%..|./).length - 1;
+        // console.log(size);
+
+        await this.a$addReportase(this.body);
+        this.showSwal("success-message", "Data reportase berhasil ditambahkan");
+        this.$router.push({ name: "Reportase" });
+      } catch (error) {
+        this.showSwal("failed-message", "Data reportase gagal ditambahkan");
+        console.log(error);
+      }
+    },
+
+    setupQuill() {
+      this.quill = new Quill("#isi-editor", {
         theme: "snow",
+        modules: {
+          toolbar: {
+            container: [
+              [{ font: [] }, { size: [] }],
+              ["bold", "italic", "underline", "strike"],
+              [{ color: [] }, { background: [] }],
+              [{ script: "super" }, { script: "sub" }],
+              [{ header: "1" }, { header: "2" }, "blockquote", "code-block"],
+              [
+                { list: "ordered" },
+                { list: "bullet" },
+                { indent: "-1" },
+                { indent: "+1" },
+              ],
+              ["direction", { align: [] }],
+              ["link", "image", "video"],
+              ["clean"],
+            ],
+            handlers: {
+              image: this.imageHandler,
+            },
+          },
+        },
       });
-    }
-    if (document.getElementById("edit-deskripsi-lanjutan")) {
-      new Quill("#edit-deskripsi-lanjutan", {
-        placeholder: "Deskripsikan dokumentasi 2 yang akan ditambahkan",
-        theme: "snow",
-      });
-    }
+    },
 
-    Dropzone.autoDiscover = false;
-    var drop_dokumentasi_2 = document.getElementById("dropzone-dokumentasi-2");
-    new Dropzone(drop_dokumentasi_2, {
-      url: "/file/post",
-      addRemoveLinks: true,
-    });
+    imageHandler() {
+      var range = this.quill.getSelection(true);
+      var value = prompt("please copy paste the image url here.");
+      if (value) {
+        this.quill.insertEmbed(range, "image", value);
+      }
+    },
 
-    var drop_dokumentasi = document.getElementById("dropzone-dokumentasi-3");
-    new Dropzone(drop_dokumentasi, {
-      url: "/file/post",
-      addRemoveLinks: true,
-    });
+    isQuillEmpty(input) {
+      if (input == "" || input == "<p><br></p>") return true;
+      else return false;
+    },
 
-    var drop_dokumentasi_header = document.getElementById(
-      "dropzone-dokumentasi-header"
-    );
-    new Dropzone(drop_dokumentasi_header, {
-      url: "/file/post",
-      addRemoveLinks: true,
-    });
+    showSwal(type, text) {
+      if (type === "success-message") {
+        this.$swal({
+          icon: "success",
+          title: "Berhasil!",
+          text: text,
+          timer: 2500,
+          type: type,
+          timerProgressBar: true,
+          showConfirmButton: false,
+          didOpen: () => {
+            this.$swal.hideLoading();
+          },
+        });
+      } else if (type === "warning-message") {
+        this.$swal({
+          icon: "warning",
+          title: "Peringatan!",
+          text: text,
+          timer: 2500,
+          type: type,
+          timerProgressBar: true,
+          showConfirmButton: false,
+          didOpen: () => {
+            this.$swal.hideLoading();
+          },
+        });
+      } else if (type === "failed-message") {
+        this.$swal({
+          icon: "error",
+          title: "Gagal!",
+          text: text,
+          timer: 2500,
+          type: type,
+          timerProgressBar: true,
+          showConfirmButton: false,
+          didOpen: () => {
+            this.$swal.hideLoading();
+          },
+        });
+      } else if (type === "auto-close") {
+        let timerInterval;
+        this.$swal({
+          title: "Auto close alert!",
+          html: "I will close in <b></b> milliseconds.",
+          timer: 2000,
+          timerProgressBar: true,
+          didOpen: () => {
+            this.$swal.showLoading();
+            const b = this.$swal.getHtmlContainer().querySelector("b");
+            timerInterval = setInterval(() => {
+              b.textContent = this.$swal.getTimerLeft();
+            }, 100);
+          },
+          willClose: () => {
+            clearInterval(timerInterval);
+          },
+        });
+      } else if (type === "loading") {
+        this.$swal({
+          title: "Memuat...",
+          timerProgressBar: true,
+          showConfirmButton: false,
+          allowOutsideClick: false,
+          allowEscapeKey: false,
+          didOpen: () => {
+            this.$swal.showLoading();
+          },
+          didDestroy: () => {
+            this.$swal.hideLoading();
+          },
+        });
+      } else if (type === "close") {
+        this.$swal.close();
+      }
+    },
   },
 };
 </script>

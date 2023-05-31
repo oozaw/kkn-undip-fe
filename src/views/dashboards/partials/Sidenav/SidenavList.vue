@@ -461,6 +461,7 @@
                 text="LPK"
               />
               <sidenav-item
+                :isActive="getRoute2() === 'reportase'"
                 :to="{ name: 'Reportase' }"
                 mini-icon="R"
                 text="Data Reportase"
