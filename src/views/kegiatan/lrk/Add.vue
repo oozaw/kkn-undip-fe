@@ -171,6 +171,28 @@
                   />
                 </div>
               </div>
+              <div class="row mt-4">
+                <div
+                  class="col-sm-auto ms-sm-auto mt-sm-0 mt-3 d-flex justify-content-end"
+                >
+                  <argon-button
+                    :onclick="() => $router.push({ name: 'LRK' })"
+                    class="mb-0 me-2"
+                    color="secondary"
+                    size="sm"
+                    >Batal</argon-button
+                  >
+                  <argon-button
+                    type="submit"
+                    form="form-add-lrk"
+                    class="mb-0 me-lg-2"
+                    color="success"
+                    variant="gradient"
+                    size="sm"
+                    >Tambah LRK</argon-button
+                  >
+                </div>
+              </div>
             </div>
           </form>
         </div>
@@ -196,14 +218,6 @@ export default {
   },
   data() {
     return {
-      quillLB: undefined,
-      quillUsulan: undefined,
-      quillSasaran: undefined,
-      quillMetode: undefined,
-      quillHambatan: undefined,
-      quillOutput: undefined,
-      quillKeberlanjutan: undefined,
-      choicesKategori: undefined,
       body: {
         id_tema: parseInt(this.$route.params.id_tema),
         judul: "",

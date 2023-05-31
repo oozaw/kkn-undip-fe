@@ -31,6 +31,16 @@ const d$laporan = defineStore("laporanStore", {
       }
     },
 
+    async a$editLRK(body) {
+      try {
+        const status = await s$laporan.editLRK(body);
+        this.status = status;
+      } catch (error) {
+        this.status = false;
+        throw error;
+      }
+    },
+
     async a$listLPK() {
       try {
         const { data, status } = await s$laporan.listLPK();

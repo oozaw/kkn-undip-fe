@@ -121,24 +121,30 @@
                       </td>
                       <td class="text-sm">
                         <a
-                          href="javascript:;"
+                          href="#"
+                          class="detail"
                           data-bs-toggle="tooltip"
-                          data-bs-original-title="Preview product"
+                          data-bs-original-title="Detail LPK"
+                          title="Detail LPK"
                         >
                           <i class="fas fa-eye text-info"></i>
                         </a>
                         <a
-                          href="javascript:;"
-                          class="mx-3"
+                          :id="lrk.id_laporan"
+                          href="#"
+                          class="mx-3 edit"
                           data-bs-toggle="tooltip"
-                          data-bs-original-title="Edit product"
+                          data-bs-original-title="Edit LRK"
+                          title="Edit LRK"
                         >
                           <i class="fas fa-user-edit text-primary"></i>
                         </a>
                         <a
-                          href="javascript:;"
+                          href="#"
+                          class="hapus"
                           data-bs-toggle="tooltip"
-                          data-bs-original-title="Delete product"
+                          data-bs-original-title="Hapus LRK"
+                          title="Hapus LRK"
                         >
                           <i class="fas fa-trash text-danger"></i>
                         </a>
@@ -271,6 +277,7 @@
 </template>
 
 <script>
+import $ from "jquery";
 import { DataTable } from "simple-datatables";
 import Choices from "choices.js";
 import setTooltip from "@/assets/js/tooltip.js";
@@ -298,8 +305,7 @@ export default {
   },
   async created() {
     if (this.g$user.role === "MAHASISWA") {
-      await this.a$listLRK();
-      this.setupDataTable("lrk-list");
+      await this.getListLRK();
     }
   },
   mounted() {
@@ -315,6 +321,20 @@ export default {
   methods: {
     ...mapActions(d$tema, ["a$listTema"]),
     ...mapActions(d$laporan, ["a$listLRK"]),
+
+    async getListLRK() {
+      this.indexComponent++;
+
+      try {
+        await this.a$listLRK();
+      } catch (error) {
+        this.showSwal("failed-message", "Terjadi kesalahan saat memuat data");
+        console.log(error.error);
+      }
+
+      this.setupDataTable("lrk-list");
+      this.setupTableAction();
+    },
 
     setupDataTable(id) {
       let element = document.getElementById(id);
@@ -374,6 +394,18 @@ export default {
     getTema() {
       this.tema =
         document.getElementById("choices-tema").selectedOptions[0].text;
+    },
+
+    setupTableAction() {
+      let outerThis = this;
+      $("#lrk-list").on("click", `.edit`, function (e) {
+        let lrk = this;
+        outerThis.$router.push({
+          name: "Edit LRK",
+          params: { id_laporan: lrk.id },
+        });
+        e.preventDefault();
+      });
     },
 
     showSwal(type, text) {

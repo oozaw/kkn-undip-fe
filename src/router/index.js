@@ -342,7 +342,7 @@ const routes = [
     },
   },
   {
-    path: "/kegiatan/lrk/edit",
+    path: "/kegiatan/lrk/edit/:id_laporan",
     name: "Edit LRK",
     component: EditLRK,
     meta: {
