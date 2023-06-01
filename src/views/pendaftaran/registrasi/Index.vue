@@ -16,7 +16,7 @@
                 class="form-control"
                 name="choices-tema"
                 v-model="tema"
-                @change="getListGelombangAndProposal()"
+                @change="getListGelombang()"
               >
                 <option
                   v-for="tema in g$listTemaActive"
@@ -125,38 +125,47 @@
             </div>
           </div>
         </div>
-        <div id="card-section" class="row" :key="indexComponent">
+        <div id="card-section" class="row pe-0" :key="indexComponent">
           <div
-            class="col-lg-6"
-            v-for="gel in listGelombang"
+            class="col-lg-6 pe-0"
+            v-for="gel in g$listGelombang"
             :key="gel.id_gelombang"
           >
-            <GelombangCard
+            <card
               :title="gel.nama"
               :status="gel.status"
-              :statusColor="gel.status_color"
+              :status-pendaftaran="gel.proposal[0]?.status"
+              :id-pendaftaran="gel.proposal[0]?.id_proposal"
+              :nama-kecamatan="gel.proposal[0]?.kecamatan.nama"
+              :nama-tema="namaTema"
+              :id-gelombang="gel.id_gelombang"
+              :nama-gelombang="gel.nama"
+              :jumlah-gelombang="g$listGelombang.length"
               deadline="31 Juni 2023 | 11:00 AM"
-              :action="{
-                route: '/pendaftaran/lokasi',
-                label: 'Lihat',
-                color: 'secondary',
-              }"
             >
-              <template #button v-if="gel.status === 'Diterima'">
+              <template
+                #button
+                v-if="
+                  !gel.proposal[0]?.status &&
+                  gel.status &&
+                  gel.proposal[0]?.status != 0
+                "
+              >
                 <router-link
                   :to="{
                     name: 'Tambah Registrasi',
                     params: {
+                      id_tema: tema,
                       id_gelombang: gel.id_gelombang,
                     },
                   }"
                   type="button"
-                  class="mb-0 btn btn-sm bg-gradient-primary"
+                  class="mb-0 btn btn-sm bg-gradient-success"
                 >
-                  Tambah
+                  Daftar
                 </router-link>
               </template>
-            </GelombangCard>
+            </card>
           </div>
         </div>
       </div>
@@ -170,7 +179,7 @@ import Choices from "choices.js";
 import { DataTable } from "simple-datatables";
 import setTooltip from "@/assets/js/tooltip.js";
 import HeaderProfileCard from "@/views/dashboards/components/HeaderProfileCard.vue";
-import GelombangCard from "@/views/dashboards/components/Cards/GelombangCard.vue";
+import Card from "@/views/dashboards/components/Cards/GelombangCard.vue";
 import { mapActions, mapState } from "pinia";
 import d$proposal from "@/store/proposal";
 import d$gelombang from "@/store/gelombang";
@@ -182,11 +191,12 @@ export default {
   name: "IndexRegistrasiKKN",
   components: {
     HeaderProfileCard,
-    GelombangCard,
+    Card,
   },
   data() {
     return {
-      tema: 1,
+      id_halaman: 1,
+      tema: "",
       choicesTema: undefined,
       indexComponent: 0,
       listGelombang: [],
@@ -203,7 +213,7 @@ export default {
   async created() {
     await this.a$listTema();
     this.tema = this.g$listTemaActive[0].id_tema;
-    this.getListGelombangAndProposal();
+    this.getListGelombang();
 
     this.choicesTema = this.getChoices("choices-tema");
 
@@ -214,83 +224,31 @@ export default {
   },
   methods: {
     ...mapActions(d$proposal, ["a$listProposal"]),
-    ...mapActions(d$gelombang, ["a$listGelombang"]),
+    ...mapActions(d$gelombang, ["a$listGelombangDosen"]),
     ...mapActions(d$tema, ["a$listTema"]),
     ...mapActions(d$dokumen, ["a$getDokumenLink"]),
 
-    async getListGelombangAndProposal() {
+    async getListGelombang() {
       this.indexComponent++;
       this.tema = parseInt(this.tema);
 
-      await this.getListProposal(this.tema);
-
-      this.listGelombang = [];
-      if (this.tema === 1) {
-        this.listGelombang.push(
-          {
-            id_gelombang: 1,
-            id_tema: 1,
-            nama: "Gelombang 1 Dosen",
-            status: 1,
-          },
-          {
-            id_gelombang: 3,
-            id_tema: 1,
-            nama: "Gelombang 3 Dosen",
-            status: 0,
-          }
+      try {
+        await this.getTema();
+        await this.a$listGelombangDosen(
+          this.tema,
+          this.id_halaman,
+          this.g$infoUser.id_dosen
         );
-      } else if (this.tema === 2) {
-        this.listGelombang.push(
-          {
-            id_gelombang: 2,
-            id_tema: 2,
-            nama: "Gelombang 2 Dosen",
-            status: -1,
-          },
-          {
-            id_gelombang: 4,
-            id_tema: 2,
-            nama: "Gelombang 4 Dosen",
-            status: 1,
-          }
+        await this.getListProposal(this.tema);
+      } catch (error) {
+        this.showSwal(
+          "failed-message",
+          error ?? "Terjadi kesalahan saat memuat data"
         );
+        console.log(error);
       }
 
-      var newListGelombang = [];
-      this.listGelombang.forEach((gelombang) => {
-        if (gelombang.status === 0) {
-          gelombang.status = "Sedang diproses";
-          let newGelombang = Object.assign({}, gelombang, {
-            status_color: "secondary",
-          });
-          newListGelombang.push(newGelombang);
-        } else if (gelombang.status === 1) {
-          gelombang.status = "Diterima";
-          let newGelombang = Object.assign({}, gelombang, {
-            status_color: "success",
-          });
-          newListGelombang.push(newGelombang);
-        } else {
-          gelombang.status = "Ditolak";
-          let newGelombang = Object.assign({}, gelombang, {
-            status_color: "danger",
-          });
-          newListGelombang.push(newGelombang);
-        }
-      });
-
-      this.listGelombang = newListGelombang;
-
-      // try {
-      //   await this.a$listGelombang(this.tema);
-      // } catch (error) {
-      //   this.showSwal(
-      //     "failed-message",
-      //     error ?? "Terjadi kesalahan saat memuat data"
-      //   );
-      //   console.log(error);
-      // }
+      this.setupDataTable();
     },
 
     async getListProposal(id_tema) {
@@ -311,6 +269,16 @@ export default {
 
       this.setupDataTable();
       this.setupTableAction();
+      this.setupDataTableGelombang();
+    },
+
+    async getTema() {
+      await this.g$listTemaActive.forEach((tema) => {
+        if (tema.id_tema == this.tema) {
+          this.namaTema = tema.nama;
+          return;
+        }
+      });
     },
 
     showSwal(type, text) {
@@ -361,8 +329,21 @@ export default {
         return new Choices(element, {
           searchEnabled: true,
           allowHTML: true,
+          shouldSort: false,
         });
       }
+    },
+
+    setupDataTableGelombang() {
+      this.g$listGelombang.forEach((gel) => {
+        if (document.getElementById(`pendaftaran-list-${gel.id_gelombang}`)) {
+          return new DataTable(`#pendaftaran-list-${gel.id_gelombang}`, {
+            searchable: false,
+            fixedHeight: false,
+            perPage: 1,
+          });
+        }
+      });
     },
 
     setupDataTable() {

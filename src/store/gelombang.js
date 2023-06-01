@@ -45,6 +45,26 @@ const d$gelombang = defineStore("gelombangStore", {
       }
     },
 
+    async a$listGelombangDosen(id_tema, id_halaman, id_dosen) {
+      try {
+        const { data, status } = await s$gelombang.listGelombangDosen(
+          id_tema,
+          id_halaman,
+          id_dosen
+        );
+        this.listGelombang = data ?? [];
+        data.forEach((gelombang) => {
+          if (gelombang.status) {
+            this.listGelombangActive.push(gelombang);
+          }
+        });
+        this.status = status;
+      } catch (error) {
+        this.status = false;
+        throw error;
+      }
+    },
+
     async a$listGelombangMahasiswa(id_tema, id_halaman, id_mahasiswa) {
       try {
         const { data, status } = await s$gelombang.listGelombangMahasiswa(

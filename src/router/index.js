@@ -398,7 +398,7 @@ const routes = [
     },
   },
   {
-    path: "/pendaftaran/registrasi/add/:id_gelombang",
+    path: "/pendaftaran/registrasi/add/:id_tema/:id_gelombang",
     name: "Tambah Registrasi",
     component: AddRegistrasi,
     meta: {
