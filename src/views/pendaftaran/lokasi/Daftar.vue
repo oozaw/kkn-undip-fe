@@ -144,14 +144,7 @@ export default {
     ...mapState(d$tema, ["g$listTemaActive"]),
   },
   async created() {
-    await this.a$listTema();
-    await this.a$listGelombang(
-      parseInt(this.$route.params.id_tema),
-      parseInt(this.id_halaman)
-    );
-    await this.getTema();
-    await this.getGelombang();
-    await this.getListKabupaten();
+    await this.getInitData();
 
     this.body.id_tema = parseInt(this.$route.params.id_tema);
     this.body.id_gelombang = parseInt(this.$route.params.id_gelombang);
@@ -171,6 +164,25 @@ export default {
     ...mapActions(d$wilayah, ["a$listAllKabupaten"]),
     ...mapActions(d$gelombang, ["a$listGelombang"]),
     ...mapActions(d$tema, ["a$listTema"]),
+
+    async getInitData() {
+      this.showSwal("loading");
+
+      try {
+        await this.a$listTema();
+        await this.a$listGelombang(
+          parseInt(this.$route.params.id_tema),
+          parseInt(this.id_halaman)
+        );
+        await this.getTema();
+        await this.getGelombang();
+        await this.getListKabupaten();
+        this.showSwal("close");
+      } catch (error) {
+        this.showSwal("failed-message", "Terjadi kesalahan saat memuat data");
+        console.log(error);
+      }
+    },
 
     async daftarLokasi() {
       if (!this.body.id_kecamatan || this.body.id_kecamatan == "") {

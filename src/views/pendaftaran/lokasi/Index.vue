@@ -29,48 +29,50 @@
             </div>
           </div>
         </div>
-      </div>
-      <div id="card-section" class="row pe-0" :key="indexComponent">
-        <div
-          class="col-lg-6 pe-0"
-          v-for="gel in g$listGelombang"
-          :key="gel.id_gelombang"
-        >
-          <card
-            :title="gel.nama"
-            :status="gel.status"
-            :status-pendaftaran="gel.mahasiswa_kecamatan[0]?.status"
-            :id-pendaftaran="gel.mahasiswa_kecamatan[0]?.id_mahasiswa_kecamatan"
-            :nama-kecamatan="gel.mahasiswa_kecamatan[0]?.kecamatan.nama"
-            :nama-tema="namaTema"
-            :id-gelombang="gel.id_gelombang"
-            :nama-gelombang="gel.nama"
-            :jumlah-gelombang="g$listGelombang.length"
-            deadline="31 Juni 2023 | 11:00 AM"
+        <div id="card-section" class="row" :key="indexComponent">
+          <div
+            class="col-lg-6"
+            v-for="gel in g$listGelombang"
+            :key="gel.id_gelombang"
           >
-            <template
-              #button
-              v-if="
-                !gel.mahasiswa_kecamatan[0]?.status &&
-                gel.status &&
-                gel.mahasiswa_kecamatan[0]?.status != 0
+            <card
+              :title="gel.nama"
+              :status="gel.status"
+              :status-pendaftaran="gel.mahasiswa_kecamatan[0]?.status"
+              :id-pendaftaran="
+                gel.mahasiswa_kecamatan[0]?.id_mahasiswa_kecamatan
               "
+              :nama-kecamatan="gel.mahasiswa_kecamatan[0]?.kecamatan.nama"
+              :nama-tema="namaTema"
+              :id-gelombang="gel.id_gelombang"
+              :nama-gelombang="gel.nama"
+              :jumlah-gelombang="g$listGelombang.length"
+              deadline="31 Juni 2023 | 11:00 AM"
             >
-              <router-link
-                :to="{
-                  name: 'Daftar Lokasi',
-                  params: {
-                    id_tema: tema,
-                    id_gelombang: gel.id_gelombang,
-                  },
-                }"
-                type="button"
-                class="mb-0 btn btn-sm bg-gradient-success"
+              <template
+                #button
+                v-if="
+                  !gel.mahasiswa_kecamatan[0]?.status &&
+                  gel.status &&
+                  gel.mahasiswa_kecamatan[0]?.status != 0
+                "
               >
-                Daftar
-              </router-link>
-            </template>
-          </card>
+                <router-link
+                  :to="{
+                    name: 'Daftar Lokasi',
+                    params: {
+                      id_tema: tema,
+                      id_gelombang: gel.id_gelombang,
+                    },
+                  }"
+                  type="button"
+                  class="mb-0 btn btn-sm bg-gradient-success"
+                >
+                  Daftar
+                </router-link>
+              </template>
+            </card>
+          </div>
         </div>
       </div>
     </div>
@@ -113,9 +115,7 @@ export default {
     ...mapState(d$auth, ["g$infoUser"]),
   },
   async created() {
-    await this.a$listTema();
-    this.tema = this.g$listTemaActive[0].id_tema;
-    await this.getListGelombang();
+    await this.getInitData();
 
     this.choicesTema = this.getChoices("choices-tema");
   },
@@ -125,6 +125,20 @@ export default {
   methods: {
     ...mapActions(d$gelombang, ["a$listGelombangMahasiswa"]),
     ...mapActions(d$tema, ["a$listTema"]),
+
+    async getInitData() {
+      // this.showSwal("loading");
+
+      try {
+        await this.a$listTema();
+        this.tema = this.g$listTemaActive[0].id_tema;
+        await this.getListGelombang();
+        // this.showSwal("close");
+      } catch (error) {
+        this.showSwal("failed-message", "Terjadi kesalahan saat memuat data");
+        console.log(error);
+      }
+    },
 
     async getListGelombang() {
       this.indexComponent++;
@@ -190,6 +204,9 @@ export default {
           type: type,
           timerProgressBar: true,
           showConfirmButton: false,
+          didOpen: () => {
+            this.$swal.hideLoading();
+          },
         });
       } else if (type === "failed-message") {
         this.$swal({
@@ -200,6 +217,9 @@ export default {
           type: type,
           timerProgressBar: true,
           showConfirmButton: false,
+          didOpen: () => {
+            this.$swal.hideLoading();
+          },
         });
       } else if (type === "auto-close") {
         let timerInterval;
@@ -231,6 +251,9 @@ export default {
             cancelButton: "btn bg-gradient-secondary",
           },
           buttonsStyling: false,
+          didOpen: () => {
+            this.$swal.hideLoading();
+          },
         }).then((result) => {
           if (result.isConfirmed) {
             this.$swal({
@@ -257,11 +280,9 @@ export default {
           allowOutsideClick: false,
           allowEscapeKey: false,
           didOpen: () => {
-            this.$swal.isLoading();
-            if (this.$swal.isLoading()) this.$swal.showLoading();
+            this.$swal.showLoading();
           },
           didDestroy: () => {
-            !this.$swal.isLoading();
             this.$swal.hideLoading();
           },
         });

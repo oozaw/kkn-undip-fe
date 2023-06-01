@@ -61,9 +61,11 @@
                   >
                     <td class="text-sm">{{ index + 1 }}</td>
                     <td>
-                      <h6 class="my-auto">{{ proposal.nama_kecamatan }}</h6>
+                      <h6 class="my-auto">{{ proposal.kecamatan.nama }}</h6>
                     </td>
-                    <td class="text-sm">{{ proposal.periode }}</td>
+                    <td class="text-sm">
+                      {{ proposal.kecamatan.kabupaten.tema.periode }}
+                    </td>
                     <td class="text-sm">
                       <a
                         :id="proposal.id_dokumen"
@@ -81,7 +83,7 @@
                       >
                       <span
                         v-if="proposal.status === 0"
-                        class="badge badge-secondary"
+                        class="badge badge-primary"
                         >Sedang Diproses</span
                       >
                       <span v-else class="badge badge-danger">Ditolak</span>
@@ -125,9 +127,9 @@
             </div>
           </div>
         </div>
-        <div id="card-section" class="row pe-0" :key="indexComponent">
+        <div id="card-section" class="row" :key="indexComponent">
           <div
-            class="col-lg-6 pe-0"
+            class="col-lg-6"
             v-for="gel in g$listGelombang"
             :key="gel.id_gelombang"
           >
@@ -196,7 +198,8 @@ export default {
   data() {
     return {
       id_halaman: 1,
-      tema: "",
+      tema: 1,
+      namaTema: "",
       choicesTema: undefined,
       indexComponent: 0,
       listGelombang: [],
@@ -213,10 +216,10 @@ export default {
   async created() {
     await this.a$listTema();
     this.tema = this.g$listTemaActive[0].id_tema;
+
     this.getListGelombang();
 
     this.choicesTema = this.getChoices("choices-tema");
-
     setTooltip(this.$store.state.bootstrap);
   },
   beforeUnmount() {

@@ -35,7 +35,7 @@
           </span>
           <span
             v-else-if="statusPendaftaran == 0"
-            class="font-weight-bolder text-warning"
+            class="font-weight-bolder text-primary"
           >
             Sedang diproses
           </span>
@@ -104,7 +104,7 @@
                       </td>
                       <td class="text-sm">
                         <span
-                          class="badge badge-secondary"
+                          class="badge badge-primary"
                           v-if="statusPendaftaran === 0"
                           >Sedang diproses
                         </span>

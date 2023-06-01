@@ -53,9 +53,8 @@ export default {
   },
   mounted() {
     if (this.g$user.role) {
-      document.getElementById("role").innerHTML = this.checkRole(
-        this.g$user.role
-      );
+      var element = document.getElementById("role");
+      if (element) element.innerHTML = this.checkRole(this.g$user.role);
     }
   },
   methods: {

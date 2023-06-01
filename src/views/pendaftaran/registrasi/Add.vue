@@ -5,7 +5,7 @@
         <HeaderProfileCard>
           <template #button>
             <argon-button
-              :onclick="() => $router.push({ name: 'Registrasi KKN' })"
+              :onclick="() => $router.push({ name: 'Registrasi' })"
               class="mb-0 me-2"
               color="secondary"
               size="sm"
@@ -23,7 +23,9 @@
           </template>
         </HeaderProfileCard>
         <div class="p-4 pt-3 bg-white card mt-4">
-          <h5 class="">Registrasi KKN</h5>
+          <h5 class="">
+            {{ `Registrasi KKN ${gelombang.nama} ${tema.nama}` }}
+          </h5>
           <form
             role="form"
             id="form-proposal"
@@ -32,57 +34,15 @@
           >
             <div class="mt-2 row">
               <div class="col-md-6 col-12">
-                <div class="row">
-                  <div class="col-12 align-self-center">
-                    <label class="form-label mt-2">Jenis KKN</label>
-                    <select
-                      id="choices-jenis"
-                      class="form-control"
-                      name="choices-jenis"
-                      @change="getListTema()"
-                    >
-                      <option value="" selected hidden disabled>
-                        -- Pilih jenis KKN --
-                      </option>
-                      <option value="reguler">Reguler</option>
-                      <option value="tematik">Tematik</option>
-                    </select>
-                  </div>
-                </div>
-                <div class="row mt-3">
-                  <div class="col-12 align-self-center">
-                    <label class="form-label mt-2">Tema</label>
-                    <select
-                      id="choices-tema"
-                      class="form-control"
-                      name="choices-tema"
-                      v-model="tema"
-                      @change="getListKabupaten()"
-                    >
-                      <option value="" selected hidden disabled>
-                        -- Pilih tema --
-                      </option>
-                      <!-- <option
-                        v-for="tema in listTemaActive"
-                        :key="tema.id_tema"
-                        :value="tema.id_tema"
-                      >
-                        {{ tema.nama }}
-                      </option> -->
-                    </select>
-                  </div>
-                </div>
-                <div
-                  class="reguler-section"
-                  :hidden="filterJenis !== 'reguler'"
-                >
-                  <div class="row mt-3">
+                <div class="reguler-section" :hidden="filterJenis !== 1">
+                  <div class="row">
                     <div class="col-12 align-self-center">
                       <label class="form-label mt-2">Provinsi</label>
                       <select
                         id="choices-provinsi"
                         class="form-control"
                         name="choices-provinsi"
+                        v-model="id_provinsi"
                       >
                         <option value="" selected hidden disabled>
                           -- Pilih Provinsi --
@@ -97,7 +57,7 @@
                         id="choices-kab"
                         class="form-control"
                         name="choices-kab"
-                        v-model="kabupaten"
+                        v-model="id_kabupaten"
                         @change="getListKecamatan()"
                       >
                         <option value="" selected hidden disabled>
@@ -120,7 +80,7 @@
                         id="choices-kec"
                         class="form-control"
                         name="choices-kec"
-                        v-model="kecamatan"
+                        v-model="body.id_kecamatan"
                         @change="getPotensi()"
                       >
                         <option value="" selected hidden disabled>
@@ -153,9 +113,15 @@
               </div>
               <div class="col-md-6 col-12 mt-3 mt-md-0">
                 <div class="col-12 ms-md-2 pe-1">
-                  <label class="form-label">Potensi Wilayah Terpilih:</label>
+                  <label class="form-label">{{
+                    `Potensi Kecamatan ${kecamatan.nama ?? ""}`
+                  }}</label>
                   <div class="row ms-1 text-md">
-                    <span id="potensi" class="" v-html="potensi"></span>
+                    <span
+                      id="potensi"
+                      class=""
+                      v-html="kecamatan.potensi"
+                    ></span>
                   </div>
                 </div>
               </div>
@@ -175,6 +141,7 @@ import ArgonButton from "@/components/ArgonButton.vue";
 import { mapActions, mapState } from "pinia";
 import d$wilayah from "@/store/wilayah";
 import d$tema from "@/store/tema";
+import d$gelombang from "@/store/gelombang";
 import d$proposal from "@/store/proposal";
 
 export default {
@@ -187,15 +154,19 @@ export default {
     const filterJenis = ref("");
 
     return {
+      id_halaman: 1,
       filterJenis,
-      file: "",
+      body: {
+        file: "",
+        id_kecamatan: "",
+        id_gelombang: "",
+      },
       tema: "",
-      provinsi: "",
-      kabupaten: "",
+      gelombang: "",
+      id_provinsi: "",
+      id_kabupaten: "",
       kecamatan: "",
       potensi: "",
-      choicesJenis: undefined,
-      choicesTema: undefined,
       choicesProvinsi: undefined,
       choicesKabupaten: undefined,
       choicesKecamatan: undefined,
@@ -205,17 +176,17 @@ export default {
   computed: {
     ...mapState(d$wilayah, ["g$listKabupaten", "g$listKecamatan"]),
     ...mapState(d$tema, ["g$listTema", "g$listTemaActive"]),
+    ...mapState(d$gelombang, ["g$listGelombang"]),
+  },
+  async created() {
+    await this.getInitData();
   },
   mounted() {
-    this.choicesJenis = this.getChoices("choices-jenis");
-    this.choicesTema = this.getChoices("choices-tema");
     this.choicesProvinsi = this.getChoices("choices-provinsi");
     this.choicesKabupaten = this.getChoices("choices-kab");
     this.choicesKecamatan = this.getChoices("choices-kec");
   },
   beforeUnmount() {
-    if (this.choicesJenis) this.choicesJenis.destroy();
-    if (this.choicesTema) this.choicesTema.destroy();
     if (this.choicesProvinsi) this.choicesProvinsi.destroy();
     if (this.choicesKabupaten) this.choicesKabupaten.destroy();
     if (this.choicesKecamatan) this.choicesKecamatan.destroy();
@@ -223,21 +194,27 @@ export default {
   methods: {
     ...mapActions(d$wilayah, ["a$listAllKabupaten"]),
     ...mapActions(d$tema, ["a$listTema"]),
+    ...mapActions(d$gelombang, ["a$listGelombang"]),
     ...mapActions(d$proposal, ["a$addProposal"]),
 
     async addProposal() {
       this.showSwal("loading");
-      this.file = this.$refs.file.files[0];
-      this.kecamatan = parseInt(this.kecamatan);
+      this.body.file = this.$refs.file.files[0];
+      this.body.id_kecamatan = parseInt(this.body.id_kecamatan);
+      this.body.id_gelombang = parseInt(this.$route.params.id_gelombang);
 
-      var body = {
-        file: this.file,
-        id_kecamatan: this.kecamatan,
-        id_gelombang: this.$route.params.id_gelombang,
-      };
+      if (!this.body.id_kecamatan) {
+        this.showSwal("failed-message", "Kecamatan harus diisi!");
+        return;
+      }
+
+      if (!this.body.file) {
+        this.showSwal("failed-message", "File proposal harus diisi!");
+        return;
+      }
 
       try {
-        await this.a$addProposal(body);
+        await this.a$addProposal(this.body);
         this.$router.push({ name: "Registrasi" });
         this.showSwal(
           "success-message",
@@ -246,29 +223,29 @@ export default {
       } catch (error) {
         this.showSwal(
           "failed-message",
-          error ?? "Terjadi kesalahan saat menambahkan data"
+          "Terjadi kesalahan saat menambahkan data"
         );
         console.log(error);
       }
     },
 
     async getPotensi() {
-      this.kecamatan = parseInt(this.kecamatan);
+      this.body.id_kecamatan = parseInt(this.body.id_kecamatan);
       await this.g$listKecamatan.forEach((kecamatan) => {
-        if (kecamatan.id_kecamatan === this.kecamatan) {
-          this.potensi = kecamatan.potensi;
+        if (kecamatan.id_kecamatan === this.body.id_kecamatan) {
+          this.kecamatan = kecamatan;
         }
       });
     },
 
     async getListKecamatan() {
       this.listKecamatan = [];
-      this.kabupaten = parseInt(this.kabupaten);
+      this.id_kabupaten = parseInt(this.id_kabupaten);
 
       try {
         await this.g$listKecamatan.forEach((kecamatan) => {
           if (
-            kecamatan.id_kabupaten === this.kabupaten &&
+            kecamatan.id_kabupaten === this.id_kabupaten &&
             kecamatan.status === 1
           ) {
             this.listKecamatan.push(kecamatan);
@@ -280,34 +257,51 @@ export default {
       }
     },
 
-    async getListKabupaten() {
-      this.tema = parseInt(this.tema);
-
+    async getInitData() {
+      this.showSwal("loading");
       try {
-        await this.a$listAllKabupaten(this.tema);
+        await this.a$listTema();
+        await this.a$listGelombang(
+          parseInt(this.$route.params.id_tema),
+          parseInt(this.id_halaman)
+        );
+        await this.getTema();
+        await this.getGelombang();
+        await this.getListKabupaten();
+
+        this.showSwal("close");
+      } catch (error) {
+        this.showSwal("failed-message", "Terjadi kesalahan saat memuat data");
+        console.log(error);
+      }
+    },
+
+    async getListKabupaten() {
+      try {
+        await this.a$listAllKabupaten(parseInt(this.tema.id_tema));
         this.setChoices(this.choicesKabupaten, this.g$listKabupaten);
       } catch (error) {
         console.log(error);
       }
     },
 
-    async getListTema() {
-      // tambahin filter jenis
-
-      try {
-        await this.a$listTema();
-        this.setChoices(this.choicesTema, this.g$listTemaActive);
-        this.checkJenisSelection();
-      } catch (error) {
-        console.log(error);
-      }
+    async getTema() {
+      await this.g$listTemaActive.forEach((tema) => {
+        if (tema.id_tema == this.$route.params.id_tema) {
+          this.tema = tema;
+          return;
+        }
+      });
+      this.filterJenis = this.tema.jenis;
     },
 
-    checkJenisSelection() {
-      var element = document.getElementById("choices-jenis");
-      if (element) {
-        this.filterJenis = element.value;
-      }
+    async getGelombang() {
+      await this.g$listGelombang.forEach((gelombang) => {
+        if (gelombang.id_gelombang == this.$route.params.id_gelombang) {
+          this.gelombang = gelombang;
+          return;
+        }
+      });
     },
 
     setChoices(choices, option) {
@@ -344,6 +338,9 @@ export default {
           type: type,
           timerProgressBar: true,
           showConfirmButton: false,
+          didOpen: () => {
+            this.$swal.hideLoading();
+          },
         });
       } else if (type === "failed-message") {
         this.$swal({
@@ -354,6 +351,9 @@ export default {
           type: type,
           timerProgressBar: true,
           showConfirmButton: false,
+          didOpen: () => {
+            this.$swal.hideLoading();
+          },
         });
       } else if (type === "auto-close") {
         let timerInterval;
