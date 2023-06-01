@@ -12,9 +12,9 @@ const addProposal = (body) =>
   });
 
 const accProposal = (id_proposal) =>
-  baseApi.patch(`${api}admin/proposal/acc/${id_proposal}`);
+  baseApi.put(`${api}admin/proposal/acc/${id_proposal}`);
 
 const decProposal = (id_proposal) =>
-  baseApi.patch(`${api}admin/proposal/dec/${id_proposal}`);
+  baseApi.put(`${api}admin/proposal/dec/${id_proposal}`);
 
 export { listProposal, addProposal, accProposal, decProposal };
