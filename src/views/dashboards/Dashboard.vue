@@ -331,7 +331,7 @@ export default {
       if (error) {
         if (error === "unauthorized")
           this.showSwal(
-            "failed-message",
+            "warning-message",
             "Anda tidak mempunyai akses ke halaman tersebut!"
           );
       }
@@ -347,6 +347,22 @@ export default {
           type: type,
           timerProgressBar: true,
           showConfirmButton: false,
+          didOpen: () => {
+            this.$swal.hideLoading();
+          },
+        });
+      } else if (type === "warning-message") {
+        this.$swal({
+          icon: "warning",
+          title: "Peringatan!",
+          text: text,
+          timer: 2500,
+          type: type,
+          timerProgressBar: true,
+          showConfirmButton: false,
+          didOpen: () => {
+            this.$swal.hideLoading();
+          },
         });
       } else if (type === "failed-message") {
         this.$swal({
@@ -357,6 +373,9 @@ export default {
           type: type,
           timerProgressBar: true,
           showConfirmButton: false,
+          didOpen: () => {
+            this.$swal.hideLoading();
+          },
         });
       } else if (type === "auto-close") {
         let timerInterval;
@@ -388,6 +407,9 @@ export default {
             cancelButton: "btn bg-gradient-secondary",
           },
           buttonsStyling: false,
+          didOpen: () => {
+            this.$swal.hideLoading();
+          },
         }).then((result) => {
           if (result.isConfirmed) {
             this.$swal({

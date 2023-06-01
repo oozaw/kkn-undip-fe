@@ -54,15 +54,15 @@ export default {
   props: {
     currentPage: {
       type: String,
-      default: ""
+      default: "",
     },
     currentDirectory: {
       type: String,
-      default: ""
-    }
+      default: "",
+    },
   },
   computed: {
-    ...mapState(["isRTL", "isNavFixed"])
-  }
+    ...mapState(["isRTL", "isNavFixed"]),
+  },
 };
 </script>

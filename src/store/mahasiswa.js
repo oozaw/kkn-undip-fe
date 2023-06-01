@@ -23,6 +23,63 @@ const d$mahasiswa = defineStore("mahasiswaStore", {
       }
     },
 
+    async a$listMahasiswaUnregistered() {
+      try {
+        const { data, status } = await s$mahasiswa.listMahasiswaUnregistered();
+        this.listMahasiswa = data ?? [];
+        this.status = status;
+      } catch ({ message, error }) {
+        this.status = false;
+        throw message ?? error;
+      }
+    },
+
+    async a$listMahasiswaRegistered() {
+      try {
+        const { data, status } = await s$mahasiswa.listMahasiswaRegistered();
+        this.listMahasiswa = data ?? [];
+        this.status = status;
+      } catch ({ message, error }) {
+        this.status = false;
+        throw message ?? error;
+      }
+    },
+
+    async a$listMahasiswaAccepted() {
+      try {
+        const { data, status } = await s$mahasiswa.listMahasiswaAccepted();
+        this.listMahasiswa = data ?? [];
+        this.status = status;
+      } catch ({ message, error }) {
+        this.status = false;
+        throw message ?? error;
+      }
+    },
+
+    async a$listMahasiswaRegisteredByKecamatan(id_kecamatan) {
+      try {
+        const { data, status } =
+          await s$mahasiswa.listMahasiswaRegisteredByKecamatan(id_kecamatan);
+        this.listMahasiswa = data ?? [];
+        this.status = status;
+      } catch ({ message, error }) {
+        this.status = false;
+        throw message ?? error;
+      }
+    },
+
+    async a$listMahasiswaAcceptedByKecamatan(id_kecamatan) {
+      try {
+        const { data, status } =
+          await s$mahasiswa.listMahasiswaAcceptedByKecamatan(id_kecamatan);
+        this.listMahasiswa = data ?? [];
+        this.status = status;
+      } catch ({ message, error }) {
+        this.status = false;
+        throw message ?? error;
+      }
+    },
+
     async a$addMahasiswa(body) {
       try {
         const status = await s$mahasiswa.addMahasiswa(body);

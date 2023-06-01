@@ -273,7 +273,9 @@
             <ul class="nav ms-4">
               <!-- nav links -->
               <sidenav-item
-                :isActive="getRoute2() === 'pendaftaran'"
+                :isActive="
+                  getRoute2() === 'pendaftaran' && getRoute() === 'kelola-mhs'
+                "
                 :to="{ name: 'Pendaftaran Mahasiswa Admin' }"
                 mini-icon="P"
                 text="Data Pendaftaran"
@@ -326,7 +328,9 @@
             <ul class="nav ms-4">
               <!-- nav links -->
               <sidenav-item
-                :isActive="getRoute2() === 'pendaftaran'"
+                :isActive="
+                  getRoute2() === 'pendaftaran' && getRoute() === 'kelola-dosen'
+                "
                 :to="{ name: 'Pendaftaran Dosen Admin' }"
                 mini-icon="P"
                 text="Data Pendaftaran & Lokasi"
