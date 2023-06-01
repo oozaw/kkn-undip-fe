@@ -293,6 +293,19 @@ export default {
           timerProgressBar: true,
           showConfirmButton: false,
         });
+      } else if (type === "warning-message") {
+        this.$swal({
+          icon: "warning",
+          title: "Peringatan!",
+          text: text,
+          timer: 2500,
+          type: type,
+          timerProgressBar: true,
+          showConfirmButton: false,
+          didOpen: () => {
+            this.$swal.hideLoading();
+          },
+        });
       } else if (type === "failed-message") {
         this.$swal({
           icon: "error",

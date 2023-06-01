@@ -54,7 +54,8 @@
                 v-if="
                   !gel.mahasiswa_kecamatan[0]?.status &&
                   gel.status &&
-                  gel.mahasiswa_kecamatan[0]?.status != 0
+                  gel.mahasiswa_kecamatan[0]?.status != 0 &&
+                  !g$infoUser.id_tema
                 "
               >
                 <router-link
@@ -101,7 +102,7 @@ export default {
     return {
       id_halaman: 2,
       slackLogo,
-      tema: "",
+      tema: 1,
       namaTema: "",
       choicesTema: undefined,
       indexComponent: 0,
