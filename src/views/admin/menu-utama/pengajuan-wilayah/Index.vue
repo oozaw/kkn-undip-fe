@@ -152,6 +152,7 @@
                         <i class="fas fa-trash text-danger"></i>
                       </a>
                       <a
+                        v-if="kec.status == 1"
                         :id="kec.id_kecamatan"
                         :name="kec.nama"
                         class="me-3 tolak"
@@ -180,6 +181,7 @@
                         />
                       </a> -->
                       <a
+                        v-else
                         :id="kec.id_kecamatan"
                         :name="kec.nama"
                         class="me-3 terima"
