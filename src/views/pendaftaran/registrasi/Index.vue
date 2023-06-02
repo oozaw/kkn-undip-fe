@@ -77,12 +77,12 @@
                     </td>
                     <td class="text-sm">
                       <span
-                        v-if="proposal.status === 1"
+                        v-if="proposal.status == 1"
                         class="badge badge-success"
                         >Diterima</span
                       >
                       <span
-                        v-if="proposal.status === 0"
+                        v-else-if="proposal.status == 0"
                         class="badge badge-primary"
                         >Sedang Diproses</span
                       >
