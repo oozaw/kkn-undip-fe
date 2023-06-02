@@ -334,8 +334,6 @@ export default {
         this.choicesLokasi = this.getChoices("choices-lokasi");
 
         await this.getListKecamatan();
-        // this.id_kecamatan = this.g$listKecamatan[0].id_kecamatan;
-        // await this.getListMahasiswa();
       } catch (error) {
         this.showSwal(
           "failed-message",

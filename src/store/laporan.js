@@ -5,11 +5,36 @@ const d$laporan = defineStore("laporanStore", {
   id: "laporan",
   state: () => ({
     status: null,
+    listLaporan: [],
     listLRK: [],
     listLPK: [],
     laporan: {},
   }),
   actions: {
+    async a$listLaporan() {
+      try {
+        const { data, status } = await s$laporan.listLaporan();
+        this.listLaporan = data ?? [];
+        this.status = status;
+      } catch (error) {
+        this.status = false;
+        throw error;
+      }
+    },
+
+    async a$listLaporanKecamatan(id_kecamatan) {
+      try {
+        const { data, status } = await s$laporan.listLaporanKecamatan(
+          id_kecamatan
+        );
+        this.listLaporan = data ?? [];
+        this.status = status;
+      } catch (error) {
+        this.status = false;
+        throw error;
+      }
+    },
+
     async a$listLRK() {
       try {
         const { data, status } = await s$laporan.listLRK();
@@ -74,6 +99,7 @@ const d$laporan = defineStore("laporanStore", {
     },
   },
   getters: {
+    g$listLaporan: ({ listLaporan }) => listLaporan,
     g$listLRK: ({ listLRK }) => listLRK,
     g$listLPK: ({ listLPK }) => listLPK,
     g$getLaporan: ({ laporan }) => laporan,

@@ -2,6 +2,11 @@ import { baseApi } from "@/utils/axios";
 
 const api = `/`;
 
+const listLaporan = () => baseApi.get(`${api}laporan`);
+
+const listLaporanKecamatan = (id_kecamatan) =>
+  baseApi.get(`${api}laporan/kecamatan/${id_kecamatan}`);
+
 const listLRK = () => baseApi.get(`${api}mahasiswa/lrk`);
 
 const addLRK = (body) => baseApi.post(`${api}mahasiswa/lrk`, body);
@@ -14,4 +19,13 @@ const getLaporan = (id_laporan) => baseApi.get(`${api}laporan/${id_laporan}`);
 
 const addLPK = (body) => baseApi.post(`${api}mahasiswa/lpk`, body);
 
-export { listLRK, addLRK, editLRK, listLPK, getLaporan, addLPK };
+export {
+  listLaporan,
+  listLaporanKecamatan,
+  listLRK,
+  addLRK,
+  editLRK,
+  listLPK,
+  getLaporan,
+  addLPK,
+};
