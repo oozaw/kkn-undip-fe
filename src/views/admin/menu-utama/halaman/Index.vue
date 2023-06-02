@@ -171,15 +171,6 @@
                         <i class="fas fa-user-edit text-primary"></i>
                       </router-link>
                       <a
-                        href="javascript"
-                        class="me-3"
-                        data-bs-toggle="tooltip"
-                        data-bs-original-title="Hapus Halaman"
-                        title="Hapus Halaman"
-                      >
-                        <i class="fas fa-trash text-danger"></i>
-                      </a>
-                      <a
                         v-if="halaman.status"
                         :id="halaman.id_halaman"
                         :name="halaman.nama"
@@ -210,6 +201,15 @@
                           icon="fa-solid fa-square-check"
                           size="xl"
                         />
+                      </a>
+                      <a
+                        href="javascript"
+                        class="me-3"
+                        data-bs-toggle="tooltip"
+                        data-bs-original-title="Hapus Halaman"
+                        title="Hapus Halaman"
+                      >
+                        <i class="fas fa-trash text-danger"></i>
                       </a>
                     </td>
                   </tr>
