@@ -19,6 +19,17 @@ const d$proposal = defineStore("proposalStore", {
       }
     },
 
+    async a$listProposalDosen(id_tema) {
+      try {
+        const { data, status } = await s$proposal.listProposalDosen(id_tema);
+        this.listProposal = data ?? [];
+        this.status = status;
+      } catch (error) {
+        this.status = false;
+        throw error;
+      }
+    },
+
     async a$addProposal(body) {
       try {
         const status = await s$proposal.addProposal(body);

@@ -26,6 +26,17 @@ const d$tema = defineStore("temaStore", {
       }
     },
 
+    async a$listTemaDosen() {
+      try {
+        const { data, status } = await s$tema.listTemaDosen();
+        this.listTema = data ?? [];
+        this.status = status;
+      } catch ({ message, error }) {
+        this.status = false;
+        throw message ?? error;
+      }
+    },
+
     async a$addTema(body) {
       try {
         const { status } = await s$tema.addTema(body);

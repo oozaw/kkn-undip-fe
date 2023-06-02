@@ -4,6 +4,9 @@ const api = `/`;
 
 const listProposal = (id_tema) => baseApi.get(`${api}proposal/${id_tema}`);
 
+const listProposalDosen = (id_tema) =>
+  baseApi.get(`${api}dosen/proposal/${id_tema}`);
+
 const addProposal = (body) =>
   baseApi.post(`${api}dosen/proposal`, body, {
     headers: {
@@ -17,4 +20,10 @@ const accProposal = (id_proposal) =>
 const decProposal = (id_proposal) =>
   baseApi.put(`${api}admin/proposal/dec/${id_proposal}`);
 
-export { listProposal, addProposal, accProposal, decProposal };
+export {
+  listProposal,
+  listProposalDosen,
+  addProposal,
+  accProposal,
+  decProposal,
+};
