@@ -123,15 +123,7 @@
                         <i class="fas fa-eye text-info"></i>
                       </a>
                       <a
-                        class="me-3 hapus"
-                        href="#"
-                        data-bs-toggle="tooltip"
-                        data-bs-original-title="Hapus Dosen"
-                        title="Hapus Dosen"
-                      >
-                        <i class="fas fa-trash text-danger"></i>
-                      </a>
-                      <a
+                        v-if="proposal.status == 1"
                         :id="proposal.id_proposal"
                         :name="proposal.dosen.nama"
                         class="me-3 tolak"
@@ -160,6 +152,7 @@
                         />
                       </a> -->
                       <a
+                        v-else
                         :id="proposal.id_proposal"
                         :name="proposal.dosen.nama"
                         class="me-3 terima"
@@ -173,6 +166,15 @@
                           icon="fa-solid fa-square-check"
                           size="xl"
                         />
+                      </a>
+                      <a
+                        class="me-3 hapus"
+                        href="#"
+                        data-bs-toggle="tooltip"
+                        data-bs-original-title="Hapus Dosen"
+                        title="Hapus Dosen"
+                      >
+                        <i class="fas fa-trash text-danger"></i>
                       </a>
                     </td>
                   </tr>
@@ -274,8 +276,6 @@ export default {
         );
         // console.log(error);
       }
-
-      // this.showSwal("close");
     },
 
     async decProposal(id_proposal) {
@@ -291,8 +291,6 @@ export default {
         );
         // console.log(error);
       }
-
-      // this.showSwal("close");
     },
 
     getChoices(id) {
@@ -340,7 +338,7 @@ export default {
         let proposal = this;
         outerThis.showSwal(
           "warning-confirmation",
-          `Menerima pengajuan kecamatan ${proposal.name}?`,
+          `Menerima pendaftaran ${proposal.name}?`,
           "Berhasil memperbarui data",
           proposal.id,
           true
@@ -351,7 +349,7 @@ export default {
         let proposal = this;
         outerThis.showSwal(
           "warning-confirmation",
-          `Menolak pengajuan kecamatan ${proposal.name}?`,
+          `Menolak pendaftaran ${proposal.name}?`,
           "Berhasil memperbarui data",
           proposal.id,
           false
