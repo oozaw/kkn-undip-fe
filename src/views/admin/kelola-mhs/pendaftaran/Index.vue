@@ -117,6 +117,7 @@
                         :data-bs-target="
                           '#detail_' + pendaftaran.mahasiswa.id_mahasiswa
                         "
+                        title="Detail Mahasiswa"
                       >
                         <i class="fas fa-eye text-info"></i>
                       </a>
@@ -126,7 +127,7 @@
                         tabindex="-1"
                         aria-hidden="true"
                       >
-                        <div class="modal-dialog mt-lg-10">
+                        <div class="modal-dialog mt-lg-5">
                           <div class="modal-content">
                             <div class="modal-header">
                               <h5 id="ModalLabel" class="modal-title">
@@ -206,7 +207,7 @@
                                   &nbsp;
                                   {{ pendaftaran.kecamatan.nama }}
                                 </li>
-                                <li class="pb-0 border-0 list-group-item ps-0">
+                                <li class="border-0 list-group-item ps-0">
                                   <strong class="text-sm text-dark"
                                     >Status:</strong
                                   >
@@ -253,7 +254,6 @@
                         class="me-3"
                         href="javascript:;"
                         data-bs-toggle="tooltip"
-                        data-bs-original-title="Hapus Mahasiswa"
                         title="Hapus Mahasiswa"
                       >
                         <i class="fas fa-trash text-danger"></i>
@@ -454,6 +454,19 @@ export default {
           type: type,
           timerProgressBar: true,
           showConfirmButton: false,
+        });
+      } else if (type === "warning-message") {
+        this.$swal({
+          icon: "warning",
+          title: "Peringatan!",
+          text: text,
+          timer: 2500,
+          type: type,
+          timerProgressBar: true,
+          showConfirmButton: false,
+          didOpen: () => {
+            this.$swal.hideLoading();
+          },
         });
       } else if (type === "failed-message") {
         this.$swal({
