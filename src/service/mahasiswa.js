@@ -33,6 +33,12 @@ const listMahasiswaWilayah = (id_kecamatan) =>
 const daftarLokasi = (body) =>
   baseApi.post(`${api}mahasiswa/daftar_lokasi`, body);
 
+const accMahasiswa = (id_mahasiswa_kecamatan) =>
+  baseApi.put(`${api}dosen/mahasiswa/acc/${id_mahasiswa_kecamatan}`);
+
+const decMahasiswa = (id_mahasiswa_kecamatan) =>
+  baseApi.put(`${api}dosen/mahasiswa/dec/${id_mahasiswa_kecamatan}`);
+
 export {
   listMahasiswa,
   listMahasiswaUnregistered,
@@ -44,4 +50,6 @@ export {
   importMahasiswa,
   listMahasiswaWilayah,
   daftarLokasi,
+  accMahasiswa,
+  decMahasiswa,
 };
