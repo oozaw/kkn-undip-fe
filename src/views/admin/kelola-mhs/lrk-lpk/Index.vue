@@ -102,6 +102,7 @@
                         class="mb-0 me-3 text-primary"
                         data-bs-toggle="modal"
                         :data-bs-target="'#detail_' + laporan.id_laporan"
+                        title="Detail Laporan"
                       >
                         <i class="fas fa-eye text-info"></i>
                       </a>
@@ -111,7 +112,7 @@
                         tabindex="-1"
                         aria-hidden="true"
                       >
-                        <div class="modal-dialog modal-lg mt-lg-10">
+                        <div class="modal-dialog modal-lg mt-lg-5">
                           <div class="modal-content">
                             <div class="modal-header">
                               <h5 id="ModalLabel" class="modal-title">
@@ -477,6 +478,19 @@ export default {
           type: type,
           timerProgressBar: true,
           showConfirmButton: false,
+        });
+      } else if (type === "warning-message") {
+        this.$swal({
+          icon: "warning",
+          title: "Peringatan!",
+          text: text,
+          timer: 2500,
+          type: type,
+          timerProgressBar: true,
+          showConfirmButton: false,
+          didOpen: () => {
+            this.$swal.hideLoading();
+          },
         });
       } else if (type === "failed-message") {
         this.$swal({
