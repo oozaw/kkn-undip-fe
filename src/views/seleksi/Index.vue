@@ -263,7 +263,7 @@
                         </div>
                       </div>
                       <a
-                        v-if="pendaftar.status"
+                        v-if="pendaftar.status == 0 || pendaftar.status == 1"
                         :id="pendaftar.id_mahasiswa_kecamatan"
                         :name="pendaftar.mahasiswa.nama"
                         class="me-3 tolak"
@@ -279,7 +279,7 @@
                         />
                       </a>
                       <a
-                        v-else
+                        v-if="pendaftar.status == 0 || pendaftar.status != 1"
                         :id="pendaftar.id_mahasiswa_kecamatan"
                         :name="pendaftar.mahasiswa.nama"
                         class="me-3 terima"

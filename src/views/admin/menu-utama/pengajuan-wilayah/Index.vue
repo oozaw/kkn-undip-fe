@@ -123,7 +123,7 @@
                       <span
                         class="badge badge-secondary"
                         v-if="kec.status === 0"
-                        >Dalam Proses</span
+                        >Sedang diroses</span
                       >
                       <span
                         class="badge badge-success"
@@ -168,7 +168,7 @@
                         />
                       </a>
                       <a
-                        v-if="kec.status == 0 || kec.status !== 1"
+                        v-if="kec.status == 0 || kec.status != 1"
                         :id="kec.id_kecamatan"
                         :name="kec.nama"
                         class="me-3 terima"
