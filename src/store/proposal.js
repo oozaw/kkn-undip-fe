@@ -5,9 +5,20 @@ const d$proposal = defineStore("proposalStore", {
   id: "proposal",
   state: () => ({
     status: null,
+    proposal: undefined,
     listProposal: [],
   }),
   actions: {
+    async a$getProposal(id_proposal) {
+      try {
+        const { data, status } = await s$proposal.getProposal(id_proposal);
+        this.proposal = data ?? null;
+        this.status = status;
+      } catch (error) {
+        this.status = false;
+        throw error;
+      }
+    },
     async a$listProposal(id_tema) {
       try {
         const { data, status } = await s$proposal.listProposal(id_tema);
@@ -59,8 +70,19 @@ const d$proposal = defineStore("proposalStore", {
         throw error;
       }
     },
+
+    async a$evaluateProposal(body) {
+      try {
+        await s$proposal.evaluateProposal(body);
+        this.status = true;
+      } catch (error) {
+        this.status = false;
+        throw error;
+      }
+    },
   },
   getters: {
+    g$proposal: ({ proposal }) => proposal,
     g$listProposal: ({ listProposal }) => listProposal,
   },
 });

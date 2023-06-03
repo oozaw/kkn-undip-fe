@@ -20,6 +20,20 @@ const d$dokumen = defineStore("dokumenStore", {
         throw message ?? error;
       }
     },
+
+    async a$getDokumenEmbedLink(id_dokumen) {
+      try {
+        const { data, status } = await s$dokumen.getDokumenEmbedLink(
+          id_dokumen
+        );
+        this.dokumenLink = data;
+        this.status = status;
+        return this.dokumenLink;
+      } catch ({ message, error }) {
+        this.status = false;
+        throw message ?? error;
+      }
+    },
   },
   getters: {
     g$listAdmin: ({ listAdmin }) => listAdmin,
