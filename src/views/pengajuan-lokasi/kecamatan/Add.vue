@@ -308,7 +308,6 @@ export default {
         };
 
         try {
-          console.log(data);
           await this.a$addKecamatan(data);
           this.$router.push({ name: "Pengajuan Lokasi" });
           this.showSwal(
