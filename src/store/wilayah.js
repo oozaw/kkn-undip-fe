@@ -72,9 +72,9 @@ const d$wilayah = defineStore("wilayahStore", {
       }
     },
 
-    async a$accKecamatan(id_kecamatan) {
+    async a$accKecamatan(id_kecamatan, body) {
       try {
-        await s$wilayah.accKecamatan(id_kecamatan);
+        await s$wilayah.accKecamatan(id_kecamatan, body);
         this.status = true;
       } catch (error) {
         this.status = false;

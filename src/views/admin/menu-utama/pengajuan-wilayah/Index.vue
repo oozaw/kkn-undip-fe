@@ -152,7 +152,7 @@
                         <i class="fas fa-trash text-danger"></i>
                       </a>
                       <a
-                        v-if="kec.status == 1"
+                        v-if="kec.status == 0 || kec.status == 1"
                         :id="kec.id_kecamatan"
                         :name="kec.nama"
                         class="me-3 tolak"
@@ -167,27 +167,14 @@
                           size="xl"
                         />
                       </a>
-                      <!-- <a
-                        class="me-3"
-                        href="javascript:;"
-                        data-bs-toggle="tooltip"
-                        data-bs-original-title="Verifikasi Kecamatan"
-                        title="Verifikasi"
-                      >
-                        <font-awesome-icon
-                          class="text-warning"
-                          icon="fa-solid fa-square-minus"
-                          size="xl"
-                        />
-                      </a> -->
                       <a
-                        v-else
+                        v-if="kec.status == 0 || kec.status !== 1"
                         :id="kec.id_kecamatan"
                         :name="kec.nama"
                         class="me-3 terima"
                         href=""
-                        data-bs-toggle="tooltip"
-                        data-bs-original-title="Terima Kecamatan"
+                        data-bs-toggle="modal"
+                        :data-bs-target="'#terima_' + kec.id_kecamatan"
                         title="Terima"
                       >
                         <font-awesome-icon
@@ -196,6 +183,63 @@
                           size="xl"
                         />
                       </a>
+                      <div
+                        :id="'terima_' + kec.id_kecamatan"
+                        class="modal fade"
+                        tabindex="-1"
+                        aria-hidden="true"
+                      >
+                        <div class="modal-dialog mt-lg-10">
+                          <div class="modal-content">
+                            <div class="modal-header">
+                              <h5 id="ModalLabel" class="modal-title">
+                                Terima Pengajuan Kecamatan {{ kec.nama }}?
+                              </h5>
+                              <button
+                                type="button"
+                                class="btn-close text-dark mb-0"
+                                data-bs-dismiss="modal"
+                                aria-label="Close"
+                              >
+                                <font-awesome-icon icon="fa-solid fa-xmark" />
+                              </button>
+                            </div>
+                            <div class="modal-body">
+                              <label class="form-label"
+                                >Koordinator Wilayah</label
+                              >
+                              <select
+                                :id="`choices-korwil-${kec.id_kecamatan}`"
+                                class="form-control"
+                                :name="`choices-korwil-${kec.id_kecamatan}`"
+                              >
+                                <option value="">-- Pilih korwil --</option>
+                                <option value="1">Korwil 1</option>
+                                <option value="2">Korwil 2</option>
+                                <option value="3">Korwil 3</option>
+                                <option value="4">Korwil 4</option>
+                              </select>
+                            </div>
+                            <div class="modal-footer mb-0">
+                              <button
+                                :id="`button-close-modal-${kec.id_kecamatan}`"
+                                type="button"
+                                class="btn bg-gradient-secondary btn-sm"
+                                data-bs-dismiss="modal"
+                              >
+                                Batal
+                              </button>
+                              <button
+                                :id="kec.id_kecamatan"
+                                type="button"
+                                class="btn bg-gradient-success btn-sm submit-acc-kecamatan"
+                              >
+                                Ya, terima
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
                     </td>
                   </tr>
                 </tbody>
@@ -237,6 +281,9 @@ export default {
   data() {
     return {
       indexComponent: 0,
+      body: {
+        id_korwil: "",
+      },
       choicesTema: undefined,
       tema: "",
     };
@@ -254,7 +301,7 @@ export default {
     setTooltip(this.$store.state.bootstrap);
   },
   beforeUnmount() {
-    this.choicesTema.destroy();
+    if (this.choicesTema) this.choicesTema.destroy();
   },
   methods: {
     ...mapActions(d$wilayah, [
@@ -271,32 +318,36 @@ export default {
       try {
         await this.a$listAllKabupaten(this.tema);
       } catch (error) {
-        this.showSwal(
-          "failed-message",
-          error ?? "Terjadi kesalahaan saat memuat data"
-        );
-        // console.log(error);
+        this.showSwal("failed-message", "Terjadi kesalahaan saat memuat data");
+        console.log(error.error);
       }
 
       this.setupDataTable();
       this.setupTableAction();
+      this.g$listKecamatan.forEach((kec) => {
+        this.getChoices(`choices-korwil-${kec.id_kecamatan}`);
+      });
     },
 
     async accKecamatan(id_kecamatan) {
       this.showSwal("loading");
+      let id_korwil = $(`#choices-korwil-${id_kecamatan}`).val();
+      this.body.id_korwil = parseInt(id_korwil);
 
-      try {
-        await this.a$accKecamatan(id_kecamatan);
-        await this.getListKecamatan();
-      } catch (error) {
-        this.showSwal(
-          "failed-message",
-          error ?? "Terjadi kesalahan saat mengubah data"
-        );
-        // console.log(error);
+      if (!this.body.id_korwil || this.body.id_korwil === "") {
+        this.showSwal("warning-message", "Pilih koordinator wilayah!");
+        return;
       }
 
-      // this.showSwal("close");
+      try {
+        document.getElementById(`button-close-modal-${id_kecamatan}`).click();
+        await this.a$accKecamatan(id_kecamatan, this.body);
+        this.showSwal("toast", "Berhasil mengubah data");
+        await this.getListKecamatan();
+      } catch (error) {
+        this.showSwal("failed-message", "Terjadi kesalahan saat mengubah data");
+        console.log(error.error);
+      }
     },
 
     async decKecamatan(id_kecamatan) {
@@ -306,14 +357,9 @@ export default {
         await this.a$decKecamatan(id_kecamatan);
         await this.getListKecamatan();
       } catch (error) {
-        this.showSwal(
-          "failed-message",
-          error ?? "Terjadi kesalahan saat mengubah data"
-        );
-        // console.log(error);
+        this.showSwal("failed-message", "Terjadi kesalahan saat mengubah data");
+        console.log(error.error);
       }
-
-      // this.showSwal("close");
     },
 
     setupDataTable() {
@@ -345,15 +391,9 @@ export default {
 
     setupTableAction() {
       let outerThis = this;
-      $("#wilayah-list").on("click", `.terima`, function (e) {
+      $("#wilayah-list").on("click", `.submit-acc-kecamatan`, function (e) {
         let kec = this;
-        outerThis.showSwal(
-          "warning-confirmation",
-          `Menerima pengajuan kecamatan ${kec.name}?`,
-          "Berhasil memperbarui data",
-          kec.id,
-          true
-        );
+        outerThis.accKecamatan(kec.id);
         e.preventDefault();
       });
       $("#wilayah-list").on("click", `.tolak`, function (e) {
@@ -390,6 +430,22 @@ export default {
           type: type,
           timerProgressBar: true,
           showConfirmButton: false,
+          didOpen: () => {
+            this.$swal.hideLoading();
+          },
+        });
+      } else if (type === "warning-message") {
+        this.$swal({
+          icon: "warning",
+          title: "Peringatan!",
+          text: text,
+          timer: 2000,
+          type: type,
+          timerProgressBar: true,
+          showConfirmButton: false,
+          didOpen: () => {
+            this.$swal.hideLoading();
+          },
         });
       } else if (type === "failed-message") {
         this.$swal({
@@ -400,6 +456,9 @@ export default {
           type: type,
           timerProgressBar: true,
           showConfirmButton: false,
+          didOpen: () => {
+            this.$swal.hideLoading();
+          },
         });
       } else if (type === "auto-close") {
         let timerInterval;
@@ -431,6 +490,9 @@ export default {
             cancelButton: "btn bg-gradient-secondary",
           },
           buttonsStyling: false,
+          didOpen: () => {
+            this.$swal.hideLoading();
+          },
         }).then((result) => {
           if (result.isConfirmed) {
             if (status) this.accKecamatan(id_kecamatan);
@@ -443,6 +505,9 @@ export default {
               showConfirmButton: false,
               timer: 2000,
               timerProgressBar: true,
+              didOpen: () => {
+                this.$swal.hideLoading();
+              },
             });
           } else if (
             /* Read more about handling dismissals below */
@@ -459,11 +524,22 @@ export default {
           allowOutsideClick: false,
           allowEscapeKey: false,
           didOpen: () => {
-            this.$swal.isLoading();
-            if (this.$swal.isLoading()) this.$swal.showLoading();
+            this.$swal.showLoading();
           },
           didDestroy: () => {
-            !this.$swal.isLoading();
+            this.$swal.hideLoading();
+          },
+        });
+      } else if (type === "toast") {
+        this.$swal({
+          toast: true,
+          position: "top-end",
+          title: text,
+          icon: "success",
+          showConfirmButton: false,
+          timer: 1500,
+          timerProgressBar: true,
+          didOpen: () => {
             this.$swal.hideLoading();
           },
         });

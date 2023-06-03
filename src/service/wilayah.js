@@ -11,8 +11,8 @@ const addKabupaten = (body) => baseApi.post(`${api}bappeda/kabupaten`, body);
 
 const addKecamatan = (body) => baseApi.post(`${api}bappeda/kecamatan`, body);
 
-const accKecamatan = (id_kecamatan) =>
-  baseApi.put(`${api}admin/kecamatan/acc/${id_kecamatan}`);
+const accKecamatan = (id_kecamatan, body) =>
+  baseApi.put(`${api}admin/kecamatan/acc/${id_kecamatan}`, body);
 
 const decKecamatan = (id_kecamatan) =>
   baseApi.put(`${api}admin/kecamatan/dec/${id_kecamatan}`);
