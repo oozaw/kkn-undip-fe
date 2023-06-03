@@ -29,6 +29,7 @@ const d$wilayah = defineStore("wilayahStore", {
     async a$listAllKabupaten(id_tema) {
       try {
         const { data, status } = await s$wilayah.listAllWilayah(id_tema);
+        this.listKabupaten = data ?? [];
         var dataKecamatan = [];
         data.forEach((kab) => {
           var namaKabupatenObject = {
@@ -51,6 +52,16 @@ const d$wilayah = defineStore("wilayahStore", {
       }
     },
 
+    async a$addKabupaten(body) {
+      try {
+        const status = await s$wilayah.addKabupaten(body);
+        this.status = status;
+      } catch (error) {
+        this.status = false;
+        throw error;
+      }
+    },
+
     async a$addKecamatan(body) {
       try {
         const status = await s$wilayah.addKecamatan(body);
@@ -61,9 +72,9 @@ const d$wilayah = defineStore("wilayahStore", {
       }
     },
 
-    async a$accKecamatan(id_kecamatan) {
+    async a$accKecamatan(id_kecamatan, body) {
       try {
-        await s$wilayah.accKecamatan(id_kecamatan);
+        await s$wilayah.accKecamatan(id_kecamatan, body);
         this.status = true;
       } catch (error) {
         this.status = false;

@@ -2,7 +2,7 @@
   <div class="container-fluid">
     <div class="row mb-5 mt-4">
       <div class="col-lg-12 mt-lg-0 mt-4">
-        <HeaderProfileCard />
+        <header-profile-card />
         <!-- <div class="bg-white card mt-4">
           <div class="card-header pb-0 pt-3">
             <p class="font-weight-bold text-dark mb-2">
@@ -15,28 +15,16 @@
                 id="choices-tema"
                 class="form-control"
                 name="choices-tema"
+                v-model="tema"
+                @change="getListMahasiswa()"
               >
-                <option value="reguler">
-                  KKN Tematik Pengurangan Risiko Bencana Berbasis Partisipasi
-                  Masyarakat dan Komunitas
+                <option
+                  v-for="tema in g$listTema"
+                  :value="tema.id_tema"
+                  :key="tema.id_tema"
+                >
+                  {{ tema.nama }}
                 </option>
-                <option value="tematik">KKN Reguler Tim I</option>
-              </select>
-            </div>
-          </div>
-          <div class="card-header pb-0 pt-0">
-            <p class="font-weight-bold text-dark mb-2">Pilih Aktor</p>
-          </div>
-          <div class="pb-3 pt-0 card-body">
-            <div class="col-12 align-self-center">
-              <select
-                id="choices-aktor"
-                class="form-control"
-                name="choices-aktor"
-              >
-                <option value="dosen">Dosen</option>
-                <option value="mahasiswa">Mahasiswa</option>
-                <option value="bappeda">BAPPEDA</option>
               </select>
             </div>
           </div>
@@ -46,8 +34,8 @@
           <div class="pb-0 card-header">
             <div class="d-lg-flex">
               <div>
-                <h5 class="mb-2">Halaman Aplikasi</h5>
-                <p class="text-sm mb-0">Pengaturan Halaman Aplikasi</p>
+                <h5 class="mb-2">Gelombang Pendaftaran</h5>
+                <p class="text-sm mb-0">Daftar gelombang pendaftaran KKN</p>
               </div>
               <div class="my-auto mt-4 ms-auto mt-lg-0">
                 <div class="my-auto ms-auto">
@@ -55,12 +43,12 @@
                     type="button"
                     class="me-2 mb-0 btn btn-success btn-sm"
                     data-bs-toggle="modal"
-                    data-bs-target="#add-halaman"
+                    data-bs-target="#add-gelombang"
                   >
-                    + Tambah Halaman
+                    + Tambah Gelombang
                   </button>
                   <div
-                    id="add-halaman"
+                    id="add-gelombang"
                     class="modal fade"
                     tabindex="-1"
                     aria-hidden="true"
@@ -70,7 +58,7 @@
                       <div class="modal-content">
                         <div class="modal-header">
                           <h5 id="ModalLabel" class="modal-title">
-                            Tambah Halaman
+                            Tambah Gelombang
                           </h5>
                           <i class="fas fa-upload ms-3"></i>
                           <button
@@ -83,16 +71,50 @@
                         <div class="modal-body">
                           <form
                             role="form"
-                            id="form-add-halaman"
-                            @submit.prevent="addHalaman()"
+                            id="form-add-gelombang"
+                            @submit.prevent="addGelombang()"
                           >
-                            <label class="form-label">Judul</label>
+                            <!-- <label class="form-label">Tema</label>
+                            <select
+                              name="jenis"
+                              id="choices-tema-modal"
+                              class="choices-tema-modal form-select"
+                              v-model="body.id_tema"
+                            >
+                              <option value="0" hidden>-- Pilih Tema --</option>
+                              <option
+                                v-for="tema in g$listTema"
+                                :key="tema.id_tema"
+                                :value="tema.id_tema"
+                              >
+                                {{ tema.nama }}
+                              </option>
+                            </select> -->
+                            <label class="form-label">Halaman</label>
+                            <select
+                              name="jenis"
+                              id="choices-halaman-modal"
+                              class="choices-halaman-modal form-select"
+                              v-model="body.id_halaman"
+                            >
+                              <option value="0" selected hidden>
+                                -- Pilih Halaman --
+                              </option>
+                              <option
+                                v-for="halaman in g$listHalaman"
+                                :key="halaman.id_halaman"
+                                :value="halaman.id_halaman"
+                              >
+                                {{ halaman.nama }}
+                              </option>
+                            </select>
+                            <label class="form-label">Nama</label>
                             <input
                               class="form-control"
                               type="text"
                               name="nama"
                               id="nama"
-                              placeholder="Judul halaman"
+                              placeholder="Nama gelombang"
                               required
                               v-model="body.nama"
                             />
@@ -108,7 +130,7 @@
                             Batal
                           </button>
                           <button
-                            form="form-add-halaman"
+                            form="form-add-gelombang"
                             type="submit"
                             class="btn bg-gradient-success btn-sm"
                           >
@@ -119,7 +141,7 @@
                     </div>
                   </div>
                   <button
-                    class="mt-2 mb-0 btn btn-outline-success btn-sm export-halaman mt-sm-0"
+                    class="mt-1 mb-0 btn btn-outline-success btn-sm export mt-sm-0"
                     data-type="csv"
                     type="button"
                     name="button"
@@ -132,53 +154,78 @@
           </div>
           <div class="ms-2 pt-1 px-0 pb-0 card-body">
             <div class="table-responsive" :key="indexComponent">
-              <table id="halaman-list" class="table table-flush">
+              <table id="gelombang-list" class="table table-flush">
                 <thead class="thead-light">
                   <tr>
-                    <th class="col-1 ps-2">No.</th>
-                    <th class="col-3">Judul</th>
-                    <th>Tanggal Mulai</th>
-                    <th>Tanggal Berakhir</th>
+                    <th class="col-1">No.</th>
+                    <th>Nama</th>
+                    <th>Halaman</th>
+                    <th>Tema</th>
                     <th>Status</th>
                     <th>Action</th>
                   </tr>
                 </thead>
                 <tbody>
                   <tr
-                    v-for="(halaman, index) in g$listHalaman"
-                    :key="halaman.id_halaman"
+                    v-for="(gelombang, index) in g$listGelombang"
+                    :key="gelombang.id_gelombang"
                   >
-                    <td class="text-sm ps-3">{{ index + 1 }}</td>
-                    <td class="ms-0 px-0">
-                      <h6 class="my-auto">{{ halaman.nama }}</h6>
+                    <td class="text-sm">{{ index + 1 }}</td>
+                    <td>
+                      <h6 class="my-auto">{{ gelombang.nama }}</h6>
                     </td>
-                    <td class="text-sm">1 Desember 2023</td>
-                    <td class="text-sm">15 Desember 2023</td>
                     <td class="text-sm">
-                      <span v-if="halaman.status" class="badge badge-success"
-                        >Aktif</span
+                      {{ gelombang.tema_halaman.halaman.nama }}
+                    </td>
+                    <td class="text-sm">
+                      {{ gelombang.tema_halaman.tema.nama }}
+                    </td>
+                    <td>
+                      <span
+                        id="delete-product"
+                        v-if="gelombang.status"
+                        class="badge badge-sm badge-success"
                       >
-                      <span v-else class="badge badge-danger">Tidak Aktif</span>
+                        Aktif
+                      </span>
+                      <span v-else class="badge badge-danger badge-sm">
+                        Tidak Aktif
+                      </span>
                     </td>
                     <td class="text-sm">
-                      <router-link
-                        :to="{ name: 'Edit Halaman' }"
+                      <a
+                        href="javascript:;"
                         class="me-3"
                         data-bs-toggle="tooltip"
-                        data-bs-original-title="Edit Halaman"
-                        title="Edit Halaman"
+                        data-bs-original-title="Preview product"
+                      >
+                        <i class="fas fa-eye text-info"></i>
+                      </a>
+                      <a
+                        href="javascript:;"
+                        class="me-3"
+                        data-bs-toggle="tooltip"
+                        data-bs-original-title="Edit product"
                       >
                         <i class="fas fa-user-edit text-primary"></i>
-                      </router-link>
+                      </a>
                       <a
-                        v-if="halaman.status"
-                        :id="halaman.id_halaman"
-                        :name="halaman.nama"
+                        href="javascript:;"
+                        data-bs-toggle="tooltip"
+                        class="me-3"
+                        data-bs-original-title="Delete product"
+                      >
+                        <i class="fas fa-trash text-danger"></i>
+                      </a>
+                      <a
+                        v-if="gelombang.status"
+                        :id="gelombang.id_gelombang"
+                        :name="gelombang.nama"
                         class="me-3 non-aktif"
                         href="#"
                         data-bs-toggle="tooltip"
-                        data-bs-original-title="Non-aktifkan halaman"
-                        title="Non-aktifkan halaman"
+                        data-bs-original-title="Non-aktifkan gelombang"
+                        title="Non-aktifkan gelombang"
                       >
                         <font-awesome-icon
                           class="text-danger"
@@ -188,13 +235,13 @@
                       </a>
                       <a
                         v-else
-                        :id="halaman.id_halaman"
-                        :name="halaman.nama"
+                        :id="gelombang.id_gelombang"
+                        :name="gelombang.nama"
                         class="me-3 aktif"
                         href="#"
                         data-bs-toggle="tooltip"
-                        data-bs-original-title="Aktifkan halaman"
-                        title="Aktifkan halaman"
+                        data-bs-original-title="Aktifkan gelombang"
+                        title="Aktifkan gelombang"
                       >
                         <font-awesome-icon
                           class="text-success"
@@ -202,24 +249,15 @@
                           size="xl"
                         />
                       </a>
-                      <a
-                        href="javascript"
-                        class="me-3"
-                        data-bs-toggle="tooltip"
-                        data-bs-original-title="Hapus Halaman"
-                        title="Hapus Halaman"
-                      >
-                        <i class="fas fa-trash text-danger"></i>
-                      </a>
                     </td>
                   </tr>
                 </tbody>
                 <tfoot>
                   <tr>
-                    <th class="col-1 ps-2">No.</th>
-                    <th class="col-3">Judul</th>
-                    <th>Tanggal Mulai</th>
-                    <th>Tanggal Berakhir</th>
+                    <th class="col-1">No.</th>
+                    <th>Nama</th>
+                    <th>Halaman</th>
+                    <th>Tema</th>
                     <th>Status</th>
                     <th>Action</th>
                   </tr>
@@ -235,179 +273,181 @@
 
 <script>
 import $ from "jquery";
-import { DataTable } from "simple-datatables";
 import Choices from "choices.js";
+import { DataTable } from "simple-datatables";
 import setTooltip from "@/assets/js/tooltip.js";
 import HeaderProfileCard from "@/views/dashboards/components/HeaderProfileCard.vue";
 import { mapActions, mapState } from "pinia";
+import d$tema from "@/store/tema";
+import d$gelombang from "@/store/gelombang";
 import d$halaman from "@/store/halaman";
 
 export default {
-  name: "IndexKelolaHalaman",
+  name: "IndexGelombang",
   components: {
     HeaderProfileCard,
   },
   data() {
     return {
-      choicesTema: undefined,
-      choicesAktor: undefined,
+      tema: "1",
       indexComponent: 0,
+      choicesTema: undefined,
+      choicesTemaModal: undefined,
+      choicesHalamanModal: undefined,
+      dataTable: undefined,
       body: {
+        // id_tema: "",
+        id_halaman: "",
         nama: "",
       },
     };
   },
   computed: {
+    ...mapState(d$tema, ["g$listTema"]),
+    ...mapState(d$gelombang, ["g$listGelombang"]),
     ...mapState(d$halaman, ["g$listHalaman"]),
   },
   async created() {
-    await this.getListHalaman();
+    await this.a$listTema();
+    await this.getListGelombang();
+    await this.a$listHalaman();
 
-    this.choicesTema = this.getChoices("choices-tema");
-    this.choicesAktor = this.getChoices("choices-aktor");
+    this.setupChoices();
 
     setTooltip(this.$store.state.bootstrap);
   },
   beforeUnmount() {
     if (this.choicesTema) this.choicesTema.destroy();
-    if (this.choicesAktor) this.choicesAktor.destroy();
+    if (this.choicesTemaModal) this.choicesTemaModal.destroy();
+    if (this.choicesHalamanModal) this.choicesHalamanModal.destroy();
   },
   methods: {
-    ...mapActions(d$halaman, [
-      "a$listHalaman",
-      "a$addHalaman",
-      "a$switchHalaman",
+    ...mapActions(d$tema, ["a$listTema", "a$switchGelombang"]),
+    ...mapActions(d$gelombang, [
+      "a$listAllGelombang",
+      "a$switchGelombang",
+      "a$addGelombang",
     ]),
+    ...mapActions(d$halaman, ["a$listHalaman"]),
 
-    async getListHalaman() {
-      this.indexComponent++;
+    async addGelombang() {
+      // validation
+      if (!this.body.id_halaman || this.body.id_halaman === "0") {
+        this.showSwal("warning-message", "Lengkapi data terlebih dahulu!");
+        return;
+      }
+
+      this.showSwal("loading");
+      // this.body.id_tema = parseInt(this.body.id_tema);
+      this.body.id_halaman = parseInt(this.body.id_halaman);
 
       try {
-        await this.a$listHalaman();
+        document.getElementById("button-close-modal").click();
+        await this.a$addGelombang(this.body);
+        await this.getListGelombang();
+        this.showSwal("success-message", "Berhasil menambahkan gelombang");
+        // this.indexComponent++;
+        this.setupChoices();
+        this.body.id_halaman = "0";
+        this.body.nama = "";
       } catch (error) {
         this.showSwal(
           "failed-message",
-          error.error ?? "Terjadi kesalahan saat memuat data"
+          error.error ?? "Terjadi kesalahan saat menambahkan gelombang"
         );
-        console.log(error);
+        // console.log(error);
+      }
+    },
+
+    async switchGelombang(id_tema) {
+      this.showSwal("loading");
+
+      try {
+        await this.a$switchGelombang(id_tema);
+        await this.getListGelombang();
+      } catch (error) {
+        this.showSwal(
+          "failed-message",
+          error ?? "Terjadi kesalahan saat memperbarui data"
+        );
+        // console.log(error);
+      }
+    },
+
+    async getListGelombang() {
+      this.indexComponent++;
+
+      try {
+        await this.a$listAllGelombang();
+      } catch (error) {
+        this.showSwal(
+          "failed-message",
+          error ?? "Terjadi kesalahan saat memuat data"
+        );
+        // console.log(error);
       }
 
       this.setupDataTable();
       this.setupTableAction();
     },
 
-    async addHalaman() {
-      this.showSwal("loading");
-
-      try {
-        document.getElementById("button-close-modal").click();
-        await this.a$addHalaman(this.body);
-        await this.getListHalaman();
-        this.showSwal("success-message", "Data halaman berhasil ditambahkan");
-        // this.indexComponent++;
-        this.body.nama = "";
-      } catch (error) {
-        this.showSwal(
-          "failed-message",
-          error.error ?? "Gagal menambahkan data halaman"
-        );
-        console.log(error);
-      }
-    },
-
-    async switchHalaman(id_halaman) {
-      this.showSwal("loading");
-
-      try {
-        await this.a$switchHalaman(id_halaman);
-        await this.getListHalaman();
-      } catch (error) {
-        this.showSwal(
-          "failed-message",
-          error.error ?? "Gagal mengubah data halaman"
-        );
-        console.log(error);
-      }
-    },
-
     setupTableAction() {
       let outerThis = this;
-      $("#halaman-list").on("click", `.aktif`, function (e) {
-        let halaman = this;
+      $("#gelombang-list").on("click", `.aktif`, function (e) {
+        let gelombang = this;
         outerThis.showSwal(
           "warning-confirmation",
-          `Mengaktifkan halaman ${halaman.name}?`,
+          `Mengaktifkan gelombang ${gelombang.name}?`,
           "Berhasil memperbarui data",
-          halaman.id
+          gelombang.id
         );
         e.preventDefault();
       });
-      $("#halaman-list").on("click", `.non-aktif`, function (e) {
-        let halaman = this;
+      $("#gelombang-list").on("click", `.non-aktif`, function (e) {
+        let gelombang = this;
         outerThis.showSwal(
           "warning-confirmation",
-          `Menonaktifkan halaman ${halaman.name}?`,
+          `Menonaktifkan gelombang ${gelombang.name}?`,
           "Berhasil memperbarui data",
-          halaman.id
+          gelombang.id
         );
         e.preventDefault();
-      });
-      this.g$listHalaman.forEach((halaman) => {
-        if (document.getElementById(`aktif-${halaman.id_halaman}`)) {
-          document
-            .getElementById(`aktif-${halaman.id_halaman}`)
-            .addEventListener("click", (e) => {
-              this.showSwal(
-                "warning-confirmation",
-                `Mengaktifkan halaman ${halaman.nama}?`,
-                "Berhasil memperbarui data",
-                halaman.id_halaman
-              );
-              e.preventDefault();
-            });
-        }
-
-        if (document.getElementById(`non-aktif-${halaman.id_halaman}`)) {
-          document
-            .getElementById(`non-aktif-${halaman.id_halaman}`)
-            .addEventListener("click", (e) => {
-              this.showSwal(
-                "warning-confirmation",
-                `Menonaktifkan halaman ${halaman.nama}?`,
-                "Berhasil memperbarui data",
-                halaman.id_halaman
-              );
-              e.preventDefault();
-            });
-        }
       });
     },
 
     setupDataTable() {
-      if (document.getElementById("halaman-list")) {
-        const dataTableSearch = new DataTable("#halaman-list", {
+      if (document.getElementById("gelombang-list")) {
+        const dataTableSearch = new DataTable("#gelombang-list", {
           searchable: true,
           fixedHeight: false,
           perPage: 5,
         });
 
-        document.querySelectorAll(".export-halaman").forEach(function (el) {
+        document.querySelectorAll(".export").forEach(function (el) {
           el.addEventListener("click", function () {
             var type = el.dataset.type;
 
             var data = {
               type: type,
-              filename: "Data Halaman",
+              filename: "Data Gelombang KKN",
             };
 
-            // if (type === "csv") {
-            //   data.columnDelimiter = "|";
-            // }
+            //  if (type === "csv") {
+            //    data.columnDelimiter = "|";
+            //  }
 
             dataTableSearch.export(data);
           });
         });
+
+        this.dataTable = dataTableSearch;
       }
+    },
+
+    setupChoices() {
+      // this.choicesTema = this.getChoices("choices-tema");
+      this.choicesTemaModal = this.getChoices("choices-tema-modal");
+      this.choicesHalamanModal = this.getChoices("choices-halaman-modal");
     },
 
     getChoices(id) {
@@ -416,11 +456,12 @@ export default {
         return new Choices(element, {
           searchEnabled: true,
           allowHTML: true,
+          shouldSort: false,
         });
       }
     },
 
-    showSwal(type, text, toastText, id_halaman) {
+    showSwal(type, text, toastText, id_gelombang) {
       if (type === "success-message") {
         this.$swal({
           icon: "success",
@@ -483,7 +524,7 @@ export default {
           buttonsStyling: false,
         }).then((result) => {
           if (result.isConfirmed) {
-            this.switchHalaman(id_halaman);
+            this.switchGelombang(id_gelombang);
             this.$swal({
               toast: true,
               position: "top-end",

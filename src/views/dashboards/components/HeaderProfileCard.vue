@@ -53,9 +53,8 @@ export default {
   },
   mounted() {
     if (this.g$user.role) {
-      document.getElementById("role").innerHTML = this.checkRole(
-        this.g$user.role
-      );
+      var element = document.getElementById("role");
+      if (element) element.innerHTML = this.checkRole(this.g$user.role);
     }
   },
   methods: {
@@ -72,7 +71,7 @@ export default {
         case "DOSEN":
           return "Dosen KKN UNDIP";
         case "BAPPEDA":
-          return "BAPPEDA " + this.g$infoUser.kabupaten[0].nama;
+          return "BAPPEDA " + this.g$infoUser.nama_kabupaten;
         case "REVIEWER":
           return "Tim Reviewer KKN UNDIP";
         default:

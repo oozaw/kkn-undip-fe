@@ -2,91 +2,131 @@
   <div class="container-fluid">
     <div class="row mb-5 mt-4">
       <div class="col-lg-12 mt-lg-0 mt-4">
-        <HeaderProfileCard
-          :button="true"
-          button-text="Simpan data registrasi"
-          name="Tazki Hanifan Amri"
-          description="KKN Reguler Tim 1 2023"
-          :img="team1"
-        />
+        <HeaderProfileCard>
+          <template #button>
+            <argon-button
+              :onclick="() => $router.push({ name: 'Registrasi' })"
+              class="mb-0 me-2"
+              color="secondary"
+              size="sm"
+              >Batal</argon-button
+            >
+            <argon-button
+              type="submit"
+              form="form-proposal"
+              class="mb-0 me-lg-2"
+              color="success"
+              variant="gradient"
+              size="sm"
+              >Submit Proposal</argon-button
+            >
+          </template>
+        </HeaderProfileCard>
         <div class="p-4 pt-3 bg-white card mt-4">
-          <h5 class="">Registrasi KKN</h5>
-          <div class="mt-2 row">
-            <div class="col-md-6 col-12">
-              <div class="row">
-                <div class="col-12 col-md-6 align-self-center">
-                  <label class="form-label mt-2">Jenis KKN</label>
-                  <select
-                    id="choices-jenis"
-                    class="form-control"
-                    name="choices-jenis"
-                  >
-                    <option value="reguler">Reguler</option>
-                    <option value="tematik">Tematik</option>
-                  </select>
+          <h5 class="">
+            {{ `Registrasi KKN ${gelombang.nama} ${tema.nama}` }}
+          </h5>
+          <form
+            role="form"
+            id="form-proposal"
+            enctype="multipart/form-data"
+            @submit.prevent="addProposal()"
+          >
+            <div class="mt-2 row">
+              <div class="col-md-6 col-12">
+                <div class="reguler-section" :hidden="filterJenis !== 1">
+                  <div class="row">
+                    <div class="col-12 align-self-center">
+                      <label class="form-label mt-2">Provinsi</label>
+                      <select
+                        id="choices-provinsi"
+                        class="form-control"
+                        name="choices-provinsi"
+                        v-model="id_provinsi"
+                      >
+                        <option value="" selected hidden disabled>
+                          -- Pilih Provinsi --
+                        </option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="row mt-3">
+                    <div class="col-12 align-self-center">
+                      <label class="form-label mt-2">Kabupaten/ Kota</label>
+                      <select
+                        id="choices-kab"
+                        class="form-control"
+                        name="choices-kab"
+                        v-model="id_kabupaten"
+                        @change="getListKecamatan()"
+                      >
+                        <option value="" selected hidden disabled>
+                          -- Pilih Kabupaten/ Kota --
+                        </option>
+                        <!-- <option
+                          v-for="kab in g$listKabupaten"
+                          :key="kab.id_kabupaten"
+                          :value="kab.id_kabupaten"
+                        >
+                          {{ kab.nama }}
+                        </option> -->
+                      </select>
+                    </div>
+                  </div>
+                  <div class="row mt-3">
+                    <div class="col-12 align-self-center">
+                      <label class="form-label mt-2">Kecamatan</label>
+                      <select
+                        id="choices-kec"
+                        class="form-control"
+                        name="choices-kec"
+                        v-model="body.id_kecamatan"
+                        @change="getPotensi()"
+                      >
+                        <option value="" selected hidden disabled>
+                          -- Pilih Kecamatan --
+                        </option>
+                        <!-- <option
+                          v-for="kec in listKecamatan"
+                          :key="kec.id_kecamatan"
+                          :value="kec.id_kecamatan"
+                        >
+                          {{ kec.nama }}
+                        </option> -->
+                      </select>
+                    </div>
+                  </div>
                 </div>
-                <div class="col-12 col-md-6 align-self-center">
-                  <label class="form-label mt-2">Periode</label>
-                  <select
-                    id="choices-periode"
-                    class="form-control"
-                    name="choices-periode"
-                  >
-                    <option value="2022/2023">2022/2023</option>
-                    <option value="2023/2024">2023/2024</option>
-                  </select>
+                <div class="row mt-3">
+                  <div class="col-12 mt-3 mt-lg-0">
+                    <label for="file-prposal" class="form-label"
+                      >Proposal (*.pdf)</label
+                    >
+                    <input
+                      class="form-control"
+                      type="file"
+                      ref="file"
+                      id="file-proposal"
+                    />
+                  </div>
                 </div>
               </div>
-              <div class="row mt-3">
-                <div class="col-12 align-self-center">
-                  <label class="form-label mt-2">Wilayah</label>
-                  <select
-                    id="choices-wilayah"
-                    class="form-control"
-                    name="choices-wilayah"
-                  >
-                    <option value="kota_semarang">
-                      Desa Bergas, Kecamatan Bergas
-                    </option>
-                    <option value="FT">
-                      Desa Kuningan, Kecamatan Kuningan
-                    </option>
-                    <option value="FPsi">
-                      Desa Platarejo, Kecamatan Platarejo
-                    </option>
-                  </select>
-                </div>
-              </div>
-              <div class="row mt-3">
-                <div class="col-12 mt-3 mt-lg-0">
-                  <label for="file-prposal" class="form-label"
-                    >Proposal (*.pdf)</label
-                  >
-                  <input class="form-control" type="file" id="file-prposal" />
+              <div class="col-md-6 col-12 mt-3 mt-md-0">
+                <div class="col-12 ms-md-2 pe-1">
+                  <label class="form-label">{{
+                    `Potensi Kecamatan ${kecamatan.nama ?? ""}`
+                  }}</label>
+                  <div class="row ms-1 text-md">
+                    <span
+                      id="potensi"
+                      class=""
+                      v-html="kecamatan.potensi"
+                    ></span>
+                  </div>
                 </div>
               </div>
             </div>
-            <div class="col-md-6 col-12 mt-3 mt-md-0">
-              <div class="col-12 ms-md-2 pe-1">
-                <label class="form-label">Deskripsi:</label>
-                <span id="description" class=""
-                  ><ul>
-                    <li>
-                      The most beautiful curves of this swivel stool adds an
-                      elegant touch to any environment
-                    </li>
-                    <li>
-                      Memory swivel seat returns to original seat position
-                    </li>
-                    <li>
-                      Comfortable integrated layered chair seat cushion design
-                    </li>
-                    <li>Fully assembled! No assembly required</li>
-                  </ul></span
-                >
-              </div>
-            </div>
-          </div>
+          </form>
         </div>
       </div>
     </div>
@@ -94,42 +134,263 @@
 </template>
 
 <script>
+import { ref } from "vue";
 import * as Choices from "choices.js";
 import HeaderProfileCard from "@/views/dashboards/components/HeaderProfileCard.vue";
-
-import team1 from "@/assets/img/team-1.jpg";
+import ArgonButton from "@/components/ArgonButton.vue";
+import { mapActions, mapState } from "pinia";
+import d$wilayah from "@/store/wilayah";
+import d$tema from "@/store/tema";
+import d$gelombang from "@/store/gelombang";
+import d$proposal from "@/store/proposal";
 
 export default {
   name: "AddRegistrasiKKN",
   components: {
     HeaderProfileCard,
+    ArgonButton,
   },
   data() {
+    const filterJenis = ref("");
+
     return {
-      team1,
-      choicesJenis: Choices,
-      choicesPeriode: Choices,
-      choicesWilayah: Choices,
+      id_halaman: 1,
+      filterJenis,
+      body: {
+        file: "",
+        id_kecamatan: "",
+        id_gelombang: "",
+      },
+      tema: "",
+      gelombang: "",
+      id_provinsi: "",
+      id_kabupaten: "",
+      kecamatan: "",
+      potensi: "",
+      choicesProvinsi: undefined,
+      choicesKabupaten: undefined,
+      choicesKecamatan: undefined,
+      listKecamatan: [],
     };
   },
+  computed: {
+    ...mapState(d$wilayah, ["g$listKabupaten", "g$listKecamatan"]),
+    ...mapState(d$tema, ["g$listTema", "g$listTemaActive"]),
+    ...mapState(d$gelombang, ["g$listGelombang"]),
+  },
+  async created() {
+    await this.getInitData();
+  },
   mounted() {
-    if (document.getElementById("choices-jenis")) {
-      var jenis = document.getElementById("choices-jenis");
-      this.choicesJenis = new Choices(jenis, { allowHTML: true });
-    }
-    if (document.getElementById("choices-periode")) {
-      var periode = document.getElementById("choices-periode");
-      this.choicesPeriode = new Choices(periode, { allowHTML: true });
-    }
-    if (document.getElementById("choices-wilayah")) {
-      var kab = document.getElementById("choices-wilayah");
-      this.choicesWilayah = new Choices(kab, { allowHTML: true });
-    }
+    this.choicesProvinsi = this.getChoices("choices-provinsi");
+    this.choicesKabupaten = this.getChoices("choices-kab");
+    this.choicesKecamatan = this.getChoices("choices-kec");
   },
   beforeUnmount() {
-    this.choicesJenis.destroy();
-    this.choicesPeriode.destroy();
-    this.choicesWilayah.destroy();
+    if (this.choicesProvinsi) this.choicesProvinsi.destroy();
+    if (this.choicesKabupaten) this.choicesKabupaten.destroy();
+    if (this.choicesKecamatan) this.choicesKecamatan.destroy();
+  },
+  methods: {
+    ...mapActions(d$wilayah, ["a$listAllKabupaten"]),
+    ...mapActions(d$tema, ["a$listTema"]),
+    ...mapActions(d$gelombang, ["a$listGelombang"]),
+    ...mapActions(d$proposal, ["a$addProposal"]),
+
+    async addProposal() {
+      this.showSwal("loading");
+      this.body.file = this.$refs.file.files[0];
+      this.body.id_kecamatan = parseInt(this.body.id_kecamatan);
+      this.body.id_gelombang = parseInt(this.$route.params.id_gelombang);
+
+      if (!this.body.id_kecamatan) {
+        this.showSwal("failed-message", "Kecamatan harus diisi!");
+        return;
+      }
+
+      if (!this.body.file) {
+        this.showSwal("failed-message", "File proposal harus diisi!");
+        return;
+      }
+
+      try {
+        await this.a$addProposal(this.body);
+        this.$router.push({ name: "Registrasi" });
+        this.showSwal(
+          "success-message",
+          "Pengajuan proposal berhasil ditambahkan!"
+        );
+      } catch (error) {
+        this.showSwal(
+          "failed-message",
+          "Terjadi kesalahan saat menambahkan data"
+        );
+        console.log(error);
+      }
+    },
+
+    async getPotensi() {
+      this.body.id_kecamatan = parseInt(this.body.id_kecamatan);
+      await this.g$listKecamatan.forEach((kecamatan) => {
+        if (kecamatan.id_kecamatan === this.body.id_kecamatan) {
+          this.kecamatan = kecamatan;
+        }
+      });
+    },
+
+    async getListKecamatan() {
+      this.listKecamatan = [];
+      this.id_kabupaten = parseInt(this.id_kabupaten);
+
+      try {
+        await this.g$listKecamatan.forEach((kecamatan) => {
+          if (
+            kecamatan.id_kabupaten === this.id_kabupaten &&
+            kecamatan.status === 1
+          ) {
+            this.listKecamatan.push(kecamatan);
+          }
+        });
+        this.setChoices(this.choicesKecamatan, this.listKecamatan);
+      } catch (error) {
+        console.log(error);
+      }
+    },
+
+    async getInitData() {
+      this.showSwal("loading");
+      try {
+        await this.a$listTema();
+        await this.a$listGelombang(
+          parseInt(this.$route.params.id_tema),
+          parseInt(this.id_halaman)
+        );
+        await this.getTema();
+        await this.getGelombang();
+        await this.getListKabupaten();
+
+        this.showSwal("close");
+      } catch (error) {
+        this.showSwal("failed-message", "Terjadi kesalahan saat memuat data");
+        console.log(error);
+      }
+    },
+
+    async getListKabupaten() {
+      try {
+        await this.a$listAllKabupaten(parseInt(this.tema.id_tema));
+        this.setChoices(this.choicesKabupaten, this.g$listKabupaten);
+      } catch (error) {
+        console.log(error);
+      }
+    },
+
+    async getTema() {
+      await this.g$listTemaActive.forEach((tema) => {
+        if (tema.id_tema == this.$route.params.id_tema) {
+          this.tema = tema;
+          return;
+        }
+      });
+      this.filterJenis = this.tema.jenis;
+    },
+
+    async getGelombang() {
+      await this.g$listGelombang.forEach((gelombang) => {
+        if (gelombang.id_gelombang == this.$route.params.id_gelombang) {
+          this.gelombang = gelombang;
+          return;
+        }
+      });
+    },
+
+    setChoices(choices, option) {
+      if (choices) {
+        choices.clearChoices();
+        let newOption = [];
+        option.forEach((item) => {
+          newOption.push({
+            value: Object.values(item)[0],
+            label: item.nama,
+          });
+        });
+        choices.setChoices(newOption);
+      }
+    },
+
+    getChoices(id) {
+      var element = document.getElementById(id);
+      if (element) {
+        return new Choices(element, {
+          searchEnabled: true,
+          allowHTML: true,
+        });
+      }
+    },
+
+    showSwal(type, text) {
+      if (type === "success-message") {
+        this.$swal({
+          icon: "success",
+          title: "Berhasil!",
+          text: text,
+          timer: 2500,
+          type: type,
+          timerProgressBar: true,
+          showConfirmButton: false,
+          didOpen: () => {
+            this.$swal.hideLoading();
+          },
+        });
+      } else if (type === "failed-message") {
+        this.$swal({
+          icon: "error",
+          title: "Gagal!",
+          text: text,
+          timer: 2500,
+          type: type,
+          timerProgressBar: true,
+          showConfirmButton: false,
+          didOpen: () => {
+            this.$swal.hideLoading();
+          },
+        });
+      } else if (type === "auto-close") {
+        let timerInterval;
+        this.$swal({
+          title: "Auto close alert!",
+          html: "I will close in <b></b> milliseconds.",
+          timer: 2000,
+          timerProgressBar: true,
+          didOpen: () => {
+            this.$swal.showLoading();
+            const b = this.$swal.getHtmlContainer().querySelector("b");
+            timerInterval = setInterval(() => {
+              b.textContent = this.$swal.getTimerLeft();
+            }, 100);
+          },
+          willClose: () => {
+            clearInterval(timerInterval);
+          },
+        });
+      } else if (type === "loading") {
+        this.$swal({
+          title: "Memuat...",
+          timerProgressBar: true,
+          showConfirmButton: false,
+          allowOutsideClick: false,
+          allowEscapeKey: false,
+          didOpen: () => {
+            this.$swal.showLoading();
+          },
+          didDestroy: () => {
+            this.$swal.hideLoading();
+          },
+        });
+      } else if (type === "close") {
+        this.$swal.close();
+      }
+    },
   },
 };
 </script>

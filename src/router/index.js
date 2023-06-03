@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from "vue-router";
 import { certCookies } from "@/utils/cookies";
+import { Role } from "@/utils/role";
 
 import Landing from "../views/dashboards/Landing.vue";
 import Default from "../views/dashboards/Default.vue";
@@ -77,6 +78,8 @@ import IndexPimpinan from "../views/admin/akun/pimpinan/Index.vue";
 import AddPimpinan from "../views/admin/akun/pimpinan/Add.vue";
 import EditProfile from "../views/pendaftaran/profile/Edit.vue";
 import EditBerkasMhs from "../views/pendaftaran/berkas/Edit.vue";
+import IndexGelombangMhs from "../views/pendaftaran/lokasi/gelombang/Index.vue";
+import IndexLokasiMhs from "../views/pendaftaran/lokasi/Index.vue";
 import DaftarLokasi from "../views/pendaftaran/lokasi/Daftar.vue";
 import IndexPostTest from "../views/test/Index.vue";
 import IndexLRK from "../views/kegiatan/lrk/Index.vue";
@@ -94,6 +97,7 @@ import Presensi from "../views/kegiatan/presensi/Index.vue";
 import IndexNilai from "../views/kegiatan/nilai/Index.vue";
 import EditNilai from "../views/kegiatan/nilai/Edit.vue";
 import EditProfilWilayah from "../views/profile-wilayah/Edit.vue";
+import IndexKeikutsertaanWilayah from "../views/keikutsertaan-wilayah/Index.vue";
 import IndexPengajuanLokasi from "../views/pengajuan-lokasi/Index.vue";
 import AddKecamatan from "../views/pengajuan-lokasi/kecamatan/Add.vue";
 import EditKecamatan from "../views/pengajuan-lokasi/kecamatan/Edit.vue";
@@ -101,6 +105,7 @@ import AddDesa from "../views/pengajuan-lokasi/desa/Add.vue";
 import EditDesa from "../views/pengajuan-lokasi/desa/Edit.vue";
 import IndexTemaKKN from "../views/admin/menu-utama/tema/Index.vue";
 import TambahTemaKKN from "../views/admin/menu-utama/tema/Add.vue";
+import IndexGelombang from "../views/admin/menu-utama/gelombang/Index.vue";
 import IndexPengajuanWilayah from "../views/admin/menu-utama/pengajuan-wilayah/Index.vue";
 import IndexKalender from "../views/admin/menu-utama/kalender/Index.vue";
 import TambahKalender from "../views/admin/menu-utama/kalender/Add.vue";
@@ -114,6 +119,7 @@ import IndexPresensiMhsAdmin from "../views/admin/kelola-mhs/presensi/Index.vue"
 import IndexLRKLPKMhsAdmin from "../views/admin/kelola-mhs/lrk-lpk/Index.vue";
 import IndexReportaseMhsAdmin from "../views/admin/kelola-mhs/reportase/Index.vue";
 import IndexPendaftaranDosenAdmin from "../views/admin/kelola-dosen/pendaftaran-lokasi/Index.vue";
+import EditEvaluasiProposalDosen from "../views/admin/kelola-dosen/pendaftaran-lokasi/Edit.vue";
 import IndexPemilihanMhsAdmin from "../views/admin/kelola-dosen/pemilihan-mhs/Index.vue";
 import IndexPresensiDosenAdmin from "../views/admin/kelola-dosen/presensi/Index.vue";
 import IndexNilaiAkhirMhsAdmin from "../views/admin/kelola-dosen/nilai-akhir-mhs/Index.vue";
@@ -128,15 +134,15 @@ const routes = [
     },
   },
   {
-    path: "/dashboard",
+    path: "/dashboard/:error?",
     name: "Dashboard",
     component: Dashboard,
     meta: {
-      requiresAuth: true,
+      requiresAuth: [],
     },
   },
   {
-    path: "/login",
+    path: "/login/:error?",
     name: "Login",
     component: Login,
     meta: {
@@ -156,7 +162,7 @@ const routes = [
     name: "Reset",
     component: Reset,
     meta: {
-      requiresAuth: true,
+      requiresAuth: [],
     },
   },
   // Akun
@@ -165,7 +171,7 @@ const routes = [
     name: "Mahasiswa",
     component: Mahasiswa,
     meta: {
-      requiresAuth: true,
+      requiresAuth: [Role.admin],
     },
   },
   {
@@ -173,7 +179,7 @@ const routes = [
     name: "Tambah Mahasiswa",
     component: AddMahasiswa,
     meta: {
-      requiresAuth: true,
+      requiresAuth: [Role.admin],
     },
   },
   {
@@ -181,7 +187,7 @@ const routes = [
     name: "Edit Mahasiswa",
     component: EditMahasiswa,
     meta: {
-      requiresAuth: true,
+      requiresAuth: [Role.admin],
     },
   },
   {
@@ -189,7 +195,7 @@ const routes = [
     name: "Dosen",
     component: IndexDosen,
     meta: {
-      requiresAuth: true,
+      requiresAuth: [Role.admin],
     },
   },
   {
@@ -197,7 +203,7 @@ const routes = [
     name: "Tambah Dosen",
     component: AddDosen,
     meta: {
-      requiresAuth: true,
+      requiresAuth: [Role.admin],
     },
   },
   {
@@ -205,7 +211,7 @@ const routes = [
     name: "Edit Dosen",
     component: EditDosen,
     meta: {
-      requiresAuth: true,
+      requiresAuth: [Role.admin],
     },
   },
   {
@@ -213,7 +219,7 @@ const routes = [
     name: "Bappeda",
     component: IndexBappeda,
     meta: {
-      requiresAuth: true,
+      requiresAuth: [Role.admin],
     },
   },
   {
@@ -221,7 +227,7 @@ const routes = [
     name: "Tambah Bappeda",
     component: AddBappeda,
     meta: {
-      requiresAuth: true,
+      requiresAuth: [Role.admin],
     },
   },
   {
@@ -229,7 +235,7 @@ const routes = [
     name: "Administrator",
     component: IndexAdministrator,
     meta: {
-      requiresAuth: true,
+      requiresAuth: [Role.superadmin],
     },
   },
   {
@@ -237,7 +243,7 @@ const routes = [
     name: "Tambah Administrator",
     component: AddAdministrator,
     meta: {
-      requiresAuth: true,
+      requiresAuth: [Role.superadmin],
     },
   },
   {
@@ -245,7 +251,7 @@ const routes = [
     name: "Reviewer",
     component: IndexReviewer,
     meta: {
-      requiresAuth: true,
+      requiresAuth: [Role.admin],
     },
   },
   {
@@ -253,7 +259,7 @@ const routes = [
     name: "Tambah Reviewer",
     component: AddReviewer,
     meta: {
-      requiresAuth: true,
+      requiresAuth: [Role.admin],
     },
   },
   {
@@ -261,7 +267,7 @@ const routes = [
     name: "Pimpinan",
     component: IndexPimpinan,
     meta: {
-      requiresAuth: true,
+      requiresAuth: [Role.admin],
     },
   },
   {
@@ -269,7 +275,7 @@ const routes = [
     name: "Tambah Pimpinan",
     component: AddPimpinan,
     meta: {
-      requiresAuth: true,
+      requiresAuth: [Role.admin],
     },
   },
   {
@@ -277,7 +283,7 @@ const routes = [
     name: "Edit Data Diri",
     component: EditProfile,
     meta: {
-      requiresAuth: true,
+      requiresAuth: [Role.mahasiswa, Role.dosen, Role.reviewer],
     },
   },
   {
@@ -285,15 +291,31 @@ const routes = [
     name: "Edit Data Berkas",
     component: EditBerkasMhs,
     meta: {
-      requiresAuth: true,
+      requiresAuth: [Role.mahasiswa],
     },
   },
   {
-    path: "/pendaftaran/lokasi/daftar",
+    path: "/pendaftaran/lokasi/gelombang",
+    name: "Index Gelombang Daftar Lokasi",
+    component: IndexGelombangMhs,
+    meta: {
+      requiresAuth: [Role.mahasiswa],
+    },
+  },
+  {
+    path: "/pendaftaran/lokasi",
+    name: "Index Lokasi",
+    component: IndexLokasiMhs,
+    meta: {
+      requiresAuth: [Role.mahasiswa],
+    },
+  },
+  {
+    path: "/pendaftaran/lokasi/daftar/:id_tema/:id_gelombang",
     name: "Daftar Lokasi",
     component: DaftarLokasi,
     meta: {
-      requiresAuth: true,
+      requiresAuth: [Role.mahasiswa],
     },
   },
   {
@@ -301,7 +323,7 @@ const routes = [
     name: "Post Test",
     component: IndexPostTest,
     meta: {
-      requiresAuth: true,
+      requiresAuth: [Role.mahasiswa],
     },
   },
   {
@@ -309,23 +331,23 @@ const routes = [
     name: "LRK",
     component: IndexLRK,
     meta: {
-      requiresAuth: true,
+      requiresAuth: [Role.mahasiswa, Role.dosen],
     },
   },
   {
-    path: "/kegiatan/lrk/add",
+    path: "/kegiatan/lrk/add/:id_tema",
     name: "Tambah LRK",
     component: AddLRK,
     meta: {
-      requiresAuth: true,
+      requiresAuth: [Role.mahasiswa],
     },
   },
   {
-    path: "/kegiatan/lrk/edit",
+    path: "/kegiatan/lrk/edit/:id_laporan",
     name: "Edit LRK",
     component: EditLRK,
     meta: {
-      requiresAuth: true,
+      requiresAuth: [Role.mahasiswa],
     },
   },
   {
@@ -333,15 +355,15 @@ const routes = [
     name: "LPK",
     component: IndexLPK,
     meta: {
-      requiresAuth: true,
+      requiresAuth: [Role.mahasiswa, Role.dosen],
     },
   },
   {
-    path: "/kegiatan/lpk/edit",
+    path: "/kegiatan/lpk/edit/:id_laporan",
     name: "Edit LPK",
     component: EditLPK,
     meta: {
-      requiresAuth: true,
+      requiresAuth: [Role.mahasiswa],
     },
   },
   {
@@ -349,7 +371,7 @@ const routes = [
     name: "Reportase",
     component: IndexReportase,
     meta: {
-      requiresAuth: true,
+      requiresAuth: [Role.mahasiswa, Role.dosen],
     },
   },
   {
@@ -357,7 +379,7 @@ const routes = [
     name: "Tambah Reportase",
     component: AddReportase,
     meta: {
-      requiresAuth: true,
+      requiresAuth: [Role.mahasiswa],
     },
   },
   {
@@ -365,7 +387,7 @@ const routes = [
     name: "Edit Reportase",
     component: EditReportase,
     meta: {
-      requiresAuth: true,
+      requiresAuth: [Role.mahasiswa],
     },
   },
   {
@@ -373,15 +395,15 @@ const routes = [
     name: "Registrasi",
     component: IndexRegistrasi,
     meta: {
-      requiresAuth: true,
+      requiresAuth: [Role.dosen],
     },
   },
   {
-    path: "/pendaftaran/registrasi/add",
+    path: "/pendaftaran/registrasi/add/:id_tema/:id_gelombang",
     name: "Tambah Registrasi",
     component: AddRegistrasi,
     meta: {
-      requiresAuth: true,
+      requiresAuth: [Role.dosen],
     },
   },
   {
@@ -389,7 +411,7 @@ const routes = [
     name: "Seleksi",
     component: SeleksiMhs,
     meta: {
-      requiresAuth: true,
+      requiresAuth: [Role.dosen],
     },
   },
   {
@@ -397,7 +419,15 @@ const routes = [
     name: "Presensi",
     component: Presensi,
     meta: {
-      requiresAuth: true,
+      requiresAuth: [Role.mahasiswa, Role.dosen],
+    },
+  },
+  {
+    path: "/kegiatan/presensi-mhs",
+    name: "Review Presensi Mahasiswa",
+    component: Presensi,
+    meta: {
+      requiresAuth: [Role.dosen],
     },
   },
   {
@@ -405,7 +435,7 @@ const routes = [
     name: "Nilai Akhir",
     component: IndexNilai,
     meta: {
-      requiresAuth: true,
+      requiresAuth: [Role.dosen],
     },
   },
   {
@@ -413,7 +443,7 @@ const routes = [
     name: "Edit Nilai Akhir",
     component: EditNilai,
     meta: {
-      requiresAuth: true,
+      requiresAuth: [Role.dosen],
     },
   },
   {
@@ -421,7 +451,15 @@ const routes = [
     name: "Profil Wilayah",
     component: EditProfilWilayah,
     meta: {
-      requiresAuth: true,
+      requiresAuth: [Role.bappeda],
+    },
+  },
+  {
+    path: "/keikutsertaan-wilayah",
+    name: "Keikutsertaan Wilayah",
+    component: IndexKeikutsertaanWilayah,
+    meta: {
+      requiresAuth: [Role.bappeda],
     },
   },
   {
@@ -430,7 +468,7 @@ const routes = [
     props: true,
     component: IndexPengajuanLokasi,
     meta: {
-      requiresAuth: true,
+      requiresAuth: [Role.bappeda],
     },
   },
   {
@@ -438,7 +476,7 @@ const routes = [
     name: "Tambah Kecamatan",
     component: AddKecamatan,
     meta: {
-      requiresAuth: true,
+      requiresAuth: [Role.bappeda],
     },
   },
   {
@@ -446,7 +484,7 @@ const routes = [
     name: "Edit Kecamatan",
     component: EditKecamatan,
     meta: {
-      requiresAuth: true,
+      requiresAuth: [Role.bappeda],
     },
   },
   {
@@ -454,7 +492,7 @@ const routes = [
     name: "Tambah Desa",
     component: AddDesa,
     meta: {
-      requiresAuth: true,
+      requiresAuth: [Role.bappeda],
     },
   },
   {
@@ -462,7 +500,7 @@ const routes = [
     name: "Edit Desa",
     component: EditDesa,
     meta: {
-      requiresAuth: true,
+      requiresAuth: [Role.bappeda],
     },
   },
   {
@@ -470,7 +508,7 @@ const routes = [
     name: "Tema KKN",
     component: IndexTemaKKN,
     meta: {
-      requiresAuth: true,
+      requiresAuth: [Role.admin],
     },
   },
   {
@@ -478,7 +516,15 @@ const routes = [
     name: "Tambah Tema KKN",
     component: TambahTemaKKN,
     meta: {
-      requiresAuth: true,
+      requiresAuth: [Role.admin],
+    },
+  },
+  {
+    path: "/admin/gelombang",
+    name: "Gelombang",
+    component: IndexGelombang,
+    meta: {
+      requiresAuth: [Role.admin],
     },
   },
   {
@@ -486,7 +532,7 @@ const routes = [
     name: "Pengajuan Wilayah",
     component: IndexPengajuanWilayah,
     meta: {
-      requiresAuth: true,
+      requiresAuth: [Role.admin],
     },
   },
   {
@@ -494,7 +540,7 @@ const routes = [
     name: "Kalender",
     component: IndexKalender,
     meta: {
-      requiresAuth: true,
+      requiresAuth: [Role.admin],
     },
   },
   {
@@ -502,7 +548,7 @@ const routes = [
     name: "Tambah Kalender",
     component: TambahKalender,
     meta: {
-      requiresAuth: true,
+      requiresAuth: [Role.admin],
     },
   },
   {
@@ -510,7 +556,7 @@ const routes = [
     name: "Pengumuman",
     component: IndexPengumuman,
     meta: {
-      requiresAuth: true,
+      requiresAuth: [Role.admin],
     },
   },
   {
@@ -518,7 +564,7 @@ const routes = [
     name: "Tambah Pengumuman",
     component: TambahPengumuman,
     meta: {
-      requiresAuth: true,
+      requiresAuth: [Role.admin],
     },
   },
   {
@@ -526,7 +572,7 @@ const routes = [
     name: "Halaman",
     component: IndexKelolaHalaman,
     meta: {
-      requiresAuth: true,
+      requiresAuth: [Role.admin],
     },
   },
   {
@@ -534,7 +580,7 @@ const routes = [
     name: "Edit Halaman",
     component: EditHalaman,
     meta: {
-      requiresAuth: true,
+      requiresAuth: [Role.admin],
     },
   },
   // Kelola Mahasiswa
@@ -543,7 +589,7 @@ const routes = [
     name: "Pendaftaran Mahasiswa Admin",
     component: IndexPendaftaranMhsAdmin,
     meta: {
-      requiresAuth: true,
+      requiresAuth: [Role.admin],
     },
   },
   {
@@ -551,7 +597,7 @@ const routes = [
     name: "Nilai Post Test Mahasiswa Admin",
     component: IndexNilaiPostTestMhsAdmin,
     meta: {
-      requiresAuth: true,
+      requiresAuth: [Role.admin],
     },
   },
   {
@@ -559,7 +605,7 @@ const routes = [
     name: "Presensi Mahasiswa Admin",
     component: IndexPresensiMhsAdmin,
     meta: {
-      requiresAuth: true,
+      requiresAuth: [Role.admin],
     },
   },
   {
@@ -567,7 +613,7 @@ const routes = [
     name: "LRK & LPK Mahasiswa Admin",
     component: IndexLRKLPKMhsAdmin,
     meta: {
-      requiresAuth: true,
+      requiresAuth: [Role.admin],
     },
   },
   {
@@ -575,7 +621,7 @@ const routes = [
     name: "Reportase Mahasiswa Admin",
     component: IndexReportaseMhsAdmin,
     meta: {
-      requiresAuth: true,
+      requiresAuth: [Role.admin],
     },
   },
   // Kelola Dosen
@@ -584,7 +630,15 @@ const routes = [
     name: "Pendaftaran Dosen Admin",
     component: IndexPendaftaranDosenAdmin,
     meta: {
-      requiresAuth: true,
+      requiresAuth: [Role.admin, Role.reviewer],
+    },
+  },
+  {
+    path: "/kelola-dosen/pendaftaran/evaluasi/:id_proposal",
+    name: "Evaluasi Proposal",
+    component: EditEvaluasiProposalDosen,
+    meta: {
+      requiresAuth: [Role.admin, Role.reviewer],
     },
   },
   {
@@ -592,7 +646,7 @@ const routes = [
     name: "Pemilihan Mahasiswa Admin",
     component: IndexPemilihanMhsAdmin,
     meta: {
-      requiresAuth: true,
+      requiresAuth: [Role.admin],
     },
   },
   {
@@ -600,7 +654,7 @@ const routes = [
     name: "Presensi Dosen Admin",
     component: IndexPresensiDosenAdmin,
     meta: {
-      requiresAuth: true,
+      requiresAuth: [Role.admin],
     },
   },
   {
@@ -608,7 +662,7 @@ const routes = [
     name: "Nilai Akhir Mahasiswa Admin",
     component: IndexNilaiAkhirMhsAdmin,
     meta: {
-      requiresAuth: true,
+      requiresAuth: [Role.admin],
     },
   },
 
@@ -897,17 +951,41 @@ const router = createRouter({
 });
 
 router.beforeEach((to, from, next) => {
-  const { id } = certCookies();
-  if (to.meta.requiresAuth && !id) {
-    next({ name: "Login", query: { redirect: to.fullPath } });
-    // console.log("ini redirect");
-  } else if (to.meta.guest && id) {
-    next({ name: "Dashboard" });
-    // console.log("ini ke dashboard");
-  } else {
-    next();
-    // console.log("ini langsung");
+  const { role } = certCookies();
+  const { requiresAuth, guest } = to.meta;
+  // console.log(requiresAuth.length, role);
+
+  if (requiresAuth) {
+    if (!role) {
+      // not logged in so redirect to login page with the return url
+      return next({
+        name: "Login",
+        params: { error: "unauthenticated" },
+        query: { redirect: to.fullPath },
+      });
+    }
+
+    // check if route is restricted by role
+    if (requiresAuth.length && !requiresAuth.includes(role)) {
+      // role not authorised so redirect to home page
+      return next({ name: "Dashboard", params: { error: "unauthorized" } });
+    }
+  } else if (guest && role) {
+    return next({ name: "Dashboard" });
   }
+
+  next();
+
+  // if (to.meta.requiresAuth && !id) {
+  //   next({ name: "Login", query: { redirect: to.fullPath } });
+  //   // console.log("ini redirect");
+  // } else if (to.meta.guest && id) {
+  //   next({ name: "Dashboard" });
+  //   // console.log("ini ke dashboard");
+  // } else {
+  //   next();
+  //   // console.log("ini langsung");
+  // }
 });
 
 export default router;

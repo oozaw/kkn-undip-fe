@@ -60,6 +60,10 @@ const d$auth = defineStore("authStore", {
         throw message ?? error;
       }
     },
+
+    a$checkAuth(allowedRoles) {
+      return allowedRoles.includes(this.role);
+    },
   },
   getters: {
     g$user: ({ id, username, role }) => ({ id, username, role }),

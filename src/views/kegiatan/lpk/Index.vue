@@ -2,12 +2,8 @@
   <div class="container-fluid">
     <div class="row mb-5 mt-4">
       <div class="col-lg-12 mt-lg-0 mt-4">
-        <header-profile-card
-          name="Tazki Hanifan Amri"
-          description="KKN Reguler
-         Tim 1 2023"
-        />
-        <section id="mhs-section">
+        <header-profile-card />
+        <section id="mhs-section" v-if="g$user.role === 'MAHASISWA'">
           <div class="bg-white card mt-4">
             <!-- Card header -->
             <div class="pb-0 card-header">
@@ -18,14 +14,9 @@
                 </div>
                 <div class="my-auto mt-4 ms-auto mt-lg-0">
                   <div class="my-auto ms-auto">
-                    <router-link
-                      class="mb-0 btn bg-gradient-success btn-sm"
-                      :to="{ name: 'Tambah LRK' }"
-                      >+&nbsp; Tambah LPK
-                    </router-link>
                     <button
                       type="button"
-                      class="mx-1 mb-0 btn btn-primary btn-sm"
+                      class="mx-2 mb-0 btn btn-primary btn-sm"
                       data-bs-toggle="modal"
                       data-bs-target="#import-lpk"
                     >
@@ -110,115 +101,10 @@
                     </tr>
                   </thead>
                   <tbody>
-                    <tr>
-                      <td class="text-sm">1</td>
+                    <tr v-for="(lpk, i) in g$listLPK" :key="lpk.id_laporan">
+                      <td class="text-sm">{{ i + 1 }}</td>
                       <td>
-                        <h6 class="my-auto">Program Kerja 1</h6>
-                      </td>
-                      <td>
-                        <span class="badge badge-primary badge-sm"
-                          >Monodisiplin</span
-                        >
-                      </td>
-                      <td class="text-sm">
-                        <a
-                          href="javascript:;"
-                          data-bs-toggle="tooltip"
-                          data-bs-original-title="Preview product"
-                        >
-                          <i class="fas fa-eye text-info"></i>
-                        </a>
-                        <a
-                          href="javascript:;"
-                          class="mx-3"
-                          data-bs-toggle="tooltip"
-                          data-bs-original-title="Edit product"
-                        >
-                          <i class="fas fa-user-edit text-primary"></i>
-                        </a>
-                        <a
-                          href="javascript:;"
-                          data-bs-toggle="tooltip"
-                          data-bs-original-title="Delete product"
-                        >
-                          <i class="fas fa-trash text-danger"></i>
-                        </a>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td class="text-sm">2</td>
-                      <td>
-                        <h6 class="my-auto">Program Kerja 2</h6>
-                      </td>
-                      <td>
-                        <span class="badge badge-success badge-sm"
-                          >Multidisiplin</span
-                        >
-                      </td>
-                      <td class="text-sm">
-                        <a
-                          href="javascript:;"
-                          data-bs-toggle="tooltip"
-                          data-bs-original-title="Preview product"
-                        >
-                          <i class="fas fa-eye text-info"></i>
-                        </a>
-                        <a
-                          href="javascript:;"
-                          class="mx-3"
-                          data-bs-toggle="tooltip"
-                          data-bs-original-title="Edit product"
-                        >
-                          <i class="fas fa-user-edit text-primary"></i>
-                        </a>
-                        <a
-                          href="javascript:;"
-                          data-bs-toggle="tooltip"
-                          data-bs-original-title="Delete product"
-                        >
-                          <i class="fas fa-trash text-danger"></i>
-                        </a>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td class="text-sm">3</td>
-                      <td>
-                        <h6 class="my-auto">Program Kerja 3</h6>
-                      </td>
-                      <td>
-                        <span class="badge badge-success badge-sm"
-                          >Multidisiplin</span
-                        >
-                      </td>
-                      <td class="text-sm">
-                        <a
-                          href="javascript:;"
-                          data-bs-toggle="tooltip"
-                          data-bs-original-title="Preview product"
-                        >
-                          <i class="fas fa-eye text-info"></i>
-                        </a>
-                        <a
-                          href="javascript:;"
-                          class="mx-3"
-                          data-bs-toggle="tooltip"
-                          data-bs-original-title="Edit product"
-                        >
-                          <i class="fas fa-user-edit text-primary"></i>
-                        </a>
-                        <a
-                          href="javascript:;"
-                          data-bs-toggle="tooltip"
-                          data-bs-original-title="Delete product"
-                        >
-                          <i class="fas fa-trash text-danger"></i>
-                        </a>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td class="text-sm">4</td>
-                      <td>
-                        <h6 class="my-auto">Program Kerja 4</h6>
+                        <h6 class="my-auto">{{ lpk.program }}</h6>
                       </td>
                       <td>
                         <span class="badge badge-primary badge-sm"
@@ -227,24 +113,28 @@
                       </td>
                       <td class="text-sm">
                         <a
-                          href="javascript:;"
+                          href="#"
                           data-bs-toggle="tooltip"
-                          data-bs-original-title="Preview product"
+                          data-bs-original-title="Detail LPK"
+                          title="Detail LPK"
                         >
                           <i class="fas fa-eye text-info"></i>
                         </a>
                         <a
-                          href="javascript:;"
-                          class="mx-3"
+                          :id="lpk.id_laporan"
+                          href="#"
+                          class="mx-3 edit"
                           data-bs-toggle="tooltip"
-                          data-bs-original-title="Edit product"
+                          data-bs-original-title="Edit LPK"
+                          title="Edit LPK"
                         >
                           <i class="fas fa-user-edit text-primary"></i>
                         </a>
                         <a
-                          href="javascript:;"
+                          href="#"
                           data-bs-toggle="tooltip"
-                          data-bs-original-title="Delete product"
+                          data-bs-original-title="Hapus LPK"
+                          title="Hapus LPK"
                         >
                           <i class="fas fa-trash text-danger"></i>
                         </a>
@@ -264,7 +154,7 @@
             </div>
           </div>
         </section>
-        <section id="dosen-section">
+        <section id="dosen-section" v-else>
           <div class="bg-white card mt-4">
             <div class="card-header pb-0 pt-3">
               <p class="font-weight-bold text-dark mb-2">
@@ -522,72 +412,61 @@
 </template>
 
 <script>
+import $ from "jquery";
 import { DataTable } from "simple-datatables";
 import Choices from "choices.js";
 import setTooltip from "@/assets/js/tooltip.js";
 import HeaderProfileCard from "@/views/dashboards/components/HeaderProfileCard.vue";
+import { mapActions, mapState } from "pinia";
+import d$tema from "@/store/tema";
+import d$auth from "@/store/auth";
+import d$laporan from "@/store/laporan";
 
 export default {
   name: "IndexLPK",
   components: {
     HeaderProfileCard,
   },
+  data() {
+    return {
+      indexComponent: 0,
+    };
+  },
+  computed: {
+    ...mapState(d$laporan, ["g$listLPK"]),
+    ...mapState(d$auth, ["g$user"]),
+    ...mapState(d$tema, ["g$listTema"]),
+  },
+  async created() {
+    if (this.g$user.role === "MAHASISWA") {
+      await this.getListLPK();
+    }
+
+    setTooltip(this.$store.state.bootstrap);
+  },
   mounted() {
     this.getChoices("choices-tema");
 
-    if (document.getElementById("lpk-list")) {
-      const dataTableSearch = new DataTable("#lpk-list", {
-        searchable: true,
-        fixedHeight: false,
-        perPage: 5,
-      });
-
-      document.querySelectorAll(".export-mhs-sec").forEach(function (el) {
-        el.addEventListener("click", function () {
-          var type = el.dataset.type;
-
-          var data = {
-            type: type,
-            filename: "Data LPK",
-          };
-
-          if (type === "csv") {
-            data.columnDelimiter = "|";
-          }
-
-          dataTableSearch.export(data);
-        });
-      });
-    }
-    if (document.getElementById("lpk-dosen-section-list")) {
-      const dataTableSearch = new DataTable("#lpk-dosen-section-list", {
-        searchable: true,
-        fixedHeight: false,
-        perPage: 5,
-      });
-
-      document.querySelectorAll(".export-dosen-sec").forEach(function (el) {
-        el.addEventListener("click", function () {
-          var type = el.dataset.type;
-          var tema =
-            document.getElementById("choices-tema").selectedOptions[0].text;
-
-          var data = {
-            type: type,
-            filename: "Data LPK " + tema,
-          };
-
-          if (type === "csv") {
-            data.columnDelimiter = "|";
-          }
-
-          dataTableSearch.export(data);
-        });
-      });
-    }
-    setTooltip(this.$store.state.bootstrap);
+    this.setupDataTable("lpk-dosen-section-list");
   },
   methods: {
+    ...mapActions(d$laporan, ["a$listLPK"]),
+    ...mapActions(d$tema, ["a$listTema"]),
+
+    async getListLPK() {
+      this.indexComponent++;
+
+      try {
+        await this.a$listLPK();
+      } catch (error) {
+        this.showSwal("failed-message", "Terjadi kesalahan saat memuat data");
+        console.log(error.error);
+      }
+
+      this.setupDataTable("lpk-list");
+      this.setupTableAction();
+    },
+
     getChoices(id) {
       if (document.getElementById(id)) {
         var element = document.getElementById(id);
@@ -595,6 +474,135 @@ export default {
           searchEnabled: false,
           allowHTML: true,
         });
+      }
+    },
+
+    setupTableAction() {
+      let outerThis = this;
+      $("#lpk-list").on("click", `.edit`, function (e) {
+        let lpk = this;
+        outerThis.$router.push({
+          name: "Edit LPK",
+          params: { id_laporan: lpk.id },
+        });
+        e.preventDefault();
+      });
+    },
+
+    setupDataTable(id) {
+      let element = document.getElementById(id);
+      if (element) {
+        const dataTableSearch = new DataTable(element, {
+          searchable: true,
+          fixedHeight: false,
+          perPage: 5,
+        });
+
+        document.querySelectorAll(".export-mhs-sec").forEach(function (el) {
+          el.addEventListener("click", function () {
+            var type = el.dataset.type;
+
+            var data = {
+              type: type,
+              filename: "Data LPK",
+            };
+
+            if (type === "csv") {
+              data.columnDelimiter = "|";
+            }
+
+            dataTableSearch.export(data);
+          });
+        });
+
+        document.querySelectorAll(".export-dosen-sec").forEach(function (el) {
+          el.addEventListener("click", function () {
+            var type = el.dataset.type;
+            var tema =
+              document.getElementById("choices-tema").selectedOptions[0].text;
+
+            var data = {
+              type: type,
+              filename: "Data LPK Mahasiswa " + tema,
+            };
+
+            if (type === "csv") {
+              data.columnDelimiter = "|";
+            }
+
+            dataTableSearch.export(data);
+          });
+        });
+      }
+    },
+
+    showSwal(type, text) {
+      if (type === "success-message") {
+        this.$swal({
+          icon: "success",
+          title: "Berhasil!",
+          text: text,
+          timer: 2500,
+          type: type,
+          timerProgressBar: true,
+          showConfirmButton: false,
+        });
+      } else if (type === "warning-message") {
+        this.$swal({
+          icon: "warning",
+          title: "Peringatan!",
+          text: text,
+          timer: 2500,
+          type: type,
+          timerProgressBar: true,
+          showConfirmButton: false,
+        });
+      } else if (type === "failed-message") {
+        this.$swal({
+          icon: "error",
+          title: "Gagal!",
+          text: text,
+          timer: 2500,
+          type: type,
+          timerProgressBar: true,
+          showConfirmButton: false,
+        });
+      } else if (type === "auto-close") {
+        let timerInterval;
+        this.$swal({
+          title: "Auto close alert!",
+          html: "I will close in <b></b> milliseconds.",
+          timer: 2000,
+          timerProgressBar: true,
+          didOpen: () => {
+            this.$swal.showLoading();
+            const b = this.$swal.getHtmlContainer().querySelector("b");
+            timerInterval = setInterval(() => {
+              b.textContent = this.$swal.getTimerLeft();
+            }, 100);
+          },
+          willClose: () => {
+            clearInterval(timerInterval);
+          },
+        });
+      } else if (type === "loading") {
+        this.$swal({
+          title: "Memuat...",
+          timerProgressBar: true,
+          showConfirmButton: false,
+          allowOutsideClick: false,
+          allowEscapeKey: false,
+          didOpen: () => {
+            this.$swal.isLoading();
+            if (this.$swal.isLoading()) this.$swal.showLoading();
+          },
+          didDestroy: () => {
+            !this.$swal.isLoading();
+            this.$swal.hideLoading();
+          },
+        });
+      } else if (type === "close") {
+        this.$swal.close();
       }
     },
   },

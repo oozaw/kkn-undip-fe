@@ -144,6 +144,8 @@ export default {
     ArgonButton,
   },
   created() {
+    this.checkError();
+
     this.$store.state.hideConfigButton = true;
     this.toggleDefaultLayout();
     body.classList.remove("bg-gray-100");
@@ -166,15 +168,29 @@ export default {
         this.$router.push(this.$route.query.redirect || { name: "Dashboard" });
         this.showSwal(
           "success-message",
+          "Login Berhasil!",
           "Selamat datang " + this.g$infoUser.nama
         );
       } catch (error) {
-        this.showSwal("failed-message", error);
+        this.showSwal("failed-message", "Login Gagal!", error);
         // console.log(error);
       }
     },
 
-    showSwal(type, text) {
+    checkError() {
+      const error = this.$route.params.error;
+
+      if (error) {
+        if (error === "unauthenticated")
+          this.showSwal(
+            "failed-message",
+            "Sesi anda telah berakhir",
+            "Silahkan login terlebih dahulu!"
+          );
+      }
+    },
+
+    showSwal(type, title, text) {
       if (type === "success-message") {
         this.$swal({
           icon: "success",
@@ -188,7 +204,7 @@ export default {
       } else if (type === "failed-message") {
         this.$swal({
           icon: "error",
-          title: "Login Gagal!",
+          title: title,
           text: text,
           timer: 2500,
           type: type,

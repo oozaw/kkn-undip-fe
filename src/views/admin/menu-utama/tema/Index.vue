@@ -31,7 +31,7 @@
             </div>
           </div>
           <div class="ms-2 pt-1 px-0 pb-0 card-body">
-            <div class="table-responsive">
+            <div class="table-responsive" :key="indexComponent">
               <table id="kkn-list" class="table table-flush">
                 <thead class="thead-light">
                   <tr>
@@ -40,6 +40,7 @@
                     <th>Jenis</th>
                     <th>Lokasi</th>
                     <th>Periode</th>
+                    <th>Status</th>
                     <th>Action</th>
                   </tr>
                 </thead>
@@ -118,9 +119,21 @@
                       </div>
                     </td>
                     <td class="text-sm">2022/2023</td>
+                    <td>
+                      <span
+                        v-if="tema.status"
+                        class="badge badge-sm badge-success"
+                      >
+                        Aktif
+                      </span>
+                      <span v-else class="badge badge-danger badge-sm">
+                        Tidak Aktif
+                      </span>
+                    </td>
                     <td class="text-sm">
                       <a
                         href="javascript:;"
+                        class="me-3"
                         data-bs-toggle="tooltip"
                         data-bs-original-title="Preview product"
                       >
@@ -128,7 +141,7 @@
                       </a>
                       <a
                         href="javascript:;"
-                        class="mx-3"
+                        class="me-3"
                         data-bs-toggle="tooltip"
                         data-bs-original-title="Edit product"
                       >
@@ -137,9 +150,42 @@
                       <a
                         href="javascript:;"
                         data-bs-toggle="tooltip"
+                        class="me-3"
                         data-bs-original-title="Delete product"
                       >
                         <i class="fas fa-trash text-danger"></i>
+                      </a>
+                      <a
+                        v-if="tema.status"
+                        :id="tema.id_tema"
+                        :name="tema.nama"
+                        class="me-3 non-aktif"
+                        href="#"
+                        data-bs-toggle="tooltip"
+                        data-bs-original-title="Non-aktifkan Tema"
+                        title="Non-aktifkan Tema"
+                      >
+                        <font-awesome-icon
+                          class="text-danger"
+                          icon="fa-solid fa-square-xmark"
+                          size="xl"
+                        />
+                      </a>
+                      <a
+                        v-else
+                        :id="tema.id_tema"
+                        :name="tema.nama"
+                        class="me-3 aktif"
+                        href="#"
+                        data-bs-toggle="tooltip"
+                        data-bs-original-title="Aktifkan Tema"
+                        title="Aktifkan Tema"
+                      >
+                        <font-awesome-icon
+                          class="text-success"
+                          icon="fa-solid fa-square-check"
+                          size="xl"
+                        />
                       </a>
                     </td>
                   </tr>
@@ -151,6 +197,7 @@
                     <th>Jenis</th>
                     <th>Lokasi</th>
                     <th>Periode</th>
+                    <th>Status</th>
                     <th>Action</th>
                   </tr>
                 </tfoot>
@@ -164,6 +211,7 @@
 </template>
 
 <script>
+import $ from "jquery";
 import { DataTable } from "simple-datatables";
 import setTooltip from "@/assets/js/tooltip.js";
 import HeaderProfileCard from "@/views/dashboards/components/HeaderProfileCard.vue";
@@ -175,20 +223,39 @@ export default {
   components: {
     HeaderProfileCard,
   },
+  data() {
+    return {
+      indexComponent: 0,
+    };
+  },
   computed: {
     ...mapState(d$tema, ["g$listTema"]),
   },
   async created() {
     await this.getListTema();
-  },
-  mounted() {
     setTooltip(this.$store.state.bootstrap);
   },
-
   methods: {
-    ...mapActions(d$tema, ["a$listTema"]),
+    ...mapActions(d$tema, ["a$listTema", "a$switchTema"]),
+
+    async switchTema(id_tema) {
+      this.showSwal("loading");
+
+      try {
+        await this.a$switchTema(id_tema);
+        await this.getListTema();
+      } catch (error) {
+        this.showSwal(
+          "failed-message",
+          error ?? "Terjadi kesalahan saat memperbarui data"
+        );
+        // console.log(error);
+      }
+    },
 
     async getListTema() {
+      this.indexComponent++;
+
       try {
         await this.a$listTema();
       } catch (error) {
@@ -196,10 +263,35 @@ export default {
           "failed-message",
           error ?? "Terjadi kesalahan saat memuat data"
         );
-        console.log(error);
+        // console.log(error);
       }
 
       this.setupDataTable();
+      this.setupTableAction();
+    },
+
+    setupTableAction() {
+      let outerThis = this;
+      $("#kkn-list").on("click", `.aktif`, function (e) {
+        let tema = this;
+        outerThis.showSwal(
+          "warning-confirmation",
+          `Mengaktifkan tema ${tema.name}?`,
+          "Berhasil memperbarui data",
+          tema.id
+        );
+        e.preventDefault();
+      });
+      $("#kkn-list").on("click", `.non-aktif`, function (e) {
+        let tema = this;
+        outerThis.showSwal(
+          "warning-confirmation",
+          `Menonaktifkan tema ${tema.name}?`,
+          "Berhasil memperbarui data",
+          tema.id
+        );
+        e.preventDefault();
+      });
     },
 
     setupDataTable() {
@@ -229,7 +321,7 @@ export default {
       }
     },
 
-    showSwal(type, text) {
+    showSwal(type, text, toastText, id_tema) {
       if (type === "success-message") {
         this.$swal({
           icon: "success",
@@ -268,6 +360,55 @@ export default {
             clearInterval(timerInterval);
           },
         });
+      } else if (type === "warning-confirmation") {
+        this.$swal({
+          title: "Apakah Anda yakin?",
+          text: text,
+          showCancelButton: true,
+          confirmButtonText: "Ya!",
+          cancelButtonText: "Batal!",
+          customClass: {
+            confirmButton: "btn bg-gradient-success",
+            cancelButton: "btn bg-gradient-secondary",
+          },
+          buttonsStyling: false,
+        }).then((result) => {
+          if (result.isConfirmed) {
+            this.switchTema(id_tema);
+            this.$swal({
+              toast: true,
+              position: "top-end",
+              title: toastText,
+              icon: "success",
+              showConfirmButton: false,
+              timer: 2000,
+              timerProgressBar: true,
+            });
+          } else if (
+            /* Read more about handling dismissals below */
+            result.dismiss === this.$swal.DismissReason.cancel
+          ) {
+            this.$swal.close();
+          }
+        });
+      } else if (type === "loading") {
+        this.$swal({
+          title: "Memuat...",
+          timerProgressBar: true,
+          showConfirmButton: false,
+          allowOutsideClick: false,
+          allowEscapeKey: false,
+          didOpen: () => {
+            this.$swal.isLoading();
+            if (this.$swal.isLoading()) this.$swal.showLoading();
+          },
+          didDestroy: () => {
+            !this.$swal.isLoading();
+            this.$swal.hideLoading();
+          },
+        });
+      } else if (type === "close") {
+        this.$swal.close();
       }
     },
   },

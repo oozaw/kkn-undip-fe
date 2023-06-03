@@ -21,10 +21,12 @@
                 @change="getListKecamatan()"
                 v-model="tema"
               >
-                <option value="1">KKN Reguler Tim I</option>
-                <option value="2">
-                  KKN Tematik Pengurangan Risiko Bencana Berbasis Partisipasi
-                  Masyarakat dan Komunitas
+                <option
+                  v-for="tema in g$listTemaActive"
+                  :key="tema.id_tema"
+                  :value="tema.id_tema"
+                >
+                  {{ tema.nama }}
                 </option>
               </select>
             </div>
@@ -121,7 +123,7 @@
                       <span
                         class="badge badge-secondary"
                         v-if="kec.status === 0"
-                        >Dalam Proses</span
+                        >Sedang diroses</span
                       >
                       <span
                         class="badge badge-success"
@@ -150,8 +152,10 @@
                         <i class="fas fa-trash text-danger"></i>
                       </a>
                       <a
-                        :id="'tolak-' + kec.id_kecamatan"
-                        class="me-3"
+                        v-if="kec.status == 0 || kec.status == 1"
+                        :id="kec.id_kecamatan"
+                        :name="kec.nama"
+                        class="me-3 tolak"
                         href=""
                         data-bs-toggle="tooltip"
                         data-bs-original-title="Tolak Kecamatan"
@@ -163,25 +167,14 @@
                           size="xl"
                         />
                       </a>
-                      <!-- <a
-                        class="me-3"
-                        href="javascript:;"
-                        data-bs-toggle="tooltip"
-                        data-bs-original-title="Verifikasi Kecamatan"
-                        title="Verifikasi"
-                      >
-                        <font-awesome-icon
-                          class="text-warning"
-                          icon="fa-solid fa-square-minus"
-                          size="xl"
-                        />
-                      </a> -->
                       <a
-                        :id="'terima-' + kec.id_kecamatan"
-                        class="me-3"
+                        v-if="kec.status == 0 || kec.status != 1"
+                        :id="kec.id_kecamatan"
+                        :name="kec.nama"
+                        class="me-3 terima"
                         href=""
-                        data-bs-toggle="tooltip"
-                        data-bs-original-title="Terima Kecamatan"
+                        data-bs-toggle="modal"
+                        :data-bs-target="'#terima_' + kec.id_kecamatan"
                         title="Terima"
                       >
                         <font-awesome-icon
@@ -190,26 +183,8 @@
                           size="xl"
                         />
                       </a>
-                    </td>
-                  </tr>
-                  <!-- <tr>
-                    <td class="text-sm ps-3">2</td>
-                    <td class="ms-0 px-0">
-                      <h6 class="my-auto">Kecamatan 2</h6>
-                    </td>
-                    <td class="text-sm">7</td>
-                    <td class="text-sm">Kota Semarang</td>
-                    <td class="text-sm">
-                      <a
-                        type="button"
-                        class="mb-0 text-primary"
-                        data-bs-toggle="modal"
-                        data-bs-target="#lokasi-kkn"
-                      >
-                        Lihat
-                      </a>
                       <div
-                        id="lokasi-kkn"
+                        :id="'terima_' + kec.id_kecamatan"
                         class="modal fade"
                         tabindex="-1"
                         aria-hidden="true"
@@ -218,7 +193,7 @@
                           <div class="modal-content">
                             <div class="modal-header">
                               <h5 id="ModalLabel" class="modal-title">
-                                Potensi Kecamatan .......
+                                Terima Pengajuan Kecamatan {{ kec.nama }}?
                               </h5>
                               <button
                                 type="button"
@@ -230,25 +205,24 @@
                               </button>
                             </div>
                             <div class="modal-body">
-                              <p>
-                                Silahkan cari dan pilih file excel berisi data
-                                mahasiswa
-                              </p>
-                              <input
-                                type="file"
-                                placeholder="Browse file..."
-                                class="mb-1 form-control"
-                              />
-                              <div>
-                                <small class="text-danger text-sm-start">
-                                  <i class="fas fa-info-circle"></i>
-                                  File yang diizinkan hanya file excel dengan
-                                  ekstensi .xls atau .xlsx
-                                </small>
-                              </div>
+                              <label class="form-label"
+                                >Koordinator Wilayah</label
+                              >
+                              <select
+                                :id="`choices-korwil-${kec.id_kecamatan}`"
+                                class="form-control"
+                                :name="`choices-korwil-${kec.id_kecamatan}`"
+                              >
+                                <option value="">-- Pilih korwil --</option>
+                                <option value="1">Korwil 1</option>
+                                <option value="2">Korwil 2</option>
+                                <option value="3">Korwil 3</option>
+                                <option value="4">Korwil 4</option>
+                              </select>
                             </div>
-                            <div class="modal-footer">
+                            <div class="modal-footer mb-0">
                               <button
+                                :id="`button-close-modal-${kec.id_kecamatan}`"
                                 type="button"
                                 class="btn bg-gradient-secondary btn-sm"
                                 data-bs-dismiss="modal"
@@ -256,474 +230,18 @@
                                 Batal
                               </button>
                               <button
+                                :id="kec.id_kecamatan"
                                 type="button"
-                                class="btn bg-gradient-success btn-sm"
+                                class="btn bg-gradient-success btn-sm submit-acc-kecamatan"
                               >
-                                Unggah
+                                Ya, terima
                               </button>
                             </div>
                           </div>
                         </div>
                       </div>
-                    </td>
-                    <td class="text-sm">
-                      <span class="badge badge-success">Diterima</span>
-                    </td>
-                    <td class="text-sm">
-                      <a
-                        class="me-2"
-                        href="javascript:;"
-                        data-bs-toggle="tooltip"
-                        data-bs-original-title="Detail Kecamatan"
-                        title="Detail"
-                      >
-                        <i class="fas fa-eye text-info"></i>
-                      </a>
-                      <a
-                        class="me-2"
-                        href="javascript:;"
-                        data-bs-toggle="tooltip"
-                        data-bs-original-title="Delete product"
-                      >
-                        <i class="fas fa-trash text-danger"></i>
-                      </a>
-                      <a
-                        class="me-2"
-                        href="javascript:;"
-                        data-bs-toggle="tooltip"
-                        data-bs-original-title="Delete product"
-                      >
-                        <font-awesome-icon
-                          class="text-danger"
-                          icon="fa-solid fa-square-xmark"
-                          size="xl"
-                        />
-                      </a>
-                      <a
-                        class="me-2"
-                        href="javascript:;"
-                        data-bs-toggle="tooltip"
-                        data-bs-original-title="Delete product"
-                      >
-                        <font-awesome-icon
-                          class="text-warning"
-                          icon="fa-solid fa-square-minus"
-                          size="xl"
-                        />
-                      </a>
-                      <a
-                        class="me-2"
-                        href="javascript:;"
-                        data-bs-toggle="tooltip"
-                        data-bs-original-title="Delete product"
-                      >
-                        <font-awesome-icon
-                          class="text-success"
-                          icon="fa-solid fa-square-check"
-                          size="xl"
-                        />
-                      </a>
                     </td>
                   </tr>
-                  <tr>
-                    <td class="text-sm ps-3">3</td>
-                    <td class="ms-0 px-0">
-                      <h6 class="my-auto">Kecamatan 3</h6>
-                    </td>
-                    <td class="text-sm">8</td>
-                    <td class="text-sm">Kota Semarang</td>
-                    <td class="text-sm">
-                      <a
-                        type="button"
-                        class="mb-0 text-primary"
-                        data-bs-toggle="modal"
-                        data-bs-target="#lokasi-kkn"
-                      >
-                        Lihat
-                      </a>
-                      <div
-                        id="lokasi-kkn"
-                        class="modal fade"
-                        tabindex="-1"
-                        aria-hidden="true"
-                      >
-                        <div class="modal-dialog mt-lg-10">
-                          <div class="modal-content">
-                            <div class="modal-header">
-                              <h5 id="ModalLabel" class="modal-title">
-                                Potensi Kecamatan .......
-                              </h5>
-                              <button
-                                type="button"
-                                class="btn-close text-dark mb-0"
-                                data-bs-dismiss="modal"
-                                aria-label="Close"
-                              >
-                                <font-awesome-icon icon="fa-solid fa-xmark" />
-                              </button>
-                            </div>
-                            <div class="modal-body">
-                              <p>
-                                Silahkan cari dan pilih file excel berisi data
-                                mahasiswa
-                              </p>
-                              <input
-                                type="file"
-                                placeholder="Browse file..."
-                                class="mb-1 form-control"
-                              />
-                              <div>
-                                <small class="text-danger text-sm-start">
-                                  <i class="fas fa-info-circle"></i>
-                                  File yang diizinkan hanya file excel dengan
-                                  ekstensi .xls atau .xlsx
-                                </small>
-                              </div>
-                            </div>
-                            <div class="modal-footer">
-                              <button
-                                type="button"
-                                class="btn bg-gradient-secondary btn-sm"
-                                data-bs-dismiss="modal"
-                              >
-                                Batal
-                              </button>
-                              <button
-                                type="button"
-                                class="btn bg-gradient-success btn-sm"
-                              >
-                                Unggah
-                              </button>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </td>
-                    <td class="text-sm">
-                      <span class="badge badge-danger">Ditolak</span>
-                    </td>
-                    <td class="text-sm">
-                      <a
-                        class="me-2"
-                        href="javascript:;"
-                        data-bs-toggle="tooltip"
-                        data-bs-original-title="Detail Kecamatan"
-                        title="Detail"
-                      >
-                        <i class="fas fa-eye text-info"></i>
-                      </a>
-                      <a
-                        class="me-2"
-                        href="javascript:;"
-                        data-bs-toggle="tooltip"
-                        data-bs-original-title="Delete product"
-                      >
-                        <i class="fas fa-trash text-danger"></i>
-                      </a>
-                      <a
-                        class="me-2"
-                        href="javascript:;"
-                        data-bs-toggle="tooltip"
-                        data-bs-original-title="Delete product"
-                      >
-                        <font-awesome-icon
-                          class="text-danger"
-                          icon="fa-solid fa-square-xmark"
-                          size="xl"
-                        />
-                      </a>
-                      <a
-                        class="me-2"
-                        href="javascript:;"
-                        data-bs-toggle="tooltip"
-                        data-bs-original-title="Delete product"
-                      >
-                        <font-awesome-icon
-                          class="text-warning"
-                          icon="fa-solid fa-square-minus"
-                          size="xl"
-                        />
-                      </a>
-                      <a
-                        class="me-2"
-                        href="javascript:;"
-                        data-bs-toggle="tooltip"
-                        data-bs-original-title="Delete product"
-                      >
-                        <font-awesome-icon
-                          class="text-success"
-                          icon="fa-solid fa-square-check"
-                          size="xl"
-                        />
-                      </a>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td class="text-sm ps-3">4</td>
-                    <td class="ms-0 px-0">
-                      <h6 class="my-auto">Kecamatan 4</h6>
-                    </td>
-                    <td class="text-sm">9</td>
-                    <td class="text-sm">Kota Semarang</td>
-                    <td class="text-sm">
-                      <a
-                        type="button"
-                        class="mb-0 text-primary"
-                        data-bs-toggle="modal"
-                        data-bs-target="#lokasi-kkn"
-                      >
-                        Lihat
-                      </a>
-                      <div
-                        id="lokasi-kkn"
-                        class="modal fade"
-                        tabindex="-1"
-                        aria-hidden="true"
-                      >
-                        <div class="modal-dialog mt-lg-10">
-                          <div class="modal-content">
-                            <div class="modal-header">
-                              <h5 id="ModalLabel" class="modal-title">
-                                Potensi Kecamatan .......
-                              </h5>
-                              <button
-                                type="button"
-                                class="btn-close text-dark mb-0"
-                                data-bs-dismiss="modal"
-                                aria-label="Close"
-                              >
-                                <font-awesome-icon icon="fa-solid fa-xmark" />
-                              </button>
-                            </div>
-                            <div class="modal-body">
-                              <p>
-                                Silahkan cari dan pilih file excel berisi data
-                                mahasiswa
-                              </p>
-                              <input
-                                type="file"
-                                placeholder="Browse file..."
-                                class="mb-1 form-control"
-                              />
-                              <div>
-                                <small class="text-danger text-sm-start">
-                                  <i class="fas fa-info-circle"></i>
-                                  File yang diizinkan hanya file excel dengan
-                                  ekstensi .xls atau .xlsx
-                                </small>
-                              </div>
-                            </div>
-                            <div class="modal-footer">
-                              <button
-                                type="button"
-                                class="btn bg-gradient-secondary btn-sm"
-                                data-bs-dismiss="modal"
-                              >
-                                Batal
-                              </button>
-                              <button
-                                type="button"
-                                class="btn bg-gradient-success btn-sm"
-                              >
-                                Unggah
-                              </button>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </td>
-                    <td class="text-sm">
-                      <span class="badge badge-success">Diterima</span>
-                    </td>
-                    <td class="text-sm">
-                      <a
-                        class="me-2"
-                        href="javascript:;"
-                        data-bs-toggle="tooltip"
-                        data-bs-original-title="Detail Kecamatan"
-                        title="Detail"
-                      >
-                        <i class="fas fa-eye text-info"></i>
-                      </a>
-                      <a
-                        class="me-2"
-                        href="javascript:;"
-                        data-bs-toggle="tooltip"
-                        data-bs-original-title="Delete product"
-                      >
-                        <i class="fas fa-trash text-danger"></i>
-                      </a>
-                      <a
-                        class="me-2"
-                        href="javascript:;"
-                        data-bs-toggle="tooltip"
-                        data-bs-original-title="Delete product"
-                      >
-                        <font-awesome-icon
-                          class="text-danger"
-                          icon="fa-solid fa-square-xmark"
-                          size="xl"
-                        />
-                      </a>
-                      <a
-                        class="me-2"
-                        href="javascript:;"
-                        data-bs-toggle="tooltip"
-                        data-bs-original-title="Delete product"
-                      >
-                        <font-awesome-icon
-                          class="text-warning"
-                          icon="fa-solid fa-square-minus"
-                          size="xl"
-                        />
-                      </a>
-                      <a
-                        class="me-2"
-                        href="javascript:;"
-                        data-bs-toggle="tooltip"
-                        data-bs-original-title="Delete product"
-                      >
-                        <font-awesome-icon
-                          class="text-success"
-                          icon="fa-solid fa-square-check"
-                          size="xl"
-                        />
-                      </a>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td class="text-sm ps-3">5</td>
-                    <td class="ms-0 px-0">
-                      <h6 class="my-auto">Kecamatan 5</h6>
-                    </td>
-                    <td class="text-sm">6</td>
-                    <td class="text-sm">Kota Semarang</td>
-                    <td class="text-sm">
-                      <a
-                        type="button"
-                        class="mb-0 text-primary"
-                        data-bs-toggle="modal"
-                        data-bs-target="#lokasi-kkn"
-                      >
-                        Lihat
-                      </a>
-                      <div
-                        id="lokasi-kkn"
-                        class="modal fade"
-                        tabindex="-1"
-                        aria-hidden="true"
-                      >
-                        <div class="modal-dialog mt-lg-10">
-                          <div class="modal-content">
-                            <div class="modal-header">
-                              <h5 id="ModalLabel" class="modal-title">
-                                Potensi Kecamatan .......
-                              </h5>
-                              <button
-                                type="button"
-                                class="btn-close text-dark mb-0"
-                                data-bs-dismiss="modal"
-                                aria-label="Close"
-                              >
-                                <font-awesome-icon icon="fa-solid fa-xmark" />
-                              </button>
-                            </div>
-                            <div class="modal-body">
-                              <p>
-                                Silahkan cari dan pilih file excel berisi data
-                                mahasiswa
-                              </p>
-                              <input
-                                type="file"
-                                placeholder="Browse file..."
-                                class="mb-1 form-control"
-                              />
-                              <div>
-                                <small class="text-danger text-sm-start">
-                                  <i class="fas fa-info-circle"></i>
-                                  File yang diizinkan hanya file excel dengan
-                                  ekstensi .xls atau .xlsx
-                                </small>
-                              </div>
-                            </div>
-                            <div class="modal-footer">
-                              <button
-                                type="button"
-                                class="btn bg-gradient-secondary btn-sm"
-                                data-bs-dismiss="modal"
-                              >
-                                Batal
-                              </button>
-                              <button
-                                type="button"
-                                class="btn bg-gradient-success btn-sm"
-                              >
-                                Unggah
-                              </button>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </td>
-                    <td class="text-sm">
-                      <span class="badge badge-danger">Ditolak</span>
-                    </td>
-                    <td class="text-sm">
-                      <a
-                        class="me-2"
-                        href="javascript:;"
-                        data-bs-toggle="tooltip"
-                        data-bs-original-title="Detail Kecamatan"
-                        title="Detail"
-                      >
-                        <i class="fas fa-eye text-info"></i>
-                      </a>
-                      <a
-                        class="me-2"
-                        href="javascript:;"
-                        data-bs-toggle="tooltip"
-                        data-bs-original-title="Delete product"
-                      >
-                        <i class="fas fa-trash text-danger"></i>
-                      </a>
-                      <a
-                        class="me-2"
-                        href="javascript:;"
-                        data-bs-toggle="tooltip"
-                        data-bs-original-title="Delete product"
-                      >
-                        <font-awesome-icon
-                          class="text-danger"
-                          icon="fa-solid fa-square-xmark"
-                          size="xl"
-                        />
-                      </a>
-                      <a
-                        class="me-2"
-                        href="javascript:;"
-                        data-bs-toggle="tooltip"
-                        data-bs-original-title="Delete product"
-                      >
-                        <font-awesome-icon
-                          class="text-warning"
-                          icon="fa-solid fa-square-minus"
-                          size="xl"
-                        />
-                      </a>
-                      <a
-                        class="me-2"
-                        href="javascript:;"
-                        data-bs-toggle="tooltip"
-                        data-bs-original-title="Delete product"
-                      >
-                        <font-awesome-icon
-                          class="text-success"
-                          icon="fa-solid fa-square-check"
-                          size="xl"
-                        />
-                      </a>
-                    </td>
-                  </tr> -->
                 </tbody>
                 <tfoot>
                   <tr>
@@ -746,12 +264,14 @@
 </template>
 
 <script>
+import $ from "jquery";
 import { DataTable } from "simple-datatables";
 import Choices from "choices.js";
 import setTooltip from "@/assets/js/tooltip.js";
 import HeaderProfileCard from "@/views/dashboards/components/HeaderProfileCard.vue";
 import { mapActions, mapState } from "pinia";
 import d$wilayah from "@/store/wilayah";
+import d$tema from "@/store/tema";
 
 export default {
   name: "IndexPengajuanWilayah",
@@ -761,21 +281,27 @@ export default {
   data() {
     return {
       indexComponent: 0,
+      body: {
+        id_korwil: "",
+      },
       choicesTema: undefined,
-      tema: "1",
+      tema: "",
     };
   },
   computed: {
     ...mapState(d$wilayah, ["g$listKecamatan"]),
+    ...mapState(d$tema, ["g$listTemaActive"]),
   },
   async created() {
+    await this.a$listTema();
+    this.tema = this.g$listTemaActive[0].id_tema;
     await this.getListKecamatan();
     this.choicesTema = this.getChoices("choices-tema");
 
     setTooltip(this.$store.state.bootstrap);
   },
   beforeUnmount() {
-    this.choicesTema.destroy();
+    if (this.choicesTema) this.choicesTema.destroy();
   },
   methods: {
     ...mapActions(d$wilayah, [
@@ -783,6 +309,7 @@ export default {
       "a$accKecamatan",
       "a$decKecamatan",
     ]),
+    ...mapActions(d$tema, ["a$listTema"]),
 
     async getListKecamatan() {
       this.tema = parseInt(this.tema);
@@ -791,33 +318,36 @@ export default {
       try {
         await this.a$listAllKabupaten(this.tema);
       } catch (error) {
-        this.showSwal(
-          "failed-message",
-          error ?? "Terjadi kesalahaan saat memuat data"
-        );
-        console.log(error);
+        this.showSwal("failed-message", "Terjadi kesalahaan saat memuat data");
+        console.log(error.error);
       }
 
       this.setupDataTable();
       this.setupTableAction();
+      this.g$listKecamatan.forEach((kec) => {
+        this.getChoices(`choices-korwil-${kec.id_kecamatan}`);
+      });
     },
 
     async accKecamatan(id_kecamatan) {
       this.showSwal("loading");
+      let id_korwil = $(`#choices-korwil-${id_kecamatan}`).val();
+      this.body.id_korwil = parseInt(id_korwil);
 
-      try {
-        await this.a$accKecamatan(id_kecamatan);
-        await this.getListKecamatan();
-        console.log("acc");
-      } catch (error) {
-        this.showSwal(
-          "failed-message",
-          error ?? "Terjadi kesalahan saat mengubah data"
-        );
-        console.log(error);
+      if (!this.body.id_korwil || this.body.id_korwil === "") {
+        this.showSwal("warning-message", "Pilih koordinator wilayah!");
+        return;
       }
 
-      // this.showSwal("close");
+      try {
+        document.getElementById(`button-close-modal-${id_kecamatan}`).click();
+        await this.a$accKecamatan(id_kecamatan, this.body);
+        this.showSwal("toast", "Berhasil mengubah data");
+        await this.getListKecamatan();
+      } catch (error) {
+        this.showSwal("failed-message", "Terjadi kesalahan saat mengubah data");
+        console.log(error.error);
+      }
     },
 
     async decKecamatan(id_kecamatan) {
@@ -826,16 +356,10 @@ export default {
       try {
         await this.a$decKecamatan(id_kecamatan);
         await this.getListKecamatan();
-        console.log("dec");
       } catch (error) {
-        this.showSwal(
-          "failed-message",
-          error ?? "Terjadi kesalahan saat mengubah data"
-        );
-        console.log(error);
+        this.showSwal("failed-message", "Terjadi kesalahan saat mengubah data");
+        console.log(error.error);
       }
-
-      // this.showSwal("close");
     },
 
     setupDataTable() {
@@ -866,36 +390,22 @@ export default {
     },
 
     setupTableAction() {
-      this.g$listKecamatan.forEach((kec) => {
-        if (document.getElementById(`terima-${kec.id_kecamatan}`)) {
-          document
-            .getElementById(`terima-${kec.id_kecamatan}`)
-            .addEventListener("click", (e) => {
-              this.showSwal(
-                "warning-confirmation",
-                `Menerima pengajuan kecamatan ${kec.nama}?`,
-                "Berhasil memperbarui data",
-                kec.id_kecamatan,
-                true
-              );
-              e.preventDefault();
-            });
-        }
-
-        if (document.getElementById(`tolak-${kec.id_kecamatan}`)) {
-          document
-            .getElementById(`tolak-${kec.id_kecamatan}`)
-            .addEventListener("click", (e) => {
-              this.showSwal(
-                "warning-confirmation",
-                `Menolak pengajuan kecamatan ${kec.nama}?`,
-                "Berhasil memperbarui data",
-                kec.id_kecamatan,
-                false
-              );
-              e.preventDefault();
-            });
-        }
+      let outerThis = this;
+      $("#wilayah-list").on("click", `.submit-acc-kecamatan`, function (e) {
+        let kec = this;
+        outerThis.accKecamatan(kec.id);
+        e.preventDefault();
+      });
+      $("#wilayah-list").on("click", `.tolak`, function (e) {
+        let kec = this;
+        outerThis.showSwal(
+          "warning-confirmation",
+          `Menolak pengajuan kecamatan ${kec.name}?`,
+          "Berhasil memperbarui data",
+          kec.id,
+          false
+        );
+        e.preventDefault();
       });
     },
 
@@ -905,6 +415,7 @@ export default {
         return new Choices(element, {
           searchEnabled: true,
           allowHTML: true,
+          shouldSort: false,
         });
       }
     },
@@ -919,6 +430,22 @@ export default {
           type: type,
           timerProgressBar: true,
           showConfirmButton: false,
+          didOpen: () => {
+            this.$swal.hideLoading();
+          },
+        });
+      } else if (type === "warning-message") {
+        this.$swal({
+          icon: "warning",
+          title: "Peringatan!",
+          text: text,
+          timer: 2000,
+          type: type,
+          timerProgressBar: true,
+          showConfirmButton: false,
+          didOpen: () => {
+            this.$swal.hideLoading();
+          },
         });
       } else if (type === "failed-message") {
         this.$swal({
@@ -929,6 +456,9 @@ export default {
           type: type,
           timerProgressBar: true,
           showConfirmButton: false,
+          didOpen: () => {
+            this.$swal.hideLoading();
+          },
         });
       } else if (type === "auto-close") {
         let timerInterval;
@@ -960,6 +490,9 @@ export default {
             cancelButton: "btn bg-gradient-secondary",
           },
           buttonsStyling: false,
+          didOpen: () => {
+            this.$swal.hideLoading();
+          },
         }).then((result) => {
           if (result.isConfirmed) {
             if (status) this.accKecamatan(id_kecamatan);
@@ -972,6 +505,9 @@ export default {
               showConfirmButton: false,
               timer: 2000,
               timerProgressBar: true,
+              didOpen: () => {
+                this.$swal.hideLoading();
+              },
             });
           } else if (
             /* Read more about handling dismissals below */
@@ -988,11 +524,22 @@ export default {
           allowOutsideClick: false,
           allowEscapeKey: false,
           didOpen: () => {
-            this.$swal.isLoading();
-            if (this.$swal.isLoading()) this.$swal.showLoading();
+            this.$swal.showLoading();
           },
           didDestroy: () => {
-            !this.$swal.isLoading();
+            this.$swal.hideLoading();
+          },
+        });
+      } else if (type === "toast") {
+        this.$swal({
+          toast: true,
+          position: "top-end",
+          title: text,
+          icon: "success",
+          showConfirmButton: false,
+          timer: 1500,
+          timerProgressBar: true,
+          didOpen: () => {
             this.$swal.hideLoading();
           },
         });

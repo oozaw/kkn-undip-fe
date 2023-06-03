@@ -2,10 +2,7 @@
   <div class="container-fluid">
     <div class="row mb-5 mt-4">
       <div class="col-lg-12 mt-lg-0 mt-4">
-        <HeaderProfileCard
-          name="BAPPEDA Kota Semarang"
-          description="Kota Semarang, Jawa Tengah, Indonesia"
-        />
+        <HeaderProfileCard />
         <div class="bg-white card mt-4">
           <div class="card-header pb-0 pt-3">
             <p class="font-weight-bold text-dark mb-2">
@@ -21,10 +18,12 @@
                 v-model="tema"
                 @change="getListKecamatan()"
               >
-                <option value="1" selected>KKN Reguler Tim I</option>
-                <option value="2">
-                  KKN Tematik Pengurangan Risiko Bencana Berbasis Partisipasi
-                  Masyarakat dan Komunitas
+                <option
+                  v-for="tema in g$listTema"
+                  :key="tema.id_tema"
+                  :value="tema.id_tema"
+                >
+                  {{ tema.nama }}
                 </option>
               </select>
             </div>
@@ -45,6 +44,7 @@
                   <router-link
                     class="mb-0 btn btn-success btn-sm mt-sm-0 me-3"
                     :to="{ name: 'Tambah Kecamatan' }"
+                    v-if="temaStatus"
                   >
                     + Tambah Kecamatan
                   </router-link>
@@ -187,6 +187,7 @@
                   <router-link
                     class="mb-0 btn btn-success btn-sm mt-sm-0 me-3"
                     :to="{ name: 'Tambah Desa' }"
+                    v-if="temaStatus"
                   >
                     + Tambah Desa
                   </router-link>
@@ -271,6 +272,7 @@ import HeaderProfileCard from "@/views/dashboards/components/HeaderProfileCard.v
 import { mapActions, mapState } from "pinia";
 import d$wilayah from "@/store/wilayah";
 import d$auth from "@/store/auth";
+import d$tema from "@/store/tema";
 
 export default {
   name: "IndexPengajuanLokasi",
@@ -279,7 +281,8 @@ export default {
   },
   data() {
     return {
-      tema: "1",
+      tema: "",
+      temaStatus: "",
       indexComponent: 0,
       choicesTema: undefined,
       dataTableKec: undefined,
@@ -290,8 +293,11 @@ export default {
   computed: {
     ...mapState(d$wilayah, ["g$listKabupaten", "g$listKecamatan"]),
     ...mapState(d$auth, ["g$infoUser"]),
+    ...mapState(d$tema, ["g$listTema", "g$listTemaActive"]),
   },
   async created() {
+    await this.a$listTema();
+    this.tema = this.g$listTemaActive[0].id_tema;
     await this.getListKecamatan();
 
     this.choicesTema = this.getChoices("choices-tema");
@@ -303,6 +309,7 @@ export default {
   },
   methods: {
     ...mapActions(d$wilayah, ["a$listKabupaten"]),
+    ...mapActions(d$tema, ["a$listTema"]),
 
     async getListKecamatan() {
       this.indexComponent++;
@@ -310,6 +317,7 @@ export default {
       try {
         await this.a$listKabupaten(this.tema, this.g$infoUser.id_bappeda);
         await this.getListDesa();
+        await this.getTemaStatus();
       } catch (error) {
         if (error) this.showSwal("failed-message", error);
         else
@@ -321,6 +329,15 @@ export default {
       }
 
       this.setupDataTable();
+    },
+
+    async getTemaStatus() {
+      this.tema = parseInt(this.tema);
+      await this.g$listTema.forEach((tema) => {
+        if (tema.id_tema === this.tema) {
+          this.temaStatus = tema.status;
+        }
+      });
     },
 
     getChoices(id) {

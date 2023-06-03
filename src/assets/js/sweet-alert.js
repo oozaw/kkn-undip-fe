@@ -8,6 +8,22 @@ function showSwal(type, text, toastText, id_kecamatan, status) {
       type: type,
       timerProgressBar: true,
       showConfirmButton: false,
+      didOpen: () => {
+        this.$swal.hideLoading();
+      },
+    });
+  } else if (type === "warning-message") {
+    this.$swal({
+      icon: "warning",
+      title: "Peringatan!",
+      text: text,
+      timer: 2500,
+      type: type,
+      timerProgressBar: true,
+      showConfirmButton: false,
+      didOpen: () => {
+        this.$swal.hideLoading();
+      },
     });
   } else if (type === "failed-message") {
     this.$swal({
@@ -18,6 +34,9 @@ function showSwal(type, text, toastText, id_kecamatan, status) {
       type: type,
       timerProgressBar: true,
       showConfirmButton: false,
+      didOpen: () => {
+        this.$swal.hideLoading();
+      },
     });
   } else if (type === "auto-close") {
     let timerInterval;
@@ -49,6 +68,9 @@ function showSwal(type, text, toastText, id_kecamatan, status) {
         cancelButton: "btn bg-gradient-secondary",
       },
       buttonsStyling: false,
+      didOpen: () => {
+        this.$swal.hideLoading();
+      },
     }).then((result) => {
       if (result.isConfirmed) {
         this.$swal({
@@ -76,10 +98,8 @@ function showSwal(type, text, toastText, id_kecamatan, status) {
       allowEscapeKey: false,
       didOpen: () => {
         this.$swal.isLoading();
-        if (this.$swal.isLoading()) this.$swal.showLoading();
       },
       didDestroy: () => {
-        !this.$swal.isLoading();
         this.$swal.hideLoading();
       },
     });
