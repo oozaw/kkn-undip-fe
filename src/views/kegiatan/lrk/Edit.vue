@@ -270,7 +270,6 @@ export default {
           luaran: this.body.luaran,
         };
 
-        console.log(data);
         await this.a$editLRK(data);
         this.$router.push({ name: "LRK" });
         this.showSwal("success-message", "Data LRK berhasil disimpan!");

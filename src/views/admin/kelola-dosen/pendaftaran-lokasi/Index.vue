@@ -52,7 +52,7 @@
               <div>
                 <h5 class="mb-2">Data Pendaftaran & Lokasi</h5>
                 <p class="text-sm mb-0">
-                  Data pendaftaran serta lokasi kkn dosen
+                  Data Pendaftaran Serta Lokasi KKN Dosen
                 </p>
               </div>
               <div class="my-auto mt-4 ms-auto mt-lg-0">
@@ -79,6 +79,7 @@
                     <th>NIP</th>
                     <th>Gelombang</th>
                     <th>Lokasi Dipilih</th>
+                    <th>Proposal</th>
                     <th>Status</th>
                     <th>Action</th>
                   </tr>
@@ -100,6 +101,15 @@
                       }}
                     </td>
                     <td class="text-sm">
+                      <a
+                        :id="proposal.id_dokumen"
+                        type="button"
+                        class="mb-0 text-primary proposal-download"
+                      >
+                        Download
+                      </a>
+                    </td>
+                    <td class="text-sm">
                       <span
                         v-if="proposal.status == 1"
                         class="badge badge-success"
@@ -112,7 +122,7 @@
                       >
                       <span v-else class="badge badge-danger">Ditolak</span>
                     </td>
-                    <td class="text-sm">
+                    <td class="text-sm d-block">
                       <a
                         class="me-3 detail"
                         href="#"
@@ -123,59 +133,64 @@
                         <i class="fas fa-eye text-info"></i>
                       </a>
                       <a
-                        v-if="proposal.status == 1"
+                        v-if="g$user.role === 'REVIEWER'"
                         :id="proposal.id_proposal"
                         :name="proposal.dosen.nama"
-                        class="me-3 tolak"
-                        href=""
-                        data-bs-toggle="tooltip"
-                        data-bs-original-title="Tolak Kecamatan"
-                        title="Tolak"
-                      >
-                        <font-awesome-icon
-                          class="text-danger"
-                          icon="fa-solid fa-square-xmark"
-                          size="xl"
-                        />
-                      </a>
-                      <!-- <a
-                        class="me-3"
-                        href="javascript:;"
-                        data-bs-toggle="tooltip"
-                        data-bs-original-title="Verifikasi Kecamatan"
-                        title="Verifikasi"
-                      >
-                        <font-awesome-icon
-                          class="text-warning"
-                          icon="fa-solid fa-square-minus"
-                          size="xl"
-                        />
-                      </a> -->
-                      <a
-                        v-else
-                        :id="proposal.id_proposal"
-                        :name="proposal.dosen.nama"
-                        class="me-3 terima"
-                        href=""
-                        data-bs-toggle="tooltip"
-                        data-bs-original-title="Terima Kecamatan"
-                        title="Terima"
-                      >
-                        <font-awesome-icon
-                          class="text-success"
-                          icon="fa-solid fa-square-check"
-                          size="xl"
-                        />
-                      </a>
-                      <a
-                        class="me-3 hapus"
                         href="#"
+                        class="me-3 edit"
                         data-bs-toggle="tooltip"
-                        data-bs-original-title="Hapus Dosen"
-                        title="Hapus Dosen"
+                        data-bs-original-title="Evaluasi Proposal"
+                        title="Evaluasi Proposal"
                       >
-                        <i class="fas fa-trash text-danger"></i>
+                        <i class="fas fa-user-edit text-primary"></i>
                       </a>
+                      <div
+                        v-if="g$user.role === 'ADMIN'"
+                        id="admin-action-section"
+                        class="d-inline"
+                      >
+                        <a
+                          v-if="proposal.status == 1"
+                          :id="proposal.id_proposal"
+                          :name="proposal.dosen.nama"
+                          class="me-3 tolak"
+                          href=""
+                          data-bs-toggle="tooltip"
+                          data-bs-original-title="Tolak Kecamatan"
+                          title="Tolak"
+                        >
+                          <font-awesome-icon
+                            class="text-danger"
+                            icon="fa-solid fa-square-xmark"
+                            size="xl"
+                          />
+                        </a>
+                        <a
+                          v-else
+                          :id="proposal.id_proposal"
+                          :name="proposal.dosen.nama"
+                          class="me-3 terima"
+                          href=""
+                          data-bs-toggle="tooltip"
+                          data-bs-original-title="Terima Kecamatan"
+                          title="Terima"
+                        >
+                          <font-awesome-icon
+                            class="text-success"
+                            icon="fa-solid fa-square-check"
+                            size="xl"
+                          />
+                        </a>
+                        <a
+                          class="me-3 hapus"
+                          href="#"
+                          data-bs-toggle="tooltip"
+                          data-bs-original-title="Hapus Dosen"
+                          title="Hapus Dosen"
+                        >
+                          <i class="fas fa-trash text-danger"></i>
+                        </a>
+                      </div>
                     </td>
                   </tr>
                 </tbody>
@@ -206,8 +221,10 @@ import Choices from "choices.js";
 import setTooltip from "@/assets/js/tooltip.js";
 import HeaderProfileCard from "@/views/dashboards/components/HeaderProfileCard.vue";
 import { mapActions, mapState } from "pinia";
+import d$dokumen from "@/store/dokumen";
 import d$proposal from "@/store/proposal";
 import d$tema from "@/store/tema";
+import d$auth from "@/store/auth";
 
 export default {
   name: "IndexPendaftaranDosenAdmin",
@@ -225,6 +242,8 @@ export default {
   computed: {
     ...mapState(d$tema, ["g$listTemaActive"]),
     ...mapState(d$proposal, ["g$listProposal"]),
+    ...mapState(d$auth, ["g$user"]),
+    ...mapState(d$dokumen, ["g$dokumenLink"]),
   },
   async created() {
     await this.a$listTema();
@@ -247,6 +266,7 @@ export default {
       "a$decProposal",
     ]),
     ...mapActions(d$tema, ["a$listTema"]),
+    ...mapActions(d$dokumen, ["a$getDokumenLink"]),
 
     async getListProposal() {
       this.indexComponent++;
@@ -334,6 +354,24 @@ export default {
 
     setupTableAction() {
       let outerThis = this;
+      // proposal download link
+      $("#pendaftaran-list").on("click", `.proposal-download`, function (e) {
+        let proposal = this;
+        outerThis.a$getDokumenLink(proposal.id).then((res) => window.open(res));
+        e.preventDefault();
+      });
+
+      // evaluate proposal page
+      $("#pendaftaran-list").on("click", ".edit", function (e) {
+        let proposal = this;
+        outerThis.$router.push({
+          name: "Evaluasi Proposal",
+          params: { id_proposal: proposal.id },
+        });
+        e.preventDefault();
+      });
+
+      // acc proposal event
       $("#pendaftaran-list").on("click", `.terima`, function (e) {
         let proposal = this;
         outerThis.showSwal(
@@ -345,6 +383,8 @@ export default {
         );
         e.preventDefault();
       });
+
+      // acc proposal event
       $("#pendaftaran-list").on("click", `.tolak`, function (e) {
         let proposal = this;
         outerThis.showSwal(
