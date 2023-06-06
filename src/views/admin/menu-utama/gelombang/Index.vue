@@ -347,7 +347,7 @@ export default {
         await this.getListGelombang();
         this.showSwal("success-message", "Berhasil menambahkan gelombang");
         // this.indexComponent++;
-        this.setupChoices();
+        // this.setupChoices();
         this.body.id_tema_halaman = "0";
         this.body.nama = "";
       } catch (error) {
