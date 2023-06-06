@@ -8,9 +8,9 @@ const d$halaman = defineStore("halamanStore", {
     listHalaman: [],
   }),
   actions: {
-    async a$listHalaman() {
+    async a$listHalaman(id_tema) {
       try {
-        const { data, status } = await s$halaman.listHalaman();
+        const { data, status } = await s$halaman.listHalaman(id_tema);
         this.listHalaman = data ?? [];
         this.status = status;
       } catch (error) {

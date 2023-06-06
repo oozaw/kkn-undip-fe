@@ -2,7 +2,7 @@ import { baseApi } from "@/utils/axios";
 
 const api = `/`;
 
-const listHalaman = () => baseApi.get(`${api}admin/halaman`);
+const listHalaman = (id_tema) => baseApi.get(`${api}admin/halaman/${id_tema}`);
 
 const addHalaman = (body) => baseApi.post(`${api}admin/halaman`, body);
 

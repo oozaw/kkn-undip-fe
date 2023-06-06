@@ -3,7 +3,7 @@
     <div class="row mb-5 mt-4">
       <div class="col-lg-12 mt-lg-0 mt-4">
         <HeaderProfileCard />
-        <!-- <div class="bg-white card mt-4">
+        <div class="bg-white card mt-4">
           <div class="card-header pb-0 pt-3">
             <p class="font-weight-bold text-dark mb-2">
               Pilih Tema KKN Terdaftar
@@ -15,32 +15,20 @@
                 id="choices-tema"
                 class="form-control"
                 name="choices-tema"
+                v-model="tema"
+                @change="getListHalaman()"
               >
-                <option value="reguler">
-                  KKN Tematik Pengurangan Risiko Bencana Berbasis Partisipasi
-                  Masyarakat dan Komunitas
+                <option
+                  v-for="tema in g$listTema"
+                  :key="tema.id_tema"
+                  :value="tema.id_tema"
+                >
+                  {{ tema.nama }}
                 </option>
-                <option value="tematik">KKN Reguler Tim I</option>
               </select>
             </div>
           </div>
-          <div class="card-header pb-0 pt-0">
-            <p class="font-weight-bold text-dark mb-2">Pilih Aktor</p>
-          </div>
-          <div class="pb-3 pt-0 card-body">
-            <div class="col-12 align-self-center">
-              <select
-                id="choices-aktor"
-                class="form-control"
-                name="choices-aktor"
-              >
-                <option value="dosen">Dosen</option>
-                <option value="mahasiswa">Mahasiswa</option>
-                <option value="bappeda">BAPPEDA</option>
-              </select>
-            </div>
-          </div>
-        </div> -->
+        </div>
         <div class="bg-white card mt-4">
           <!-- Card header -->
           <div class="pb-0 card-header">
@@ -146,11 +134,11 @@
                 <tbody>
                   <tr
                     v-for="(halaman, index) in g$listHalaman"
-                    :key="halaman.id_halaman"
+                    :key="halaman.id_tema_halaman"
                   >
                     <td class="text-sm ps-3">{{ index + 1 }}</td>
                     <td class="ms-0 px-0">
-                      <h6 class="my-auto">{{ halaman.nama }}</h6>
+                      <h6 class="my-auto">{{ halaman.halaman.nama }}</h6>
                     </td>
                     <td class="text-sm">1 Desember 2023</td>
                     <td class="text-sm">15 Desember 2023</td>
@@ -172,8 +160,8 @@
                       </router-link>
                       <a
                         v-if="halaman.status"
-                        :id="halaman.id_halaman"
-                        :name="halaman.nama"
+                        :id="halaman.id_tema_halaman"
+                        :name="halaman.halaman.nama"
                         class="me-3 non-aktif"
                         href="#"
                         data-bs-toggle="tooltip"
@@ -188,8 +176,8 @@
                       </a>
                       <a
                         v-else
-                        :id="halaman.id_halaman"
-                        :name="halaman.nama"
+                        :id="halaman.id_tema_halaman"
+                        :name="halaman.halaman.nama"
                         class="me-3 aktif"
                         href="#"
                         data-bs-toggle="tooltip"
@@ -241,6 +229,7 @@ import setTooltip from "@/assets/js/tooltip.js";
 import HeaderProfileCard from "@/views/dashboards/components/HeaderProfileCard.vue";
 import { mapActions, mapState } from "pinia";
 import d$halaman from "@/store/halaman";
+import d$tema from "@/store/tema";
 
 export default {
   name: "IndexKelolaHalaman",
@@ -249,6 +238,7 @@ export default {
   },
   data() {
     return {
+      tema: "",
       choicesTema: undefined,
       choicesAktor: undefined,
       indexComponent: 0,
@@ -259,9 +249,10 @@ export default {
   },
   computed: {
     ...mapState(d$halaman, ["g$listHalaman"]),
+    ...mapState(d$tema, ["g$listTema"]),
   },
   async created() {
-    await this.getListHalaman();
+    await this.getInitData();
 
     this.choicesTema = this.getChoices("choices-tema");
     this.choicesAktor = this.getChoices("choices-aktor");
@@ -278,18 +269,27 @@ export default {
       "a$addHalaman",
       "a$switchHalaman",
     ]),
+    ...mapActions(d$tema, ["a$listTema"]),
+
+    async getInitData() {
+      try {
+        await this.a$listTema();
+        this.tema = this.g$listTema[0].id_tema;
+        await this.getListHalaman();
+      } catch (error) {
+        this.showSwal("failed-message", "Terjadi kesalahan saat memuat data");
+        console.log(error.error);
+      }
+    },
 
     async getListHalaman() {
       this.indexComponent++;
 
       try {
-        await this.a$listHalaman();
+        await this.a$listHalaman(parseInt(this.tema));
       } catch (error) {
-        this.showSwal(
-          "failed-message",
-          error.error ?? "Terjadi kesalahan saat memuat data"
-        );
-        console.log(error);
+        this.showSwal("failed-message", "Terjadi kesalahan saat memuat data");
+        console.log(error.error);
       }
 
       this.setupDataTable();
@@ -416,6 +416,7 @@ export default {
         return new Choices(element, {
           searchEnabled: true,
           allowHTML: true,
+          shouldSort: false,
         });
       }
     },
