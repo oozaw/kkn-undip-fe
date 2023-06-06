@@ -3,7 +3,7 @@
     <div class="row mb-5 mt-4">
       <div class="col-lg-12 mt-lg-0 mt-4">
         <header-profile-card />
-        <!-- <div class="bg-white card mt-4">
+        <div class="bg-white card mt-4">
           <div class="card-header pb-0 pt-3">
             <p class="font-weight-bold text-dark mb-2">
               Pilih Tema KKN Terdaftar
@@ -16,7 +16,7 @@
                 class="form-control"
                 name="choices-tema"
                 v-model="tema"
-                @change="getListMahasiswa()"
+                @change="getListGelombang()"
               >
                 <option
                   v-for="tema in g$listTema"
@@ -28,7 +28,7 @@
               </select>
             </div>
           </div>
-        </div> -->
+        </div>
         <div class="bg-white card mt-4">
           <!-- Card header -->
           <div class="pb-0 card-header">
@@ -95,17 +95,17 @@
                               name="jenis"
                               id="choices-halaman-modal"
                               class="choices-halaman-modal form-select"
-                              v-model="body.id_halaman"
+                              v-model="body.id_tema_halaman"
                             >
                               <option value="0" selected hidden>
                                 -- Pilih Halaman --
                               </option>
                               <option
                                 v-for="halaman in g$listHalaman"
-                                :key="halaman.id_halaman"
-                                :value="halaman.id_halaman"
+                                :key="halaman.id_tema_halaman"
+                                :value="halaman.id_tema_halaman"
                               >
-                                {{ halaman.nama }}
+                                {{ halaman.halaman.nama }}
                               </option>
                             </select>
                             <label class="form-label">Nama</label>
@@ -289,15 +289,14 @@ export default {
   },
   data() {
     return {
-      tema: "1",
+      tema: "",
       indexComponent: 0,
       choicesTema: undefined,
       choicesTemaModal: undefined,
       choicesHalamanModal: undefined,
       dataTable: undefined,
       body: {
-        // id_tema: "",
-        id_halaman: "",
+        id_tema_halaman: "",
         nama: "",
       },
     };
@@ -309,8 +308,9 @@ export default {
   },
   async created() {
     await this.a$listTema();
+    this.tema = this.g$listTema[0].id_tema;
+
     await this.getListGelombang();
-    await this.a$listHalaman();
 
     this.setupChoices();
 
@@ -318,11 +318,11 @@ export default {
   },
   beforeUnmount() {
     if (this.choicesTema) this.choicesTema.destroy();
-    if (this.choicesTemaModal) this.choicesTemaModal.destroy();
+    // if (this.choicesTemaModal) this.choicesTemaModal.destroy();
     if (this.choicesHalamanModal) this.choicesHalamanModal.destroy();
   },
   methods: {
-    ...mapActions(d$tema, ["a$listTema", "a$switchGelombang"]),
+    ...mapActions(d$tema, ["a$listTema"]),
     ...mapActions(d$gelombang, [
       "a$listAllGelombang",
       "a$switchGelombang",
@@ -332,14 +332,14 @@ export default {
 
     async addGelombang() {
       // validation
-      if (!this.body.id_halaman || this.body.id_halaman === "0") {
+      if (!this.body.id_tema_halaman || this.body.id_tema_halaman === "0") {
         this.showSwal("warning-message", "Lengkapi data terlebih dahulu!");
         return;
       }
 
       this.showSwal("loading");
       // this.body.id_tema = parseInt(this.body.id_tema);
-      this.body.id_halaman = parseInt(this.body.id_halaman);
+      this.body.id_tema_halaman = parseInt(this.body.id_tema_halaman);
 
       try {
         document.getElementById("button-close-modal").click();
@@ -348,7 +348,7 @@ export default {
         this.showSwal("success-message", "Berhasil menambahkan gelombang");
         // this.indexComponent++;
         this.setupChoices();
-        this.body.id_halaman = "0";
+        this.body.id_tema_halaman = "0";
         this.body.nama = "";
       } catch (error) {
         this.showSwal(
@@ -378,13 +378,13 @@ export default {
       this.indexComponent++;
 
       try {
-        await this.a$listAllGelombang();
+        await this.a$listHalaman(parseInt(this.tema));
+        this.choicesHalamanModal = this.getChoices("choices-halaman-modal");
+
+        await this.a$listAllGelombang(parseInt(this.tema));
       } catch (error) {
-        this.showSwal(
-          "failed-message",
-          error ?? "Terjadi kesalahan saat memuat data"
-        );
-        // console.log(error);
+        this.showSwal("failed-message", "Terjadi kesalahan saat memuat data");
+        console.log(error.error);
       }
 
       this.setupDataTable();
@@ -445,9 +445,8 @@ export default {
     },
 
     setupChoices() {
-      // this.choicesTema = this.getChoices("choices-tema");
-      this.choicesTemaModal = this.getChoices("choices-tema-modal");
-      this.choicesHalamanModal = this.getChoices("choices-halaman-modal");
+      this.choicesTema = this.getChoices("choices-tema");
+      // this.choicesTemaModal = this.getChoices("choices-tema-modal");
     },
 
     getChoices(id) {

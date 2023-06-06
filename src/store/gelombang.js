@@ -9,9 +9,9 @@ const d$gelombang = defineStore("gelombangStore", {
     listGelombangActive: [],
   }),
   actions: {
-    async a$listAllGelombang() {
+    async a$listAllGelombang(id_tema) {
       try {
-        const { data, status } = await s$gelombang.listAllGelombang();
+        const { data, status } = await s$gelombang.listAllGelombang(id_tema);
         this.listGelombang = data ?? [];
         this.listGelombangActive = [];
         data.forEach((gelombang) => {

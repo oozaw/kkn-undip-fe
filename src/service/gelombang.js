@@ -2,7 +2,8 @@ import { baseApi } from "@/utils/axios";
 
 const api = `/`;
 
-const listAllGelombang = () => baseApi.get(`${api}admin/gelombang`);
+const listAllGelombang = (id_tema) =>
+  baseApi.get(`${api}admin/gelombang/${id_tema}`);
 
 const listGelombang = (id_tema, id_halaman) =>
   baseApi.get(`${api}gelombang/${id_tema}/${id_halaman}`);
