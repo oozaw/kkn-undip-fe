@@ -124,6 +124,7 @@
                     </td>
                     <td class="text-sm d-block">
                       <a
+                        :id="proposal.id_proposal"
                         class="me-3 detail"
                         href="#"
                         data-bs-toggle="tooltip"
@@ -354,6 +355,16 @@ export default {
 
     setupTableAction() {
       let outerThis = this;
+      // proposal detail
+      $("#pendaftaran-list").on("click", `.detail`, function (e) {
+        let proposal = this;
+        outerThis.$router.push({
+          name: "Detail Pendaftaran Dosen Admin",
+          params: { id_proposal: proposal.id },
+        });
+        e.preventDefault();
+      });
+
       // proposal download link
       $("#pendaftaran-list").on("click", `.proposal-download`, function (e) {
         let proposal = this;

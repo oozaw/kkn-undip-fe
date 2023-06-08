@@ -120,6 +120,7 @@ import IndexPresensiMhsAdmin from "../views/admin/kelola-mhs/presensi/Index.vue"
 import IndexLRKLPKMhsAdmin from "../views/admin/kelola-mhs/lrk-lpk/Index.vue";
 import IndexReportaseMhsAdmin from "../views/admin/kelola-mhs/reportase/Index.vue";
 import IndexPendaftaranDosenAdmin from "../views/admin/kelola-dosen/pendaftaran-lokasi/Index.vue";
+import DetailPendaftaranDosenAdmin from "../views/admin/kelola-dosen/pendaftaran-lokasi/Detail.vue";
 import EditEvaluasiProposalDosen from "../views/admin/kelola-dosen/pendaftaran-lokasi/Edit.vue";
 import IndexPemilihanMhsAdmin from "../views/admin/kelola-dosen/pemilihan-mhs/Index.vue";
 import IndexPresensiDosenAdmin from "../views/admin/kelola-dosen/presensi/Index.vue";
@@ -638,6 +639,14 @@ const routes = [
     path: "/kelola-dosen/pendaftaran",
     name: "Pendaftaran Dosen Admin",
     component: IndexPendaftaranDosenAdmin,
+    meta: {
+      requiresAuth: [Role.admin, Role.reviewer],
+    },
+  },
+  {
+    path: "/kelola-dosen/pendaftaran/:id_proposal",
+    name: "Detail Pendaftaran Dosen Admin",
+    component: DetailPendaftaranDosenAdmin,
     meta: {
       requiresAuth: [Role.admin, Role.reviewer],
     },
