@@ -120,9 +120,12 @@
                       </td>
                       <td class="text-sm">
                         <a
-                          href="javascript:;"
+                          :id="report.id_reportase"
+                          class="detail"
+                          href="#"
                           data-bs-toggle="tooltip"
-                          data-bs-original-title="Preview product"
+                          data-bs-original-title="Detail Reportase"
+                          title="Detail Reportase"
                         >
                           <i class="fas fa-eye text-info"></i>
                         </a>
@@ -442,6 +445,7 @@
 </template>
 
 <script>
+import $ from "jquery";
 import { DataTable } from "simple-datatables";
 import moment from "moment";
 import Choices from "choices.js";
@@ -493,6 +497,19 @@ export default {
       }
 
       this.setupDataTable("reportase-list");
+      this.setupTableAction();
+    },
+
+    setupTableAction() {
+      let outerThis = this;
+      $("#reportase-list").on("click", `.detail`, function (e) {
+        let reportase = this;
+        outerThis.$router.push({
+          name: "Detail Reportase",
+          params: { id_reportase: reportase.id },
+        });
+        e.preventDefault();
+      });
     },
 
     setupDataTable(id) {

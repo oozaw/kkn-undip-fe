@@ -88,6 +88,7 @@ import EditLRK from "../views/kegiatan/lrk/Edit.vue";
 import IndexLPK from "../views/kegiatan/lpk/Index.vue";
 import EditLPK from "../views/kegiatan/lpk/Edit.vue";
 import IndexReportase from "../views/kegiatan/reportase/Index.vue";
+import DetailReportase from "../views/kegiatan/reportase/Detail.vue";
 import AddReportase from "../views/kegiatan/reportase/Add.vue";
 import EditReportase from "../views/kegiatan/reportase/Edit.vue";
 import IndexRegistrasi from "../views/pendaftaran/registrasi/Index.vue";
@@ -372,6 +373,14 @@ const routes = [
     component: IndexReportase,
     meta: {
       requiresAuth: [Role.mahasiswa, Role.dosen],
+    },
+  },
+  {
+    path: "/kegiatan/reportase/:id_reportase",
+    name: "Detail Reportase",
+    component: DetailReportase,
+    meta: {
+      requiresAuth: [Role.mahasiswa],
     },
   },
   {
