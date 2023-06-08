@@ -97,7 +97,7 @@
                               class="choices-halaman-modal form-select"
                               v-model="body.id_tema_halaman"
                             >
-                              <option value="0" selected hidden>
+                              <option value="0" selected hidden disabled>
                                 -- Pilih Halaman --
                               </option>
                               <option
