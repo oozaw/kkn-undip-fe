@@ -36,9 +36,11 @@
                     class="form-control"
                     name="choices-jenis"
                     @change="checkJenisSelection()"
+                    v-model="body.jenis"
                   >
-                    <option value="reguler">Reguler</option>
-                    <option value="tematik">Tematik</option>
+                    <option value="" disabled>-- Pilih jenis tema --</option>
+                    <option value="1">Reguler</option>
+                    <option value="2">Tematik</option>
                   </select>
                 </div>
                 <div class="col-sm-6 col-12">
@@ -47,9 +49,11 @@
                     id="choices-periode"
                     class="form-control"
                     name="choices-periode"
+                    v-model="body.periode"
                   >
-                    <option value="reguler">2022/2023</option>
-                    <option value="tematik">2023/2024</option>
+                    <option value="" disabled>-- Pilih periode --</option>
+                    <option value="2022/2023">2022/2023</option>
+                    <option value="2023/2024">2023/2024</option>
                   </select>
                 </div>
               </div>
@@ -65,7 +69,7 @@
                   />
                 </div>
               </div>
-              <div class="tematik-section" v-if="filterJenis === 'tematik'">
+              <div class="tematik-section" v-if="filterJenis === '2'">
                 <div class="row">
                   <div class="col-sm-6 col-12">
                     <label class="form-label mt-2">Lokasi Provinsi</label>
@@ -142,12 +146,12 @@ export default {
     ArgonButton,
   },
   data() {
-    const filterJenis = ref("reguler");
+    const filterJenis = ref("1");
 
     return {
       body: {
-        jenis: "reguler",
-        periode: "2022/2023",
+        jenis: "",
+        periode: "",
         tema: "",
         provinsi: "",
         kabupaten: "",
@@ -166,16 +170,32 @@ export default {
   },
   beforeUnmount() {
     // mhs-section
-    this.choicesJenis.destroy();
-    this.choicesPeriode.destroy();
+    if (this.choicesJenis) this.choicesJenis.destroy();
+    if (this.choicesPeriode) this.choicesPeriode.destroy();
   },
   methods: {
     ...mapActions(d$tema, ["a$addTema"]),
 
     async addTema() {
+      this.showSwal("loading");
+
       var input = {
         nama: this.body.tema,
+        periode: this.body.periode,
+        jenis: parseInt(this.body.jenis),
       };
+
+      if (
+        !input.nama ||
+        input.nama == "" ||
+        !input.periode ||
+        input.periode == "" ||
+        !input.jenis ||
+        input.jenis == 0
+      ) {
+        this.showSwal("warning-message", "Lengkapi data terlebih dahulu!");
+        return;
+      }
 
       try {
         await this.a$addTema(input);
@@ -223,6 +243,22 @@ export default {
           type: type,
           timerProgressBar: true,
           showConfirmButton: false,
+          didOpen: () => {
+            this.$swal.hideLoading();
+          },
+        });
+      } else if (type === "warning-message") {
+        this.$swal({
+          icon: "warning",
+          title: "Peringatan!",
+          text: text,
+          timer: 2500,
+          type: type,
+          timerProgressBar: true,
+          showConfirmButton: false,
+          didOpen: () => {
+            this.$swal.hideLoading();
+          },
         });
       } else if (type === "failed-message") {
         this.$swal({
@@ -233,6 +269,9 @@ export default {
           type: type,
           timerProgressBar: true,
           showConfirmButton: false,
+          didOpen: () => {
+            this.$swal.hideLoading();
+          },
         });
       } else if (type === "auto-close") {
         let timerInterval;
@@ -252,6 +291,22 @@ export default {
             clearInterval(timerInterval);
           },
         });
+      } else if (type === "loading") {
+        this.$swal({
+          title: "Memuat...",
+          timerProgressBar: true,
+          showConfirmButton: false,
+          allowOutsideClick: false,
+          allowEscapeKey: false,
+          didOpen: () => {
+            this.$swal.isLoading();
+          },
+          didDestroy: () => {
+            this.$swal.hideLoading();
+          },
+        });
+      } else if (type === "close") {
+        this.$swal.close();
       }
     },
   },
