@@ -285,7 +285,6 @@ export default {
       try {
         await this.a$getLaporan(parseInt(this.$route.params.id_laporan));
         // this.body.latar_belakang = this.g$getLaporan.latar_belakang
-        console.log(this.g$getLaporan);
         this.body.potensi = this.g$getLaporan.potensi;
         this.body.program = this.g$getLaporan.program;
         this.body.sasaran = this.g$getLaporan.sasaran;
