@@ -125,6 +125,7 @@ import EditEvaluasiProposalDosen from "../views/admin/kelola-dosen/pendaftaran-l
 import IndexPemilihanMhsAdmin from "../views/admin/kelola-dosen/pemilihan-mhs/Index.vue";
 import IndexPresensiDosenAdmin from "../views/admin/kelola-dosen/presensi/Index.vue";
 import IndexNilaiAkhirMhsAdmin from "../views/admin/kelola-dosen/nilai-akhir-mhs/Index.vue";
+import IndexKorwil from "../views/admin/korwil/Index.vue";
 
 const routes = [
   {
@@ -276,6 +277,14 @@ const routes = [
     path: "/akun/pimpinan/add",
     name: "Tambah Pimpinan",
     component: AddPimpinan,
+    meta: {
+      requiresAuth: [Role.admin],
+    },
+  },
+  {
+    path: "/korwil",
+    name: "Koordinator Wilayah",
+    component: IndexKorwil,
     meta: {
       requiresAuth: [Role.admin],
     },

@@ -360,6 +360,28 @@
         </sidenav-collapse>
       </li>
 
+      <!-- Koordinator Wilayah -->
+      <li class="nav-item" v-if="a$checkAuth(['ADMIN'])">
+        <router-link :to="{ name: 'Koordinator Wilayah' }">
+          <sidenav-collapse
+            nav-text="Koordinator Wilayah"
+            :collapse="false"
+            url="#"
+            :aria-controls="''"
+            collapse-ref="/korwil"
+            :class="getRoute() === 'korwil' ? 'active' : ''"
+          >
+            <template #icon>
+              <font-awesome-icon
+                icon="fa-solid fa-users-gear"
+                class="text-primary"
+              />
+              <!-- <i class="ni ni-single-02 text-success text-sm"></i> -->
+            </template>
+          </sidenav-collapse>
+        </router-link>
+      </li>
+
       <!-- Pendaftaran KKN -->
       <li class="nav-item" v-if="a$checkAuth(['DOSEN', 'MAHASISWA'])">
         <sidenav-collapse
