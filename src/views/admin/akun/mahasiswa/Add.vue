@@ -178,20 +178,21 @@ export default {
     ...mapActions(d$mahasiswa, ["a$addMahasiswa"]),
 
     async addMahasiswa() {
+      this.showSwal("loading");
+
       if (
         // !this.body.id_tema ||
         this.body.nama === "" ||
         this.body.nim === ""
         // this.body.prodi === ""
       ) {
-        this.showSwal("failed-message", "Data masih belum lengkap!");
+        this.showSwal("warning-message", "Data masih belum lengkap!");
         return;
       }
 
       // this.body.id_tema = parseInt(this.body.id_tema);
       this.body.nim = this.body.nim.toString();
 
-      console.log(this.body);
       try {
         await this.a$addMahasiswa(this.body);
         this.showSwal(
@@ -229,6 +230,22 @@ export default {
           type: type,
           timerProgressBar: true,
           showConfirmButton: false,
+          didOpen: () => {
+            this.$swal.hideLoading();
+          },
+        });
+      } else if (type === "warning-message") {
+        this.$swal({
+          icon: "warning",
+          title: "Peringatan!",
+          text: text,
+          timer: 2500,
+          type: type,
+          timerProgressBar: true,
+          showConfirmButton: false,
+          didOpen: () => {
+            this.$swal.hideLoading();
+          },
         });
       } else if (type === "failed-message") {
         this.$swal({
@@ -239,6 +256,9 @@ export default {
           type: type,
           timerProgressBar: true,
           showConfirmButton: false,
+          didOpen: () => {
+            this.$swal.hideLoading();
+          },
         });
       } else if (type === "auto-close") {
         let timerInterval;
@@ -258,6 +278,22 @@ export default {
             clearInterval(timerInterval);
           },
         });
+      } else if (type === "loading") {
+        this.$swal({
+          title: "Memuat...",
+          timerProgressBar: true,
+          showConfirmButton: false,
+          allowOutsideClick: false,
+          allowEscapeKey: false,
+          didOpen: () => {
+            this.$swal.isLoading();
+          },
+          didDestroy: () => {
+            this.$swal.hideLoading();
+          },
+        });
+      } else if (type === "close") {
+        this.$swal.close();
       }
     },
   },
