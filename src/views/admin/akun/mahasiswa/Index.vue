@@ -150,6 +150,7 @@
                     <th class="col-1">No.</th>
                     <th>Nama</th>
                     <th>NIM</th>
+                    <th>Fakultas</th>
                     <th>Prodi</th>
                     <!-- <th>Status</th> -->
                     <th>Action</th>
@@ -165,7 +166,8 @@
                       <h6 class="my-auto">{{ mhs.nama }}</h6>
                     </td>
                     <td class="text-sm">{{ mhs.nim }}</td>
-                    <td class="text-sm">{{ mhs.prodi }}</td>
+                    <td class="text-sm">{{ mhs.prodi?.fakultas?.nama }}</td>
+                    <td class="text-sm">{{ mhs.prodi?.nama }}</td>
                     <!-- <td>
                       <span class="badge badge-danger badge-sm"
                         >Unregistered</span
@@ -205,6 +207,7 @@
                     <th class="col-1">No.</th>
                     <th>Nama</th>
                     <th>NIM</th>
+                    <th>Fakultas</th>
                     <th>Prodi</th>
                     <!-- <th>Status</th> -->
                     <th>Action</th>

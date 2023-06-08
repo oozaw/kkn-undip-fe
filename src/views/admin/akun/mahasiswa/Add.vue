@@ -34,26 +34,6 @@
           >
             <div class="card-body pb-5">
               <h5 class="font-weight-bolder mb-3">Tambah Mahasiswa</h5>
-              <!-- <div class="row">
-                <div class="col-12 align-self-center">
-                  <label for="choices-tema" class="form-label">Tema</label>
-                  <select
-                    id="choices-tema"
-                    class="form-control"
-                    name="choices-tema"
-                    v-model="body.id_tema"
-                  >
-                    <option value="" disabled hidden>
-                      -- Pilih periode --
-                    </option>
-                    <option value="1">KKN Reguler Tim I</option>
-                    <option value="2">
-                      KKN Tematik Pengurangan Risiko Bencana Berbasis
-                      Partisipasi Masyarakat dan Komunitas
-                    </option>
-                  </select>
-                </div>
-              </div> -->
               <div class="row">
                 <div class="col-12 col-sm-6">
                   <label>Nama</label>
@@ -80,62 +60,54 @@
                   />
                 </div>
               </div>
-              <!-- <div class="row mt-3">
-                <div class="col-12">
-                  <label class="form-label" for="prodi">Prodi</label>
-                  <input
-                    type="text"
+              <div class="row">
+                <div class="col-6">
+                  <label class="mt-4">Fakultas</label>
+                  <select
+                    id="choices-fakultas"
                     class="form-control"
-                    id="prodi"
-                    name="prodi"
-                    placeholder="Masukkan prodi"
-                    required
+                    name="choices-fakultas"
+                    v-model="idFakultas"
+                    @change="getListProdi()"
+                  >
+                    <option value="" disabled>-- Pilih fakultas --</option>
+                    <option
+                      v-for="fakultas in g$listFakultas"
+                      :key="fakultas.id_fakultas"
+                      :value="fakultas.id_fakultas"
+                    >
+                      {{ fakultas.nama }}
+                    </option>
+                  </select>
+                </div>
+                <div class="col-6">
+                  <label class="mt-4">Program Studi</label>
+                  <select
+                    id="choices-prodi"
+                    class="form-control"
+                    name="choices-prodi"
                     v-model="body.prodi"
+                  >
+                    <option value="" disabled>-- Pilih prodi --</option>
+                  </select>
+                </div>
+                <!-- <div class="col-3">
+                  <label class="mt-4">Username</label>
+                  <input
+                    class="form-control"
+                    type="text"
+                    placeholder="Masukkan username"
                   />
                 </div>
-              </div> -->
-              <!-- <div class="row">
-              <div class="col-3">
-                <label class="mt-4">Fakultas</label>
-                <select id="fakultas-add" class="form-control" name="fakultas">
-                  <option value="0" selected disabled hidden>
-                    -- Pilih fakultas --
-                  </option>
-                  <option value="Choice 2">Real Estate</option>
-                  <option value="Choice 3">Electronics</option>
-                  <option value="Choice 4">Clothing</option>
-                  <option value="Choice 5">Others</option>
-                </select>
+                <div class="col-3">
+                  <label class="mt-4">Password</label>
+                  <input
+                    class="form-control"
+                    type="password"
+                    placeholder="Masukkan password"
+                  />
+                </div> -->
               </div>
-              <div class="col-3">
-                <label class="mt-4">Jurusan</label>
-                <select id="choices-prodi" class="form-control" name="fakultas">
-                  <option value="0" selected disabled hidden>
-                    -- Pilih jurusan --
-                  </option>
-                  <option value="Choice 2">Real Estate</option>
-                  <option value="Choice 3">Electronics</option>
-                  <option value="Choice 4">Clothing</option>
-                  <option value="Choice 5">Others</option>
-                </select>
-              </div>
-              <div class="col-3">
-                <label class="mt-4">Username</label>
-                <input
-                  class="form-control"
-                  type="text"
-                  placeholder="Masukkan username"
-                />
-              </div>
-              <div class="col-3">
-                <label class="mt-4">Password</label>
-                <input
-                  class="form-control"
-                  type="password"
-                  placeholder="Masukkan password"
-                />
-              </div>
-            </div> -->
             </div>
           </form>
         </div>
@@ -149,7 +121,8 @@ import Choices from "choices.js";
 import ArgonButton from "@/components/ArgonButton.vue";
 import HeaderProfileCard from "@/views/dashboards/components/HeaderProfileCard.vue";
 import d$mahasiswa from "@/store/mahasiswa";
-import { mapActions } from "pinia";
+import { mapActions, mapState } from "pinia";
+import d$fakultas from "@/store/fakultas";
 
 export default {
   name: "AddMahasiswa",
@@ -160,38 +133,46 @@ export default {
   data() {
     return {
       body: {
-        // id_tema: "",
         nama: "",
         nim: "",
-        // prodi: "",
+        prodi: "",
       },
-      choicesTema: undefined,
+      idFakultas: "",
+      choicesFakultas: undefined,
+      choicesProdi: undefined,
     };
   },
-  mounted() {
-    // this.choicesTema = this.getChoices("choices-tema");
+  computed: {
+    ...mapState(d$fakultas, ["g$listFakultas"]),
+  },
+  async created() {
+    await this.a$listFakultas();
+
+    this.choicesFakultas = this.getChoices("choices-fakultas");
+    this.choicesProdi = this.getChoices("choices-prodi");
   },
   beforeUnmount() {
-    // this.choicesTema.destroy();
+    if (this.choicesFakultas) this.choicesFakultas.destroy();
+    if (this.choicesProdi) this.choicesProdi.destroy();
   },
   methods: {
     ...mapActions(d$mahasiswa, ["a$addMahasiswa"]),
+    ...mapActions(d$fakultas, ["a$listFakultas"]),
 
     async addMahasiswa() {
       this.showSwal("loading");
 
       if (
-        // !this.body.id_tema ||
         this.body.nama === "" ||
-        this.body.nim === ""
-        // this.body.prodi === ""
+        this.body.nim === "" ||
+        this.body.prodi === ""
       ) {
         this.showSwal("warning-message", "Data masih belum lengkap!");
         return;
       }
 
-      // this.body.id_tema = parseInt(this.body.id_tema);
       this.body.nim = this.body.nim.toString();
+      this.body.prodi = parseInt(this.body.prodi);
 
       try {
         await this.a$addMahasiswa(this.body);
@@ -206,6 +187,39 @@ export default {
           "Data mahasiswa gagal ditambahkan! " + error
         );
         console.log(error);
+      }
+    },
+
+    getListProdi() {
+      this.g$listFakultas.forEach((fakultas) => {
+        if (fakultas.id_fakultas == this.idFakultas) {
+          this.setChoices(this.choicesProdi, fakultas.prodi);
+        }
+      });
+    },
+
+    setChoices(choices, option) {
+      if (choices) {
+        choices.clearChoices();
+        choices.removeActiveItems();
+
+        let newOption = [
+          {
+            value: "",
+            label: "-- Pilih prodi --",
+            selected: true,
+            disabled: true,
+          },
+        ];
+
+        option.forEach((item) => {
+          newOption.push({
+            value: Object.values(item)[0],
+            label: Object.values(item)[2],
+            selected: false,
+          });
+        });
+        choices.setChoices(newOption);
       }
     },
 
