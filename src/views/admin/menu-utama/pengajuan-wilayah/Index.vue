@@ -213,11 +213,16 @@
                                 class="form-control"
                                 :name="`choices-korwil-${kec.id_kecamatan}`"
                               >
-                                <option value="">-- Pilih korwil --</option>
-                                <option value="1">Korwil 1</option>
-                                <option value="2">Korwil 2</option>
-                                <option value="3">Korwil 3</option>
-                                <option value="4">Korwil 4</option>
+                                <option value="" selected>
+                                  -- Pilih korwil --
+                                </option>
+                                <option
+                                  v-for="korwil in g$listKorwil"
+                                  :key="korwil.id_korwil"
+                                  :value="korwil.id_korwil"
+                                >
+                                  {{ korwil.nama }}
+                                </option>
                               </select>
                             </div>
                             <div class="modal-footer mb-0">
@@ -272,6 +277,7 @@ import HeaderProfileCard from "@/views/dashboards/components/HeaderProfileCard.v
 import { mapActions, mapState } from "pinia";
 import d$wilayah from "@/store/wilayah";
 import d$tema from "@/store/tema";
+import d$korwil from "@/store/korwil";
 
 export default {
   name: "IndexPengajuanWilayah",
@@ -291,10 +297,12 @@ export default {
   computed: {
     ...mapState(d$wilayah, ["g$listKecamatan"]),
     ...mapState(d$tema, ["g$listTemaActive"]),
+    ...mapState(d$korwil, ["g$listKorwil"]),
   },
   async created() {
     await this.a$listTema();
     this.tema = this.g$listTemaActive[0].id_tema;
+    await this.a$listKorwil();
     await this.getListKecamatan();
     this.choicesTema = this.getChoices("choices-tema");
 
@@ -310,6 +318,7 @@ export default {
       "a$decKecamatan",
     ]),
     ...mapActions(d$tema, ["a$listTema"]),
+    ...mapActions(d$korwil, ["a$listKorwil"]),
 
     async getListKecamatan() {
       this.tema = parseInt(this.tema);
