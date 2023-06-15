@@ -286,7 +286,7 @@ const routes = [
     name: "Koordinator Wilayah",
     component: IndexKorwil,
     meta: {
-      requiresAuth: [Role.admin],
+      requiresAuth: [Role.admin, Role.bappeda],
     },
   },
   {

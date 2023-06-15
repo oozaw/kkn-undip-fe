@@ -361,7 +361,7 @@
       </li>
 
       <!-- Koordinator Wilayah -->
-      <li class="nav-item" v-if="a$checkAuth(['ADMIN'])">
+      <li class="nav-item" v-if="a$checkAuth(['ADMIN', 'BAPPEDA'])">
         <router-link :to="{ name: 'Koordinator Wilayah' }">
           <sidenav-collapse
             nav-text="Koordinator Wilayah"
