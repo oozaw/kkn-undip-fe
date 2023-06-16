@@ -39,7 +39,7 @@
               </div>
               <div class="my-auto mt-4 ms-auto mt-lg-0">
                 <div class="my-auto ms-auto">
-                  <button
+                  <!-- <button
                     type="button"
                     class="me-2 mb-0 btn btn-success btn-sm"
                     data-bs-toggle="modal"
@@ -105,7 +105,7 @@
                         </div>
                       </div>
                     </div>
-                  </div>
+                  </div> -->
                   <button
                     class="mt-2 mb-0 btn btn-outline-success btn-sm export-halaman mt-sm-0"
                     data-type="csv"
