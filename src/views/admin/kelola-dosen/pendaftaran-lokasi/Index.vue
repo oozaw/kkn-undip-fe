@@ -28,7 +28,7 @@
               </select>
             </div>
           </div>
-          <div class="card-header pb-0 pt-0">
+          <!-- <div class="card-header pb-0 pt-0">
             <p class="font-weight-bold text-dark mb-2">Pilih BAPPEDA</p>
           </div>
           <div class="pb-3 pt-0 card-body">
@@ -43,7 +43,7 @@
                 <option value="bappeda">BAPPEDA C</option>
               </select>
             </div>
-          </div>
+          </div> -->
         </div>
         <div class="bg-white card mt-4">
           <!-- Card header -->
