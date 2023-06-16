@@ -15,81 +15,17 @@
                 <div class="my-auto mt-4 ms-auto mt-lg-0">
                   <div class="my-auto ms-auto">
                     <router-link
-                      class="mb-0 btn bg-gradient-success btn-sm"
+                      class="mb-0 me-2 btn bg-gradient-success btn-sm"
                       :to="{ name: 'Tambah Reportase' }"
                       >+&nbsp; Tambah Reportase
                     </router-link>
-                    <button
-                      type="button"
-                      class="mx-2 mb-0 btn btn-primary btn-sm"
-                      data-bs-toggle="modal"
-                      data-bs-target="#import-reportase"
-                    >
-                      Impor
-                    </button>
-                    <div
-                      id="import-reportase"
-                      class="modal fade"
-                      tabindex="-1"
-                      aria-hidden="true"
-                    >
-                      <div class="modal-dialog mt-lg-10">
-                        <div class="modal-content">
-                          <div class="modal-header">
-                            <h5 id="ModalLabel" class="modal-title">
-                              Impor Data Reportase via File Excel
-                            </h5>
-                            <i class="fas fa-upload ms-3"></i>
-                            <button
-                              type="button"
-                              class="btn-close"
-                              data-bs-dismiss="modal"
-                              aria-label="Close"
-                            ></button>
-                          </div>
-                          <div class="modal-body">
-                            <p>
-                              Silahkan cari dan pilih file excel berisi data
-                              reportase
-                            </p>
-                            <input
-                              type="file"
-                              placeholder="Browse file..."
-                              class="mb-1 form-control"
-                            />
-                            <div>
-                              <small class="text-danger text-sm-start">
-                                <i class="fas fa-info-circle"></i>
-                                File yang diizinkan hanya file excel dengan
-                                ekstensi .xls atau .xlsx
-                              </small>
-                            </div>
-                          </div>
-                          <div class="modal-footer">
-                            <button
-                              type="button"
-                              class="btn bg-gradient-secondary btn-sm"
-                              data-bs-dismiss="modal"
-                            >
-                              Batal
-                            </button>
-                            <button
-                              type="button"
-                              class="btn bg-gradient-success btn-sm"
-                            >
-                              Unggah
-                            </button>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
                     <button
                       class="mt-1 mb-0 btn btn-outline-success btn-sm export-mhs-sec mt-sm-0"
                       data-type="csv"
                       type="button"
                       name="button"
                     >
-                      Expor
+                      Ekspor
                     </button>
                   </div>
                 </div>
