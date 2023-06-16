@@ -395,7 +395,7 @@ export default {
         e.preventDefault();
       });
 
-      // acc proposal event
+      // dec proposal event
       $("#pendaftaran-list").on("click", `.tolak`, function (e) {
         let proposal = this;
         outerThis.showSwal(
@@ -510,7 +510,7 @@ export default {
           allowOutsideClick: false,
           allowEscapeKey: false,
           didOpen: () => {
-            this.$swal.isLoading();
+            this.$swal.showLoading();
           },
           didDestroy: () => {
             this.$swal.hideLoading();
