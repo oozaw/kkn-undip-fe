@@ -518,11 +518,13 @@ export default {
         if (option.length !== 0) {
           let newOption = [];
           option.forEach((item) => {
-            newOption.push({
-              value: Object.values(item)[1],
-              label: Object.values(item)[10].nama,
-              selected: Object.values(item)[1] == this.id_kecamatan,
-            });
+            if (Object.values(item)[7] == 1) {
+              newOption.push({
+                value: Object.values(item)[1],
+                label: Object.values(item)[10].nama,
+                selected: Object.values(item)[1] == this.id_kecamatan,
+              });
+            }
           });
           choices.setChoices(newOption);
         } else {
