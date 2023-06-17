@@ -2,10 +2,7 @@
   <div class="container-fluid">
     <div class="row mb-5 mt-4">
       <div class="col-lg-12 mt-lg-0 mt-4">
-        <HeaderProfileCard
-          name="BAPPEDA Kota Semarang"
-          description="Kota Semarang, Jawa Tengah, Indonesia"
-        />
+        <HeaderProfileCard />
         <div class="bg-white card mt-4">
           <div class="card-header pb-0 pt-3">
             <p class="font-weight-bold text-dark mb-2">
@@ -18,12 +15,16 @@
                 id="choices-tema"
                 class="form-control"
                 name="choices-tema"
+                v-model="id_tema"
+                @change="getListKecamatan()"
               >
-                <option value="reguler">
-                  KKN Tematik Pengurangan Risiko Bencana Berbasis Partisipasi
-                  Masyarakat dan Komunitas
+                <option
+                  v-for="tema in g$listTema"
+                  :key="tema.id_tema"
+                  :value="tema.id_tema"
+                >
+                  {{ tema.nama }}
                 </option>
-                <option value="tematik">KKN Reguler Tim I</option>
               </select>
             </div>
           </div>
@@ -36,160 +37,100 @@
                 id="choices-lokasi"
                 class="form-control"
                 name="choices-lokasi"
+                v-model="id_kecamatan"
+                @change="getListReportase()"
               >
-                <option value="dosen">Desa A</option>
-                <option value="mahasiswa">Desa B</option>
-                <option value="bappeda">Desa C</option>
+                <option value="" disabled hidden>-- Pilih lokasi --</option>
               </select>
             </div>
           </div>
-        </div>
-        <div class="bg-white card mt-4">
-          <!-- Card header -->
-          <div class="pb-0 card-header">
-            <div class="d-lg-flex">
-              <div>
-                <h5 class="mb-2">Data Reportase</h5>
-                <p class="text-sm mb-0">Data reportase program mahasiswa KKN</p>
-              </div>
-              <div class="my-auto mt-4 ms-auto mt-lg-0">
-                <div class="my-auto ms-auto">
-                  <button
-                    class="mt-2 mb-0 btn btn-outline-success btn-sm export-reportase mt-sm-0"
-                    data-type="csv"
-                    type="button"
-                    name="button"
-                  >
-                    Ekspor
-                  </button>
+          <div class="bg-white card mt-4">
+            <!-- Card header -->
+            <div class="pb-0 card-header">
+              <div class="d-lg-flex">
+                <div>
+                  <h5 class="mb-2">Data Reportase</h5>
+                  <p class="text-sm mb-0">
+                    Data reportase program mahasiswa KKN
+                  </p>
+                </div>
+                <div class="my-auto mt-4 ms-auto mt-lg-0">
+                  <div class="my-auto ms-auto">
+                    <button
+                      class="mt-2 mb-0 btn btn-outline-success btn-sm export-reportase mt-sm-0"
+                      data-type="csv"
+                      type="button"
+                      name="button"
+                    >
+                      Ekspor
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-          <div class="ms-2 pt-1 px-0 pb-0 card-body">
-            <div class="table-responsive">
-              <table id="reportase-list" class="table table-flush">
-                <thead class="thead-light">
-                  <tr>
-                    <th class="col-1 ps-2">No.</th>
-                    <th>Nama</th>
-                    <th>NIM</th>
-                    <th>Judul Program</th>
-                    <th>Kategori Program</th>
-                    <th>Tanggal Unggah</th>
-                    <th>Action</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td class="text-sm ps-3">1</td>
-                    <td class="ms-0 px-0">
-                      <h6 class="my-auto">Mahasiswa 1</h6>
-                    </td>
-                    <td class="text-sm">1234352435234</td>
-                    <td class="text-sm">Program A</td>
-                    <td class="text-sm">Monodisiplin</td>
-                    <td class="text-sm">12 April 2023</td>
-                    <td class="text-sm">
-                      <a
-                        class="me-3"
-                        href="javascript:;"
-                        data-bs-toggle="tooltip"
-                        data-bs-original-title="Detail Reportase"
-                        title="Detail Reportase"
-                      >
-                        <i class="fas fa-eye text-info"></i>
-                      </a>
-                      <!-- <a
-                        href="javascript:;"
-                        class="mx-3"
-                        data-bs-toggle="tooltip"
-                        data-bs-original-title="Edit Reportase"
-                        title="Edit Reportase"
-                      >
-                        <i class="fas fa-user-edit text-primary"></i>
-                      </a> -->
-                      <a
-                        href="javascript:;"
-                        data-bs-toggle="tooltip"
-                        data-bs-original-title="Hapus Reportase"
-                        title="Hapus Reportase"
-                      >
-                        <i class="fas fa-trash text-danger"></i>
-                      </a>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td class="text-sm ps-3">2</td>
-                    <td class="ms-0 px-0">
-                      <h6 class="my-auto">Mahasiswa 2</h6>
-                    </td>
-                    <td class="text-sm">123214312421</td>
-                    <td class="text-sm">Program B</td>
-                    <td class="text-sm">Multidisiplin</td>
-                    <td class="text-sm">1 Mei 2023</td>
-                    <td class="text-sm">
-                      <a
-                        class="me-3"
-                        href="javascript:;"
-                        data-bs-toggle="tooltip"
-                        data-bs-original-title="Detail Reportase"
-                        title="Detail Reportase"
-                      >
-                        <i class="fas fa-eye text-info"></i>
-                      </a>
-                      <a
-                        href="javascript:;"
-                        data-bs-toggle="tooltip"
-                        data-bs-original-title="Hapus Reportase"
-                        title="Hapus Reportase"
-                      >
-                        <i class="fas fa-trash text-danger"></i>
-                      </a>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td class="text-sm ps-3">3</td>
-                    <td class="ms-0 px-0">
-                      <h6 class="my-auto">Mahasiswa 3</h6>
-                    </td>
-                    <td class="text-sm">123214312421</td>
-                    <td class="text-sm">Program C</td>
-                    <td class="text-sm">Multidisiplin</td>
-                    <td class="text-sm">12 April 2023</td>
-                    <td class="text-sm">
-                      <a
-                        class="me-3"
-                        href="javascript:;"
-                        data-bs-toggle="tooltip"
-                        data-bs-original-title="Detail Reportase"
-                        title="Detail Reportase"
-                      >
-                        <i class="fas fa-eye text-info"></i>
-                      </a>
-                      <a
-                        href="javascript:;"
-                        data-bs-toggle="tooltip"
-                        data-bs-original-title="Hapus Reportase"
-                        title="Hapus Reportase"
-                      >
-                        <i class="fas fa-trash text-danger"></i>
-                      </a>
-                    </td>
-                  </tr>
-                </tbody>
-                <tfoot>
-                  <tr>
-                    <th class="col-1 ps-2">No.</th>
-                    <th>Nama</th>
-                    <th>NIM</th>
-                    <th>Judul Program</th>
-                    <th>Kategori Program</th>
-                    <th>Tanggal</th>
-                    <th>Action</th>
-                  </tr>
-                </tfoot>
-              </table>
+            <div class="ms-2 pt-1 px-0 pb-0 card-body">
+              <div class="table-responsive" :key="indexComponent">
+                <table id="reportase-list" class="table table-flush">
+                  <thead class="thead-light">
+                    <tr>
+                      <th class="col-1 ps-2">No.</th>
+                      <th>Nama</th>
+                      <th>NIM</th>
+                      <th>Judul Program</th>
+                      <th>Kategori Program</th>
+                      <th>Tanggal Unggah</th>
+                      <th>Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr
+                      v-for="(reportase, i) in g$listReportase"
+                      :key="reportase.id_reportase"
+                    >
+                      <td class="text-sm ps-3">{{ i + 1 }}</td>
+                      <td class="ms-0 px-0">
+                        <h6 class="my-auto">{{ reportase.mahasiswa.nama }}</h6>
+                      </td>
+                      <td class="text-sm">{{ reportase.mahasiswa.nim }}</td>
+                      <td class="text-sm">{{ reportase.judul }}</td>
+                      <td class="text-sm">Monodisiplin</td>
+                      <td class="text-sm">
+                        {{ moment(reportase.created_at).format("DD-MM-YYYY") }}
+                      </td>
+                      <td class="text-sm">
+                        <a
+                          class="me-3"
+                          href="javascript:;"
+                          data-bs-toggle="tooltip"
+                          data-bs-original-title="Detail Reportase"
+                          title="Detail Reportase"
+                        >
+                          <i class="fas fa-eye text-info"></i>
+                        </a>
+                        <a
+                          href="javascript:;"
+                          data-bs-toggle="tooltip"
+                          data-bs-original-title="Hapus Reportase"
+                          title="Hapus Reportase"
+                        >
+                          <i class="fas fa-trash text-danger"></i>
+                        </a>
+                      </td>
+                    </tr>
+                  </tbody>
+                  <tfoot>
+                    <tr>
+                      <th class="col-1 ps-2">No.</th>
+                      <th>Nama</th>
+                      <th>NIM</th>
+                      <th>Judul Program</th>
+                      <th>Kategori Program</th>
+                      <th>Tanggal</th>
+                      <th>Action</th>
+                    </tr>
+                  </tfoot>
+                </table>
+              </div>
             </div>
           </div>
         </div>
@@ -199,10 +140,15 @@
 </template>
 
 <script>
+import moment from "moment";
 import { DataTable } from "simple-datatables";
 import Choices from "choices.js";
 import setTooltip from "@/assets/js/tooltip.js";
 import HeaderProfileCard from "@/views/dashboards/components/HeaderProfileCard.vue";
+import { mapActions, mapState } from "pinia";
+import d$tema from "@/store/tema";
+import d$wilayah from "@/store/wilayah";
+import d$reportase from "@/store/reportase";
 
 export default {
   name: "IndexReportaseMhsAdmin",
@@ -211,53 +157,210 @@ export default {
   },
   data() {
     return {
+      id_tema: "",
+      id_kecamatan: "",
+      indexComponent: 0,
       choicesTema: undefined,
       choicesLokasi: undefined,
+      moment: moment,
     };
   },
-  mounted() {
+  computed: {
+    ...mapState(d$tema, ["g$listTema"]),
+    ...mapState(d$wilayah, ["g$listKecamatan"]),
+    ...mapState(d$reportase, ["g$listReportase"]),
+  },
+  async created() {
+    await this.getInitData();
+
     this.choicesTema = this.getChoices("choices-tema");
-    this.choicesLokasi = this.getChoices("choices-lokasi");
-
-    if (document.getElementById("reportase-list")) {
-      const dataTableSearch = new DataTable("#reportase-list", {
-        searchable: true,
-        fixedHeight: false,
-        perPage: 5,
-      });
-
-      document.querySelectorAll(".export-reportase").forEach(function (el) {
-        el.addEventListener("click", function () {
-          var type = el.dataset.type;
-
-          var data = {
-            type: type,
-            // tambah nama yang lebih spesifik, cth: nama desa, tanggal
-            filename: "Data Reportase",
-          };
-
-          // if (type === "csv") {
-          //   data.columnDelimiter = "|";
-          // }
-
-          dataTableSearch.export(data);
-        });
-      });
-    }
 
     setTooltip(this.$store.state.bootstrap);
   },
   beforeUnmount() {
-    this.choicesTema.destroy();
-    this.choicesLokasi.destroy();
+    if (this.choicesTema) this.choicesTema.destroy();
+    if (this.choicesLokasi) this.choicesLokasi.destroy();
   },
   methods: {
+    ...mapActions(d$tema, ["a$listTema"]),
+    ...mapActions(d$reportase, ["a$listReportaseKecamatan"]),
+    ...mapActions(d$wilayah, ["a$listAllKabupaten"]),
+
+    async getInitData() {
+      try {
+        await this.a$listTema();
+        this.id_tema = this.g$listTema[0].id_tema;
+
+        this.choicesLokasi = this.getChoices("choices-lokasi");
+
+        await this.getListKecamatan();
+      } catch (error) {
+        this.showSwal(
+          "failed-message",
+          error ?? "Terjadi kesalahan saat memuat data"
+        );
+        console.log(error);
+      }
+    },
+
+    async getListReportase() {
+      this.indexComponent++;
+      this.id_kecamatan = parseInt(this.id_kecamatan);
+
+      try {
+        await this.a$listReportaseKecamatan(this.id_kecamatan);
+      } catch (error) {
+        this.showSwal(
+          "failed-message",
+          error ?? "Terjadi kesalahan saat memuat data"
+        );
+        console.log(error);
+      }
+
+      this.setupDataTable();
+    },
+
+    async getListKecamatan() {
+      this.id_tema = parseInt(this.id_tema);
+
+      try {
+        await this.a$listAllKabupaten(this.id_tema);
+        this.id_kecamatan = this.g$listKecamatan[0]?.id_kecamatan ?? 0;
+        this.setChoices(this.choicesLokasi, this.g$listKecamatan);
+        await this.getListReportase();
+      } catch (error) {
+        this.showSwal(
+          "failed-message",
+          error ?? "Terjadi kesalahan saat memuat data"
+        );
+        console.log(error);
+      }
+    },
+
+    setupDataTable() {
+      if (document.getElementById("reportase-list")) {
+        const dataTableSearch = new DataTable("#reportase-list", {
+          searchable: true,
+          fixedHeight: false,
+          perPage: 5,
+        });
+
+        document.querySelectorAll(".export-reportase").forEach(function (el) {
+          el.addEventListener("click", function () {
+            var type = el.dataset.type;
+
+            var data = {
+              type: type,
+              // tambah nama yang lebih spesifik, cth: nama desa, tanggal
+              filename: "Data Reportase",
+            };
+
+            // if (type === "csv") {
+            //   data.columnDelimiter = "|";
+            // }
+
+            dataTableSearch.export(data);
+          });
+        });
+      }
+    },
+
+    setChoices(choices, option) {
+      if (choices) {
+        choices.clearChoices();
+        choices.removeActiveItems();
+
+        if (option.length !== 0) {
+          let newOption = [];
+          option.forEach((item) => {
+            newOption.push({
+              value: Object.values(item)[0],
+              label: item.nama,
+              selected: Object.values(item)[0] == this.id_kecamatan,
+            });
+          });
+          choices.setChoices(newOption);
+        } else {
+          choices.setChoices([
+            {
+              value: "",
+              label: "Tidak ada data",
+              selected: true,
+              disabled: true,
+            },
+          ]);
+        }
+      }
+    },
+
     getChoices(id) {
       var element = document.getElementById(id);
       if (element) {
         return new Choices(element, {
           searchEnabled: true,
           allowHTML: true,
+          shouldSort: false,
+        });
+      }
+    },
+
+    showSwal(type, text) {
+      if (type === "success-message") {
+        this.$swal({
+          icon: "success",
+          title: "Berhasil!",
+          text: text,
+          timer: 2500,
+          type: type,
+          timerProgressBar: true,
+          showConfirmButton: false,
+          didOpen: () => {
+            this.$swal.hideLoading();
+          },
+        });
+      } else if (type === "warning-message") {
+        this.$swal({
+          icon: "warning",
+          title: "Peringatan!",
+          text: text,
+          timer: 2500,
+          type: type,
+          timerProgressBar: true,
+          showConfirmButton: false,
+          didOpen: () => {
+            this.$swal.hideLoading();
+          },
+        });
+      } else if (type === "failed-message") {
+        this.$swal({
+          icon: "error",
+          title: "Gagal!",
+          text: text,
+          timer: 2500,
+          type: type,
+          timerProgressBar: true,
+          showConfirmButton: false,
+          didOpen: () => {
+            this.$swal.hideLoading();
+          },
+        });
+      } else if (type === "auto-close") {
+        let timerInterval;
+        this.$swal({
+          title: "Auto close alert!",
+          html: "I will close in <b></b> milliseconds.",
+          timer: 2000,
+          timerProgressBar: true,
+          didOpen: () => {
+            this.$swal.showLoading();
+            const b = this.$swal.getHtmlContainer().querySelector("b");
+            timerInterval = setInterval(() => {
+              b.textContent = this.$swal.getTimerLeft();
+            }, 100);
+          },
+          willClose: () => {
+            clearInterval(timerInterval);
+          },
         });
       }
     },

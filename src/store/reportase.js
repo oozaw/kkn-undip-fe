@@ -21,6 +21,20 @@ const d$reportase = defineStore("reportaseStore", {
       }
     },
 
+    async a$listReportaseKecamatan(id_kecamatan) {
+      try {
+        const { data, status } = await s$reportase.listReportaseKecamatan(
+          id_kecamatan
+        );
+        this.listReportase = data ?? [];
+        this.status = status;
+      } catch (error) {
+        this.listReportase = [];
+        this.status = false;
+        throw error;
+      }
+    },
+
     async a$getReportase(id_reportase) {
       try {
         const { data, status } = await s$reportase.getReportase(id_reportase);
