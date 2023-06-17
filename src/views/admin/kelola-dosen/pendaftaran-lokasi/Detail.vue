@@ -9,7 +9,11 @@
               class="mb-0 me-2"
               color="secondary"
               size="sm"
-              >Kembali</argon-button
+              ><font-awesome-icon
+                class="text-white me-2"
+                icon="fa-solid fa-arrow-left"
+                size="lg"
+              />Kembali</argon-button
             >
             <argon-button
               @click="
@@ -24,7 +28,11 @@
               class="mb-0 me-2"
               color="danger"
               size="sm"
-              >Tolak</argon-button
+              ><font-awesome-icon
+                class="text-white me-2"
+                icon="fa-solid fa-xmark"
+                size="lg"
+              />Tolak</argon-button
             >
             <argon-button
               @click="
@@ -39,7 +47,11 @@
               class="mb-0 me-lg-2"
               color="success"
               size="sm"
-              >Terima</argon-button
+              ><font-awesome-icon
+                class="text-white me-2"
+                icon="fa-solid fa-check"
+                size="lg"
+              />Terima</argon-button
             >
           </template>
         </header-profile-card>
