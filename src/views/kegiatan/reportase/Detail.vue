@@ -2,7 +2,50 @@
   <div class="container-fluid">
     <div class="row mb-5 mt-4">
       <div class="col-lg-12 mt-lg-0 mt-4">
-        <header-profile-card />
+        <header-profile-card>
+          <template #button>
+            <argon-button
+              @click="() => $router.push({ name: 'Reportase' })"
+              class="mb-0 me-2"
+              color="secondary"
+              size="sm"
+              ><font-awesome-icon
+                class="text-white me-2"
+                icon="fa-solid fa-arrow-left"
+                size="lg"
+              />Kembali</argon-button
+            >
+            <argon-button
+              @click="
+                showSwal(
+                  'warning-confirmation',
+                  `Menolak pendaftaran ${g$proposal?.dosen.nama}?`,
+                  'Berhasil memperbarui data',
+                  id_proposal,
+                  false
+                )
+              "
+              class="mb-0 me-2"
+              color="danger"
+              size="sm"
+              ><i class="fas fa-trash text-white me-2"></i>Hapus</argon-button
+            >
+            <argon-button
+              @click="
+                () =>
+                  $router.push({
+                    name: 'Edit Reportase',
+                    params: { id_reportase: id_reportase },
+                  })
+              "
+              class="mb-0 me-lg-2"
+              color="primary"
+              size="sm"
+              ><i class="fas fa-user-edit text-white me-2"></i
+              >Edit</argon-button
+            >
+          </template>
+        </header-profile-card>
         <div class="bg-white pb-2 card mt-4">
           <!-- Card header -->
           <div class="pb-0 card-header">
@@ -71,6 +114,7 @@
 import { QuillEditor } from "@vueup/vue-quill";
 import moment from "moment";
 import HeaderProfileCard from "@/views/dashboards/components/HeaderProfileCard.vue";
+import ArgonButton from "@/components/ArgonButton.vue";
 import { mapActions, mapState } from "pinia";
 import d$reportase from "@/store/reportase";
 
@@ -79,6 +123,7 @@ export default {
   components: {
     HeaderProfileCard,
     QuillEditor,
+    ArgonButton,
   },
   data() {
     return {
