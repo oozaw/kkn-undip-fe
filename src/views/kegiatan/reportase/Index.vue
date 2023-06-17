@@ -60,16 +60,16 @@
                           class="detail"
                           href="#"
                           data-bs-toggle="tooltip"
-                          data-bs-original-title="Detail Reportase"
                           title="Detail Reportase"
                         >
                           <i class="fas fa-eye text-info"></i>
                         </a>
                         <a
-                          href="javascript:;"
-                          class="mx-3"
+                          :id="report.id_reportase"
+                          href="#"
+                          class="mx-3 edit"
                           data-bs-toggle="tooltip"
-                          data-bs-original-title="Edit product"
+                          title="Edit Reportase"
                         >
                           <i class="fas fa-user-edit text-primary"></i>
                         </a>
@@ -233,7 +233,7 @@ import $ from "jquery";
 import { DataTable } from "simple-datatables";
 import moment from "moment";
 import Choices from "choices.js";
-import setTooltip from "@/assets/js/tooltip.js";
+// import setTooltip from "@/assets/js/tooltip.js";
 import HeaderProfileCard from "@/views/dashboards/components/HeaderProfileCard.vue";
 import { mapActions, mapState } from "pinia";
 import d$auth from "@/store/auth";
@@ -274,7 +274,7 @@ export default {
       this.getTema();
     }
 
-    setTooltip(this.$store.state.bootstrap);
+    // setTooltip(this.$store.state.bootstrap);
   },
   beforeUnmount() {
     if (this.choicesTema) this.choicesTema.destroy();
@@ -356,10 +356,22 @@ export default {
 
     setupTableAction() {
       let outerThis = this;
+
+      // detail reportase
       $("#reportase-list").on("click", `.detail`, function (e) {
         let reportase = this;
         outerThis.$router.push({
           name: "Detail Reportase",
+          params: { id_reportase: reportase.id },
+        });
+        e.preventDefault();
+      });
+
+      // edit reportase
+      $("#reportase-list").on("click", `.edit`, function (e) {
+        let reportase = this;
+        outerThis.$router.push({
+          name: "Edit Reportase",
           params: { id_reportase: reportase.id },
         });
         e.preventDefault();

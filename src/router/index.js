@@ -402,7 +402,7 @@ const routes = [
     },
   },
   {
-    path: "/kegiatan/reportase/edit",
+    path: "/kegiatan/reportase/edit/:id_reportase",
     name: "Edit Reportase",
     component: EditReportase,
     meta: {
