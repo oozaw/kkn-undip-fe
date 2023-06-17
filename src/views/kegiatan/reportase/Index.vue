@@ -100,7 +100,7 @@
           <div class="bg-white card mt-4">
             <div class="card-header pb-0 pt-3">
               <p class="font-weight-bold text-dark mb-2">
-                Pilih Tema KKN Terdaftar
+                Pilih Tema dan Wilayah Terdaftar
               </p>
             </div>
             <div class="pb-3 pt-0 card-body">
@@ -109,13 +109,27 @@
                   id="choices-tema"
                   class="form-control"
                   name="choices-tema"
-                  @change="getTema()"
+                  v-model="id_tema"
+                  @change="getListKecamatan()"
                 >
-                  <option value="reguler">
-                    KKN Tematik Pengurangan Risiko Bencana Berbasis Partisipasi
-                    Masyarakat dan Komunitas
+                  <option
+                    v-for="tema in g$listTema"
+                    :key="tema.id_tema"
+                    :value="tema.id_tema"
+                  >
+                    {{ tema.nama }}
                   </option>
-                  <option value="tematik">KKN Reguler Tim I</option>
+                </select>
+              </div>
+              <div class="col-12 align-self-center mt-3">
+                <select
+                  id="choices-kecamatan"
+                  class="form-control"
+                  name="choices-kecamatan"
+                  v-model="id_kecamatan"
+                  @change="getListReportaseMhs()"
+                >
+                  <option value="" disabled>-- Pilih wilayah --</option>
                 </select>
               </div>
             </div>
@@ -136,14 +150,14 @@
                       type="button"
                       name="button"
                     >
-                      Expor to Excel
+                      Ekspor
                     </button>
                   </div>
                 </div>
               </div>
             </div>
             <div class="ms-2 pt-1 px-0 pb-0 card-body">
-              <div class="table-responsive">
+              <div class="table-responsive" :key="indexComponent">
                 <table
                   id="reportase-dosen-section-list"
                   class="table table-flush"
@@ -152,194 +166,28 @@
                     <tr>
                       <th class="col-1 ps-2">No.</th>
                       <th class="ps-0">Nama Lengkap</th>
-                      <th>Judul</th>
                       <th>NIM</th>
-                      <th>Fakultas</th>
+                      <th>Judul</th>
+                      <th>Kategori</th>
                       <th>Tanggal</th>
                       <th>Action</th>
                     </tr>
                   </thead>
                   <tbody>
-                    <tr>
-                      <td class="text-sm ps-3">1</td>
+                    <tr
+                      v-for="(reportase, i) in g$listReportase"
+                      :key="reportase.id_reportase"
+                    >
+                      <td class="text-sm ps-3">{{ i + 1 }}</td>
                       <td class="ms-0 px-0">
-                        <h6 class="my-auto">Mahasiswa 1</h6>
+                        <h6 class="my-auto">{{ reportase.mahasiswa.nama }}</h6>
                       </td>
+                      <td class="text-sm">{{ reportase.mahasiswa.nim }}</td>
+                      <td class="text-sm">{{ reportase.judul }}</td>
+                      <td class="text-sm">{{ reportase.kategori }}</td>
                       <td class="text-sm">
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                        Quisquam repellat facere exercitationem sapiente
-                        voluptate voluptatibus modi consectetur recusandae. Ad
-                        blanditiis vero nesciunt placeat officia soluta harum
-                        consequuntur voluptatum eveniet consectetur?
+                        {{ moment(reportase.created_at).format("DD-MM-YYYY") }}
                       </td>
-                      <td class="text-sm">249572834239</td>
-                      <td class="text-sm">FSM</td>
-                      <td class="text-sm">23 April 2023</td>
-                      <td class="text-sm">
-                        <a
-                          href="javascript:;"
-                          class="me-3"
-                          data-bs-toggle="tooltip"
-                          data-bs-original-title="Preview product"
-                        >
-                          <i class="fas fa-eye text-info"></i>
-                        </a>
-                        <a
-                          href="javascript:;"
-                          data-bs-toggle="tooltip"
-                          data-bs-original-title="Delete product"
-                        >
-                          <i class="fas fa-trash text-danger"></i>
-                        </a>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td class="text-sm ps-3">2</td>
-                      <td class="ms-0 px-0">
-                        <h6 class="my-auto">Mahasiswa 2</h6>
-                      </td>
-                      <td class="text-sm">
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                        Quisquam repellat facere exercitationem sapiente
-                        voluptate voluptatibus modi consectetur recusandae. Ad
-                        blanditiis vero nesciunt placeat officia soluta harum
-                        consequuntur voluptatum eveniet consectetur?
-                      </td>
-                      <td class="text-sm">249572834239</td>
-                      <td class="text-sm">FSM</td>
-                      <td class="text-sm">23 April 2023</td>
-                      <td class="text-sm">
-                        <a
-                          href="javascript:;"
-                          class="me-3"
-                          data-bs-toggle="tooltip"
-                          data-bs-original-title="Preview product"
-                        >
-                          <i class="fas fa-eye text-info"></i>
-                        </a>
-                        <a
-                          href="javascript:;"
-                          data-bs-toggle="tooltip"
-                          data-bs-original-title="Delete product"
-                        >
-                          <i class="fas fa-trash text-danger"></i>
-                        </a>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td class="text-sm ps-3">3</td>
-                      <td class="ms-0 px-0">
-                        <h6 class="my-auto">Mahasiswa 3</h6>
-                      </td>
-                      <td class="text-sm">
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                        Quisquam repellat facere exercitationem sapiente
-                        voluptate voluptatibus modi consectetur recusandae. Ad
-                        blanditiis vero nesciunt placeat officia soluta harum
-                        consequuntur voluptatum eveniet consectetur?
-                      </td>
-                      <td class="text-sm">249572834239</td>
-                      <td class="text-sm">FSM</td>
-                      <td class="text-sm">23 April 2023</td>
-                      <td class="text-sm">
-                        <a
-                          href="javascript:;"
-                          class="me-3"
-                          data-bs-toggle="tooltip"
-                          data-bs-original-title="Preview product"
-                        >
-                          <i class="fas fa-eye text-info"></i>
-                        </a>
-                        <a
-                          href="javascript:;"
-                          data-bs-toggle="tooltip"
-                          data-bs-original-title="Delete product"
-                        >
-                          <i class="fas fa-trash text-danger"></i>
-                        </a>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td class="text-sm ps-3">4</td>
-                      <td class="ms-0 px-0">
-                        <h6 class="my-auto">Mahasiswa 4</h6>
-                      </td>
-                      <td class="text-sm">
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                        Quisquam repellat facere exercitationem sapiente
-                        voluptate voluptatibus modi consectetur recusandae. Ad
-                        blanditiis vero nesciunt placeat officia soluta harum
-                        consequuntur voluptatum eveniet consectetur?
-                      </td>
-                      <td class="text-sm">249572834239</td>
-                      <td class="text-sm">FSM</td>
-                      <td class="text-sm">23 April 2023</td>
-                      <td class="text-sm">
-                        <a
-                          href="javascript:;"
-                          class="me-3"
-                          data-bs-toggle="tooltip"
-                          data-bs-original-title="Preview product"
-                        >
-                          <i class="fas fa-eye text-info"></i>
-                        </a>
-                        <a
-                          href="javascript:;"
-                          data-bs-toggle="tooltip"
-                          data-bs-original-title="Delete product"
-                        >
-                          <i class="fas fa-trash text-danger"></i>
-                        </a>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td class="text-sm ps-3">5</td>
-                      <td class="ms-0 px-0">
-                        <h6 class="my-auto">Mahasiswa 5</h6>
-                      </td>
-                      <td class="text-sm">
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                        Quisquam repellat facere exercitationem sapiente
-                        voluptate voluptatibus modi consectetur recusandae. Ad
-                        blanditiis vero nesciunt placeat officia soluta harum
-                        consequuntur voluptatum eveniet consectetur?
-                      </td>
-                      <td class="text-sm">249572834239</td>
-                      <td class="text-sm">FSM</td>
-                      <td class="text-sm">23 April 2023</td>
-                      <td class="text-sm">
-                        <a
-                          href="javascript:;"
-                          class="me-3"
-                          data-bs-toggle="tooltip"
-                          data-bs-original-title="Preview product"
-                        >
-                          <i class="fas fa-eye text-info"></i>
-                        </a>
-                        <a
-                          href="javascript:;"
-                          data-bs-toggle="tooltip"
-                          data-bs-original-title="Delete product"
-                        >
-                          <i class="fas fa-trash text-danger"></i>
-                        </a>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td class="text-sm ps-3">6</td>
-                      <td class="ms-0 px-0">
-                        <h6 class="my-auto">Mahasiswa 6</h6>
-                      </td>
-                      <td class="text-sm">
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                        Quisquam repellat facere exercitationem sapiente
-                        voluptate voluptatibus modi consectetur recusandae. Ad
-                        blanditiis vero nesciunt placeat officia soluta harum
-                        consequuntur voluptatum eveniet consectetur?
-                      </td>
-                      <td class="text-sm">249572834239</td>
-                      <td class="text-sm">FSM</td>
-                      <td class="text-sm">23 April 2023</td>
                       <td class="text-sm">
                         <a
                           href="javascript:;"
@@ -363,9 +211,9 @@
                     <tr>
                       <th class="col-1 ps-2">No.</th>
                       <th class="ps-0">Nama Lengkap</th>
-                      <th>Judul</th>
                       <th>NIM</th>
-                      <th>Fakultas</th>
+                      <th>Judul</th>
+                      <th>Kategori</th>
                       <th>Tanggal</th>
                       <th>Action</th>
                     </tr>
@@ -389,6 +237,8 @@ import setTooltip from "@/assets/js/tooltip.js";
 import HeaderProfileCard from "@/views/dashboards/components/HeaderProfileCard.vue";
 import { mapActions, mapState } from "pinia";
 import d$auth from "@/store/auth";
+import d$tema from "@/store/tema";
+import d$proposal from "@/store/proposal";
 import d$reportase from "@/store/reportase";
 
 export default {
@@ -400,26 +250,94 @@ export default {
     return {
       indexComponent: 0,
       tema: "tema",
+      id_tema: 0,
+      id_kecamatan: 0,
+      choicesTema: undefined,
+      choicesKec: undefined,
       moment: moment,
     };
   },
   computed: {
     ...mapState(d$auth, ["g$user"]),
     ...mapState(d$reportase, ["g$listReportase"]),
+    ...mapState(d$tema, ["g$listTema"]),
+    ...mapState(d$proposal, ["g$listProposal"]),
   },
   async created() {
-    if (this.g$user.role === "MAHASISWA") await this.getListReportase();
+    if (this.g$user.role === "MAHASISWA") await this.getListReportaseMhs();
 
-    if (this.g$user.role === "DOSEN") this.getTema();
+    if (this.g$user.role === "DOSEN") {
+      await this.getInitData();
 
-    this.getChoices("choices-tema");
+      this.choicesTema = this.getChoices("choices-tema");
+
+      this.getTema();
+    }
 
     setTooltip(this.$store.state.bootstrap);
   },
+  beforeUnmount() {
+    if (this.choicesTema) this.choicesTema.destroy();
+    if (this.choicesKec) this.choicesKec.destroy();
+  },
   methods: {
-    ...mapActions(d$reportase, ["a$listReportase"]),
+    ...mapActions(d$tema, ["a$listTemaDosen"]),
+    ...mapActions(d$proposal, ["a$listProposalDosen"]),
+    ...mapActions(d$reportase, ["a$listReportase", "a$listReportaseKecamatan"]),
 
-    async getListReportase() {
+    async getInitData() {
+      try {
+        await this.a$listTemaDosen();
+        this.id_tema = this.g$listTema[0].id_tema;
+
+        this.choicesKec = this.getChoices("choices-kecamatan");
+
+        await this.getListKecamatan();
+      } catch (error) {
+        this.showSwal(
+          "failed-message",
+          error ?? "Terjadi kesalahan saat memuat data"
+        );
+        console.log(error);
+      }
+    },
+
+    async getListReportaseDosen() {
+      this.indexComponent++;
+      this.id_kecamatan = parseInt(this.id_kecamatan);
+
+      try {
+        await this.a$listReportaseKecamatan(this.id_kecamatan);
+      } catch (error) {
+        this.showSwal(
+          "failed-message",
+          error ?? "Terjadi kesalahan saat memuat data"
+        );
+        console.log(error);
+      }
+
+      this.setupDataTable("reportase-dosen-section-list");
+      // this.setupTableAction();
+    },
+
+    async getListKecamatan() {
+      this.id_tema = parseInt(this.id_tema);
+
+      try {
+        await this.a$listProposalDosen(this.id_tema);
+        this.id_kecamatan = this.g$listProposal[0]?.id_kecamatan ?? 0;
+        this.setChoices(this.choicesKec, this.g$listProposal);
+        await this.getListReportaseDosen();
+      } catch (error) {
+        this.showSwal(
+          "failed-message",
+          error ?? "Terjadi kesalahan saat memuat data"
+        );
+        console.log(error);
+      }
+    },
+
+    async getListReportaseMhs() {
       this.indexComponent++;
 
       try {
@@ -496,12 +414,43 @@ export default {
       }
     },
 
+    setChoices(choices, option) {
+      if (choices) {
+        choices.clearChoices();
+        choices.removeActiveItems();
+
+        if (option.length !== 0) {
+          let newOption = [];
+          option.forEach((item) => {
+            if (Object.values(item)[7] == 1) {
+              newOption.push({
+                value: Object.values(item)[1],
+                label: Object.values(item)[10].nama,
+                selected: Object.values(item)[1] == this.id_kecamatan,
+              });
+            }
+          });
+          choices.setChoices(newOption);
+        } else {
+          choices.setChoices([
+            {
+              value: "",
+              label: "Tidak ada data",
+              selected: true,
+              disabled: true,
+            },
+          ]);
+        }
+      }
+    },
+
     getChoices(id) {
       if (document.getElementById(id)) {
         var element = document.getElementById(id);
         return new Choices(element, {
           searchEnabled: false,
           allowHTML: true,
+          shouldSort: false,
         });
       }
     },
