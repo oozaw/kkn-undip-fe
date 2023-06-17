@@ -15,10 +15,13 @@ const addReportase = (body) => baseApi.post(`${api}mahasiswa/reportase`, body);
 const editReportase = (id_reportase, body) =>
   baseApi.put(`${api}mahasiswa/reportase/${id_reportase}`, body);
 
+const evalReportase = (body) => baseApi.put(`${api}dosen/reportase`, body);
+
 export {
   listReportase,
   listReportaseKecamatan,
   addReportase,
   getReportase,
   editReportase,
+  evalReportase,
 };

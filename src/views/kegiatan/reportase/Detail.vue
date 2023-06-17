@@ -73,23 +73,6 @@
               <div class="col-12">
                 <ul class="list-group">
                   <li class="text-sm border-0 list-group-item ps-0">
-                    <strong class="text-dark">Komentar:</strong>
-                  </li>
-                </ul>
-                <quill-editor
-                  class="bg-white"
-                  :options="options"
-                  id="komentar-editor"
-                  v-model:content="g$reportase.komentar"
-                  contentType="html"
-                  theme="snow"
-                ></quill-editor>
-              </div>
-            </div>
-            <div class="mt-3 row pb-5">
-              <div class="col-12">
-                <ul class="list-group">
-                  <li class="text-sm border-0 list-group-item ps-0">
                     <strong class="text-dark">Isi Reportase:</strong>
                   </li>
                 </ul>
@@ -98,6 +81,23 @@
                   :options="options"
                   id="isi-editor"
                   v-model:content="g$reportase.isi"
+                  contentType="html"
+                  theme="snow"
+                ></quill-editor>
+              </div>
+            </div>
+            <div class="row mt-3 pb-5">
+              <div class="col-12">
+                <ul class="list-group">
+                  <li class="text-sm border-0 list-group-item ps-0">
+                    <strong class="text-dark">Komentar:</strong>
+                  </li>
+                </ul>
+                <quill-editor
+                  class="bg-white"
+                  :options="options"
+                  id="komentar-editor"
+                  v-model:content="g$reportase.komentar"
                   contentType="html"
                   theme="snow"
                 ></quill-editor>
@@ -141,6 +141,7 @@ export default {
     ...mapState(d$reportase, ["g$reportase"]),
   },
   async created() {
+    moment.locale("id");
     await this.a$getReportase(this.id_reportase);
   },
   methods: {

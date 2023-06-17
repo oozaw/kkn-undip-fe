@@ -91,6 +91,7 @@ import IndexReportase from "../views/kegiatan/reportase/Index.vue";
 import DetailReportase from "../views/kegiatan/reportase/Detail.vue";
 import AddReportase from "../views/kegiatan/reportase/Add.vue";
 import EditReportase from "../views/kegiatan/reportase/Edit.vue";
+import EvaluateReportase from "../views/kegiatan/reportase/Evaluate.vue";
 import IndexRegistrasi from "../views/pendaftaran/registrasi/Index.vue";
 import AddRegistrasi from "../views/pendaftaran/registrasi/Add.vue";
 import SeleksiMhs from "../views/seleksi/Index.vue";
@@ -407,6 +408,14 @@ const routes = [
     component: EditReportase,
     meta: {
       requiresAuth: [Role.mahasiswa],
+    },
+  },
+  {
+    path: "/kegiatan/reportase/evaluasi/:id_reportase",
+    name: "Evaluasi Reportase",
+    component: EvaluateReportase,
+    meta: {
+      requiresAuth: [Role.dosen],
     },
   },
   {

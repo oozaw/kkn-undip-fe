@@ -190,12 +190,113 @@
                       </td>
                       <td class="text-sm">
                         <a
-                          href="javascript:;"
-                          class="me-3"
-                          data-bs-toggle="tooltip"
-                          data-bs-original-title="Preview product"
+                          type="button"
+                          class="mb-0 me-3 text-primary"
+                          data-bs-toggle="modal"
+                          :data-bs-target="'#detail_' + reportase.id_reportase"
+                          title="Detail Reportase"
                         >
                           <i class="fas fa-eye text-info"></i>
+                        </a>
+                        <div
+                          :id="'detail_' + reportase.id_reportase"
+                          class="modal fade"
+                          tabindex="-1"
+                          aria-hidden="true"
+                        >
+                          <div class="modal-dialog modal-lg mt-lg-5">
+                            <div class="modal-content">
+                              <div class="modal-header">
+                                <h5 id="ModalLabel" class="modal-title">
+                                  Detail Reportase
+                                  {{ reportase.mahasiswa.nama }}
+                                </h5>
+                                <button
+                                  type="button"
+                                  class="btn-close text-dark mb-0"
+                                  data-bs-dismiss="modal"
+                                  aria-label="Close"
+                                >
+                                  <font-awesome-icon icon="fa-solid fa-xmark" />
+                                </button>
+                              </div>
+                              <div class="modal-body p-4">
+                                <ul class="list-group">
+                                  <li
+                                    class="pt-0 text-sm border-0 list-group-item ps-0"
+                                  >
+                                    <strong class="text-dark"
+                                      >Nama Lengkap:</strong
+                                    >
+                                    &nbsp;
+                                    {{ reportase.mahasiswa.nama }}
+                                  </li>
+                                  <li
+                                    class="text-sm border-0 list-group-item ps-0"
+                                  >
+                                    <strong class="text-dark">NIM:</strong>
+                                    &nbsp;
+                                    {{ reportase.mahasiswa.nim }}
+                                  </li>
+                                  <li
+                                    class="text-sm border-0 list-group-item ps-0"
+                                  >
+                                    <strong class="text-dark">Fakultas:</strong>
+                                    &nbsp;
+                                    {{
+                                      reportase.mahasiswa.prodi.fakultas.nama
+                                    }}
+                                  </li>
+                                  <li
+                                    class="text-sm border-0 list-group-item ps-0"
+                                  >
+                                    <strong class="text-dark">Prodi:</strong>
+                                    &nbsp;
+                                    {{ reportase.mahasiswa.prodi.nama }}
+                                  </li>
+                                  <li
+                                    class="text-sm border-0 list-group-item ps-0"
+                                  >
+                                    <strong class="text-dark">Judul:</strong>
+                                    &nbsp;
+                                    {{ reportase.judul }}
+                                  </li>
+                                  <li
+                                    class="text-sm border-0 list-group-item ps-0"
+                                  >
+                                    <strong class="text-dark">Isi:</strong>
+                                    &nbsp;
+                                    <div
+                                      class="text-wrap"
+                                      v-html="getOutOfTagP(reportase.isi)"
+                                    ></div>
+                                  </li>
+                                  <li class="border-0 list-group-item ps-0">
+                                    <strong class="text-sm text-dark"
+                                      >Komentar:</strong
+                                    >
+                                    &nbsp;
+                                    <div
+                                      class="text-wrap"
+                                      v-html="getOutOfTagP(reportase.komentar)"
+                                    ></div>
+                                  </li>
+                                </ul>
+                              </div>
+                              <div class="modal-footer"></div>
+                            </div>
+                          </div>
+                        </div>
+                        <a
+                          :id="reportase.id_reportase"
+                          :name="reportase.mahasiswa.nama"
+                          href="#"
+                          class="me-3 edit"
+                          data-bs-toggle="tooltip"
+                          data-bs-original-title="Evaluasi Reportase"
+                          title="Evaluasi Reportase"
+                        >
+                          <i class="fas fa-user-edit text-primary"></i>
                         </a>
                         <a
                           href="javascript:;"
@@ -317,7 +418,7 @@ export default {
       }
 
       this.setupDataTable("reportase-dosen-section-list");
-      // this.setupTableAction();
+      this.setupTableAction();
     },
 
     async getListKecamatan() {
@@ -372,6 +473,16 @@ export default {
         let reportase = this;
         outerThis.$router.push({
           name: "Edit Reportase",
+          params: { id_reportase: reportase.id },
+        });
+        e.preventDefault();
+      });
+
+      // evaluate reportase
+      $("#reportase-dosen-section-list").on("click", ".edit", function (e) {
+        let reportase = this;
+        outerThis.$router.push({
+          name: "Evaluasi Reportase",
           params: { id_reportase: reportase.id },
         });
         e.preventDefault();
@@ -465,6 +576,20 @@ export default {
           shouldSort: false,
         });
       }
+    },
+
+    getOutOfTagP(element) {
+      var temp = $("<div>").html(element);
+      temp.find("p").each(function () {
+        $(this).replaceWith(this.childNodes);
+      });
+
+      var output = temp.html();
+      return output;
+      // var div = document.createElement("div");
+      // div.innerHTML = element;
+      // var text = div.textContent || div.innerHTML || "";
+      // return text;
     },
 
     getTema() {

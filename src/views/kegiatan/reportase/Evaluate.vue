@@ -18,7 +18,7 @@
               color="primary"
               variant="gradient"
               size="sm"
-              >Simpan Reportase</argon-button
+              >Simpan Evaluasi</argon-button
             >
           </template>
         </header-profile-card>
@@ -26,16 +26,104 @@
           <!-- Card header -->
           <div class="pb-0 card-header">
             <div class="d-lg-flex">
-              <h5 class="mb-2">Edit Reportase</h5>
+              <h5 class="mb-2">Evaluasi Reportase</h5>
             </div>
           </div>
           <div class="ms-2 pt-1 ps-3 card-body">
             <form
               role="form"
               id="form-edit-reportase"
-              @submit.prevent="updateReportase()"
+              @submit.prevent="evalReportase()"
             >
               <div class="mt-2 row">
+                <div class="col-6">
+                  <label>Nama Mahasiswa</label>
+                  <input
+                    id="nama-mhs"
+                    name="nama-mhs"
+                    class="form-control"
+                    type="text"
+                    :value="g$reportase.mahasiswa.nama"
+                    readonly
+                  />
+                </div>
+                <div class="col-6">
+                  <label>NIM</label>
+                  <input
+                    id="nim-mhs"
+                    name="nim-mhs"
+                    class="form-control"
+                    type="text"
+                    :value="g$reportase.mahasiswa.nim"
+                    readonly
+                  />
+                </div>
+              </div>
+              <div class="mt-4 row">
+                <div class="col-6">
+                  <label>Fakultas</label>
+                  <input
+                    class="form-control"
+                    type="text"
+                    :value="g$reportase.fakultas"
+                    readonly
+                  />
+                </div>
+                <div class="col-6">
+                  <label>Prodi</label>
+                  <input
+                    class="form-control"
+                    type="text"
+                    :value="g$reportase.prodi"
+                    readonly
+                  />
+                </div>
+              </div>
+              <div class="mt-4 row">
+                <div class="col-4">
+                  <label>Tema</label>
+                  <input
+                    class="form-control"
+                    type="text"
+                    :value="g$reportase.tema"
+                    readonly
+                  />
+                </div>
+                <div class="col-4">
+                  <label>Kabupaten</label>
+                  <input
+                    class="form-control"
+                    type="text"
+                    :value="g$reportase.kabupaten"
+                    readonly
+                  />
+                </div>
+                <div class="col-4">
+                  <label>Kecamatan</label>
+                  <input
+                    class="form-control"
+                    type="text"
+                    :value="g$reportase.kecamatan"
+                    readonly
+                  />
+                </div>
+              </div>
+              <div class="mt-4 row">
+                <div class="col-6">
+                  <label>Tanggal Unggah</label>
+                  <input
+                    class="form-control"
+                    type="text"
+                    :value="
+                      moment(g$reportase.created_at).format(
+                        'dddd, DD MMMM YYYY HH:mm:ss'
+                      )
+                    "
+                    readonly
+                  />
+                </div>
+              </div>
+              <div class="mt-4 row">
                 <div class="col-12">
                   <label>Judul Reportase</label>
                   <input
@@ -43,26 +131,36 @@
                     name="judul"
                     class="form-control"
                     type="text"
-                    required
                     placeholder="Judul reportase"
-                    v-model="body.judul"
+                    v-model="g$reportase.judul"
+                    readonly
                   />
                 </div>
               </div>
-              <div class="row pb-7">
+              <div class="row">
                 <div class="col-12">
                   <label class="mt-4">Isi Reportase</label>
-                  <div id="isi-editor" class="h-100"></div>
-                  <!-- <quill-editor
-                    id="isi-editor"
+                  <quill-editor
+                    class="bg-white"
                     :options="options"
-                    style="height: 280px"
-                    v-model:content="body.isi"
+                    id="isi-editor"
+                    v-model:content="g$reportase.isi"
                     contentType="html"
                     theme="snow"
-                    placeholder="Isi dengan konten reportase program kerja"
-                    ref="isiEditor"
-                  ></quill-editor> -->
+                  ></quill-editor>
+                </div>
+              </div>
+              <div class="row pt-5">
+                <div class="col-12">
+                  <label class="mt-4">Komentar</label>
+                  <quill-editor
+                    id="latar-belakang-editor"
+                    style="height: 180px"
+                    v-model:content="body.komentar"
+                    contentType="html"
+                    toolbar="essential"
+                    theme="snow"
+                  ></quill-editor>
                 </div>
               </div>
               <div class="row mt-2">
@@ -80,7 +178,7 @@
                     color="primary"
                     variant="gradient"
                     size="sm"
-                    >Simpan Reportase</argon-button
+                    >Simpan Evaluasi</argon-button
                   >
                 </div>
               </div>
@@ -93,11 +191,11 @@
 </template>
 
 <script>
-import Quill from "quill";
+import { QuillEditor } from "@vueup/vue-quill";
+import moment from "moment";
 import HeaderProfileCard from "@/views/dashboards/components/HeaderProfileCard.vue";
 import ArgonButton from "@/components/ArgonButton.vue";
 import { mapActions, mapState } from "pinia";
-import d$auth from "@/store/auth";
 import d$reportase from "@/store/reportase";
 
 export default {
@@ -105,52 +203,51 @@ export default {
   components: {
     HeaderProfileCard,
     ArgonButton,
+    QuillEditor,
   },
   data() {
     return {
       id_reportase: parseInt(this.$route.params.id_reportase),
       quill: undefined,
-      body: {
-        id_tema: "",
+      data: {
+        nama_mhs: "",
+        nim_mhs: "",
+        prodi: "",
+        fakultas: "",
+        tema: "",
+        kecamatan: "",
+        kabupaten: "",
         judul: "",
         isi: "",
       },
+      body: {
+        id_reportase: parseInt(this.$route.params.id_reportase),
+        komentar: "",
+      },
       options: {
         modules: {
-          toolbar: {
-            container: [["bold", "image"]],
-            handlers: {
-              image: "",
-            },
-          },
+          toolbar: false,
         },
+        readOnly: true,
       },
+      moment,
     };
   },
   computed: {
-    ...mapState(d$auth, ["g$infoUser"]),
     ...mapState(d$reportase, ["g$reportase"]),
   },
   async created() {
+    moment.locale("id");
     await this.getReportase();
-
-    this.setupQuill();
   },
   methods: {
-    ...mapActions(d$reportase, ["a$editReportase", "a$getReportase"]),
+    ...mapActions(d$reportase, ["a$evalReportase", "a$getReportase"]),
 
-    async updateReportase() {
+    async evalReportase() {
       this.showSwal("loading");
 
       try {
-        this.body.isi =
-          document.getElementById("isi-editor").children[0].innerHTML;
-
-        if (
-          !this.body.judul ||
-          this.body.judul == "" ||
-          this.isQuillEmpty(this.body.isi)
-        ) {
+        if (this.isQuillEmpty(this.body.komentar)) {
           this.showSwal(
             "warning-message",
             "Data belum lengkap, lengkapi semua data terlebih dahulu!"
@@ -158,17 +255,14 @@ export default {
           return;
         }
 
-        this.body.id_tema = parseInt(this.g$infoUser.id_tema);
-
-        // const size =
-        //   encodeURI(JSON.stringify(this.body)).split(/%..|./).length - 1;
-        // console.log(size);
-
-        await this.a$editReportase(this.id_reportase, this.body);
-        this.showSwal("success-message", "Data reportase berhasil disimpan");
+        await this.a$evalReportase(this.body);
+        this.showSwal(
+          "success-message",
+          "Evaluasi reportase berhasil disimpan"
+        );
         this.$router.push({ name: "Reportase" });
       } catch (error) {
-        this.showSwal("failed-message", "Data reportase gagal disimpan");
+        this.showSwal("failed-message", "Evaluasi reportase gagal disimpan");
         console.log(error);
       }
     },
@@ -178,49 +272,12 @@ export default {
 
       try {
         await this.a$getReportase(this.id_reportase);
-        this.body.judul = this.g$reportase.judul;
+        this.body.komentar = this.g$reportase.komentar;
         document.getElementById("isi-editor").innerHTML = this.g$reportase.isi;
         this.showSwal("close");
       } catch (error) {
         this.showSwal("failed-message", "Data reportase gagal dimuat");
         console.log(error);
-      }
-    },
-
-    setupQuill() {
-      this.quill = new Quill("#isi-editor", {
-        theme: "snow",
-        modules: {
-          toolbar: {
-            container: [
-              [{ font: [] }, { size: [] }],
-              ["bold", "italic", "underline", "strike"],
-              [{ color: [] }, { background: [] }],
-              [{ script: "super" }, { script: "sub" }],
-              [{ header: "1" }, { header: "2" }, "blockquote", "code-block"],
-              [
-                { list: "ordered" },
-                { list: "bullet" },
-                { indent: "-1" },
-                { indent: "+1" },
-              ],
-              ["direction", { align: [] }],
-              ["link", "image", "video"],
-              ["clean"],
-            ],
-            handlers: {
-              image: this.imageHandler,
-            },
-          },
-        },
-      });
-    },
-
-    imageHandler() {
-      var range = this.quill.getSelection(true);
-      var value = prompt("please copy paste the image url here.");
-      if (value) {
-        this.quill.insertEmbed(range, "image", value);
       }
     },
 

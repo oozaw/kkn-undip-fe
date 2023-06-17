@@ -117,7 +117,7 @@
                             <div class="modal-content">
                               <div class="modal-header">
                                 <h5 id="ModalLabel" class="modal-title">
-                                  Detail Reporase
+                                  Detail Reportase
                                   {{ reportase.mahasiswa.nama }}
                                 </h5>
                                 <button

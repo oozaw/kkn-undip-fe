@@ -65,6 +65,16 @@ const d$reportase = defineStore("reportaseStore", {
         throw error;
       }
     },
+
+    async a$evalReportase(body) {
+      try {
+        const status = await s$reportase.evalReportase(body);
+        this.status = status;
+      } catch (error) {
+        this.status = false;
+        throw error;
+      }
+    },
   },
   getters: {
     g$listReportase: ({ listReportase }) => listReportase,
