@@ -479,23 +479,27 @@
                 :to="{ name: 'LRK' }"
                 mini-icon="R"
                 text="LRK"
+                :isDisabled="!isMhsAccepted()"
               />
               <sidenav-item
                 :isActive="getRoute2() === 'lpk'"
                 :to="{ name: 'LPK' }"
                 mini-icon="P"
                 text="LPK"
+                :isDisabled="!isMhsAccepted()"
               />
               <sidenav-item
                 :isActive="getRoute2() === 'reportase'"
                 :to="{ name: 'Reportase' }"
                 mini-icon="R"
                 text="Data Reportase"
+                :isDisabled="!isMhsAccepted()"
               />
               <sidenav-item
                 :to="{ name: 'Presensi' }"
                 mini-icon="P"
                 text="Presensi"
+                :isDisabled="!isMhsAccepted()"
               />
               <sidenav-item
                 :to="{ name: 'Review Presensi Mahasiswa' }"
@@ -540,13 +544,16 @@
 import SidenavItem from "./SidenavItem.vue";
 import SidenavCollapse from "./SidenavCollapse.vue";
 import d$auth from "@/store/auth";
-import { mapActions } from "pinia";
+import { mapActions, mapState } from "pinia";
 
 export default {
   name: "SidenavList",
   components: {
     SidenavItem,
     SidenavCollapse,
+  },
+  computed: {
+    ...mapState(d$auth, ["g$infoUser"]),
   },
   methods: {
     ...mapActions(d$auth, ["a$getUser", "a$checkAuth"]),
@@ -561,6 +568,10 @@ export default {
       const routeArr = this.$route.path.split("/");
       // console.log(this.$route.path.split("/")[2]);
       return routeArr[2];
+    },
+
+    isMhsAccepted() {
+      return this.g$infoUser?.status == 2;
     },
   },
 };

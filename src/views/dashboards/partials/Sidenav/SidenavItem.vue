@@ -1,6 +1,11 @@
 <template>
   <li class="nav-item">
-    <router-link class="nav-link" :to="to" :class="{ active: isActive }">
+    <router-link
+      class="nav-link"
+      :to="to"
+      :class="{ active: isActive, disabled: isDisabled }"
+      :aria-disabled="isDisabled"
+    >
       <span class="sidenav-mini-icon"> {{ miniIcon }} </span>
       <span class="sidenav-normal"> {{ text }} </span>
     </router-link>
@@ -26,6 +31,16 @@ export default {
       type: Boolean,
       default: false,
     },
+    isDisabled: {
+      type: Boolean,
+      default: false,
+    },
   },
 };
 </script>
+<style lang="css" scoped>
+.disabled {
+  opacity: 0.5;
+  pointer-events: none;
+}
+</style>
