@@ -2,102 +2,105 @@
   <div class="container-fluid">
     <div class="row mb-5 mt-4">
       <div class="col-lg-12 mt-lg-0 mt-4">
-        <HeaderProfileCard>
-          <template #button>
-            <argon-button
-              :onclick="() => $router.push({ name: 'Index Lokasi' })"
-              class="mb-0 me-2"
-              color="secondary"
-              size="sm"
-              >Batal</argon-button
-            >
-            <argon-button
-              type="submit"
-              form="form-daftar-lokasi"
-              class="mb-0 me-lg-2"
-              color="success"
-              variant="gradient"
-              size="sm"
-              >Submit Lokasi</argon-button
-            >
-          </template>
-        </HeaderProfileCard>
-        <div class="p-4 pt-3 bg-white card mt-4">
-          <h5 class="">
-            {{
-              `Daftar Lokasi Pada Tema ${tema.nama ?? ""} di ${
-                gelombang.nama ?? ""
-              }`
-            }}
-          </h5>
-          <div class="mt-2 row">
-            <div class="col-md-4 col-12">
-              <form
-                role="form"
-                id="form-daftar-lokasi"
-                @submit.prevent="daftarLokasi()"
+        <section v-if="g$statusHalaman">
+          <HeaderProfileCard>
+            <template #button>
+              <argon-button
+                :onclick="() => $router.push({ name: 'Index Lokasi' })"
+                class="mb-0 me-2"
+                color="secondary"
+                size="sm"
+                >Batal</argon-button
               >
-                <div class="row">
-                  <div class="col-12 align-self-center">
-                    <label class="form-label mt-2">Provinsi</label>
-                    <select
-                      id="choices-prov"
-                      class="form-control"
-                      name="choices-prov"
-                      v-model="prov"
-                    >
-                      <option value="" disabled hidden>
-                        -- Pilih Provinsi --
-                      </option>
-                    </select>
-                  </div>
-                </div>
-                <div class="row mt-3">
-                  <div class="col-12 align-self-center">
-                    <label class="form-label mt-2">Kabupaten</label>
-                    <select
-                      id="choices-kab"
-                      class="form-control"
-                      name="choices-kab"
-                      v-model="kab"
-                      @change="getListKecamatan()"
-                    >
-                      <option value="" disabled hidden>
-                        -- Pilih Kabupaten --
-                      </option>
-                    </select>
-                  </div>
-                </div>
-                <div class="row mt-3">
-                  <div class="col-12 align-self-center">
-                    <label class="form-label mt-2">Kecamatan</label>
-                    <select
-                      id="choices-kec"
-                      class="form-control"
-                      name="choices-kec"
-                      v-model="body.id_kecamatan"
-                      @change="getPotensi()"
-                    >
-                      <option value="" disabled hidden>
-                        -- Pilih Kecamatan --
-                      </option>
-                    </select>
-                  </div>
-                </div>
-              </form>
-            </div>
-            <div class="col-md-8 col-12 mt-3 mt-md-0">
-              <div class="col-12 ms-md-2 pe-1">
-                <label class="form-label"
-                  >{{ `Potensi Kecamatan ${kec.nama ?? ""}` }}:</label
+              <argon-button
+                type="submit"
+                form="form-daftar-lokasi"
+                class="mb-0 me-lg-2"
+                color="success"
+                variant="gradient"
+                size="sm"
+                >Submit Lokasi</argon-button
+              >
+            </template>
+          </HeaderProfileCard>
+          <div class="p-4 pt-3 bg-white card mt-4">
+            <h5 class="">
+              {{
+                `Daftar Lokasi Pada Tema ${tema.nama ?? ""} di ${
+                  gelombang.nama ?? ""
+                }`
+              }}
+            </h5>
+            <div class="mt-2 row">
+              <div class="col-md-4 col-12">
+                <form
+                  role="form"
+                  id="form-daftar-lokasi"
+                  @submit.prevent="daftarLokasi()"
                 >
-                <div class="row ms-1 text-md">
-                  <span id="potensi" class="" v-html="kec.potensi"></span>
+                  <div class="row">
+                    <div class="col-12 align-self-center">
+                      <label class="form-label mt-2">Provinsi</label>
+                      <select
+                        id="choices-prov"
+                        class="form-control"
+                        name="choices-prov"
+                        v-model="prov"
+                      >
+                        <option value="" disabled hidden>
+                          -- Pilih Provinsi --
+                        </option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="row mt-3">
+                    <div class="col-12 align-self-center">
+                      <label class="form-label mt-2">Kabupaten</label>
+                      <select
+                        id="choices-kab"
+                        class="form-control"
+                        name="choices-kab"
+                        v-model="kab"
+                        @change="getListKecamatan()"
+                      >
+                        <option value="" disabled hidden>
+                          -- Pilih Kabupaten --
+                        </option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="row mt-3">
+                    <div class="col-12 align-self-center">
+                      <label class="form-label mt-2">Kecamatan</label>
+                      <select
+                        id="choices-kec"
+                        class="form-control"
+                        name="choices-kec"
+                        v-model="body.id_kecamatan"
+                        @change="getPotensi()"
+                      >
+                        <option value="" disabled hidden>
+                          -- Pilih Kecamatan --
+                        </option>
+                      </select>
+                    </div>
+                  </div>
+                </form>
+              </div>
+              <div class="col-md-8 col-12 mt-3 mt-md-0">
+                <div class="col-12 ms-md-2 pe-1">
+                  <label class="form-label"
+                    >{{ `Potensi Kecamatan ${kec.nama ?? ""}` }}:</label
+                  >
+                  <div class="row ms-1 text-md">
+                    <span id="potensi" class="" v-html="kec.potensi"></span>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
+        </section>
+        <InactiveHalaman v-else />
       </div>
     </div>
   </div>
@@ -107,17 +110,20 @@
 import * as Choices from "choices.js";
 import HeaderProfileCard from "@/views/dashboards/components/HeaderProfileCard.vue";
 import ArgonButton from "@/components/ArgonButton.vue";
+import InactiveHalaman from "@/views/dashboards/components/InactiveHalaman.vue";
 import { mapActions, mapState } from "pinia";
 import d$mahasiswa from "@/store/mahasiswa";
 import d$wilayah from "@/store/wilayah";
 import d$gelombang from "@/store/gelombang";
 import d$tema from "@/store/tema";
+import d$halaman from "@/store/halaman";
 
 export default {
   name: "DaftarLokasi",
   components: {
     HeaderProfileCard,
     ArgonButton,
+    InactiveHalaman,
   },
   data() {
     return {
@@ -142,9 +148,15 @@ export default {
     ...mapState(d$wilayah, ["g$listKabupaten", "g$listKecamatan"]),
     ...mapState(d$gelombang, ["g$listGelombang"]),
     ...mapState(d$tema, ["g$listTemaActive"]),
+    ...mapState(d$halaman, ["g$statusHalaman"]),
   },
   async created() {
-    await this.getInitData();
+    await this.a$checkHalaman(
+      parseInt(this.$route.params.id_tema),
+      parseInt(this.id_halaman)
+    );
+
+    if (this.g$statusHalaman) await this.getInitData();
 
     this.body.id_tema = parseInt(this.$route.params.id_tema);
     this.body.id_gelombang = parseInt(this.$route.params.id_gelombang);
@@ -164,6 +176,7 @@ export default {
     ...mapActions(d$wilayah, ["a$listAllKabupaten"]),
     ...mapActions(d$gelombang, ["a$listGelombang"]),
     ...mapActions(d$tema, ["a$listTema"]),
+    ...mapActions(d$halaman, ["a$checkHalaman"]),
 
     async getInitData() {
       this.showSwal("loading");
