@@ -9,4 +9,7 @@ const addHalaman = (body) => baseApi.post(`${api}admin/halaman`, body);
 const switchHalaman = (id_halaman) =>
   baseApi.patch(`${api}admin/halaman/${id_halaman}`);
 
-export { listHalaman, addHalaman, switchHalaman };
+const checkHalaman = (id_tema, id_halaman) =>
+  baseApi.get(`${api}halaman/${id_tema}/${id_halaman}`);
+
+export { listHalaman, addHalaman, switchHalaman, checkHalaman };
