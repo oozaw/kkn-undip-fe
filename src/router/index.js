@@ -107,6 +107,7 @@ import AddDesa from "../views/pengajuan-lokasi/desa/Add.vue";
 import EditDesa from "../views/pengajuan-lokasi/desa/Edit.vue";
 import IndexTemaKKN from "../views/admin/menu-utama/tema/Index.vue";
 import TambahTemaKKN from "../views/admin/menu-utama/tema/Add.vue";
+import EditTemaKKN from "../views/admin/menu-utama/tema/Edit.vue";
 import IndexGelombang from "../views/admin/menu-utama/gelombang/Index.vue";
 import IndexPengajuanWilayah from "../views/admin/menu-utama/pengajuan-wilayah/Index.vue";
 import IndexKalender from "../views/admin/menu-utama/kalender/Index.vue";
@@ -543,6 +544,14 @@ const routes = [
     path: "/admin/tema/tambah",
     name: "Tambah Tema KKN",
     component: TambahTemaKKN,
+    meta: {
+      requiresAuth: [Role.admin],
+    },
+  },
+  {
+    path: "/admin/tema/edit/:id_tema",
+    name: "Edit Tema KKN",
+    component: EditTemaKKN,
     meta: {
       requiresAuth: [Role.admin],
     },

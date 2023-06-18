@@ -118,7 +118,7 @@
                         </div>
                       </div>
                     </td>
-                    <td class="text-sm">2022/2023</td>
+                    <td class="text-sm">{{ tema.periode }}</td>
                     <td>
                       <span
                         v-if="tema.status"
@@ -140,10 +140,12 @@
                         <i class="fas fa-eye text-info"></i>
                       </a>
                       <a
-                        href="javascript:;"
-                        class="me-3"
+                        href="#"
+                        :id="tema.id_tema"
+                        class="me-3 edit"
                         data-bs-toggle="tooltip"
-                        data-bs-original-title="Edit product"
+                        data-bs-original-title="Edit Tema"
+                        title="Edit Tema"
                       >
                         <i class="fas fa-user-edit text-primary"></i>
                       </a>
@@ -282,6 +284,7 @@ export default {
         );
         e.preventDefault();
       });
+
       $("#kkn-list").on("click", `.non-aktif`, function (e) {
         let tema = this;
         outerThis.showSwal(
@@ -290,6 +293,15 @@ export default {
           "Berhasil memperbarui data",
           tema.id
         );
+        e.preventDefault();
+      });
+
+      $("#kkn-list").on("click", `.edit`, function (e) {
+        let tema = this;
+        outerThis.$router.push({
+          name: "Edit Tema KKN",
+          params: { id_tema: tema.id },
+        });
         e.preventDefault();
       });
     },
