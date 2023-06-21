@@ -202,10 +202,12 @@
                         <i class="fas fa-eye text-info"></i>
                       </a>
                       <a
-                        href="javascript:;"
-                        class="me-3"
+                        :id="gelombang.id_gelombang"
+                        href="#"
+                        class="me-3 edit"
                         data-bs-toggle="tooltip"
-                        data-bs-original-title="Edit product"
+                        data-bs-original-title="Edit Gelombang"
+                        title="Edit Gelombang"
                       >
                         <i class="fas fa-user-edit text-primary"></i>
                       </a>
@@ -403,6 +405,7 @@ export default {
         );
         e.preventDefault();
       });
+
       $("#gelombang-list").on("click", `.non-aktif`, function (e) {
         let gelombang = this;
         outerThis.showSwal(
@@ -411,6 +414,18 @@ export default {
           "Berhasil memperbarui data",
           gelombang.id
         );
+        e.preventDefault();
+      });
+
+      $("#gelombang-list").on("click", `.edit`, function (e) {
+        let gelombang = this;
+        outerThis.$router.push({
+          name: "Edit Gelombang",
+          params: {
+            id_tema: parseInt(outerThis.tema),
+            id_gelombang: gelombang.id,
+          },
+        });
         e.preventDefault();
       });
     },
@@ -470,6 +485,9 @@ export default {
           type: type,
           timerProgressBar: true,
           showConfirmButton: false,
+          didOpen: () => {
+            this.$swal.hideLoading();
+          },
         });
       } else if (type === "warning-message") {
         this.$swal({
@@ -480,6 +498,9 @@ export default {
           type: type,
           timerProgressBar: true,
           showConfirmButton: false,
+          didOpen: () => {
+            this.$swal.hideLoading();
+          },
         });
       } else if (type === "failed-message") {
         this.$swal({
@@ -490,6 +511,9 @@ export default {
           type: type,
           timerProgressBar: true,
           showConfirmButton: false,
+          didOpen: () => {
+            this.$swal.hideLoading();
+          },
         });
       } else if (type === "auto-close") {
         let timerInterval;
@@ -532,6 +556,9 @@ export default {
               showConfirmButton: false,
               timer: 2000,
               timerProgressBar: true,
+              didOpen: () => {
+                this.$swal.hideLoading();
+              },
             });
           } else if (
             /* Read more about handling dismissals below */
@@ -548,11 +575,9 @@ export default {
           allowOutsideClick: false,
           allowEscapeKey: false,
           didOpen: () => {
-            this.$swal.isLoading();
-            if (this.$swal.isLoading()) this.$swal.showLoading();
+            this.$swal.showLoading();
           },
           didDestroy: () => {
-            !this.$swal.isLoading();
             this.$swal.hideLoading();
           },
         });

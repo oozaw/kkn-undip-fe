@@ -5,6 +5,7 @@ const d$gelombang = defineStore("gelombangStore", {
   id: "gelombang",
   state: () => ({
     status: null,
+    gelombang: {},
     listGelombang: [],
     listGelombangActive: [],
   }),
@@ -85,9 +86,30 @@ const d$gelombang = defineStore("gelombangStore", {
       }
     },
 
+    async a$getGelombang(id_gelombang) {
+      try {
+        const { data, status } = await s$gelombang.getGelombang(id_gelombang);
+        this.gelombang = data ?? {};
+        this.status = status;
+      } catch (error) {
+        this.status = false;
+        throw error;
+      }
+    },
+
     async a$addGelombang(body) {
       try {
         const status = await s$gelombang.addGelombang(body);
+        this.status = status;
+      } catch (error) {
+        this.status = false;
+        throw error;
+      }
+    },
+
+    async a$editGelombang(id_gelombang, body) {
+      try {
+        const status = await s$gelombang.editGelombang(id_gelombang, body);
         this.status = status;
       } catch (error) {
         this.status = false;
@@ -106,6 +128,7 @@ const d$gelombang = defineStore("gelombangStore", {
     },
   },
   getters: {
+    g$gelombang: ({ gelombang }) => gelombang,
     g$listGelombang: ({ listGelombang }) => listGelombang,
     g$listGelombangActive: ({ listGelombangActive }) => listGelombangActive,
   },

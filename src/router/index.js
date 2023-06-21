@@ -109,6 +109,7 @@ import IndexTemaKKN from "../views/admin/menu-utama/tema/Index.vue";
 import TambahTemaKKN from "../views/admin/menu-utama/tema/Add.vue";
 import EditTemaKKN from "../views/admin/menu-utama/tema/Edit.vue";
 import IndexGelombang from "../views/admin/menu-utama/gelombang/Index.vue";
+import EditGelombang from "../views/admin/menu-utama/gelombang/Edit.vue";
 import IndexPengajuanWilayah from "../views/admin/menu-utama/pengajuan-wilayah/Index.vue";
 import IndexKalender from "../views/admin/menu-utama/kalender/Index.vue";
 import TambahKalender from "../views/admin/menu-utama/kalender/Add.vue";
@@ -560,6 +561,14 @@ const routes = [
     path: "/admin/gelombang",
     name: "Gelombang",
     component: IndexGelombang,
+    meta: {
+      requiresAuth: [Role.admin],
+    },
+  },
+  {
+    path: "/admin/gelombang/edit/:id_tema/:id_gelombang",
+    name: "Edit Gelombang",
+    component: EditGelombang,
     meta: {
       requiresAuth: [Role.admin],
     },
