@@ -5,7 +5,7 @@
         <header-profile-card>
           <template #button>
             <argon-button
-              :onclick="() => $router.push({ name: 'LPK' })"
+              :onclick="() => $router.push({ name: 'LRK' })"
               class="mb-0 me-2"
               color="secondary"
               size="sm"
@@ -13,7 +13,7 @@
             >
             <argon-button
               type="submit"
-              form="form-eval-lpk"
+              form="form-eval-lrk"
               class="mb-0 me-lg-2"
               color="primary"
               variant="gradient"
@@ -26,14 +26,14 @@
           <!-- Card header -->
           <div class="pb-0 card-header">
             <div class="d-lg-flex">
-              <h5 class="mb-2">Evaluasi LPK</h5>
+              <h5 class="mb-2">Evaluasi LRK</h5>
             </div>
           </div>
           <form
             role="form"
-            id="form-eval-lpk"
+            id="form-eval-lrk"
             enctype="multipart/form-data"
-            @submit.prevent="evalLPK()"
+            @submit.prevent="evalLRK()"
           >
             <div class="ms-2 pt-1 ps-3 card-body">
               <div class="mt-2 row">
@@ -147,64 +147,7 @@
               </div>
               <div class="row">
                 <div class="col-12">
-                  <label class="pt-7">8. Pelaksanaan Program</label>
-                  <quill-editor
-                    class="bg-light"
-                    :options="options"
-                    id="output-editor"
-                    v-model:content="g$getLaporan.pelaksanaan"
-                    contentType="html"
-                    theme="snow"
-                  ></quill-editor>
-                </div>
-              </div>
-              <div class="row">
-                <div class="col-12">
-                  <label class="pt-8">9. Capaian</label>
-                  <quill-editor
-                    class="bg-light"
-                    :options="options"
-                    id="output-editor"
-                    v-model:content="g$getLaporan.capaian"
-                    contentType="html"
-                    theme="snow"
-                  ></quill-editor>
-                </div>
-              </div>
-              <div class="row">
-                <div class="col-12">
-                  <label class="pt-9">10. Hambatan</label>
-                  <quill-editor
-                    class="bg-light"
-                    :options="options"
-                    id="output-editor"
-                    v-model:content="g$getLaporan.hambatan"
-                    contentType="html"
-                    theme="snow"
-                  ></quill-editor>
-                </div>
-              </div>
-              <div class="row">
-                <div class="col-12">
-                  <label class="pt-10">11. Keberlanjutan Program</label>
-                  <quill-editor
-                    class="bg-light"
-                    :options="options"
-                    id="output-editor"
-                    v-model:content="g$getLaporan.kelanjutan"
-                    contentType="html"
-                    theme="snow"
-                  ></quill-editor>
-                </div>
-              </div>
-              <div class="row">
-                <div class="col-12">
-                  <label class="pt-12">8. Dokumentasi</label>
-                </div>
-              </div>
-              <div class="row">
-                <div class="col-12">
-                  <label class="pt-4">Evaluasi LPK</label>
+                  <label class="pt-7">Evaluasi LRK</label>
                   <quill-editor
                     id="evaluasi-editor"
                     style="height: 180px"
@@ -224,7 +167,7 @@
                   class="col-sm-auto ms-sm-auto mt-sm-0 mt-3 d-flex justify-content-end"
                 >
                   <argon-button
-                    :onclick="() => $router.push({ name: 'LPK' })"
+                    :onclick="() => $router.push({ name: 'LRK' })"
                     class="mb-0 me-2"
                     color="secondary"
                     size="sm"
@@ -232,7 +175,7 @@
                   >
                   <argon-button
                     type="submit"
-                    form="form-eval-lpk"
+                    form="form-eval-lrk"
                     class="mb-0 me-lg-2"
                     color="primary"
                     variant="gradient"
@@ -260,7 +203,7 @@ import d$auth from "@/store/auth";
 import d$halaman from "@/store/halaman";
 
 export default {
-  name: "EvaluasiLPK",
+  name: "EvaluasiLRK",
   components: {
     HeaderProfileCard,
     ArgonButton,
@@ -293,7 +236,7 @@ export default {
     ...mapActions(d$laporan, ["a$getLaporan", "a$evaluateLaporan"]),
     ...mapActions(d$halaman, ["a$checkHalaman"]),
 
-    async evalLPK() {
+    async evalLRK() {
       this.showSwal("loading");
 
       if (this.isQuillEmpty(this.body.komentar) || !this.body.komentar) {
