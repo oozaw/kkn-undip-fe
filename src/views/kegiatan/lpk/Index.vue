@@ -416,7 +416,18 @@
                           </div>
                         </div>
                         <a
-                          href="javascript:;"
+                          :id="lpk.id_laporan"
+                          :name="lpk.mahasiswa.nama"
+                          href="#"
+                          class="me-3 edit"
+                          data-bs-toggle="tooltip"
+                          data-bs-original-title="Evaluasi LPK"
+                          title="Evaluasi LPK"
+                        >
+                          <i class="fas fa-user-edit text-primary"></i>
+                        </a>
+                        <a
+                          href="#"
                           data-bs-toggle="tooltip"
                           data-bs-original-title="Hapus LPK"
                           title="Hapus LPK"
@@ -613,6 +624,16 @@ export default {
         let lpk = this;
         outerThis.$router.push({
           name: "Edit LPK",
+          params: { id_laporan: lpk.id },
+        });
+        e.preventDefault();
+      });
+
+      // evaluate lpk for dosen
+      $("#lpk-dosen-section-list").on("click", `.edit`, function (e) {
+        let lpk = this;
+        outerThis.$router.push({
+          name: "Evaluate LPK",
           params: { id_laporan: lpk.id },
         });
         e.preventDefault();
