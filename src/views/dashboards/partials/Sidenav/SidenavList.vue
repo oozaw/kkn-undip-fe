@@ -479,27 +479,27 @@
                 :to="{ name: 'LRK' }"
                 mini-icon="R"
                 text="LRK"
-                :isDisabled="!isMhsAccepted()"
+                :isDisabled="!isAccepted()"
               />
               <sidenav-item
                 :isActive="getRoute2() === 'lpk'"
                 :to="{ name: 'LPK' }"
                 mini-icon="P"
                 text="LPK"
-                :isDisabled="!isMhsAccepted()"
+                :isDisabled="!isAccepted()"
               />
               <sidenav-item
                 :isActive="getRoute2() === 'reportase'"
                 :to="{ name: 'Reportase' }"
                 mini-icon="R"
                 text="Data Reportase"
-                :isDisabled="!isMhsAccepted()"
+                :isDisabled="!isAccepted()"
               />
               <sidenav-item
                 :to="{ name: 'Presensi' }"
                 mini-icon="P"
                 text="Presensi"
-                :isDisabled="!isMhsAccepted()"
+                :isDisabled="!isAccepted()"
               />
               <sidenav-item
                 :to="{ name: 'Review Presensi Mahasiswa' }"
@@ -553,7 +553,7 @@ export default {
     SidenavCollapse,
   },
   computed: {
-    ...mapState(d$auth, ["g$infoUser"]),
+    ...mapState(d$auth, ["g$infoUser", "g$user"]),
   },
   methods: {
     ...mapActions(d$auth, ["a$getUser", "a$checkAuth"]),
@@ -570,8 +570,9 @@ export default {
       return routeArr[2];
     },
 
-    isMhsAccepted() {
-      return this.g$infoUser?.status == 2;
+    isAccepted() {
+      if (this.g$user.role == "MAHASISWA") return this.g$infoUser?.status == 2;
+      else return this.g$infoUser?.id_tema.length > 0;
     },
   },
 };
