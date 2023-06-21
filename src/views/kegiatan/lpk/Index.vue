@@ -83,7 +83,7 @@
                       type="button"
                       name="button"
                     >
-                      Expor
+                      Ekspor
                     </button>
                   </div>
                 </div>
@@ -104,7 +104,7 @@
                     <tr v-for="(lpk, i) in g$listLPK" :key="lpk.id_laporan">
                       <td class="text-sm">{{ i + 1 }}</td>
                       <td>
-                        <h6 class="my-auto">{{ lpk.program }}</h6>
+                        <h6 class="my-auto">{{ getOutOfTagP(lpk.program) }}</h6>
                       </td>
                       <td class="text-sm">
                         {{
@@ -113,13 +113,144 @@
                       </td>
                       <td class="text-sm">
                         <a
-                          href="#"
-                          data-bs-toggle="tooltip"
-                          data-bs-original-title="Detail LPK"
+                          type="button"
+                          class="mb-0 text-primary"
+                          data-bs-toggle="modal"
+                          :data-bs-target="'#detail_' + lpk.id_laporan"
                           title="Detail LPK"
                         >
                           <i class="fas fa-eye text-info"></i>
                         </a>
+                        <div
+                          :id="'detail_' + lpk.id_laporan"
+                          class="modal fade"
+                          tabindex="-1"
+                          aria-hidden="true"
+                        >
+                          <div class="modal-dialog modal-lg mt-lg-5">
+                            <div class="modal-content">
+                              <div class="modal-header">
+                                <h5 id="ModalLabel" class="modal-title">
+                                  Detail Laporan
+                                </h5>
+                                <button
+                                  type="button"
+                                  class="btn-close text-dark mb-0"
+                                  data-bs-dismiss="modal"
+                                  aria-label="Close"
+                                >
+                                  <font-awesome-icon icon="fa-solid fa-xmark" />
+                                </button>
+                              </div>
+                              <div class="modal-body p-4">
+                                <ul class="list-group">
+                                  <li
+                                    class="text-sm border-0 list-group-item ps-0"
+                                  >
+                                    <strong class="text-dark">Judul:</strong>
+                                    &nbsp;
+                                    <div
+                                      class="text-wrap"
+                                      v-html="getOutOfTagP(lpk.program)"
+                                    ></div>
+                                  </li>
+                                  <li
+                                    class="text-sm border-0 list-group-item ps-0"
+                                  >
+                                    <strong class="text-dark">Kategori:</strong>
+                                    &nbsp;
+                                    {{
+                                      lpk.kategori == 1
+                                        ? "Monodisiplin"
+                                        : "Multidisiplin"
+                                    }}
+                                  </li>
+                                  <li
+                                    class="text-sm border-0 list-group-item ps-0"
+                                  >
+                                    <strong class="text-dark">Potensi:</strong>
+                                    &nbsp;
+                                    <div
+                                      class="text-wrap"
+                                      v-html="getOutOfTagP(lpk.potensi)"
+                                    ></div>
+                                  </li>
+                                  <li
+                                    class="text-sm border-0 list-group-item ps-0"
+                                  >
+                                    <strong class="text-dark">Sasaran:</strong>
+                                    &nbsp;
+                                    <div
+                                      class="text-wrap"
+                                      v-html="getOutOfTagP(lpk.sasaran)"
+                                    ></div>
+                                  </li>
+                                  <li
+                                    class="text-sm border-0 list-group-item ps-0"
+                                  >
+                                    <strong class="text-dark">Metode:</strong>
+                                    &nbsp;
+                                    <div
+                                      class="text-wrap"
+                                      v-html="getOutOfTagP(lpk.metode)"
+                                    ></div>
+                                  </li>
+                                  <li class="border-0 list-group-item ps-0">
+                                    <strong class="text-sm text-dark"
+                                      >Keluaran:</strong
+                                    >
+                                    &nbsp;
+                                    <div
+                                      class="text-wrap"
+                                      v-html="getOutOfTagP(lpk.luaran)"
+                                    ></div>
+                                  </li>
+                                  <li class="border-0 list-group-item ps-0">
+                                    <strong class="text-sm text-dark"
+                                      >Pelaksanaan:</strong
+                                    >
+                                    &nbsp;
+                                    <div
+                                      class="text-wrap"
+                                      v-html="getOutOfTagP(lpk.pelaksanaan)"
+                                    ></div>
+                                  </li>
+                                  <li class="border-0 list-group-item ps-0">
+                                    <strong class="text-sm text-dark"
+                                      >Capaian:</strong
+                                    >
+                                    &nbsp;
+                                    <div
+                                      class="text-wrap"
+                                      v-html="getOutOfTagP(lpk.capaian)"
+                                    ></div>
+                                  </li>
+                                  <li class="border-0 list-group-item ps-0">
+                                    <strong class="text-sm text-dark"
+                                      >Hambatan:</strong
+                                    >
+                                    &nbsp;
+                                    <div
+                                      class="text-wrap"
+                                      v-html="getOutOfTagP(lpk.hambatan)"
+                                    ></div>
+                                  </li>
+                                  <li class="border-0 list-group-item ps-0">
+                                    <strong class="text-sm text-dark"
+                                      >Komentar:</strong
+                                    >
+                                    &nbsp;
+                                    <div
+                                      class="text-wrap"
+                                      v-html="getOutOfTagP(lpk.komentar)"
+                                    ></div>
+                                  </li>
+                                </ul>
+                              </div>
+                              <div class="modal-footer"></div>
+                            </div>
+                          </div>
+                        </div>
                         <a
                           :id="lpk.id_laporan"
                           href="#"
