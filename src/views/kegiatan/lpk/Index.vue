@@ -497,9 +497,9 @@ export default {
       await this.getListLPK();
     } else if (this.g$user.role === "DOSEN") {
       await this.getInitData();
-    }
 
-    this.choicesTema = this.getChoices("choices-tema");
+      this.choicesTema = this.getChoices("choices-tema");
+    }
 
     setTooltip(this.$store.state.bootstrap);
   },

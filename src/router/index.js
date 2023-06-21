@@ -85,6 +85,7 @@ import IndexPostTest from "../views/test/Index.vue";
 import IndexLRK from "../views/kegiatan/lrk/Index.vue";
 import AddLRK from "../views/kegiatan/lrk/Add.vue";
 import EditLRK from "../views/kegiatan/lrk/Edit.vue";
+import EvaluateLRK from "../views/kegiatan/lrk/Evaluate.vue";
 import IndexLPK from "../views/kegiatan/lpk/Index.vue";
 import EditLPK from "../views/kegiatan/lpk/Edit.vue";
 import EvaluateLPK from "../views/kegiatan/lpk/Evaluate.vue";
@@ -363,6 +364,14 @@ const routes = [
     component: EditLRK,
     meta: {
       requiresAuth: [Role.mahasiswa],
+    },
+  },
+  {
+    path: "/kegiatan/lrk/evaluate/:id_laporan",
+    name: "Evaluate LRK",
+    component: EvaluateLRK,
+    meta: {
+      requiresAuth: [Role.dosen],
     },
   },
   {

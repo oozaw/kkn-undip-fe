@@ -302,7 +302,6 @@ export default {
       }
 
       try {
-        console.log(this.body);
         await this.a$evaluateLaporan(this.body);
         this.$router.push({ name: "LPK" });
         this.showSwal("success-message", "Evaluasi berhasil disimpan!");
@@ -317,7 +316,6 @@ export default {
 
       try {
         await this.a$getLaporan(parseInt(this.$route.params.id_laporan));
-        console.log(this.g$getLaporan);
         this.body.komentar = this.g$getLaporan.komentar;
       } catch (error) {
         this.showSwal("failed-message", "Terjadi kesalahan saat memuat data");
