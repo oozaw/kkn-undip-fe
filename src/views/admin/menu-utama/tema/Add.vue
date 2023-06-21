@@ -23,7 +23,7 @@
           </template>
         </HeaderProfileCard>
         <div class="card mt-4">
-          <div class="card-header">
+          <div class="card-header pb-1">
             <h5>Tambah Tema KKN Baru</h5>
           </div>
           <form role="form" id="form-tema" @submit.prevent="addTema()">
@@ -44,27 +44,24 @@
                   </select>
                 </div>
                 <div class="col-sm-6 col-12">
-                  <label class="form-label mt-2">Periode</label>
-                  <select
-                    id="choices-periode"
-                    class="form-control"
-                    name="choices-periode"
+                  <label class="form-label mt-4 mt-sm-2">Periode</label>
+                  <argon-input
+                    id="periode"
+                    type="periode"
+                    placeholder="Contoh: 2022/2023"
                     v-model="body.periode"
-                  >
-                    <option value="" disabled>-- Pilih periode --</option>
-                    <option value="2022/2023">2022/2023</option>
-                    <option value="2023/2024">2023/2024</option>
-                  </select>
+                    :isRequired="true"
+                  />
                 </div>
               </div>
-              <div class="row mt-3">
+              <div class="row">
                 <div class="col-12">
-                  <label class="form-label mt-2">Tema</label>
+                  <label class="form-label mt-4">Tema</label>
                   <argon-input
                     id="tema"
                     type="tema"
                     placeholder="Masukkan Tema KKN"
-                    v-model="body.tema"
+                    v-model="body.nama"
                     :isRequired="true"
                   />
                 </div>
@@ -72,42 +69,42 @@
               <div class="tematik-section" v-if="filterJenis === '2'">
                 <div class="row">
                   <div class="col-sm-6 col-12">
-                    <label class="form-label mt-2">Lokasi Provinsi</label>
+                    <label class="form-label mt-4">Lokasi Provinsi</label>
                     <argon-input
                       id="provinsi"
                       name="provinsi"
                       type="text"
                       placeholder="Masukkan Provinsi"
-                      v-model="body.provinsi"
+                      v-model="body.prov"
                       :isRequired="true"
                     />
                   </div>
                   <div class="col-sm-6 col-12">
-                    <label class="form-label mt-2">Lokasi Kabupaten</label>
+                    <label class="form-label mt-4">Lokasi Kabupaten</label>
                     <argon-input
                       id="kabupaten"
                       name="kabupaten"
                       type="text"
                       placeholder="Masukkan kabupaten"
-                      v-model="body.kabupaten"
+                      v-model="body.kab"
                       :isRequired="true"
                     />
                   </div>
                 </div>
                 <div class="row">
                   <div class="col-sm-6 align-self-center">
-                    <label class="form-label mt-2">Lokasi Kecamatan</label>
+                    <label class="form-label mt-4">Lokasi Kecamatan</label>
                     <argon-input
                       id="kecamatan"
                       name="kecamatan"
                       type="text"
                       placeholder="Masukkan kecamatan"
-                      v-model="body.kecamatan"
+                      v-model="body.kec"
                       :isRequired="true"
                     />
                   </div>
                   <div class="col-sm-6 align-self-center">
-                    <label class="form-label mt-4 mt-sm-2"
+                    <label class="form-label mt-4"
                       >Lokasi Desa/ Kelurahan</label
                     >
                     <argon-input
@@ -152,10 +149,10 @@ export default {
       body: {
         jenis: "",
         periode: "",
-        tema: "",
-        provinsi: "",
-        kabupaten: "",
-        kecamatan: "",
+        nama: "",
+        prov: "",
+        kab: "",
+        kec: "",
         desa: "",
       },
       filterJenis,
@@ -166,12 +163,10 @@ export default {
   mounted() {
     // mhs-section
     this.choicesJenis = this.getChoices("choices-jenis");
-    this.choicesPeriode = this.getChoices("choices-periode");
   },
   beforeUnmount() {
     // mhs-section
     if (this.choicesJenis) this.choicesJenis.destroy();
-    if (this.choicesPeriode) this.choicesPeriode.destroy();
   },
   methods: {
     ...mapActions(d$tema, ["a$addTema"]),
@@ -179,26 +174,38 @@ export default {
     async addTema() {
       this.showSwal("loading");
 
-      var input = {
-        nama: this.body.tema,
-        periode: this.body.periode,
-        jenis: parseInt(this.body.jenis),
-      };
+      console.log(this.body);
+      if (
+        !this.body.nama ||
+        this.body.nama == "" ||
+        !this.body.periode ||
+        this.body.periode == "" ||
+        !this.body.jenis ||
+        this.body.jenis == "0"
+      ) {
+        this.showSwal("warning-message", "Lengkapi data terlebih dahulu!");
+        return;
+      }
 
       if (
-        !input.nama ||
-        input.nama == "" ||
-        !input.periode ||
-        input.periode == "" ||
-        !input.jenis ||
-        input.jenis == 0
+        this.body.jenis == "2" &&
+        (!this.body.prov ||
+          this.body.prov == "" ||
+          !this.body.kab ||
+          this.body.kab == "" ||
+          !this.body.kec ||
+          this.body.kec == "" ||
+          !this.body.desa ||
+          this.body.desa == "")
       ) {
         this.showSwal("warning-message", "Lengkapi data terlebih dahulu!");
         return;
       }
 
       try {
-        await this.a$addTema(input);
+        this.body.jenis = parseInt(this.body.jenis);
+        delete this.body.prov;
+        await this.a$addTema(this.body);
         this.$router.push({ name: "Tema KKN" });
         this.showSwal("success-message", "Tema KKN berhasil ditambahkan!");
       } catch (error) {
@@ -299,7 +306,7 @@ export default {
           allowOutsideClick: false,
           allowEscapeKey: false,
           didOpen: () => {
-            this.$swal.isLoading();
+            this.$swal.showLoading();
           },
           didDestroy: () => {
             this.$swal.hideLoading();

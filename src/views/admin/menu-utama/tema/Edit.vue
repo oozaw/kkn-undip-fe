@@ -23,12 +23,12 @@
           </template>
         </HeaderProfileCard>
         <div class="card mt-4">
-          <div class="card-header">
+          <div class="card-header pb-0">
             <h5>Edit Tema KKN</h5>
           </div>
           <form role="form" id="form-tema" @submit.prevent="editTema()">
             <div class="card-body pt-0">
-              <div class="row">
+              <div class="row mt-1">
                 <div class="col-sm-6 col-12">
                   <label class="form-label mt-2">Jenis KKN</label>
                   <select
@@ -43,22 +43,21 @@
                   </select>
                 </div>
                 <div class="col-sm-6 col-12">
-                  <label class="form-label mt-2">Periode</label>
-                  <select
-                    id="choices-periode"
+                  <label class="form-label mt-4 mt-sm-2">Periode</label>
+                  <input
                     class="form-control"
-                    name="choices-periode"
+                    id="periode"
+                    name="periode"
+                    type="text"
+                    placeholder="Contoh: 2022/2023"
                     v-model="body.periode"
-                  >
-                    <option value="" disabled>-- Pilih periode --</option>
-                    <option value="2022/2023">2022/2023</option>
-                    <option value="2023/2024">2023/2024</option>
-                  </select>
+                    :isRequired="true"
+                  />
                 </div>
               </div>
-              <div class="row mt-3">
+              <div class="row">
                 <div class="col-12">
-                  <label class="form-label mt-2">Tema</label>
+                  <label class="form-label mt-4">Tema</label>
                   <input
                     id="tema"
                     name="tema"
@@ -73,45 +72,49 @@
               <div class="tematik-section" v-if="filterJenis === '2'">
                 <div class="row">
                   <div class="col-sm-6 col-12">
-                    <label class="form-label mt-2">Lokasi Provinsi</label>
-                    <argon-input
+                    <label class="form-label mt-4">Lokasi Provinsi</label>
+                    <input
+                      class="form-control"
                       id="provinsi"
                       name="provinsi"
                       type="text"
                       placeholder="Masukkan Provinsi"
-                      v-model="body.provinsi"
+                      v-model="body.prov"
                       :isRequired="true"
                     />
                   </div>
                   <div class="col-sm-6 col-12">
-                    <label class="form-label mt-2">Lokasi Kabupaten</label>
-                    <argon-input
+                    <label class="form-label mt-4">Lokasi Kabupaten</label>
+                    <input
+                      class="form-control"
                       id="kabupaten"
                       name="kabupaten"
                       type="text"
                       placeholder="Masukkan kabupaten"
-                      v-model="body.kabupaten"
+                      v-model="body.kab"
                       :isRequired="true"
                     />
                   </div>
                 </div>
                 <div class="row">
                   <div class="col-sm-6 align-self-center">
-                    <label class="form-label mt-2">Lokasi Kecamatan</label>
-                    <argon-input
+                    <label class="form-label mt-4">Lokasi Kecamatan</label>
+                    <input
+                      class="form-control"
                       id="kecamatan"
                       name="kecamatan"
                       type="text"
                       placeholder="Masukkan kecamatan"
-                      v-model="body.kecamatan"
+                      v-model="body.kec"
                       :isRequired="true"
                     />
                   </div>
                   <div class="col-sm-6 align-self-center">
-                    <label class="form-label mt-4 mt-sm-2"
+                    <label class="form-label mt-4"
                       >Lokasi Desa/ Kelurahan</label
                     >
-                    <argon-input
+                    <input
+                      class="form-control"
                       id="desa"
                       name="desa"
                       type="text"
@@ -134,7 +137,6 @@
 import { ref } from "vue";
 import Choices from "choices.js";
 import HeaderProfileCard from "@/views/dashboards/components/HeaderProfileCard.vue";
-import ArgonInput from "@/components/ArgonInput.vue";
 import ArgonButton from "@/components/ArgonButton.vue";
 import { mapActions, mapState } from "pinia";
 import d$tema from "@/store/tema";
@@ -143,7 +145,6 @@ export default {
   name: "EditTemaKKN",
   components: {
     HeaderProfileCard,
-    ArgonInput,
     ArgonButton,
   },
   data() {
@@ -154,10 +155,10 @@ export default {
       jenis: "1",
       body: {
         periode: "",
-        tema: "",
-        provinsi: "",
-        kabupaten: "",
-        kecamatan: "",
+        nama: "",
+        prov: "",
+        kab: "",
+        kec: "",
         desa: "",
       },
       filterJenis,
@@ -221,8 +222,8 @@ export default {
         this.body.periode = this.g$tema.periode;
 
         if (this.g$tema.jenis == 2) {
-          this.body.kabupaten = this.g$tema.kabupaten;
-          this.body.kecamatan = this.g$tema.kecamatan;
+          this.body.kab = this.g$tema.kab;
+          this.body.kec = this.g$tema.kec;
           this.body.desa = this.g$tema.desa;
         }
       } catch (error) {
