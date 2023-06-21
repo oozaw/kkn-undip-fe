@@ -136,7 +136,7 @@
                   class="form-control"
                   name="choices-kecamatan"
                   v-model="id_kecamatan"
-                  @change="getListReportaseMhs()"
+                  @change="getListReportaseDosen()"
                 >
                   <option value="" disabled>-- Pilih wilayah --</option>
                 </select>
@@ -381,8 +381,7 @@ export default {
   },
   async created() {
     if (this.g$user.role === "MAHASISWA") await this.getListReportaseMhs();
-
-    if (this.g$user.role === "DOSEN") {
+    else if (this.g$user.role === "DOSEN") {
       await this.getInitData();
 
       this.choicesTema = this.getChoices("choices-tema");
@@ -523,9 +522,9 @@ export default {
               filename: "Data Reportase",
             };
 
-            if (type === "csv") {
-              data.columnDelimiter = "|";
-            }
+            // if (type === "csv") {
+            //   data.columnDelimiter = "|";
+            // }
 
             dataTableSearch.export(data);
           });
@@ -542,9 +541,9 @@ export default {
               filename: "Data Reportase " + tema,
             };
 
-            if (type === "csv") {
-              data.columnDelimiter = "|";
-            }
+            // if (type === "csv") {
+            //   data.columnDelimiter = "|";
+            // }
 
             dataTableSearch.export(data);
           });

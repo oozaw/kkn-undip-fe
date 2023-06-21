@@ -158,7 +158,7 @@
           <div class="bg-white card mt-4">
             <div class="card-header pb-0 pt-3">
               <p class="font-weight-bold text-dark mb-2">
-                Pilih Tema KKN Terdaftar
+                Pilih Tema dan Wilayah Terdaftar
               </p>
             </div>
             <div class="pb-3 pt-0 card-body">
@@ -167,12 +167,27 @@
                   id="choices-tema"
                   class="form-control"
                   name="choices-tema"
+                  v-model="id_tema"
+                  @change="getListKecamatan()"
                 >
-                  <option value="reguler">
-                    KKN Tematik Pengurangan Risiko Bencana Berbasis Partisipasi
-                    Masyarakat dan Komunitas
+                  <option
+                    v-for="tema in g$listTema"
+                    :key="tema.id_tema"
+                    :value="tema.id_tema"
+                  >
+                    {{ tema.nama }}
                   </option>
-                  <option value="tematik">KKN Reguler Tim I</option>
+                </select>
+              </div>
+              <div class="col-12 align-self-center mt-3">
+                <select
+                  id="choices-kecamatan"
+                  class="form-control"
+                  name="choices-kecamatan"
+                  v-model="id_kecamatan"
+                  @change="getListLaporanDosen()"
+                >
+                  <option value="" disabled>-- Pilih wilayah --</option>
                 </select>
               </div>
             </div>
@@ -200,189 +215,50 @@
               </div>
             </div>
             <div class="ms-2 pt-1 px-0 pb-0 card-body">
-              <div class="table-responsive">
+              <div class="table-responsive" :key="indexComponent">
                 <table id="lpk-dosen-section-list" class="table table-flush">
                   <thead class="thead-light">
                     <tr>
                       <th class="col-1 ps-2">No.</th>
                       <th class="ps-0">Nama Lengkap</th>
                       <th>NIM</th>
-                      <th>Prodi</th>
-                      <th>Fakultas</th>
-                      <th>Status</th>
+                      <th>Judul</th>
+                      <th>Kategori</th>
+                      <th>Tanggal</th>
                       <th>Action</th>
                     </tr>
                   </thead>
                   <tbody>
-                    <tr>
-                      <td class="text-sm ps-3">1</td>
+                    <tr v-for="(lpk, i) in g$listLaporan" :key="lpk.id_laporan">
+                      <td class="text-sm ps-3">{{ i + 1 }}</td>
                       <td class="ms-0 px-0">
-                        <h6 class="my-auto">Mahasiswa 1</h6>
+                        <h6 class="my-auto">{{ lpk.mahasiswa.nama }}</h6>
                       </td>
-                      <td class="text-sm">249572834239</td>
-                      <td class="text-sm">Informatika</td>
-                      <td class="text-sm">FSM</td>
+                      <td class="text-sm">{{ lpk.mahasiswa.nim }}</td>
+                      <td class="text-sm">{{ getOutOfTagP(lpk.program) }}</td>
                       <td class="text-sm">
-                        <span class="badge badge-success">Sudah Diupload</span>
+                        {{
+                          lpk.kategori == 1 ? "Monodisiplin" : "Multidisiplin"
+                        }}
+                      </td>
+                      <td class="text-sm">
+                        {{ moment(lpk.created_at).format("DD-MM-YYYY") }}
                       </td>
                       <td class="text-sm">
                         <a
                           href="javascript:;"
                           class="me-3"
                           data-bs-toggle="tooltip"
-                          data-bs-original-title="Preview product"
+                          data-bs-original-title="Detail LPK"
+                          title="Detail LPK"
                         >
                           <i class="fas fa-eye text-info"></i>
                         </a>
                         <a
                           href="javascript:;"
                           data-bs-toggle="tooltip"
-                          data-bs-original-title="Delete product"
-                        >
-                          <i class="fas fa-trash text-danger"></i>
-                        </a>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td class="text-sm ps-3">2</td>
-                      <td class="ms-0 px-0">
-                        <h6 class="my-auto">Mahasiswa 2</h6>
-                      </td>
-                      <td class="text-sm">249572834239</td>
-                      <td class="text-sm">Informatika</td>
-                      <td class="text-sm">FSM</td>
-                      <td class="text-sm">
-                        <span class="badge badge-danger">Belum Diupload</span>
-                      </td>
-                      <td class="text-sm">
-                        <a
-                          href="javascript:;"
-                          class="me-3"
-                          data-bs-toggle="tooltip"
-                          data-bs-original-title="Preview product"
-                        >
-                          <i class="fas fa-eye text-info"></i>
-                        </a>
-                        <a
-                          href="javascript:;"
-                          data-bs-toggle="tooltip"
-                          data-bs-original-title="Delete product"
-                        >
-                          <i class="fas fa-trash text-danger"></i>
-                        </a>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td class="text-sm ps-3">3</td>
-                      <td class="ms-0 px-0">
-                        <h6 class="my-auto">Mahasiswa 3</h6>
-                      </td>
-                      <td class="text-sm">249572834239</td>
-                      <td class="text-sm">Informatika</td>
-                      <td class="text-sm">FSM</td>
-                      <td class="text-sm">
-                        <span class="badge badge-success">Sudah Diupload</span>
-                      </td>
-                      <td class="text-sm">
-                        <a
-                          href="javascript:;"
-                          class="me-3"
-                          data-bs-toggle="tooltip"
-                          data-bs-original-title="Preview product"
-                        >
-                          <i class="fas fa-eye text-info"></i>
-                        </a>
-                        <a
-                          href="javascript:;"
-                          data-bs-toggle="tooltip"
-                          data-bs-original-title="Delete product"
-                        >
-                          <i class="fas fa-trash text-danger"></i>
-                        </a>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td class="text-sm ps-3">4</td>
-                      <td class="ms-0 px-0">
-                        <h6 class="my-auto">Mahasiswa 4</h6>
-                      </td>
-                      <td class="text-sm">249572834239</td>
-                      <td class="text-sm">Informatika</td>
-                      <td class="text-sm">FSM</td>
-                      <td class="text-sm">
-                        <span class="badge badge-success">Sudah Diupload</span>
-                      </td>
-                      <td class="text-sm">
-                        <a
-                          href="javascript:;"
-                          class="me-3"
-                          data-bs-toggle="tooltip"
-                          data-bs-original-title="Preview product"
-                        >
-                          <i class="fas fa-eye text-info"></i>
-                        </a>
-                        <a
-                          href="javascript:;"
-                          data-bs-toggle="tooltip"
-                          data-bs-original-title="Delete product"
-                        >
-                          <i class="fas fa-trash text-danger"></i>
-                        </a>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td class="text-sm ps-3">5</td>
-                      <td class="ms-0 px-0">
-                        <h6 class="my-auto">Mahasiswa 5</h6>
-                      </td>
-                      <td class="text-sm">249572834239</td>
-                      <td class="text-sm">Informatika</td>
-                      <td class="text-sm">FSM</td>
-                      <td class="text-sm">
-                        <span class="badge badge-danger">Belum Diupload</span>
-                      </td>
-                      <td class="text-sm">
-                        <a
-                          href="javascript:;"
-                          class="me-3"
-                          data-bs-toggle="tooltip"
-                          data-bs-original-title="Preview product"
-                        >
-                          <i class="fas fa-eye text-info"></i>
-                        </a>
-                        <a
-                          href="javascript:;"
-                          data-bs-toggle="tooltip"
-                          data-bs-original-title="Delete product"
-                        >
-                          <i class="fas fa-trash text-danger"></i>
-                        </a>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td class="text-sm ps-3">6</td>
-                      <td class="ms-0 px-0">
-                        <h6 class="my-auto">Mahasiswa 6</h6>
-                      </td>
-                      <td class="text-sm">249572834239</td>
-                      <td class="text-sm">Informatika</td>
-                      <td class="text-sm">FSM</td>
-                      <td class="text-sm">
-                        <span class="badge badge-success">Sudah Diupload</span>
-                      </td>
-                      <td class="text-sm">
-                        <a
-                          href="javascript:;"
-                          class="me-3"
-                          data-bs-toggle="tooltip"
-                          data-bs-original-title="Preview product"
-                        >
-                          <i class="fas fa-eye text-info"></i>
-                        </a>
-                        <a
-                          href="javascript:;"
-                          data-bs-toggle="tooltip"
-                          data-bs-original-title="Delete product"
+                          data-bs-original-title="Hapus LPK"
+                          title="Hapus LPK"
                         >
                           <i class="fas fa-trash text-danger"></i>
                         </a>
@@ -391,13 +267,12 @@
                   </tbody>
                   <tfoot>
                     <tr>
-                      <th class="col-1">No.</th>
-                      <th>Nama Lengkap</th>
+                      <th class="col-1 ps-2">No.</th>
+                      <th class="ps-0">Nama Lengkap</th>
                       <th>NIM</th>
-                      <th>Prodi</th>
-                      <th>Fakultas</th>
-                      <th>Angkatan</th>
-                      <th>Status</th>
+                      <th>Judul</th>
+                      <th>Kategori</th>
+                      <th>Tanggal</th>
                       <th>Action</th>
                     </tr>
                   </tfoot>
@@ -414,6 +289,7 @@
 <script>
 import $ from "jquery";
 import { DataTable } from "simple-datatables";
+import moment from "moment";
 import Choices from "choices.js";
 import setTooltip from "@/assets/js/tooltip.js";
 import HeaderProfileCard from "@/views/dashboards/components/HeaderProfileCard.vue";
@@ -421,6 +297,7 @@ import { mapActions, mapState } from "pinia";
 import d$tema from "@/store/tema";
 import d$auth from "@/store/auth";
 import d$laporan from "@/store/laporan";
+import d$proposal from "@/store/proposal";
 
 export default {
   name: "IndexLPK",
@@ -430,28 +307,90 @@ export default {
   data() {
     return {
       indexComponent: 0,
+      id_tema: 0,
+      id_kecamatan: 0,
+      moment,
+      choicesTema: undefined,
+      choicesKec: undefined,
     };
   },
   computed: {
-    ...mapState(d$laporan, ["g$listLPK"]),
+    ...mapState(d$laporan, ["g$listLPK", "g$listLaporan"]),
     ...mapState(d$auth, ["g$user"]),
     ...mapState(d$tema, ["g$listTema"]),
+    ...mapState(d$proposal, ["g$listProposal"]),
   },
   async created() {
     if (this.g$user.role === "MAHASISWA") {
       await this.getListLPK();
+    } else if (this.g$user.role === "DOSEN") {
+      await this.getInitData();
     }
+
+    this.choicesTema = this.getChoices("choices-tema");
 
     setTooltip(this.$store.state.bootstrap);
   },
-  mounted() {
-    this.getChoices("choices-tema");
-
-    this.setupDataTable("lpk-dosen-section-list");
+  beforeUnmount() {
+    if (this.choicesTema) this.choicesTema.destroy();
+    if (this.choicesKec) this.choicesKec.destroy();
   },
   methods: {
-    ...mapActions(d$laporan, ["a$listLPK"]),
-    ...mapActions(d$tema, ["a$listTema"]),
+    ...mapActions(d$laporan, ["a$listLPK", "a$listLaporanKecamatan"]),
+    ...mapActions(d$tema, ["a$listTemaDosen"]),
+    ...mapActions(d$proposal, ["a$listProposalDosen"]),
+
+    async getInitData() {
+      try {
+        await this.a$listTemaDosen();
+        this.id_tema = this.g$listTema[0].id_tema;
+
+        this.choicesKec = this.getChoices("choices-kecamatan");
+
+        await this.getListKecamatan();
+      } catch (error) {
+        this.showSwal(
+          "failed-message",
+          error ?? "Terjadi kesalahan saat memuat data"
+        );
+        console.log(error);
+      }
+    },
+
+    async getListLaporanDosen() {
+      this.indexComponent++;
+      this.id_kecamatan = parseInt(this.id_kecamatan);
+
+      try {
+        await this.a$listLaporanKecamatan(this.id_kecamatan);
+      } catch (error) {
+        this.showSwal(
+          "failed-message",
+          error ?? "Terjadi kesalahan saat memuat data"
+        );
+        console.log(error);
+      }
+
+      this.setupDataTable("lpk-dosen-section-list");
+      this.setupTableAction();
+    },
+
+    async getListKecamatan() {
+      this.id_tema = parseInt(this.id_tema);
+
+      try {
+        await this.a$listProposalDosen(this.id_tema);
+        this.id_kecamatan = this.g$listProposal[0]?.id_kecamatan ?? 0;
+        this.setChoices(this.choicesKec, this.g$listProposal);
+        await this.getListLaporanDosen();
+      } catch (error) {
+        this.showSwal(
+          "failed-message",
+          error ?? "Terjadi kesalahan saat memuat data"
+        );
+        console.log(error);
+      }
+    },
 
     async getListLPK() {
       this.indexComponent++;
@@ -465,6 +404,36 @@ export default {
 
       this.setupDataTable("lpk-list");
       this.setupTableAction();
+    },
+
+    setChoices(choices, option) {
+      if (choices) {
+        choices.clearChoices();
+        choices.removeActiveItems();
+
+        if (option.length !== 0) {
+          let newOption = [];
+          option.forEach((item) => {
+            if (Object.values(item)[7] == 1) {
+              newOption.push({
+                value: Object.values(item)[1],
+                label: Object.values(item)[10].nama,
+                selected: Object.values(item)[1] == this.id_kecamatan,
+              });
+            }
+          });
+          choices.setChoices(newOption);
+        } else {
+          choices.setChoices([
+            {
+              value: "",
+              label: "Tidak ada data",
+              selected: true,
+              disabled: true,
+            },
+          ]);
+        }
+      }
     },
 
     getChoices(id) {
@@ -507,9 +476,9 @@ export default {
               filename: "Data LPK",
             };
 
-            if (type === "csv") {
-              data.columnDelimiter = "|";
-            }
+            // if (type === "csv") {
+            //   data.columnDelimiter = "|";
+            // }
 
             dataTableSearch.export(data);
           });
@@ -526,14 +495,33 @@ export default {
               filename: "Data LPK Mahasiswa " + tema,
             };
 
-            if (type === "csv") {
-              data.columnDelimiter = "|";
-            }
+            // if (type === "csv") {
+            //   data.columnDelimiter = "|";
+            // }
 
             dataTableSearch.export(data);
           });
         });
       }
+    },
+
+    getOutOfTagP(element) {
+      var temp = $("<div>").html(element);
+      temp.find("p").each(function () {
+        $(this).replaceWith(this.childNodes);
+      });
+
+      var output = temp.html();
+      return output;
+      // var div = document.createElement("div");
+      // div.innerHTML = element;
+      // var text = div.textContent || div.innerHTML || "";
+      // return text;
+    },
+
+    getTema() {
+      this.tema =
+        document.getElementById("choices-tema").selectedOptions[0].text;
     },
 
     showSwal(type, text) {
