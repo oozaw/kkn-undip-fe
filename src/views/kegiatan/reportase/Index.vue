@@ -38,6 +38,7 @@
                     <tr>
                       <th class="col-1">No.</th>
                       <th>Judul Reportase</th>
+                      <th>Kategori</th>
                       <th>Tanggal</th>
                       <th>Action</th>
                     </tr>
@@ -50,6 +51,13 @@
                       <td class="text-sm">{{ i + 1 }}</td>
                       <td>
                         <h6 class="my-auto">{{ report.judul }}</h6>
+                      </td>
+                      <td class="text-sm">
+                        {{
+                          report.kategori == 1
+                            ? "Monodisiplin"
+                            : "Multidisiplin"
+                        }}
                       </td>
                       <td class="text-sm">
                         {{ moment(report.created_at).format("DD-MM-YYYY") }}
@@ -87,6 +95,7 @@
                     <tr>
                       <th class="col-1">No.</th>
                       <th>Judul Reportase</th>
+                      <th>Kategori</th>
                       <th>Tanggal</th>
                       <th>Action</th>
                     </tr>
@@ -184,7 +193,13 @@
                       </td>
                       <td class="text-sm">{{ reportase.mahasiswa.nim }}</td>
                       <td class="text-sm">{{ reportase.judul }}</td>
-                      <td class="text-sm">{{ reportase.kategori }}</td>
+                      <td class="text-sm">
+                        {{
+                          reportase.kategori == 1
+                            ? "Monodisiplin"
+                            : "Multidisiplin"
+                        }}
+                      </td>
                       <td class="text-sm">
                         {{ moment(reportase.created_at).format("DD-MM-YYYY") }}
                       </td>

@@ -106,10 +106,10 @@
                       <td>
                         <h6 class="my-auto">{{ lpk.program }}</h6>
                       </td>
-                      <td>
-                        <span class="badge badge-primary badge-sm"
-                          >Monodisiplin</span
-                        >
+                      <td class="text-sm">
+                        {{
+                          lpk.kategori == 1 ? "Monodisiplin" : "Multidisiplin"
+                        }}
                       </td>
                       <td class="text-sm">
                         <a

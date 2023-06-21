@@ -93,7 +93,13 @@
                       </td>
                       <td class="text-sm">{{ reportase.mahasiswa.nim }}</td>
                       <td class="text-sm">{{ reportase.judul }}</td>
-                      <td class="text-sm">Monodisiplin</td>
+                      <td class="text-sm">
+                        {{
+                          reportase.kategori == 1
+                            ? "Monodisiplin"
+                            : "Multidisiplin"
+                        }}
+                      </td>
                       <td class="text-sm">
                         {{ moment(reportase.created_at).format("DD-MM-YYYY") }}
                       </td>
@@ -169,6 +175,17 @@
                                     <strong class="text-dark">Judul:</strong>
                                     &nbsp;
                                     {{ reportase.judul }}
+                                  </li>
+                                  <li
+                                    class="text-sm border-0 list-group-item ps-0"
+                                  >
+                                    <strong class="text-dark">Kategori:</strong>
+                                    &nbsp;
+                                    {{
+                                      reportase.kategori == 1
+                                        ? "Monodisiplin"
+                                        : "Multidisiplin"
+                                    }}
                                   </li>
                                   <li
                                     class="text-sm border-0 list-group-item ps-0"
