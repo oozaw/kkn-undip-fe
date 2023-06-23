@@ -112,8 +112,14 @@
                     :style="'margin-left: 70%'"
                     role="button"
                     title="Lokasi KKN"
-                    :value="`Kec. ${g$kecamatan.nama}`"
-                    :description="`Kab. ${g$kecamatan.kabupaten}`"
+                    :value="
+                      lokasi.kecamatan == ''
+                        ? 'Belum terdaftar'
+                        : `Kec. ${lokasi.kecamatan}`
+                    "
+                    :description="
+                      lokasi.kabupaten == '' ? '' : `Kab. ${lokasi.kabupaten}`
+                    "
                     :icon="{
                       component: 'fa-solid fa-map-location-dot',
                       background: 'bg-gradient-danger',
@@ -321,6 +327,12 @@ export default {
   data() {
     return {
       dosenName: [],
+      lokasi: {
+        desa: "",
+        kecamatan: "",
+        kabupaten: "",
+        provinsi: "",
+      },
     };
   },
   computed: {
@@ -329,9 +341,13 @@ export default {
     ...mapState(d$laporan, ["g$listLRK", "g$listLPK"]),
   },
   async created() {
-    await this.getDosenName();
-    await this.a$listLRK();
-    await this.a$listLPK();
+    if (!this.g$infoUser.id_tema) {
+      this.dosenName.push("Belum terdaftar");
+    } else {
+      await this.getDosenAndLokasi();
+      await this.a$listLRK();
+      await this.a$listLPK();
+    }
 
     this.checkProgresDataDiri();
     this.checkProgressLRK();
@@ -369,12 +385,23 @@ export default {
     ...mapActions(d$wilayah, ["a$getKecamatanMhs"]),
     ...mapActions(d$laporan, ["a$listLRK", "a$listLPK"]),
 
-    async getDosenName() {
+    async getDosenAndLokasi() {
       try {
         await this.a$getKecamatanMhs();
         this.g$kecamatan.dosen.forEach((item) => {
           this.dosenName.push(item.nama);
         });
+        this.lokasi.kecamatan = this.g$kecamatan.nama;
+        this.lokasi.kabupaten = this.g$kecamatan.kabupaten;
+      } catch (error) {
+        console.log(error);
+      }
+    },
+
+    async getListLaporan() {
+      try {
+        await this.a$listLRK();
+        await this.a$listLPK();
       } catch (error) {
         console.log(error);
       }
