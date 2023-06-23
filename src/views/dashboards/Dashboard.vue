@@ -92,11 +92,13 @@
                     title-color="primary"
                     :value="{
                       text:
-                        checkProgresDataDiri() == 100
+                        checkProgressDataDiriMhs() == 100
                           ? `Sudah Lengkap (${checkProgressLRK()}%)`
-                          : `Belum Lengkap (${checkProgresDataDiri()}%)`,
+                          : `Belum Lengkap (${checkProgressDataDiriMhs()}%)`,
                       color:
-                        checkProgresDataDiri() == 100 ? 'success' : 'danger',
+                        checkProgressDataDiriMhs() == 100
+                          ? 'success'
+                          : 'danger',
                     }"
                     :icon="{
                       component: 'fa-solid fa-address-card',
@@ -181,8 +183,8 @@
                     v-if="g$user.role === 'ADMIN'"
                     :style="'margin-left: 70%'"
                     title="Total Kecamatan Terdaftar"
-                    :value="{ text: '16', color: 'success' }"
-                    description="Diperbarui pada 12/12/2020, 12.30 AM"
+                    :value="{ text: total.kecamatan, color: 'success' }"
+                    :description="`Dari total ${total.temaActive} tema aktif`"
                     :icon="{
                       component: 'fa-solid fa-list-check',
                       background: 'bg-gradient-success',
@@ -195,8 +197,8 @@
                     v-if="g$user.role === 'ADMIN'"
                     :style="'margin-left: 70%'"
                     title="Total Kelurahan Terdaftar"
-                    :value="{ text: '177', color: 'success' }"
-                    description="Diperbarui pada 12/12/2020, 12.30 AM"
+                    :value="{ text: total.desa, color: 'success' }"
+                    :description="`Dari total ${total.temaActive} tema aktif`"
                     :icon="{
                       component: 'fa-solid fa-list-check',
                       background: 'bg-gradient-warning',
@@ -313,6 +315,7 @@ import { mapState, mapActions } from "pinia";
 import d$auth from "@/store/auth";
 import d$wilayah from "@/store/wilayah";
 import d$laporan from "@/store/laporan";
+import d$tema from "@/store/tema";
 
 export default {
   name: "Dashboard",
@@ -333,24 +336,41 @@ export default {
         kabupaten: "",
         provinsi: "",
       },
+      total: {
+        temaActive: 0,
+        kabupaten: 0,
+        kecamatan: 0,
+        desa: 0,
+      },
     };
   },
   computed: {
     ...mapState(d$auth, ["g$user", "g$infoUser"]),
     ...mapState(d$wilayah, ["g$kecamatan"]),
     ...mapState(d$laporan, ["g$listLRK", "g$listLPK"]),
+    ...mapState(d$tema, ["g$listTemaActive"]),
   },
   async created() {
-    if (!this.g$infoUser.id_tema) {
-      this.dosenName.push("Belum terdaftar");
-    } else {
-      await this.getDosenAndLokasi();
-      await this.a$listLRK();
-      await this.a$listLPK();
-    }
+    switch (this.g$user.role) {
+      case "MAHASISWA":
+        if (!this.g$infoUser.id_tema) {
+          this.dosenName.push("Belum terdaftar");
+        } else {
+          await this.getDosenAndLokasi();
+          await this.a$listLRK();
+          await this.a$listLPK();
+        }
+        this.checkProgressDataDiriMhs();
+        this.checkProgressLRK();
+        break;
 
-    this.checkProgresDataDiri();
-    this.checkProgressLRK();
+      case "ADMIN":
+        await this.getDataTema();
+        break;
+
+      default:
+        break;
+    }
   },
   mounted() {
     this.checkError();
@@ -384,6 +404,7 @@ export default {
   methods: {
     ...mapActions(d$wilayah, ["a$getKecamatanMhs"]),
     ...mapActions(d$laporan, ["a$listLRK", "a$listLPK"]),
+    ...mapActions(d$tema, ["a$listTema"]),
 
     async getDosenAndLokasi() {
       try {
@@ -407,7 +428,21 @@ export default {
       }
     },
 
-    checkProgresDataDiri() {
+    async getDataTema() {
+      try {
+        await this.a$listTema();
+        this.total.temaActive = this.g$listTemaActive.length;
+        this.g$listTemaActive.forEach((item) => {
+          this.total.kabupaten += item.total_kabupaten;
+          this.total.kecamatan += item.total_kecamatan;
+          this.total.desa += item.total_desa;
+        });
+      } catch (error) {
+        console.log(error);
+      }
+    },
+
+    checkProgressDataDiriMhs() {
       let totalAttribute = Object.keys(this.g$infoUser).length;
       let totalAttributeMustBeFilled = Object.keys(this.g$infoUser).length - 7; // minus 7
       let indexMustNotBeFilled = [0, 1, 2, 17, 18, 19, 20];
