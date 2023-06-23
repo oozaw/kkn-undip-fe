@@ -7,6 +7,7 @@ const d$wilayah = defineStore("wilayahStore", {
     listKabupaten: [],
     listKecamatan: [],
     listDesa: [],
+    kecamatan: {},
     status: null,
   }),
   actions: {
@@ -45,6 +46,17 @@ const d$wilayah = defineStore("wilayahStore", {
           });
         });
         this.listKecamatan = dataKecamatan;
+        this.status = status;
+      } catch (error) {
+        this.status = false;
+        throw error;
+      }
+    },
+
+    async a$getKecamatanMhs() {
+      try {
+        const { data, status } = await s$wilayah.getKecamatanMhs();
+        this.kecamatan = data ?? {};
         this.status = status;
       } catch (error) {
         this.status = false;
@@ -96,6 +108,7 @@ const d$wilayah = defineStore("wilayahStore", {
     g$listKabupaten: ({ listKabupaten }) => listKabupaten,
     g$listKecamatan: ({ listKecamatan }) => listKecamatan,
     g$listDesa: ({ listDesa }) => listDesa,
+    g$kecamatan: ({ kecamatan }) => kecamatan,
   },
 });
 

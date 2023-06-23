@@ -20,150 +20,35 @@
             <th
               class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2"
             >
-              Fakultas/ Prodi
+              Fakultas
             </th>
             <th
-              class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"
+              class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2"
             >
-              Angkatan
+              Prodi
             </th>
             <th class="text-secondary opacity-7"></th>
           </tr>
         </thead>
         <tbody>
-          <tr>
+          <tr v-for="(mhs, i) in value" :key="i">
             <td>
               <div class="d-flex px-2 py-1">
-                <div>
-                  <img
-                    src="https://demos.creative-tim.com/soft-ui-design-system-pro/assets/img/team-2.jpg"
-                    class="avatar avatar-sm me-3"
-                  />
-                </div>
                 <div class="d-flex flex-column justify-content-center">
-                  <h6 class="mb-0 text-sm">John Michael</h6>
+                  <h6 class="mb-0 text-sm">{{ mhs.nama }}</h6>
                 </div>
               </div>
             </td>
             <td class="align-middle text-center">
-              <span class="text-secondary text-sm font-weight-bold"
-                >2406011923849</span
-              >
+              <span class="text-secondary text-sm font-weight-bold">{{
+                mhs.nim
+              }}</span>
             </td>
             <td>
-              <p class="text-sm font-weight-bold mb-0">FSM</p>
-              <p class="text-xs text-secondary mb-0">S1 Informatika</p>
-            </td>
-            <td class="align-middle text-center">
-              <span class="badge badge-success">2019</span>
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <div class="d-flex px-2 py-1">
-                <div>
-                  <img
-                    src="https://demos.creative-tim.com/soft-ui-design-system-pro/assets/img/team-3.jpg"
-                    class="avatar avatar-sm me-3"
-                  />
-                </div>
-                <div class="d-flex flex-column justify-content-center">
-                  <h6 class="mb-0 text-sm">Alexa Liras</h6>
-                </div>
-              </div>
-            </td>
-            <td class="align-middle text-center">
-              <span class="text-secondary text-sm font-weight-bold"
-                >2406011923849</span
-              >
+              <p class="text-sm font-weight-bold mb-0">{{ mhs.fakultas }}</p>
             </td>
             <td>
-              <p class="text-sm font-weight-bold mb-0">FT</p>
-              <p class="text-xs text-secondary mb-0">S1 Teknik Sipil</p>
-            </td>
-            <td class="align-middle text-center">
-              <span class="badge badge-success">2020</span>
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <div class="d-flex px-2 py-1">
-                <div>
-                  <img
-                    src="https://demos.creative-tim.com/soft-ui-design-system-pro/assets/img/team-4.jpg"
-                    class="avatar avatar-sm me-3"
-                  />
-                </div>
-                <div class="d-flex flex-column justify-content-center">
-                  <h6 class="mb-0 text-sm">Laurent Perrier</h6>
-                </div>
-              </div>
-            </td>
-            <td class="align-middle text-center">
-              <span class="text-secondary text-sm font-weight-bold"
-                >2406011923849</span
-              >
-            </td>
-            <td>
-              <p class="text-sm font-weight-bold mb-0">FEB</p>
-              <p class="text-xs text-secondary mb-0">S1 Bisnis</p>
-            </td>
-            <td class="align-middle text-center">
-              <span class="badge badge-success">2019</span>
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <div class="d-flex px-2 py-1">
-                <div>
-                  <img
-                    src="https://demos.creative-tim.com/soft-ui-design-system-pro/assets/img/team-3.jpg"
-                    class="avatar avatar-sm me-3"
-                  />
-                </div>
-                <div class="d-flex flex-column justify-content-center">
-                  <h6 class="mb-0 text-sm">Michael Levi</h6>
-                </div>
-              </div>
-            </td>
-            <td class="align-middle text-center">
-              <span class="text-secondary text-sm font-weight-bold"
-                >2406011923849</span
-              >
-            </td>
-            <td>
-              <p class="text-sm font-weight-bold mb-0">FEB</p>
-              <p class="text-xs text-secondary mb-0">S1 Akuntansi</p>
-            </td>
-            <td class="align-middle text-center">
-              <span class="badge badge-success">2018</span>
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <div class="d-flex px-2 py-1">
-                <div>
-                  <img
-                    src="https://demos.creative-tim.com/soft-ui-design-system-pro/assets/img/team-2.jpg"
-                    class="avatar avatar-sm me-3"
-                  />
-                </div>
-                <div class="d-flex flex-column justify-content-center">
-                  <h6 class="mb-0 text-sm">Richard Gran</h6>
-                </div>
-              </div>
-            </td>
-            <td class="align-middle text-center">
-              <span class="text-secondary text-sm font-weight-bold"
-                >2406011923849</span
-              >
-            </td>
-            <td>
-              <p class="text-sm font-weight-bold mb-0">FT</p>
-              <p class="text-xs text-secondary mb-0">S1 Teknik Lingkungan</p>
-            </td>
-            <td class="align-middle text-center">
-              <span class="badge badge-success">2020</span>
+              <p class="text-xs text-secondary mb-0">{{ mhs.prodi }}</p>
             </td>
           </tr>
         </tbody>
@@ -175,5 +60,11 @@
 <script>
 export default {
   name: "MembersTable",
+  props: {
+    value: {
+      type: Array,
+      isRequired: true,
+    },
+  },
 };
 </script>

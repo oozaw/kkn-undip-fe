@@ -26,7 +26,34 @@
             <p class="mb-0 text-sm font-weight-bold" :class="title.color">
               {{ typeof title === "string" ? title : title.text }}
             </p>
-            <h6 :class="`mb-0 font-weight-bolder text-${value.color}`">
+            <h6
+              :class="`mb-0 font-weight-bolder text-${value.color}`"
+              v-if="isValueList"
+            >
+              <span v-for="(val, i) in value.list" :key="i">
+                {{ val }}
+                <br />
+              </span>
+              <span
+                v-if="percentage && typeof percentage === 'string'"
+                class="text-sm font-weight-bolder"
+              >
+                {{ percentage }}
+              </span>
+              <span
+                v-if="percentage && typeof percentage === 'object'"
+                :class="`text-sm font-weight-bolder text-${percentage.color}`"
+              >
+                {{ percentage.value }}
+              </span>
+            </h6>
+            <h6
+              :class="
+                `mb-0 font-weight-bolder text-${value.color} ` +
+                (description == '' ? 'mt-2' : '')
+              "
+              v-else
+            >
               {{
                 (value && typeof value === "string") ||
                 (value && typeof value === "number")
@@ -82,9 +109,16 @@ export default {
       type: String,
       default: "",
     },
+    isValueList: {
+      type: Boolean,
+      default: false,
+    },
     value: {
       type: [Object, String, Number],
       required: true,
+      list: {
+        type: Array,
+      },
       text: {
         type: [String, Number],
       },

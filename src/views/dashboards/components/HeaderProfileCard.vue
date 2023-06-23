@@ -67,6 +67,11 @@ export default {
         case "PIMPINAN":
           return "Pimpinan P2KKN UNDIP";
         case "MAHASISWA":
+          if (this.g$infoUser.id_tema) {
+            let jenis = this.g$infoUser.tema.jenis == 1 ? "Reguler" : "";
+            let tema = `${jenis} ${this.g$infoUser.tema.nama}`;
+            return `Mahasiswa KKN ${tema}`;
+          }
           return "Mahasiswa KKN UNDIP";
         case "DOSEN":
           return "Dosen KKN UNDIP";
