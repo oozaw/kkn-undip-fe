@@ -72,7 +72,7 @@ export default {
             let tema = `${jenis} ${this.g$infoUser.tema.nama}`;
             return `Mahasiswa KKN ${tema}`;
           }
-          return "Mahasiswa KKN UNDIP";
+          return "Mahasiswa - Belum Terdaftar";
         case "DOSEN":
           return "Dosen KKN UNDIP";
         case "BAPPEDA":
