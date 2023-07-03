@@ -157,7 +157,10 @@
                         <i class="fas fa-user-edit text-primary"></i>
                       </a>
                       <a
-                        href="javascript:;"
+                        :id="pimpinan.id_pimpinan"
+                        :name="pimpinan.nama"
+                        class="delete"
+                        href="#"
                         data-bs-toggle="tooltip"
                         data-bs-original-title="Hapus Pimpinan"
                         title="Hapus Pimpinan"
@@ -185,6 +188,7 @@
 </template>
 
 <script>
+import $ from "jquery";
 import { DataTable } from "simple-datatables";
 import HeaderProfileCard from "@/views/dashboards/components/HeaderProfileCard.vue";
 import d$pimpinan from "@/store/pimpinan";
@@ -208,19 +212,31 @@ export default {
     ...mapState(d$pimpinan, ["g$listPimpinan"]),
   },
   async created() {
-    try {
-      await this.a$listPimpinan();
-    } catch (error) {
-      if (error) this.showSwal("failed-message", error);
-      else
-        this.showSwal("failed-message", "Terjadi kesalahan saat memuat data!");
-      console.log(error);
-    }
-
-    this.setupDataTable();
+    await this.getInitData();
   },
   methods: {
-    ...mapActions(d$pimpinan, ["a$listPimpinan", "a$importPimpinan"]),
+    ...mapActions(d$pimpinan, [
+      "a$listPimpinan",
+      "a$importPimpinan",
+      "a$deletePimpinan",
+    ]),
+
+    async getInitData() {
+      try {
+        await this.a$listPimpinan();
+      } catch (error) {
+        if (error) this.showSwal("failed-message", error);
+        else
+          this.showSwal(
+            "failed-message",
+            "Terjadi kesalahan saat memuat data!"
+          );
+        console.log(error);
+      }
+
+      this.setupDataTable();
+      this.setupTableAction();
+    },
 
     async importPimpinan() {
       this.showSwal("loading");
@@ -234,16 +250,36 @@ export default {
         await this.a$listPimpinan();
         this.showSwal("success-message", "Data pimpinan berhasil diimpor!");
       } catch (error) {
-        if (error) this.showSwal("failed-message", error);
-        else
-          this.showSwal(
-            "failed-message",
-            "Terjadi kesalahan saat mengunggah data!"
-          );
+        this.showSwal(
+          "failed-message",
+          "Terjadi kesalahan saat mengunggah data!" + error
+        );
         console.log(error);
       }
 
       this.setupDataTable();
+      this.setupTableAction();
+    },
+
+    async deletePimpinan(id_pimpinan) {
+      this.showSwal("loading");
+
+      this.indexComponent++;
+
+      try {
+        await this.a$deletePimpinan(parseInt(id_pimpinan));
+        await this.a$listPimpinan();
+        this.showSwal("success-message", "Data pimpinan berhasil dihapus!");
+      } catch (error) {
+        this.showSwal(
+          "failed-message",
+          "Terjadi kesalahan saat memperbarui data!" + error
+        );
+        console.log(error);
+      }
+
+      this.setupDataTable();
+      this.setupTableAction();
     },
 
     setupDataTable() {
@@ -280,7 +316,22 @@ export default {
       }
     },
 
-    showSwal(type, text) {
+    setupTableAction() {
+      let outerThis = this;
+      // delete
+      $("#pimpinan-list").on("click", `.delete`, function (e) {
+        let pimpinan = this;
+        outerThis.showSwal(
+          "warning-confirmation",
+          `Hapus akun pimpinan ${pimpinan.name}?`,
+          "Berhasil menghapus data",
+          pimpinan.id
+        );
+        e.preventDefault();
+      });
+    },
+
+    showSwal(type, text, toastText, id_pimpinan) {
       if (type === "success-message") {
         this.$swal({
           icon: "success",
@@ -337,6 +388,43 @@ export default {
           willClose: () => {
             clearInterval(timerInterval);
           },
+        });
+      } else if (type === "warning-confirmation") {
+        this.$swal({
+          title: "Apakah Anda yakin?",
+          text: text,
+          showCancelButton: true,
+          confirmButtonText: "Ya!",
+          cancelButtonText: "Batal!",
+          customClass: {
+            confirmButton: "btn bg-gradient-success",
+            cancelButton: "btn bg-gradient-secondary",
+          },
+          buttonsStyling: false,
+          didOpen: () => {
+            this.$swal.hideLoading();
+          },
+        }).then((result) => {
+          if (result.isConfirmed) {
+            this.deletePimpinan(id_pimpinan);
+            this.$swal({
+              toast: true,
+              position: "top-end",
+              title: toastText,
+              icon: "success",
+              showConfirmButton: false,
+              timer: 2500,
+              timerProgressBar: true,
+              didOpen: () => {
+                this.$swal.hideLoading();
+              },
+            });
+          } else if (
+            /* Read more about handling dismissals below */
+            result.dismiss === this.$swal.DismissReason.cancel
+          ) {
+            this.$swal.close();
+          }
         });
       } else if (type === "loading") {
         this.$swal({

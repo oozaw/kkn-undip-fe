@@ -13,4 +13,7 @@ const importPimpinan = (body) =>
     },
   });
 
-export { listPimpinan, addPimpinan, importPimpinan };
+const deletePimpinan = (id_pimpinan) =>
+  baseApi.delete(`${api}admin/pimpinan/${id_pimpinan}`);
+
+export { listPimpinan, addPimpinan, importPimpinan, deletePimpinan };
