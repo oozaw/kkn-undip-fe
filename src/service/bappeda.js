@@ -13,4 +13,7 @@ const importBappeda = (body) =>
     },
   });
 
-export { listBappeda, addBappeda, importBappeda };
+const deleteBappeda = (id_bappeda) =>
+  baseApi.delete(`${api}admin/bappeda/${id_bappeda}`);
+
+export { listBappeda, addBappeda, importBappeda, deleteBappeda };
