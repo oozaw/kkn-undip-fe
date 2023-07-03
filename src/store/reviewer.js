@@ -38,6 +38,16 @@ const d$reviewer = defineStore("reviewerStore", {
         throw error;
       }
     },
+
+    async a$deleteReviewer(id_reviewer) {
+      try {
+        const status = await s$reviewer.deleteReviewer(id_reviewer);
+        this.status = status;
+      } catch (error) {
+        this.status = false;
+        throw error;
+      }
+    },
   },
   getters: {
     g$listReviewer: ({ listReviewer }) => listReviewer,

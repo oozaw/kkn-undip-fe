@@ -13,4 +13,7 @@ const importReviewer = (body) =>
     },
   });
 
-export { listReviewer, addReviewer, importReviewer };
+const deleteReviewer = (id_reviewer) =>
+  baseApi.delete(`${api}admin/reviewer/${id_reviewer}`);
+
+export { listReviewer, addReviewer, importReviewer, deleteReviewer };
