@@ -255,7 +255,7 @@ export default {
     async importBappeda() {
       this.showSwal("loading");
 
-      this.file = this.$refs.file.files[0];
+      this.body.file = this.$refs.file.files[0];
       this.indexComponent++;
       document.getElementById("button-close-modal").click();
 

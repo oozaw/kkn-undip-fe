@@ -73,7 +73,7 @@
                         </div>
                         <div class="modal-footer">
                           <button
-                            id="button-close-modal"
+                            id="button-close-modal-add"
                             type="button"
                             class="btn bg-gradient-secondary btn-sm"
                             data-bs-dismiss="modal"
@@ -95,12 +95,12 @@
                     type="button"
                     class="mx-2 mb-0 btn btn-primary btn-sm"
                     data-bs-toggle="modal"
-                    data-bs-target="#import-reviewer"
+                    data-bs-target="#import-korwil"
                   >
                     Impor
                   </button>
                   <div
-                    id="import-reviewer"
+                    id="import-korwil"
                     class="modal fade"
                     tabindex="-1"
                     aria-hidden="true"
@@ -125,7 +125,7 @@
                             Silahkan download dan isi format file di bawah ini!
                           </p>
                           <a
-                            href="../others/Format Import Reviewer - KKN UNDIP.xlsx"
+                            href="../others/Format Import Korwil - KKN UNDIP.xlsx"
                             target="_blank"
                             class="btn btn-success d-inline-block"
                           >
@@ -137,9 +137,9 @@
                           </a>
                           <form
                             role="form"
-                            id="form-import-reviewer"
+                            id="form-import-korwil"
                             enctype="multipart/form-data"
-                            @submit.prevent="importReviewer()"
+                            @submit.prevent="importKorwil()"
                           >
                             <input
                               id="file"
@@ -161,7 +161,7 @@
                         </div>
                         <div class="modal-footer">
                           <button
-                            id="button-close-modal"
+                            id="button-close-modal-impor"
                             type="button"
                             class="btn bg-gradient-secondary btn-sm"
                             data-bs-dismiss="modal"
@@ -169,7 +169,7 @@
                             Batal
                           </button>
                           <button
-                            form="form-import-reviewer"
+                            form="form-import-korwil"
                             type="submit"
                             class="btn bg-gradient-primary btn-sm"
                           >
@@ -290,7 +290,12 @@ export default {
     await this.getListKorwil();
   },
   methods: {
-    ...mapActions(d$korwil, ["a$listKorwil", "a$addKorwil", "a$deleteKorwil"]),
+    ...mapActions(d$korwil, [
+      "a$listKorwil",
+      "a$addKorwil",
+      "a$importKorwil",
+      "a$deleteKorwil",
+    ]),
 
     async addKorwil() {
       this.showSwal("loading");
@@ -302,7 +307,7 @@ export default {
       }
 
       try {
-        document.getElementById("button-close-modal").click();
+        document.getElementById("button-close-modal-add").click();
         await this.a$addKorwil(this.body);
         await this.getListKorwil();
         this.showSwal("success-message", "Data korwil berhasil ditambahkan!");
@@ -314,6 +319,31 @@ export default {
           "Terjadi kesalahan saat menyimpan data! " + error.error
         );
         console.log(error.error);
+      }
+    },
+
+    async importKorwil() {
+      this.showSwal("loading");
+
+      let formData = {
+        file: this.$refs.file.files[0],
+      };
+
+      this.indexComponent++;
+      document.getElementById("button-close-modal-impor").click();
+
+      try {
+        await this.a$importKorwil(formData);
+        await this.getListKorwil();
+        this.showSwal("success-message", "Data Korwil berhasil diimpor!");
+      } catch (error) {
+        if (error) this.showSwal("failed-message", error);
+        else
+          this.showSwal(
+            "failed-message",
+            "Terjadi kesalahan saat mengimpor data!"
+          );
+        console.log(error);
       }
     },
 

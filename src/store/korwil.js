@@ -29,6 +29,16 @@ const d$korwil = defineStore("korwilStore", {
       }
     },
 
+    async a$importKorwil(body) {
+      try {
+        const status = await s$korwil.importKorwil(body);
+        this.status = status;
+      } catch (error) {
+        this.status = false;
+        throw error;
+      }
+    },
+
     async a$deleteKorwil(id_korwil) {
       try {
         const { status } = await s$korwil.deleteKorwil(id_korwil);
