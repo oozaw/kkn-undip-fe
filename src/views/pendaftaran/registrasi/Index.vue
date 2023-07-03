@@ -134,25 +134,21 @@
             :key="gel.id_gelombang"
           >
             <card
+              :is-dosen="true"
               :title="gel.nama"
               :status="gel.status"
-              :status-pendaftaran="gel.proposal[0]?.status"
-              :id-pendaftaran="gel.proposal[0]?.id_proposal"
-              :nama-kecamatan="gel.proposal[0]?.kecamatan.nama"
+              :list-proposal="gel.proposal"
               :nama-tema="namaTema"
               :id-gelombang="gel.id_gelombang"
               :nama-gelombang="gel.nama"
               :jumlah-gelombang="g$listGelombang.length"
-              deadline="31 Juni 2023 | 11:00 AM"
+              :deadline="
+                gel.tgl_akhir
+                  ? moment(gel.tgl_akhir).format('dddd, DD MMMM YYYY HH:mm')
+                  : '-'
+              "
             >
-              <template
-                #button
-                v-if="
-                  !gel.proposal[0]?.status &&
-                  gel.status &&
-                  gel.proposal[0]?.status != 0
-                "
-              >
+              <template #button v-if="gel.status">
                 <router-link
                   :to="{
                     name: 'Tambah Registrasi',
@@ -177,6 +173,7 @@
 
 <script>
 import $ from "jquery";
+import moment from "moment";
 import Choices from "choices.js";
 import { DataTable } from "simple-datatables";
 import setTooltip from "@/assets/js/tooltip.js";
@@ -204,6 +201,7 @@ export default {
       indexComponent: 0,
       listGelombang: [],
       listProposalDosen: [],
+      moment,
     };
   },
   computed: {
@@ -214,6 +212,8 @@ export default {
     ...mapState(d$dokumen, ["g$dokumenLink"]),
   },
   async created() {
+    moment.locale("id");
+
     await this.a$listTema();
     this.tema = this.g$listTemaActive[0].id_tema;
 
@@ -343,7 +343,7 @@ export default {
           return new DataTable(`#pendaftaran-list-${gel.id_gelombang}`, {
             searchable: false,
             fixedHeight: false,
-            perPage: 1,
+            perPage: 5,
           });
         }
       });

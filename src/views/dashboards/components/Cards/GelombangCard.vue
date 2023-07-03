@@ -24,7 +24,7 @@
         </div>
       </div>
       <!-- eslint-disable-next-line vue/no-v-html -->
-      <div class="text-secondary">
+      <div class="text-secondary" v-if="!isDosen">
         <p class="mt-3 mb-0">
           Status Pendaftaran:
           <span
@@ -50,6 +50,21 @@
           </span>
         </p>
       </div>
+      <div class="text-secondary" v-else>
+        <p class="mt-3 mb-0">
+          Status Pendaftaran:
+          <span
+            v-if="listProposal.length"
+            class="font-weight-bolder text-success"
+          >
+            Mendaftar
+            {{ listProposal.length }} lokasi
+          </span>
+          <span v-else class="font-weight-bolder text-secondary">
+            Belum Mendaftar
+          </span>
+        </p>
+      </div>
       <div class="text-secondary">
         <p class="mb-0" v-html="'Batas Pengisian: ' + deadline" />
       </div>
@@ -59,12 +74,12 @@
           type="button"
           class="mb-0 btn btn-sm me-2 bg-gradient-info"
           data-bs-toggle="modal"
-          :data-bs-target="'#lihat_' + idPendaftaran"
+          :data-bs-target="'#lihat_' + idGelombang"
         >
           Lihat
         </a>
         <div
-          :id="'lihat_' + idPendaftaran"
+          :id="'lihat_' + idGelombang"
           class="modal fade"
           tabindex="-1"
           aria-hidden="true"
@@ -96,7 +111,7 @@
                       <th>Status</th>
                     </tr>
                   </thead>
-                  <tbody>
+                  <tbody v-if="!isDosen">
                     <tr v-if="statusPendaftaran !== -2">
                       <td class="text-sm ps-3">1</td>
                       <td class="ms-0 px-0">
@@ -111,6 +126,30 @@
                         <span
                           class="badge badge-success"
                           v-else-if="statusPendaftaran === 1"
+                          >Diterima
+                        </span>
+                        <span class="badge badge-danger" v-else>Ditolak</span>
+                      </td>
+                    </tr>
+                  </tbody>
+                  <tbody v-else>
+                    <tr
+                      v-for="(proposal, i) in listProposal"
+                      :key="proposal.id_proposal"
+                    >
+                      <td class="text-sm ps-3">{{ i + 1 }}</td>
+                      <td class="ms-0 px-0">
+                        <h6 class="my-auto">{{ proposal.kecamatan.nama }}</h6>
+                      </td>
+                      <td class="text-sm">
+                        <span
+                          class="badge badge-primary"
+                          v-if="proposal.status === 0"
+                          >Sedang diproses
+                        </span>
+                        <span
+                          class="badge badge-success"
+                          v-else-if="proposal.status === 1"
                           >Diterima
                         </span>
                         <span class="badge badge-danger" v-else>Ditolak</span>
@@ -148,6 +187,14 @@ export default {
     idPendaftaran: {
       type: Number,
       default: 0,
+    },
+    isDosen: {
+      type: Boolean,
+      default: false,
+    },
+    listProposal: {
+      type: Array,
+      default: () => [],
     },
     namaKecamatan: {
       type: String,
