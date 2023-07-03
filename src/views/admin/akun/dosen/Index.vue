@@ -166,7 +166,10 @@
                         <i class="fas fa-user-edit text-primary"></i>
                       </a>
                       <a
-                        href="javascript:;"
+                        :id="dosen.id_dosen"
+                        :name="dosen.nama"
+                        class="delete"
+                        href="#"
                         data-bs-toggle="tooltip"
                         data-bs-original-title="Hapus Dosen"
                         title="Hapus Dosen"
@@ -196,9 +199,9 @@
 </template>
 
 <script>
+import $ from "jquery";
 import Choices from "choices.js";
 import { DataTable } from "simple-datatables";
-import setTooltip from "@/assets/js/tooltip.js";
 import HeaderProfileCard from "@/views/dashboards/components/HeaderProfileCard.vue";
 import d$dosen from "@/store/dosen";
 import { mapActions, mapState } from "pinia";
@@ -221,21 +224,27 @@ export default {
     };
   },
   async created() {
-    try {
-      await this.a$listDosen();
-    } catch (error) {
-      if (error) this.showSwal("failed-message", error);
-      else
-        this.showSwal("failed-message", "Terjadi kesalahan saat memuat data!");
-      console.log(error);
-    }
-
-    this.setupDataTable();
-
-    setTooltip(this.$store.state.bootstrap);
+    await this.getInitData();
   },
   methods: {
-    ...mapActions(d$dosen, ["a$listDosen", "a$importDosen"]),
+    ...mapActions(d$dosen, ["a$listDosen", "a$importDosen", "a$deleteDosen"]),
+
+    async getInitData() {
+      try {
+        await this.a$listDosen();
+      } catch (error) {
+        if (error) this.showSwal("failed-message", error);
+        else
+          this.showSwal(
+            "failed-message",
+            "Terjadi kesalahan saat memuat data!"
+          );
+        console.log(error);
+      }
+
+      this.setupDataTable();
+      this.setupTableAction();
+    },
 
     async importDosen() {
       this.showSwal("loading");
@@ -254,6 +263,28 @@ export default {
       }
 
       this.setupDataTable();
+      this.setupTableAction();
+    },
+
+    async deleteDosen(id_dosen) {
+      this.showSwal("loading");
+
+      this.indexComponent++;
+
+      try {
+        await this.a$deleteDosen(parseInt(id_dosen));
+        await this.a$listDosen();
+        this.showSwal("success-message", "Data dosen berhasil dihapus!");
+      } catch (error) {
+        this.showSwal(
+          "failed-message",
+          "Terjadi kesalahan saat memperbarui data! " + error.error
+        );
+        console.log(error);
+      }
+
+      this.setupDataTable();
+      this.setupTableAction();
     },
 
     setupDataTable() {
@@ -290,17 +321,22 @@ export default {
       }
     },
 
-    getChoices(id) {
-      var element = document.getElementById(id);
-      if (element) {
-        return new Choices(element, {
-          searchEnabled: true,
-          allowHTML: true,
-        });
-      }
+    setupTableAction() {
+      let outerThis = this;
+      // delete
+      $("#dosen-list").on("click", `.delete`, function (e) {
+        let dosen = this;
+        outerThis.showSwal(
+          "warning-confirmation",
+          `Hapus akun dosen ${dosen.name}?`,
+          "Berhasil menghapus data",
+          dosen.id
+        );
+        e.preventDefault();
+      });
     },
 
-    showSwal(type, text) {
+    showSwal(type, text, toastText, id_dosen) {
       if (type === "success-message") {
         this.$swal({
           icon: "success",
@@ -358,6 +394,43 @@ export default {
             clearInterval(timerInterval);
           },
         });
+      } else if (type === "warning-confirmation") {
+        this.$swal({
+          title: "Apakah Anda yakin?",
+          text: text,
+          showCancelButton: true,
+          confirmButtonText: "Ya!",
+          cancelButtonText: "Batal!",
+          customClass: {
+            confirmButton: "btn bg-gradient-success",
+            cancelButton: "btn bg-gradient-secondary",
+          },
+          buttonsStyling: false,
+          didOpen: () => {
+            this.$swal.hideLoading();
+          },
+        }).then((result) => {
+          if (result.isConfirmed) {
+            this.deleteDosen(id_dosen);
+            this.$swal({
+              toast: true,
+              position: "top-end",
+              title: toastText,
+              icon: "success",
+              showConfirmButton: false,
+              timer: 2500,
+              timerProgressBar: true,
+              didOpen: () => {
+                this.$swal.hideLoading();
+              },
+            });
+          } else if (
+            /* Read more about handling dismissals below */
+            result.dismiss === this.$swal.DismissReason.cancel
+          ) {
+            this.$swal.close();
+          }
+        });
       } else if (type === "loading") {
         this.$swal({
           title: "Memuat...",
@@ -374,6 +447,16 @@ export default {
         });
       } else if (type === "close") {
         this.$swal.close();
+      }
+    },
+
+    getChoices(id) {
+      var element = document.getElementById(id);
+      if (element) {
+        return new Choices(element, {
+          searchEnabled: true,
+          allowHTML: true,
+        });
       }
     },
   },

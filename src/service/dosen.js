@@ -13,4 +13,7 @@ const importDosen = (body) =>
     },
   });
 
-export { listDosen, addDosen, importDosen };
+const deleteDosen = (id_dosen) =>
+  baseApi.delete(`${api}admin/dosen/${id_dosen}`);
+
+export { listDosen, addDosen, importDosen, deleteDosen };

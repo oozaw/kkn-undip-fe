@@ -38,6 +38,16 @@ const d$dosen = defineStore("dosenStore", {
         throw error;
       }
     },
+
+    async a$deleteDosen(id_dosen) {
+      try {
+        const status = await s$dosen.deleteDosen(id_dosen);
+        this.status = status;
+      } catch (error) {
+        this.status = false;
+        throw error;
+      }
+    },
   },
   getters: {
     g$listDosen: ({ listDosen }) => listDosen,
