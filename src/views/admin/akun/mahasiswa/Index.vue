@@ -280,6 +280,8 @@ export default {
     },
 
     async importMahasiswa() {
+      this.showSwal("loading");
+
       this.body.file = this.$refs.file.files[0];
       this.body.id_periode = this.tema;
       this.indexComponent++;
@@ -348,6 +350,22 @@ export default {
           type: type,
           timerProgressBar: true,
           showConfirmButton: false,
+          didOpen: () => {
+            this.$swal.hideLoading();
+          },
+        });
+      } else if (type === "warning-message") {
+        this.$swal({
+          icon: "warning",
+          title: "Peringatan!",
+          text: text,
+          timer: 2500,
+          type: type,
+          timerProgressBar: true,
+          showConfirmButton: false,
+          didOpen: () => {
+            this.$swal.hideLoading();
+          },
         });
       } else if (type === "failed-message") {
         this.$swal({
@@ -358,6 +376,9 @@ export default {
           type: type,
           timerProgressBar: true,
           showConfirmButton: false,
+          didOpen: () => {
+            this.$swal.hideLoading();
+          },
         });
       } else if (type === "auto-close") {
         let timerInterval;
@@ -377,6 +398,22 @@ export default {
             clearInterval(timerInterval);
           },
         });
+      } else if (type === "loading") {
+        this.$swal({
+          title: "Memuat...",
+          timerProgressBar: true,
+          showConfirmButton: false,
+          allowOutsideClick: false,
+          allowEscapeKey: false,
+          didOpen: () => {
+            this.$swal.showLoading();
+          },
+          didDestroy: () => {
+            this.$swal.hideLoading();
+          },
+        });
+      } else if (type === "close") {
+        this.$swal.close();
       }
     },
   },

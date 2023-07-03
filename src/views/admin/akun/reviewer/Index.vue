@@ -2,11 +2,7 @@
   <div class="py-4 container-fluid">
     <div class="row">
       <div class="col-lg-12 mt-lg-0 mt-4">
-        <header-profile-card
-          name="Tazki Hanifan Amri"
-          description="KKN Reguler
-           Tim 1 2023"
-        />
+        <header-profile-card />
         <div class="bg-white card mt-4">
           <!-- Card header -->
           <div class="pb-0 card-header">
@@ -273,6 +269,8 @@ export default {
     ...mapActions(d$reviewer, ["a$listReviewer", "a$importReviewer"]),
 
     async importReviewer() {
+      this.showSwal("loading");
+
       this.body.file = this.$refs.file.files[0];
       this.indexComponent++;
       document.getElementById("button-close-modal").click();
@@ -338,6 +336,22 @@ export default {
           type: type,
           timerProgressBar: true,
           showConfirmButton: false,
+          didOpen: () => {
+            this.$swal.hideLoading();
+          },
+        });
+      } else if (type === "warning-message") {
+        this.$swal({
+          icon: "warning",
+          title: "Peringatan!",
+          text: text,
+          timer: 2500,
+          type: type,
+          timerProgressBar: true,
+          showConfirmButton: false,
+          didOpen: () => {
+            this.$swal.hideLoading();
+          },
         });
       } else if (type === "failed-message") {
         this.$swal({
@@ -348,6 +362,9 @@ export default {
           type: type,
           timerProgressBar: true,
           showConfirmButton: false,
+          didOpen: () => {
+            this.$swal.hideLoading();
+          },
         });
       } else if (type === "auto-close") {
         let timerInterval;
@@ -367,6 +384,22 @@ export default {
             clearInterval(timerInterval);
           },
         });
+      } else if (type === "loading") {
+        this.$swal({
+          title: "Memuat...",
+          timerProgressBar: true,
+          showConfirmButton: false,
+          allowOutsideClick: false,
+          allowEscapeKey: false,
+          didOpen: () => {
+            this.$swal.showLoading();
+          },
+          didDestroy: () => {
+            this.$swal.hideLoading();
+          },
+        });
+      } else if (type === "close") {
+        this.$swal.close();
       }
     },
   },
