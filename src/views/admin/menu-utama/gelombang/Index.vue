@@ -194,13 +194,102 @@
                     </td>
                     <td class="text-sm">
                       <a
-                        href="javascript:;"
-                        class="me-3"
-                        data-bs-toggle="tooltip"
-                        data-bs-original-title="Preview product"
+                        type="button"
+                        class="mb-0 me-3 text-primary"
+                        data-bs-toggle="modal"
+                        :data-bs-target="'#detail_' + gelombang.id_gelombang"
+                        title="Detail Gelombang"
                       >
                         <i class="fas fa-eye text-info"></i>
                       </a>
+                      <div
+                        :id="'detail_' + gelombang.id_gelombang"
+                        class="modal fade"
+                        tabindex="-1"
+                        aria-hidden="true"
+                      >
+                        <div class="modal-dialog mt-lg-12">
+                          <div class="modal-content">
+                            <div class="modal-header">
+                              <h5 id="ModalLabel" class="modal-title">
+                                Detail {{ gelombang.nama }}
+                              </h5>
+                              <button
+                                type="button"
+                                class="btn-close text-dark mb-0"
+                                data-bs-dismiss="modal"
+                                aria-label="Close"
+                              >
+                                <font-awesome-icon icon="fa-solid fa-xmark" />
+                              </button>
+                            </div>
+                            <div class="modal-body p-4">
+                              <ul class="list-group">
+                                <li
+                                  class="pt-0 text-sm border-0 list-group-item ps-0"
+                                >
+                                  <strong class="text-dark">Nama:</strong>
+                                  &nbsp;
+                                  {{ gelombang.nama }}
+                                </li>
+                                <li
+                                  class="text-sm border-0 list-group-item ps-0"
+                                >
+                                  <strong class="text-dark">Halaman:</strong>
+                                  &nbsp;
+                                  {{ gelombang.tema_halaman.halaman.nama }}
+                                </li>
+                                <li
+                                  class="text-sm border-0 list-group-item ps-0"
+                                >
+                                  <strong class="text-dark"
+                                    >Tanggal Dibuka:</strong
+                                  >
+                                  &nbsp;
+                                  {{
+                                    gelombang.tgl_mulai
+                                      ? moment(gelombang.tgl_mulai).format(
+                                          "dddd, DD MMMM YYYY HH:mm"
+                                        )
+                                      : "-"
+                                  }}
+                                </li>
+                                <li
+                                  class="text-sm border-0 list-group-item ps-0"
+                                >
+                                  <strong class="text-dark"
+                                    >Tanggal Ditutup:</strong
+                                  >
+                                  &nbsp;
+                                  {{
+                                    gelombang.tgl_akhir
+                                      ? moment(gelombang.tgl_akhir).format(
+                                          "dddd, DD MMMM YYYY HH:mm"
+                                        )
+                                      : "-"
+                                  }}
+                                </li>
+                                <li
+                                  class="text-sm border-0 list-group-item ps-0"
+                                >
+                                  <strong class="text-dark">Status:</strong>
+                                  &nbsp;
+                                  <span
+                                    v-if="gelombang.status"
+                                    class="badge badge-success"
+                                  >
+                                    Aktif
+                                  </span>
+                                  <span v-else class="badge badge-danger">
+                                    Tidak Aktif
+                                  </span>
+                                </li>
+                              </ul>
+                            </div>
+                            <div class="modal-footer"></div>
+                          </div>
+                        </div>
+                      </div>
                       <a
                         :id="gelombang.id_gelombang"
                         href="#"
@@ -215,7 +304,8 @@
                         href="javascript:;"
                         data-bs-toggle="tooltip"
                         class="me-3"
-                        data-bs-original-title="Delete product"
+                        data-bs-original-title="Hapus Gelombang"
+                        title="Hapus Gelombang"
                       >
                         <i class="fas fa-trash text-danger"></i>
                       </a>
@@ -226,8 +316,8 @@
                         class="me-3 non-aktif"
                         href="#"
                         data-bs-toggle="tooltip"
-                        data-bs-original-title="Non-aktifkan gelombang"
-                        title="Non-aktifkan gelombang"
+                        data-bs-original-title="Nonaktifkan gelombang"
+                        title="Nonaktifkan gelombang"
                       >
                         <font-awesome-icon
                           class="text-danger"
@@ -276,8 +366,8 @@
 <script>
 import $ from "jquery";
 import Choices from "choices.js";
+import moment from "moment";
 import { DataTable } from "simple-datatables";
-import setTooltip from "@/assets/js/tooltip.js";
 import HeaderProfileCard from "@/views/dashboards/components/HeaderProfileCard.vue";
 import { mapActions, mapState } from "pinia";
 import d$tema from "@/store/tema";
@@ -301,6 +391,7 @@ export default {
         id_tema_halaman: "",
         nama: "",
       },
+      moment,
     };
   },
   computed: {
@@ -309,14 +400,14 @@ export default {
     ...mapState(d$halaman, ["g$listHalaman"]),
   },
   async created() {
+    moment.locale("id");
+
     await this.a$listTema();
     this.tema = this.g$listTema[0].id_tema;
 
     await this.getListGelombang();
 
     this.setupChoices();
-
-    setTooltip(this.$store.state.bootstrap);
   },
   beforeUnmount() {
     if (this.choicesTema) this.choicesTema.destroy();
