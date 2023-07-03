@@ -231,7 +231,10 @@
                         <i class="fas fa-user-edit text-primary"></i>
                       </a>
                       <a
-                        href="javascript:;"
+                        :id="korwil.id_korwil"
+                        :name="korwil.nama"
+                        class="delete"
+                        href="#"
                         data-bs-toggle="tooltip"
                         data-bs-original-title="Hapus Korwil"
                         title="Hapus Korwil"
@@ -259,8 +262,8 @@
 </template>
 
 <script>
+import $ from "jquery";
 import { DataTable } from "simple-datatables";
-import setTooltip from "@/assets/js/tooltip.js";
 import HeaderProfileCard from "@/views/dashboards/components/HeaderProfileCard.vue";
 import { mapActions, mapState } from "pinia";
 import d$korwil from "@/store/korwil";
@@ -285,11 +288,9 @@ export default {
   },
   async created() {
     await this.getListKorwil();
-
-    setTooltip(this.$store.state.bootstrap);
   },
   methods: {
-    ...mapActions(d$korwil, ["a$listKorwil", "a$addKorwil"]),
+    ...mapActions(d$korwil, ["a$listKorwil", "a$addKorwil", "a$deleteKorwil"]),
 
     async addKorwil() {
       this.showSwal("loading");
@@ -330,6 +331,28 @@ export default {
       }
 
       this.setupDataTable();
+      this.setupTableAction();
+    },
+
+    async deleteKorwil(id_korwil) {
+      this.showSwal("loading");
+
+      this.indexComponent++;
+
+      try {
+        await this.a$deleteKorwil(parseInt(id_korwil));
+        await this.a$listKorwil();
+        this.showSwal("success-message", "Data korwil berhasil dihapus!");
+      } catch (error) {
+        this.showSwal(
+          "failed-message",
+          "Terjadi kesalahan saat memperbarui data! " + error.error
+        );
+        console.log(error);
+      }
+
+      this.setupDataTable();
+      this.setupTableAction();
     },
 
     setupDataTable() {
@@ -366,7 +389,22 @@ export default {
       }
     },
 
-    showSwal(type, text) {
+    setupTableAction() {
+      let outerThis = this;
+      // delete
+      $("#korwil-list").on("click", `.delete`, function (e) {
+        let korwil = this;
+        outerThis.showSwal(
+          "warning-confirmation",
+          `Hapus akun korwil ${korwil.name}?`,
+          "Berhasil menghapus data",
+          korwil.id
+        );
+        e.preventDefault();
+      });
+    },
+
+    showSwal(type, text, toastText, id_korwil) {
       if (type === "success-message") {
         this.$swal({
           icon: "success",
@@ -423,6 +461,43 @@ export default {
           willClose: () => {
             clearInterval(timerInterval);
           },
+        });
+      } else if (type === "warning-confirmation") {
+        this.$swal({
+          title: "Apakah Anda yakin?",
+          text: text,
+          showCancelButton: true,
+          confirmButtonText: "Ya!",
+          cancelButtonText: "Batal!",
+          customClass: {
+            confirmButton: "btn bg-gradient-success",
+            cancelButton: "btn bg-gradient-secondary",
+          },
+          buttonsStyling: false,
+          didOpen: () => {
+            this.$swal.hideLoading();
+          },
+        }).then((result) => {
+          if (result.isConfirmed) {
+            this.deleteKorwil(id_korwil);
+            this.$swal({
+              toast: true,
+              position: "top-end",
+              title: toastText,
+              icon: "success",
+              showConfirmButton: false,
+              timer: 2500,
+              timerProgressBar: true,
+              didOpen: () => {
+                this.$swal.hideLoading();
+              },
+            });
+          } else if (
+            /* Read more about handling dismissals below */
+            result.dismiss === this.$swal.DismissReason.cancel
+          ) {
+            this.$swal.close();
+          }
         });
       } else if (type === "loading") {
         this.$swal({

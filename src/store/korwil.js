@@ -28,6 +28,16 @@ const d$korwil = defineStore("korwilStore", {
         throw error;
       }
     },
+
+    async a$deleteKorwil(id_korwil) {
+      try {
+        const { status } = await s$korwil.deleteKorwil(id_korwil);
+        this.status = status;
+      } catch (error) {
+        this.status = false;
+        throw error;
+      }
+    },
   },
   getters: {
     g$listKorwil: ({ listKorwil }) => listKorwil,
