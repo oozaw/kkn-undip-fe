@@ -487,7 +487,7 @@ const routes = [
     },
   },
   {
-    path: "/kegiatan/nilai/edit",
+    path: "/kegiatan/nilai/edit/:id_nilai",
     name: "Edit Nilai Akhir",
     component: EditNilai,
     meta: {
