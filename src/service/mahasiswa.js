@@ -39,6 +39,9 @@ const accMahasiswa = (id_mahasiswa_kecamatan) =>
 const decMahasiswa = (id_mahasiswa_kecamatan) =>
   baseApi.put(`${api}dosen/mahasiswa/dec/${id_mahasiswa_kecamatan}`);
 
+const deleteMahasiswa = (id_mahasiswa) =>
+  baseApi.delete(`${api}admin/mahasiswa/${id_mahasiswa}`);
+
 export {
   listMahasiswa,
   listMahasiswaUnregistered,
@@ -52,4 +55,5 @@ export {
   daftarLokasi,
   accMahasiswa,
   decMahasiswa,
+  deleteMahasiswa,
 };

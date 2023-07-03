@@ -8,13 +8,9 @@ const d$mahasiswa = defineStore("mahasiswaStore", {
     status: null,
   }),
   actions: {
-    async a$listMahasiswa(periode, prodi) {
-      if (prodi === "") prodi = "all";
+    async a$listMahasiswa() {
       try {
-        const { data, status } = await s$mahasiswa.listMahasiswa(
-          periode,
-          prodi
-        );
+        const { data, status } = await s$mahasiswa.listMahasiswa();
         this.listMahasiswa = data ?? [];
         this.status = status;
       } catch ({ message, error }) {
@@ -137,6 +133,16 @@ const d$mahasiswa = defineStore("mahasiswaStore", {
     async a$decMahasiswa(id_mahasiswa_kecamatan) {
       try {
         const status = await s$mahasiswa.decMahasiswa(id_mahasiswa_kecamatan);
+        this.status = status;
+      } catch ({ message, error }) {
+        this.status = false;
+        throw message ?? error;
+      }
+    },
+
+    async a$deleteMahasiswa(id_mahasiswa) {
+      try {
+        const status = await s$mahasiswa.deleteMahasiswa(id_mahasiswa);
         this.status = status;
       } catch ({ message, error }) {
         this.status = false;

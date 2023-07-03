@@ -293,7 +293,7 @@ export default {
       } catch (error) {
         this.showSwal(
           "failed-message",
-          "Terjadi kesalahan saat memperbarui data!" + error
+          "Terjadi kesalahan saat memperbarui data! " + error
         );
         console.log(error);
       }
