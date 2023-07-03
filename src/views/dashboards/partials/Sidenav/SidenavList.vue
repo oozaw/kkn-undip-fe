@@ -400,6 +400,13 @@
                 mini-icon="P"
                 text="Pendaftaran Diri"
               />
+              <!-- <sidenav-item
+                :isActive="getRoute2() === 'tema'"
+                :to="{ name: 'Tema KKN' }"
+                mini-icon="T"
+                text="KKN Tematik"
+                v-if="a$checkAuth(['DOSEN'])"
+              /> -->
               <sidenav-item
                 :to="{ name: 'Edit Data Berkas' }"
                 mini-icon="B"
