@@ -39,11 +39,11 @@
               <div class="ms-2 pt-1 ps-3 card-body">
                 <div class="mt-2 row">
                   <div class="col-12">
-                    <label>Judul Program Kerja</label>
+                    <label>Program Kerja</label>
                     <input
                       class="form-control"
                       type="text"
-                      value="Ini judul"
+                      v-model="body.program"
                       readonly
                     />
                     <div class="invalid-feedback">Judul tidak boleh kosong</div>
@@ -56,29 +56,17 @@
                       class="form-select"
                       name="choices-kategori"
                       id="choices-kategori"
+                      v-model="body.kategori"
                       disabled
                     >
-                      <option value="mono" selected>Monodisiplin</option>
-                      <option value="multi">Multidisiplin</option>
+                      <option value="1">Monodisiplin</option>
+                      <option value="2">Multidisiplin</option>
                     </select>
                   </div>
                 </div>
                 <div class="row">
                   <div class="col-12">
-                    <label class="mt-4">1. Latar Belakang</label>
-                    <quill-editor
-                      class="bg-light"
-                      :options="options"
-                      id="latar-belakang-editor"
-                      v-model:content="body.latar_belakang"
-                      contentType="html"
-                      theme="snow"
-                    ></quill-editor>
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="col-12">
-                    <label class="pt-6">2. Potensi atau Masalah</label>
+                    <label class="pt-4">1. Potensi atau Masalah</label>
                     <quill-editor
                       class="bg-light"
                       :options="options"
@@ -91,20 +79,7 @@
                 </div>
                 <div class="row">
                   <div class="col-12">
-                    <label class="pt-7">3. Usulan Program</label>
-                    <quill-editor
-                      class="bg-light"
-                      :options="options"
-                      id="usulan-editor"
-                      v-model:content="body.program"
-                      contentType="html"
-                      theme="snow"
-                    ></quill-editor>
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="col-12">
-                    <label class="pt-8">4. Sasaran Program</label>
+                    <label class="pt-6">2. Sasaran Program</label>
                     <quill-editor
                       class="bg-light"
                       :options="options"
@@ -117,12 +92,7 @@
                 </div>
                 <div class="row">
                   <div class="col-12">
-                    <label class="pt-9">5. Rencana Pelaksanaan</label>
-                  </div>
-                </div>
-                <div class="row mt-3">
-                  <div class="col-12">
-                    <label>6. Metode IPTEKS yang Digunakan</label>
+                    <label class="pt-8">3. Metode IPTEKS yang Digunakan</label>
                     <quill-editor
                       class="bg-light"
                       :options="options"
@@ -135,7 +105,7 @@
                 </div>
                 <div class="row">
                   <div class="col-12">
-                    <label class="pt-5">7. Luaran Program</label>
+                    <label class="pt-10">4. Luaran Program</label>
                     <quill-editor
                       class="bg-light"
                       :options="options"
@@ -148,7 +118,7 @@
                 </div>
                 <div class="row">
                   <div class="col-12">
-                    <label class="pt-7">8. Pelaksanaan Program</label>
+                    <label class="pt-12">5. Pelaksanaan Program</label>
                     <quill-editor
                       id="pelaksanaan-editor"
                       style="height: 180px"
@@ -163,7 +133,7 @@
                 </div>
                 <div class="row">
                   <div class="col-12">
-                    <label class="pt-4">9. Capaian</label>
+                    <label class="pt-4">6. Capaian</label>
                     <quill-editor
                       id="capaian-editor"
                       style="height: 180px"
@@ -180,7 +150,7 @@
                 </div>
                 <div class="row">
                   <div class="col-12">
-                    <label class="pt-4">10. Hambatan</label>
+                    <label class="pt-4">7. Hambatan</label>
                     <quill-editor
                       id="hambatan-editor"
                       style="height: 180px"
@@ -197,7 +167,7 @@
                 </div>
                 <div class="row">
                   <div class="col-12">
-                    <label class="pt-4">11. Keberlanjutan Program</label>
+                    <label class="pt-4">8. Keberlanjutan Program</label>
                     <quill-editor
                       id="keberlanjutan-editor"
                       style="height: 180px"
@@ -214,7 +184,7 @@
                 </div>
                 <div class="row">
                   <div class="col-12">
-                    <label class="pt-4">8. Dokumentasi</label>
+                    <label class="pt-4">9. Dokumentasi</label>
                     <p class="text-xs form-text text-muted ms-1 d-inline">
                       (*.rar)
                     </p>
@@ -287,39 +257,7 @@ export default {
       },
       body: {
         id_tema: "",
-        judul: "",
         kategori: "",
-        latar_belakang: `Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                    Mollitia, consequuntur aspernatur similique amet quia
-                    voluptatem quas temporibus! Eveniet laboriosam placeat quod
-                    explicabo nobis, fugit autem sapiente, id blanditiis, sed
-                    dolorem. Lorem, ipsum dolor sit amet consectetur adipisicing
-                    elit. Sed inventore explicabo praesentium quod, quo omnis
-                    autem sapiente eveniet consequatur ducimus porro
-                    voluptatibus dolorum amet molestias, voluptas ipsum nostrum
-                    vel iure. Eaque at culpa molestias inventore, ab
-                    reprehenderit quae? Unde laborum, quis temporibus numquam
-                    culpa delectus quisquam ad ullam provident velit
-                    exercitationem asperiores nihil voluptates molestiae quidem
-                    error eum vitae inventore ut laudantium. Inventore quasi
-                    odio aliquid saepe, sed sit omnis, dolore veritatis,
-                    officiis optio consectetur sequi. Labore ab accusantium,
-                    fuga, dolorum fugiat sunt hic repellat obcaecati ea aliquid
-                    aut amet ad ut eaque rem quas maiores fugit ullam dolor
-                    quaerat veniam exercitationem laudantium a! Magnam non ab
-                    harum voluptas commodi. Aliquam, esse illum eum, hic
-                    eligendi quas at ipsum ex, est nihil sit veritatis eveniet
-                    numquam molestias. Corporis commodi incidunt nesciunt
-                    cupiditate, nemo voluptate! Ipsa quod, quibusdam ipsam eos,
-                    quam ducimus voluptas eius minus magni perspiciatis illum
-                    placeat dolorum dolores dolorem omnis delectus consectetur.
-                    Laudantium dolorum libero voluptatibus et culpa, veniam quos
-                    earum voluptas iusto sapiente labore, totam voluptates
-                    explicabo nihil delectus saepe, numquam nam? Laborum, nobis
-                    laboriosam ratione debitis libero ducimus incidunt provident
-                    nemo repellendus impedit expedita ad perspiciatis labore
-                    placeat ex quia consequuntur. Maxime ullam nesciunt aliquam
-                    enim.`,
         potensi: "",
         program: "",
         file: "",
@@ -355,7 +293,6 @@ export default {
       this.showSwal("loading");
 
       if (
-        this.isQuillEmpty(this.body.metode) ||
         this.isQuillEmpty(this.body.pelaksanaan) ||
         this.isQuillEmpty(this.body.capaian) ||
         this.isQuillEmpty(this.body.hambatan) ||
@@ -372,7 +309,6 @@ export default {
         let data = {
           id_tema: parseInt(this.g$infoUser.id_tema),
           id_laporan: parseInt(this.$route.params.id_laporan),
-          metode: this.body.metode,
           pelaksanaan: this.body.pelaksanaan,
           capaian: this.body.capaian,
           hambatan: this.body.hambatan,
@@ -393,7 +329,7 @@ export default {
 
       try {
         await this.a$getLaporan(parseInt(this.$route.params.id_laporan));
-        // this.body.latar_belakang = this.g$getLaporan.latar_belakang
+        this.body.kategori = this.g$getLaporan.kategori;
         this.body.potensi = this.g$getLaporan.potensi;
         this.body.program = this.g$getLaporan.program;
         this.body.sasaran = this.g$getLaporan.sasaran;
