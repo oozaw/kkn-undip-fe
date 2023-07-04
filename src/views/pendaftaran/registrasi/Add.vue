@@ -193,11 +193,6 @@ export default {
     );
     if (this.g$statusHalaman) await this.getInitData();
   },
-  mounted() {
-    this.choicesProvinsi = this.getChoices("choices-provinsi");
-    this.choicesKabupaten = this.getChoices("choices-kab");
-    this.choicesKecamatan = this.getChoices("choices-kec");
-  },
   beforeUnmount() {
     if (this.choicesProvinsi) this.choicesProvinsi.destroy();
     if (this.choicesKabupaten) this.choicesKabupaten.destroy();
@@ -279,6 +274,11 @@ export default {
           parseInt(this.$route.params.id_tema),
           parseInt(this.id_halaman)
         );
+
+        this.choicesProvinsi = this.getChoices("choices-provinsi");
+        this.choicesKabupaten = this.getChoices("choices-kab");
+        this.choicesKecamatan = this.getChoices("choices-kec");
+
         await this.getTema();
         await this.getGelombang();
         await this.getListKabupaten();

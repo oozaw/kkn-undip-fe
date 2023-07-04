@@ -32,22 +32,32 @@
         <div id="card-section" class="row" :key="indexComponent">
           <div
             class="col-lg-6"
-            v-for="gel in g$listGelombang"
+            v-for="gel in listGelombang"
             :key="gel.id_gelombang"
           >
             <card
+              :is-dosen="false"
               :title="gel.nama"
               :status="gel.status"
-              :status-pendaftaran="gel.mahasiswa_kecamatan[0]?.status"
-              :id-pendaftaran="
-                gel.mahasiswa_kecamatan[0]?.id_mahasiswa_kecamatan
+              :status-pendaftaran="
+                gel.jumlah_pendaftaran != 0
+                  ? gel.mahasiswa_kecamatan[0]?.status
+                  : -2
               "
-              :nama-kecamatan="gel.mahasiswa_kecamatan[0]?.kecamatan.nama"
+              :nama-kecamatan="
+                gel.jumlah_pendaftaran != 0
+                  ? gel.mahasiswa_kecamatan[0]?.kecamatan.nama
+                  : ''
+              "
               :nama-tema="namaTema"
               :id-gelombang="gel.id_gelombang"
               :nama-gelombang="gel.nama"
               :jumlah-gelombang="g$listGelombang.length"
-              deadline="31 Juni 2023 | 11:00 AM"
+              :deadline="
+                gel.tgl_akhir
+                  ? moment(gel.tgl_akhir).format('dddd, DD MMMM YYYY HH:mm')
+                  : '-'
+              "
             >
               <template
                 #button
@@ -82,6 +92,7 @@
 
 <script>
 import { DataTable } from "simple-datatables";
+import moment from "moment";
 import Choices from "choices.js";
 import HeaderProfileCard from "@/views/dashboards/components/HeaderProfileCard.vue";
 import Card from "@/views/dashboards/components/Cards/GelombangCard.vue";
@@ -108,6 +119,7 @@ export default {
       indexComponent: 0,
       idGelombang: "",
       listGelombang: [],
+      moment,
     };
   },
   computed: {
@@ -116,6 +128,8 @@ export default {
     ...mapState(d$auth, ["g$infoUser"]),
   },
   async created() {
+    moment.locale("id");
+
     await this.getInitData();
 
     this.choicesTema = this.getChoices("choices-tema");
@@ -152,6 +166,8 @@ export default {
           this.id_halaman,
           this.g$infoUser.id_mahasiswa
         );
+        this.listGelombang = this.g$listGelombang;
+        console.log(this.listGelombang);
       } catch (error) {
         this.showSwal(
           "failed-message",
