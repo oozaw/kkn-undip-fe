@@ -175,7 +175,9 @@ export default {
         console.log(error);
       }
 
-      this.setupDataTable();
+      setTimeout(() => {
+        this.setupDataTable();
+      }, 10);
     },
 
     async getTema() {
@@ -199,7 +201,7 @@ export default {
     },
 
     setupDataTable() {
-      this.g$listGelombang.forEach((gel) => {
+      this.listGelombang.forEach((gel) => {
         if (document.getElementById(`pendaftaran-list-${gel.id_gelombang}`)) {
           return new DataTable(`#pendaftaran-list-${gel.id_gelombang}`, {
             searchable: false,

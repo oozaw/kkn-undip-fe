@@ -217,7 +217,7 @@ export default {
     await this.a$listTema();
     this.tema = this.g$listTemaActive[0].id_tema;
 
-    this.getListGelombang();
+    await this.getListGelombang();
 
     this.choicesTema = this.getChoices("choices-tema");
     setTooltip(this.$store.state.bootstrap);
