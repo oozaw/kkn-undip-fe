@@ -167,7 +167,6 @@ export default {
           this.g$infoUser.id_mahasiswa
         );
         this.listGelombang = this.g$listGelombang;
-        console.log(this.listGelombang);
       } catch (error) {
         this.showSwal(
           "failed-message",

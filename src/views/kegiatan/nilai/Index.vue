@@ -88,10 +88,19 @@
                     <td class="text-sm">
                       {{ nilai.mahasiswa.prodi.fakultas.nama }}
                     </td>
-                    <td class="text-sm">90.2</td>
-                    <td class="text-sm">A</td>
+                    <td class="text-sm">{{ nilai.nilai_akhir ?? "-" }}</td>
+                    <td class="text-sm">{{ nilai.nilai_huruf ?? "-" }}</td>
                     <td class="text-sm">
-                      <span class="badge badge-success">Lulus</span>
+                      <span
+                        class="badge badge-success"
+                        v-if="
+                          nilai.nilai_huruf == 'A' ||
+                          nilai.nilai_huruf == 'B' ||
+                          nilai.nilai_huruf == 'C'
+                        "
+                        >Lulus</span
+                      >
+                      <span class="badge badge-danger" v-else>Tidak Lulus</span>
                     </td>
                     <td class="text-sm">
                       <a
