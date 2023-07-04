@@ -49,6 +49,20 @@
                   />
                 </div>
               </div>
+              <div class="mt-3 row">
+                  <div class="col-12">
+                    <label>Kategori Program Kerja</label>
+                    <select
+                      name="choices-kategori"
+                      id="choices-kategori"
+                      v-model="body.kategori"
+                    >
+                      <option value="">-- Pilih kategori --</option>
+                      <option value="1">Monodisiplin</option>
+                      <option value="2">Multidisiplin</option>
+                    </select>
+                  </div>
+                </div>
               <div class="row pb-7">
                 <div class="col-12">
                   <label class="mt-4">Isi Reportase</label>
@@ -94,6 +108,7 @@
 
 <script>
 import Quill from "quill";
+import Choices from "choices.js";
 import HeaderProfileCard from "@/views/dashboards/components/HeaderProfileCard.vue";
 import ArgonButton from "@/components/ArgonButton.vue";
 import { mapActions, mapState } from "pinia";
@@ -112,6 +127,7 @@ export default {
       body: {
         id_tema: "",
         judul: "",
+        kategori: "",
         isi: "",
       },
       options: {
@@ -131,6 +147,7 @@ export default {
   },
   mounted() {
     this.setupQuill();
+    this.choicesKategori = this.getChoices("choices-kategori");
   },
   methods: {
     ...mapActions(d$reportase, ["a$addReportase"]),
@@ -145,6 +162,7 @@ export default {
         if (
           !this.body.judul ||
           this.body.judul == "" ||
+          this.body.kategori == "" ||
           this.isQuillEmpty(this.body.isi)
         ) {
           this.showSwal(
@@ -155,6 +173,7 @@ export default {
         }
 
         this.body.id_tema = parseInt(this.g$infoUser.id_tema);
+        this.body.kategori = parseInt(this.body.kategori);
 
         // const size =
         //   encodeURI(JSON.stringify(this.body)).split(/%..|./).length - 1;
@@ -209,6 +228,17 @@ export default {
     isQuillEmpty(input) {
       if (input == "" || input == "<p><br></p>") return true;
       else return false;
+    },
+
+    getChoices(id) {
+      if (document.getElementById(id)) {
+        var element = document.getElementById(id);
+        return new Choices(element, {
+          searchEnabled: false,
+          allowHTML: true,
+          shouldSort: false,
+        });
+      }
     },
 
     showSwal(type, text) {
