@@ -97,7 +97,7 @@
                               class="choices-halaman-modal form-select"
                               v-model="body.id_tema_halaman"
                             >
-                              <option value="0" selected hidden disabled>
+                              <option value="" selected hidden disabled>
                                 -- Pilih Halaman --
                               </option>
                               <option
@@ -424,6 +424,7 @@ export default {
     ...mapActions(d$halaman, ["a$listHalaman"]),
 
     async addGelombang() {
+      console.log(this.body);
       // validation
       if (!this.body.id_tema_halaman || this.body.id_tema_halaman === "0") {
         this.showSwal("warning-message", "Lengkapi data terlebih dahulu!");
@@ -437,18 +438,21 @@ export default {
       try {
         document.getElementById("button-close-modal").click();
         await this.a$addGelombang(this.body);
+
+        this.choicesHalamanModal.destroy();
+        this.body.id_tema_halaman = "";
+
         await this.getListGelombang();
         this.showSwal("success-message", "Berhasil menambahkan gelombang");
         // this.indexComponent++;
         // this.setupChoices();
-        this.body.id_tema_halaman = "0";
         this.body.nama = "";
       } catch (error) {
         this.showSwal(
           "failed-message",
           error.error ?? "Terjadi kesalahan saat menambahkan gelombang"
         );
-        // console.log(error);
+        console.log(error);
       }
     },
 
