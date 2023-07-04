@@ -3,7 +3,7 @@
     <div class="row">
       <div class="col-lg-12 mt-lg-0 mt-4">
         <header-profile-card />
-        <div class="bg-white card mt-4">
+        <!-- <div class="bg-white card mt-4">
           <div class="card-header pb-0 pt-3">
             <p class="font-weight-bold text-dark mb-2">
               Pilih Tema KKN Terdaftar
@@ -26,7 +26,7 @@
               </select>
             </div>
           </div>
-        </div>
+        </div> -->
         <div class="bg-white card mt-4">
           <!-- Card header -->
           <div class="pb-0 card-header">
@@ -150,6 +150,7 @@
                     <th class="col-1">No.</th>
                     <th>Nama</th>
                     <th>NIM</th>
+                    <th>Fakultas</th>
                     <th>Prodi</th>
                     <!-- <th>Status</th> -->
                     <th>Action</th>
@@ -165,7 +166,8 @@
                       <h6 class="my-auto">{{ mhs.nama }}</h6>
                     </td>
                     <td class="text-sm">{{ mhs.nim }}</td>
-                    <td class="text-sm">{{ mhs.prodi }}</td>
+                    <td class="text-sm">{{ mhs.prodi?.fakultas?.nama }}</td>
+                    <td class="text-sm">{{ mhs.prodi?.nama }}</td>
                     <!-- <td>
                       <span class="badge badge-danger badge-sm"
                         >Unregistered</span
@@ -190,7 +192,10 @@
                         <i class="fas fa-user-edit text-primary"></i>
                       </a>
                       <a
-                        href="javascript:;"
+                        :id="mhs.id_mahasiswa"
+                        :name="mhs.nama"
+                        class="delete"
+                        href="#"
                         data-bs-toggle="tooltip"
                         data-bs-original-title="Hapus Mahasiswa"
                         title="Hapus Mahasiswa"
@@ -205,6 +210,7 @@
                     <th class="col-1">No.</th>
                     <th>Nama</th>
                     <th>NIM</th>
+                    <th>Fakultas</th>
                     <th>Prodi</th>
                     <!-- <th>Status</th> -->
                     <th>Action</th>
@@ -220,9 +226,9 @@
 </template>
 
 <script>
+import $ from "jquery";
 import Choices from "choices.js";
 import { DataTable } from "simple-datatables";
-import setTooltip from "@/assets/js/tooltip.js";
 import HeaderProfileCard from "@/views/dashboards/components/HeaderProfileCard.vue";
 import d$mahasiswa from "@/store/mahasiswa";
 import { mapActions, mapState } from "pinia";
@@ -238,7 +244,7 @@ export default {
   data() {
     return {
       indexComponent: 0,
-      tema: "1",
+      // tema: "1",
       body: {
         file: "",
         id_periode: "",
@@ -250,20 +256,22 @@ export default {
   async created() {
     await this.getListMahasiswa();
 
-    this.choicesTema = this.getChoices("choices-tema");
-
-    setTooltip(this.$store.state.bootstrap);
+    // this.choicesTema = this.getChoices("choices-tema");
   },
   beforeUnmount() {
-    this.choicesTema.destroy();
+    if (this.choicesTema) this.choicesTema.destroy();
   },
   methods: {
-    ...mapActions(d$mahasiswa, ["a$listMahasiswa", "a$importMahasiswa"]),
+    ...mapActions(d$mahasiswa, [
+      "a$listMahasiswa",
+      "a$importMahasiswa",
+      "a$deleteMahasiswa",
+    ]),
 
     async getListMahasiswa() {
       this.indexComponent++;
       try {
-        await this.a$listMahasiswa(this.tema, "");
+        await this.a$listMahasiswa();
       } catch (error) {
         if (error) this.showSwal("failed-message", error);
         else
@@ -273,10 +281,14 @@ export default {
           );
         console.log(error);
       }
+
       this.setupDataTable();
+      this.setupTableAction();
     },
 
     async importMahasiswa() {
+      this.showSwal("loading");
+
       this.body.file = this.$refs.file.files[0];
       this.body.id_periode = this.tema;
       this.indexComponent++;
@@ -284,13 +296,36 @@ export default {
 
       try {
         await this.a$importMahasiswa(this.body);
-        await this.a$listMahasiswa(this.tema, "");
+        await this.a$listMahasiswa();
         this.showSwal("success-message", "Data mahasiswa berhasil diimpor!");
       } catch (error) {
         this.showSwal("failed-message", error);
         console.log(error);
       }
+
       this.setupDataTable();
+      this.setupTableAction();
+    },
+
+    async deleteMahasiswa(id_mahasiswa) {
+      this.showSwal("loading");
+
+      this.indexComponent++;
+
+      try {
+        await this.a$deleteMahasiswa(parseInt(id_mahasiswa));
+        await this.a$listMahasiswa();
+        this.showSwal("success-message", "Data mahasiswa berhasil dihapus!");
+      } catch (error) {
+        this.showSwal(
+          "failed-message",
+          "Terjadi kesalahan saat memperbarui data! " + error
+        );
+        console.log(error);
+      }
+
+      this.setupDataTable();
+      this.setupTableAction();
     },
 
     getChoices(id) {
@@ -335,7 +370,22 @@ export default {
       }
     },
 
-    showSwal(type, text) {
+    setupTableAction() {
+      let outerThis = this;
+      // delete
+      $("#mhs-list").on("click", `.delete`, function (e) {
+        let mahasiswa = this;
+        outerThis.showSwal(
+          "warning-confirmation",
+          `Hapus akun mahasiswa ${mahasiswa.name}?`,
+          "Berhasil menghapus data",
+          mahasiswa.id
+        );
+        e.preventDefault();
+      });
+    },
+
+    showSwal(type, text, toastText, id_mahasiswa) {
       if (type === "success-message") {
         this.$swal({
           icon: "success",
@@ -345,6 +395,22 @@ export default {
           type: type,
           timerProgressBar: true,
           showConfirmButton: false,
+          didOpen: () => {
+            this.$swal.hideLoading();
+          },
+        });
+      } else if (type === "warning-message") {
+        this.$swal({
+          icon: "warning",
+          title: "Peringatan!",
+          text: text,
+          timer: 2500,
+          type: type,
+          timerProgressBar: true,
+          showConfirmButton: false,
+          didOpen: () => {
+            this.$swal.hideLoading();
+          },
         });
       } else if (type === "failed-message") {
         this.$swal({
@@ -355,6 +421,9 @@ export default {
           type: type,
           timerProgressBar: true,
           showConfirmButton: false,
+          didOpen: () => {
+            this.$swal.hideLoading();
+          },
         });
       } else if (type === "auto-close") {
         let timerInterval;
@@ -374,6 +443,59 @@ export default {
             clearInterval(timerInterval);
           },
         });
+      } else if (type === "warning-confirmation") {
+        this.$swal({
+          title: "Apakah Anda yakin?",
+          text: text,
+          showCancelButton: true,
+          confirmButtonText: "Ya!",
+          cancelButtonText: "Batal!",
+          customClass: {
+            confirmButton: "btn bg-gradient-success",
+            cancelButton: "btn bg-gradient-secondary",
+          },
+          buttonsStyling: false,
+          didOpen: () => {
+            this.$swal.hideLoading();
+          },
+        }).then((result) => {
+          if (result.isConfirmed) {
+            this.deleteMahasiswa(id_mahasiswa);
+            this.$swal({
+              toast: true,
+              position: "top-end",
+              title: toastText,
+              icon: "success",
+              showConfirmButton: false,
+              timer: 2500,
+              timerProgressBar: true,
+              didOpen: () => {
+                this.$swal.hideLoading();
+              },
+            });
+          } else if (
+            /* Read more about handling dismissals below */
+            result.dismiss === this.$swal.DismissReason.cancel
+          ) {
+            this.$swal.close();
+          }
+        });
+      } else if (type === "loading") {
+        this.$swal({
+          title: "Memuat...",
+          timerProgressBar: true,
+          showConfirmButton: false,
+          allowOutsideClick: false,
+          allowEscapeKey: false,
+          didOpen: () => {
+            this.$swal.showLoading();
+          },
+          didDestroy: () => {
+            this.$swal.hideLoading();
+          },
+        });
+      } else if (type === "close") {
+        this.$swal.close();
       }
     },
   },

@@ -2,11 +2,7 @@
   <div class="py-4 container-fluid">
     <div class="row">
       <div class="col-lg-12 mt-lg-0 mt-4">
-        <header-profile-card
-          name="Tazki Hanifan Amri"
-          description="KKN Reguler
-           Tim 1 2023"
-        />
+        <header-profile-card />
         <div class="bg-white card mt-4">
           <!-- Card header -->
           <div class="pb-0 card-header">
@@ -204,7 +200,10 @@
                         <i class="fas fa-user-edit text-primary"></i>
                       </a>
                       <a
-                        href="javascript:;"
+                        :id="rev.id_reviewer"
+                        :name="rev.nama"
+                        class="delete"
+                        href="#"
                         data-bs-toggle="tooltip"
                         data-bs-original-title="Hapus Reviewer"
                         title="Hapus Reviewer"
@@ -232,8 +231,8 @@
 </template>
 
 <script>
+import $ from "jquery";
 import { DataTable } from "simple-datatables";
-import setTooltip from "@/assets/js/tooltip.js";
 import HeaderProfileCard from "@/views/dashboards/components/HeaderProfileCard.vue";
 import d$reviewer from "@/store/reviewer";
 import { mapActions, mapState } from "pinia";
@@ -256,23 +255,56 @@ export default {
     ...mapState(d$reviewer, ["g$listReviewer"]),
   },
   async created() {
-    try {
-      await this.a$listReviewer();
-    } catch (error) {
-      if (error) this.showSwal("failed-message", error);
-      else
-        this.showSwal("failed-message", "Terjadi kesalahan saat memuat data!");
-      console.log(error);
-    }
-
-    this.setupDataTable();
-
-    setTooltip(this.$store.state.bootstrap);
+    await this.getInitData();
   },
   methods: {
-    ...mapActions(d$reviewer, ["a$listReviewer", "a$importReviewer"]),
+    ...mapActions(d$reviewer, [
+      "a$listReviewer",
+      "a$importReviewer",
+      "a$deleteReviewer",
+    ]),
+
+    async getInitData() {
+      try {
+        await this.a$listReviewer();
+      } catch (error) {
+        if (error) this.showSwal("failed-message", error);
+        else
+          this.showSwal(
+            "failed-message",
+            "Terjadi kesalahan saat memuat data!"
+          );
+        console.log(error);
+      }
+
+      this.setupDataTable();
+      this.setupTableAction();
+    },
+
+    async deleteReviewer(id_reviewer) {
+      this.showSwal("loading");
+
+      this.indexComponent++;
+
+      try {
+        await this.a$deleteReviewer(parseInt(id_reviewer));
+        await this.a$listReviewer();
+        this.showSwal("success-message", "Data reviewer berhasil dihapus!");
+      } catch (error) {
+        this.showSwal(
+          "failed-message",
+          "Terjadi kesalahan saat memperbarui data! " + error
+        );
+        console.log(error);
+      }
+
+      this.setupDataTable();
+      this.setupTableAction();
+    },
 
     async importReviewer() {
+      this.showSwal("loading");
+
       this.body.file = this.$refs.file.files[0];
       this.indexComponent++;
       document.getElementById("button-close-modal").click();
@@ -292,6 +324,7 @@ export default {
       }
 
       this.setupDataTable();
+      this.setupTableAction();
     },
 
     setupDataTable() {
@@ -328,7 +361,22 @@ export default {
       }
     },
 
-    showSwal(type, text) {
+    setupTableAction() {
+      let outerThis = this;
+      // delete
+      $("#reviewer-list").on("click", `.delete`, function (e) {
+        let reviewer = this;
+        outerThis.showSwal(
+          "warning-confirmation",
+          `Hapus akun reviewer ${reviewer.name}?`,
+          "Berhasil menghapus data",
+          reviewer.id
+        );
+        e.preventDefault();
+      });
+    },
+
+    showSwal(type, text, toastText, id_reviewer) {
       if (type === "success-message") {
         this.$swal({
           icon: "success",
@@ -338,6 +386,22 @@ export default {
           type: type,
           timerProgressBar: true,
           showConfirmButton: false,
+          didOpen: () => {
+            this.$swal.hideLoading();
+          },
+        });
+      } else if (type === "warning-message") {
+        this.$swal({
+          icon: "warning",
+          title: "Peringatan!",
+          text: text,
+          timer: 2500,
+          type: type,
+          timerProgressBar: true,
+          showConfirmButton: false,
+          didOpen: () => {
+            this.$swal.hideLoading();
+          },
         });
       } else if (type === "failed-message") {
         this.$swal({
@@ -348,6 +412,9 @@ export default {
           type: type,
           timerProgressBar: true,
           showConfirmButton: false,
+          didOpen: () => {
+            this.$swal.hideLoading();
+          },
         });
       } else if (type === "auto-close") {
         let timerInterval;
@@ -367,6 +434,59 @@ export default {
             clearInterval(timerInterval);
           },
         });
+      } else if (type === "warning-confirmation") {
+        this.$swal({
+          title: "Apakah Anda yakin?",
+          text: text,
+          showCancelButton: true,
+          confirmButtonText: "Ya!",
+          cancelButtonText: "Batal!",
+          customClass: {
+            confirmButton: "btn bg-gradient-success",
+            cancelButton: "btn bg-gradient-secondary",
+          },
+          buttonsStyling: false,
+          didOpen: () => {
+            this.$swal.hideLoading();
+          },
+        }).then((result) => {
+          if (result.isConfirmed) {
+            this.deleteReviewer(id_reviewer);
+            this.$swal({
+              toast: true,
+              position: "top-end",
+              title: toastText,
+              icon: "success",
+              showConfirmButton: false,
+              timer: 2500,
+              timerProgressBar: true,
+              didOpen: () => {
+                this.$swal.hideLoading();
+              },
+            });
+          } else if (
+            /* Read more about handling dismissals below */
+            result.dismiss === this.$swal.DismissReason.cancel
+          ) {
+            this.$swal.close();
+          }
+        });
+      } else if (type === "loading") {
+        this.$swal({
+          title: "Memuat...",
+          timerProgressBar: true,
+          showConfirmButton: false,
+          allowOutsideClick: false,
+          allowEscapeKey: false,
+          didOpen: () => {
+            this.$swal.showLoading();
+          },
+          didDestroy: () => {
+            this.$swal.hideLoading();
+          },
+        });
+      } else if (type === "close") {
+        this.$swal.close();
       }
     },
   },

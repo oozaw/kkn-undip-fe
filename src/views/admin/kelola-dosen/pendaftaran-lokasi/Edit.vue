@@ -248,13 +248,13 @@ export default {
       try {
         await this.a$getProposal(this.body.id_proposal);
         this.body.komentar = this.g$proposal.komentar;
-        this.body.rekomendasi = this.g$proposal.rekomendasi ? "1" : "0";
+        if (this.g$proposal.rekomendasi == null) this.body.rekomendasi = "";
+        else this.body.rekomendasi = this.g$proposal.rekomendasi ? "1" : "0";
         this.setChoices(this.choicesRekomendasi);
         await this.a$getDokumenEmbedLink(this.g$proposal.dokumen.id_dokumen);
-        console.log(this.body);
       } catch (error) {
         this.showSwal("failed-message", "Terjadi kesalahan saat memuat data");
-        console.log(error.error);
+        console.log(error);
       }
 
       this.showSwal("close");
@@ -270,17 +270,28 @@ export default {
         choices.clearChoices();
         choices.removeActiveItems();
 
+        let option = {
+          value: "",
+          label: "-- Pilih rekomendasi --",
+          selected: true,
+          disabled: true,
+        };
+
+        if (this.body.rekomendasi === "") option.selected = true;
+        else option.selected = false;
+
         choices.setChoices([
+          option,
           {
             value: "0",
             label: "Tidak direkomendasikan",
-            selected: this.body.rekomendasi == "0",
+            selected: this.body.rekomendasi === "0",
             disabled: false,
           },
           {
             value: "1",
             label: "Rekomendasikan",
-            selected: this.body.rekomendasi == "1",
+            selected: this.body.rekomendasi === "1",
             disabled: false,
           },
         ]);

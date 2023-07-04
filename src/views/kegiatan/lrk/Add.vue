@@ -2,200 +2,203 @@
   <div class="container-fluid">
     <div class="row mb-5 mt-4">
       <div class="col-lg-12 mt-lg-0 mt-4">
-        <header-profile-card>
-          <template #button>
-            <argon-button
-              :onclick="() => $router.push({ name: 'LRK' })"
-              class="mb-0 me-2"
-              color="secondary"
-              size="sm"
-              >Batal</argon-button
-            >
-            <argon-button
-              type="submit"
-              form="form-add-lrk"
-              class="mb-0 me-lg-2"
-              color="success"
-              variant="gradient"
-              size="sm"
-              >Tambah LRK</argon-button
-            >
-          </template>
-        </header-profile-card>
-        <div class="bg-white pb-2 card mt-4">
-          <!-- Card header -->
-          <div class="pb-0 card-header">
-            <div class="d-lg-flex">
-              <h5 class="mb-2">Tambah LRK</h5>
+        <section v-if="g$statusHalaman">
+          <header-profile-card>
+            <template #button>
+              <argon-button
+                :onclick="() => $router.push({ name: 'LRK' })"
+                class="mb-0 me-2"
+                color="secondary"
+                size="sm"
+                >Batal</argon-button
+              >
+              <argon-button
+                type="submit"
+                form="form-add-lrk"
+                class="mb-0 me-lg-2"
+                color="success"
+                variant="gradient"
+                size="sm"
+                >Tambah LRK</argon-button
+              >
+            </template>
+          </header-profile-card>
+          <div class="bg-white pb-2 card mt-4">
+            <!-- Card header -->
+            <div class="pb-0 card-header">
+              <div class="d-lg-flex">
+                <h5 class="mb-2">Tambah LRK</h5>
+              </div>
             </div>
-          </div>
-          <form
-            class="was-validated"
-            role="form"
-            id="form-add-lrk"
-            enctype="multipart/form-data"
-            @submit.prevent="addLRK()"
-          >
-            <div class="ms-2 pt-1 ps-3 card-body">
-              <div class="mt-2 row">
-                <div class="col-12">
-                  <label>Judul Program Kerja</label>
-                  <input
-                    class="form-control"
-                    type="text"
-                    required
-                    placeholder="eg. Program Edukasi Kesehatan pada Masyarakat Desa Kedungkandang"
-                    v-model="body.judul"
-                  />
-                  <div class="invalid-feedback">Judul tidak boleh kosong</div>
+            <form
+              class="was-validated"
+              role="form"
+              id="form-add-lrk"
+              enctype="multipart/form-data"
+              @submit.prevent="addLRK()"
+            >
+              <div class="ms-2 pt-1 ps-3 card-body">
+                <div class="mt-2 row">
+                  <div class="col-12">
+                    <label>Judul Program Kerja</label>
+                    <input
+                      class="form-control"
+                      type="text"
+                      required
+                      placeholder="eg. Program Edukasi Kesehatan pada Masyarakat Desa Kedungkandang"
+                      v-model="body.judul"
+                    />
+                    <div class="invalid-feedback">Judul tidak boleh kosong</div>
+                  </div>
                 </div>
-              </div>
-              <div class="mt-3 row">
-                <div class="col-12">
-                  <label>Kategori Program Kerja</label>
-                  <select
-                    name="choices-kategori"
-                    id="choices-kategori"
-                    v-model="body.kategori"
+                <div class="mt-3 row">
+                  <div class="col-12">
+                    <label>Kategori Program Kerja</label>
+                    <select
+                      name="choices-kategori"
+                      id="choices-kategori"
+                      v-model="body.kategori"
+                    >
+                      <option value="">-- Pilih kategori --</option>
+                      <option value="mono">Monodisiplin</option>
+                      <option value="multi">Multidisiplin</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-12">
+                    <label class="mt-4">1. Latar Belakang</label>
+                    <quill-editor
+                      id="latar-belakang-editor"
+                      style="height: 180px"
+                      v-model:content="body.latar_belakang"
+                      contentType="html"
+                      theme="snow"
+                      placeholder="Isi dengan paragraf latar belakang program kerja"
+                    ></quill-editor>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-12">
+                    <label class="pt-4">2. Potensi atau Masalah</label>
+                    <quill-editor
+                      id="potensi-editor"
+                      style="height: 180px"
+                      v-model:content="body.potensi"
+                      contentType="html"
+                      theme="snow"
+                      placeholder="Isi dengan potensi atau permasalahan yang ingin diselesaikan"
+                    ></quill-editor>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-12">
+                    <label class="pt-4">3. Usulan Program</label>
+                    <quill-editor
+                      id="usulan-editor"
+                      style="height: 180px"
+                      v-model:content="body.program"
+                      contentType="html"
+                      theme="snow"
+                      placeholder="Isi dengan usulan program yang diajukan"
+                    ></quill-editor>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-12">
+                    <label class="pt-4">4. Sasaran Program</label>
+                    <quill-editor
+                      id="sasaran-editor"
+                      style="height: 180px"
+                      v-model:content="body.sasaran"
+                      contentType="html"
+                      theme="snow"
+                      placeholder="Isi dengan sasaran dari program yang diajukan"
+                    ></quill-editor>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-12">
+                    <label class="pt-4">5. Rencana Pelaksanaan</label>
+                    <input
+                      class="form-control"
+                      type="file"
+                      name="file-rencana-pelaksanaan"
+                      id="file-rencana-pelaksanaan"
+                      required
+                    />
+                    <div class="invalid-feedback">
+                      Unggah file rencana pelaksaan program
+                    </div>
+                  </div>
+                </div>
+                <div class="row mt-3">
+                  <div class="col-12">
+                    <label>6. Metode IPTEKS yang Digunakan</label>
+                    <quill-editor
+                      id="metode-editor"
+                      style="height: 180px"
+                      v-model:content="body.metode"
+                      contentType="html"
+                      theme="snow"
+                      placeholder="Isi dengan metode yang digunakan"
+                    ></quill-editor>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-12">
+                    <label class="pt-4">7. Luaran Program</label>
+                    <quill-editor
+                      id="output-editor"
+                      style="height: 180px"
+                      v-model:content="body.luaran"
+                      contentType="html"
+                      theme="snow"
+                      placeholder="Isi dengan keluaran yang diharapkan"
+                    ></quill-editor>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-12">
+                    <label class="pt-4">8. Dokumentasi</label>
+                    <p class="text-xs form-text text-muted ms-1 d-inline">
+                      (*.rar)
+                    </p>
+                    <input
+                      class="form-control"
+                      type="file"
+                      name="file-dokumentasi"
+                      id="file-dokumentasi"
+                    />
+                  </div>
+                </div>
+                <div class="row mt-4">
+                  <div
+                    class="col-sm-auto ms-sm-auto mt-sm-0 mt-3 d-flex justify-content-end"
                   >
-                    <option value="">-- Pilih kategori --</option>
-                    <option value="mono">Monodisiplin</option>
-                    <option value="multi">Multidisiplin</option>
-                  </select>
-                </div>
-              </div>
-              <div class="row">
-                <div class="col-12">
-                  <label class="mt-4">1. Latar Belakang</label>
-                  <quill-editor
-                    id="latar-belakang-editor"
-                    style="height: 180px"
-                    v-model:content="body.latar_belakang"
-                    contentType="html"
-                    theme="snow"
-                    placeholder="Isi dengan paragraf latar belakang program kerja"
-                  ></quill-editor>
-                </div>
-              </div>
-              <div class="row">
-                <div class="col-12">
-                  <label class="pt-4">2. Potensi atau Masalah</label>
-                  <quill-editor
-                    id="potensi-editor"
-                    style="height: 180px"
-                    v-model:content="body.potensi"
-                    contentType="html"
-                    theme="snow"
-                    placeholder="Isi dengan potensi atau permasalahan yang ingin diselesaikan"
-                  ></quill-editor>
-                </div>
-              </div>
-              <div class="row">
-                <div class="col-12">
-                  <label class="pt-4">3. Usulan Program</label>
-                  <quill-editor
-                    id="usulan-editor"
-                    style="height: 180px"
-                    v-model:content="body.program"
-                    contentType="html"
-                    theme="snow"
-                    placeholder="Isi dengan usulan program yang diajukan"
-                  ></quill-editor>
-                </div>
-              </div>
-              <div class="row">
-                <div class="col-12">
-                  <label class="pt-4">4. Sasaran Program</label>
-                  <quill-editor
-                    id="sasaran-editor"
-                    style="height: 180px"
-                    v-model:content="body.sasaran"
-                    contentType="html"
-                    theme="snow"
-                    placeholder="Isi dengan sasaran dari program yang diajukan"
-                  ></quill-editor>
-                </div>
-              </div>
-              <div class="row">
-                <div class="col-12">
-                  <label class="pt-4">5. Rencana Pelaksanaan</label>
-                  <input
-                    class="form-control"
-                    type="file"
-                    name="file-rencana-pelaksanaan"
-                    id="file-rencana-pelaksanaan"
-                    required
-                  />
-                  <div class="invalid-feedback">
-                    Unggah file rencana pelaksaan program
+                    <argon-button
+                      :onclick="() => $router.push({ name: 'LRK' })"
+                      class="mb-0 me-2"
+                      color="secondary"
+                      size="sm"
+                      >Batal</argon-button
+                    >
+                    <argon-button
+                      type="submit"
+                      form="form-add-lrk"
+                      class="mb-0 me-lg-2"
+                      color="success"
+                      variant="gradient"
+                      size="sm"
+                      >Tambah LRK</argon-button
+                    >
                   </div>
                 </div>
               </div>
-              <div class="row mt-3">
-                <div class="col-12">
-                  <label>6. Metode IPTEKS yang Digunakan</label>
-                  <quill-editor
-                    id="metode-editor"
-                    style="height: 180px"
-                    v-model:content="body.metode"
-                    contentType="html"
-                    theme="snow"
-                    placeholder="Isi dengan metode yang digunakan"
-                  ></quill-editor>
-                </div>
-              </div>
-              <div class="row">
-                <div class="col-12">
-                  <label class="pt-4">7. Luaran Program</label>
-                  <quill-editor
-                    id="output-editor"
-                    style="height: 180px"
-                    v-model:content="body.luaran"
-                    contentType="html"
-                    theme="snow"
-                    placeholder="Isi dengan keluaran yang diharapkan"
-                  ></quill-editor>
-                </div>
-              </div>
-              <div class="row">
-                <div class="col-12">
-                  <label class="pt-4">8. Dokumentasi</label>
-                  <p class="text-xs form-text text-muted ms-1 d-inline">
-                    (*.rar)
-                  </p>
-                  <input
-                    class="form-control"
-                    type="file"
-                    name="file-dokumentasi"
-                    id="file-dokumentasi"
-                  />
-                </div>
-              </div>
-              <div class="row mt-4">
-                <div
-                  class="col-sm-auto ms-sm-auto mt-sm-0 mt-3 d-flex justify-content-end"
-                >
-                  <argon-button
-                    :onclick="() => $router.push({ name: 'LRK' })"
-                    class="mb-0 me-2"
-                    color="secondary"
-                    size="sm"
-                    >Batal</argon-button
-                  >
-                  <argon-button
-                    type="submit"
-                    form="form-add-lrk"
-                    class="mb-0 me-lg-2"
-                    color="success"
-                    variant="gradient"
-                    size="sm"
-                    >Tambah LRK</argon-button
-                  >
-                </div>
-              </div>
-            </div>
-          </form>
-        </div>
+            </form>
+          </div>
+        </section>
+        <inactive-halaman v-else />
       </div>
     </div>
   </div>
@@ -206,8 +209,10 @@ import { QuillEditor } from "@vueup/vue-quill";
 import Choices from "choices.js";
 import HeaderProfileCard from "@/views/dashboards/components/HeaderProfileCard.vue";
 import ArgonButton from "@/components/ArgonButton.vue";
+import InactiveHalaman from "@/views/dashboards/components/InactiveHalaman.vue";
 import d$laporan from "@/store/laporan";
-import { mapActions } from "pinia";
+import d$halaman from "@/store/halaman";
+import { mapActions, mapState } from "pinia";
 
 export default {
   name: "AddLRK",
@@ -215,9 +220,11 @@ export default {
     HeaderProfileCard,
     ArgonButton,
     QuillEditor,
+    InactiveHalaman,
   },
   data() {
     return {
+      id_halaman: 4,
       body: {
         id_tema: parseInt(this.$route.params.id_tema),
         judul: "",
@@ -233,11 +240,21 @@ export default {
       },
     };
   },
+  computed: {
+    ...mapState(d$halaman, ["g$statusHalaman"]),
+  },
+  async created() {
+    await this.a$checkHalaman(
+      parseInt(this.$route.params.id_tema),
+      parseInt(this.id_halaman)
+    );
+  },
   mounted() {
     this.choicesKategori = this.getChoices("choices-kategori");
   },
   methods: {
     ...mapActions(d$laporan, ["a$addLRK"]),
+    ...mapActions(d$halaman, ["a$checkHalaman"]),
 
     async addLRK() {
       this.showSwal("loading");

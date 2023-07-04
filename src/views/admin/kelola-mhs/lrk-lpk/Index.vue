@@ -92,7 +92,11 @@
                     </td>
                     <td class="text-sm">{{ laporan.mahasiswa.nim }}</td>
                     <td class="text-sm">{{ getOutOfTagP(laporan.program) }}</td>
-                    <td class="text-sm">Monodisiplin</td>
+                    <td class="text-sm">
+                      {{
+                        laporan.kategori == 1 ? "Monodisiplin" : "Multidisiplin"
+                      }}
+                    </td>
                     <td class="text-sm">
                       {{ moment(laporan.created_at).format("DD-MM-YYYY") }}
                     </td>
@@ -169,6 +173,17 @@
                                     class="text-wrap"
                                     v-html="getOutOfTagP(laporan.program)"
                                   ></div>
+                                </li>
+                                <li
+                                  class="text-sm border-0 list-group-item ps-0"
+                                >
+                                  <strong class="text-dark">Kategori:</strong>
+                                  &nbsp;
+                                  {{
+                                    laporan.kategori == 1
+                                      ? "Monodisiplin"
+                                      : "Multidisiplin"
+                                  }}
                                 </li>
                                 <li
                                   class="text-sm border-0 list-group-item ps-0"

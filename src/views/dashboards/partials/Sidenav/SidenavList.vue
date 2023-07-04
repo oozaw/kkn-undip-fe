@@ -360,6 +360,28 @@
         </sidenav-collapse>
       </li>
 
+      <!-- Koordinator Wilayah -->
+      <li class="nav-item" v-if="a$checkAuth(['ADMIN', 'BAPPEDA'])">
+        <router-link :to="{ name: 'Koordinator Wilayah' }">
+          <sidenav-collapse
+            nav-text="Koordinator Wilayah"
+            :collapse="false"
+            url="#"
+            :aria-controls="''"
+            collapse-ref="/korwil"
+            :class="getRoute() === 'korwil' ? 'active' : ''"
+          >
+            <template #icon>
+              <font-awesome-icon
+                icon="fa-solid fa-users-gear"
+                class="text-primary"
+              />
+              <!-- <i class="ni ni-single-02 text-success text-sm"></i> -->
+            </template>
+          </sidenav-collapse>
+        </router-link>
+      </li>
+
       <!-- Pendaftaran KKN -->
       <li class="nav-item" v-if="a$checkAuth(['DOSEN', 'MAHASISWA'])">
         <sidenav-collapse
@@ -378,6 +400,13 @@
                 mini-icon="P"
                 text="Pendaftaran Diri"
               />
+              <!-- <sidenav-item
+                :isActive="getRoute2() === 'tema'"
+                :to="{ name: 'Tema KKN' }"
+                mini-icon="T"
+                text="KKN Tematik"
+                v-if="a$checkAuth(['DOSEN'])"
+              /> -->
               <sidenav-item
                 :to="{ name: 'Edit Data Berkas' }"
                 mini-icon="B"
@@ -457,23 +486,27 @@
                 :to="{ name: 'LRK' }"
                 mini-icon="R"
                 text="LRK"
+                :isDisabled="!isAccepted()"
               />
               <sidenav-item
                 :isActive="getRoute2() === 'lpk'"
                 :to="{ name: 'LPK' }"
                 mini-icon="P"
                 text="LPK"
+                :isDisabled="!isAccepted()"
               />
               <sidenav-item
                 :isActive="getRoute2() === 'reportase'"
                 :to="{ name: 'Reportase' }"
                 mini-icon="R"
                 text="Data Reportase"
+                :isDisabled="!isAccepted()"
               />
               <sidenav-item
                 :to="{ name: 'Presensi' }"
                 mini-icon="P"
                 text="Presensi"
+                :isDisabled="!isAccepted()"
               />
               <sidenav-item
                 :to="{ name: 'Review Presensi Mahasiswa' }"
@@ -518,13 +551,16 @@
 import SidenavItem from "./SidenavItem.vue";
 import SidenavCollapse from "./SidenavCollapse.vue";
 import d$auth from "@/store/auth";
-import { mapActions } from "pinia";
+import { mapActions, mapState } from "pinia";
 
 export default {
   name: "SidenavList",
   components: {
     SidenavItem,
     SidenavCollapse,
+  },
+  computed: {
+    ...mapState(d$auth, ["g$infoUser", "g$user"]),
   },
   methods: {
     ...mapActions(d$auth, ["a$getUser", "a$checkAuth"]),
@@ -539,6 +575,11 @@ export default {
       const routeArr = this.$route.path.split("/");
       // console.log(this.$route.path.split("/")[2]);
       return routeArr[2];
+    },
+
+    isAccepted() {
+      if (this.g$user.role == "MAHASISWA") return this.g$infoUser?.status == 2;
+      else return this.g$infoUser?.id_tema.length > 0;
     },
   },
 };

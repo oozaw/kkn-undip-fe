@@ -162,7 +162,10 @@
                         <i class="fas fa-user-edit text-primary"></i>
                       </a>
                       <a
-                        href="javascript:;"
+                        :id="bappeda.id_bappeda"
+                        :name="bappeda.nama"
+                        class="delete"
+                        href="#"
                         data-bs-toggle="tooltip"
                         data-bs-original-title="Hapus BAPPEDA"
                         title="Hapus BAPPEDA"
@@ -192,9 +195,9 @@
 </template>
 
 <script>
+import $ from "jquery";
 import Choices from "choices.js";
 import { DataTable } from "simple-datatables";
-import setTooltip from "@/assets/js/tooltip.js";
 import HeaderProfileCard from "@/views/dashboards/components/HeaderProfileCard.vue";
 import d$bappeda from "@/store/bappeda";
 import { mapActions, mapState } from "pinia";
@@ -218,29 +221,41 @@ export default {
     ...mapState(d$bappeda, ["g$listBappeda"]),
   },
   async created() {
-    try {
-      await this.a$listBappeda();
-    } catch (error) {
-      if (error) this.showSwal("failed-message", error);
-      else
-        this.showSwal("failed-message", "Terjadi kesalahan saat memuat data!");
-      console.log(error);
-    }
+    await this.getInitData();
 
     // this.choicesTema = this.getChoices("choices-tema");
-
-    this.setupDataTable();
-
-    setTooltip(this.$store.state.bootstrap);
   },
   beforeUnmount() {
-    // if (this.choicesTema) this.choicesTema.destroy();
+    if (this.choicesTema) this.choicesTema.destroy();
   },
   methods: {
-    ...mapActions(d$bappeda, ["a$listBappeda", "a$importBappeda"]),
+    ...mapActions(d$bappeda, [
+      "a$listBappeda",
+      "a$importBappeda",
+      "a$deleteBappeda",
+    ]),
+
+    async getInitData() {
+      try {
+        await this.a$listBappeda();
+      } catch (error) {
+        if (error) this.showSwal("failed-message", error);
+        else
+          this.showSwal(
+            "failed-message",
+            "Terjadi kesalahan saat memuat data!"
+          );
+        console.log(error);
+      }
+
+      this.setupDataTable();
+      this.setupTableAction();
+    },
 
     async importBappeda() {
-      this.file = this.$refs.file.files[0];
+      this.showSwal("loading");
+
+      this.body.file = this.$refs.file.files[0];
       this.indexComponent++;
       document.getElementById("button-close-modal").click();
 
@@ -259,6 +274,28 @@ export default {
       }
 
       this.setupDataTable();
+      this.setupTableAction();
+    },
+
+    async deleteBappeda(id_bappeda) {
+      this.showSwal("loading");
+
+      this.indexComponent++;
+
+      try {
+        await this.a$deleteBappeda(parseInt(id_bappeda));
+        await this.a$listBappeda();
+        this.showSwal("success-message", "Data bappeda berhasil dihapus!");
+      } catch (error) {
+        this.showSwal(
+          "failed-message",
+          "Terjadi kesalahan saat memperbarui data! " + error.error
+        );
+        console.log(error);
+      }
+
+      this.setupDataTable();
+      this.setupTableAction();
     },
 
     setupDataTable() {
@@ -295,17 +332,22 @@ export default {
       }
     },
 
-    getChoices(id) {
-      var element = document.getElementById(id);
-      if (element) {
-        return new Choices(element, {
-          searchEnabled: true,
-          allowHTML: true,
-        });
-      }
+    setupTableAction() {
+      let outerThis = this;
+      // delete
+      $("#bappeda-list").on("click", `.delete`, function (e) {
+        let bappeda = this;
+        outerThis.showSwal(
+          "warning-confirmation",
+          `Hapus akun bappeda ${bappeda.name}?`,
+          "Berhasil menghapus data",
+          bappeda.id
+        );
+        e.preventDefault();
+      });
     },
 
-    showSwal(type, text) {
+    showSwal(type, text, toastText, id_bappeda) {
       if (type === "success-message") {
         this.$swal({
           icon: "success",
@@ -315,6 +357,22 @@ export default {
           type: type,
           timerProgressBar: true,
           showConfirmButton: false,
+          didOpen: () => {
+            this.$swal.hideLoading();
+          },
+        });
+      } else if (type === "warning-message") {
+        this.$swal({
+          icon: "warning",
+          title: "Peringatan!",
+          text: text,
+          timer: 2500,
+          type: type,
+          timerProgressBar: true,
+          showConfirmButton: false,
+          didOpen: () => {
+            this.$swal.hideLoading();
+          },
         });
       } else if (type === "failed-message") {
         this.$swal({
@@ -325,6 +383,9 @@ export default {
           type: type,
           timerProgressBar: true,
           showConfirmButton: false,
+          didOpen: () => {
+            this.$swal.hideLoading();
+          },
         });
       } else if (type === "auto-close") {
         let timerInterval;
@@ -343,6 +404,69 @@ export default {
           willClose: () => {
             clearInterval(timerInterval);
           },
+        });
+      } else if (type === "warning-confirmation") {
+        this.$swal({
+          title: "Apakah Anda yakin?",
+          text: text,
+          showCancelButton: true,
+          confirmButtonText: "Ya!",
+          cancelButtonText: "Batal!",
+          customClass: {
+            confirmButton: "btn bg-gradient-success",
+            cancelButton: "btn bg-gradient-secondary",
+          },
+          buttonsStyling: false,
+          didOpen: () => {
+            this.$swal.hideLoading();
+          },
+        }).then((result) => {
+          if (result.isConfirmed) {
+            this.deleteBappeda(id_bappeda);
+            this.$swal({
+              toast: true,
+              position: "top-end",
+              title: toastText,
+              icon: "success",
+              showConfirmButton: false,
+              timer: 2500,
+              timerProgressBar: true,
+              didOpen: () => {
+                this.$swal.hideLoading();
+              },
+            });
+          } else if (
+            /* Read more about handling dismissals below */
+            result.dismiss === this.$swal.DismissReason.cancel
+          ) {
+            this.$swal.close();
+          }
+        });
+      } else if (type === "loading") {
+        this.$swal({
+          title: "Memuat...",
+          timerProgressBar: true,
+          showConfirmButton: false,
+          allowOutsideClick: false,
+          allowEscapeKey: false,
+          didOpen: () => {
+            this.$swal.showLoading();
+          },
+          didDestroy: () => {
+            this.$swal.hideLoading();
+          },
+        });
+      } else if (type === "close") {
+        this.$swal.close();
+      }
+    },
+
+    getChoices(id) {
+      var element = document.getElementById(id);
+      if (element) {
+        return new Choices(element, {
+          searchEnabled: true,
+          allowHTML: true,
         });
       }
     },

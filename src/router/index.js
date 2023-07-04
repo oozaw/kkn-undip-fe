@@ -85,11 +85,15 @@ import IndexPostTest from "../views/test/Index.vue";
 import IndexLRK from "../views/kegiatan/lrk/Index.vue";
 import AddLRK from "../views/kegiatan/lrk/Add.vue";
 import EditLRK from "../views/kegiatan/lrk/Edit.vue";
+import EvaluateLRK from "../views/kegiatan/lrk/Evaluate.vue";
 import IndexLPK from "../views/kegiatan/lpk/Index.vue";
 import EditLPK from "../views/kegiatan/lpk/Edit.vue";
+import EvaluateLPK from "../views/kegiatan/lpk/Evaluate.vue";
 import IndexReportase from "../views/kegiatan/reportase/Index.vue";
+import DetailReportase from "../views/kegiatan/reportase/Detail.vue";
 import AddReportase from "../views/kegiatan/reportase/Add.vue";
 import EditReportase from "../views/kegiatan/reportase/Edit.vue";
+import EvaluateReportase from "../views/kegiatan/reportase/Evaluate.vue";
 import IndexRegistrasi from "../views/pendaftaran/registrasi/Index.vue";
 import AddRegistrasi from "../views/pendaftaran/registrasi/Add.vue";
 import SeleksiMhs from "../views/seleksi/Index.vue";
@@ -105,7 +109,9 @@ import AddDesa from "../views/pengajuan-lokasi/desa/Add.vue";
 import EditDesa from "../views/pengajuan-lokasi/desa/Edit.vue";
 import IndexTemaKKN from "../views/admin/menu-utama/tema/Index.vue";
 import TambahTemaKKN from "../views/admin/menu-utama/tema/Add.vue";
+import EditTemaKKN from "../views/admin/menu-utama/tema/Edit.vue";
 import IndexGelombang from "../views/admin/menu-utama/gelombang/Index.vue";
+import EditGelombang from "../views/admin/menu-utama/gelombang/Edit.vue";
 import IndexPengajuanWilayah from "../views/admin/menu-utama/pengajuan-wilayah/Index.vue";
 import IndexKalender from "../views/admin/menu-utama/kalender/Index.vue";
 import TambahKalender from "../views/admin/menu-utama/kalender/Add.vue";
@@ -119,10 +125,12 @@ import IndexPresensiMhsAdmin from "../views/admin/kelola-mhs/presensi/Index.vue"
 import IndexLRKLPKMhsAdmin from "../views/admin/kelola-mhs/lrk-lpk/Index.vue";
 import IndexReportaseMhsAdmin from "../views/admin/kelola-mhs/reportase/Index.vue";
 import IndexPendaftaranDosenAdmin from "../views/admin/kelola-dosen/pendaftaran-lokasi/Index.vue";
+import DetailPendaftaranDosenAdmin from "../views/admin/kelola-dosen/pendaftaran-lokasi/Detail.vue";
 import EditEvaluasiProposalDosen from "../views/admin/kelola-dosen/pendaftaran-lokasi/Edit.vue";
 import IndexPemilihanMhsAdmin from "../views/admin/kelola-dosen/pemilihan-mhs/Index.vue";
 import IndexPresensiDosenAdmin from "../views/admin/kelola-dosen/presensi/Index.vue";
 import IndexNilaiAkhirMhsAdmin from "../views/admin/kelola-dosen/nilai-akhir-mhs/Index.vue";
+import IndexKorwil from "../views/admin/korwil/Index.vue";
 
 const routes = [
   {
@@ -279,6 +287,14 @@ const routes = [
     },
   },
   {
+    path: "/korwil",
+    name: "Koordinator Wilayah",
+    component: IndexKorwil,
+    meta: {
+      requiresAuth: [Role.admin, Role.bappeda],
+    },
+  },
+  {
     path: "/pendaftaran/data-diri/edit",
     name: "Edit Data Diri",
     component: EditProfile,
@@ -351,6 +367,14 @@ const routes = [
     },
   },
   {
+    path: "/kegiatan/lrk/evaluate/:id_laporan",
+    name: "Evaluate LRK",
+    component: EvaluateLRK,
+    meta: {
+      requiresAuth: [Role.dosen],
+    },
+  },
+  {
     path: "/kegiatan/lpk",
     name: "LPK",
     component: IndexLPK,
@@ -367,11 +391,27 @@ const routes = [
     },
   },
   {
+    path: "/kegiatan/lpk/evaluate/:id_laporan",
+    name: "Evaluate LPK",
+    component: EvaluateLPK,
+    meta: {
+      requiresAuth: [Role.dosen],
+    },
+  },
+  {
     path: "/kegiatan/reportase",
     name: "Reportase",
     component: IndexReportase,
     meta: {
       requiresAuth: [Role.mahasiswa, Role.dosen],
+    },
+  },
+  {
+    path: "/kegiatan/reportase/:id_reportase",
+    name: "Detail Reportase",
+    component: DetailReportase,
+    meta: {
+      requiresAuth: [Role.mahasiswa],
     },
   },
   {
@@ -383,11 +423,19 @@ const routes = [
     },
   },
   {
-    path: "/kegiatan/reportase/edit",
+    path: "/kegiatan/reportase/edit/:id_reportase",
     name: "Edit Reportase",
     component: EditReportase,
     meta: {
       requiresAuth: [Role.mahasiswa],
+    },
+  },
+  {
+    path: "/kegiatan/reportase/evaluasi/:id_reportase",
+    name: "Evaluasi Reportase",
+    component: EvaluateReportase,
+    meta: {
+      requiresAuth: [Role.dosen],
     },
   },
   {
@@ -439,7 +487,7 @@ const routes = [
     },
   },
   {
-    path: "/kegiatan/nilai/edit",
+    path: "/kegiatan/nilai/edit/:id_nilai",
     name: "Edit Nilai Akhir",
     component: EditNilai,
     meta: {
@@ -520,9 +568,25 @@ const routes = [
     },
   },
   {
+    path: "/admin/tema/edit/:id_tema",
+    name: "Edit Tema KKN",
+    component: EditTemaKKN,
+    meta: {
+      requiresAuth: [Role.admin],
+    },
+  },
+  {
     path: "/admin/gelombang",
     name: "Gelombang",
     component: IndexGelombang,
+    meta: {
+      requiresAuth: [Role.admin],
+    },
+  },
+  {
+    path: "/admin/gelombang/edit/:id_tema/:id_gelombang",
+    name: "Edit Gelombang",
+    component: EditGelombang,
     meta: {
       requiresAuth: [Role.admin],
     },
@@ -629,6 +693,14 @@ const routes = [
     path: "/kelola-dosen/pendaftaran",
     name: "Pendaftaran Dosen Admin",
     component: IndexPendaftaranDosenAdmin,
+    meta: {
+      requiresAuth: [Role.admin, Role.reviewer],
+    },
+  },
+  {
+    path: "/kelola-dosen/pendaftaran/:id_proposal",
+    name: "Detail Pendaftaran Dosen Admin",
+    component: DetailPendaftaranDosenAdmin,
     meta: {
       requiresAuth: [Role.admin, Role.reviewer],
     },

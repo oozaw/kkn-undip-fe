@@ -1,11 +1,7 @@
 <template>
   <div class="card shadow-lg mx-4 mt-4">
     <div class="card shadow-lg">
-      <HeaderProfileCard
-        :button="false"
-        description="KKN Reguler Tim 1 2023"
-        :img="team2"
-      />
+      <HeaderProfileCard />
     </div>
   </div>
   <div class="py-4 container-fluid">
@@ -58,11 +54,13 @@
           <div class="col-lg-6 col-12 mt-lg-0 mt-4">
             <div class="col-lg-12 col-sm-12">
               <mini-statistics-card
+                v-if="g$user.role === 'MAHASISWA'"
                 class="py-2"
                 :style="'margin-left: 85.5%'"
                 title="Dosen Pembimbing"
+                :isValueList="true"
                 :value="{
-                  text: 'Kurniawan Teguh Martono, ST., MT.',
+                  list: dosenName,
                   color: 'dark',
                 }"
                 :icon="{
@@ -72,6 +70,7 @@
                 }"
               />
               <mini-statistics-card
+                v-if="g$user.role === 'DOSEN' || g$user.role === 'BAPPEDA'"
                 :style="'margin-left: 70%'"
                 title="Data Diri"
                 title-color="primary"
@@ -86,67 +85,106 @@
               <div class="row">
                 <div class="col-lg-6 col-md-6 col-12">
                   <mini-statistics-card
+                    v-if="g$user.role === 'MAHASISWA'"
                     :style="'margin-left: 70%'"
+                    role="button"
                     title="Data Diri"
                     title-color="primary"
-                    :value="{ text: 'Sudah Lengkap', color: 'success' }"
-                    description="Terakhir diubah 12/12/2020, 12.30 PM"
+                    :value="{
+                      text:
+                        checkProgressDataDiriMhs() == 100
+                          ? `Sudah Lengkap (${checkProgressLRK()}%)`
+                          : `Belum Lengkap (${checkProgressDataDiriMhs()}%)`,
+                      color:
+                        checkProgressDataDiriMhs() == 100
+                          ? 'success'
+                          : 'danger',
+                    }"
                     :icon="{
                       component: 'fa-solid fa-address-card',
                       background: 'bg-gradient-primary',
                       shape: 'rounded-circle',
                     }"
+                    @click="() => $router.push({ name: 'Edit Data Diri' })"
                   />
                 </div>
                 <div class="col-lg-6 col-md-6 col-12">
                   <mini-statistics-card
+                    v-if="g$user.role === 'MAHASISWA'"
                     :style="'margin-left: 70%'"
+                    role="button"
                     title="Lokasi KKN"
-                    value="Desa XYZ"
-                    description="Kec. Tembalang, Jawa Tengah"
+                    :value="
+                      lokasi.kecamatan == ''
+                        ? 'Belum terdaftar'
+                        : `Kec. ${lokasi.kecamatan}`
+                    "
+                    :description="
+                      lokasi.kabupaten == '' ? '' : `Kab. ${lokasi.kabupaten}`
+                    "
                     :icon="{
                       component: 'fa-solid fa-map-location-dot',
                       background: 'bg-gradient-danger',
                       shape: 'rounded-circle',
                     }"
+                    @click="() => $router.push({ name: 'Index Lokasi' })"
                   />
                 </div>
               </div>
               <div class="row">
                 <div class="col-lg-6 col-md-6 col-12">
                   <mini-statistics-card
+                    v-if="g$user.role === 'MAHASISWA'"
                     :style="'margin-left: 70%'"
+                    role="button"
                     title="Status LRK"
-                    :value="{ text: 'Sudah Diupload', color: 'success' }"
-                    description="Terakhir diubah 12/12/2020, 12.30 AM"
+                    :value="{
+                      text:
+                        checkProgressLRK() == 100
+                          ? `Sudah Lengkap (${checkProgressLRK()}%)`
+                          : `Belum Lengkap (${checkProgressLRK()}%)`,
+                      color: checkProgressLRK() == 100 ? 'success' : 'danger',
+                    }"
+                    :description="`Jumlah LRK: ${g$listLRK.length}`"
                     :icon="{
                       component: 'fa-solid fa-file-lines',
                       background: 'bg-gradient-success',
                       shape: 'rounded-circle',
                     }"
+                    @click="() => $router.push({ name: 'LRK' })"
                   />
                 </div>
                 <div class="col-lg-6 col-md-6 col-12">
                   <mini-statistics-card
+                    v-if="g$user.role === 'MAHASISWA'"
                     :style="'margin-left: 70%'"
+                    role="button"
                     title="Status LPK"
-                    :value="{ text: 'Belum Diupload', color: 'danger' }"
-                    description=""
+                    :value="{
+                      text:
+                        checkProgressLPK() == 100
+                          ? `Sudah Lengkap (${checkProgressLPK()}%)`
+                          : `Belum Lengkap (${checkProgressLPK()}%)`,
+                      color: checkProgressLPK() == 100 ? 'success' : 'danger',
+                    }"
+                    :description="`Jumlah LPK: ${g$listLPK.length}`"
                     :icon="{
                       component: 'fa-solid fa-file-lines',
                       background: 'bg-gradient-warning',
                       shape: 'rounded-circle',
                     }"
+                    @click="() => $router.push({ name: 'LPK' })"
                   />
                 </div>
               </div>
               <div class="row">
                 <div class="col-lg-6 col-md-6 col-12">
                   <mini-statistics-card
+                    v-if="g$user.role === 'ADMIN'"
                     :style="'margin-left: 70%'"
                     title="Total Kecamatan Terdaftar"
-                    :value="{ text: '16', color: 'success' }"
-                    description="Diperbarui pada 12/12/2020, 12.30 AM"
+                    :value="{ text: total.kecamatan, color: 'success' }"
+                    :description="`Dari total ${total.temaActive} tema aktif`"
                     :icon="{
                       component: 'fa-solid fa-list-check',
                       background: 'bg-gradient-success',
@@ -156,10 +194,11 @@
                 </div>
                 <div class="col-lg-6 col-md-6 col-12">
                   <mini-statistics-card
+                    v-if="g$user.role === 'ADMIN'"
                     :style="'margin-left: 70%'"
                     title="Total Kelurahan Terdaftar"
-                    :value="{ text: '177', color: 'success' }"
-                    description="Diperbarui pada 12/12/2020, 12.30 AM"
+                    :value="{ text: total.desa, color: 'success' }"
+                    :description="`Dari total ${total.temaActive} tema aktif`"
                     :icon="{
                       component: 'fa-solid fa-list-check',
                       background: 'bg-gradient-warning',
@@ -170,10 +209,13 @@
               </div>
             </div>
             <div class="col-lg-12 col-sm-12 mt-sm-2">
-              <members-table />
+              <members-table
+                v-if="g$user.role === 'MAHASISWA'"
+                :value="g$kecamatan.mahasiswa"
+              />
             </div>
           </div>
-          <div class="col-lg-12 col-sm-12">
+          <div class="col-lg-12 col-sm-12" v-if="g$user.role === 'ADMIN'">
             <div class="bg-white card mt-4">
               <!-- Card header -->
               <div class="pb-0 card-header">
@@ -265,16 +307,15 @@ import { DataTable } from "simple-datatables";
 import setTooltip from "@/assets/js/tooltip.js";
 import MiniStatisticsCard from "@/views/dashboards/components/Cards/MiniStatisticsCard.vue";
 import Calendar from "@/views/dashboards/components/Calendar.vue";
-import image from "@/assets/img/kal-visuals-square.jpg";
 import MembersTable from "@/views/dashboards/components/MembersTable.vue";
 import TimelineList from "@/views/dashboards/components/Cards/TimelineList.vue";
 import TimelineItem from "@/views/dashboards/components/Cards/TimelineItem.vue";
 import HeaderProfileCard from "@/views/dashboards/components/HeaderProfileCard.vue";
-
-import team1 from "../../assets/img/team-1.jpg";
-import team2 from "../../assets/img/team-2.jpg";
-import team5 from "../../assets/img/team-5.jpg";
-import team4 from "../../assets/img/team-4.jpg";
+import { mapState, mapActions } from "pinia";
+import d$auth from "@/store/auth";
+import d$wilayah from "@/store/wilayah";
+import d$laporan from "@/store/laporan";
+import d$tema from "@/store/tema";
 
 export default {
   name: "Dashboard",
@@ -288,12 +329,48 @@ export default {
   },
   data() {
     return {
-      image,
-      team1,
-      team2,
-      team5,
-      team4,
+      dosenName: [],
+      lokasi: {
+        desa: "",
+        kecamatan: "",
+        kabupaten: "",
+        provinsi: "",
+      },
+      total: {
+        temaActive: 0,
+        kabupaten: 0,
+        kecamatan: 0,
+        desa: 0,
+      },
     };
+  },
+  computed: {
+    ...mapState(d$auth, ["g$user", "g$infoUser"]),
+    ...mapState(d$wilayah, ["g$kecamatan"]),
+    ...mapState(d$laporan, ["g$listLRK", "g$listLPK"]),
+    ...mapState(d$tema, ["g$listTemaActive"]),
+  },
+  async created() {
+    switch (this.g$user.role) {
+      case "MAHASISWA":
+        if (!this.g$infoUser.id_tema) {
+          this.dosenName.push("Belum terdaftar");
+        } else {
+          await this.getDosenAndLokasi();
+          await this.a$listLRK();
+          await this.a$listLPK();
+        }
+        this.checkProgressDataDiriMhs();
+        this.checkProgressLRK();
+        break;
+
+      case "ADMIN":
+        await this.getDataTema();
+        break;
+
+      default:
+        break;
+    }
   },
   mounted() {
     this.checkError();
@@ -325,6 +402,127 @@ export default {
     setTooltip(this.$store.state.bootstrap);
   },
   methods: {
+    ...mapActions(d$wilayah, ["a$getKecamatanMhs"]),
+    ...mapActions(d$laporan, ["a$listLRK", "a$listLPK"]),
+    ...mapActions(d$tema, ["a$listTema"]),
+
+    async getDosenAndLokasi() {
+      try {
+        await this.a$getKecamatanMhs();
+        this.g$kecamatan.dosen.forEach((item) => {
+          this.dosenName.push(item.nama);
+        });
+        this.lokasi.kecamatan = this.g$kecamatan.nama;
+        this.lokasi.kabupaten = this.g$kecamatan.kabupaten;
+      } catch (error) {
+        console.log(error);
+      }
+    },
+
+    async getListLaporan() {
+      try {
+        await this.a$listLRK();
+        await this.a$listLPK();
+      } catch (error) {
+        console.log(error);
+      }
+    },
+
+    async getDataTema() {
+      try {
+        await this.a$listTema();
+        this.total.temaActive = this.g$listTemaActive.length;
+        this.g$listTemaActive.forEach((item) => {
+          this.total.kabupaten += item.total_kabupaten;
+          this.total.kecamatan += item.total_kecamatan;
+          this.total.desa += item.total_desa;
+        });
+      } catch (error) {
+        console.log(error);
+      }
+    },
+
+    checkProgressDataDiriMhs() {
+      let totalAttribute = Object.keys(this.g$infoUser).length;
+      let totalAttributeMustBeFilled = Object.keys(this.g$infoUser).length - 7; // minus 7
+      let indexMustNotBeFilled = [0, 1, 2, 17, 18, 19, 20];
+      let attributeFilled = 0;
+
+      for (let index = 0; index < totalAttribute; index++) {
+        if (indexMustNotBeFilled.includes(index)) continue;
+
+        if (
+          !this.isNullEmptyOrUndefined(
+            this.g$infoUser[Object.keys(this.g$infoUser)[index]]
+          )
+        ) {
+          // console.log(Object.keys(this.g$infoUser)[index]);
+          // console.log(this.g$infoUser[Object.keys(this.g$infoUser)[index]]);
+          attributeFilled++;
+        }
+      }
+
+      return this.percentage(attributeFilled, totalAttributeMustBeFilled);
+    },
+
+    checkProgressLRK() {
+      let totalLRK = this.g$listLRK.length;
+
+      if (totalLRK === 0) return 0;
+
+      let totalAttribute = 0;
+      let totalAttributePerLRK = Object.keys(this.g$listLRK[0]).length;
+
+      let indexMustNotBeFilled = [0, 1, 2, 8, 9];
+      let attributeFilled = 0;
+
+      this.g$listLRK.forEach((item) => {
+        totalAttribute += Object.keys(item).length;
+        for (let index = 0; index < totalAttributePerLRK; index++) {
+          if (indexMustNotBeFilled.includes(index)) continue;
+
+          if (!this.isNullEmptyOrUndefined(item[Object.keys(item)[index]])) {
+            attributeFilled++;
+          }
+        }
+      });
+
+      let totalAttributeMustBeFilled = totalAttribute - totalLRK * 5; // minus 1
+
+      return this.percentage(attributeFilled, totalAttributeMustBeFilled);
+    },
+
+    checkProgressLPK() {
+      let totalLPK = this.g$listLPK.length;
+
+      if (totalLPK === 0) return 0;
+
+      let totalAttribute = 0;
+      let totalAttributePerLPK = Object.keys(this.g$listLPK[0]).length;
+
+      let indexMustNotBeFilled = [0, 1, 2, 12, 13];
+      let attributeFilled = 0;
+
+      this.g$listLPK.forEach((item) => {
+        totalAttribute += Object.keys(item).length;
+        for (let index = 0; index < totalAttributePerLPK; index++) {
+          if (indexMustNotBeFilled.includes(index)) continue;
+
+          if (!this.isNullEmptyOrUndefined(item[Object.keys(item)[index]])) {
+            attributeFilled++;
+          }
+        }
+      });
+
+      let totalAttributeMustBeFilled = totalAttribute - totalLPK * 5; // minus 1
+
+      return this.percentage(attributeFilled, totalAttributeMustBeFilled);
+    },
+
+    percentage(partialValue, totalValue) {
+      return Math.round((100 * partialValue) / totalValue);
+    },
+
     checkError() {
       const error = this.$route.params.error;
 
@@ -335,6 +533,10 @@ export default {
             "Anda tidak mempunyai akses ke halaman tersebut!"
           );
       }
+    },
+
+    isNullEmptyOrUndefined(value) {
+      return value === null || value === "" || value === undefined;
     },
 
     showSwal(type, text, toastText) {

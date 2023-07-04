@@ -3,7 +3,7 @@
     <div class="row mb-5 mt-4">
       <div class="col-lg-12 mt-lg-0 mt-4">
         <header-profile-card />
-        <!-- <div class="bg-white card mt-4">
+        <div class="bg-white card mt-4">
           <div class="card-header pb-0 pt-3">
             <p class="font-weight-bold text-dark mb-2">
               Pilih Tema KKN Terdaftar
@@ -16,7 +16,7 @@
                 class="form-control"
                 name="choices-tema"
                 v-model="tema"
-                @change="getListMahasiswa()"
+                @change="getListGelombang()"
               >
                 <option
                   v-for="tema in g$listTema"
@@ -28,7 +28,7 @@
               </select>
             </div>
           </div>
-        </div> -->
+        </div>
         <div class="bg-white card mt-4">
           <!-- Card header -->
           <div class="pb-0 card-header">
@@ -95,17 +95,17 @@
                               name="jenis"
                               id="choices-halaman-modal"
                               class="choices-halaman-modal form-select"
-                              v-model="body.id_halaman"
+                              v-model="body.id_tema_halaman"
                             >
-                              <option value="0" selected hidden>
+                              <option value="0" selected hidden disabled>
                                 -- Pilih Halaman --
                               </option>
                               <option
                                 v-for="halaman in g$listHalaman"
-                                :key="halaman.id_halaman"
-                                :value="halaman.id_halaman"
+                                :key="halaman.id_tema_halaman"
+                                :value="halaman.id_tema_halaman"
                               >
-                                {{ halaman.nama }}
+                                {{ halaman.halaman.nama }}
                               </option>
                             </select>
                             <label class="form-label">Nama</label>
@@ -194,18 +194,109 @@
                     </td>
                     <td class="text-sm">
                       <a
-                        href="javascript:;"
-                        class="me-3"
-                        data-bs-toggle="tooltip"
-                        data-bs-original-title="Preview product"
+                        type="button"
+                        class="mb-0 me-3 text-primary"
+                        data-bs-toggle="modal"
+                        :data-bs-target="'#detail_' + gelombang.id_gelombang"
+                        title="Detail Gelombang"
                       >
                         <i class="fas fa-eye text-info"></i>
                       </a>
+                      <div
+                        :id="'detail_' + gelombang.id_gelombang"
+                        class="modal fade"
+                        tabindex="-1"
+                        aria-hidden="true"
+                      >
+                        <div class="modal-dialog mt-lg-12">
+                          <div class="modal-content">
+                            <div class="modal-header">
+                              <h5 id="ModalLabel" class="modal-title">
+                                Detail {{ gelombang.nama }}
+                              </h5>
+                              <button
+                                type="button"
+                                class="btn-close text-dark mb-0"
+                                data-bs-dismiss="modal"
+                                aria-label="Close"
+                              >
+                                <font-awesome-icon icon="fa-solid fa-xmark" />
+                              </button>
+                            </div>
+                            <div class="modal-body p-4">
+                              <ul class="list-group">
+                                <li
+                                  class="pt-0 text-sm border-0 list-group-item ps-0"
+                                >
+                                  <strong class="text-dark">Nama:</strong>
+                                  &nbsp;
+                                  {{ gelombang.nama }}
+                                </li>
+                                <li
+                                  class="text-sm border-0 list-group-item ps-0"
+                                >
+                                  <strong class="text-dark">Halaman:</strong>
+                                  &nbsp;
+                                  {{ gelombang.tema_halaman.halaman.nama }}
+                                </li>
+                                <li
+                                  class="text-sm border-0 list-group-item ps-0"
+                                >
+                                  <strong class="text-dark"
+                                    >Tanggal Dibuka:</strong
+                                  >
+                                  &nbsp;
+                                  {{
+                                    gelombang.tgl_mulai
+                                      ? moment(gelombang.tgl_mulai).format(
+                                          "dddd, DD MMMM YYYY HH:mm"
+                                        )
+                                      : "-"
+                                  }}
+                                </li>
+                                <li
+                                  class="text-sm border-0 list-group-item ps-0"
+                                >
+                                  <strong class="text-dark"
+                                    >Tanggal Ditutup:</strong
+                                  >
+                                  &nbsp;
+                                  {{
+                                    gelombang.tgl_akhir
+                                      ? moment(gelombang.tgl_akhir).format(
+                                          "dddd, DD MMMM YYYY HH:mm"
+                                        )
+                                      : "-"
+                                  }}
+                                </li>
+                                <li
+                                  class="text-sm border-0 list-group-item ps-0"
+                                >
+                                  <strong class="text-dark">Status:</strong>
+                                  &nbsp;
+                                  <span
+                                    v-if="gelombang.status"
+                                    class="badge badge-success"
+                                  >
+                                    Aktif
+                                  </span>
+                                  <span v-else class="badge badge-danger">
+                                    Tidak Aktif
+                                  </span>
+                                </li>
+                              </ul>
+                            </div>
+                            <div class="modal-footer"></div>
+                          </div>
+                        </div>
+                      </div>
                       <a
-                        href="javascript:;"
-                        class="me-3"
+                        :id="gelombang.id_gelombang"
+                        href="#"
+                        class="me-3 edit"
                         data-bs-toggle="tooltip"
-                        data-bs-original-title="Edit product"
+                        data-bs-original-title="Edit Gelombang"
+                        title="Edit Gelombang"
                       >
                         <i class="fas fa-user-edit text-primary"></i>
                       </a>
@@ -213,7 +304,8 @@
                         href="javascript:;"
                         data-bs-toggle="tooltip"
                         class="me-3"
-                        data-bs-original-title="Delete product"
+                        data-bs-original-title="Hapus Gelombang"
+                        title="Hapus Gelombang"
                       >
                         <i class="fas fa-trash text-danger"></i>
                       </a>
@@ -224,8 +316,8 @@
                         class="me-3 non-aktif"
                         href="#"
                         data-bs-toggle="tooltip"
-                        data-bs-original-title="Non-aktifkan gelombang"
-                        title="Non-aktifkan gelombang"
+                        data-bs-original-title="Nonaktifkan gelombang"
+                        title="Nonaktifkan gelombang"
                       >
                         <font-awesome-icon
                           class="text-danger"
@@ -274,8 +366,8 @@
 <script>
 import $ from "jquery";
 import Choices from "choices.js";
+import moment from "moment";
 import { DataTable } from "simple-datatables";
-import setTooltip from "@/assets/js/tooltip.js";
 import HeaderProfileCard from "@/views/dashboards/components/HeaderProfileCard.vue";
 import { mapActions, mapState } from "pinia";
 import d$tema from "@/store/tema";
@@ -289,17 +381,17 @@ export default {
   },
   data() {
     return {
-      tema: "1",
+      tema: "",
       indexComponent: 0,
       choicesTema: undefined,
       choicesTemaModal: undefined,
       choicesHalamanModal: undefined,
       dataTable: undefined,
       body: {
-        // id_tema: "",
-        id_halaman: "",
+        id_tema_halaman: "",
         nama: "",
       },
+      moment,
     };
   },
   computed: {
@@ -308,21 +400,22 @@ export default {
     ...mapState(d$halaman, ["g$listHalaman"]),
   },
   async created() {
+    moment.locale("id");
+
     await this.a$listTema();
+    this.tema = this.g$listTema[0].id_tema;
+
     await this.getListGelombang();
-    await this.a$listHalaman();
 
     this.setupChoices();
-
-    setTooltip(this.$store.state.bootstrap);
   },
   beforeUnmount() {
     if (this.choicesTema) this.choicesTema.destroy();
-    if (this.choicesTemaModal) this.choicesTemaModal.destroy();
+    // if (this.choicesTemaModal) this.choicesTemaModal.destroy();
     if (this.choicesHalamanModal) this.choicesHalamanModal.destroy();
   },
   methods: {
-    ...mapActions(d$tema, ["a$listTema", "a$switchGelombang"]),
+    ...mapActions(d$tema, ["a$listTema"]),
     ...mapActions(d$gelombang, [
       "a$listAllGelombang",
       "a$switchGelombang",
@@ -332,14 +425,14 @@ export default {
 
     async addGelombang() {
       // validation
-      if (!this.body.id_halaman || this.body.id_halaman === "0") {
+      if (!this.body.id_tema_halaman || this.body.id_tema_halaman === "0") {
         this.showSwal("warning-message", "Lengkapi data terlebih dahulu!");
         return;
       }
 
       this.showSwal("loading");
       // this.body.id_tema = parseInt(this.body.id_tema);
-      this.body.id_halaman = parseInt(this.body.id_halaman);
+      this.body.id_tema_halaman = parseInt(this.body.id_tema_halaman);
 
       try {
         document.getElementById("button-close-modal").click();
@@ -347,8 +440,8 @@ export default {
         await this.getListGelombang();
         this.showSwal("success-message", "Berhasil menambahkan gelombang");
         // this.indexComponent++;
-        this.setupChoices();
-        this.body.id_halaman = "0";
+        // this.setupChoices();
+        this.body.id_tema_halaman = "0";
         this.body.nama = "";
       } catch (error) {
         this.showSwal(
@@ -378,13 +471,13 @@ export default {
       this.indexComponent++;
 
       try {
-        await this.a$listAllGelombang();
+        await this.a$listHalaman(parseInt(this.tema));
+        this.choicesHalamanModal = this.getChoices("choices-halaman-modal");
+
+        await this.a$listAllGelombang(parseInt(this.tema));
       } catch (error) {
-        this.showSwal(
-          "failed-message",
-          error ?? "Terjadi kesalahan saat memuat data"
-        );
-        // console.log(error);
+        this.showSwal("failed-message", "Terjadi kesalahan saat memuat data");
+        console.log(error.error);
       }
 
       this.setupDataTable();
@@ -403,6 +496,7 @@ export default {
         );
         e.preventDefault();
       });
+
       $("#gelombang-list").on("click", `.non-aktif`, function (e) {
         let gelombang = this;
         outerThis.showSwal(
@@ -411,6 +505,18 @@ export default {
           "Berhasil memperbarui data",
           gelombang.id
         );
+        e.preventDefault();
+      });
+
+      $("#gelombang-list").on("click", `.edit`, function (e) {
+        let gelombang = this;
+        outerThis.$router.push({
+          name: "Edit Gelombang",
+          params: {
+            id_tema: parseInt(outerThis.tema),
+            id_gelombang: gelombang.id,
+          },
+        });
         e.preventDefault();
       });
     },
@@ -445,9 +551,8 @@ export default {
     },
 
     setupChoices() {
-      // this.choicesTema = this.getChoices("choices-tema");
-      this.choicesTemaModal = this.getChoices("choices-tema-modal");
-      this.choicesHalamanModal = this.getChoices("choices-halaman-modal");
+      this.choicesTema = this.getChoices("choices-tema");
+      // this.choicesTemaModal = this.getChoices("choices-tema-modal");
     },
 
     getChoices(id) {
@@ -471,6 +576,9 @@ export default {
           type: type,
           timerProgressBar: true,
           showConfirmButton: false,
+          didOpen: () => {
+            this.$swal.hideLoading();
+          },
         });
       } else if (type === "warning-message") {
         this.$swal({
@@ -481,6 +589,9 @@ export default {
           type: type,
           timerProgressBar: true,
           showConfirmButton: false,
+          didOpen: () => {
+            this.$swal.hideLoading();
+          },
         });
       } else if (type === "failed-message") {
         this.$swal({
@@ -491,6 +602,9 @@ export default {
           type: type,
           timerProgressBar: true,
           showConfirmButton: false,
+          didOpen: () => {
+            this.$swal.hideLoading();
+          },
         });
       } else if (type === "auto-close") {
         let timerInterval;
@@ -533,6 +647,9 @@ export default {
               showConfirmButton: false,
               timer: 2000,
               timerProgressBar: true,
+              didOpen: () => {
+                this.$swal.hideLoading();
+              },
             });
           } else if (
             /* Read more about handling dismissals below */
@@ -549,11 +666,9 @@ export default {
           allowOutsideClick: false,
           allowEscapeKey: false,
           didOpen: () => {
-            this.$swal.isLoading();
-            if (this.$swal.isLoading()) this.$swal.showLoading();
+            this.$swal.showLoading();
           },
           didDestroy: () => {
-            !this.$swal.isLoading();
             this.$swal.hideLoading();
           },
         });

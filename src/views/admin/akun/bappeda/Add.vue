@@ -65,7 +65,7 @@
                     name="kabupaten"
                     id="kabupaten"
                     placeholder="Masukkan nama kabupaten"
-                    v-model="body.kabupaten"
+                    v-model="body.nama_kabupaten"
                     required
                   />
                 </div>
@@ -111,7 +111,7 @@ export default {
       body: {
         nama: "",
         nb: "",
-        kabupaten: "",
+        nama_kabupaten: "",
         nama_pj: "",
       },
       choicesKab: "",
@@ -132,26 +132,30 @@ export default {
     },
 
     async addBappeda() {
+      this.showSwal("loading");
+
       // validation
       if (
-        this.body.kabupaten === "" ||
+        this.body.nama_kabupaten === "" ||
         this.body.nama === "" ||
         this.body.nama_pj === "" ||
         this.nomor === ""
       ) {
-        this.showSwal("failed-message", "Data belum lengkap!");
+        this.showSwal("warning-message", "Data belum lengkap!");
         return;
       }
 
       this.body.nb = this.nomor.toString();
 
       try {
-        console.log(this.body);
         await this.a$addBappeda(this.body);
         this.showSwal("success-message", "Data BAPPEDA berhasil ditambahkan!");
         this.$router.push({ name: "Bappeda" });
       } catch (error) {
-        this.showSwal("failed-message", error);
+        this.showSwal(
+          "failed-message",
+          "Terjadi kesalahan saat menambahkan data"
+        );
         console.log(error);
       }
     },
@@ -166,6 +170,22 @@ export default {
           type: type,
           timerProgressBar: true,
           showConfirmButton: false,
+          didOpen: () => {
+            this.$swal.hideLoading();
+          },
+        });
+      } else if (type === "warning-message") {
+        this.$swal({
+          icon: "warning",
+          title: "Peringatan!",
+          text: text,
+          timer: 2500,
+          type: type,
+          timerProgressBar: true,
+          showConfirmButton: false,
+          didOpen: () => {
+            this.$swal.hideLoading();
+          },
         });
       } else if (type === "failed-message") {
         this.$swal({
@@ -176,6 +196,9 @@ export default {
           type: type,
           timerProgressBar: true,
           showConfirmButton: false,
+          didOpen: () => {
+            this.$swal.hideLoading();
+          },
         });
       } else if (type === "auto-close") {
         let timerInterval;
@@ -195,6 +218,22 @@ export default {
             clearInterval(timerInterval);
           },
         });
+      } else if (type === "loading") {
+        this.$swal({
+          title: "Memuat...",
+          timerProgressBar: true,
+          showConfirmButton: false,
+          allowOutsideClick: false,
+          allowEscapeKey: false,
+          didOpen: () => {
+            this.$swal.showLoading();
+          },
+          didDestroy: () => {
+            this.$swal.hideLoading();
+          },
+        });
+      } else if (type === "close") {
+        this.$swal.close();
       }
     },
   },

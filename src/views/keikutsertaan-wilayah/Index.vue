@@ -345,6 +345,7 @@ export default {
         return new Choices(element, {
           searchEnabled: false,
           allowHTML: true,
+          shouldSort: false,
         });
       }
     },

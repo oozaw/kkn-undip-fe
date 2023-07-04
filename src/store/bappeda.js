@@ -38,6 +38,16 @@ const d$bappeda = defineStore("bappedaStore", {
         throw error;
       }
     },
+
+    async a$deleteBappeda(id_bappeda) {
+      try {
+        const status = await s$bappeda.deleteBappeda(id_bappeda);
+        this.status = status;
+      } catch (error) {
+        this.status = false;
+        throw error;
+      }
+    },
   },
   getters: {
     g$listBappeda: ({ listBappeda }) => listBappeda,

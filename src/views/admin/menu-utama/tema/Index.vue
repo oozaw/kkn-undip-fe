@@ -56,12 +56,12 @@
                         type="button"
                         class="mb-0 text-primary"
                         data-bs-toggle="modal"
-                        data-bs-target="#lokasi-kkn"
+                        :data-bs-target="`#lokasi-kkn-${tema.id_tema}`"
                       >
                         Lihat
                       </a>
                       <div
-                        id="lokasi-kkn"
+                        :id="`lokasi-kkn-${tema.id_tema}`"
                         class="modal fade"
                         tabindex="-1"
                         aria-hidden="true"
@@ -82,43 +82,48 @@
                               </button>
                             </div>
                             <div class="modal-body">
-                              <p>
-                                Silahkan cari dan pilih file excel berisi data
-                                mahasiswa
-                              </p>
-                              <input
-                                type="file"
-                                placeholder="Browse file..."
-                                class="mb-1 form-control"
-                              />
-                              <div>
-                                <small class="text-danger text-sm-start">
-                                  <i class="fas fa-info-circle"></i>
-                                  File yang diizinkan hanya file excel dengan
-                                  ekstensi .xls atau .xlsx
-                                </small>
-                              </div>
+                              <ul class="list-group">
+                                <li
+                                  class="pt-0 text-sm border-0 list-group-item ps-0"
+                                >
+                                  <strong class="text-dark mb-1"
+                                    >Kabupaten - Kecamatan - Desa</strong
+                                  >
+                                  &nbsp;
+                                  <ol class="list-group list-group-numbered">
+                                    <li
+                                      v-for="(kab, ikab) in tema.kabupaten"
+                                      :key="ikab"
+                                      class="mb-2"
+                                    >
+                                      {{ kab.nama }}:
+                                      <ol class="ms-2">
+                                        <li
+                                          v-for="(kec, ikec) in kab.kecamatan"
+                                          :key="ikec"
+                                        >
+                                          Kec. {{ kec.nama }}:
+                                          <ol class="ms-1">
+                                            <li
+                                              v-for="(desa, idesa) in kec.desa"
+                                              :key="idesa"
+                                            >
+                                              Desa {{ desa.nama }}
+                                            </li>
+                                          </ol>
+                                        </li>
+                                      </ol>
+                                    </li>
+                                  </ol>
+                                </li>
+                              </ul>
                             </div>
-                            <div class="modal-footer">
-                              <button
-                                type="button"
-                                class="btn bg-gradient-secondary btn-sm"
-                                data-bs-dismiss="modal"
-                              >
-                                Batal
-                              </button>
-                              <button
-                                type="button"
-                                class="btn bg-gradient-success btn-sm"
-                              >
-                                Unggah
-                              </button>
-                            </div>
+                            <div class="modal-footer"></div>
                           </div>
                         </div>
                       </div>
                     </td>
-                    <td class="text-sm">2022/2023</td>
+                    <td class="text-sm">{{ tema.periode }}</td>
                     <td>
                       <span
                         v-if="tema.status"
@@ -140,10 +145,12 @@
                         <i class="fas fa-eye text-info"></i>
                       </a>
                       <a
-                        href="javascript:;"
-                        class="me-3"
+                        href="#"
+                        :id="tema.id_tema"
+                        class="me-3 edit"
                         data-bs-toggle="tooltip"
-                        data-bs-original-title="Edit product"
+                        data-bs-original-title="Edit Tema"
+                        title="Edit Tema"
                       >
                         <i class="fas fa-user-edit text-primary"></i>
                       </a>
@@ -247,7 +254,7 @@ export default {
       } catch (error) {
         this.showSwal(
           "failed-message",
-          error ?? "Terjadi kesalahan saat memperbarui data"
+          "Terjadi kesalahan saat memperbarui data! " + error
         );
         // console.log(error);
       }
@@ -261,7 +268,7 @@ export default {
       } catch (error) {
         this.showSwal(
           "failed-message",
-          error ?? "Terjadi kesalahan saat memuat data"
+          "Terjadi kesalahan saat memuat data! " + error
         );
         // console.log(error);
       }
@@ -282,6 +289,7 @@ export default {
         );
         e.preventDefault();
       });
+
       $("#kkn-list").on("click", `.non-aktif`, function (e) {
         let tema = this;
         outerThis.showSwal(
@@ -290,6 +298,15 @@ export default {
           "Berhasil memperbarui data",
           tema.id
         );
+        e.preventDefault();
+      });
+
+      $("#kkn-list").on("click", `.edit`, function (e) {
+        let tema = this;
+        outerThis.$router.push({
+          name: "Edit Tema KKN",
+          params: { id_tema: tema.id },
+        });
         e.preventDefault();
       });
     },

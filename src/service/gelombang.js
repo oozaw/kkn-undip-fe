@@ -2,7 +2,8 @@ import { baseApi } from "@/utils/axios";
 
 const api = `/`;
 
-const listAllGelombang = () => baseApi.get(`${api}admin/gelombang`);
+const listAllGelombang = (id_tema) =>
+  baseApi.get(`${api}admin/gelombang/${id_tema}`);
 
 const listGelombang = (id_tema, id_halaman) =>
   baseApi.get(`${api}gelombang/${id_tema}/${id_halaman}`);
@@ -15,7 +16,13 @@ const listGelombangMahasiswa = (id_tema, id_halaman, id_mahasiswa) =>
     `${api}gelombang/mahasiswa/${id_tema}/${id_halaman}/${id_mahasiswa}`
   );
 
+const getGelombang = (id_gelombang) =>
+  baseApi.get(`${api}admin/gelombang/detail/${id_gelombang}`);
+
 const addGelombang = (body) => baseApi.post(`${api}admin/gelombang`, body);
+
+const editGelombang = (id_gelombang, body) =>
+  baseApi.put(`${api}admin/gelombang/edit/${id_gelombang}`, body);
 
 const switchGelombang = (id_gelombang) =>
   baseApi.patch(`${api}admin/gelombang/${id_gelombang}`);
@@ -25,6 +32,8 @@ export {
   listGelombang,
   listGelombangDosen,
   listGelombangMahasiswa,
+  getGelombang,
   addGelombang,
+  editGelombang,
   switchGelombang,
 };

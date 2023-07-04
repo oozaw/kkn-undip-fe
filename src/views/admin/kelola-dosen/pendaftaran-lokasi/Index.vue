@@ -28,7 +28,7 @@
               </select>
             </div>
           </div>
-          <div class="card-header pb-0 pt-0">
+          <!-- <div class="card-header pb-0 pt-0">
             <p class="font-weight-bold text-dark mb-2">Pilih BAPPEDA</p>
           </div>
           <div class="pb-3 pt-0 card-body">
@@ -43,7 +43,7 @@
                 <option value="bappeda">BAPPEDA C</option>
               </select>
             </div>
-          </div>
+          </div> -->
         </div>
         <div class="bg-white card mt-4">
           <!-- Card header -->
@@ -124,6 +124,7 @@
                     </td>
                     <td class="text-sm d-block">
                       <a
+                        :id="proposal.id_proposal"
                         class="me-3 detail"
                         href="#"
                         data-bs-toggle="tooltip"
@@ -354,6 +355,16 @@ export default {
 
     setupTableAction() {
       let outerThis = this;
+      // proposal detail
+      $("#pendaftaran-list").on("click", `.detail`, function (e) {
+        let proposal = this;
+        outerThis.$router.push({
+          name: "Detail Pendaftaran Dosen Admin",
+          params: { id_proposal: proposal.id },
+        });
+        e.preventDefault();
+      });
+
       // proposal download link
       $("#pendaftaran-list").on("click", `.proposal-download`, function (e) {
         let proposal = this;
@@ -384,7 +395,7 @@ export default {
         e.preventDefault();
       });
 
-      // acc proposal event
+      // dec proposal event
       $("#pendaftaran-list").on("click", `.tolak`, function (e) {
         let proposal = this;
         outerThis.showSwal(
@@ -483,6 +494,9 @@ export default {
               showConfirmButton: false,
               timer: 2500,
               timerProgressBar: true,
+              didOpen: () => {
+                this.$swal.hideLoading();
+              },
             });
           } else if (
             /* Read more about handling dismissals below */
@@ -499,7 +513,7 @@ export default {
           allowOutsideClick: false,
           allowEscapeKey: false,
           didOpen: () => {
-            this.$swal.isLoading();
+            this.$swal.showLoading();
           },
           didDestroy: () => {
             this.$swal.hideLoading();

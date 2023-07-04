@@ -9,6 +9,7 @@ import {
   faFileLines,
   faListCheck,
   faRightFromBracket,
+  faCheck,
   faXmark,
   faSquareCheck,
   faSquareXmark,
@@ -18,6 +19,7 @@ import {
   faUsersGear,
   faFileArrowDown,
   faClone,
+  faArrowLeft,
 } from "@fortawesome/free-solid-svg-icons";
 
 const icon = [
@@ -29,6 +31,7 @@ const icon = [
   faFileLines,
   faListCheck,
   faRightFromBracket,
+  faCheck,
   faXmark,
   farSquareCheck,
   faSquareCheck,
@@ -39,6 +42,7 @@ const icon = [
   faUsersGear,
   faFileArrowDown,
   faClone,
+  faArrowLeft,
 ];
 
 export default icon;

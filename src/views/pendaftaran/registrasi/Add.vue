@@ -2,132 +2,135 @@
   <div class="container-fluid">
     <div class="row mb-5 mt-4">
       <div class="col-lg-12 mt-lg-0 mt-4">
-        <HeaderProfileCard>
-          <template #button>
-            <argon-button
-              :onclick="() => $router.push({ name: 'Registrasi' })"
-              class="mb-0 me-2"
-              color="secondary"
-              size="sm"
-              >Batal</argon-button
+        <section v-if="g$statusHalaman">
+          <HeaderProfileCard>
+            <template #button>
+              <argon-button
+                :onclick="() => $router.push({ name: 'Registrasi' })"
+                class="mb-0 me-2"
+                color="secondary"
+                size="sm"
+                >Batal</argon-button
+              >
+              <argon-button
+                type="submit"
+                form="form-proposal"
+                class="mb-0 me-lg-2"
+                color="success"
+                variant="gradient"
+                size="sm"
+                >Submit Proposal</argon-button
+              >
+            </template>
+          </HeaderProfileCard>
+          <div class="p-4 pt-3 bg-white card mt-4">
+            <h5 class="">
+              {{ `Registrasi KKN ${gelombang.nama} ${tema.nama}` }}
+            </h5>
+            <form
+              role="form"
+              id="form-proposal"
+              enctype="multipart/form-data"
+              @submit.prevent="addProposal()"
             >
-            <argon-button
-              type="submit"
-              form="form-proposal"
-              class="mb-0 me-lg-2"
-              color="success"
-              variant="gradient"
-              size="sm"
-              >Submit Proposal</argon-button
-            >
-          </template>
-        </HeaderProfileCard>
-        <div class="p-4 pt-3 bg-white card mt-4">
-          <h5 class="">
-            {{ `Registrasi KKN ${gelombang.nama} ${tema.nama}` }}
-          </h5>
-          <form
-            role="form"
-            id="form-proposal"
-            enctype="multipart/form-data"
-            @submit.prevent="addProposal()"
-          >
-            <div class="mt-2 row">
-              <div class="col-md-6 col-12">
-                <div class="reguler-section" :hidden="filterJenis !== 1">
-                  <div class="row">
-                    <div class="col-12 align-self-center">
-                      <label class="form-label mt-2">Provinsi</label>
-                      <select
-                        id="choices-provinsi"
-                        class="form-control"
-                        name="choices-provinsi"
-                        v-model="id_provinsi"
-                      >
-                        <option value="" selected hidden disabled>
-                          -- Pilih Provinsi --
-                        </option>
-                      </select>
+              <div class="mt-2 row">
+                <div class="col-md-6 col-12">
+                  <div class="reguler-section" :hidden="filterJenis !== 1">
+                    <div class="row">
+                      <div class="col-12 align-self-center">
+                        <label class="form-label mt-2">Provinsi</label>
+                        <select
+                          id="choices-provinsi"
+                          class="form-control"
+                          name="choices-provinsi"
+                          v-model="id_provinsi"
+                        >
+                          <option value="" selected hidden disabled>
+                            -- Pilih Provinsi --
+                          </option>
+                        </select>
+                      </div>
                     </div>
-                  </div>
-                  <div class="row mt-3">
-                    <div class="col-12 align-self-center">
-                      <label class="form-label mt-2">Kabupaten/ Kota</label>
-                      <select
-                        id="choices-kab"
-                        class="form-control"
-                        name="choices-kab"
-                        v-model="id_kabupaten"
-                        @change="getListKecamatan()"
-                      >
-                        <option value="" selected hidden disabled>
-                          -- Pilih Kabupaten/ Kota --
-                        </option>
-                        <!-- <option
+                    <div class="row mt-3">
+                      <div class="col-12 align-self-center">
+                        <label class="form-label mt-2">Kabupaten/ Kota</label>
+                        <select
+                          id="choices-kab"
+                          class="form-control"
+                          name="choices-kab"
+                          v-model="id_kabupaten"
+                          @change="getListKecamatan()"
+                        >
+                          <option value="" selected hidden disabled>
+                            -- Pilih Kabupaten/ Kota --
+                          </option>
+                          <!-- <option
                           v-for="kab in g$listKabupaten"
                           :key="kab.id_kabupaten"
                           :value="kab.id_kabupaten"
                         >
                           {{ kab.nama }}
                         </option> -->
-                      </select>
+                        </select>
+                      </div>
                     </div>
-                  </div>
-                  <div class="row mt-3">
-                    <div class="col-12 align-self-center">
-                      <label class="form-label mt-2">Kecamatan</label>
-                      <select
-                        id="choices-kec"
-                        class="form-control"
-                        name="choices-kec"
-                        v-model="body.id_kecamatan"
-                        @change="getPotensi()"
-                      >
-                        <option value="" selected hidden disabled>
-                          -- Pilih Kecamatan --
-                        </option>
-                        <!-- <option
+                    <div class="row mt-3">
+                      <div class="col-12 align-self-center">
+                        <label class="form-label mt-2">Kecamatan</label>
+                        <select
+                          id="choices-kec"
+                          class="form-control"
+                          name="choices-kec"
+                          v-model="body.id_kecamatan"
+                          @change="getPotensi()"
+                        >
+                          <option value="" selected hidden disabled>
+                            -- Pilih Kecamatan --
+                          </option>
+                          <!-- <option
                           v-for="kec in listKecamatan"
                           :key="kec.id_kecamatan"
                           :value="kec.id_kecamatan"
                         >
                           {{ kec.nama }}
                         </option> -->
-                      </select>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row mt-3">
+                    <div class="col-12 mt-3 mt-lg-0">
+                      <label for="file-prposal" class="form-label"
+                        >Proposal (*.pdf)</label
+                      >
+                      <input
+                        class="form-control"
+                        type="file"
+                        ref="file"
+                        id="file-proposal"
+                      />
                     </div>
                   </div>
                 </div>
-                <div class="row mt-3">
-                  <div class="col-12 mt-3 mt-lg-0">
-                    <label for="file-prposal" class="form-label"
-                      >Proposal (*.pdf)</label
-                    >
-                    <input
-                      class="form-control"
-                      type="file"
-                      ref="file"
-                      id="file-proposal"
-                    />
+                <div class="col-md-6 col-12 mt-3 mt-md-0">
+                  <div class="col-12 ms-md-2 pe-1">
+                    <label class="form-label">{{
+                      `Potensi Kecamatan ${kecamatan.nama ?? ""}`
+                    }}</label>
+                    <div class="row ms-1 text-md">
+                      <span
+                        id="potensi"
+                        class=""
+                        v-html="kecamatan.potensi"
+                      ></span>
+                    </div>
                   </div>
                 </div>
               </div>
-              <div class="col-md-6 col-12 mt-3 mt-md-0">
-                <div class="col-12 ms-md-2 pe-1">
-                  <label class="form-label">{{
-                    `Potensi Kecamatan ${kecamatan.nama ?? ""}`
-                  }}</label>
-                  <div class="row ms-1 text-md">
-                    <span
-                      id="potensi"
-                      class=""
-                      v-html="kecamatan.potensi"
-                    ></span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </form>
-        </div>
+            </form>
+          </div>
+        </section>
+        <inactive-halaman v-else />
       </div>
     </div>
   </div>
@@ -138,17 +141,20 @@ import { ref } from "vue";
 import * as Choices from "choices.js";
 import HeaderProfileCard from "@/views/dashboards/components/HeaderProfileCard.vue";
 import ArgonButton from "@/components/ArgonButton.vue";
+import InactiveHalaman from "@/views/dashboards/components/InactiveHalaman.vue";
 import { mapActions, mapState } from "pinia";
 import d$wilayah from "@/store/wilayah";
 import d$tema from "@/store/tema";
 import d$gelombang from "@/store/gelombang";
 import d$proposal from "@/store/proposal";
+import d$halaman from "@/store/halaman";
 
 export default {
   name: "AddRegistrasiKKN",
   components: {
     HeaderProfileCard,
     ArgonButton,
+    InactiveHalaman,
   },
   data() {
     const filterJenis = ref("");
@@ -158,6 +164,7 @@ export default {
       filterJenis,
       body: {
         file: "",
+        id_tema: "",
         id_kecamatan: "",
         id_gelombang: "",
       },
@@ -177,9 +184,14 @@ export default {
     ...mapState(d$wilayah, ["g$listKabupaten", "g$listKecamatan"]),
     ...mapState(d$tema, ["g$listTema", "g$listTemaActive"]),
     ...mapState(d$gelombang, ["g$listGelombang"]),
+    ...mapState(d$halaman, ["g$statusHalaman"]),
   },
   async created() {
-    await this.getInitData();
+    await this.a$checkHalaman(
+      parseInt(this.$route.params.id_tema),
+      parseInt(this.id_halaman)
+    );
+    if (this.g$statusHalaman) await this.getInitData();
   },
   mounted() {
     this.choicesProvinsi = this.getChoices("choices-provinsi");
@@ -196,10 +208,12 @@ export default {
     ...mapActions(d$tema, ["a$listTema"]),
     ...mapActions(d$gelombang, ["a$listGelombang"]),
     ...mapActions(d$proposal, ["a$addProposal"]),
+    ...mapActions(d$halaman, ["a$checkHalaman"]),
 
     async addProposal() {
       this.showSwal("loading");
       this.body.file = this.$refs.file.files[0];
+      this.body.id_tema = parseInt(this.$route.params.id_tema);
       this.body.id_kecamatan = parseInt(this.body.id_kecamatan);
       this.body.id_gelombang = parseInt(this.$route.params.id_gelombang);
 
@@ -223,7 +237,7 @@ export default {
       } catch (error) {
         this.showSwal(
           "failed-message",
-          "Terjadi kesalahan saat menambahkan data"
+          "Terjadi kesalahan saat menambahkan data! " + error.error
         );
         console.log(error);
       }

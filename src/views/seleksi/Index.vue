@@ -91,10 +91,10 @@
                     </td>
                     <td class="text-sm">{{ pendaftar.mahasiswa.nim }}</td>
                     <td class="text-sm">
-                      {{ pendaftar.mahasiswa.prodi.nama }}
+                      {{ pendaftar.mahasiswa.prodi?.nama }}
                     </td>
                     <td class="text-sm">
-                      {{ pendaftar.mahasiswa.prodi.fakultas.nama }}
+                      {{ pendaftar.mahasiswa.prodi?.fakultas.nama }}
                     </td>
                     <td class="text-sm">
                       <span
@@ -173,14 +173,14 @@
                                 >
                                   <strong class="text-dark">Fakultas:</strong>
                                   &nbsp;
-                                  {{ pendaftar.mahasiswa.prodi.fakultas.nama }}
+                                  {{ pendaftar.mahasiswa.prodi?.fakultas.nama }}
                                 </li>
                                 <li
                                   class="text-sm border-0 list-group-item ps-0"
                                 >
                                   <strong class="text-dark">Prodi:</strong>
                                   &nbsp;
-                                  {{ pendaftar.mahasiswa.prodi.nama }}
+                                  {{ pendaftar.mahasiswa.prodi?.nama }}
                                 </li>
 
                                 <li
@@ -518,11 +518,13 @@ export default {
         if (option.length !== 0) {
           let newOption = [];
           option.forEach((item) => {
-            newOption.push({
-              value: Object.values(item)[1],
-              label: Object.values(item)[10].nama,
-              selected: Object.values(item)[1] == this.id_kecamatan,
-            });
+            if (Object.values(item)[7] == 1) {
+              newOption.push({
+                value: Object.values(item)[1],
+                label: Object.values(item)[10].nama,
+                selected: Object.values(item)[1] == this.id_kecamatan,
+              });
+            }
           });
           choices.setChoices(newOption);
         } else {

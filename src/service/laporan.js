@@ -7,6 +7,8 @@ const listLaporan = () => baseApi.get(`${api}laporan`);
 const listLaporanKecamatan = (id_kecamatan) =>
   baseApi.get(`${api}laporan/kecamatan/${id_kecamatan}`);
 
+const evaluateLaporan = (body) => baseApi.put(`${api}dosen/laporan`, body);
+
 const listLRK = () => baseApi.get(`${api}mahasiswa/lrk`);
 
 const addLRK = (body) => baseApi.post(`${api}mahasiswa/lrk`, body);
@@ -22,6 +24,7 @@ const addLPK = (body) => baseApi.post(`${api}mahasiswa/lpk`, body);
 export {
   listLaporan,
   listLaporanKecamatan,
+  evaluateLaporan,
   listLRK,
   addLRK,
   editLRK,

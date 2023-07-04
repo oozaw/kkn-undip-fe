@@ -127,7 +127,7 @@
                       <span
                         v-else-if="kec.status == 0"
                         class="badge badge-secondary"
-                        >Verifikasi</span
+                        >Sedang diproses</span
                       >
                       <span v-else class="badge badge-danger">Ditolak</span>
                     </td>
