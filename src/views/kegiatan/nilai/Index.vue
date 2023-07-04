@@ -88,20 +88,184 @@
                     <td class="text-sm">
                       {{ nilai.mahasiswa.prodi.fakultas.nama }}
                     </td>
-                    <td class="text-sm">90.2</td>
-                    <td class="text-sm">A</td>
+                    <td class="text-sm">{{ nilai.nilai_akhir ?? "-" }}</td>
+                    <td class="text-sm">{{ nilai.nilai_huruf ?? "-" }}</td>
                     <td class="text-sm">
-                      <span class="badge badge-success">Lulus</span>
+                      <span
+                        class="badge badge-success"
+                        v-if="
+                          nilai.nilai_huruf == 'A' ||
+                          nilai.nilai_huruf == 'B' ||
+                          nilai.nilai_huruf == 'C'
+                        "
+                        >Lulus</span
+                      >
+                      <span class="badge badge-danger" v-else>Tidak Lulus</span>
                     </td>
                     <td class="text-sm">
                       <a
-                        href="#"
-                        data-bs-toggle="tooltip"
-                        data-bs-original-title="Detail Nilai"
+                        type="button"
+                        class="mb-0 text-primary"
+                        data-bs-toggle="modal"
+                        :data-bs-target="'#detail_' + nilai.id_nilai"
                         title="Detail Nilai"
                       >
                         <i class="fas fa-eye text-info"></i>
                       </a>
+                      <div
+                        :id="'detail_' + nilai.id_nilai"
+                        class="modal fade"
+                        tabindex="-1"
+                        aria-hidden="true"
+                      >
+                        <div class="modal-dialog mt-lg-5">
+                          <div class="modal-content">
+                            <div class="modal-header">
+                              <h5 id="ModalLabel" class="modal-title">
+                                Detail Nilai {{ nilai.mahasiswa.nama }}
+                              </h5>
+                              <button
+                                type="button"
+                                class="btn-close text-dark mb-0"
+                                data-bs-dismiss="modal"
+                                aria-label="Close"
+                              >
+                                <font-awesome-icon icon="fa-solid fa-xmark" />
+                              </button>
+                            </div>
+                            <div class="modal-body p-4">
+                              <ul class="list-group">
+                                <li
+                                  class="text-sm border-0 list-group-item ps-0"
+                                >
+                                  <strong class="text-dark">Nama:</strong>
+                                  &nbsp;
+                                  {{ nilai.mahasiswa.nama }}
+                                </li>
+                                <li
+                                  class="text-sm border-0 list-group-item ps-0"
+                                >
+                                  <strong class="text-dark">NIM:</strong>
+                                  &nbsp;
+                                  {{ nilai.mahasiswa.nim }}
+                                </li>
+                                <li
+                                  class="text-sm border-0 list-group-item ps-0"
+                                >
+                                  <strong class="text-dark">Pembekalan:</strong>
+                                  &nbsp;
+                                  {{ nilai.pembekalan }}
+                                </li>
+                                <li
+                                  class="text-sm border-0 list-group-item ps-0"
+                                >
+                                  <strong class="text-dark">Upacara:</strong>
+                                  &nbsp;
+                                  {{ nilai.upacara }}
+                                </li>
+                                <li
+                                  class="text-sm border-0 list-group-item ps-0"
+                                >
+                                  <strong class="text-dark"
+                                    >Kehadiran Dilokasi:</strong
+                                  >
+                                  &nbsp;
+                                  {{ nilai.kehadiran_dilokasi }}
+                                </li>
+                                <li class="border-0 list-group-item ps-0">
+                                  <strong class="text-sm text-dark"
+                                    >LRK:</strong
+                                  >
+                                  &nbsp;
+                                  {{ nilai.lrk }}
+                                </li>
+                                <li class="border-0 list-group-item ps-0">
+                                  <strong class="text-sm text-dark"
+                                    >Integritas:</strong
+                                  >
+                                  &nbsp;
+                                  {{ nilai.integritas }}
+                                </li>
+                                <li class="border-0 list-group-item ps-0">
+                                  <strong class="text-sm text-dark"
+                                    >Sosial:</strong
+                                  >
+                                  &nbsp;
+                                  {{ nilai.sosial_kemasyarakatan }}
+                                </li>
+                                <li class="border-0 list-group-item ps-0">
+                                  <strong class="text-sm text-dark"
+                                    >LPK:</strong
+                                  >
+                                  &nbsp;
+                                  {{ nilai.lpk }}
+                                </li>
+                                <li class="border-0 list-group-item ps-0">
+                                  <strong class="text-sm text-dark"
+                                    >Ujian Akhir:</strong
+                                  >
+                                  &nbsp;
+                                  {{ nilai.ujian_akhir }}
+                                </li>
+                                <li class="border-0 list-group-item ps-0">
+                                  <strong class="text-sm text-dark"
+                                    >Tugas:</strong
+                                  >
+                                  &nbsp;
+                                  {{ nilai.tugas }}
+                                </li>
+                                <li class="border-0 list-group-item ps-0">
+                                  <strong class="text-sm text-dark"
+                                    >UTS:</strong
+                                  >
+                                  &nbsp;
+                                  {{ nilai.uts }}
+                                </li>
+                                <li class="border-0 list-group-item ps-0">
+                                  <strong class="text-sm text-dark"
+                                    >UAS:</strong
+                                  >
+                                  &nbsp;
+                                  {{ nilai.uas }}
+                                </li>
+                                <li class="border-0 list-group-item ps-0">
+                                  <strong class="text-sm text-dark"
+                                    >Nilai Akhir:</strong
+                                  >
+                                  &nbsp;
+                                  {{ nilai.nilai_akhir }}
+                                </li>
+                                <li class="border-0 list-group-item ps-0">
+                                  <strong class="text-sm text-dark"
+                                    >Nilai Akhir (Huruf):</strong
+                                  >
+                                  &nbsp;
+                                  {{ nilai.nilai_huruf }}
+                                </li>
+                                <li class="border-0 list-group-item ps-0">
+                                  <strong class="text-sm text-dark"
+                                    >Status:</strong
+                                  >
+                                  &nbsp;
+                                  <span
+                                    class="badge badge-success"
+                                    v-if="
+                                      nilai.nilai_huruf == 'A' ||
+                                      nilai.nilai_huruf == 'B' ||
+                                      nilai.nilai_huruf == 'C'
+                                    "
+                                    >Lulus</span
+                                  >
+                                  <span class="badge badge-danger" v-else
+                                    >Tidak Lulus</span
+                                  >
+                                </li>
+                              </ul>
+                            </div>
+                            <div class="modal-footer"></div>
+                          </div>
+                        </div>
+                      </div>
                       <a
                         :id="nilai.id_nilai"
                         href="#"

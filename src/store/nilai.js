@@ -5,6 +5,7 @@ const d$nilai = defineStore("nilaiStore", {
   id: "nilai",
   state: () => ({
     listNilai: [],
+    nilai: {},
     status: null,
   }),
   actions: {
@@ -12,6 +13,17 @@ const d$nilai = defineStore("nilaiStore", {
       try {
         const { data, status } = await s$nilai.listNilaiKecamatan(id_kecamatan);
         this.listNilai = data ?? [];
+        this.status = status;
+      } catch ({ message, error }) {
+        this.status = false;
+        throw message ?? error;
+      }
+    },
+
+    async a$getNilai(id_nilai) {
+      try {
+        const { data, status } = await s$nilai.getNilai(id_nilai);
+        this.nilai = data ?? {};
         this.status = status;
       } catch ({ message, error }) {
         this.status = false;
@@ -41,6 +53,7 @@ const d$nilai = defineStore("nilaiStore", {
   },
   getters: {
     g$listNilai: ({ listNilai }) => listNilai,
+    g$nilai: ({ nilai }) => nilai,
   },
 });
 

@@ -515,6 +515,7 @@
                 v-if="a$checkAuth(['DOSEN'])"
               />
               <sidenav-item
+                :isActive="getRoute2() === 'nilai'"
                 :to="{ name: 'Nilai Akhir' }"
                 mini-icon="N"
                 text="Nilai Akhir Mahasiswa"
