@@ -317,11 +317,13 @@ export default {
           jumlah_kecamatan: kab.kecamatan.length,
         };
         let dataJumlahDesa = {};
+        let jmlDesa = 0;
         kab.kecamatan.forEach((kec) => {
-          dataJumlahDesa = {
-            jumlah_desa: kec.desa.length,
-          };
+          jmlDesa += kec.desa.length
         });
+        dataJumlahDesa = {
+            jumlah_desa: jmlDesa,
+          };
         newDataKab = Object.assign(
           {},
           kab,

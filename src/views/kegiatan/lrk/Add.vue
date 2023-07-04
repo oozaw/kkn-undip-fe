@@ -40,15 +40,15 @@
               <div class="ms-2 pt-1 ps-3 card-body">
                 <div class="mt-2 row">
                   <div class="col-12">
-                    <label>Judul Program Kerja</label>
+                    <label>Program Kerja</label>
                     <input
                       class="form-control"
                       type="text"
                       required
                       placeholder="eg. Program Edukasi Kesehatan pada Masyarakat Desa Kedungkandang"
-                      v-model="body.judul"
+                      v-model="body.program"
                     />
-                    <div class="invalid-feedback">Judul tidak boleh kosong</div>
+                    <div class="invalid-feedback">Program tidak boleh kosong</div>
                   </div>
                 </div>
                 <div class="mt-3 row">
@@ -60,27 +60,14 @@
                       v-model="body.kategori"
                     >
                       <option value="">-- Pilih kategori --</option>
-                      <option value="mono">Monodisiplin</option>
-                      <option value="multi">Multidisiplin</option>
+                      <option value="1">Monodisiplin</option>
+                      <option value="2">Multidisiplin</option>
                     </select>
                   </div>
                 </div>
                 <div class="row">
                   <div class="col-12">
-                    <label class="mt-4">1. Latar Belakang</label>
-                    <quill-editor
-                      id="latar-belakang-editor"
-                      style="height: 180px"
-                      v-model:content="body.latar_belakang"
-                      contentType="html"
-                      theme="snow"
-                      placeholder="Isi dengan paragraf latar belakang program kerja"
-                    ></quill-editor>
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="col-12">
-                    <label class="pt-4">2. Potensi atau Masalah</label>
+                    <label class="pt-4">1. Potensi atau Masalah</label>
                     <quill-editor
                       id="potensi-editor"
                       style="height: 180px"
@@ -93,20 +80,7 @@
                 </div>
                 <div class="row">
                   <div class="col-12">
-                    <label class="pt-4">3. Usulan Program</label>
-                    <quill-editor
-                      id="usulan-editor"
-                      style="height: 180px"
-                      v-model:content="body.program"
-                      contentType="html"
-                      theme="snow"
-                      placeholder="Isi dengan usulan program yang diajukan"
-                    ></quill-editor>
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="col-12">
-                    <label class="pt-4">4. Sasaran Program</label>
+                    <label class="pt-4">2. Sasaran Program</label>
                     <quill-editor
                       id="sasaran-editor"
                       style="height: 180px"
@@ -117,24 +91,9 @@
                     ></quill-editor>
                   </div>
                 </div>
-                <div class="row">
-                  <div class="col-12">
-                    <label class="pt-4">5. Rencana Pelaksanaan</label>
-                    <input
-                      class="form-control"
-                      type="file"
-                      name="file-rencana-pelaksanaan"
-                      id="file-rencana-pelaksanaan"
-                      required
-                    />
-                    <div class="invalid-feedback">
-                      Unggah file rencana pelaksaan program
-                    </div>
-                  </div>
-                </div>
                 <div class="row mt-3">
                   <div class="col-12">
-                    <label>6. Metode IPTEKS yang Digunakan</label>
+                    <label>3. Metode IPTEKS yang Digunakan</label>
                     <quill-editor
                       id="metode-editor"
                       style="height: 180px"
@@ -147,7 +106,7 @@
                 </div>
                 <div class="row">
                   <div class="col-12">
-                    <label class="pt-4">7. Luaran Program</label>
+                    <label class="pt-4">4. Luaran Program</label>
                     <quill-editor
                       id="output-editor"
                       style="height: 180px"
@@ -156,20 +115,6 @@
                       theme="snow"
                       placeholder="Isi dengan keluaran yang diharapkan"
                     ></quill-editor>
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="col-12">
-                    <label class="pt-4">8. Dokumentasi</label>
-                    <p class="text-xs form-text text-muted ms-1 d-inline">
-                      (*.rar)
-                    </p>
-                    <input
-                      class="form-control"
-                      type="file"
-                      name="file-dokumentasi"
-                      id="file-dokumentasi"
-                    />
                   </div>
                 </div>
                 <div class="row mt-4">
@@ -227,16 +172,12 @@ export default {
       id_halaman: 4,
       body: {
         id_tema: parseInt(this.$route.params.id_tema),
-        judul: "",
         kategori: "",
-        latar_belakang: "",
         potensi: "",
         program: "",
-        file: "",
         sasaran: "",
         metode: "",
         luaran: "",
-        dokumentasi: "",
       },
     };
   },
@@ -260,11 +201,9 @@ export default {
       this.showSwal("loading");
 
       if (
-        this.body.judul == "" ||
+        this.body.program == "" ||
         this.body.kategori == "" ||
-        this.isQuillEmpty(this.body.latar_belakang) ||
         this.isQuillEmpty(this.body.potensi) ||
-        this.isQuillEmpty(this.body.program) ||
         this.isQuillEmpty(this.body.sasaran) ||
         this.isQuillEmpty(this.body.metode) ||
         this.isQuillEmpty(this.body.luaran)
@@ -279,6 +218,7 @@ export default {
       try {
         let data = {
           id_tema: this.body.id_tema,
+          kategori: Number(this.body.kategori),
           potensi: this.body.potensi,
           program: this.body.program,
           sasaran: this.body.sasaran,
