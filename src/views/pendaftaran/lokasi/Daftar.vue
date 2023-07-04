@@ -161,11 +161,6 @@ export default {
     this.body.id_tema = parseInt(this.$route.params.id_tema);
     this.body.id_gelombang = parseInt(this.$route.params.id_gelombang);
   },
-  mounted() {
-    this.choicesProv = this.getChoices("choices-prov");
-    this.choicesKab = this.getChoices("choices-kab");
-    this.choicesKec = this.getChoices("choices-kec");
-  },
   beforeUnmount() {
     if (this.choicesProv) this.choicesProv.destroy();
     if (this.choicesProv) this.choicesKab.destroy();
@@ -187,6 +182,11 @@ export default {
           parseInt(this.$route.params.id_tema),
           parseInt(this.id_halaman)
         );
+
+        this.choicesProv = this.getChoices("choices-prov");
+        this.choicesKab = this.getChoices("choices-kab");
+        this.choicesKec = this.getChoices("choices-kec");
+
         await this.getTema();
         await this.getGelombang();
         await this.getListKabupaten();
