@@ -97,7 +97,7 @@ function showSwal(type, text, toastText, id_kecamatan, status) {
       allowOutsideClick: false,
       allowEscapeKey: false,
       didOpen: () => {
-        this.$swal.isLoading();
+        this.$swal.showLoading();
       },
       didDestroy: () => {
         this.$swal.hideLoading();

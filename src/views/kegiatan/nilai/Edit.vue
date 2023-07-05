@@ -236,20 +236,6 @@
                   />
                 </div>
               </div>
-              <!-- <div class="row mt-2">
-              <div class="col-12 align-self-center">
-                <label class="form-label mt-2">Status Kelulusan</label>
-                <select
-                  id="choices-status-kelulusan"
-                  class="form-control"
-                  name="choices-status-kelulusan"
-                >
-                  <option value="lulus" selected>Diluluskan</option>
-                  <option value="tidak-lulus">Digagalkan</option>
-                  <option value="ditangguhkan">Ditangguhkan</option>
-                </select>
-              </div>
-            </div> -->
               <div class="row mt-2">
                 <div class="col-12 mt-3 d-flex justify-content-end">
                   <argon-button

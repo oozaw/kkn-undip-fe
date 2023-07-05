@@ -652,7 +652,7 @@ export default {
           allowOutsideClick: false,
           allowEscapeKey: false,
           didOpen: () => {
-            this.$swal.isLoading();
+            this.$swal.showLoading();
           },
           didDestroy: () => {
             this.$swal.hideLoading();
