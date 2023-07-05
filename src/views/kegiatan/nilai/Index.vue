@@ -86,7 +86,7 @@
                     </td>
                     <td class="text-sm">{{ nilai.mahasiswa.nim }}</td>
                     <td class="text-sm">
-                      {{ nilai.mahasiswa.prodi.fakultas.nama }}
+                      {{ nilai.mahasiswa.prodi?.fakultas.nama }}
                     </td>
                     <td class="text-sm">{{ nilai.nilai_akhir ?? "-" }}</td>
                     <td class="text-sm">{{ nilai.nilai_huruf ?? "-" }}</td>
@@ -329,6 +329,7 @@ export default {
   data() {
     return {
       indexComponent: 0,
+      listNilai: [],
       tema: "",
       kecamatan: "",
       id_tema: 0,
@@ -398,6 +399,7 @@ export default {
 
       try {
         await this.a$listNilaiKecamatan(this.id_kecamatan);
+        // this.listNilai = this.g$listNilai;
       } catch (error) {
         this.showSwal(
           "failed-message",

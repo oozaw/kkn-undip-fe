@@ -77,10 +77,10 @@
                     <th class="col-1 ps-2">No.</th>
                     <th>Nama</th>
                     <th>NIP</th>
-                    <th>Gelombang</th>
                     <th>Lokasi Dipilih</th>
                     <th>Proposal</th>
                     <th>Status</th>
+                    <th>Rekomendasi</th>
                     <th>Action</th>
                   </tr>
                 </thead>
@@ -94,7 +94,6 @@
                       <h6 class="my-auto">{{ proposal.dosen.nama }}</h6>
                     </td>
                     <td class="text-sm">{{ proposal.dosen.nip }}</td>
-                    <td class="text-sm">{{ proposal.gelombang.nama }}</td>
                     <td class="text-sm">
                       {{
                         `${proposal.kecamatan.kabupaten.nama}, ${proposal.kecamatan.nama}`
@@ -121,6 +120,16 @@
                         >Sedang diproses</span
                       >
                       <span v-else class="badge badge-danger">Ditolak</span>
+                    </td>
+                    <td class="text-sm">
+                      <span
+                        v-if="proposal.rekomendasi == 1"
+                        class="badge badge-success"
+                        >Direkomendasikan</span
+                      >
+                      <span v-else class="badge badge-danger"
+                        >Tidak Direkomendasikan</span
+                      >
                     </td>
                     <td class="text-sm d-block">
                       <a
@@ -200,9 +209,9 @@
                     <th class="col-1 ps-2">No.</th>
                     <th>Nama</th>
                     <th>NIP</th>
-                    <th>Gelombang</th>
                     <th>Lokasi Dipilih</th>
                     <th>Status</th>
+                    <th></th>
                     <th>Action</th>
                   </tr>
                 </tfoot>

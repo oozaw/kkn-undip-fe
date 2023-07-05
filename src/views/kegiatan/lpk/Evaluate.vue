@@ -38,7 +38,7 @@
             <div class="ms-2 pt-1 ps-3 card-body">
               <div class="mt-2 row">
                 <div class="col-12">
-                  <label>Judul Program Kerja</label>
+                  <label>Program Kerja</label>
                   <input
                     class="form-control"
                     type="text"
@@ -62,152 +62,143 @@
                   </select>
                 </div>
               </div>
-              <div class="row">
+              <div class="row mt-3">
                 <div class="col-12">
-                  <label class="mt-4">1. Latar Belakang</label>
-                  <quill-editor
-                    class="bg-light"
-                    :options="options"
-                    id="latar-belakang-editor"
-                    v-model:content="g$getLaporan.latar_belakang"
-                    contentType="html"
-                    theme="snow"
-                  ></quill-editor>
-                </div>
-              </div>
-              <div class="row">
-                <div class="col-12">
-                  <label class="pt-6">2. Potensi atau Masalah</label>
+                  <label>1. Potensi atau Masalah</label>
                   <quill-editor
                     class="bg-light"
                     :options="options"
                     id="potensi-editor"
+                    style="height: 200px"
                     v-model:content="g$getLaporan.potensi"
                     contentType="html"
                     theme="snow"
                   ></quill-editor>
                 </div>
               </div>
-              <div class="row">
+              <div class="row mt-3">
                 <div class="col-12">
-                  <label class="pt-7">3. Usulan Program</label>
+                  <label>2. Usulan Program</label>
                   <quill-editor
                     class="bg-light"
                     :options="options"
                     id="usulan-editor"
+                    style="height: 200px"
                     v-model:content="g$getLaporan.program"
                     contentType="html"
                     theme="snow"
                   ></quill-editor>
                 </div>
               </div>
-              <div class="row">
+              <div class="row mt-3">
                 <div class="col-12">
-                  <label class="pt-8">4. Sasaran Program</label>
+                  <label>3. Sasaran Program</label>
                   <quill-editor
                     class="bg-light"
                     :options="options"
                     id="sasaran-editor"
+                    style="height: 200px"
                     v-model:content="g$getLaporan.sasaran"
                     contentType="html"
                     theme="snow"
                   ></quill-editor>
                 </div>
               </div>
-              <div class="row">
-                <div class="col-12">
-                  <label class="pt-9">5. Rencana Pelaksanaan</label>
-                </div>
-              </div>
               <div class="row mt-3">
                 <div class="col-12">
-                  <label>6. Metode IPTEKS yang Digunakan</label>
+                  <label>4. Metode IPTEKS yang Digunakan</label>
                   <quill-editor
                     class="bg-light"
                     :options="options"
                     id="metode-editor"
+                    style="height: 200px"
                     v-model:content="g$getLaporan.metode"
                     contentType="html"
                     theme="snow"
                   ></quill-editor>
                 </div>
               </div>
-              <div class="row">
+              <div class="row mt-3">
                 <div class="col-12">
-                  <label class="pt-5">7. Luaran Program</label>
+                  <label>5. Luaran Program</label>
                   <quill-editor
                     class="bg-light"
                     :options="options"
                     id="output-editor"
+                    style="height: 200px"
                     v-model:content="g$getLaporan.luaran"
                     contentType="html"
                     theme="snow"
                   ></quill-editor>
                 </div>
               </div>
-              <div class="row">
+              <div class="row mt-3">
                 <div class="col-12">
-                  <label class="pt-7">8. Pelaksanaan Program</label>
+                  <label>6. Pelaksanaan Program</label>
                   <quill-editor
                     class="bg-light"
                     :options="options"
                     id="output-editor"
+                    style="height: 200px"
                     v-model:content="g$getLaporan.pelaksanaan"
                     contentType="html"
                     theme="snow"
                   ></quill-editor>
                 </div>
               </div>
-              <div class="row">
+              <div class="row mt-3">
                 <div class="col-12">
-                  <label class="pt-8">9. Capaian</label>
+                  <label>7. Capaian</label>
                   <quill-editor
                     class="bg-light"
                     :options="options"
                     id="output-editor"
+                    style="height: 200px"
                     v-model:content="g$getLaporan.capaian"
                     contentType="html"
                     theme="snow"
                   ></quill-editor>
                 </div>
               </div>
-              <div class="row">
+              <div class="row mt-3">
                 <div class="col-12">
-                  <label class="pt-9">10. Hambatan</label>
+                  <label>8. Hambatan</label>
                   <quill-editor
                     class="bg-light"
                     :options="options"
                     id="output-editor"
+                    style="height: 200px"
                     v-model:content="g$getLaporan.hambatan"
                     contentType="html"
                     theme="snow"
                   ></quill-editor>
                 </div>
               </div>
-              <div class="row">
+              <div class="row mt-3">
                 <div class="col-12">
-                  <label class="pt-10">11. Keberlanjutan Program</label>
+                  <label>9. Keberlanjutan Program</label>
                   <quill-editor
                     class="bg-light"
                     :options="options"
                     id="output-editor"
+                    style="height: 200px"
                     v-model:content="g$getLaporan.kelanjutan"
                     contentType="html"
                     theme="snow"
                   ></quill-editor>
                 </div>
               </div>
-              <div class="row">
+              <div class="row mt-3">
                 <div class="col-12">
-                  <label class="pt-12">8. Dokumentasi</label>
+                  <label>10. Dokumentasi</label>
                 </div>
               </div>
-              <div class="row">
+              <div class="row mt-3">
                 <div class="col-12">
-                  <label class="pt-4">Evaluasi LPK</label>
+                  <label>Evaluasi LPK</label>
                   <quill-editor
                     id="evaluasi-editor"
-                    style="height: 180px"
+                    style="height: 200px"
                     v-model:content="body.komentar"
                     contentType="html"
                     theme="snow"

@@ -64,61 +64,65 @@
                     </select>
                   </div>
                 </div>
-                <div class="row">
+                <div class="row mt-3">
                   <div class="col-12">
-                    <label class="pt-4">1. Potensi atau Masalah</label>
+                    <label>1. Potensi atau Masalah</label>
                     <quill-editor
                       class="bg-light"
                       :options="options"
                       id="potensi-editor"
+                      style="height: 200px"
                       v-model:content="body.potensi"
                       contentType="html"
                       theme="snow"
                     ></quill-editor>
                   </div>
                 </div>
-                <div class="row">
+                <div class="row mt-3">
                   <div class="col-12">
-                    <label class="pt-6">2. Sasaran Program</label>
+                    <label>2. Sasaran Program</label>
                     <quill-editor
                       class="bg-light"
                       :options="options"
                       id="sasaran-editor"
+                      style="height: 200px"
                       v-model:content="body.sasaran"
                       contentType="html"
                       theme="snow"
                     ></quill-editor>
                   </div>
                 </div>
-                <div class="row">
+                <div class="row mt-3">
                   <div class="col-12">
-                    <label class="pt-8">3. Metode IPTEKS yang Digunakan</label>
+                    <label>3. Metode IPTEKS yang Digunakan</label>
                     <quill-editor
                       class="bg-light"
                       :options="options"
                       id="metode-editor"
+                      style="height: 200px"
                       v-model:content="body.metode"
                       contentType="html"
                       theme="snow"
                     ></quill-editor>
                   </div>
                 </div>
-                <div class="row">
+                <div class="row mt-3">
                   <div class="col-12">
-                    <label class="pt-10">4. Luaran Program</label>
+                    <label>4. Luaran Program</label>
                     <quill-editor
                       class="bg-light"
                       :options="options"
                       id="output-editor"
+                      style="height: 200px"
                       v-model:content="body.luaran"
                       contentType="html"
                       theme="snow"
                     ></quill-editor>
                   </div>
                 </div>
-                <div class="row">
+                <div class="row mt-3">
                   <div class="col-12">
-                    <label class="pt-12">5. Pelaksanaan Program</label>
+                    <label>5. Pelaksanaan Program</label>
                     <quill-editor
                       id="pelaksanaan-editor"
                       style="height: 180px"
@@ -131,9 +135,9 @@
                     ></quill-editor>
                   </div>
                 </div>
-                <div class="row">
+                <div class="row mt-3">
                   <div class="col-12">
-                    <label class="pt-4">6. Capaian</label>
+                    <label>6. Capaian</label>
                     <quill-editor
                       id="capaian-editor"
                       style="height: 180px"
@@ -148,9 +152,9 @@
                     ></quill-editor>
                   </div>
                 </div>
-                <div class="row">
+                <div class="row mt-3">
                   <div class="col-12">
-                    <label class="pt-4">7. Hambatan</label>
+                    <label>7. Hambatan</label>
                     <quill-editor
                       id="hambatan-editor"
                       style="height: 180px"
@@ -165,9 +169,9 @@
                     ></quill-editor>
                   </div>
                 </div>
-                <div class="row">
+                <div class="row mt-3">
                   <div class="col-12">
-                    <label class="pt-4">8. Keberlanjutan Program</label>
+                    <label>8. Keberlanjutan Program</label>
                     <quill-editor
                       id="keberlanjutan-editor"
                       style="height: 180px"
@@ -182,17 +186,26 @@
                     ></quill-editor>
                   </div>
                 </div>
-                <div class="row">
+                <div class="row mt-3">
                   <div class="col-12">
-                    <label class="pt-4">9. Dokumentasi</label>
-                    <p class="text-xs form-text text-muted ms-1 d-inline">
-                      (*.rar)
-                    </p>
+                    <label class="mb-0 pb-0">9. Link File Dokumentasi</label>
+                    <div class="mt-0 pt-0 mb-3 text-xs">
+                      <span
+                        class="text-xs ms-3 mt-0 mb-2 form-text text-muted d-inline"
+                      >
+                        <i>
+                          Dapat berupa link Google Drive, OneDrive, atau cloud
+                          storage lainnya
+                        </i>
+                      </span>
+                    </div>
                     <input
                       class="form-control"
-                      type="file"
-                      name="file-dokumentasi"
-                      id="file-dokumentasi"
+                      type="text"
+                      name="dokumentasi"
+                      id="dokumentasi"
+                      placeholder="Link dokumentasi program kerja"
+                      v-model="body.dokumentasi"
                     />
                   </div>
                 </div>

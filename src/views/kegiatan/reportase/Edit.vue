@@ -49,6 +49,34 @@
                   />
                 </div>
               </div>
+              <div class="mt-3 row">
+                <div class="col-12">
+                  <label>Kategori Program Kerja</label>
+                  <select
+                    name="choices-kategori"
+                    id="choices-kategori"
+                    v-model="body.kategori"
+                  >
+                    <option value="">-- Pilih kategori --</option>
+                    <option value="1">Monodisiplin</option>
+                    <option value="2">Multidisiplin</option>
+                  </select>
+                </div>
+              </div>
+              <div class="mt-3 row">
+                <div class="col-12">
+                  <label>Link Publikasi</label>
+                  <input
+                    id="publikasi"
+                    name="publikasi"
+                    class="form-control"
+                    type="text"
+                    placeholder="Link publikasi reportase"
+                    v-model="body.link_publikasi"
+                    required
+                  />
+                </div>
+              </div>
               <div class="row pb-7">
                 <div class="col-12">
                   <label class="mt-4">Isi Reportase</label>
@@ -94,6 +122,7 @@
 
 <script>
 import Quill from "quill";
+import Choices from "choices.js";
 import HeaderProfileCard from "@/views/dashboards/components/HeaderProfileCard.vue";
 import ArgonButton from "@/components/ArgonButton.vue";
 import { mapActions, mapState } from "pinia";
@@ -113,6 +142,8 @@ export default {
       body: {
         id_tema: "",
         judul: "",
+        kategori: "",
+        link_publikasi: "",
         isi: "",
       },
       options: {
@@ -125,6 +156,7 @@ export default {
           },
         },
       },
+      choicesKategori: undefined,
     };
   },
   computed: {
@@ -135,6 +167,7 @@ export default {
     await this.getReportase();
 
     this.setupQuill();
+    this.choicesKategori = this.getChoices("choices-kategori");
   },
   methods: {
     ...mapActions(d$reportase, ["a$editReportase", "a$getReportase"]),
@@ -149,6 +182,10 @@ export default {
         if (
           !this.body.judul ||
           this.body.judul == "" ||
+          !this.body.kategori ||
+          this.body.kategori == "" ||
+          !this.body.link_publikasi ||
+          this.body.link_publikasi == "" ||
           this.isQuillEmpty(this.body.isi)
         ) {
           this.showSwal(
@@ -179,7 +216,12 @@ export default {
       try {
         await this.a$getReportase(this.id_reportase);
         this.body.judul = this.g$reportase.judul;
-        document.getElementById("isi-editor").innerHTML = this.g$reportase.isi;
+        this.body.kategori = this.g$reportase.kategori;
+        this.body.link_publikasi = this.g$reportase.link_publikasi;
+        this.body.isi = this.g$reportase.isi;
+
+        document.getElementById("isi-editor").innerHTML = this.body.isi;
+        this.setChoices(this.choicesKategori);
         this.showSwal("close");
       } catch (error) {
         this.showSwal("failed-message", "Data reportase gagal dimuat");
@@ -227,6 +269,50 @@ export default {
     isQuillEmpty(input) {
       if (input == "" || input == "<p><br></p>") return true;
       else return false;
+    },
+
+    setChoices(choices) {
+      if (choices) {
+        choices.clearChoices();
+        choices.removeActiveItems();
+
+        let option = {
+          value: "",
+          label: "-- Pilih kategori --",
+          selected: true,
+          disabled: true,
+        };
+
+        if (this.body.kategori === "") option.selected = true;
+        else option.selected = false;
+
+        choices.setChoices([
+          option,
+          {
+            value: "1",
+            label: "Monodisiplin",
+            selected: this.body.kategori === "1",
+            disabled: false,
+          },
+          {
+            value: "2",
+            label: "Multidisiplin",
+            selected: this.body.kategori === "2",
+            disabled: false,
+          },
+        ]);
+      }
+    },
+
+    getChoices(id) {
+      if (document.getElementById(id)) {
+        var element = document.getElementById(id);
+        return new Choices(element, {
+          searchEnabled: false,
+          allowHTML: true,
+          shouldSort: false,
+        });
+      }
     },
 
     showSwal(type, text) {

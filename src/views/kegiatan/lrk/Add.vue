@@ -48,18 +48,21 @@
                       placeholder="eg. Program Edukasi Kesehatan pada Masyarakat Desa Kedungkandang"
                       v-model="body.program"
                     />
-                    <div class="invalid-feedback">Program tidak boleh kosong</div>
+                    <div class="invalid-feedback">
+                      Program tidak boleh kosong
+                    </div>
                   </div>
                 </div>
                 <div class="mt-3 row">
                   <div class="col-12">
                     <label>Kategori Program Kerja</label>
                     <select
+                      class="form-control"
                       name="choices-kategori"
                       id="choices-kategori"
                       v-model="body.kategori"
                     >
-                      <option value="">-- Pilih kategori --</option>
+                      <option value="" disabled>-- Pilih kategori --</option>
                       <option value="1">Monodisiplin</option>
                       <option value="2">Multidisiplin</option>
                     </select>
@@ -169,7 +172,7 @@ export default {
   },
   data() {
     return {
-      id_halaman: 4,
+      id_halaman: 3,
       body: {
         id_tema: parseInt(this.$route.params.id_tema),
         kategori: "",
@@ -189,10 +192,10 @@ export default {
       parseInt(this.$route.params.id_tema),
       parseInt(this.id_halaman)
     );
-  },
-  mounted() {
+
     this.choicesKategori = this.getChoices("choices-kategori");
   },
+  mounted() {},
   methods: {
     ...mapActions(d$laporan, ["a$addLRK"]),
     ...mapActions(d$halaman, ["a$checkHalaman"]),

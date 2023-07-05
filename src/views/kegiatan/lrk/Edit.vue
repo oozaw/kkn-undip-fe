@@ -40,128 +40,84 @@
               <div class="ms-2 pt-1 ps-3 card-body">
                 <div class="mt-2 row">
                   <div class="col-12">
-                    <label>Judul Program Kerja</label>
+                    <label>Program Kerja</label>
                     <input
                       class="form-control"
                       type="text"
                       required
-                      v-model="body.judul"
+                      placeholder="eg. Program Edukasi Kesehatan pada Masyarakat Desa Kedungkandang"
+                      v-model="body.program"
                     />
-                    <div class="invalid-feedback">Judul tidak boleh kosong</div>
+                    <div class="invalid-feedback">
+                      Program tidak boleh kosong
+                    </div>
                   </div>
                 </div>
                 <div class="mt-3 row">
                   <div class="col-12">
                     <label>Kategori Program Kerja</label>
                     <select
+                      class="form-control"
                       name="choices-kategori"
                       id="choices-kategori"
                       v-model="body.kategori"
                     >
-                      <option value="mono">Monodisiplin</option>
-                      <option value="multi">Multidisiplin</option>
+                      <option value="" disabled>-- Pilih kategori --</option>
+                      <option value="1">Monodisiplin</option>
+                      <option value="2">Multidisiplin</option>
                     </select>
                   </div>
                 </div>
                 <div class="row">
                   <div class="col-12">
-                    <label class="mt-4">1. Latar Belakang</label>
-                    <quill-editor
-                      id="latar-belakang-editor"
-                      style="height: 180px"
-                      v-model:content="body.latar_belakang"
-                      contentType="html"
-                      theme="snow"
-                    ></quill-editor>
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="col-12">
-                    <label class="pt-4">2. Potensi atau Masalah</label>
+                    <label class="pt-4">1. Potensi atau Masalah</label>
                     <quill-editor
                       id="potensi-editor"
                       style="height: 180px"
                       v-model:content="body.potensi"
                       contentType="html"
                       theme="snow"
+                      placeholder="Isi dengan potensi atau permasalahan yang ingin diselesaikan"
                     ></quill-editor>
                   </div>
                 </div>
                 <div class="row">
                   <div class="col-12">
-                    <label class="pt-4">3. Usulan Program</label>
-                    <quill-editor
-                      id="usulan-editor"
-                      style="height: 180px"
-                      v-model:content="body.program"
-                      contentType="html"
-                      theme="snow"
-                    ></quill-editor>
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="col-12">
-                    <label class="pt-4">4. Sasaran Program</label>
+                    <label class="pt-4">2. Sasaran Program</label>
                     <quill-editor
                       id="sasaran-editor"
                       style="height: 180px"
                       v-model:content="body.sasaran"
                       contentType="html"
                       theme="snow"
+                      placeholder="Isi dengan sasaran dari program yang diajukan"
                     ></quill-editor>
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="col-12">
-                    <label class="pt-4">5. Rencana Pelaksanaan</label>
-                    <input
-                      class="form-control"
-                      type="file"
-                      name="file-rencana-pelaksanaan"
-                      id="file-rencana-pelaksanaan"
-                      required
-                    />
-                    <div class="invalid-feedback">
-                      Pilih dan unggah file rencana pelaksaan program
-                    </div>
                   </div>
                 </div>
                 <div class="row mt-3">
                   <div class="col-12">
-                    <label>6. Metode IPTEKS yang Digunakan</label>
+                    <label>3. Metode IPTEKS yang Digunakan</label>
                     <quill-editor
                       id="metode-editor"
                       style="height: 180px"
                       v-model:content="body.metode"
                       contentType="html"
                       theme="snow"
+                      placeholder="Isi dengan metode yang digunakan"
                     ></quill-editor>
                   </div>
                 </div>
                 <div class="row">
                   <div class="col-12">
-                    <label class="pt-4">7. Luaran Program</label>
+                    <label class="pt-4">4. Luaran Program</label>
                     <quill-editor
                       id="output-editor"
                       style="height: 180px"
                       v-model:content="body.luaran"
                       contentType="html"
                       theme="snow"
+                      placeholder="Isi dengan keluaran yang diharapkan"
                     ></quill-editor>
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="col-12">
-                    <label class="pt-4">8. Dokumentasi</label>
-                    <p class="text-xs form-text text-muted ms-1 d-inline">
-                      (*.rar)
-                    </p>
-                    <input
-                      class="form-control"
-                      type="file"
-                      name="file-dokumentasi"
-                      id="file-dokumentasi"
-                    />
                   </div>
                 </div>
                 <div class="row mt-4">
@@ -180,7 +136,7 @@
                       form="form-edit-lrk"
                       class="mb-0 me-lg-2"
                       color="success"
-                      variant="gradient"
+                      variant="primary"
                       size="sm"
                       >Simpan LRK</argon-button
                     >
@@ -220,12 +176,9 @@ export default {
       id_halaman: 3,
       body: {
         id_tema: "",
-        judul: "JUDULLLL",
-        kategori: "multi",
-        latar_belakang: "LABAAAKANG",
+        kategori: "",
         potensi: "",
         program: "",
-        file: "",
         sasaran: "",
         metode: "",
         luaran: "",
@@ -245,9 +198,11 @@ export default {
     );
 
     if (this.g$statusHalaman) await this.getLaporan();
-  },
-  mounted() {
     this.choicesKategori = this.getChoices("choices-kategori");
+  },
+  mounted() {},
+  beforeUnmount() {
+    if (this.choicesKategori) this.choicesKategori.destroy();
   },
   methods: {
     ...mapActions(d$laporan, ["a$addLRK", "a$getLaporan", "a$editLRK"]),
@@ -298,12 +253,14 @@ export default {
 
       try {
         await this.a$getLaporan(parseInt(this.$route.params.id_laporan));
-        // this.body.latar_belakang = this.g$getLaporan.latar_belakang
         this.body.potensi = this.g$getLaporan.potensi;
         this.body.program = this.g$getLaporan.program;
         this.body.sasaran = this.g$getLaporan.sasaran;
         this.body.metode = this.g$getLaporan.metode;
         this.body.luaran = this.g$getLaporan.luaran;
+        this.body.kategori = this.g$getLaporan.kategori;
+
+        this.setChoices(this.choicesKategori);
       } catch (error) {
         this.showSwal("failed-message", "Terjadi kesalahan saat memuat data");
         console.log(error.error);
@@ -315,6 +272,39 @@ export default {
     isQuillEmpty(input) {
       if (input == "" || input == "<p><br></p>") return true;
       else return false;
+    },
+
+    setChoices(choices) {
+      if (choices) {
+        choices.clearChoices();
+        choices.removeActiveItems();
+
+        let option = {
+          value: "",
+          label: "-- Pilih kategori --",
+          selected: true,
+          disabled: true,
+        };
+
+        if (this.body.kategori === "") option.selected = true;
+        else option.selected = false;
+
+        choices.setChoices([
+          option,
+          {
+            value: "1",
+            label: "Monodisiplin",
+            selected: this.body.kategori === "1",
+            disabled: false,
+          },
+          {
+            value: "2",
+            label: "Multidisiplin",
+            selected: this.body.kategori === "2",
+            disabled: false,
+          },
+        ]);
+      }
     },
 
     getChoices(id) {

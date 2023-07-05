@@ -43,7 +43,7 @@
                     name="nama-mhs"
                     class="form-control"
                     type="text"
-                    :value="g$reportase.mahasiswa.nama"
+                    :value="data.nama_mhs"
                     readonly
                   />
                 </div>
@@ -54,18 +54,18 @@
                     name="nim-mhs"
                     class="form-control"
                     type="text"
-                    :value="g$reportase.mahasiswa.nim"
+                    :value="data.nim"
                     readonly
                   />
                 </div>
               </div>
-              <div class="mt-4 row">
+              <div class="mt-3 row">
                 <div class="col-6">
                   <label>Fakultas</label>
                   <input
                     class="form-control"
                     type="text"
-                    :value="g$reportase.fakultas"
+                    :value="data.fakultas"
                     readonly
                   />
                 </div>
@@ -74,18 +74,18 @@
                   <input
                     class="form-control"
                     type="text"
-                    :value="g$reportase.prodi"
+                    :value="data.prodi"
                     readonly
                   />
                 </div>
               </div>
-              <div class="mt-4 row">
+              <div class="mt-3 row">
                 <div class="col-4">
                   <label>Tema</label>
                   <input
                     class="form-control"
                     type="text"
-                    :value="g$reportase.tema"
+                    :value="data.tema"
                     readonly
                   />
                 </div>
@@ -94,7 +94,7 @@
                   <input
                     class="form-control"
                     type="text"
-                    :value="g$reportase.kabupaten"
+                    :value="data.kabupaten"
                     readonly
                   />
                 </div>
@@ -103,27 +103,12 @@
                   <input
                     class="form-control"
                     type="text"
-                    :value="g$reportase.kecamatan"
+                    :value="data.kecamatan"
                     readonly
                   />
                 </div>
               </div>
-              <div class="mt-4 row">
-                <div class="col-6">
-                  <label>Tanggal Unggah</label>
-                  <input
-                    class="form-control"
-                    type="text"
-                    :value="
-                      moment(g$reportase.created_at).format(
-                        'dddd, DD MMMM YYYY HH:mm:ss'
-                      )
-                    "
-                    readonly
-                  />
-                </div>
-              </div>
-              <div class="mt-4 row">
+              <div class="mt-3 row">
                 <div class="col-12">
                   <label>Judul Reportase</label>
                   <input
@@ -132,27 +117,66 @@
                     class="form-control"
                     type="text"
                     placeholder="Judul reportase"
-                    v-model="g$reportase.judul"
+                    :value="data.judul"
                     readonly
                   />
                 </div>
               </div>
-              <div class="row">
+              <div class="mt-3 row">
+                <div class="col-6">
+                  <label>Kategori Program Kerja</label>
+                  <select
+                    class="form-select"
+                    name="choices-kategori"
+                    id="choices-kategori"
+                    v-model="data.kategori"
+                    disabled
+                  >
+                    <option value="1">Monodisiplin</option>
+                    <option value="2">Multidisiplin</option>
+                  </select>
+                </div>
+                <div class="col-6">
+                  <label>Tanggal Unggah</label>
+                  <input
+                    class="form-control"
+                    type="text"
+                    :value="
+                      moment(data.tgl).format('dddd, DD MMMM YYYY HH:mm:ss')
+                    "
+                    readonly
+                  />
+                </div>
+              </div>
+              <div class="row mt-3">
                 <div class="col-12">
-                  <label class="mt-4">Isi Reportase</label>
+                  <label>Link Publikasi</label>
+                  <div class="ms-2 text-sm">
+                    <a :href="data.link_publikasi" target="_blank">
+                      <i>
+                        {{ data.link_publikasi }}
+                      </i>
+                    </a>
+                  </div>
+                </div>
+              </div>
+              <div class="row mt-3">
+                <div class="col-12">
+                  <label>Isi Reportase</label>
                   <quill-editor
-                    class="bg-white"
+                    class="bg-white p-2"
                     :options="options"
                     id="isi-editor"
-                    v-model:content="g$reportase.isi"
+                    style="height: 200px"
+                    v-model:content="data.isi"
                     contentType="html"
                     theme="snow"
                   ></quill-editor>
                 </div>
               </div>
-              <div class="row pt-5">
+              <div class="row mt-3">
                 <div class="col-12">
-                  <label class="mt-4">Komentar</label>
+                  <label>Komentar</label>
                   <quill-editor
                     id="latar-belakang-editor"
                     style="height: 180px"
@@ -192,6 +216,7 @@
 
 <script>
 import { QuillEditor } from "@vueup/vue-quill";
+import Choices from "choices.js";
 import moment from "moment";
 import HeaderProfileCard from "@/views/dashboards/components/HeaderProfileCard.vue";
 import ArgonButton from "@/components/ArgonButton.vue";
@@ -211,14 +236,17 @@ export default {
       quill: undefined,
       data: {
         nama_mhs: "",
-        nim_mhs: "",
-        prodi: "",
+        nim: "",
         fakultas: "",
+        prodi: "",
         tema: "",
         kecamatan: "",
         kabupaten: "",
         judul: "",
+        kategori: "",
+        link_publikasi: "",
         isi: "",
+        tgl: "",
       },
       body: {
         id_reportase: parseInt(this.$route.params.id_reportase),
@@ -272,8 +300,22 @@ export default {
 
       try {
         await this.a$getReportase(this.id_reportase);
+        this.data.nama_mhs = this.g$reportase.mahasiswa.nama;
+        this.data.nim = this.g$reportase.mahasiswa.nim;
+        this.data.prodi = this.g$reportase.mahasiswa.prodi;
+        this.data.fakultas = this.g$reportase.mahasiswa.fakultas;
+        this.data.tema = this.g$reportase.tema;
+        this.data.kecamatan = this.g$reportase.kecamatan;
+        this.data.kabupaten = this.g$reportase.kabupaten;
+        this.data.judul = this.g$reportase.judul;
+        this.data.kategori = this.g$reportase.kategori;
+        this.data.link_publikasi = this.g$reportase.link_publikasi;
+        this.data.isi = this.g$reportase.isi;
+        this.data.tgl = this.g$reportase.created_at;
         this.body.komentar = this.g$reportase.komentar;
-        document.getElementById("isi-editor").innerHTML = this.g$reportase.isi;
+
+        document.getElementById("isi-editor").innerHTML = this.data.isi;
+        this.setChoices(this.choicesKategori);
         this.showSwal("close");
       } catch (error) {
         this.showSwal("failed-message", "Data reportase gagal dimuat");
@@ -284,6 +326,50 @@ export default {
     isQuillEmpty(input) {
       if (input == "" || input == "<p><br></p>") return true;
       else return false;
+    },
+
+    setChoices(choices) {
+      if (choices) {
+        choices.clearChoices();
+        choices.removeActiveItems();
+
+        let option = {
+          value: "",
+          label: "-- Pilih kategori --",
+          selected: true,
+          disabled: true,
+        };
+
+        if (this.body.kategori === "") option.selected = true;
+        else option.selected = false;
+
+        choices.setChoices([
+          option,
+          {
+            value: "1",
+            label: "Monodisiplin",
+            selected: this.body.kategori === "1",
+            disabled: false,
+          },
+          {
+            value: "2",
+            label: "Multidisiplin",
+            selected: this.body.kategori === "2",
+            disabled: false,
+          },
+        ]);
+      }
+    },
+
+    getChoices(id) {
+      if (document.getElementById(id)) {
+        var element = document.getElementById(id);
+        return new Choices(element, {
+          searchEnabled: false,
+          allowHTML: true,
+          shouldSort: false,
+        });
+      }
     },
 
     showSwal(type, text) {

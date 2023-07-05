@@ -3,7 +3,7 @@
     <div class="row mb-5 mt-4">
       <div class="col-lg-12 mt-lg-0 mt-4">
         <header-profile-card>
-          <template #button v-if="this.g$user.role == 'ADMIN'">
+          <template #button>
             <argon-button
               @click="() => $router.push({ name: 'Pendaftaran Dosen Admin' })"
               class="mb-0 me-2"
@@ -15,44 +15,46 @@
                 size="lg"
               />Kembali</argon-button
             >
-            <argon-button
-              @click="
-                showSwal(
-                  'warning-confirmation',
-                  `Menolak pendaftaran ${g$proposal?.dosen.nama}?`,
-                  'Berhasil memperbarui data',
-                  id_proposal,
-                  false
-                )
-              "
-              class="mb-0 me-2"
-              color="danger"
-              size="sm"
-              ><font-awesome-icon
-                class="text-white me-2"
-                icon="fa-solid fa-xmark"
-                size="lg"
-              />Tolak</argon-button
-            >
-            <argon-button
-              @click="
-                showSwal(
-                  'warning-confirmation',
-                  `Menerima pendaftaran ${g$proposal?.dosen.nama}?`,
-                  'Berhasil memperbarui data',
-                  id_proposal,
-                  true
-                )
-              "
-              class="mb-0 me-lg-2"
-              color="success"
-              size="sm"
-              ><font-awesome-icon
-                class="text-white me-2"
-                icon="fa-solid fa-check"
-                size="lg"
-              />Terima</argon-button
-            >
+            <div v-if="this.g$user.role == 'ADMIN'">
+              <argon-button
+                @click="
+                  showSwal(
+                    'warning-confirmation',
+                    `Menolak pendaftaran ${g$proposal?.dosen.nama}?`,
+                    'Berhasil memperbarui data',
+                    id_proposal,
+                    false
+                  )
+                "
+                class="mb-0 me-2"
+                color="danger"
+                size="sm"
+                ><font-awesome-icon
+                  class="text-white me-2"
+                  icon="fa-solid fa-xmark"
+                  size="lg"
+                />Tolak</argon-button
+              >
+              <argon-button
+                @click="
+                  showSwal(
+                    'warning-confirmation',
+                    `Menerima pendaftaran ${g$proposal?.dosen.nama}?`,
+                    'Berhasil memperbarui data',
+                    id_proposal,
+                    true
+                  )
+                "
+                class="mb-0 me-lg-2"
+                color="success"
+                size="sm"
+                ><font-awesome-icon
+                  class="text-white me-2"
+                  icon="fa-solid fa-check"
+                  size="lg"
+                />Terima</argon-button
+              >
+            </div>
           </template>
         </header-profile-card>
         <div class="bg-white pb-2 card mt-4">

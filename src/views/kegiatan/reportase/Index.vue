@@ -64,14 +64,100 @@
                       </td>
                       <td class="text-sm">
                         <a
-                          :id="report.id_reportase"
-                          class="detail"
-                          href="#"
-                          data-bs-toggle="tooltip"
+                          type="button"
+                          class="mb-0 text-primary"
+                          data-bs-toggle="modal"
+                          :data-bs-target="'#detail_' + report.id_reportase"
                           title="Detail Reportase"
                         >
                           <i class="fas fa-eye text-info"></i>
                         </a>
+                        <div
+                          :id="'detail_' + report.id_reportase"
+                          class="modal fade"
+                          tabindex="-1"
+                          aria-hidden="true"
+                        >
+                          <div class="modal-dialog modal-lg mt-lg-5">
+                            <div class="modal-content">
+                              <div class="modal-header">
+                                <h5 id="ModalLabel" class="modal-title">
+                                  Detail Reportase
+                                  {{ report.judul }}
+                                </h5>
+                                <button
+                                  type="button"
+                                  class="btn-close text-dark mb-0"
+                                  data-bs-dismiss="modal"
+                                  aria-label="Close"
+                                >
+                                  <font-awesome-icon icon="fa-solid fa-xmark" />
+                                </button>
+                              </div>
+                              <div class="modal-body p-4">
+                                <ul class="list-group">
+                                  <li
+                                    class="text-sm border-0 list-group-item ps-0"
+                                  >
+                                    <strong class="text-dark">Judul:</strong>
+                                    &nbsp;
+                                    {{ report.judul }}
+                                  </li>
+                                  <li
+                                    class="text-sm border-0 list-group-item ps-0"
+                                  >
+                                    <strong class="text-dark">Kategori:</strong>
+                                    &nbsp;
+                                    {{
+                                      report.kategori == 1
+                                        ? "Monodisiplin"
+                                        : "Multidisiplin"
+                                    }}
+                                  </li>
+                                  <li
+                                    class="text-sm border-0 list-group-item ps-0"
+                                  >
+                                    <strong class="text-dark"
+                                      >Publikasi:</strong
+                                    >
+                                    &nbsp;
+                                    <a
+                                      v-if="report.link_publikasi"
+                                      :href="report.link_publikasi"
+                                      target="_blank"
+                                    >
+                                      <font-awesome-icon
+                                        icon="fa-solid fa-up-right-from-square"
+                                      />
+                                    </a>
+                                    <span v-else> - </span>
+                                  </li>
+                                  <li
+                                    class="text-sm border-0 list-group-item ps-0"
+                                  >
+                                    <strong class="text-dark">Isi:</strong>
+                                    &nbsp;
+                                    <div
+                                      class="text-wrap"
+                                      v-html="getOutOfTagP(report.isi)"
+                                    ></div>
+                                  </li>
+                                  <li class="border-0 list-group-item ps-0">
+                                    <strong class="text-sm text-dark"
+                                      >Komentar:</strong
+                                    >
+                                    &nbsp;
+                                    <div
+                                      class="text-wrap"
+                                      v-html="getOutOfTagP(report.komentar)"
+                                    ></div>
+                                  </li>
+                                </ul>
+                              </div>
+                              <div class="modal-footer"></div>
+                            </div>
+                          </div>
+                        </div>
                         <a
                           :id="report.id_reportase"
                           href="#"
@@ -259,7 +345,7 @@
                                     <strong class="text-dark">Fakultas:</strong>
                                     &nbsp;
                                     {{
-                                      reportase.mahasiswa.prodi.fakultas.nama
+                                      reportase.mahasiswa.prodi?.fakultas.nama
                                     }}
                                   </li>
                                   <li
@@ -267,7 +353,7 @@
                                   >
                                     <strong class="text-dark">Prodi:</strong>
                                     &nbsp;
-                                    {{ reportase.mahasiswa.prodi.nama }}
+                                    {{ reportase.mahasiswa.prodi?.nama }}
                                   </li>
                                   <li
                                     class="text-sm border-0 list-group-item ps-0"
@@ -275,6 +361,35 @@
                                     <strong class="text-dark">Judul:</strong>
                                     &nbsp;
                                     {{ reportase.judul }}
+                                  </li>
+                                  <li
+                                    class="text-sm border-0 list-group-item ps-0"
+                                  >
+                                    <strong class="text-dark">Kategori:</strong>
+                                    &nbsp;
+                                    {{
+                                      reportase.kategori == 1
+                                        ? "Monodisiplin"
+                                        : "Multidisiplin"
+                                    }}
+                                  </li>
+                                  <li
+                                    class="text-sm border-0 list-group-item ps-0"
+                                  >
+                                    <strong class="text-dark"
+                                      >Publikasi:</strong
+                                    >
+                                    &nbsp;
+                                    <a
+                                      v-if="reportase.link_publikasi"
+                                      :href="reportase.link_publikasi"
+                                      target="_blank"
+                                    >
+                                      <font-awesome-icon
+                                        icon="fa-solid fa-up-right-from-square"
+                                      />
+                                    </a>
+                                    <span v-else> - </span>
                                   </li>
                                   <li
                                     class="text-sm border-0 list-group-item ps-0"
@@ -370,7 +485,7 @@ export default {
       id_kecamatan: 0,
       choicesTema: undefined,
       choicesKec: undefined,
-      moment: moment,
+      moment,
     };
   },
   computed: {

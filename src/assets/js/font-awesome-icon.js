@@ -20,6 +20,7 @@ import {
   faFileArrowDown,
   faClone,
   faArrowLeft,
+  faUpRightFromSquare,
 } from "@fortawesome/free-solid-svg-icons";
 
 const icon = [
@@ -43,6 +44,7 @@ const icon = [
   faFileArrowDown,
   faClone,
   faArrowLeft,
+  faUpRightFromSquare,
 ];
 
 export default icon;
