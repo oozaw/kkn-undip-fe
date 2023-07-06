@@ -11,6 +11,7 @@ const d$auth = defineStore("authStore", {
     username: undefined,
     role: undefined,
     infoUser: undefined,
+    status: null,
   }),
   actions: {
     async a$setUser() {
@@ -63,6 +64,17 @@ const d$auth = defineStore("authStore", {
 
     a$checkAuth(allowedRoles) {
       return allowedRoles.includes(this.role);
+    },
+
+    async a$editUser(body) {
+      try {
+        const { status } = await s$auth.editUser(body);
+        this.status = status;
+        return true;
+      } catch ({ message, error }) {
+        this.status = false;
+        throw message ?? error;
+      }
     },
   },
   getters: {
