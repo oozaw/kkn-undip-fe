@@ -100,7 +100,7 @@ import SeleksiMhs from "../views/seleksi/Index.vue";
 import Presensi from "../views/kegiatan/presensi/Index.vue";
 import IndexNilai from "../views/kegiatan/nilai/Index.vue";
 import EditNilai from "../views/kegiatan/nilai/Edit.vue";
-import EditProfilWilayah from "../views/profile-wilayah/Edit.vue";
+// import EditProfilWilayah from "../views/profile-wilayah/Edit.vue";
 import IndexKeikutsertaanWilayah from "../views/keikutsertaan-wilayah/Index.vue";
 import IndexPengajuanLokasi from "../views/pengajuan-lokasi/Index.vue";
 import AddKecamatan from "../views/pengajuan-lokasi/kecamatan/Add.vue";
@@ -497,7 +497,7 @@ const routes = [
   {
     path: "/profil-wilayah/edit",
     name: "Profil Wilayah",
-    component: EditProfilWilayah,
+    component: EditProfile,
     meta: {
       requiresAuth: [Role.bappeda],
     },

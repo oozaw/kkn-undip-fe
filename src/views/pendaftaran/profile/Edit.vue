@@ -2,7 +2,7 @@
   <div class="container-fluid">
     <div class="row mb-5 mt-4">
       <div class="col-lg-12 mt-lg-0 mt-4">
-        <HeaderProfileCard>
+        <HeaderProfileCard :key="indexComponent">
           <template #button>
             <argon-button
               :onclick="() => $router.go(-1)"
@@ -22,6 +22,7 @@
             >
           </template>
         </HeaderProfileCard>
+        <!-- Mahasiswa -->
         <div
           id="card-profile-mhs"
           class="card mt-4 pb-3"
@@ -45,7 +46,7 @@
                     name="nama-lengkap"
                     type="text"
                     placeholder="Nama lengkap"
-                    v-model="body.nama"
+                    v-model="nama"
                     required
                   />
                 </div>
@@ -55,7 +56,7 @@
                     class="form-control"
                     id="nim"
                     name="nim"
-                    type="number"
+                    type="text"
                     placeholder="NIM"
                     v-model="body.nim"
                     readonly
@@ -88,7 +89,7 @@
                     id="choices-prodi"
                     class="form-control"
                     name="choices-prodi"
-                    v-model="body.id_prodi"
+                    v-model="idProdi"
                   >
                     <option value="" disabled>-- Pilih Prodi --</option>
                   </select>
@@ -101,7 +102,7 @@
                     id="choices-gender"
                     class="form-control"
                     name="choices-gender"
-                    v-model="body.jenis_kelamin"
+                    v-model="jenisKelamin"
                   >
                     <option value="" disabled>-- Pilih jenis kelamin --</option>
                     <option value="1">Laki-laki</option>
@@ -136,6 +137,7 @@
                     rows="3"
                     placeholder="Riwayat penyakit yang pernah diderita"
                     v-model="body.riwayat_penyakit"
+                    required
                   ></textarea>
                 </div>
                 <div class="col-sm-6 col-12 mt-3 mt-sm-0">
@@ -175,6 +177,7 @@
                     type="text"
                     placeholder="Nama orang tua atau wali"
                     v-model="body.nama_ortu"
+                    required
                   />
                 </div>
                 <div class="col-sm-6 col-12 mt-3 mt-sm-0">
@@ -186,6 +189,7 @@
                     type="text"
                     placeholder="Nomor telepon orang tua atau wali"
                     v-model="body.no_hp_ortu"
+                    required
                   />
                 </div>
               </div>
@@ -199,6 +203,7 @@
                     rows="3"
                     placeholder="Alamat orang tua atau wali"
                     v-model="body.alamat_ortu"
+                    required
                   ></textarea>
                 </div>
               </div>
@@ -212,6 +217,7 @@
                     type="text"
                     placeholder="Nama contact person darurat"
                     v-model="body.nama_cp_urgent"
+                    required
                   />
                 </div>
                 <div class="col-sm-6 col-12 mt-3 mt-sm-0">
@@ -223,6 +229,7 @@
                     type="number"
                     placeholder="Nomor telepon contact person darurat"
                     v-model="body.no_hp_cp_urgent"
+                    required
                   />
                 </div>
               </div>
@@ -236,6 +243,7 @@
                     rows="3"
                     placeholder="Alamat contact person darurat"
                     v-model="body.alamat_cp_urgent"
+                    required
                   ></textarea>
                 </div>
               </div>
@@ -249,8 +257,9 @@
                     id="hubungan-cp"
                     name="hubungan-cp"
                     type="text"
-                    placeholder="Status hubungan dengan contact person darurat"
+                    placeholder="Status hubungan dengan contact person darurat, contoh: Ibu kandung atau Paman"
                     v-model="body.hubungan"
+                    required
                   />
                 </div>
               </div>
@@ -279,127 +288,167 @@
             </form>
           </div>
         </div>
-        <div
-          id="car-profile-dosen"
-          class="card mt-4 pb-3"
-          v-else-if="g$user.role === 'DOSEN'"
-        >
+        <!-- Lainnya -->
+        <div id="card-profile-mhs" class="card mt-4 pb-3" v-else>
           <div class="card-header">
             <h5>Data Diri</h5>
           </div>
           <div class="card-body pt-0">
-            <div class="row">
-              <div class="col-sm-6 col-12">
-                <label class="form-label">Nama Lengkap</label>
-                <input
-                  class="form-control"
-                  id="fullname"
-                  type="text"
-                  placeholder="Nama lengkap"
-                />
-              </div>
-              <div class="col-sm-6 col-12">
-                <label class="form-label">NIP</label>
-                <argon-input id="nip" type="number" placeholder="NIP" />
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-sm-4 col-12">
-                <label class="form-label mt-2">Jenis Kelamin</label>
-                <select
-                  id="choices-gender-dosen"
-                  class="form-control"
-                  name="choices-gender-dosen"
+            <form
+              role="form"
+              id="form-edit-profile"
+              @submit.prevent="updateProfile()"
+            >
+              <div class="row">
+                <div class="col-sm-6 col-12">
+                  <label class="form-label">Nama Lengkap</label>
+                  <input
+                    class="form-control"
+                    id="nama-lengkap"
+                    name="nama-lengkap"
+                    type="text"
+                    placeholder="Nama lengkap"
+                    v-model="nama"
+                    required
+                  />
+                </div>
+                <div
+                  v-if="g$user.role === 'BAPPEDA'"
+                  class="col-sm-6 col-12 mt-3 mt-sm-0"
                 >
-                  <option value="Male">Laki-laki</option>
-                  <option value="Female">Perempuan</option>
-                </select>
-              </div>
-              <div class="col-sm-8 mt-3 mt-sm-0">
-                <div class="row">
-                  <label class="form-label mt-2">Tanggal Lahir</label>
-                  <div class="col-sm-3 col-3">
-                    <select
-                      id="choices-day-dosen"
-                      class="form-control"
-                      name="choices-day-dosen"
-                    ></select>
-                  </div>
-                  <div class="col-sm-5 col-5">
-                    <select
-                      id="choices-month-dosen"
-                      class="form-control"
-                      name="choices-month-dosen"
-                    ></select>
-                  </div>
-                  <div class="col-sm-4 col-4">
-                    <select
-                      id="choices-year-dosen"
-                      class="form-control"
-                      name="choices-year-dosen"
-                    ></select>
-                  </div>
+                  <label class="form-label">Nomor BAPPEDA</label>
+                  <input
+                    class="form-control"
+                    id="nb"
+                    name="nb"
+                    type="text"
+                    placeholder="Nomor Induk BAPPEDA"
+                    v-model="body.nb"
+                    readonly
+                  />
+                </div>
+                <div v-else class="col-sm-6 col-12 mt-3 mt-sm-0">
+                  <label class="form-label">NIP</label>
+                  <input
+                    class="form-control"
+                    id="nip"
+                    name="nip"
+                    type="text"
+                    placeholder="NIP"
+                    v-model="body.nip"
+                    readonly
+                  />
                 </div>
               </div>
-            </div>
-            <div class="row mt-3">
-              <div class="col-sm-6 col-12">
-                <label class="form-label mt-2">Email</label>
-                <argon-input
-                  id="email"
-                  type="email"
-                  placeholder="eg. contoh@email.com"
-                />
+              <div v-if="g$user.role === 'BAPPEDA'" class="row mt-3">
+                <div class="col-sm-6 col-12">
+                  <label class="form-label">Nama Kabupaten</label>
+                  <input
+                    class="form-control"
+                    id="nama_kabupaten"
+                    name="nama_kabupaten"
+                    type="text"
+                    placeholder="Nama Kabupaten, contoh: Kab. Wonogiri atau Kota Semarang"
+                    v-model="body.nama_kabupaten"
+                    required
+                  />
+                </div>
+                <div class="col-sm-6 col-12 mt-3 mt-sm-0">
+                  <label class="form-label">Nama Penanggung Jawab</label>
+                  <input
+                    class="form-control"
+                    id="nama_pj"
+                    name="nama_pj"
+                    type="text"
+                    placeholder="Nama penanggung jawab BAPPEDA"
+                    v-model="body.nama_pj"
+                    required
+                  />
+                </div>
               </div>
-              <div class="col-sm-6 col-12">
-                <label class="form-label mt-2">Domisili</label>
-                <argon-input
-                  id="domisili"
-                  type="text"
-                  placeholder="eg. Jakarta, Indonesia"
-                />
+              <div v-else class="row mt-3">
+                <div class="col-sm-6 col-12">
+                  <label class="form-label">Jenis Kelamin</label>
+                  <select
+                    id="choices-gender"
+                    class="form-control"
+                    name="choices-gender"
+                    v-model="jenisKelamin"
+                  >
+                    <option value="" selected disabled>
+                      -- Pilih jenis kelamin --
+                    </option>
+                    <option value="1">Laki-laki</option>
+                    <option value="2">Perempuan</option>
+                  </select>
+                </div>
+                <div class="col-sm-6 col-12 mt-3 mt-sm-0">
+                  <label class="form-label">Tanggal Lahir</label>
+                  <VueDatePicker
+                    id="ttl"
+                    name="ttl"
+                    v-model="body.ttl"
+                    placeholder="Pilih tanggal lahir"
+                    :enable-time-picker="false"
+                    locale="id"
+                    cancel-text="Batal"
+                    select-text="Pilih"
+                    :format="'dd MMMM yyyy'"
+                    :format-locale="id"
+                    no-today
+                    required
+                  ></VueDatePicker>
+                </div>
               </div>
-            </div>
-            <div class="row">
-              <div class="col-sm-6 col-12">
-                <label class="form-label mt-2">Angkatan</label>
-                <argon-input id="angkatan" type="text" placeholder="eg. 2019" />
+              <div class="row mt-3">
+                <div class="col-sm-6 col-12">
+                  <label class="form-label">Alamat</label>
+                  <textarea
+                    class="form-control"
+                    id="alamat"
+                    name="alamat"
+                    rows="3"
+                    placeholder="Alamat tempat tinggal saat ini"
+                    v-model="body.alamat"
+                    required
+                  ></textarea>
+                </div>
+                <div class="col-sm-6 col-12 mt-3 mt-sm-0">
+                  <label class="form-label">No. Telepon</label>
+                  <input
+                    class="form-control"
+                    id="no-hp"
+                    name="no-hp"
+                    type="number"
+                    placeholder="Nomor telepon aktif"
+                    v-model="body.no_hp"
+                    required
+                  />
+                </div>
               </div>
-              <div class="col-sm-6 col-12">
-                <label class="form-label mt-2">No. Telepon</label>
-                <argon-input
-                  id="phone"
-                  type="text"
-                  placeholder="+628 745 765 439"
-                />
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-sm-6 align-self-center">
-                <label class="form-label mt-2">Fakultas</label>
-                <select
-                  id="choices-fakultas-dosen"
-                  class="form-control"
-                  name="choices-fakultas-dosen"
+              <div class="row mt-4">
+                <div
+                  class="col-sm-auto ms-sm-auto mt-sm-0 mt-3 d-flex justify-content-center"
                 >
-                  <option value="FSM">FSM</option>
-                  <option value="FT">FT</option>
-                  <option value="FPsi">FPsi</option>
-                </select>
+                  <argon-button
+                    :onclick="() => $router.go(-1)"
+                    class="mb-0 me-2"
+                    color="secondary"
+                    size="sm"
+                    >Kembali</argon-button
+                  >
+                  <argon-button
+                    type="submit"
+                    form="form-edit-profile"
+                    class="mb-0 me-lg-2"
+                    color="primary"
+                    variant="gradient"
+                    size="sm"
+                    >Simpan Data Diri</argon-button
+                  >
+                </div>
               </div>
-              <div class="col-sm-6 align-self-center">
-                <label class="form-label mt-4 mt-sm-2">Jurusan</label>
-                <select
-                  id="choices-jurusan-dosen"
-                  class="form-control"
-                  name="choices-jurusan-dosen"
-                >
-                  <option value="Informatika">Informatika</option>
-                  <option value="Matematika">Matematika</option>
-                  <option value="Fisika">Fisika</option>
-                </select>
-              </div>
-            </div>
+            </form>
           </div>
         </div>
       </div>
@@ -413,7 +462,6 @@ import VueDatePicker from "@vuepic/vue-datepicker";
 import "@vuepic/vue-datepicker/dist/main.css";
 import Choices from "choices.js";
 import HeaderProfileCard from "@/views/dashboards/components/HeaderProfileCard.vue";
-import ArgonInput from "@/components/ArgonInput.vue";
 import ArgonButton from "@/components/ArgonButton.vue";
 import { mapActions, mapState } from "pinia";
 import d$auth from "@/store/auth";
@@ -423,36 +471,28 @@ export default {
   name: "EditDataDiri",
   components: {
     HeaderProfileCard,
-    ArgonInput,
     ArgonButton,
     VueDatePicker,
   },
   data() {
     return {
+      indexComponent: 0,
       mahasiswa: "",
       dosen: "",
       bappeda: "",
       admin: "",
       reviewer: "",
       pimpinan: "",
-      body: {
-        id_prodi: "",
-        jenis_kelamin: "",
-      },
-      id: id,
+      body: {},
+      nama: "",
       idFakultas: "",
+      idProdi: "",
+      jenisKelamin: "",
+      id: id,
       choicesGender: undefined,
       choicesFakultas: undefined,
       choicesProdi: undefined,
-      choicesMonth: undefined,
-      choicesDay: undefined,
-      choicesYear: undefined,
       choicesGenderDosen: undefined,
-      choicesFakultasDosen: undefined,
-      choicesJurusanDosen: undefined,
-      choicesMonthDosen: undefined,
-      choicesDayDosen: undefined,
-      choicesYearDosen: undefined,
       config: {
         allowInput: true,
         dateFormat: "Z",
@@ -479,47 +519,19 @@ export default {
     async getInitData() {
       try {
         await this.a$getUser();
+        this.nama = this.g$infoUser.nama ?? "";
         this.idFakultas = this.g$infoUser.id_fakultas ?? "";
+        this.idProdi = this.g$infoUser.id_prodi ?? "";
+        this.jenisKelamin = this.g$infoUser.jenis_kelamin ?? "";
         this.body = this.g$infoUser;
 
         await this.a$listFakultas();
 
-        if (!this.body.id_prodi) this.body.id_prodi = "";
-        if (!this.body.jenis_kelamin) this.body.jenis_kelamin = "";
-        // switch (this.g$user.role) {
-        //   case "MAHASISWA":
-        //     this.mahasiswa = this.g$infoUser;
-        //     break;
-
-        //   case "DOSEN":
-        //     this.dosen = this.g$infoUser;
-        //     break;
-
-        //   case "BAPPEDA":
-        //     this.bappeda = this.g$infoUser;
-        //     break;
-
-        //   case "ADMIN":
-        //     this.admin = this.g$infoUser;
-        //     break;
-
-        //   case "PIMPINAN":
-        //     this.pimpinan = this.g$infoUser;
-        //     break;
-
-        //   case "REVIEWER":
-        //     this.reviewer = this.g$infoUser;
-        //     break;
-
-        //   default:
-        //     break;
-        // }
-
         this.initChoices();
 
         if (this.body.jenis_kelamin) this.setChoicesGender(this.choicesGender);
-        // this.setChoicesProdi(this.choicesProdi, null);
-        if (this.body.id_prodi != "") this.getListProdi();
+        if (this.g$user.role === "MAHASISWA" && this.body.id_prodi != "")
+          this.getListProdi();
       } catch (error) {
         this.showSwal(
           "failed-message",
@@ -530,20 +542,17 @@ export default {
     },
 
     async updateProfile() {
-      this.body.jenis_kelamin = parseInt(this.choicesGender.getValue(true));
+      var data = {
+        nama: this.nama,
+        jenis_kelamin: parseInt(this.jenisKelamin),
+        ttl: this.body.ttl,
+        no_hp: String(this.body.no_hp),
+        alamat: this.body.alamat,
+      };
 
-      var data = {};
       switch (this.g$user.role) {
         case "MAHASISWA":
-          this.body.no_hp = String(this.body.no_hp);
-          this.body.no_hp_cp_urgent = String(this.body.no_hp_cp_urgent);
-
-          data.nama = this.body.nama;
-          data.id_prodi = parseInt(this.body.id_prodi);
-          data.jenis_kelamin = parseInt(this.body.jenis_kelamin);
-          data.ttl = this.body.ttl;
-          data.no_hp = String(this.body.no_hp);
-          data.alamat = this.body.alamat;
+          data.id_prodi = parseInt(this.idProdi);
           data.riwayat_penyakit = this.body.riwayat_penyakit;
           data.nama_ortu = this.body.nama_ortu;
           data.no_hp_ortu = this.body.no_hp_ortu;
@@ -555,31 +564,18 @@ export default {
 
           break;
 
-        case "DOSEN":
-          await this.a$editUser(this.dosen);
-          break;
-
         case "BAPPEDA":
-          await this.a$editUser(this.bappeda);
-          break;
-
-        case "ADMIN":
-          await this.a$editUser(this.admin);
-          break;
-
-        case "PIMPINAN":
-          await this.a$editUser(this.pimpinan);
-          break;
-
-        case "REVIEWER":
-          await this.a$editUser(this.reviewer);
+          delete data.jenis_kelamin;
+          delete data.ttl;
+          data.nama_kabupaten = this.body.nama_kabupaten;
+          data.nama_pj = this.body.nama_pj;
           break;
 
         default:
           break;
       }
 
-      if (!this.validation(this.body)) {
+      if (!this.validation(data)) {
         this.showSwal("warning-message", "Lengkapi data terlebih dahulu!");
         return;
       }
@@ -590,6 +586,7 @@ export default {
         this.destroyChoices();
         this.showSwal("success-message", "Data diri berhasil diperbarui!");
         await this.getInitData();
+        this.indexComponent++;
       } catch (error) {
         this.showSwal(
           "failed-message",
@@ -602,17 +599,16 @@ export default {
     validation(body) {
       if (
         this.isNullEmptyOrUndefined(body.nama) ||
-        !(body.jenis_kelamin == 1 || body.jenis_kelamin == 2) ||
-        this.isNullEmptyOrUndefined(body.ttl) ||
         this.isNullEmptyOrUndefined(body.no_hp) ||
         this.isNullEmptyOrUndefined(body.alamat)
       ) {
+        // console.log("val 1");
         return false;
       }
+
       switch (this.g$user.role) {
         case "MAHASISWA":
           if (
-            this.isNullEmptyOrUndefined(body.nim) ||
             this.isNullEmptyOrUndefined(body.riwayat_penyakit) ||
             this.isNullEmptyOrUndefined(body.nama_ortu) ||
             this.isNullEmptyOrUndefined(body.no_hp_ortu) ||
@@ -622,24 +618,29 @@ export default {
             this.isNullEmptyOrUndefined(body.alamat_cp_urgent) ||
             this.isNullEmptyOrUndefined(body.hubungan)
           ) {
+            // console.log("val 2");
             return false;
           }
           break;
 
         case "BAPPEDA":
           if (
-            this.isNullEmptyOrUndefined(body.nb) ||
             this.isNullEmptyOrUndefined(body.nama_kabupaten) ||
             this.isNullEmptyOrUndefined(body.nama_pj)
           ) {
-            console.log("ini 3");
+            // console.log("val 3");
             return false;
           }
           break;
 
         default:
-          if (this.isNullEmptyOrUndefined(body.nip)) return false;
-
+          if (
+            !(body.jenis_kelamin == 1 || body.jenis_kelamin == 2) ||
+            this.isNullEmptyOrUndefined(body.ttl)
+          ) {
+            // console.log("val 4");
+            return false;
+          }
           break;
       }
 
@@ -651,13 +652,15 @@ export default {
     },
 
     initChoices() {
+      // if (this.g$user.role === "MAHASISWA") {
       // mhs-section
       this.choicesGender = this.getChoices("choices-gender");
       this.choicesFakultas = this.getChoices("choices-fakultas");
       this.choicesProdi = this.getChoices("choices-prodi");
-
-      // dosen-section
-      this.choicesGenderDosen = this.getChoices("choices-gender-dosen");
+      // } else if (this.g$user.role === "DOSEN") {
+      //   // dosen-section
+      //   this.choicesGenderDosen = this.getChoices("choices-gender-dosen");
+      // }
     },
 
     destroyChoices() {
@@ -678,7 +681,10 @@ export default {
       });
     },
 
-    setChoicesGender(choices) {
+    setChoicesGender() {
+      let choices = this.choicesGender;
+      if (this.g$user.role === "DOSEN") choices = this.choicesGenderDosen;
+
       if (choices) {
         choices.clearChoices();
         choices.removeActiveItems();
