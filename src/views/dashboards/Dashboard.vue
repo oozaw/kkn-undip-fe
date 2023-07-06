@@ -444,8 +444,8 @@ export default {
 
     checkProgressDataDiriMhs() {
       let totalAttribute = Object.keys(this.g$infoUser).length;
-      let totalAttributeMustBeFilled = Object.keys(this.g$infoUser).length - 7; // minus 7
-      let indexMustNotBeFilled = [0, 1, 2, 17, 18, 19, 20];
+      let totalAttributeMustBeFilled = Object.keys(this.g$infoUser).length - 8; // minus 8
+      let indexMustNotBeFilled = [0, 1, 2, 18, 19, 20, 21, 22];
       let attributeFilled = 0;
 
       for (let index = 0; index < totalAttribute; index++) {
@@ -487,7 +487,7 @@ export default {
         }
       });
 
-      let totalAttributeMustBeFilled = totalAttribute - totalLRK * 5; // minus 1
+      let totalAttributeMustBeFilled = totalAttribute - totalLRK * 5;
 
       return this.percentage(attributeFilled, totalAttributeMustBeFilled);
     },
@@ -500,7 +500,7 @@ export default {
       let totalAttribute = 0;
       let totalAttributePerLPK = Object.keys(this.g$listLPK[0]).length;
 
-      let indexMustNotBeFilled = [0, 1, 2, 12, 13];
+      let indexMustNotBeFilled = [0, 1, 2, 12, 13, 14];
       let attributeFilled = 0;
 
       this.g$listLPK.forEach((item) => {
@@ -514,7 +514,7 @@ export default {
         }
       });
 
-      let totalAttributeMustBeFilled = totalAttribute - totalLPK * 5; // minus 1
+      let totalAttributeMustBeFilled = totalAttribute - totalLPK * 6;
 
       return this.percentage(attributeFilled, totalAttributeMustBeFilled);
     },
