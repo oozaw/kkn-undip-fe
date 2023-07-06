@@ -6,6 +6,7 @@
           <template #button>
             <argon-button
               :onclick="() => $router.go(-1)"
+              type="button"
               class="mb-0 me-2"
               color="secondary"
               size="sm"
@@ -269,6 +270,7 @@
                 >
                   <argon-button
                     :onclick="() => $router.go(-1)"
+                    type="button"
                     class="mb-0 me-2"
                     color="secondary"
                     size="sm"
@@ -432,6 +434,7 @@
                 >
                   <argon-button
                     :onclick="() => $router.go(-1)"
+                    type="button"
                     class="mb-0 me-2"
                     color="secondary"
                     size="sm"
