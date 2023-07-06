@@ -170,7 +170,7 @@
                     name="tugas"
                     type="number"
                     placeholder="Nilai tugas"
-                    @keyup="updateValueNilai()"
+                    readonly
                   />
                 </div>
                 <div class="col-sm-3 col-12">
@@ -347,6 +347,7 @@ export default {
       this.getNilaiUas();
       this.getNilaiUts();
       this.getJumlahNilai();
+      this.getNilaiTugas();
       this.getNilaiAkhir();
       this.getNilaiHuruf();
     },
@@ -371,6 +372,17 @@ export default {
         this.body.uts * (25 / 100) +
         this.body.uas * (25 / 100)
       ).toFixed(2);
+    },
+
+    getNilaiTugas() {
+      this.body.tugas = Math.round(
+        (this.body.pembekalan +
+          this.body.upacara +
+          this.body.integritas +
+          this.body.kehadiran_dilokasi +
+          this.body.sosial_kemasyarakatan) /
+          5
+      );
     },
 
     getNilaiUas() {

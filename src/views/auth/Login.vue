@@ -102,10 +102,10 @@
                 >
                   Kuliah Kerja Nyata Universitas Diponegoro
                 </h4>
-                <p class="text-white position-relative">
+                <!-- <p class="text-white position-relative">
                   The more effortless the writing looks, the more effort the
                   writer actually put into the process.
-                </p>
+                </p> -->
               </div>
             </div>
           </div>
