@@ -159,7 +159,7 @@
                       <h6 class="my-auto">{{ gelombang.nama }}</h6>
                     </td>
                     <td class="text-sm">
-                      {{ gelombang.tema_halaman.halaman.nama }}
+                      {{ gelombang.tema_halaman?.halaman.nama }}
                     </td>
                     <td class="text-sm">
                       {{
