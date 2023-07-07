@@ -5,6 +5,7 @@
         <HeaderProfileCard>
           <template #button>
             <argon-button
+              type="button"
               :onclick="() => $router.push({ name: 'Bappeda' })"
               class="mb-0 me-2"
               color="secondary"

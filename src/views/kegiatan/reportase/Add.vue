@@ -5,6 +5,7 @@
         <header-profile-card>
           <template #button>
             <argon-button
+              type="button"
               :onclick="() => $router.push({ name: 'Reportase' })"
               class="mb-0 me-2"
               color="secondary"
@@ -96,6 +97,7 @@
               <div class="row mt-2">
                 <div class="col-12 mt-3 d-flex justify-content-end">
                   <argon-button
+                    type="button"
                     :onclick="() => $router.push({ name: 'Reportase' })"
                     class="mb-0 me-2"
                     color="secondary"

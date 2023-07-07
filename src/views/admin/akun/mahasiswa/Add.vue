@@ -5,6 +5,7 @@
         <HeaderProfileCard>
           <template #button>
             <argon-button
+              type="button"
               :onclick="() => $router.push({ name: 'Mahasiswa' })"
               class="mb-0 me-2"
               color="secondary"

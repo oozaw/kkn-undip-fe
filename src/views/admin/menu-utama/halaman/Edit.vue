@@ -2,12 +2,27 @@
   <div class="container-fluid">
     <div class="row mb-5 mt-4">
       <div class="col-lg-12 mt-lg-0 mt-4">
-        <HeaderProfileCard
-          :button="true"
-          button-text="Simpan Perubahan"
-          description="KKN Reguler Tim 1 2023"
-          :img="img3"
-        />
+        <HeaderProfileCard>
+          <template #button>
+            <argon-button
+              type="button"
+              :onclick="() => $router.push({ name: 'Halaman' })"
+              class="mb-0 me-2"
+              color="secondary"
+              size="sm"
+              >Batal</argon-button
+            >
+            <argon-button
+              type="submit"
+              form="form-gelombang"
+              class="mb-0 me-lg-2"
+              color="primary"
+              variant="gradient"
+              size="sm"
+              >Simpan Halaman</argon-button
+            >
+          </template>
+        </HeaderProfileCard>
         <div class="card mt-4">
           <div class="card-header">
             <h5>Edit Halaman</h5>
