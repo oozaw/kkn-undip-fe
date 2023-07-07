@@ -45,31 +45,57 @@
                   />
                 </div>
               </div>
-              <div class="row mt-4">
+              <div class="row mt-3">
+                <div class="col-sm-6 col-12">
+                  <label for="choices-optino-tgl" class="form-label"
+                    >Tambah Tanggal?</label
+                  >
+                  <select
+                    id="choices-option-tgl"
+                    class="form-control"
+                    name="choices-option-tgl"
+                    v-model="optionTgl"
+                  >
+                    <option value="1">Ya</option>
+                    <option value="0">Tidak</option>
+                  </select>
+                </div>
+              </div>
+              <div v-if="optionTgl === '1'" class="row mt-3">
                 <div class="col-sm-6 col-12">
                   <label class="form-label">Tanggal Mulai</label>
-                  <flat-pickr
-                    id="tanggal-mulai"
-                    name="tanggal-mulai"
+                  <VueDatePicker
+                    id="ttl"
+                    name="ttl"
                     v-model="body.tgl_mulai"
-                    class="form-control datetimepicker"
-                    placeholder="Pilih tanggal mulai"
-                    :config="config"
-                  ></flat-pickr>
+                    placeholder="Pilih tanggal awal"
+                    locale="id"
+                    cancel-text="Batal"
+                    select-text="Pilih"
+                    :format="'dd MMMM yyyy, HH:mm'"
+                    :format-locale="id"
+                    @update:model-value="checkStatus()"
+                    required
+                  ></VueDatePicker>
                 </div>
                 <div class="col-sm-6 col-12">
                   <label class="form-label">Tanggal Berakhir</label>
-                  <flat-pickr
-                    id="tanggal-berakhir"
-                    name="tanggal-berakhir"
+                  <VueDatePicker
+                    id="ttl"
+                    name="ttl"
                     v-model="body.tgl_akhir"
-                    class="form-control datetimepicker"
-                    placeholder="Pilih tanggal berakhir"
-                    :config="config"
-                  ></flat-pickr>
+                    placeholder="Pilih tanggal akhir"
+                    locale="id"
+                    cancel-text="Batal"
+                    select-text="Pilih"
+                    :format="'dd MMMM yyyy, HH:mm'"
+                    :format-locale="id"
+                    @update:model-value="checkStatus()"
+                    required
+                  ></VueDatePicker>
                 </div>
               </div>
-              <div class="row mt-4">
+              <div class="row mt-3">
                 <div class="col-sm-6 col-12">
                   <label for="choices-halaman" class="form-label"
                     >Halaman</label
@@ -96,6 +122,7 @@
                     class="form-control"
                     name="choices-status"
                     v-model="body.status"
+                    :disabled="statusDate"
                   >
                     <option value="1">Aktif</option>
                     <option value="0">Non-Aktif</option>
@@ -107,6 +134,7 @@
                   class="col-sm-auto ms-sm-auto mt-sm-0 mt-3 d-flex justify-content-center"
                 >
                   <argon-button
+                    type="button"
                     :onclick="() => $router.push({ name: 'Gelombang' })"
                     class="mb-0 me-2"
                     color="secondary"
@@ -133,9 +161,9 @@
 </template>
 
 <script>
-import flatPickr from "vue-flatpickr-component";
-import "flatpickr/dist/flatpickr.css";
-import "flatpickr/dist/themes/material_blue.css";
+import { id } from "date-fns/locale";
+import VueDatePicker from "@vuepic/vue-datepicker";
+import "@vuepic/vue-datepicker/dist/main.css";
 import Choices from "choices.js";
 import HeaderProfileCard from "@/views/dashboards/components/HeaderProfileCard.vue";
 import ArgonButton from "@/components/ArgonButton.vue";
@@ -147,13 +175,14 @@ export default {
   name: "EditGelombang",
   components: {
     HeaderProfileCard,
-    flatPickr,
+    VueDatePicker,
     ArgonButton,
   },
   data() {
     return {
       id_gelombang: parseInt(this.$route.params.id_gelombang),
       id_tema: parseInt(this.$route.params.id_tema),
+      statusDate: false,
       body: {
         nama: "",
         id_tema_halaman: "",
@@ -163,11 +192,9 @@ export default {
       },
       choicesHalaman: undefined,
       choicesStatus: undefined,
-      config: {
-        allowInput: true,
-        dateFormat: "Z",
-        enableTime: true,
-      },
+      choicesOptionTgl: undefined,
+      id,
+      optionTgl: "0",
     };
   },
   computed: {
@@ -177,12 +204,15 @@ export default {
   async created() {
     await this.getInitData();
 
-    this.choicesStatus = this.getChoices("choices-status");
+    this.choicesOptionTgl = this.getChoices("choices-option-tgl");
+    if (!(this.body.tgl_akhir && this.body.tgl_mulai))
+      this.choicesStatus = this.getChoices("choices-status");
   },
   mounted() {
     this.choicesHalaman = this.getChoices("choices-halaman");
   },
   beforeUnmount() {
+    if (this.choicesOptionTgl) this.choicesOptionTgl.destroy();
     if (this.choicesHalaman) this.choicesHalaman.destroy();
     if (this.choicesStatus) this.choicesStatus.destroy();
   },
@@ -209,6 +239,12 @@ export default {
       try {
         this.body.id_tema_halaman = parseInt(this.body.id_tema_halaman);
         this.body.status = parseInt(this.body.status);
+
+        if (this.optionTgl == "0") {
+          this.body.tgl_mulai = null;
+          this.body.tgl_akhir = null;
+        }
+
         await this.a$editGelombang(this.id_gelombang, this.body);
         this.$router.push({ name: "Gelombang" });
         this.showSwal("success-message", "Gelombang berhasil disimpan!");
@@ -222,6 +258,8 @@ export default {
     },
 
     async getInitData() {
+      this.showSwal("loading");
+
       try {
         await this.a$listHalaman(this.id_tema);
         await this.a$getGelombang(this.id_gelombang);
@@ -232,7 +270,13 @@ export default {
         this.body.tgl_mulai = this.g$gelombang.tgl_mulai;
         this.body.tgl_akhir = this.g$gelombang.tgl_akhir;
 
+        if (this.body.tgl_mulai && this.body.tgl_akhir) {
+          this.optionTgl = "1";
+          this.checkStatus();
+        }
+
         this.setChoices(this.choicesHalaman, this.g$listHalaman);
+        this.showSwal("close");
       } catch (error) {
         this.showSwal(
           "failed-message",
@@ -240,6 +284,25 @@ export default {
         );
         console.log(error);
       }
+    },
+
+    checkStatus() {
+      if (this.choicesStatus) this.choicesStatus.destroy();
+      const date = new Date();
+      const tgl_akhir = new Date(this.body.tgl_akhir);
+      const tgl_mulai = new Date(this.body.tgl_mulai);
+
+      if (tgl_mulai <= date && date <= tgl_akhir) {
+        this.body.status = "1";
+        this.statusDate = false;
+      } else {
+        this.body.status = "0";
+        this.statusDate = true;
+      }
+
+      setTimeout(() => {
+        this.choicesStatus = this.getChoices("choices-status");
+      }, 100);
     },
 
     setChoices(choices, option) {

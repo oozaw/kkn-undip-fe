@@ -74,22 +74,6 @@
                             id="form-add-gelombang"
                             @submit.prevent="addGelombang()"
                           >
-                            <!-- <label class="form-label">Tema</label>
-                            <select
-                              name="jenis"
-                              id="choices-tema-modal"
-                              class="choices-tema-modal form-select"
-                              v-model="body.id_tema"
-                            >
-                              <option value="0" hidden>-- Pilih Tema --</option>
-                              <option
-                                v-for="tema in g$listTema"
-                                :key="tema.id_tema"
-                                :value="tema.id_tema"
-                              >
-                                {{ tema.nama }}
-                              </option>
-                            </select> -->
                             <label class="form-label">Halaman</label>
                             <select
                               name="jenis"
@@ -160,7 +144,7 @@
                     <th class="col-1">No.</th>
                     <th>Nama</th>
                     <th>Halaman</th>
-                    <th>Tema</th>
+                    <th>Periode</th>
                     <th>Status</th>
                     <th>Action</th>
                   </tr>
@@ -178,7 +162,20 @@
                       {{ gelombang.tema_halaman.halaman.nama }}
                     </td>
                     <td class="text-sm">
-                      {{ gelombang.tema_halaman.tema.nama }}
+                      {{
+                        gelombang.tgl_mulai
+                          ? moment(gelombang.tgl_mulai).format(
+                              "DD MMMM YYYY HH:mm"
+                            ) + " - "
+                          : "-"
+                      }}
+                      {{
+                        gelombang.tgl_akhir
+                          ? moment(gelombang.tgl_akhir).format(
+                              "DD MMMM YYYY HH:mm"
+                            )
+                          : ""
+                      }}
                     </td>
                     <td>
                       <span
@@ -349,7 +346,7 @@
                     <th class="col-1">No.</th>
                     <th>Nama</th>
                     <th>Halaman</th>
-                    <th>Tema</th>
+                    <th>Periode</th>
                     <th>Status</th>
                     <th>Action</th>
                   </tr>
@@ -401,6 +398,7 @@ export default {
   },
   async created() {
     moment.locale("id");
+    this.showSwal("loading");
 
     await this.a$listTema();
     this.tema = this.g$listTema[0].id_tema;
@@ -408,10 +406,10 @@ export default {
     await this.getListGelombang();
 
     this.setupChoices();
+    this.showSwal("close");
   },
   beforeUnmount() {
     if (this.choicesTema) this.choicesTema.destroy();
-    // if (this.choicesTemaModal) this.choicesTemaModal.destroy();
     if (this.choicesHalamanModal) this.choicesHalamanModal.destroy();
   },
   methods: {
@@ -424,7 +422,6 @@ export default {
     ...mapActions(d$halaman, ["a$listHalaman"]),
 
     async addGelombang() {
-      console.log(this.body);
       // validation
       if (!this.body.id_tema_halaman || this.body.id_tema_halaman === "0") {
         this.showSwal("warning-message", "Lengkapi data terlebih dahulu!");
@@ -432,7 +429,6 @@ export default {
       }
 
       this.showSwal("loading");
-      // this.body.id_tema = parseInt(this.body.id_tema);
       this.body.id_tema_halaman = parseInt(this.body.id_tema_halaman);
 
       try {
@@ -444,13 +440,11 @@ export default {
 
         await this.getListGelombang();
         this.showSwal("success-message", "Berhasil menambahkan gelombang");
-        // this.indexComponent++;
-        // this.setupChoices();
         this.body.nama = "";
       } catch (error) {
         this.showSwal(
           "failed-message",
-          error.error ?? "Terjadi kesalahan saat menambahkan gelombang"
+          "Terjadi kesalahan saat menambahkan gelombang! " + error.error
         );
         console.log(error);
       }
@@ -465,9 +459,9 @@ export default {
       } catch (error) {
         this.showSwal(
           "failed-message",
-          error ?? "Terjadi kesalahan saat memperbarui data"
+          "Terjadi kesalahan saat memperbarui data! " + error.error
         );
-        // console.log(error);
+        console.log(error);
       }
     },
 
@@ -480,7 +474,10 @@ export default {
 
         await this.a$listAllGelombang(parseInt(this.tema));
       } catch (error) {
-        this.showSwal("failed-message", "Terjadi kesalahan saat memuat data");
+        this.showSwal(
+          "failed-message",
+          "Terjadi kesalahan saat memuat data! " + error.error
+        );
         console.log(error.error);
       }
 
