@@ -143,11 +143,11 @@
           <template #list>
             <ul class="nav ms-4">
               <!-- nav links -->
-              <sidenav-item
+              <!-- <sidenav-item
                 :to="{ name: 'Edit Data Diri' }"
                 mini-icon="S"
                 text="Statistik"
-              />
+              /> -->
               <sidenav-item
                 :isActive="getRoute2() === 'tema'"
                 :to="{ name: 'Tema KKN' }"
@@ -280,12 +280,12 @@
                 mini-icon="P"
                 text="Data Pendaftaran"
               />
-              <sidenav-item
+              <!-- <sidenav-item
                 :isActive="getRoute2() === 'post-test'"
                 :to="{ name: 'Nilai Post Test Mahasiswa Admin' }"
                 mini-icon="N"
                 text="Data Nilai Post Test"
-              />
+              /> -->
               <sidenav-item
                 :isActive="
                   getRoute2() === 'presensi' && getRoute() === 'kelola-mhs'
