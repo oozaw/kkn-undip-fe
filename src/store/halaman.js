@@ -6,6 +6,7 @@ const d$halaman = defineStore("halamanStore", {
   state: () => ({
     status: null,
     statusHalaman: null,
+    halaman: null,
     listHalaman: [],
   }),
   actions: {
@@ -20,9 +21,30 @@ const d$halaman = defineStore("halamanStore", {
       }
     },
 
+    async a$getHalaman(id_tema_halaman) {
+      try {
+        const { data, status } = await s$halaman.getHalaman(id_tema_halaman);
+        this.halaman = data ?? null;
+        this.status = status;
+      } catch (error) {
+        this.status = false;
+        throw error;
+      }
+    },
+
     async a$addHalaman(body) {
       try {
         const status = await s$halaman.addHalaman(body);
+        this.status = status;
+      } catch (error) {
+        this.status = false;
+        throw error;
+      }
+    },
+
+    async a$editHalaman(id_tema_halaman, body) {
+      try {
+        const status = await s$halaman.editHalaman(id_tema_halaman, body);
         this.status = status;
       } catch (error) {
         this.status = false;
@@ -57,6 +79,7 @@ const d$halaman = defineStore("halamanStore", {
   },
   getters: {
     g$statusHalaman: ({ statusHalaman }) => statusHalaman,
+    g$halaman: ({ halaman }) => halaman,
     g$listHalaman: ({ listHalaman }) => listHalaman,
   },
 });

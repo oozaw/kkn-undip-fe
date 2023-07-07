@@ -640,7 +640,7 @@ const routes = [
     },
   },
   {
-    path: "/admin/halaman/edit",
+    path: "/admin/halaman/edit/:id_tema_halaman",
     name: "Edit Halaman",
     component: EditHalaman,
     meta: {

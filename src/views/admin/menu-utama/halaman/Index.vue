@@ -39,73 +39,6 @@
               </div>
               <div class="my-auto mt-4 ms-auto mt-lg-0">
                 <div class="my-auto ms-auto">
-                  <!-- <button
-                    type="button"
-                    class="me-2 mb-0 btn btn-success btn-sm"
-                    data-bs-toggle="modal"
-                    data-bs-target="#add-halaman"
-                  >
-                    + Tambah Halaman
-                  </button>
-                  <div
-                    id="add-halaman"
-                    class="modal fade"
-                    tabindex="-1"
-                    aria-hidden="true"
-                    :key="indexComponent"
-                  >
-                    <div class="modal-dialog mt-lg-10">
-                      <div class="modal-content">
-                        <div class="modal-header">
-                          <h5 id="ModalLabel" class="modal-title">
-                            Tambah Halaman
-                          </h5>
-                          <i class="fas fa-upload ms-3"></i>
-                          <button
-                            type="button"
-                            class="btn-close"
-                            data-bs-dismiss="modal"
-                            aria-label="Close"
-                          ></button>
-                        </div>
-                        <div class="modal-body">
-                          <form
-                            role="form"
-                            id="form-add-halaman"
-                            @submit.prevent="addHalaman()"
-                          >
-                            <label class="form-label">Judul</label>
-                            <input
-                              class="form-control"
-                              type="text"
-                              name="nama"
-                              id="nama"
-                              placeholder="Judul halaman"
-                              required
-                              v-model="body.nama"
-                            />
-                          </form>
-                        </div>
-                        <div class="modal-footer">
-                          <button
-                            id="button-close-modal"
-                            type="button"
-                            class="btn bg-gradient-secondary btn-sm"
-                            data-bs-dismiss="modal"
-                          >
-                            Batal
-                          </button>
-                          <button
-                            form="form-add-halaman"
-                            type="submit"
-                            class="btn bg-gradient-success btn-sm"
-                          >
-                            Tambah
-                          </button>
-                        </div>
-                      </div>
-                    </div>
-                  </div> -->
                   <button
                     class="mt-2 mb-0 btn btn-outline-success btn-sm export-halaman mt-sm-0"
                     data-type="csv"
@@ -140,8 +73,24 @@
                     <td class="ms-0 px-0">
                       <h6 class="my-auto">{{ halaman.halaman.nama }}</h6>
                     </td>
-                    <td class="text-sm">1 Desember 2023</td>
-                    <td class="text-sm">15 Desember 2023</td>
+                    <td class="text-sm">
+                      {{
+                        halaman.tgl_mulai
+                          ? moment(halaman.tgl_mulai).format(
+                              "DD MMMM YYYY HH:mm"
+                            )
+                          : "-"
+                      }}
+                    </td>
+                    <td class="text-sm">
+                      {{
+                        halaman.tgl_akhir
+                          ? moment(halaman.tgl_akhir).format(
+                              "DD MMMM YYYY HH:mm"
+                            )
+                          : "-"
+                      }}
+                    </td>
                     <td class="text-sm">
                       <span v-if="halaman.status" class="badge badge-success"
                         >Aktif</span
@@ -149,15 +98,15 @@
                       <span v-else class="badge badge-danger">Tidak Aktif</span>
                     </td>
                     <td class="text-sm">
-                      <router-link
-                        :to="{ name: 'Edit Halaman' }"
-                        class="me-3"
+                      <a
+                        :id="halaman.id_tema_halaman"
+                        class="me-3 edit"
                         data-bs-toggle="tooltip"
                         data-bs-original-title="Edit Halaman"
                         title="Edit Halaman"
                       >
                         <i class="fas fa-user-edit text-primary"></i>
-                      </router-link>
+                      </a>
                       <a
                         v-if="halaman.status"
                         :id="halaman.id_tema_halaman"
@@ -224,8 +173,8 @@
 <script>
 import $ from "jquery";
 import { DataTable } from "simple-datatables";
+import moment from "moment";
 import Choices from "choices.js";
-import setTooltip from "@/assets/js/tooltip.js";
 import HeaderProfileCard from "@/views/dashboards/components/HeaderProfileCard.vue";
 import { mapActions, mapState } from "pinia";
 import d$halaman from "@/store/halaman";
@@ -240,11 +189,8 @@ export default {
     return {
       tema: "",
       choicesTema: undefined,
-      choicesAktor: undefined,
       indexComponent: 0,
-      body: {
-        nama: "",
-      },
+      moment,
     };
   },
   computed: {
@@ -252,16 +198,14 @@ export default {
     ...mapState(d$tema, ["g$listTema"]),
   },
   async created() {
+    moment.locale("id");
+
     await this.getInitData();
 
     this.choicesTema = this.getChoices("choices-tema");
-    this.choicesAktor = this.getChoices("choices-aktor");
-
-    setTooltip(this.$store.state.bootstrap);
   },
   beforeUnmount() {
     if (this.choicesTema) this.choicesTema.destroy();
-    if (this.choicesAktor) this.choicesAktor.destroy();
   },
   methods: {
     ...mapActions(d$halaman, [
@@ -296,25 +240,6 @@ export default {
       this.setupTableAction();
     },
 
-    async addHalaman() {
-      this.showSwal("loading");
-
-      try {
-        document.getElementById("button-close-modal").click();
-        await this.a$addHalaman(this.body);
-        await this.getListHalaman();
-        this.showSwal("success-message", "Data halaman berhasil ditambahkan");
-        // this.indexComponent++;
-        this.body.nama = "";
-      } catch (error) {
-        this.showSwal(
-          "failed-message",
-          error.error ?? "Gagal menambahkan data halaman"
-        );
-        console.log(error);
-      }
-    },
-
     async switchHalaman(id_halaman) {
       this.showSwal("loading");
 
@@ -324,7 +249,7 @@ export default {
       } catch (error) {
         this.showSwal(
           "failed-message",
-          error.error ?? "Gagal mengubah data halaman"
+          error.error ?? "Gagal mengubah data halaman! " + error
         );
         console.log(error);
       }
@@ -342,6 +267,7 @@ export default {
         );
         e.preventDefault();
       });
+
       $("#halaman-list").on("click", `.non-aktif`, function (e) {
         let halaman = this;
         outerThis.showSwal(
@@ -352,34 +278,16 @@ export default {
         );
         e.preventDefault();
       });
-      this.g$listHalaman.forEach((halaman) => {
-        if (document.getElementById(`aktif-${halaman.id_halaman}`)) {
-          document
-            .getElementById(`aktif-${halaman.id_halaman}`)
-            .addEventListener("click", (e) => {
-              this.showSwal(
-                "warning-confirmation",
-                `Mengaktifkan halaman ${halaman.nama}?`,
-                "Berhasil memperbarui data",
-                halaman.id_halaman
-              );
-              e.preventDefault();
-            });
-        }
 
-        if (document.getElementById(`non-aktif-${halaman.id_halaman}`)) {
-          document
-            .getElementById(`non-aktif-${halaman.id_halaman}`)
-            .addEventListener("click", (e) => {
-              this.showSwal(
-                "warning-confirmation",
-                `Menonaktifkan halaman ${halaman.nama}?`,
-                "Berhasil memperbarui data",
-                halaman.id_halaman
-              );
-              e.preventDefault();
-            });
-        }
+      $("#halaman-list").on("click", `.edit`, function (e) {
+        let halaman = this;
+        outerThis.$router.push({
+          name: "Edit Halaman",
+          params: {
+            id_tema_halaman: halaman.id,
+          },
+        });
+        e.preventDefault();
       });
     },
 
