@@ -190,12 +190,16 @@ export default {
     ...mapState(d$halaman, ["g$statusHalaman"]),
   },
   async created() {
+    this.showSwal("loading");
+
     await this.a$checkHalaman(
       parseInt(this.$route.params.id_tema),
       parseInt(this.id_halaman)
     );
 
     this.choicesKategori = this.getChoices("choices-kategori");
+
+    this.showSwal("close");
   },
   mounted() {},
   methods: {

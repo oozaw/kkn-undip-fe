@@ -188,11 +188,15 @@ export default {
     ...mapState(d$halaman, ["g$statusHalaman"]),
   },
   async created() {
+    this.showSwal("loading");
+
     await this.a$checkHalaman(
       parseInt(this.$route.params.id_tema),
       parseInt(this.id_halaman)
     );
     if (this.g$statusHalaman) await this.getInitData();
+
+    this.showSwal("close");
   },
   beforeUnmount() {
     if (this.choicesProvinsi) this.choicesProvinsi.destroy();

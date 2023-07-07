@@ -293,12 +293,15 @@ export default {
     ...mapState(d$halaman, ["g$statusHalaman"]),
   },
   async created() {
+    this.showSwal("loading");
+
     await this.a$checkHalaman(
       parseInt(this.g$infoUser.id_tema),
       this.id_halaman
     );
 
     if (this.g$statusHalaman) await this.getLaporan();
+    this.showSwal("close");
   },
   methods: {
     ...mapActions(d$laporan, ["a$getLaporan", "a$addLPK"]),

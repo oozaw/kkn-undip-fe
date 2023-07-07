@@ -152,6 +152,8 @@ export default {
     ...mapState(d$halaman, ["g$statusHalaman"]),
   },
   async created() {
+    this.showSwal("loading");
+
     await this.a$checkHalaman(
       parseInt(this.$route.params.id_tema),
       parseInt(this.id_halaman)
@@ -161,6 +163,7 @@ export default {
 
     this.body.id_tema = parseInt(this.$route.params.id_tema);
     this.body.id_gelombang = parseInt(this.$route.params.id_gelombang);
+    this.showSwal("close");
   },
   beforeUnmount() {
     if (this.choicesProv) this.choicesProv.destroy();

@@ -194,6 +194,8 @@ export default {
     ...mapState(d$halaman, ["g$statusHalaman"]),
   },
   async created() {
+    this.showSwal("loading");
+
     await this.a$checkHalaman(
       parseInt(this.g$infoUser.id_tema),
       this.id_halaman
@@ -201,6 +203,7 @@ export default {
 
     if (this.g$statusHalaman) await this.getLaporan();
     this.choicesKategori = this.getChoices("choices-kategori");
+    this.showSwal("close");
   },
   mounted() {},
   beforeUnmount() {
