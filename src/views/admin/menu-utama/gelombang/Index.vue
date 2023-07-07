@@ -398,7 +398,6 @@ export default {
   },
   async created() {
     moment.locale("id");
-    this.showSwal("loading");
 
     await this.a$listTema();
     this.tema = this.g$listTema[0].id_tema;
@@ -406,7 +405,6 @@ export default {
     await this.getListGelombang();
 
     this.setupChoices();
-    this.showSwal("close");
   },
   beforeUnmount() {
     if (this.choicesTema) this.choicesTema.destroy();

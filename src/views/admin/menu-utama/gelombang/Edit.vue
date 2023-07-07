@@ -48,7 +48,7 @@
               </div>
               <div class="row mt-3">
                 <div class="col-sm-6 col-12">
-                  <label for="choices-optino-tgl" class="form-label"
+                  <label for="choices-option-tgl" class="form-label"
                     >Tambah Tanggal?</label
                   >
                   <select
@@ -79,7 +79,7 @@
                     required
                   ></VueDatePicker>
                 </div>
-                <div class="col-sm-6 col-12">
+                <div class="col-sm-6 col-12 mt-sm-0 mt-3">
                   <label class="form-label">Tanggal Berakhir</label>
                   <VueDatePicker
                     id="ttl"
@@ -116,7 +116,7 @@
                     </option> -->
                   </select>
                 </div>
-                <div class="col-sm-6 col-12">
+                <div class="col-sm-6 col-12 mt-sm-0 mt-3">
                   <label for="choices-status" class="form-label">Status</label>
                   <select
                     id="choices-status"
