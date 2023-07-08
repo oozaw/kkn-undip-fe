@@ -242,7 +242,11 @@
                                     >Tanggal Lahir:</strong
                                   >
                                   &nbsp;
-                                  {{ moment(mhs.ttl).format("DD MMMM YYYY") }}
+                                  {{
+                                    mhs.ttl
+                                      ? moment(mhs.ttl).format("DD MMMM YYYY")
+                                      : ""
+                                  }}
                                 </div>
                               </div>
                               <div class="row mt-2">

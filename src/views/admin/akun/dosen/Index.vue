@@ -126,8 +126,6 @@
                     <th class="col-1">No.</th>
                     <th>Nama</th>
                     <th>NIP</th>
-                    <!-- <th>Fakultas</th>
-                    <th>Status</th> -->
                     <th>Action</th>
                   </tr>
                 </thead>
@@ -141,24 +139,103 @@
                       <h6 class="my-auto">{{ dosen.nama }}</h6>
                     </td>
                     <td class="text-sm">{{ dosen.nip }}</td>
-                    <!-- <td class="text-sm">FSM</td>
-                    <td>
-                      <span class="badge badge-danger badge-sm"
-                        >Unregistered</span
-                      >
-                    </td> -->
                     <td class="text-sm">
                       <a
-                        href="javascript:;"
-                        data-bs-toggle="tooltip"
-                        data-bs-original-title="Detail Dosen"
+                        type="button"
+                        class="mb-0 text-primary"
+                        data-bs-toggle="modal"
+                        :data-bs-target="'#detail_' + dosen.id_dosen"
                         title="Detail Dosen"
                       >
                         <i class="fas fa-eye text-info"></i>
                       </a>
+                      <div
+                        :id="'detail_' + dosen.id_dosen"
+                        class="modal fade"
+                        tabindex="-1"
+                        aria-hidden="true"
+                      >
+                        <div class="modal-dialog modal-lg mt-lg-5">
+                          <div class="modal-content">
+                            <div class="modal-header">
+                              <h5 id="ModalLabel" class="modal-title">
+                                Detail Dosen {{ dosen.nama }}
+                              </h5>
+                              <button
+                                type="button"
+                                class="btn-close text-dark mb-0"
+                                data-bs-dismiss="modal"
+                                aria-label="Close"
+                              >
+                                <font-awesome-icon icon="fa-solid fa-xmark" />
+                              </button>
+                            </div>
+                            <div class="modal-body p-4">
+                              <div class="row">
+                                <div class="col-lg-6 col-12 pt-0 text-sm">
+                                  <strong class="text-dark"
+                                    >Nama Lengkap:</strong
+                                  >
+                                  &nbsp;
+                                  {{ dosen.nama }}
+                                </div>
+                                <div
+                                  class="col-lg-6 col-12 mt-2 mt-lg-0 pt-0 text-sm"
+                                >
+                                  <strong class="text-dark">NIM:</strong>
+                                  &nbsp;
+                                  {{ dosen.nip }}
+                                </div>
+                              </div>
+                              <div class="row mt-3">
+                                <div class="col-lg-6 col-12 text-sm">
+                                  <strong class="text-dark"
+                                    >Jenis Kelamin:</strong
+                                  >
+                                  &nbsp;
+                                  {{
+                                    dosen.jenis_kelamin == 1
+                                      ? "Laki-laki"
+                                      : "Perempuan"
+                                  }}
+                                </div>
+                                <div
+                                  class="col-lg-6 col-12 mt-2 mt-lg-0 text-sm"
+                                >
+                                  <strong class="text-dark"
+                                    >Tanggal Lahir:</strong
+                                  >
+                                  &nbsp;
+                                  {{
+                                    dosen.ttl
+                                      ? moment(dosen.ttl).format("DD MMMM YYYY")
+                                      : ""
+                                  }}
+                                </div>
+                              </div>
+                              <div class="row mt-3">
+                                <div class="col-lg-6 col-12 text-sm">
+                                  <strong class="text-dark">No Telepon:</strong>
+                                  &nbsp;
+                                  {{ dosen.no_hp }}
+                                </div>
+                                <div
+                                  class="col-lg-6 col-12 mt-2 mt-lg-0 text-sm"
+                                >
+                                  <strong class="text-dark">Alamat:</strong>
+                                  &nbsp;
+                                  {{ dosen.alamat }}
+                                </div>
+                              </div>
+                            </div>
+                            <div class="modal-footer"></div>
+                          </div>
+                        </div>
+                      </div>
                       <a
-                        href="javascript:;"
-                        class="mx-3"
+                        :id="dosen.id_dosen"
+                        href="#"
+                        class="mx-3 edit"
                         data-bs-toggle="tooltip"
                         data-bs-original-title="Edit Dosen"
                         title="Edit Dosen"
@@ -184,8 +261,6 @@
                     <th class="col-1">No.</th>
                     <th>Nama</th>
                     <th>NIP</th>
-                    <th>Fakultas</th>
-                    <th>Status</th>
                     <th>Action</th>
                   </tr>
                 </tfoot>
@@ -200,6 +275,7 @@
 
 <script>
 import $ from "jquery";
+import moment from "moment";
 import Choices from "choices.js";
 import { DataTable } from "simple-datatables";
 import HeaderProfileCard from "@/views/dashboards/components/HeaderProfileCard.vue";
@@ -221,9 +297,12 @@ export default {
       body: {
         file: "",
       },
+      moment,
     };
   },
   async created() {
+    moment.locale("id");
+
     await this.getInitData();
   },
   methods: {
@@ -323,6 +402,18 @@ export default {
 
     setupTableAction() {
       let outerThis = this;
+      // edit
+      $("#dosen-list").on("click", `.edit`, function (e) {
+        let dosen = this;
+        outerThis.$router.push({
+          name: "Edit Dosen",
+          params: {
+            id_dosen: dosen.id,
+          },
+        });
+        e.preventDefault();
+      });
+
       // delete
       $("#dosen-list").on("click", `.delete`, function (e) {
         let dosen = this;

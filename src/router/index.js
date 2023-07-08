@@ -215,7 +215,7 @@ const routes = [
     },
   },
   {
-    path: "/akun/dosen/edit",
+    path: "/akun/dosen/edit/:id_dosen",
     name: "Edit Dosen",
     component: EditDosen,
     meta: {
