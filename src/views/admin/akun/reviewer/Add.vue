@@ -96,17 +96,22 @@ export default {
 
       // validation
       if (this.body.nama === "" || this.body.nip === "") {
-        this.showSwal("failed-message", "Data belum lengkap!");
+        this.showSwal("failed-message", "Lengkapi data terlebih dahulu!");
         return;
       }
 
       try {
         await this.a$addReviewer(this.body);
-        this.showSwal("success-message", "Data Reviewer berhasil ditambahkan!");
+        this.showSwal("success-message", "Data reviewer berhasil ditambahkan!");
         this.$router.push({ name: "Reviewer" });
       } catch (error) {
-        this.showSwal("failed-message", error);
-        console.log(error);
+        let msg = "";
+        if (error.error && error.error != undefined) msg = error.error;
+        else msg = error;
+        this.showSwal(
+          "failed-message",
+          "Terjadi kesalahan saat menambahkan data reviewer! " + msg
+        );
       }
     },
 

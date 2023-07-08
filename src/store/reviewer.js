@@ -5,6 +5,7 @@ const d$reviewer = defineStore("reviewerStore", {
   id: "reviewer",
   state: () => ({
     listReviewer: [],
+    reviewer: null,
     status: null,
   }),
   actions: {
@@ -12,6 +13,17 @@ const d$reviewer = defineStore("reviewerStore", {
       try {
         const { data, status } = await s$reviewer.listReviewer();
         this.listReviewer = data ?? [];
+        this.status = status;
+      } catch ({ message, error }) {
+        this.status = false;
+        throw message ?? error;
+      }
+    },
+
+    async a$getReviewer(id_reviewer) {
+      try {
+        const { data, status } = await s$reviewer.getReviewer(id_reviewer);
+        this.reviewer = data ?? null;
         this.status = status;
       } catch ({ message, error }) {
         this.status = false;
@@ -39,6 +51,16 @@ const d$reviewer = defineStore("reviewerStore", {
       }
     },
 
+    async a$editReviewer(id_reviewer, body) {
+      try {
+        const status = await s$reviewer.editReviewer(id_reviewer, body);
+        this.status = status;
+      } catch (error) {
+        this.status = false;
+        throw error;
+      }
+    },
+
     async a$deleteReviewer(id_reviewer) {
       try {
         const status = await s$reviewer.deleteReviewer(id_reviewer);
@@ -51,6 +73,7 @@ const d$reviewer = defineStore("reviewerStore", {
   },
   getters: {
     g$listReviewer: ({ listReviewer }) => listReviewer,
+    g$reviewer: ({ reviewer }) => reviewer,
   },
 });
 
