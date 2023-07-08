@@ -517,7 +517,7 @@ export default {
 
     setupTableAction() {
       let outerThis = this;
-      // delete
+      // edit
       $("#reviewer-list").on("click", `.edit`, function (e) {
         let reviewer = this;
         outerThis.editPimpinan(reviewer.id);
