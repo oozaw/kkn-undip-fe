@@ -5,6 +5,7 @@ const d$pimpinan = defineStore("pimpinanStore", {
   id: "pimpinan",
   state: () => ({
     listPimpinan: [],
+    pimpinan: null,
     status: null,
   }),
   actions: {
@@ -12,6 +13,17 @@ const d$pimpinan = defineStore("pimpinanStore", {
       try {
         const { data, status } = await s$pimpinan.listPimpinan();
         this.listPimpinan = data ?? [];
+        this.status = status;
+      } catch ({ message, error }) {
+        this.status = false;
+        throw message ?? error;
+      }
+    },
+
+    async a$getPimpinan(id_pimpinan) {
+      try {
+        const { data, status } = await s$pimpinan.getPimpinan(id_pimpinan);
+        this.pimpinan = data ?? null;
         this.status = status;
       } catch ({ message, error }) {
         this.status = false;
@@ -39,6 +51,16 @@ const d$pimpinan = defineStore("pimpinanStore", {
       }
     },
 
+    async a$editPimpinan(id_pimpinan, body) {
+      try {
+        const status = await s$pimpinan.editPimpinan(id_pimpinan, body);
+        this.status = status;
+      } catch (error) {
+        this.status = false;
+        throw error;
+      }
+    },
+
     async a$deletePimpinan(id_pimpinan) {
       try {
         const status = await s$pimpinan.deletePimpinan(id_pimpinan);
@@ -51,6 +73,7 @@ const d$pimpinan = defineStore("pimpinanStore", {
   },
   getters: {
     g$listPimpinan: ({ listPimpinan }) => listPimpinan,
+    g$pimpinan: ({ pimpinan }) => pimpinan,
   },
 });
 

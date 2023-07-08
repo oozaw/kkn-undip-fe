@@ -182,7 +182,7 @@
                                 <div
                                   class="col-lg-6 col-12 mt-2 mt-lg-0 pt-0 text-sm"
                                 >
-                                  <strong class="text-dark">NIM:</strong>
+                                  <strong class="text-dark">NIP:</strong>
                                   &nbsp;
                                   {{ dosen.nip }}
                                 </div>
@@ -193,11 +193,13 @@
                                     >Jenis Kelamin:</strong
                                   >
                                   &nbsp;
-                                  {{
-                                    dosen.jenis_kelamin == 1
-                                      ? "Laki-laki"
-                                      : "Perempuan"
-                                  }}
+                                  <span v-if="dosen.jenis_kelamin == 1"
+                                    >Laki-laki</span
+                                  >
+                                  <span v-else-if="dosen.jenis_kelamin == 2"
+                                    >Perempuan</span
+                                  >
+                                  <span v-else>-</span>
                                 </div>
                                 <div
                                   class="col-lg-6 col-12 mt-2 mt-lg-0 text-sm"

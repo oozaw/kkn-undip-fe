@@ -229,11 +229,13 @@
                                     >Jenis Kelamin:</strong
                                   >
                                   &nbsp;
-                                  {{
-                                    mhs.jenis_kelamin == 1
-                                      ? "Laki-laki"
-                                      : "Perempuan"
-                                  }}
+                                  <span v-if="mhs.jenis_kelamin == 1"
+                                    >Laki-laki</span
+                                  >
+                                  <span v-else-if="mhs.jenis_kelamin == 2"
+                                    >Perempuan</span
+                                  >
+                                  <span v-else>-</span>
                                 </div>
                                 <div
                                   class="col-lg-6 col-12 mt-2 mt-lg-0 text-sm"

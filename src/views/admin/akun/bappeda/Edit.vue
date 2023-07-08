@@ -104,7 +104,7 @@ import d$bappeda from "@/store/bappeda";
 import { mapActions, mapState } from "pinia";
 
 export default {
-  name: "AddBappeda",
+  name: "EditBappeda",
   components: {
     HeaderProfileCard,
     ArgonButton,
