@@ -4,6 +4,8 @@ const api = `/`;
 
 const listBappeda = () => baseApi.get(`${api}bappeda`);
 
+const getBappeda = (id_bappeda) => baseApi.get(`${api}bappeda/${id_bappeda}`);
+
 const addBappeda = (body) => baseApi.post(`${api}admin/bappeda/single`, body);
 
 const importBappeda = (body) =>
@@ -13,7 +15,17 @@ const importBappeda = (body) =>
     },
   });
 
+const editBappeda = (id_bappeda, body) =>
+  baseApi.put(`${api}admin/bappeda/${id_bappeda}`, body);
+
 const deleteBappeda = (id_bappeda) =>
   baseApi.delete(`${api}admin/bappeda/${id_bappeda}`);
 
-export { listBappeda, addBappeda, importBappeda, deleteBappeda };
+export {
+  listBappeda,
+  getBappeda,
+  addBappeda,
+  importBappeda,
+  editBappeda,
+  deleteBappeda,
+};

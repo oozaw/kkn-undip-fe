@@ -141,20 +141,153 @@
                       <h6 class="my-auto">{{ bappeda.nama }}</h6>
                     </td>
                     <td class="text-sm">{{ bappeda.nb }}</td>
-                    <td class="text-sm">3/8</td>
+                    <td class="text-sm">
+                      {{ bappeda.total_kecamatan + "/" + bappeda.total_desa }}
+                    </td>
                     <td class="text-sm">{{ bappeda.nama_pj }}</td>
                     <td class="text-sm">
                       <a
-                        href="javascript:;"
-                        data-bs-toggle="tooltip"
-                        data-bs-original-title="Detail BAPPEDA"
+                        type="button"
+                        class="mb-0 text-primary"
+                        data-bs-toggle="modal"
+                        :data-bs-target="'#detail_' + bappeda.id_bappeda"
                         title="Detail BAPPEDA"
                       >
                         <i class="fas fa-eye text-info"></i>
                       </a>
+                      <div
+                        :id="'detail_' + bappeda.id_bappeda"
+                        class="modal fade"
+                        tabindex="-1"
+                        aria-hidden="true"
+                      >
+                        <div class="modal-dialog modal-lg mt-lg-5">
+                          <div class="modal-content">
+                            <div class="modal-header">
+                              <h5 id="ModalLabel" class="modal-title">
+                                Detail {{ bappeda.nama }}
+                              </h5>
+                              <button
+                                type="button"
+                                class="btn-close text-dark mb-0"
+                                data-bs-dismiss="modal"
+                                aria-label="Close"
+                              >
+                                <font-awesome-icon icon="fa-solid fa-xmark" />
+                              </button>
+                            </div>
+                            <div class="modal-body p-4">
+                              <div class="row">
+                                <div class="col-lg-6 col-12 pt-0 text-sm">
+                                  <strong class="text-dark">Nama :</strong>
+                                  &nbsp;
+                                  {{ bappeda.nama }}
+                                </div>
+                                <div
+                                  class="col-lg-6 col-12 mt-2 mt-lg-0 pt-0 text-sm"
+                                >
+                                  <strong class="text-dark"
+                                    >Nomor Induk:</strong
+                                  >
+                                  &nbsp;
+                                  {{ bappeda.nb }}
+                                </div>
+                              </div>
+                              <div class="row mt-3">
+                                <div class="col-lg-6 col-12 text-sm">
+                                  <strong class="text-dark"
+                                    >Nama Kabupaten/ Kota:</strong
+                                  >
+                                  &nbsp;
+                                  {{ bappeda.nama_kabupaten }}
+                                </div>
+                                <div
+                                  class="col-lg-6 col-12 mt-2 mt-lg-0 text-sm"
+                                >
+                                  <strong class="text-dark"
+                                    >Nama Penanggung Jawab:</strong
+                                  >
+                                  &nbsp;
+                                  {{ bappeda.nama_pj }}
+                                </div>
+                              </div>
+                              <div class="row mt-3">
+                                <div class="col-lg-6 col-12 text-sm">
+                                  <strong class="text-dark">No Telepon:</strong>
+                                  &nbsp;
+                                  {{ bappeda.no_hp }}
+                                </div>
+                                <div
+                                  class="col-lg-6 col-12 mt-2 mt-lg-0 text-sm"
+                                >
+                                  <strong class="text-dark">Alamat:</strong>
+                                  &nbsp;
+                                  {{ bappeda.alamat }}
+                                </div>
+                              </div>
+                              <div class="row mt-3">
+                                <div class="col-12 text-sm">
+                                  <strong class="text-dark"
+                                    >Wilayah (Kabupaten - Kecamatan -
+                                    Desa):</strong
+                                  >
+                                  &nbsp;
+                                  <ul class="list-group mt-2">
+                                    <li
+                                      class="pt-0 text-sm border-0 list-group-item ps-0"
+                                    >
+                                      <ol
+                                        class="list-group list-group-numbered"
+                                      >
+                                        <li
+                                          v-for="(
+                                            kab, ikab
+                                          ) in bappeda.kabupaten"
+                                          :key="ikab"
+                                          class="mb-2"
+                                        >
+                                          {{ kab.nama }}:
+                                          <ol class="ms-2">
+                                            <li
+                                              v-for="(
+                                                kec, ikec
+                                              ) in kab.kecamatan"
+                                              :key="ikec"
+                                            >
+                                              Kec.
+                                              {{ kec.nama }}
+                                              ({{
+                                                kec.status == "1"
+                                                  ? "Diterima"
+                                                  : "Ditolak"
+                                              }}):
+                                              <ol class="ms-1">
+                                                <li
+                                                  v-for="(
+                                                    desa, idesa
+                                                  ) in kec.desa"
+                                                  :key="idesa"
+                                                >
+                                                  Desa {{ desa.nama }}
+                                                </li>
+                                              </ol>
+                                            </li>
+                                          </ol>
+                                        </li>
+                                      </ol>
+                                    </li>
+                                  </ul>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="modal-footer"></div>
+                          </div>
+                        </div>
+                      </div>
                       <a
-                        href="javascript:;"
-                        class="mx-3"
+                        :id="bappeda.id_bappeda"
+                        href="#"
+                        class="mx-3 edit"
                         data-bs-toggle="tooltip"
                         data-bs-original-title="Edit BAPPEDA"
                         title="Edit BAPPEDA"
@@ -213,7 +346,6 @@ export default {
       body: {
         file: "",
       },
-      choicesTema: undefined,
       dataTable: undefined,
     };
   },
@@ -222,12 +354,8 @@ export default {
   },
   async created() {
     await this.getInitData();
-
-    // this.choicesTema = this.getChoices("choices-tema");
   },
-  beforeUnmount() {
-    if (this.choicesTema) this.choicesTema.destroy();
-  },
+  beforeUnmount() {},
   methods: {
     ...mapActions(d$bappeda, [
       "a$listBappeda",
@@ -334,6 +462,18 @@ export default {
 
     setupTableAction() {
       let outerThis = this;
+      // edit
+      $("#bappeda-list").on("click", `.edit`, function (e) {
+        let bappeda = this;
+        outerThis.$router.push({
+          name: "Edit Bappeda",
+          params: {
+            id_bappeda: bappeda.id,
+          },
+        });
+        e.preventDefault();
+      });
+
       // delete
       $("#bappeda-list").on("click", `.delete`, function (e) {
         let bappeda = this;

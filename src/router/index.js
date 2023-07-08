@@ -70,6 +70,7 @@ import AddDosen from "../views/admin/akun/dosen/Add.vue";
 import EditDosen from "../views/admin/akun/dosen/Edit.vue";
 import IndexBappeda from "../views/admin/akun/bappeda/Index.vue";
 import AddBappeda from "../views/admin/akun/bappeda/Add.vue";
+import EditBappeda from "../views/admin/akun/bappeda/Edit.vue";
 import IndexAdministrator from "../views/admin/akun/administrator/Index.vue";
 import AddAdministrator from "../views/admin/akun/administrator/Add.vue";
 import IndexReviewer from "../views/admin/akun/reviewer/Index.vue";
@@ -234,6 +235,14 @@ const routes = [
     path: "/akun/bappeda/add",
     name: "Tambah Bappeda",
     component: AddBappeda,
+    meta: {
+      requiresAuth: [Role.admin],
+    },
+  },
+  {
+    path: "/akun/bappeda/edit/:id_bappeda",
+    name: "Edit Bappeda",
+    component: EditBappeda,
     meta: {
       requiresAuth: [Role.admin],
     },
