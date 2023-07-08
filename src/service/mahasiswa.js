@@ -17,6 +17,9 @@ const listMahasiswaRegisteredByKecamatan = (id_kecamatan) =>
 const listMahasiswaAcceptedByKecamatan = (id_kecamatan) =>
   baseApi.get(`${api}mahasiswa/accepted/${id_kecamatan}`);
 
+const getMahasiswa = (id_mahasiswa) =>
+  baseApi.get(`${api}mahasiswa/${id_mahasiswa}`);
+
 const addMahasiswa = (body) =>
   baseApi.post(`${api}admin/mahasiswa/single`, body);
 
@@ -26,6 +29,9 @@ const importMahasiswa = (body) =>
       "Content-Type": "multipart/form-data",
     },
   });
+
+const editMahasiswa = (id_mahasiswa, body) =>
+  baseApi.put(`${api}admin/mahasiswa/${id_mahasiswa}`, body);
 
 const listMahasiswaWilayah = (id_kecamatan) =>
   baseApi.get(`${api}dosen/mahasiswa/${id_kecamatan}`);
@@ -49,8 +55,10 @@ export {
   listMahasiswaAccepted,
   listMahasiswaRegisteredByKecamatan,
   listMahasiswaAcceptedByKecamatan,
+  getMahasiswa,
   addMahasiswa,
   importMahasiswa,
+  editMahasiswa,
   listMahasiswaWilayah,
   daftarLokasi,
   accMahasiswa,

@@ -5,6 +5,7 @@ const d$mahasiswa = defineStore("mahasiswaStore", {
   id: "mahasiswa",
   state: () => ({
     listMahasiswa: [],
+    mahasiswa: null,
     status: null,
   }),
   actions: {
@@ -76,6 +77,17 @@ const d$mahasiswa = defineStore("mahasiswaStore", {
       }
     },
 
+    async a$getMahasiswa(id_mahasiswa) {
+      try {
+        const { data, status } = await s$mahasiswa.getMahasiswa(id_mahasiswa);
+        this.mahasiswa = data ?? null;
+        this.status = status;
+      } catch ({ message, error }) {
+        this.status = false;
+        throw message ?? error;
+      }
+    },
+
     async a$addMahasiswa(body) {
       try {
         const status = await s$mahasiswa.addMahasiswa(body);
@@ -89,6 +101,16 @@ const d$mahasiswa = defineStore("mahasiswaStore", {
     async a$importMahasiswa(body) {
       try {
         const status = await s$mahasiswa.importMahasiswa(body);
+        this.status = status;
+      } catch ({ message, error }) {
+        this.status = false;
+        throw message ?? error;
+      }
+    },
+
+    async a$editMahasiswa(id_mahasiswa, body) {
+      try {
+        const status = await s$mahasiswa.editMahasiswa(id_mahasiswa, body);
         this.status = status;
       } catch ({ message, error }) {
         this.status = false;
@@ -152,6 +174,7 @@ const d$mahasiswa = defineStore("mahasiswaStore", {
   },
   getters: {
     g$listMahasiswa: ({ listMahasiswa }) => listMahasiswa,
+    g$mahasiswa: ({ mahasiswa }) => mahasiswa,
   },
 });
 

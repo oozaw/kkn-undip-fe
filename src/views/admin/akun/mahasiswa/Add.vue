@@ -92,22 +92,6 @@
                     <option value="" disabled>-- Pilih prodi --</option>
                   </select>
                 </div>
-                <!-- <div class="col-3">
-                  <label class="mt-4">Username</label>
-                  <input
-                    class="form-control"
-                    type="text"
-                    placeholder="Masukkan username"
-                  />
-                </div>
-                <div class="col-3">
-                  <label class="mt-4">Password</label>
-                  <input
-                    class="form-control"
-                    type="password"
-                    placeholder="Masukkan password"
-                  />
-                </div> -->
               </div>
             </div>
           </form>

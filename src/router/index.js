@@ -191,7 +191,7 @@ const routes = [
     },
   },
   {
-    path: "/akun/mahasiswa/edit",
+    path: "/akun/mahasiswa/edit/:id_mahasiswa",
     name: "Edit Mahasiswa",
     component: EditMahasiswa,
     meta: {

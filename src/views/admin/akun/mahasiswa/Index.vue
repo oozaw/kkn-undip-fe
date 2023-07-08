@@ -333,8 +333,9 @@
                         </div>
                       </div>
                       <a
-                        href="javascript:;"
-                        class="mx-3"
+                        :id="mhs.id_mahasiswa"
+                        href="#"
+                        class="mx-3 edit"
                         data-bs-toggle="tooltip"
                         data-bs-original-title="Edit Mahasiswa"
                         title="Edit Mahasiswa"
@@ -521,6 +522,18 @@ export default {
 
     setupTableAction() {
       let outerThis = this;
+      // edit
+      $("#mhs-list").on("click", `.edit`, function (e) {
+        let mahasiswa = this;
+        outerThis.$router.push({
+          name: "Edit Mahasiswa",
+          params: {
+            id_mahasiswa: mahasiswa.id,
+          },
+        });
+        e.preventDefault();
+      });
+
       // delete
       $("#mhs-list").on("click", `.delete`, function (e) {
         let mahasiswa = this;
