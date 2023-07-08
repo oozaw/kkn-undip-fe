@@ -5,6 +5,7 @@ const d$korwil = defineStore("korwilStore", {
   id: "korwil",
   state: () => ({
     status: null,
+    korwil: null,
     listKorwil: [],
   }),
   actions: {
@@ -12,6 +13,17 @@ const d$korwil = defineStore("korwilStore", {
       try {
         const { data, status } = await s$korwil.listKorwil();
         this.listKorwil = data ?? [];
+        this.status = status;
+      } catch (error) {
+        this.status = false;
+        throw error;
+      }
+    },
+
+    async a$getKorwil(id_korwil) {
+      try {
+        const { data, status } = await s$korwil.getKorwil(id_korwil);
+        this.korwil = data ?? {};
         this.status = status;
       } catch (error) {
         this.status = false;
@@ -39,6 +51,16 @@ const d$korwil = defineStore("korwilStore", {
       }
     },
 
+    async a$editKorwil(id_korwil, body) {
+      try {
+        const { status } = await s$korwil.editKorwil(id_korwil, body);
+        this.status = status;
+      } catch (error) {
+        this.status = false;
+        throw error;
+      }
+    },
+
     async a$deleteKorwil(id_korwil) {
       try {
         const { status } = await s$korwil.deleteKorwil(id_korwil);
@@ -51,6 +73,7 @@ const d$korwil = defineStore("korwilStore", {
   },
   getters: {
     g$listKorwil: ({ listKorwil }) => listKorwil,
+    g$kowil: ({ korwil }) => korwil,
   },
 });
 

@@ -518,7 +518,7 @@ export default {
 
     setupTableAction() {
       let outerThis = this;
-      // delete
+      // edit
       $("#pimpinan-list").on("click", `.edit`, function (e) {
         let pimpinan = this;
         outerThis.editPimpinan(pimpinan.id);
