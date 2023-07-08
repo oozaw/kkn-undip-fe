@@ -155,14 +155,14 @@
                                 >
                                   <strong class="text-dark">Fakultas:</strong>
                                   &nbsp;
-                                  {{ laporan.mahasiswa.prodi.fakultas.nama }}
+                                  {{ laporan.mahasiswa.prodi?.fakultas?.nama }}
                                 </li>
                                 <li
                                   class="text-sm border-0 list-group-item ps-0"
                                 >
                                   <strong class="text-dark">Prodi:</strong>
                                   &nbsp;
-                                  {{ laporan.mahasiswa.prodi.nama }}
+                                  {{ laporan.mahasiswa.prodi?.nama }}
                                 </li>
                                 <li
                                   class="text-sm border-0 list-group-item ps-0"

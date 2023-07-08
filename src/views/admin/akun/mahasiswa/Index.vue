@@ -3,30 +3,6 @@
     <div class="row">
       <div class="col-lg-12 mt-lg-0 mt-4">
         <header-profile-card />
-        <!-- <div class="bg-white card mt-4">
-          <div class="card-header pb-0 pt-3">
-            <p class="font-weight-bold text-dark mb-2">
-              Pilih Tema KKN Terdaftar
-            </p>
-          </div>
-          <div class="pb-3 pt-0 card-body">
-            <div class="col-12 align-self-center">
-              <select
-                id="choices-tema"
-                class="form-control"
-                name="choices-tema"
-                v-model="tema"
-                @change="getListMahasiswa()"
-              >
-                <option value="1" selected>KKN Reguler Tim I</option>
-                <option value="2">
-                  KKN Tematik Pengurangan Risiko Bencana Berbasis Partisipasi
-                  Masyarakat dan Komunitas
-                </option>
-              </select>
-            </div>
-          </div>
-        </div> -->
         <div class="bg-white card mt-4">
           <!-- Card header -->
           <div class="pb-0 card-header">
@@ -152,7 +128,7 @@
                     <th>NIM</th>
                     <th>Fakultas</th>
                     <th>Prodi</th>
-                    <!-- <th>Status</th> -->
+                    <th>Status</th>
                     <th>Action</th>
                   </tr>
                 </thead>
@@ -166,22 +142,196 @@
                       <h6 class="my-auto">{{ mhs.nama }}</h6>
                     </td>
                     <td class="text-sm">{{ mhs.nim }}</td>
-                    <td class="text-sm">{{ mhs.prodi?.fakultas?.nama }}</td>
+                    <td class="text-sm">
+                      {{ mhs.prodi?.fakultas?.singkatan }}
+                    </td>
                     <td class="text-sm">{{ mhs.prodi?.nama }}</td>
-                    <!-- <td>
-                      <span class="badge badge-danger badge-sm"
-                        >Unregistered</span
+                    <td>
+                      <span
+                        v-if="mhs.status == '2'"
+                        class="badge badge-success badge-sm"
+                        >Terdaftar</span
                       >
-                    </td> -->
+                      <span
+                        v-else-if="mhs.status == '1'"
+                        class="badge badge-primary badge-sm"
+                        >Proses Pendaftaran</span
+                      >
+                      <span v-else class="badge badge-secondary badge-sm"
+                        >Belum Mendaftar</span
+                      >
+                    </td>
                     <td class="text-sm">
                       <a
-                        href="javascript:;"
-                        data-bs-toggle="tooltip"
-                        data-bs-original-title="Detail Mahasiswa"
+                        type="button"
+                        class="mb-0 text-primary"
+                        data-bs-toggle="modal"
+                        :data-bs-target="'#detail_' + mhs.id_mahasiswa"
                         title="Detail Mahasiswa"
                       >
                         <i class="fas fa-eye text-info"></i>
                       </a>
+                      <div
+                        :id="'detail_' + mhs.id_mahasiswa"
+                        class="modal fade"
+                        tabindex="-1"
+                        aria-hidden="true"
+                      >
+                        <div class="modal-dialog modal-lg mt-lg-5">
+                          <div class="modal-content">
+                            <div class="modal-header">
+                              <h5 id="ModalLabel" class="modal-title">
+                                Detail Mahasiswa {{ mhs.nama }}
+                              </h5>
+                              <button
+                                type="button"
+                                class="btn-close text-dark mb-0"
+                                data-bs-dismiss="modal"
+                                aria-label="Close"
+                              >
+                                <font-awesome-icon icon="fa-solid fa-xmark" />
+                              </button>
+                            </div>
+                            <div class="modal-body p-4">
+                              <div class="row">
+                                <div class="col-lg-6 col-12 pt-0 text-sm">
+                                  <strong class="text-dark"
+                                    >Nama Lengkap:</strong
+                                  >
+                                  &nbsp;
+                                  {{ mhs.nama }}
+                                </div>
+                                <div
+                                  class="col-lg-6 col-12 mt-2 mt-lg-0 pt-0 text-sm"
+                                >
+                                  <strong class="text-dark">NIM:</strong>
+                                  &nbsp;
+                                  {{ mhs.nim }}
+                                </div>
+                              </div>
+                              <div class="row mt-2">
+                                <div class="col-lg-6 col-12 text-sm">
+                                  <strong class="text-dark">Fakultas:</strong>
+                                  &nbsp;
+                                  {{ mhs.prodi?.fakultas?.nama }}
+                                </div>
+                                <div
+                                  class="col-lg-6 col-12 mt-2 mt-lg-0 text-sm"
+                                >
+                                  <strong class="text-dark">Prodi:</strong>
+                                  &nbsp;
+                                  {{ mhs.prodi?.nama }}
+                                </div>
+                              </div>
+                              <div class="row mt-2">
+                                <div class="col-lg-6 col-12 text-sm">
+                                  <strong class="text-dark"
+                                    >Jenis Kelamin:</strong
+                                  >
+                                  &nbsp;
+                                  {{
+                                    mhs.jenis_kelamin == 1
+                                      ? "Laki-laki"
+                                      : "Perempuan"
+                                  }}
+                                </div>
+                                <div
+                                  class="col-lg-6 col-12 mt-2 mt-lg-0 text-sm"
+                                >
+                                  <strong class="text-dark"
+                                    >Tanggal Lahir:</strong
+                                  >
+                                  &nbsp;
+                                  {{ moment(mhs.ttl).format("DD MMMM YYYY") }}
+                                </div>
+                              </div>
+                              <div class="row mt-2">
+                                <div class="col-lg-6 col-12 text-sm">
+                                  <strong class="text-dark">No Telepon:</strong>
+                                  &nbsp;
+                                  {{ mhs.no_hp }}
+                                </div>
+                                <div
+                                  class="col-lg-6 col-12 mt-2 mt-lg-0 text-sm"
+                                >
+                                  <strong class="text-dark">Alamat:</strong>
+                                  &nbsp;
+                                  {{ mhs.alamat }}
+                                </div>
+                              </div>
+                              <div class="row mt-2">
+                                <div class="col-lg-6 col-12 text-sm">
+                                  <strong class="text-dark"
+                                    >Riwayat Penyakit:</strong
+                                  >
+                                  &nbsp;
+                                  {{ mhs.riwayat_penyakit }}
+                                </div>
+                                <div
+                                  class="col-lg-6 col-12 mt-2 mt-lg-0 text-sm"
+                                >
+                                  <strong class="text-dark">Nama Ortu:</strong>
+                                  &nbsp;
+                                  {{ mhs.nama_ortu }}
+                                </div>
+                              </div>
+                              <div class="row mt-2">
+                                <div class="col-lg-6 col-12 text-sm">
+                                  <strong class="text-dark"
+                                    >No Telp Ortu:</strong
+                                  >
+                                  &nbsp;
+                                  {{ mhs.no_hp_ortu }}
+                                </div>
+                                <div
+                                  class="col-lg-6 col-12 mt-2 mt-lg-0 text-sm"
+                                >
+                                  <strong class="text-dark"
+                                    >Alamat Ortu:</strong
+                                  >
+                                  &nbsp;
+                                  {{ mhs.alamat_ortu }}
+                                </div>
+                              </div>
+                              <div class="row mt-2">
+                                <div class="col-lg-6 col-12 text-sm">
+                                  <strong class="text-dark"
+                                    >Nama CP Darurat:</strong
+                                  >
+                                  &nbsp;
+                                  {{ mhs.nama_cp_urgent }}
+                                </div>
+                                <div
+                                  class="col-lg-6 col-12 mt-2 mt-lg-0 text-sm"
+                                >
+                                  <strong class="text-dark"
+                                    >No Telp CP Darurat:</strong
+                                  >
+                                  &nbsp;
+                                  {{ mhs.no_hp_cp_urgent }}
+                                </div>
+                              </div>
+                              <div class="row mt-2">
+                                <div class="col-lg-6 col-12 text-sm">
+                                  <strong class="text-dark"
+                                    >Alamat CP Darurat:</strong
+                                  >
+                                  &nbsp;
+                                  {{ mhs.alamat_cp_urgent }}
+                                </div>
+                                <div
+                                  class="col-lg-6 col-12 mt-2 mt-lg-0 text-sm"
+                                >
+                                  <strong class="text-dark">Hubungan:</strong>
+                                  &nbsp;
+                                  {{ mhs.hubungan }}
+                                </div>
+                              </div>
+                            </div>
+                            <div class="modal-footer"></div>
+                          </div>
+                        </div>
+                      </div>
                       <a
                         href="javascript:;"
                         class="mx-3"
@@ -212,7 +362,7 @@
                     <th>NIM</th>
                     <th>Fakultas</th>
                     <th>Prodi</th>
-                    <!-- <th>Status</th> -->
+                    <th>Status</th>
                     <th>Action</th>
                   </tr>
                 </tfoot>
@@ -227,6 +377,7 @@
 
 <script>
 import $ from "jquery";
+import moment from "moment";
 import Choices from "choices.js";
 import { DataTable } from "simple-datatables";
 import HeaderProfileCard from "@/views/dashboards/components/HeaderProfileCard.vue";
@@ -249,18 +400,16 @@ export default {
         file: "",
         id_periode: "",
       },
-      choicesTema: undefined,
       dataTable: undefined,
+      moment,
     };
   },
   async created() {
-    await this.getListMahasiswa();
+    moment.locale("id");
 
-    // this.choicesTema = this.getChoices("choices-tema");
+    await this.getListMahasiswa();
   },
-  beforeUnmount() {
-    if (this.choicesTema) this.choicesTema.destroy();
-  },
+  beforeUnmount() {},
   methods: {
     ...mapActions(d$mahasiswa, [
       "a$listMahasiswa",
