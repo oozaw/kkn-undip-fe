@@ -299,8 +299,11 @@ export default {
         this.$router.push({ name: "LPK" });
         this.showSwal("success-message", "Evaluasi berhasil disimpan!");
       } catch (error) {
-        this.showSwal("failed-message", "Evaluasi gagal disimpan! " + error);
-        console.log(error.error);
+        console.log(error);
+        let msg = "";
+        if (error.error && error.error != undefined) msg = error.error;
+        else msg = error;
+        this.showSwal("failed-message", "Data gagal disimpan! " + msg);
       }
     },
 
@@ -311,8 +314,14 @@ export default {
         await this.a$getLaporan(parseInt(this.$route.params.id_laporan));
         this.body.komentar = this.g$getLaporan.komentar;
       } catch (error) {
-        this.showSwal("failed-message", "Terjadi kesalahan saat memuat data");
         console.log(error);
+        let msg = "";
+        if (error.error && error.error != undefined) msg = error.error;
+        else msg = error;
+        this.showSwal(
+          "failed-message",
+          "Terjadi kesalahan saat memuat data! " + msg
+        );
       }
 
       this.showSwal("close");

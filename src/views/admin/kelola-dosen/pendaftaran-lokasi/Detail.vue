@@ -193,8 +193,14 @@ export default {
         await this.a$getProposal(this.id_proposal);
         await this.a$getDokumenEmbedLink(this.g$proposal.dokumen.id_dokumen);
       } catch (error) {
-        this.showSwal("failed-message", "Terjadi kesalahan saat memuat data");
         console.log(error);
+        let msg = "";
+        if (error.error && error.error != undefined) msg = error.error;
+        else msg = error;
+        this.showSwal(
+          "failed-message",
+          "Terjadi kesalahan saat memuat data! " + msg
+        );
       }
 
       this.showSwal("close");
@@ -208,11 +214,11 @@ export default {
         await this.getProposal();
         this.showSwal("success-message", "Proposal berhasil diterima");
       } catch (error) {
-        this.showSwal(
-          "failed-message",
-          error ?? "Terjadi kesalahan saat mengubah data"
-        );
-        // console.log(error);
+        console.log(error);
+        let msg = "";
+        if (error.error && error.error != undefined) msg = error.error;
+        else msg = error;
+        this.showSwal("failed-message", "Data gagal diperbarui! " + msg);
       }
     },
 
@@ -224,11 +230,11 @@ export default {
         await this.getProposal();
         this.showSwal("success-message", "Proposal berhasil ditolak");
       } catch (error) {
-        this.showSwal(
-          "failed-message",
-          error ?? "Terjadi kesalahan saat mengubah data"
-        );
-        // console.log(error);
+        console.log(error);
+        let msg = "";
+        if (error.error && error.error != undefined) msg = error.error;
+        else msg = error;
+        this.showSwal("failed-message", "Data gagal diperbarui! " + msg);
       }
     },
 

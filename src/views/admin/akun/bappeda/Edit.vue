@@ -143,7 +143,7 @@ export default {
         else msg = error;
         this.showSwal(
           "failed-message",
-          "Terjadi kesalahan saat mengambil data! " + msg
+          "Terjadi kesalahan saat memuat data! " + msg
         );
       }
     },

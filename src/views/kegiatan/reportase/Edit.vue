@@ -207,8 +207,11 @@ export default {
         this.showSwal("success-message", "Data reportase berhasil disimpan");
         this.$router.push({ name: "Reportase" });
       } catch (error) {
-        this.showSwal("failed-message", "Data reportase gagal disimpan");
         console.log(error);
+        let msg = "";
+        if (error.error && error.error != undefined) msg = error.error;
+        else msg = error;
+        this.showSwal("failed-message", "Data gagal disimpan! " + msg);
       }
     },
 
@@ -226,8 +229,14 @@ export default {
         this.setChoices(this.choicesKategori);
         this.showSwal("close");
       } catch (error) {
-        this.showSwal("failed-message", "Data reportase gagal dimuat");
         console.log(error);
+        let msg = "";
+        if (error.error && error.error != undefined) msg = error.error;
+        else msg = error;
+        this.showSwal(
+          "failed-message",
+          "Terjadi kesalahan saat memuat data! " + msg
+        );
       }
     },
 

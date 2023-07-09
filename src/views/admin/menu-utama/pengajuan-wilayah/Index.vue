@@ -327,8 +327,14 @@ export default {
       try {
         await this.a$listAllKabupaten(this.tema);
       } catch (error) {
-        this.showSwal("failed-message", "Terjadi kesalahaan saat memuat data");
-        console.log(error.error);
+        console.log(error);
+        let msg = "";
+        if (error.error && error.error != undefined) msg = error.error;
+        else msg = error;
+        this.showSwal(
+          "failed-message",
+          "Terjadi kesalahan saat memuat data! " + msg
+        );
       }
 
       this.setupDataTable();
@@ -354,8 +360,11 @@ export default {
         this.showSwal("toast", "Berhasil mengubah data");
         await this.getListKecamatan();
       } catch (error) {
-        this.showSwal("failed-message", "Terjadi kesalahan saat mengubah data");
-        console.log(error.error);
+        console.log(error);
+        let msg = "";
+        if (error.error && error.error != undefined) msg = error.error;
+        else msg = error;
+        this.showSwal("failed-message", "Data gagal diperbarui! " + msg);
       }
     },
 
@@ -366,8 +375,11 @@ export default {
         await this.a$decKecamatan(id_kecamatan);
         await this.getListKecamatan();
       } catch (error) {
-        this.showSwal("failed-message", "Terjadi kesalahan saat mengubah data");
-        console.log(error.error);
+        console.log(error);
+        let msg = "";
+        if (error.error && error.error != undefined) msg = error.error;
+        else msg = error;
+        this.showSwal("failed-message", "Data gagal diperbarui! " + msg);
       }
     },
 

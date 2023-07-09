@@ -536,11 +536,14 @@ export default {
         if (this.g$user.role === "MAHASISWA" && this.body.id_prodi != "")
           this.getListProdi();
       } catch (error) {
+        console.log(error);
+        let msg = "";
+        if (error.error && error.error != undefined) msg = error.error;
+        else msg = error;
         this.showSwal(
           "failed-message",
-          "Terjadi kesalahan saat memuat data! " + error
+          "Terjadi kesalahan saat memuat data! " + msg
         );
-        console.log(error);
       }
     },
 
@@ -591,11 +594,11 @@ export default {
         await this.getInitData();
         this.indexComponent++;
       } catch (error) {
-        this.showSwal(
-          "failed-message",
-          "Terjadi kesalahan saat memperbarui data! " + error
-        );
         console.log(error);
+        let msg = "";
+        if (error.error && error.error != undefined) msg = error.error;
+        else msg = error;
+        this.showSwal("failed-message", "Data gagal disimpan! " + msg);
       }
     },
 

@@ -524,11 +524,14 @@ export default {
 
         await this.getListKecamatan();
       } catch (error) {
+        console.log(error);
+        let msg = "";
+        if (error.error && error.error != undefined) msg = error.error;
+        else msg = error;
         this.showSwal(
           "failed-message",
-          error ?? "Terjadi kesalahan saat memuat data"
+          "Terjadi kesalahan saat memuat data! " + msg
         );
-        console.log(error);
       }
     },
 
@@ -539,11 +542,14 @@ export default {
       try {
         await this.a$listReportaseKecamatan(this.id_kecamatan);
       } catch (error) {
+        console.log(error);
+        let msg = "";
+        if (error.error && error.error != undefined) msg = error.error;
+        else msg = error;
         this.showSwal(
           "failed-message",
-          error ?? "Terjadi kesalahan saat memuat data"
+          "Terjadi kesalahan saat memuat data! " + msg
         );
-        console.log(error);
       }
 
       this.setupDataTable("reportase-dosen-section-list");
@@ -559,11 +565,14 @@ export default {
         this.setChoices(this.choicesKec, this.g$listProposal);
         await this.getListReportaseDosen();
       } catch (error) {
+        console.log(error);
+        let msg = "";
+        if (error.error && error.error != undefined) msg = error.error;
+        else msg = error;
         this.showSwal(
           "failed-message",
-          error ?? "Terjadi kesalahan saat memuat data"
+          "Terjadi kesalahan saat memuat data! " + msg
         );
-        console.log(error);
       }
     },
 
@@ -573,11 +582,14 @@ export default {
       try {
         await this.a$listReportase();
       } catch (error) {
+        console.log(error);
+        let msg = "";
+        if (error.error && error.error != undefined) msg = error.error;
+        else msg = error;
         this.showSwal(
           "failed-message",
-          "Terjadi kesalahan saat memuat data" + error
+          "Terjadi kesalahan saat memuat data! " + msg
         );
-        console.log(error);
       }
 
       this.setupDataTable("reportase-list");

@@ -335,11 +335,14 @@ export default {
 
         await this.getListKecamatan();
       } catch (error) {
+        console.log(error);
+        let msg = "";
+        if (error.error && error.error != undefined) msg = error.error;
+        else msg = error;
         this.showSwal(
           "failed-message",
-          error ?? "Terjadi kesalahan saat memuat data"
+          "Terjadi kesalahan saat memuat data! " + msg
         );
-        console.log(error);
       }
     },
 
@@ -350,11 +353,14 @@ export default {
       try {
         await this.a$listMahasiswaRegisteredByKecamatan(this.id_kecamatan);
       } catch (error) {
+        console.log(error);
+        let msg = "";
+        if (error.error && error.error != undefined) msg = error.error;
+        else msg = error;
         this.showSwal(
           "failed-message",
-          error ?? "Terjadi kesalahan saat memuat data"
+          "Terjadi kesalahan saat memuat data! " + msg
         );
-        console.log(error);
       }
 
       this.setupDataTable();
@@ -369,11 +375,14 @@ export default {
         this.setChoices(this.choicesLokasi, this.g$listKecamatan);
         await this.getListMahasiswa();
       } catch (error) {
+        console.log(error);
+        let msg = "";
+        if (error.error && error.error != undefined) msg = error.error;
+        else msg = error;
         this.showSwal(
           "failed-message",
-          error ?? "Terjadi kesalahan saat memuat data"
+          "Terjadi kesalahan saat memuat data! " + msg
         );
-        console.log(error);
       }
     },
 

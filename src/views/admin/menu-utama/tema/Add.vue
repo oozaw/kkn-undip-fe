@@ -210,8 +210,11 @@ export default {
         this.$router.push({ name: "Tema KKN" });
         this.showSwal("success-message", "Tema KKN berhasil ditambahkan!");
       } catch (error) {
-        this.showSwal("failed-message", error ?? "Tema KKN gagal ditambahkan!");
         console.log(error);
+        let msg = "";
+        if (error.error && error.error != undefined) msg = error.error;
+        else msg = error;
+        this.showSwal("failed-message", "Data gagal ditambahkan! " + msg);
       }
     },
 

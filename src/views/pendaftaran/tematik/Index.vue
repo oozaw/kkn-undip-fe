@@ -247,11 +247,11 @@ export default {
         await this.a$switchTema(id_tema);
         await this.getListTema();
       } catch (error) {
-        this.showSwal(
-          "failed-message",
-          error ?? "Terjadi kesalahan saat memperbarui data"
-        );
-        // console.log(error);
+        console.log(error);
+        let msg = "";
+        if (error.error && error.error != undefined) msg = error.error;
+        else msg = error;
+        this.showSwal("failed-message", "Data gagal diperbarui! " + msg);
       }
     },
 
@@ -261,11 +261,14 @@ export default {
       try {
         await this.a$listTema();
       } catch (error) {
+        console.log(error);
+        let msg = "";
+        if (error.error && error.error != undefined) msg = error.error;
+        else msg = error;
         this.showSwal(
           "failed-message",
-          error ?? "Terjadi kesalahan saat memuat data"
+          "Terjadi kesalahan saat memuat data! " + msg
         );
-        // console.log(error);
       }
 
       this.setupDataTable();

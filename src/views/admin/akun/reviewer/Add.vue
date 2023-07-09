@@ -96,7 +96,7 @@ export default {
 
       // validation
       if (this.body.nama === "" || this.body.nip === "") {
-        this.showSwal("failed-message", "Lengkapi data terlebih dahulu!");
+        this.showSwal("warning-message", "Lengkapi data terlebih dahulu!");
         return;
       }
 

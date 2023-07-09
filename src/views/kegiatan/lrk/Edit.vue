@@ -248,8 +248,11 @@ export default {
         this.$router.push({ name: "LRK" });
         this.showSwal("success-message", "Data LRK berhasil disimpan!");
       } catch (error) {
-        this.showSwal("failed-message", "Data LRK gagal disimpan!");
-        console.log(error.error);
+        console.log(error);
+        let msg = "";
+        if (error.error && error.error != undefined) msg = error.error;
+        else msg = error;
+        this.showSwal("failed-message", "Data gagal disimpan! " + msg);
       }
     },
 
@@ -267,8 +270,14 @@ export default {
 
         this.setChoices(this.choicesKategori);
       } catch (error) {
-        this.showSwal("failed-message", "Terjadi kesalahan saat memuat data");
-        console.log(error.error);
+        console.log(error);
+        let msg = "";
+        if (error.error && error.error != undefined) msg = error.error;
+        else msg = error;
+        this.showSwal(
+          "failed-message",
+          "Terjadi kesalahan saat memuat data! " + msg
+        );
       }
 
       this.showSwal("close");

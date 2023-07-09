@@ -167,11 +167,11 @@ export default {
         );
         this.$router.push({ name: "Mahasiswa" });
       } catch (error) {
-        this.showSwal(
-          "failed-message",
-          "Data mahasiswa gagal ditambahkan! " + error
-        );
         console.log(error);
+        let msg = "";
+        if (error.error && error.error != undefined) msg = error.error;
+        else msg = error;
+        this.showSwal("failed-message", "Data gagal ditambahkan! " + msg);
       }
     },
 

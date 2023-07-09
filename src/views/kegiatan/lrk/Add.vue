@@ -239,8 +239,11 @@ export default {
         this.$router.push({ name: "LRK" });
         this.showSwal("success-message", "Data LRK berhasil ditambahkan!");
       } catch (error) {
-        this.showSwal("failed-message", error ?? "Data LRK gagal ditambahkan!");
         console.log(error);
+        let msg = "";
+        if (error.error && error.error != undefined) msg = error.error;
+        else msg = error;
+        this.showSwal("failed-message", "Data gagal ditambahkan! " + msg);
       }
     },
 

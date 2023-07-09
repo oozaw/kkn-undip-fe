@@ -429,7 +429,7 @@ export default {
         let msg = "";
         if (error.error && error.error != undefined) msg = error.error;
         else msg = error;
-        this.showSwal("failed-message", "Data reviewer gagal disimpan! " + msg);
+        this.showSwal("failed-message", "Data gagal disimpan! " + msg);
       }
     },
 
@@ -443,13 +443,11 @@ export default {
         await this.a$listReviewer();
         this.showSwal("success-message", "Data reviewer berhasil dihapus!");
       } catch (error) {
+        console.log(error);
         let msg = "";
         if (error.error && error.error != undefined) msg = error.error;
         else msg = error;
-        this.showSwal(
-          "failed-message",
-          "Terjadi kesalahan saat memperbarui data! " + msg
-        );
+        this.showSwal("failed-message", "Data gagal dihapus! " + msg);
       }
 
       this.setupDataTable();
@@ -468,6 +466,7 @@ export default {
         await this.a$listReviewer();
         this.showSwal("success-message", "Data reviewer berhasil diimpor!");
       } catch (error) {
+        console.log(error);
         let msg = "";
         if (error.error && error.error != undefined) msg = error.error;
         else msg = error;

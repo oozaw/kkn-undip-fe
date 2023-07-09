@@ -321,11 +321,14 @@ export default {
         await this.a$getNilai(this.body.id_nilai);
         this.assignNilai();
       } catch (error) {
+        console.log(error);
+        let msg = "";
+        if (error.error && error.error != undefined) msg = error.error;
+        else msg = error;
         this.showSwal(
           "failed-message",
-          "Terjadi kesalahan saat memuat data! " + error
+          "Terjadi kesalahan saat memuat data! " + msg
         );
-        console.log(error);
       }
     },
 
@@ -337,11 +340,11 @@ export default {
         this.showSwal("success-message", "Nilai berhasil diubah!");
         this.$router.push({ name: "Nilai Akhir" });
       } catch (error) {
-        this.showSwal(
-          "failed-message",
-          "Terjadi kesalahan saat mengubah data! " + error
-        );
         console.log(error);
+        let msg = "";
+        if (error.error && error.error != undefined) msg = error.error;
+        else msg = error;
+        this.showSwal("failed-message", "Data gagal disimpan! " + msg);
       }
     },
 

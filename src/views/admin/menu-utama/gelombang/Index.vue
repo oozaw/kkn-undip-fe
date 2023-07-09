@@ -440,11 +440,11 @@ export default {
         this.showSwal("success-message", "Berhasil menambahkan gelombang");
         this.body.nama = "";
       } catch (error) {
-        this.showSwal(
-          "failed-message",
-          "Terjadi kesalahan saat menambahkan gelombang! " + error.error
-        );
         console.log(error);
+        let msg = "";
+        if (error.error && error.error != undefined) msg = error.error;
+        else msg = error;
+        this.showSwal("failed-message", "Data gagal ditambahkan! " + msg);
       }
     },
 
@@ -455,11 +455,11 @@ export default {
         await this.a$switchGelombang(id_tema);
         await this.getListGelombang();
       } catch (error) {
-        this.showSwal(
-          "failed-message",
-          "Terjadi kesalahan saat memperbarui data! " + error.error
-        );
         console.log(error);
+        let msg = "";
+        if (error.error && error.error != undefined) msg = error.error;
+        else msg = error;
+        this.showSwal("failed-message", "Data gagal diperbarui! " + msg);
       }
     },
 
@@ -472,11 +472,14 @@ export default {
 
         await this.a$listAllGelombang(parseInt(this.tema));
       } catch (error) {
+        console.log(error);
+        let msg = "";
+        if (error.error && error.error != undefined) msg = error.error;
+        else msg = error;
         this.showSwal(
           "failed-message",
-          "Terjadi kesalahan saat memuat data! " + error.error
+          "Terjadi kesalahan saat memuat data! " + msg
         );
-        console.log(error.error);
       }
 
       this.setupDataTable();

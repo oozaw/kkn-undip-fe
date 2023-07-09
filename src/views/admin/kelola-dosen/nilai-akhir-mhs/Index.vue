@@ -358,11 +358,14 @@ export default {
 
         await this.getListKecamatan();
       } catch (error) {
+        console.log(error);
+        let msg = "";
+        if (error.error && error.error != undefined) msg = error.error;
+        else msg = error;
         this.showSwal(
           "failed-message",
-          "Terjadi kesalahan saat memuat data! " + error
+          "Terjadi kesalahan saat memuat data! " + msg
         );
-        console.log(error);
       }
     },
 
@@ -373,11 +376,14 @@ export default {
       try {
         await this.a$listNilaiKecamatan(this.id_kecamatan);
       } catch (error) {
+        console.log(error);
+        let msg = "";
+        if (error.error && error.error != undefined) msg = error.error;
+        else msg = error;
         this.showSwal(
           "failed-message",
-          "Terjadi kesalahan saat memuat data! " + error
+          "Terjadi kesalahan saat memuat data! " + msg
         );
-        console.log(error);
       }
 
       this.setupDataTable();
@@ -392,11 +398,14 @@ export default {
         this.setChoices(this.choicesLokasi, this.g$listKecamatan);
         await this.getListNilai();
       } catch (error) {
+        console.log(error);
+        let msg = "";
+        if (error.error && error.error != undefined) msg = error.error;
+        else msg = error;
         this.showSwal(
           "failed-message",
-          "Terjadi kesalahan saat memuat data! " + error
+          "Terjadi kesalahan saat memuat data! " + msg
         );
-        console.log(error);
       }
     },
 

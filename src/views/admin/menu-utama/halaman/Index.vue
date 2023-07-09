@@ -221,8 +221,14 @@ export default {
         this.tema = this.g$listTema[0].id_tema;
         await this.getListHalaman();
       } catch (error) {
-        this.showSwal("failed-message", "Terjadi kesalahan saat memuat data");
-        console.log(error.error);
+        console.log(error);
+        let msg = "";
+        if (error.error && error.error != undefined) msg = error.error;
+        else msg = error;
+        this.showSwal(
+          "failed-message",
+          "Terjadi kesalahan saat memuat data! " + msg
+        );
       }
     },
 
@@ -232,8 +238,14 @@ export default {
       try {
         await this.a$listHalaman(parseInt(this.tema));
       } catch (error) {
-        this.showSwal("failed-message", "Terjadi kesalahan saat memuat data");
-        console.log(error.error);
+        console.log(error);
+        let msg = "";
+        if (error.error && error.error != undefined) msg = error.error;
+        else msg = error;
+        this.showSwal(
+          "failed-message",
+          "Terjadi kesalahan saat memuat data! " + msg
+        );
       }
 
       this.setupDataTable();
@@ -247,11 +259,11 @@ export default {
         await this.a$switchHalaman(id_halaman);
         await this.getListHalaman();
       } catch (error) {
-        this.showSwal(
-          "failed-message",
-          error.error ?? "Gagal mengubah data halaman! " + error
-        );
         console.log(error);
+        let msg = "";
+        if (error.error && error.error != undefined) msg = error.error;
+        else msg = error;
+        this.showSwal("failed-message", "Data gagal diperbarui! " + msg);
       }
     },
 

@@ -218,12 +218,12 @@ export default {
       this.body.id_gelombang = parseInt(this.$route.params.id_gelombang);
 
       if (!this.body.id_kecamatan) {
-        this.showSwal("failed-message", "Kecamatan harus diisi!");
+        this.showSwal("warning-message", "Kecamatan harus diisi!");
         return;
       }
 
       if (!this.body.file) {
-        this.showSwal("failed-message", "File proposal harus diisi!");
+        this.showSwal("warning-message", "File proposal harus diisi!");
         return;
       }
 
@@ -235,11 +235,11 @@ export default {
           "Pengajuan proposal berhasil ditambahkan!"
         );
       } catch (error) {
-        this.showSwal(
-          "failed-message",
-          "Terjadi kesalahan saat menambahkan data! " + error.error
-        );
         console.log(error);
+        let msg = "";
+        if (error.error && error.error != undefined) msg = error.error;
+        else msg = error;
+        this.showSwal("failed-message", "Data gagal ditambahkan! " + msg);
       }
     },
 
@@ -290,8 +290,14 @@ export default {
 
         this.showSwal("close");
       } catch (error) {
-        this.showSwal("failed-message", "Terjadi kesalahan saat memuat data");
         console.log(error);
+        let msg = "";
+        if (error.error && error.error != undefined) msg = error.error;
+        else msg = error;
+        this.showSwal(
+          "failed-message",
+          "Terjadi kesalahan saat memuat data! " + msg
+        );
       }
     },
 

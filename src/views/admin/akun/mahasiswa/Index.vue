@@ -119,7 +119,12 @@
             </div>
           </div>
           <div class="pt-1 px-0 pb-0 card-body">
-            <div class="table-responsive" :key="indexComponent">
+            <div
+              style="position: relative"
+              class="table-responsive"
+              :key="indexComponent"
+              ref="container"
+            >
               <table id="mhs-list" class="table table-flush">
                 <thead class="thead-light">
                   <tr>
@@ -383,6 +388,7 @@
 </template>
 
 <script>
+import "vue-loading-overlay/dist/css/index.css";
 import $ from "jquery";
 import moment from "moment";
 import Choices from "choices.js";
@@ -409,6 +415,7 @@ export default {
       },
       dataTable: undefined,
       moment,
+      loader: undefined,
     };
   },
   async created() {
@@ -425,21 +432,26 @@ export default {
     ]),
 
     async getListMahasiswa() {
+      this.showLoading(true);
       this.indexComponent++;
+
       try {
         await this.a$listMahasiswa();
       } catch (error) {
-        if (error) this.showSwal("failed-message", error);
-        else
-          this.showSwal(
-            "failed-message",
-            "Terjadi kesalahan saat memuat data!"
-          );
         console.log(error);
+        let msg = "";
+        if (error.error && error.error != undefined) msg = error.error;
+        else msg = error;
+        this.showSwal(
+          "failed-message",
+          "Terjadi kesalahan saat memuat data! " + msg
+        );
       }
 
       this.setupDataTable();
       this.setupTableAction();
+
+      this.showLoading(false);
     },
 
     async importMahasiswa() {
@@ -455,8 +467,14 @@ export default {
         await this.a$listMahasiswa();
         this.showSwal("success-message", "Data mahasiswa berhasil diimpor!");
       } catch (error) {
-        this.showSwal("failed-message", error);
         console.log(error);
+        let msg = "";
+        if (error.error && error.error != undefined) msg = error.error;
+        else msg = error;
+        this.showSwal(
+          "failed-message",
+          "Terjadi kesalahan saat mengunggah data! " + msg
+        );
       }
 
       this.setupDataTable();
@@ -473,11 +491,11 @@ export default {
         await this.a$listMahasiswa();
         this.showSwal("success-message", "Data mahasiswa berhasil dihapus!");
       } catch (error) {
-        this.showSwal(
-          "failed-message",
-          "Terjadi kesalahan saat memperbarui data! " + error
-        );
         console.log(error);
+        let msg = "";
+        if (error.error && error.error != undefined) msg = error.error;
+        else msg = error;
+        this.showSwal("failed-message", "Data gagal dihapus! " + msg);
       }
 
       this.setupDataTable();
@@ -551,6 +569,20 @@ export default {
         );
         e.preventDefault();
       });
+    },
+
+    showLoading(isLoading) {
+      if (isLoading && !this.loader) {
+        this.loader = this.$loading.show({
+          isFullPage: false,
+          container: this.$refs.container,
+        });
+      } else if (!isLoading && this.loader) {
+        setTimeout(() => {
+          this.loader.hide();
+          this.loader = undefined;
+        }, 400);
+      }
     },
 
     showSwal(type, text, toastText, id_mahasiswa) {

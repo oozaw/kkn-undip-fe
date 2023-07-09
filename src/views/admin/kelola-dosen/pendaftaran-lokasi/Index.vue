@@ -285,8 +285,14 @@ export default {
       try {
         await this.a$listProposal(this.id_tema);
       } catch (error) {
-        this.showSwal("failed-message", "Terjadi kesalahan saat memuat data");
         console.log(error);
+        let msg = "";
+        if (error.error && error.error != undefined) msg = error.error;
+        else msg = error;
+        this.showSwal(
+          "failed-message",
+          "Terjadi kesalahan saat memuat data! " + msg
+        );
       }
 
       this.setupDataTable();
@@ -300,11 +306,11 @@ export default {
         await this.a$accProposal(id_proposal);
         await this.getListProposal();
       } catch (error) {
-        this.showSwal(
-          "failed-message",
-          error ?? "Terjadi kesalahan saat mengubah data"
-        );
-        // console.log(error);
+        console.log(error);
+        let msg = "";
+        if (error.error && error.error != undefined) msg = error.error;
+        else msg = error;
+        this.showSwal("failed-message", "Data gagal diperbarui! " + msg);
       }
     },
 
@@ -315,11 +321,11 @@ export default {
         await this.a$decProposal(id_proposal);
         await this.getListProposal();
       } catch (error) {
-        this.showSwal(
-          "failed-message",
-          error ?? "Terjadi kesalahan saat mengubah data"
-        );
-        // console.log(error);
+        console.log(error);
+        let msg = "";
+        if (error.error && error.error != undefined) msg = error.error;
+        else msg = error;
+        this.showSwal("failed-message", "Data gagal diperbarui! " + msg);
       }
     },
 

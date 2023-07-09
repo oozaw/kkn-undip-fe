@@ -250,11 +250,11 @@ export default {
         this.$router.push({ name: "Gelombang" });
         this.showSwal("success-message", "Gelombang berhasil disimpan!");
       } catch (error) {
-        this.showSwal(
-          "failed-message",
-          "Terjadi kesalahan saat menyimpan gelombang! " + error.error
-        );
         console.log(error);
+        let msg = "";
+        if (error.error && error.error != undefined) msg = error.error;
+        else msg = error;
+        this.showSwal("failed-message", "Data gagal disimpan! " + msg);
       }
     },
 
@@ -279,11 +279,14 @@ export default {
         this.setChoices(this.choicesHalaman, this.g$listHalaman);
         this.showSwal("close");
       } catch (error) {
+        console.log(error);
+        let msg = "";
+        if (error.error && error.error != undefined) msg = error.error;
+        else msg = error;
         this.showSwal(
           "failed-message",
-          "Terjadi kesalahan saat memuat data! " + error
+          "Terjadi kesalahan saat memuat data! " + msg
         );
-        console.log(error);
       }
     },
 

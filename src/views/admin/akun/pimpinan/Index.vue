@@ -431,7 +431,7 @@ export default {
         let msg = "";
         if (error.error && error.error != undefined) msg = error.error;
         else msg = error;
-        this.showSwal("failed-message", "Data pimpinan gagal disimpan! " + msg);
+        this.showSwal("failed-message", "Data gagal disimpan! " + msg);
       }
     },
 
@@ -471,11 +471,11 @@ export default {
         await this.a$listPimpinan();
         this.showSwal("success-message", "Data pimpinan berhasil dihapus!");
       } catch (error) {
-        this.showSwal(
-          "failed-message",
-          "Terjadi kesalahan saat memperbarui data! " + error
-        );
         console.log(error);
+        let msg = "";
+        if (error.error && error.error != undefined) msg = error.error;
+        else msg = error;
+        this.showSwal("failed-message", "Data gagal dihapus! " + msg);
       }
 
       this.setupDataTable();

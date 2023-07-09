@@ -203,8 +203,11 @@ export default {
         this.showSwal("success-message", "Data reportase berhasil ditambahkan");
         this.$router.push({ name: "Reportase" });
       } catch (error) {
-        this.showSwal("failed-message", "Data reportase gagal ditambahkan");
         console.log(error);
+        let msg = "";
+        if (error.error && error.error != undefined) msg = error.error;
+        else msg = error;
+        this.showSwal("failed-message", "Data gagal ditambahkan! " + msg);
       }
     },
 

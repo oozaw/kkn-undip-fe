@@ -105,11 +105,14 @@ export default {
 
         this.showSwal("close");
       } catch (error) {
+        console.log(error);
+        let msg = "";
+        if (error.error && error.error != undefined) msg = error.error;
+        else msg = error;
         this.showSwal(
           "failed-message",
-          "Terjadi kesalahan saat memuat data! " + error
+          "Terjadi kesalahan saat memuat data! " + msg
         );
-        console.log(error);
       }
     },
 
@@ -132,7 +135,7 @@ export default {
         let msg = "";
         if (error.error && error.error != undefined) msg = error.error;
         else msg = error;
-        this.showSwal("failed-message", "Data dosen gagal disimpan! " + msg);
+        this.showSwal("failed-message", "Data gagal disimpan! " + msg);
       }
     },
 

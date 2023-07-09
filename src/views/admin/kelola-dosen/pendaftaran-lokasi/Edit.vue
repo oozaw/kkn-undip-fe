@@ -238,8 +238,11 @@ export default {
           "Evaluasi proposal berhasil ditambahkan!"
         );
       } catch (error) {
-        this.showSwal("failed-message", "Evaluasi proposal gagal disimpan!");
-        console.log(error.error);
+        console.log(error);
+        let msg = "";
+        if (error.error && error.error != undefined) msg = error.error;
+        else msg = error;
+        this.showSwal("failed-message", "Data gagal disimpan! " + msg);
       }
     },
 
@@ -255,8 +258,14 @@ export default {
         this.setChoices(this.choicesRekomendasi);
         await this.a$getDokumenEmbedLink(this.g$proposal.dokumen.id_dokumen);
       } catch (error) {
-        this.showSwal("failed-message", "Terjadi kesalahan saat memuat data");
         console.log(error);
+        let msg = "";
+        if (error.error && error.error != undefined) msg = error.error;
+        else msg = error;
+        this.showSwal(
+          "failed-message",
+          "Terjadi kesalahan saat memuat data! " + msg
+        );
       }
 
       this.showSwal("close");

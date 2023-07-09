@@ -172,8 +172,11 @@ export default {
           "Selamat datang " + this.g$infoUser.nama
         );
       } catch (error) {
-        this.showSwal("failed-message", "Login Gagal!", error);
-        // console.log(error);
+        console.log(error);
+        let msg = "";
+        if (error.error && error.error != undefined) msg = error.error;
+        else msg = error;
+        this.showSwal("failed-message", "Login gagal! " + msg);
       }
     },
 

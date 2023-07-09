@@ -220,7 +220,6 @@
 <script>
 import $ from "jquery";
 import { DataTable } from "simple-datatables";
-import setTooltip from "@/assets/js/tooltip.js";
 import HeaderProfileCard from "@/views/dashboards/components/HeaderProfileCard.vue";
 import { mapActions, mapState } from "pinia";
 import d$tema from "@/store/tema";
@@ -233,31 +232,37 @@ export default {
   data() {
     return {
       indexComponent: 0,
+      loader: undefined,
     };
   },
   computed: {
     ...mapState(d$tema, ["g$listTema"]),
   },
   async created() {
+    this.showLoading(true);
+
     await this.getListTema();
-    setTooltip(this.$store.state.bootstrap);
+    this.showLoading(false);
   },
+  mounted() {},
   methods: {
     ...mapActions(d$tema, ["a$listTema", "a$switchTema"]),
 
     async switchTema(id_tema) {
-      this.showSwal("loading");
+      this.showLoading(true);
 
       try {
         await this.a$switchTema(id_tema);
         await this.getListTema();
       } catch (error) {
-        this.showSwal(
-          "failed-message",
-          "Terjadi kesalahan saat memperbarui data! " + error
-        );
-        // console.log(error);
+        console.log(error);
+        let msg = "";
+        if (error.error && error.error != undefined) msg = error.error;
+        else msg = error;
+        this.showSwal("failed-message", "Data gagal diperbarui! " + msg);
       }
+
+      this.showLoading(false);
     },
 
     async getListTema() {
@@ -266,11 +271,14 @@ export default {
       try {
         await this.a$listTema();
       } catch (error) {
+        console.log(error);
+        let msg = "";
+        if (error.error && error.error != undefined) msg = error.error;
+        else msg = error;
         this.showSwal(
           "failed-message",
-          "Terjadi kesalahan saat memuat data! " + error
+          "Terjadi kesalahan saat memuat data! " + msg
         );
-        // console.log(error);
       }
 
       this.setupDataTable();
@@ -335,6 +343,17 @@ export default {
             dataTableSearch.export(data);
           });
         });
+      }
+    },
+
+    showLoading(isLoading) {
+      if (isLoading && !this.loader) {
+        this.loader = this.$loading.show();
+      } else if (!isLoading && this.loader) {
+        setTimeout(() => {
+          this.loader.hide();
+          this.loader = undefined;
+        }, 400);
       }
     },
 
