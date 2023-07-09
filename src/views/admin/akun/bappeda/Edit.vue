@@ -118,6 +118,7 @@ export default {
         nama_kabupaten: "",
         nama_pj: "",
       },
+      loader: undefined,
     };
   },
   computed: {
@@ -130,6 +131,8 @@ export default {
     ...mapActions(d$bappeda, ["a$editBappeda", "a$getBappeda"]),
 
     async getInitData() {
+      this.showLoading(true);
+
       try {
         await this.a$getBappeda(this.idBappeda);
         this.body.nama = this.g$bappeda.nama;
@@ -146,6 +149,8 @@ export default {
           "Terjadi kesalahan saat memuat data! " + msg
         );
       }
+
+      this.showLoading(false);
     },
 
     async editBappeda() {
@@ -176,6 +181,15 @@ export default {
           "failed-message",
           "Terjadi kesalahan saat memperbarui data! " + msg
         );
+      }
+    },
+
+    showLoading(isLoading) {
+      if (isLoading && !this.loader) {
+        this.loader = this.$loading.show();
+      } else if (!isLoading && this.loader) {
+        this.loader.hide();
+        this.loader = undefined;
       }
     },
 

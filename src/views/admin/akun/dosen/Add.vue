@@ -88,8 +88,6 @@ export default {
       choicesJurusan: undefined,
     };
   },
-  mounted() {},
-  beforeUnmount() {},
   methods: {
     ...mapActions(d$dosen, ["a$addDosen"]),
 

@@ -84,6 +84,7 @@ export default {
         nama: "",
         nip: "",
       },
+      loader: undefined,
     };
   },
   computed: {
@@ -92,18 +93,16 @@ export default {
   async created() {
     await this.getInitData();
   },
-  beforeUnmount() {},
   methods: {
     ...mapActions(d$dosen, ["a$editDosen", "a$getDosen"]),
 
     async getInitData() {
-      this.showSwal("loading");
+      this.showLoading(true);
+
       try {
         await this.a$getDosen(this.idDosen);
         this.body.nama = this.g$dosen.nama ?? "";
         this.body.nip = this.g$dosen.nip ?? "";
-
-        this.showSwal("close");
       } catch (error) {
         console.log(error);
         let msg = "";
@@ -114,6 +113,8 @@ export default {
           "Terjadi kesalahan saat memuat data! " + msg
         );
       }
+
+      this.showLoading(false);
     },
 
     async editDosen() {
@@ -136,6 +137,15 @@ export default {
         if (error.error && error.error != undefined) msg = error.error;
         else msg = error;
         this.showSwal("failed-message", "Data gagal disimpan! " + msg);
+      }
+    },
+
+    showLoading(isLoading) {
+      if (isLoading && !this.loader) {
+        this.loader = this.$loading.show();
+      } else if (!isLoading && this.loader) {
+        this.loader.hide();
+        this.loader = undefined;
       }
     },
 

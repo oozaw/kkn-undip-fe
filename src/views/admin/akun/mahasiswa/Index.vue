@@ -388,7 +388,6 @@
 </template>
 
 <script>
-import "vue-loading-overlay/dist/css/index.css";
 import $ from "jquery";
 import moment from "moment";
 import Choices from "choices.js";
@@ -423,7 +422,6 @@ export default {
 
     await this.getListMahasiswa();
   },
-  beforeUnmount() {},
   methods: {
     ...mapActions(d$mahasiswa, [
       "a$listMahasiswa",

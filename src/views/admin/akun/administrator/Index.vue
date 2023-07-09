@@ -339,16 +339,18 @@ export default {
     return {
       indexComponent: 0,
       moment,
+      loader: undefined,
     };
   },
-  async mounted() {
+  async created() {
     await this.getInitData();
   },
-  beforeUnmount() {},
   methods: {
     ...mapActions(d$admin, ["a$listAdmin", "a$editAdmin"]),
 
     async getInitData() {
+      this.showLoading(true);
+
       this.indexComponent++;
 
       try {
@@ -366,6 +368,8 @@ export default {
 
       this.setupDataTable();
       this.setupTableAction();
+
+      this.showLoading(false);
     },
 
     async editAdmin(id) {
@@ -569,6 +573,17 @@ export default {
         });
       } else if (type === "close") {
         this.$swal.close();
+      }
+    },
+
+    showLoading(isLoading) {
+      if (isLoading && !this.loader) {
+        this.loader = this.$loading.show();
+      } else if (!isLoading && this.loader) {
+        setTimeout(() => {
+          this.loader.hide();
+          this.loader = undefined;
+        }, 400);
       }
     },
   },

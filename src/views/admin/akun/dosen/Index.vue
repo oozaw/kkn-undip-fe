@@ -297,6 +297,7 @@ export default {
         file: "",
       },
       moment,
+      loader: undefined,
     };
   },
   computed: {
@@ -311,6 +312,8 @@ export default {
     ...mapActions(d$dosen, ["a$listDosen", "a$importDosen", "a$deleteDosen"]),
 
     async getInitData() {
+      this.showLoading(true);
+
       try {
         await this.a$listDosen();
       } catch (error) {
@@ -326,6 +329,8 @@ export default {
 
       this.setupDataTable();
       this.setupTableAction();
+
+      this.showLoading(false);
     },
 
     async importDosen() {
@@ -547,6 +552,17 @@ export default {
         });
       } else if (type === "close") {
         this.$swal.close();
+      }
+    },
+
+    showLoading(isLoading) {
+      if (isLoading && !this.loader) {
+        this.loader = this.$loading.show();
+      } else if (!isLoading && this.loader) {
+        setTimeout(() => {
+          this.loader.hide();
+          this.loader = undefined;
+        }, 400);
       }
     },
 

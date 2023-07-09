@@ -126,6 +126,7 @@ export default {
       idFakultas: "",
       choicesFakultas: undefined,
       choicesProdi: undefined,
+      loader: undefined,
     };
   },
   computed: {
@@ -144,7 +145,8 @@ export default {
     ...mapActions(d$mahasiswa, ["a$editMahasiswa", "a$getMahasiswa"]),
 
     async getInitData() {
-      this.showSwal("loading");
+      this.showLoading(true);
+
       try {
         await this.a$getMahasiswa(this.idMahasiswa);
         this.body.nama = this.g$mahasiswa.nama ?? "";
@@ -152,13 +154,11 @@ export default {
         this.idFakultas = this.g$mahasiswa.id_fakultas ?? "";
         this.body.prodi = this.g$mahasiswa.id_prodi ?? "";
 
-        await this.a$listFakultas();
+        await this.a$listFakults();
 
         this.initChoices();
 
         if (this.body.prodi != "") this.getListProdi();
-
-        this.showSwal("close");
       } catch (error) {
         console.log(error);
         let msg = "";
@@ -169,6 +169,8 @@ export default {
           "Terjadi kesalahan saat memuat data! " + msg
         );
       }
+
+      this.showLoading(false);
     },
 
     async editMahasiswa() {
@@ -254,6 +256,15 @@ export default {
           allowHTML: true,
           shouldSort: true,
         });
+      }
+    },
+
+    showLoading(isLoading) {
+      if (isLoading && !this.loader) {
+        this.loader = this.$loading.show();
+      } else if (!isLoading && this.loader) {
+        this.loader.hide();
+        this.loader = undefined;
       }
     },
 

@@ -347,6 +347,7 @@ export default {
         file: "",
       },
       dataTable: undefined,
+      loader: undefined,
     };
   },
   computed: {
@@ -355,7 +356,6 @@ export default {
   async created() {
     await this.getInitData();
   },
-  beforeUnmount() {},
   methods: {
     ...mapActions(d$bappeda, [
       "a$listBappeda",
@@ -364,6 +364,8 @@ export default {
     ]),
 
     async getInitData() {
+      this.showLoading(true);
+
       try {
         await this.a$listBappeda();
       } catch (error) {
@@ -379,10 +381,12 @@ export default {
 
       this.setupDataTable();
       this.setupTableAction();
+
+      this.showLoading(false);
     },
 
     async importBappeda() {
-      this.showSwal("loading");
+      this.showLoading(true);
 
       this.body.file = this.$refs.file.files[0];
       this.indexComponent++;
@@ -390,8 +394,10 @@ export default {
 
       try {
         await this.a$importBappeda(this.body);
-        await this.a$listBappeda();
         this.showSwal("success-message", "Data BAPPEDA berhasil diimpor!");
+        this.showLoading(false);
+
+        await this.getInitData();
       } catch (error) {
         console.log(error);
         let msg = "";
@@ -408,14 +414,16 @@ export default {
     },
 
     async deleteBappeda(id_bappeda) {
-      this.showSwal("loading");
+      this.showLoading(true);
 
       this.indexComponent++;
 
       try {
         await this.a$deleteBappeda(parseInt(id_bappeda));
-        await this.a$listBappeda();
         this.showSwal("success-message", "Data BAPPEDA berhasil dihapus!");
+        this.showLoading(false);
+
+        await this.getInitData();
       } catch (error) {
         console.log(error);
         let msg = "";
@@ -600,6 +608,17 @@ export default {
         });
       } else if (type === "close") {
         this.$swal.close();
+      }
+    },
+
+    showLoading(isLoading) {
+      if (isLoading && !this.loader) {
+        this.loader = this.$loading.show();
+      } else if (!isLoading && this.loader) {
+        setTimeout(() => {
+          this.loader.hide();
+          this.loader = undefined;
+        }, 400);
       }
     },
 
