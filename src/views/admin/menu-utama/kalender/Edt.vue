@@ -14,24 +14,24 @@
             >
             <argon-button
               type="submit"
-              form="form-add-kegiatan"
+              form="form-edit-kegiatan"
               class="mb-0 me-lg-2"
-              color="success"
+              color="primary"
               variant="gradient"
               size="sm"
-              >Tambah Kegiatan</argon-button
+              >Simpan Perubahan</argon-button
             >
           </template>
         </HeaderProfileCard>
         <div class="card mt-4">
           <div class="card-header">
-            <h5>Tambah Kegiatan Baru</h5>
+            <h5>Edit Kegiatan</h5>
           </div>
           <div class="card-body pt-0">
             <form
               role="form"
-              id="form-add-kegiatan"
-              @submit.prevent="addEvent()"
+              id="form-edit-kegiatan"
+              @submit.prevent="editEvent()"
             >
               <div class="row">
                 <div class="col-12 col-sm-6">
@@ -118,7 +118,7 @@
                       name="all"
                       id="all"
                       value="all"
-                      @change="checkAllOrNot"
+                      @change="checkAllOrNot()"
                     />
                     <label class="form-check-label" for="all"
                       >Semua Pengguna</label
@@ -131,6 +131,7 @@
                       name="peruntukan"
                       id="dosen"
                       value="DOSEN"
+                      @change="checkAllOnAnother()"
                     />
                     <label class="form-check-label" for="dosen">Dosen</label>
                   </div>
@@ -141,6 +142,7 @@
                       name="peruntukan"
                       id="mahasiswa"
                       value="MAHASISWA"
+                      @change="checkAllOnAnother()"
                     />
                     <label class="form-check-label" for="mahasiswa"
                       >Mahasiswa</label
@@ -153,6 +155,7 @@
                       name="peruntukan"
                       id="bappeda"
                       value="BAPPEDA"
+                      @change="checkAllOnAnother()"
                     />
                     <label class="form-check-label" for="bappeda"
                       >BAPPEDA</label
@@ -174,12 +177,12 @@
                   >
                   <argon-button
                     type="submit"
-                    form="form-add-kegiatan"
+                    form="form-edit-kegiatan"
                     class="mb-0 me-lg-2"
-                    color="success"
+                    color="primary"
                     variant="gradient"
                     size="sm"
-                    >Tambah Kegiatan</argon-button
+                    >Simpan Perubahan</argon-button
                   >
                 </div>
               </div>
@@ -199,10 +202,10 @@ import Choices from "choices.js";
 import HeaderProfileCard from "@/views/dashboards/components/HeaderProfileCard.vue";
 import ArgonButton from "@/components/ArgonButton.vue";
 import d$event from "@/store/event";
-import { mapActions } from "pinia";
+import { mapActions, mapState } from "pinia";
 
 export default {
-  name: "TambahKalender",
+  name: "EditKalender",
   components: {
     HeaderProfileCard,
     VueDatePicker,
@@ -210,6 +213,7 @@ export default {
   },
   data() {
     return {
+      idEvent: parseInt(this.$route.params.id_event),
       body: {
         judul: "",
         tgl_mulai: "",
@@ -221,10 +225,40 @@ export default {
       id,
     };
   },
+  computed: {
+    ...mapState(d$event, ["g$event"]),
+  },
+  async created() {
+    await this.getInitData();
+  },
   methods: {
-    ...mapActions(d$event, ["a$addEvent"]),
+    ...mapActions(d$event, ["a$editEvent", "a$getEvent"]),
 
-    async addEvent() {
+    async getInitData() {
+      try {
+        await this.a$getEvent(this.idEvent);
+
+        this.body.judul = this.g$event.judul;
+        this.body.tgl_mulai = this.g$event.tgl_mulai;
+        this.body.tgl_akhir = this.g$event.tgl_akhir;
+        this.body.keterangan = this.g$event.keterangan;
+        this.body.tempat = this.g$event.tempat;
+        this.body.peruntukan = this.g$event.peruntukan;
+
+        this.setPeruntukan();
+      } catch (error) {
+        console.log(error);
+        let msg = "";
+        if (error.error && error.error != undefined) msg = error.error;
+        else msg = error;
+        this.showSwal(
+          "failed-message",
+          "Terjadi kesalahan saat memuat data! " + msg
+        );
+      }
+    },
+
+    async editEvent() {
       this.showSwal("loading");
 
       // validation peruntukan
@@ -251,15 +285,34 @@ export default {
       }
 
       try {
-        await this.a$addEvent(this.body);
-        this.showSwal("success-message", "Data kegiatan berhasil ditambahkan!");
+        await this.a$editEvent(this.idEvent, this.body);
+        this.showSwal("success-message", "Data kegiatan berhasil disimpan!");
         this.$router.push({ name: "Kalender" });
       } catch (error) {
         console.log(error);
         let msg = "";
         if (error.error && error.error != undefined) msg = error.error;
         else msg = error;
-        this.showSwal("failed-message", "Data gagal ditambahkan! " + msg);
+        this.showSwal("failed-message", "Data gagal disimpan! " + msg);
+      }
+    },
+
+    setPeruntukan() {
+      let data = this.g$event.peruntukan.split(", ");
+
+      if (data.length == 4) {
+        document.getElementById("all").checked = true;
+        this.checkAllOrNot();
+      } else {
+        for (let i = 0; i < data.length; i++) {
+          if (data[i] == "DOSEN") {
+            document.getElementById("dosen").checked = true;
+          } else if (data[i] == "MAHASISWA") {
+            document.getElementById("mahasiswa").checked = true;
+          } else if (data[i] == "BAPPEDA") {
+            document.getElementById("bappeda").checked = true;
+          }
+        }
       }
     },
 
@@ -278,22 +331,42 @@ export default {
     checkAllOrNot() {
       let data = document.querySelector(".form-check-input").checked;
 
+      let dosen = document.getElementById("dosen");
+      let mahasiswa = document.getElementById("mahasiswa");
+      let bappeda = document.getElementById("bappeda");
+
       if (data) {
-        document.getElementById("dosen").disabled = true;
-        document.getElementById("mahasiswa").disabled = true;
-        document.getElementById("bappeda").disabled = true;
+        dosen.disabled = true;
+        mahasiswa.disabled = true;
+        bappeda.disabled = true;
 
-        document.getElementById("dosen").checked = true;
-        document.getElementById("mahasiswa").checked = true;
-        document.getElementById("bappeda").checked = true;
+        dosen.checked = true;
+        mahasiswa.checked = true;
+        bappeda.checked = true;
       } else {
-        document.getElementById("dosen").disabled = false;
-        document.getElementById("mahasiswa").disabled = false;
-        document.getElementById("bappeda").disabled = false;
+        dosen.disabled = false;
+        mahasiswa.disabled = false;
+        bappeda.disabled = false;
 
-        document.getElementById("dosen").checked = false;
-        document.getElementById("mahasiswa").checked = false;
-        document.getElementById("bappeda").checked = false;
+        dosen.checked = false;
+        mahasiswa.checked = false;
+        bappeda.checked = false;
+      }
+    },
+
+    checkAllOnAnother() {
+      let dosen = document.getElementById("dosen");
+      let mahasiswa = document.getElementById("mahasiswa");
+      let bappeda = document.getElementById("bappeda");
+
+      if (dosen.checked && mahasiswa.checked && bappeda.checked) {
+        document.getElementById("all").checked = true;
+
+        dosen.disabled = true;
+        mahasiswa.disabled = true;
+        bappeda.disabled = true;
+      } else {
+        document.getElementById("all").checked = false;
       }
     },
 
@@ -303,13 +376,6 @@ export default {
       let isDosenSelected = document.getElementById("dosen").checked;
       let isMahasiswaSelected = document.getElementById("mahasiswa").checked;
       let isBappedaSelected = document.getElementById("bappeda").checked;
-
-      console.log(
-        allUserStatus,
-        isDosenSelected,
-        isMahasiswaSelected,
-        isBappedaSelected
-      );
 
       if (
         !allUserStatus &&

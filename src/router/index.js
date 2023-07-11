@@ -116,6 +116,7 @@ import EditGelombang from "../views/admin/menu-utama/gelombang/Edit.vue";
 import IndexPengajuanWilayah from "../views/admin/menu-utama/pengajuan-wilayah/Index.vue";
 import IndexKalender from "../views/admin/menu-utama/kalender/Index.vue";
 import TambahKalender from "../views/admin/menu-utama/kalender/Add.vue";
+import EditKalender from "../views/admin/menu-utama/kalender/Edt.vue";
 import IndexPengumuman from "../views/admin/menu-utama/pengumuman/Index.vue";
 import TambahPengumuman from "../views/admin/menu-utama/pengumuman/Add.vue";
 import IndexKelolaHalaman from "../views/admin/menu-utama/halaman/Index.vue";
@@ -620,6 +621,14 @@ const routes = [
     path: "/admin/kalender/tambah",
     name: "Tambah Kalender",
     component: TambahKalender,
+    meta: {
+      requiresAuth: [Role.admin],
+    },
+  },
+  {
+    path: "/admin/kalender/edit/:id_event",
+    name: "Edit Kalender",
+    component: EditKalender,
     meta: {
       requiresAuth: [Role.admin],
     },

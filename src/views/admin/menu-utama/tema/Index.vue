@@ -244,7 +244,6 @@ export default {
     await this.getListTema();
     this.showLoading(false);
   },
-  mounted() {},
   methods: {
     ...mapActions(d$tema, ["a$listTema", "a$switchTema"]),
 

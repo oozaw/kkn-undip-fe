@@ -169,7 +169,7 @@
                 :isActive="getRoute2() === 'kalender'"
                 :to="{ name: 'Kalender' }"
                 mini-icon="K"
-                text="Kalender KKN"
+                text="Kalender Kegiatan"
               />
               <sidenav-item
                 :isActive="getRoute2() === 'pengumuman'"
