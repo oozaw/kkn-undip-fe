@@ -9,7 +9,12 @@
       <div class="col-lg-12">
         <div class="row mt-1">
           <div class="col-lg-6 col-12">
-            <calendar title="Kalender KKN" />
+            <calendar
+              v-if="listEvent != undefined"
+              title="Kalender KKN"
+              :events="listEvent"
+              :initial-date="initialDate"
+            />
             <div class="mt-4">
               <timeline-list class="h-100" title="Pengumuman KKN">
                 <timeline-item
@@ -303,6 +308,7 @@
 </template>
 
 <script>
+import moment from "moment";
 import { DataTable } from "simple-datatables";
 import setTooltip from "@/assets/js/tooltip.js";
 import MiniStatisticsCard from "@/views/dashboards/components/Cards/MiniStatisticsCard.vue";
@@ -316,6 +322,7 @@ import d$auth from "@/store/auth";
 import d$wilayah from "@/store/wilayah";
 import d$laporan from "@/store/laporan";
 import d$tema from "@/store/tema";
+import d$event from "@/store/event";
 
 export default {
   name: "Dashboard",
@@ -342,6 +349,9 @@ export default {
         kecamatan: 0,
         desa: 0,
       },
+      initialDate: "",
+      listEvent: undefined,
+      moment,
     };
   },
   computed: {
@@ -349,6 +359,7 @@ export default {
     ...mapState(d$wilayah, ["g$kecamatan"]),
     ...mapState(d$laporan, ["g$listLRK", "g$listLPK"]),
     ...mapState(d$tema, ["g$listTemaActive"]),
+    ...mapState(d$event, ["g$listEvent"]),
   },
   async created() {
     switch (this.g$user.role) {
@@ -360,12 +371,17 @@ export default {
           await this.a$listLRK();
           await this.a$listLPK();
         }
+
+        await this.a$listMahasiswaEvent();
+        this.parsingEvents();
         this.checkProgressDataDiriMhs();
         this.checkProgressLRK();
         break;
 
       case "ADMIN":
         await this.getDataTema();
+        await this.a$listAllEvent();
+        this.parsingEvents();
         break;
 
       default:
@@ -391,9 +407,9 @@ export default {
             filename: "soft-ui-" + type,
           };
 
-          if (type === "csv") {
-            data.columnDelimiter = "|";
-          }
+          // if (type === "csv") {
+          //   data.columnDelimiter = "|";
+          // }
 
           dataTableSearch.export(data);
         });
@@ -405,6 +421,12 @@ export default {
     ...mapActions(d$wilayah, ["a$getKecamatanMhs"]),
     ...mapActions(d$laporan, ["a$listLRK", "a$listLPK"]),
     ...mapActions(d$tema, ["a$listTema"]),
+    ...mapActions(d$event, [
+      "a$listAllEvent",
+      "a$listMahasiswaEvent",
+      "a$listDosenEvent",
+      "a$listBappedaEvent",
+    ]),
 
     async getDosenAndLokasi() {
       try {
@@ -440,6 +462,25 @@ export default {
       } catch (error) {
         console.log(error);
       }
+    },
+
+    parsingEvents() {
+      this.initialDate = this.moment(new Date()).format("YYYY-MM-DD");
+
+      this.listEvent = [];
+
+      this.g$listEvent.forEach((event) => {
+        let newEvent = {
+          id: event.id_event,
+          title: event.judul,
+          tempat: event.tempat,
+          start: this.moment(event.tgl_mulai).format("YYYY-MM-DD"),
+          end: this.moment(event.tgl_akhir).format("YYYY-MM-DD"),
+          className: "bg-gradient-info",
+        };
+
+        this.listEvent.push(newEvent);
+      });
     },
 
     checkProgressDataDiriMhs() {
