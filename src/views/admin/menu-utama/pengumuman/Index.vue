@@ -2,55 +2,14 @@
   <div class="container-fluid">
     <div class="row mb-5 mt-4">
       <div class="col-lg-12 mt-lg-0 mt-4">
-        <HeaderProfileCard
-          name="BAPPEDA Kota Semarang"
-          description="Kota Semarang, Jawa Tengah, Indonesia"
-        />
-        <div class="bg-white card mt-4">
-          <div class="card-header pb-0 pt-3">
-            <p class="font-weight-bold text-dark mb-2">
-              Pilih Tema KKN Terdaftar
-            </p>
-          </div>
-          <div class="pb-3 pt-0 card-body">
-            <div class="col-12 align-self-center">
-              <select
-                id="choices-tema"
-                class="form-control"
-                name="choices-tema"
-              >
-                <option value="reguler">
-                  KKN Tematik Pengurangan Risiko Bencana Berbasis Partisipasi
-                  Masyarakat dan Komunitas
-                </option>
-                <option value="tematik">KKN Reguler Tim I</option>
-              </select>
-            </div>
-          </div>
-          <div class="card-header pb-0 pt-0">
-            <p class="font-weight-bold text-dark mb-2">Pilih Aktor</p>
-          </div>
-          <div class="pb-3 pt-0 card-body">
-            <div class="col-12 align-self-center">
-              <select
-                id="choices-aktor"
-                class="form-control"
-                name="choices-aktor"
-              >
-                <option value="dosen">Dosen</option>
-                <option value="mahasiswa">Mahasiswa</option>
-                <option value="bappeda">BAPPEDA</option>
-              </select>
-            </div>
-          </div>
-        </div>
+        <HeaderProfileCard />
         <div class="bg-white card mt-4">
           <!-- Card header -->
           <div class="pb-0 card-header">
             <div class="d-lg-flex">
               <div>
-                <h5 class="mb-2">Pengumuman</h5>
-                <p class="text-sm mb-0">Pengumuman terkait kegiatan KKN</p>
+                <h5 class="mb-2">Pengumuman Kegiatan KKN</h5>
+                <p class="text-sm mb-0">Daftar Pengumuman Kegiatan KKN</p>
               </div>
               <div class="my-auto mt-4 ms-auto mt-lg-0">
                 <div class="my-auto ms-auto">
@@ -61,56 +20,61 @@
                     + Tambah Pengumuman
                   </router-link>
                   <button
-                    class="mt-2 mb-0 btn btn-outline-success btn-sm export-pengumuman mt-sm-0"
+                    class="mt-2 mb-0 btn btn-outline-success btn-sm export-kalendar mt-sm-0"
                     data-type="csv"
                     type="button"
                     name="button"
                   >
-                    Ekspor
+                    Expor
                   </button>
                 </div>
               </div>
             </div>
           </div>
           <div class="ms-2 pt-1 px-0 pb-0 card-body">
-            <div class="table-responsive">
+            <div class="table-responsive" :key="indexComponent">
               <table id="pengumuman-list" class="table table-flush">
                 <thead class="thead-light">
                   <tr>
                     <th class="col-1 ps-2">No.</th>
                     <th class="col-4">Judul</th>
-                    <th>Isi</th>
-                    <th>Tanggal Mulai</th>
-                    <th>Tanggal Berakhir</th>
+                    <th>Tanggal Dibuat</th>
                     <th>Action</th>
                   </tr>
                 </thead>
                 <tbody>
-                  <tr>
-                    <td class="text-sm ps-3">1</td>
+                  <tr
+                    v-for="(pengumuman, i) in g$listPengumuman"
+                    :key="pengumuman.id_pengumuman"
+                  >
+                    <td class="text-sm ps-3">{{ i + 1 }}</td>
                     <td class="ms-0 px-0">
-                      <h6 class="my-auto">Pengumuman 1</h6>
+                      <h6 class="my-auto">{{ pengumuman.judul }}</h6>
+                    </td>
+                    <td class="text-sm">
+                      {{ moment(pengumuman.created_at).format("DD MMMM YYYY") }}
                     </td>
                     <td class="text-sm">
                       <a
                         type="button"
                         class="mb-0 text-primary"
                         data-bs-toggle="modal"
-                        data-bs-target="#isi-pengumuman"
+                        :data-bs-target="'#detail_' + pengumuman.id_pengumuman"
+                        title="Detail Pengumuman"
                       >
-                        Lihat
+                        <i class="fas fa-eye text-info"></i>
                       </a>
                       <div
-                        id="isi-pengumuman"
+                        :id="'detail_' + pengumuman.id_pengumuman"
                         class="modal fade"
                         tabindex="-1"
                         aria-hidden="true"
                       >
-                        <div class="modal-dialog mt-lg-10">
+                        <div class="modal-dialog mt-lg-8">
                           <div class="modal-content">
                             <div class="modal-header">
                               <h5 id="ModalLabel" class="modal-title">
-                                Isi Pengumuman
+                                Detail {{ pengumuman.judul }}
                               </h5>
                               <button
                                 type="button"
@@ -121,60 +85,70 @@
                                 <font-awesome-icon icon="fa-solid fa-xmark" />
                               </button>
                             </div>
-                            <div class="modal-body">
-                              <p>
-                                Silahkan cari dan pilih file excel berisi data
-                                mahasiswa
-                              </p>
-                              <input
-                                type="file"
-                                placeholder="Browse file..."
-                                class="mb-1 form-control"
-                              />
-                              <div>
-                                <small class="text-danger text-sm-start">
-                                  <i class="fas fa-info-circle"></i>
-                                  File yang diizinkan hanya file excel dengan
-                                  ekstensi .xls atau .xlsx
-                                </small>
-                              </div>
+                            <div class="modal-body p-4">
+                              <ul class="list-group">
+                                <li
+                                  class="pt-0 text-sm border-0 list-group-item ps-0"
+                                >
+                                  <strong class="text-dark">Judul:</strong>
+                                  &nbsp;
+                                  {{ pengumuman.judul }}
+                                </li>
+                                <li
+                                  class="text-sm border-0 list-group-item ps-0"
+                                >
+                                  <strong class="text-dark">Isi:</strong>
+                                  &nbsp;
+                                  {{ pengumuman.isi }}
+                                </li>
+                                <li
+                                  class="text-sm border-0 list-group-item ps-0"
+                                >
+                                  <strong class="text-dark"
+                                    >Tanggal Dibuat:</strong
+                                  >
+                                  &nbsp;
+                                  {{
+                                    pengumuman.created_at
+                                      ? moment(pengumuman.created_at).format(
+                                          "dddd, DD MMMM YYYY"
+                                        )
+                                      : "-"
+                                  }}
+                                </li>
+                                <li
+                                  class="text-sm border-0 list-group-item ps-0"
+                                >
+                                  <strong class="text-dark"
+                                    >Ditujukan Untuk:</strong
+                                  >
+                                  &nbsp;
+                                  {{ pengumuman.peruntukan }}
+                                </li>
+                              </ul>
                             </div>
-                            <div class="modal-footer">
-                              <button
-                                type="button"
-                                class="btn bg-gradient-secondary btn-sm"
-                                data-bs-dismiss="modal"
-                              >
-                                Batal
-                              </button>
-                              <button
-                                type="button"
-                                class="btn bg-gradient-success btn-sm"
-                              >
-                                Unggah
-                              </button>
-                            </div>
+                            <div class="modal-footer"></div>
                           </div>
                         </div>
                       </div>
-                    </td>
-                    <td class="text-sm">1 Desember 2023</td>
-                    <td class="text-sm">15 Desember 2023</td>
-                    <td class="text-sm">
                       <a
-                        href="javascript:;"
-                        class="me-3"
+                        :id="pengumuman.id_pengumuman"
+                        href="#"
+                        class="mx-3 edit"
                         data-bs-toggle="tooltip"
-                        data-bs-original-title="Edit Pengumuman"
-                        title="Edit Pengumuman"
+                        data-bs-original-title="Edit Kegiatan"
+                        title="Edit Kegiatan"
                       >
                         <i class="fas fa-user-edit text-primary"></i>
                       </a>
                       <a
-                        href="javascript:;"
-                        data-bs-toggle="tooltip"
-                        data-bs-original-title="Hapus Pengumuman"
-                        title="Hapus Pengumuman"
+                        :id="pengumuman.id_pengumuman"
+                        :name="pengumuman.judul"
+                        class="delete"
+                        href="#"
+                        data-bs-toggle="tooltip delete"
+                        data-bs-original-title="Hapus Kegiatan"
+                        title="Hapus Kegiatan"
                       >
                         <i class="fas fa-trash text-danger"></i>
                       </a>
@@ -185,7 +159,6 @@
                   <tr>
                     <th class="col-1 ps-2">No.</th>
                     <th class="col-4">Judul</th>
-                    <th>Isi</th>
                     <th>Tanggal Mulai</th>
                     <th>Tanggal Berakhir</th>
                     <th>Action</th>
@@ -201,10 +174,13 @@
 </template>
 
 <script>
+import $ from "jquery";
+import moment from "moment";
 import { DataTable } from "simple-datatables";
 import Choices from "choices.js";
-import setTooltip from "@/assets/js/tooltip.js";
 import HeaderProfileCard from "@/views/dashboards/components/HeaderProfileCard.vue";
+import { mapActions, mapState } from "pinia";
+import d$pengumuman from "@/store/pengumuman";
 
 export default {
   name: "IndexPengumuman",
@@ -213,46 +189,117 @@ export default {
   },
   data() {
     return {
-      choicesTema: Choices,
-      choicesAktor: Choices,
+      indexComponent: 0,
+      moment,
+      loader: undefined,
     };
   },
-  mounted() {
-    this.choicesTema = this.getChoices("choices-tema");
-    this.choicesAktor = this.getChoices("choices-aktor");
-
-    if (document.getElementById("pengumuman-list")) {
-      const dataTableSearch = new DataTable("#pengumuman-list", {
-        searchable: true,
-        fixedHeight: false,
-        perPage: 5,
-      });
-
-      document.querySelectorAll(".export-pengumuman").forEach(function (el) {
-        el.addEventListener("click", function () {
-          var type = el.dataset.type;
-
-          var data = {
-            type: type,
-            filename: "Data Pengumuman",
-          };
-
-          // if (type === "csv") {
-          //   data.columnDelimiter = "|";
-          // }
-
-          dataTableSearch.export(data);
-        });
-      });
-    }
-
-    setTooltip(this.$store.state.bootstrap);
+  computed: {
+    ...mapState(d$pengumuman, ["g$listPengumuman"]),
   },
-  beforeUnmount() {
-    this.choicesTema.destroy();
-    this.choicesAktor.destroy();
+  async created() {
+    moment.locale("id");
+
+    await this.getInitData();
   },
   methods: {
+    ...mapActions(d$pengumuman, ["a$listAllPengumuman", "a$deletePengumuman"]),
+
+    async getInitData() {
+      this.showLoading(true);
+
+      this.indexComponent++;
+
+      try {
+        await this.a$listAllPengumuman();
+      } catch (error) {
+        console.log(error);
+        let msg = "";
+        if (error.error && error.error != undefined) msg = error.error;
+        else msg = error;
+        this.showSwal(
+          "failed-message",
+          "Terjadi kesalahan saat memuat data! " + msg
+        );
+      }
+
+      this.setupDataTable();
+      this.setupTableAction();
+
+      this.showLoading(false);
+    },
+
+    async deletePengumuman(id_pengumuman) {
+      this.showSwal("loading");
+
+      this.indexComponent++;
+
+      try {
+        await this.a$deletePengumuman(id_pengumuman);
+        // this.showSwal("success-message", "Berhasil menghapus data");
+        this.getInitData();
+      } catch (error) {
+        console.log(error);
+        let msg = "";
+        if (error.error && error.error != undefined) msg = error.error;
+        else msg = error;
+        this.showSwal("failed-message", "Data gagal dihapus! " + msg);
+      }
+    },
+
+    setupTableAction() {
+      let outerThis = this;
+
+      // edit
+      $("#pengumuman-list").on("click", `.edit`, function (e) {
+        let pengumuman = this;
+        outerThis.$router.push({
+          name: "Edit Pengumuman",
+          params: { id_pengumuman: pengumuman.id },
+        });
+        e.preventDefault();
+      });
+
+      // delete
+      $("#pengumuman-list").on("click", `.delete`, function (e) {
+        let pengumuman = this;
+        outerThis.showSwal(
+          "warning-confirmation",
+          `Hapus pengumuman ${pengumuman.name}?`,
+          "Berhasil menghapus data",
+          pengumuman.id
+        );
+        e.preventDefault();
+      });
+    },
+
+    setupDataTable() {
+      if (document.getElementById("pengumuman-list")) {
+        const dataTableSearch = new DataTable("#pengumuman-list", {
+          searchable: true,
+          fixedHeight: false,
+          perPage: 5,
+        });
+
+        document.querySelectorAll(".export-kalendar").forEach(function (el) {
+          el.addEventListener("click", function () {
+            var type = el.dataset.type;
+
+            var data = {
+              type: type,
+              filename: "Data Pengumuman Kegiatan",
+            };
+
+            // if (type === "csv") {
+            //   data.columnDelimiter = "|";
+            // }
+
+            dataTableSearch.export(data);
+          });
+        });
+      }
+    },
+
     getChoices(id) {
       var element = document.getElementById(id);
       if (element) {
@@ -260,6 +307,131 @@ export default {
           searchEnabled: true,
           allowHTML: true,
         });
+      }
+    },
+
+    showLoading(isLoading) {
+      if (isLoading && !this.loader) {
+        this.loader = this.$loading.show();
+      } else if (!isLoading && this.loader) {
+        setTimeout(() => {
+          this.loader.hide();
+          this.loader = undefined;
+        }, 400);
+      }
+    },
+
+    showSwal(type, text, toastText, id_pengumuman) {
+      if (type === "success-message") {
+        this.$swal({
+          icon: "success",
+          title: "Berhasil!",
+          text: text,
+          timer: 2500,
+          type: type,
+          timerProgressBar: true,
+          showConfirmButton: false,
+          didOpen: () => {
+            this.$swal.hideLoading();
+          },
+        });
+      } else if (type === "warning-message") {
+        this.$swal({
+          icon: "warning",
+          title: "Peringatan!",
+          text: text,
+          timer: 2500,
+          type: type,
+          timerProgressBar: true,
+          showConfirmButton: false,
+          didOpen: () => {
+            this.$swal.hideLoading();
+          },
+        });
+      } else if (type === "failed-message") {
+        this.$swal({
+          icon: "error",
+          title: "Gagal!",
+          text: text,
+          timer: 2500,
+          type: type,
+          timerProgressBar: true,
+          showConfirmButton: false,
+          didOpen: () => {
+            this.$swal.hideLoading();
+          },
+        });
+      } else if (type === "auto-close") {
+        let timerInterval;
+        this.$swal({
+          title: "Auto close alert!",
+          html: "I will close in <b></b> milliseconds.",
+          timer: 2000,
+          timerProgressBar: true,
+          didOpen: () => {
+            this.$swal.showLoading();
+            const b = this.$swal.getHtmlContainer().querySelector("b");
+            timerInterval = setInterval(() => {
+              b.textContent = this.$swal.getTimerLeft();
+            }, 100);
+          },
+          willClose: () => {
+            clearInterval(timerInterval);
+          },
+        });
+      } else if (type === "warning-confirmation") {
+        this.$swal({
+          title: "Apakah Anda yakin?",
+          text: text,
+          showCancelButton: true,
+          confirmButtonText: "Ya!",
+          cancelButtonText: "Batal!",
+          customClass: {
+            confirmButton: "btn bg-gradient-success",
+            cancelButton: "btn bg-gradient-secondary",
+          },
+          buttonsStyling: false,
+          didOpen: () => {
+            this.$swal.hideLoading();
+          },
+        }).then((result) => {
+          if (result.isConfirmed) {
+            this.deletePengumuman(id_pengumuman);
+            this.$swal({
+              toast: true,
+              position: "top-end",
+              title: toastText,
+              icon: "success",
+              showConfirmButton: false,
+              timer: 2500,
+              timerProgressBar: true,
+              didOpen: () => {
+                this.$swal.hideLoading();
+              },
+            });
+          } else if (
+            /* Read more about handling dismissals below */
+            result.dismiss === this.$swal.DismissReason.cancel
+          ) {
+            this.$swal.close();
+          }
+        });
+      } else if (type === "loading") {
+        this.$swal({
+          title: "Memuat...",
+          timerProgressBar: true,
+          showConfirmButton: false,
+          allowOutsideClick: false,
+          allowEscapeKey: false,
+          didOpen: () => {
+            this.$swal.showLoading();
+          },
+          didDestroy: () => {
+            this.$swal.hideLoading();
+          },
+        });
+      } else if (type === "close") {
+        this.$swal.close();
       }
     },
   },

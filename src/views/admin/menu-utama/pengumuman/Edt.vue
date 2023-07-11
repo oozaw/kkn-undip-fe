@@ -14,24 +14,24 @@
             >
             <argon-button
               type="submit"
-              form="form-add-pengumuman"
+              form="form-edit-pengumuman"
               class="mb-0 me-lg-2"
-              color="success"
+              color="primary"
               variant="gradient"
               size="sm"
-              >Tambah Pengumuman</argon-button
+              >Simpan Perubahan</argon-button
             >
           </template>
         </HeaderProfileCard>
         <div class="card mt-4">
           <div class="card-header">
-            <h5>Tambah Pengumuman Baru</h5>
+            <h5>Edit Pengumuman</h5>
           </div>
           <div class="card-body pt-0">
             <form
               role="form"
-              id="form-add-pengumuman"
-              @submit.prevent="addPengumuman()"
+              id="form-edit-pengumuman"
+              @submit.prevent="editPengumuman()"
             >
               <div class="row">
                 <div class="col-12">
@@ -131,12 +131,12 @@
                   >
                   <argon-button
                     type="submit"
-                    form="form-add-pengumuman"
+                    form="form-edit-pengumuman"
                     class="mb-0 me-lg-2"
-                    color="success"
+                    color="primary"
                     variant="gradient"
                     size="sm"
-                    >Tambah Pengumuman</argon-button
+                    >Simpan Perubahan</argon-button
                   >
                 </div>
               </div>
@@ -153,16 +153,17 @@ import Choices from "choices.js";
 import HeaderProfileCard from "@/views/dashboards/components/HeaderProfileCard.vue";
 import ArgonButton from "@/components/ArgonButton.vue";
 import d$pengumuman from "@/store/pengumuman";
-import { mapActions } from "pinia";
+import { mapActions, mapState } from "pinia";
 
 export default {
-  name: "TambahPengumuman",
+  name: "EditPengumuman",
   components: {
     HeaderProfileCard,
     ArgonButton,
   },
   data() {
     return {
+      idPengumuman: parseInt(this.$route.params.id_pengumuman),
       body: {
         judul: "",
         isi: "",
@@ -170,10 +171,37 @@ export default {
       },
     };
   },
+  computed: {
+    ...mapState(d$pengumuman, ["g$pengumuman"]),
+  },
+  async created() {
+    await this.getInitData();
+  },
   methods: {
-    ...mapActions(d$pengumuman, ["a$addPengumuman"]),
+    ...mapActions(d$pengumuman, ["a$editPengumuman", "a$getPengumuman"]),
 
-    async addPengumuman() {
+    async getInitData() {
+      try {
+        await this.a$getPengumuman(this.idPengumuman);
+
+        this.body.judul = this.g$pengumuman.judul;
+        this.body.isi = this.g$pengumuman.isi;
+        this.body.peruntukan = this.g$pengumuman.peruntukan;
+
+        this.setPeruntukan();
+      } catch (error) {
+        console.log(error);
+        let msg = "";
+        if (error.error && error.error != undefined) msg = error.error;
+        else msg = error;
+        this.showSwal(
+          "failed-message",
+          "Terjadi kesalahan saat memuat data! " + msg
+        );
+      }
+    },
+
+    async editPengumuman() {
       this.showSwal("loading");
 
       // validation peruntukan
@@ -198,18 +226,34 @@ export default {
       }
 
       try {
-        await this.a$addPengumuman(this.body);
-        this.showSwal(
-          "success-message",
-          "Data pengumuman berhasil ditambahkan!"
-        );
+        await this.a$editPengumuman(this.idPengumuman, this.body);
+        this.showSwal("success-message", "Data pengumuman berhasil disimpan!");
         this.$router.push({ name: "Pengumuman" });
       } catch (error) {
         console.log(error);
         let msg = "";
         if (error.error && error.error != undefined) msg = error.error;
         else msg = error;
-        this.showSwal("failed-message", "Data gagal ditambahkan! " + msg);
+        this.showSwal("failed-message", "Data gagal disimpan! " + msg);
+      }
+    },
+
+    setPeruntukan() {
+      let data = this.g$pengumuman.peruntukan.split(", ");
+
+      if (data.length == 4) {
+        document.getElementById("all").checked = true;
+        this.checkAllOrNot();
+      } else {
+        for (let i = 0; i < data.length; i++) {
+          if (data[i] == "DOSEN") {
+            document.getElementById("dosen").checked = true;
+          } else if (data[i] == "MAHASISWA") {
+            document.getElementById("mahasiswa").checked = true;
+          } else if (data[i] == "BAPPEDA") {
+            document.getElementById("bappeda").checked = true;
+          }
+        }
       }
     },
 

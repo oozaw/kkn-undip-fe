@@ -131,6 +131,7 @@
                       name="peruntukan"
                       id="dosen"
                       value="DOSEN"
+                      @change="checkAllOnAnother()"
                     />
                     <label class="form-check-label" for="dosen">Dosen</label>
                   </div>
@@ -141,6 +142,7 @@
                       name="peruntukan"
                       id="mahasiswa"
                       value="MAHASISWA"
+                      @change="checkAllOnAnother()"
                     />
                     <label class="form-check-label" for="mahasiswa"
                       >Mahasiswa</label
@@ -153,6 +155,7 @@
                       name="peruntukan"
                       id="bappeda"
                       value="BAPPEDA"
+                      @change="checkAllOnAnother()"
                     />
                     <label class="form-check-label" for="bappeda"
                       >BAPPEDA</label
@@ -278,22 +281,42 @@ export default {
     checkAllOrNot() {
       let data = document.querySelector(".form-check-input").checked;
 
+      let dosen = document.getElementById("dosen");
+      let mahasiswa = document.getElementById("mahasiswa");
+      let bappeda = document.getElementById("bappeda");
+
       if (data) {
-        document.getElementById("dosen").disabled = true;
-        document.getElementById("mahasiswa").disabled = true;
-        document.getElementById("bappeda").disabled = true;
+        dosen.disabled = true;
+        mahasiswa.disabled = true;
+        bappeda.disabled = true;
 
-        document.getElementById("dosen").checked = true;
-        document.getElementById("mahasiswa").checked = true;
-        document.getElementById("bappeda").checked = true;
+        dosen.checked = true;
+        mahasiswa.checked = true;
+        bappeda.checked = true;
       } else {
-        document.getElementById("dosen").disabled = false;
-        document.getElementById("mahasiswa").disabled = false;
-        document.getElementById("bappeda").disabled = false;
+        dosen.disabled = false;
+        mahasiswa.disabled = false;
+        bappeda.disabled = false;
 
-        document.getElementById("dosen").checked = false;
-        document.getElementById("mahasiswa").checked = false;
-        document.getElementById("bappeda").checked = false;
+        dosen.checked = false;
+        mahasiswa.checked = false;
+        bappeda.checked = false;
+      }
+    },
+
+    checkAllOnAnother() {
+      let dosen = document.getElementById("dosen");
+      let mahasiswa = document.getElementById("mahasiswa");
+      let bappeda = document.getElementById("bappeda");
+
+      if (dosen.checked && mahasiswa.checked && bappeda.checked) {
+        document.getElementById("all").checked = true;
+
+        dosen.disabled = true;
+        mahasiswa.disabled = true;
+        bappeda.disabled = true;
+      } else {
+        document.getElementById("all").checked = false;
       }
     },
 
@@ -303,13 +326,6 @@ export default {
       let isDosenSelected = document.getElementById("dosen").checked;
       let isMahasiswaSelected = document.getElementById("mahasiswa").checked;
       let isBappedaSelected = document.getElementById("bappeda").checked;
-
-      console.log(
-        allUserStatus,
-        isDosenSelected,
-        isMahasiswaSelected,
-        isBappedaSelected
-      );
 
       if (
         !allUserStatus &&
