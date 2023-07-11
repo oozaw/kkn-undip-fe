@@ -95,7 +95,7 @@
                                   {{ pengumuman.judul }}
                                 </li>
                                 <li
-                                  class="text-sm border-0 list-group-item ps-0"
+                                  class="text-sm border-0 list-group-item ps-0 text-wrap"
                                 >
                                   <strong class="text-dark">Isi:</strong>
                                   &nbsp;

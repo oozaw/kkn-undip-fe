@@ -16,42 +16,19 @@
               :initial-date="initialDate"
             />
             <div class="mt-4">
-              <timeline-list class="h-100" title="Pengumuman KKN">
+              <timeline-list
+                v-if="listPengumuman != undefined"
+                class="h-100"
+                title="Pengumuman KKN"
+              >
                 <timeline-item
-                  :icon="{ component: 'ni ni-bell-55', color: 'success' }"
-                  title="Deadline Pengambilan Post Test"
-                  date-time="22 DEC 7:20 PM"
-                  description="Lorep ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
-                />
-                <TimelineItem
-                  :icon="{ component: 'ni ni-html5', color: 'danger' }"
-                  title="Deadline Pengumpulan LRK"
-                  date-time="21 DEC 11 PM"
-                  description="Lorep ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
-                />
-                <TimelineItem
-                  :icon="{ component: 'ni ni-cart', color: 'info' }"
-                  title="Deadline Pengumpulan LPK"
-                  date-time="21 DEC 9:34 PM"
-                  description="Lorep ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
-                />
-                <TimelineItem
-                  :icon="{ component: 'ni ni-credit-card', color: 'warning' }"
-                  title="Deadline Pengumpulan Laporan Akhir"
-                  date-time="20 DEC 2:20 AM"
-                  description="Lorep ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
-                />
-                <TimelineItem
-                  :icon="{ component: 'ni ni-key-25', color: 'primary' }"
-                  title="Deadline Pengumpulan Reportase"
-                  date-time="18 DEC 4:54 AM"
-                  description="Lorep ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
-                />
-                <TimelineItem
-                  :icon="{ component: 'ni ni-box-2', color: 'dark' }"
-                  title="Pelaksanaan Pembekalan"
-                  date-time="21 DEC 09:00 AM"
-                  description="Lorep ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
+                  v-for="pengumuman in listPengumuman"
+                  :key="pengumuman.id_pengumuman"
+                  :title="pengumuman.judul"
+                  :date-time="
+                    moment(pengumuman.created_at).format('DD MMMM YYYY')
+                  "
+                  :description="pengumuman.isi"
                 />
               </timeline-list>
             </div>
@@ -323,6 +300,7 @@ import d$wilayah from "@/store/wilayah";
 import d$laporan from "@/store/laporan";
 import d$tema from "@/store/tema";
 import d$event from "@/store/event";
+import d$pengumuman from "@/store/pengumuman";
 
 export default {
   name: "Dashboard",
@@ -351,6 +329,7 @@ export default {
       },
       initialDate: "",
       listEvent: undefined,
+      listPengumuman: undefined,
       moment,
     };
   },
@@ -360,8 +339,11 @@ export default {
     ...mapState(d$laporan, ["g$listLRK", "g$listLPK"]),
     ...mapState(d$tema, ["g$listTemaActive"]),
     ...mapState(d$event, ["g$listEvent"]),
+    ...mapState(d$pengumuman, ["g$listPengumuman"]),
   },
   async created() {
+    this.moment.locale("id");
+
     switch (this.g$user.role) {
       case "MAHASISWA":
         if (!this.g$infoUser.id_tema) {
@@ -372,16 +354,30 @@ export default {
           await this.a$listLPK();
         }
 
+        // kegiatan
         await this.a$listMahasiswaEvent();
         this.parsingEvents();
+
+        // pengumuman
+        await this.a$listMahasiswaPengumuman();
+        this.listPengumuman = this.g$listPengumuman;
+
+        // progress
         this.checkProgressDataDiriMhs();
         this.checkProgressLRK();
         break;
 
       case "ADMIN":
+        // tema
         await this.getDataTema();
+
+        // kegiatan
         await this.a$listAllEvent();
         this.parsingEvents();
+
+        // pengumuman
+        await this.a$listAllPengumuman();
+        this.listPengumuman = this.g$listPengumuman;
         break;
 
       default:
@@ -426,6 +422,12 @@ export default {
       "a$listMahasiswaEvent",
       "a$listDosenEvent",
       "a$listBappedaEvent",
+    ]),
+    ...mapActions(d$pengumuman, [
+      "a$listAllPengumuman",
+      "a$listMahasiswaPengumuman",
+      "a$listDosenPengumuman",
+      "a$listBappedaPengumuman",
     ]),
 
     async getDosenAndLokasi() {

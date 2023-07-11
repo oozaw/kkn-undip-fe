@@ -42,7 +42,7 @@ export default {
     },
     icon: {
       type: Object,
-      required: true,
+      default: () => ({ component: "ni ni-bell-55", color: "warning" }),
       component: String,
       color: String,
     },
