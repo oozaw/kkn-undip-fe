@@ -17,7 +17,7 @@
                     class="mb-0 btn btn-success btn-sm mt-sm-0 me-2"
                     :to="{ name: 'Tambah Kalender' }"
                   >
-                    + Tambah Jadwal
+                    + Tambah Kegiatan
                   </router-link>
                   <button
                     class="mt-2 mb-0 btn btn-outline-success btn-sm export-kalendar mt-sm-0"
