@@ -303,6 +303,7 @@ export default {
       indexComponent: 0,
       choicesTema: undefined,
       choicesLokasi: undefined,
+      loader: undefined,
     };
   },
   computed: {
@@ -311,6 +312,8 @@ export default {
     ...mapState(d$mahasiswa, ["g$listMahasiswa"]),
   },
   async created() {
+    this.showLoading(true);
+
     await this.getInitData();
 
     this.choicesTema = this.getChoices("choices-tema");
@@ -347,6 +350,8 @@ export default {
     },
 
     async getListMahasiswa() {
+      this.showLoading(true);
+
       this.indexComponent++;
       this.id_kecamatan = parseInt(this.id_kecamatan);
 
@@ -364,6 +369,8 @@ export default {
       }
 
       this.setupDataTable();
+
+      this.showLoading(false);
     },
 
     async getListKecamatan() {
@@ -450,6 +457,18 @@ export default {
           allowHTML: true,
           shouldSort: false,
         });
+      }
+    },
+
+    showLoading(isLoading) {
+      if (isLoading && !this.loader) {
+        this.loader = this.$loading.show();
+      } else if (!isLoading && this.loader) {
+        console.log(this.loader);
+        setTimeout(() => {
+          this.loader.hide();
+          this.loader = undefined;
+        }, 400);
       }
     },
 
