@@ -99,7 +99,105 @@
                     </td>
                     <td class="text-sm">
                       <a
+                        type="button"
+                        class="mb-0 me-3 text-primary"
+                        data-bs-toggle="modal"
+                        :data-bs-target="'#detail_' + halaman.id_halaman"
+                        title="Detail Halaman"
+                      >
+                        <i class="fas fa-eye text-info"></i>
+                      </a>
+                      <div
+                        :id="'detail_' + halaman.id_halaman"
+                        class="modal fade"
+                        tabindex="-1"
+                        aria-hidden="true"
+                      >
+                        <div class="modal-dialog mt-lg-8">
+                          <div class="modal-content">
+                            <div class="modal-header">
+                              <h5 id="ModalLabel" class="modal-title">
+                                Detail {{ halaman.halaman.nama }}
+                              </h5>
+                              <button
+                                type="button"
+                                class="btn-close text-dark mb-0"
+                                data-bs-dismiss="modal"
+                                aria-label="Close"
+                              >
+                                <font-awesome-icon icon="fa-solid fa-xmark" />
+                              </button>
+                            </div>
+                            <div class="modal-body p-4">
+                              <ul class="list-group">
+                                <li
+                                  class="pt-0 text-sm border-0 list-group-item ps-0"
+                                >
+                                  <strong class="text-dark">Nama:</strong>
+                                  &nbsp;
+                                  {{ halaman.halaman.nama }}
+                                </li>
+                                <li
+                                  class="text-sm border-0 list-group-item ps-0"
+                                >
+                                  <strong class="text-dark">Tema:</strong>
+                                  &nbsp;
+                                  {{ halaman.tema.nama }}
+                                </li>
+                                <li
+                                  class="text-sm border-0 list-group-item ps-0"
+                                >
+                                  <strong class="text-dark"
+                                    >Tanggal Dibuka:</strong
+                                  >
+                                  &nbsp;
+                                  {{
+                                    halaman.tgl_mulai
+                                      ? moment(halaman.tgl_mulai).format(
+                                          "dddd, DD MMMM YYYY HH:mm"
+                                        )
+                                      : "-"
+                                  }}
+                                </li>
+                                <li
+                                  class="text-sm border-0 list-group-item ps-0"
+                                >
+                                  <strong class="text-dark"
+                                    >Tanggal Ditutup:</strong
+                                  >
+                                  &nbsp;
+                                  {{
+                                    halaman.tgl_akhir
+                                      ? moment(halaman.tgl_akhir).format(
+                                          "dddd, DD MMMM YYYY HH:mm"
+                                        )
+                                      : "-"
+                                  }}
+                                </li>
+                                <li
+                                  class="text-sm border-0 list-group-item ps-0"
+                                >
+                                  <strong class="text-dark">Status:</strong>
+                                  &nbsp;
+                                  <span
+                                    v-if="halaman.status"
+                                    class="badge badge-success"
+                                  >
+                                    Aktif
+                                  </span>
+                                  <span v-else class="badge badge-danger">
+                                    Tidak Aktif
+                                  </span>
+                                </li>
+                              </ul>
+                            </div>
+                            <div class="modal-footer"></div>
+                          </div>
+                        </div>
+                      </div>
+                      <a
                         :id="halaman.id_tema_halaman"
+                        href="#"
                         class="me-3 edit"
                         data-bs-toggle="tooltip"
                         data-bs-original-title="Edit Halaman"
@@ -138,15 +236,6 @@
                           icon="fa-solid fa-square-check"
                           size="xl"
                         />
-                      </a>
-                      <a
-                        href="javascript"
-                        class="me-3"
-                        data-bs-toggle="tooltip"
-                        data-bs-original-title="Hapus Halaman"
-                        title="Hapus Halaman"
-                      >
-                        <i class="fas fa-trash text-danger"></i>
                       </a>
                     </td>
                   </tr>
@@ -191,6 +280,7 @@ export default {
       choicesTema: undefined,
       indexComponent: 0,
       moment,
+      loader: undefined,
     };
   },
   computed: {
@@ -233,6 +323,7 @@ export default {
     },
 
     async getListHalaman() {
+      this.showLoading(true);
       this.indexComponent++;
 
       try {
@@ -250,6 +341,8 @@ export default {
 
       this.setupDataTable();
       this.setupTableAction();
+
+      this.showLoading(false);
     },
 
     async switchHalaman(id_halaman) {
@@ -338,6 +431,17 @@ export default {
           allowHTML: true,
           shouldSort: false,
         });
+      }
+    },
+
+    showLoading(isLoading) {
+      if (isLoading && !this.loader) {
+        this.loader = this.$loading.show();
+      } else if (!isLoading && this.loader) {
+        setTimeout(() => {
+          this.loader.hide();
+          this.loader = undefined;
+        }, 400);
       }
     },
 
