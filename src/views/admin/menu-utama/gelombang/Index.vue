@@ -464,6 +464,8 @@ export default {
     },
 
     async getListGelombang() {
+      this.showLoading(true);
+
       this.indexComponent++;
 
       try {
@@ -484,6 +486,8 @@ export default {
 
       this.setupDataTable();
       this.setupTableAction();
+
+      this.showLoading(false);
     },
 
     setupTableAction() {
@@ -565,6 +569,17 @@ export default {
           allowHTML: true,
           shouldSort: false,
         });
+      }
+    },
+
+    showLoading(isLoading) {
+      if (isLoading && !this.loader) {
+        this.loader = this.$loading.show();
+      } else if (!isLoading && this.loader) {
+        setTimeout(() => {
+          this.loader.hide();
+          this.loader = undefined;
+        }, 400);
       }
     },
 

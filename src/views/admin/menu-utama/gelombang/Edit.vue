@@ -259,7 +259,7 @@ export default {
     },
 
     async getInitData() {
-      this.showSwal("loading");
+      this.showLoading(true);
 
       try {
         await this.a$listHalaman(this.id_tema);
@@ -277,7 +277,6 @@ export default {
         }
 
         this.setChoices(this.choicesHalaman, this.g$listHalaman);
-        this.showSwal("close");
       } catch (error) {
         console.log(error);
         let msg = "";
@@ -288,6 +287,8 @@ export default {
           "Terjadi kesalahan saat memuat data! " + msg
         );
       }
+
+      this.showLoading(false);
     },
 
     checkStatus() {
@@ -341,6 +342,15 @@ export default {
         while (element.options.length > 0) {
           element.remove(0);
         }
+      }
+    },
+
+    showLoading(isLoading) {
+      if (isLoading && !this.loader) {
+        this.loader = this.$loading.show();
+      } else if (!isLoading && this.loader) {
+        this.loader.hide();
+        this.loader = undefined;
       }
     },
 
