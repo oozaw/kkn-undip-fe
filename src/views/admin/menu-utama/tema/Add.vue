@@ -28,10 +28,10 @@
             <h5>Tambah Tema KKN Baru</h5>
           </div>
           <form role="form" id="form-tema" @submit.prevent="addTema()">
-            <div class="card-body pt-0">
+            <div class="card-body pt-1">
               <div class="row">
                 <div class="col-sm-6 col-12">
-                  <label class="form-label mt-2">Jenis KKN</label>
+                  <label class="form-label">Jenis KKN</label>
                   <select
                     id="choices-jenis"
                     class="form-control"
@@ -44,8 +44,8 @@
                     <option value="2">Tematik</option>
                   </select>
                 </div>
-                <div class="col-sm-6 col-12">
-                  <label class="form-label mt-4 mt-sm-2">Periode</label>
+                <div class="col-sm-6 col-12 mt-3 mt-sm-0">
+                  <label class="form-label">Periode</label>
                   <argon-input
                     id="periode"
                     type="periode"
@@ -57,7 +57,7 @@
               </div>
               <div class="row">
                 <div class="col-12">
-                  <label class="form-label mt-4">Tema</label>
+                  <label class="form-label">Tema</label>
                   <argon-input
                     id="tema"
                     type="tema"
@@ -70,7 +70,7 @@
               <div class="tematik-section" v-if="filterJenis === '2'">
                 <div class="row">
                   <div class="col-sm-6 col-12">
-                    <label class="form-label mt-4">Lokasi Provinsi</label>
+                    <label class="form-label">Lokasi Provinsi</label>
                     <argon-input
                       id="provinsi"
                       name="provinsi"
@@ -81,7 +81,7 @@
                     />
                   </div>
                   <div class="col-sm-6 col-12">
-                    <label class="form-label mt-4">Lokasi Kabupaten</label>
+                    <label class="form-label">Lokasi Kabupaten</label>
                     <argon-input
                       id="kabupaten"
                       name="kabupaten"
@@ -94,7 +94,7 @@
                 </div>
                 <div class="row">
                   <div class="col-sm-6 align-self-center">
-                    <label class="form-label mt-4">Lokasi Kecamatan</label>
+                    <label class="form-label">Lokasi Kecamatan</label>
                     <argon-input
                       id="kecamatan"
                       name="kecamatan"
@@ -105,9 +105,7 @@
                     />
                   </div>
                   <div class="col-sm-6 align-self-center">
-                    <label class="form-label mt-4"
-                      >Lokasi Desa/ Kelurahan</label
-                    >
+                    <label class="form-label">Lokasi Desa/ Kelurahan</label>
                     <argon-input
                       id="desa"
                       name="desa"

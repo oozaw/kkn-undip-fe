@@ -78,6 +78,16 @@ const d$tema = defineStore("temaStore", {
         throw message ?? error;
       }
     },
+
+    async a$deleteTema(id_tema) {
+      try {
+        const { status } = await s$tema.deleteTema(id_tema);
+        this.status = status;
+      } catch ({ message, error }) {
+        this.status = false;
+        throw message ?? error;
+      }
+    },
   },
   getters: {
     g$tema: ({ tema }) => tema,

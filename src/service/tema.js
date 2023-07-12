@@ -15,4 +15,14 @@ const editTema = (id_tema, body) =>
 
 const switchTema = (id_tema) => baseApi.patch(`${api}admin/tema/${id_tema}`);
 
-export { listTema, listTemaDosen, getTema, addTema, editTema, switchTema };
+const deleteTema = (id_tema) => baseApi.delete(`${api}admin/tema/${id_tema}`);
+
+export {
+  listTema,
+  listTemaDosen,
+  getTema,
+  addTema,
+  editTema,
+  switchTema,
+  deleteTema,
+};

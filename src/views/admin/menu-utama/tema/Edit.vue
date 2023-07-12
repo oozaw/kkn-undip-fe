@@ -217,6 +217,8 @@ export default {
     },
 
     async getInitData() {
+      this.showLoading(true);
+
       try {
         await this.a$getTema(this.idTema);
 
@@ -240,6 +242,8 @@ export default {
           "Terjadi kesalahan saat memuat data! " + msg
         );
       }
+
+      this.showLoading(false);
     },
 
     getChoices(id) {
@@ -265,6 +269,15 @@ export default {
       var element = document.getElementById("choices-jenis");
       if (element) {
         this.filterJenis = element.value;
+      }
+    },
+
+    showLoading(isLoading) {
+      if (isLoading && !this.loader) {
+        this.loader = this.$loading.show();
+      } else if (!isLoading && this.loader) {
+        this.loader.hide();
+        this.loader = undefined;
       }
     },
 
