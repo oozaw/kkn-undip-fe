@@ -120,10 +120,8 @@
                       </div>
                     </td>
                     <td class="text-sm">
-                      <span
-                        class="badge badge-secondary"
-                        v-if="kec.status === 0"
-                        >Sedang diroses</span
+                      <span class="badge badge-primary" v-if="kec.status === 0"
+                        >Sedang diproses</span
                       >
                       <span
                         class="badge badge-success"
@@ -134,20 +132,105 @@
                     </td>
                     <td class="text-sm">
                       <a
-                        class="me-3"
-                        href="javascript:;"
-                        data-bs-toggle="tooltip"
-                        data-bs-original-title="Detail Kecamatan"
+                        type="button"
+                        class="mb-0 me-3 text-primary"
+                        data-bs-toggle="modal"
+                        :data-bs-target="'#detail_' + kec.id_kecamatan"
                         title="Detail Kecamatan"
                       >
                         <i class="fas fa-eye text-info"></i>
                       </a>
+                      <div
+                        :id="'detail_' + kec.id_kecamatan"
+                        class="modal fade"
+                        tabindex="-1"
+                        aria-hidden="true"
+                      >
+                        <div class="modal-dialog mt-lg-8">
+                          <div class="modal-content">
+                            <div class="modal-header">
+                              <h5 id="ModalLabel" class="modal-title">
+                                Detail {{ kec.nama }}
+                              </h5>
+                              <button
+                                type="button"
+                                class="btn-close text-dark mb-0"
+                                data-bs-dismiss="modal"
+                                aria-label="Close"
+                              >
+                                <font-awesome-icon icon="fa-solid fa-xmark" />
+                              </button>
+                            </div>
+                            <div class="modal-body p-4">
+                              <ul class="list-group">
+                                <li
+                                  class="pt-0 text-sm border-0 list-group-item ps-0"
+                                >
+                                  <strong class="text-dark">Nama:</strong>
+                                  &nbsp;
+                                  {{ kec.nama }}
+                                </li>
+                                <li
+                                  class="text-sm border-0 list-group-item ps-0"
+                                >
+                                  <strong class="text-dark">Kabupaten:</strong>
+                                  &nbsp;
+                                  {{ kec.nama_kabupaten }}
+                                </li>
+                                <li
+                                  class="text-sm border-0 list-group-item ps-0"
+                                >
+                                  <strong class="text-dark">Desa:</strong>
+                                  &nbsp;
+                                  <ol class="ms-1">
+                                    <li
+                                      v-for="(desa, idesa) in kec.desa"
+                                      :key="idesa"
+                                    >
+                                      Desa {{ desa.nama }}
+                                    </li>
+                                  </ol>
+                                </li>
+                                <li
+                                  class="text-sm border-0 list-group-item ps-0"
+                                >
+                                  <strong class="text-dark">Potensi:</strong>
+                                  &nbsp;
+                                  <span v-html="kec.potensi"></span>
+                                </li>
+                                <li
+                                  class="text-sm border-0 list-group-item ps-0"
+                                >
+                                  <strong class="text-dark">Status:</strong>
+                                  &nbsp;
+                                  <span
+                                    class="badge badge-primary"
+                                    v-if="kec.status === 0"
+                                    >Sedang diproses</span
+                                  >
+                                  <span
+                                    class="badge badge-success"
+                                    v-else-if="kec.status === 1"
+                                    >Diterima</span
+                                  >
+                                  <span class="badge badge-danger" v-else
+                                    >Ditolak</span
+                                  >
+                                </li>
+                              </ul>
+                            </div>
+                            <div class="modal-footer"></div>
+                          </div>
+                        </div>
+                      </div>
                       <a
-                        class="me-3"
-                        href="javascript:;"
+                        :id="kec.id_kecamatan"
+                        :name="kec.nama"
+                        class="me-3 delete"
+                        href="#"
                         data-bs-toggle="tooltip"
                         data-bs-original-title="Hapus Kecamatan"
-                        title="Hapus"
+                        title="Hapus Kecamatan"
                       >
                         <i class="fas fa-trash text-danger"></i>
                       </a>
@@ -310,6 +393,7 @@ export default {
       "a$listAllKabupaten",
       "a$accKecamatan",
       "a$decKecamatan",
+      "a$deleteKecamatan",
     ]),
     ...mapActions(d$tema, ["a$listTema"]),
     ...mapActions(d$korwil, ["a$listKorwil"]),
@@ -332,6 +416,21 @@ export default {
           "failed-message",
           "Terjadi kesalahan saat memuat data! " + msg
         );
+      }
+    },
+
+    async deleteKecamatan(id_kecamatan) {
+      this.showSwal("loading");
+
+      try {
+        await this.a$deleteKecamatan(id_kecamatan);
+        await this.getListKecamatan();
+      } catch (error) {
+        console.log(error);
+        let msg = "";
+        if (error.error && error.error != undefined) msg = error.error;
+        else msg = error;
+        this.showSwal("failed-message", "Data gagal dihapus! " + msg);
       }
     },
 
@@ -436,6 +535,7 @@ export default {
         outerThis.accKecamatan(kec.id);
         e.preventDefault();
       });
+
       $("#wilayah-list").on("click", `.tolak`, function (e) {
         let kec = this;
         outerThis.showSwal(
@@ -443,6 +543,20 @@ export default {
           `Menolak pengajuan kecamatan ${kec.name}?`,
           "Berhasil memperbarui data",
           kec.id,
+          false,
+          false
+        );
+        e.preventDefault();
+      });
+
+      $("#wilayah-list").on("click", `.delete`, function (e) {
+        let kec = this;
+        outerThis.showSwal(
+          "warning-confirmation",
+          `Menghapus pengajuan kecamatan ${kec.name}?`,
+          "Berhasil menghapus data",
+          kec.id,
+          true,
           false
         );
         e.preventDefault();
@@ -471,7 +585,7 @@ export default {
       }
     },
 
-    showSwal(type, text, toastText, id_kecamatan, status) {
+    showSwal(type, text, toastText, id_kecamatan, isDelete = false, status) {
       if (type === "success-message") {
         this.$swal({
           icon: "success",
@@ -546,7 +660,8 @@ export default {
           },
         }).then((result) => {
           if (result.isConfirmed) {
-            if (status) this.accKecamatan(id_kecamatan);
+            if (isDelete) this.deleteKecamatan(id_kecamatan);
+            else if (!isDelete && status) this.accKecamatan(id_kecamatan);
             else this.decKecamatan(id_kecamatan);
             this.$swal({
               toast: true,

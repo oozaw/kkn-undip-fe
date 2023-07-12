@@ -103,6 +103,16 @@ const d$wilayah = defineStore("wilayahStore", {
         throw error;
       }
     },
+
+    async a$deleteKecamatan(id_kecamatan) {
+      try {
+        await s$wilayah.deleteKecamatan(id_kecamatan);
+        this.status = true;
+      } catch (error) {
+        this.status = false;
+        throw error;
+      }
+    },
   },
   getters: {
     g$listKabupaten: ({ listKabupaten }) => listKabupaten,
