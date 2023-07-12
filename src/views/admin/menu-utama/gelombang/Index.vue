@@ -298,9 +298,11 @@
                         <i class="fas fa-user-edit text-primary"></i>
                       </a>
                       <a
-                        href="javascript:;"
+                        :id="gelombang.id_gelombang"
+                        :name="gelombang.nama"
+                        href="#"
                         data-bs-toggle="tooltip"
-                        class="me-3"
+                        class="me-3 delete"
                         data-bs-original-title="Hapus Gelombang"
                         title="Hapus Gelombang"
                       >
@@ -417,6 +419,7 @@ export default {
       "a$listAllGelombang",
       "a$switchGelombang",
       "a$addGelombang",
+      "a$deleteGelombang",
     ]),
     ...mapActions(d$halaman, ["a$listHalaman"]),
 
@@ -461,6 +464,21 @@ export default {
         if (error.error && error.error != undefined) msg = error.error;
         else msg = error;
         this.showSwal("failed-message", "Data gagal diperbarui! " + msg);
+      }
+    },
+
+    async deleteGelombang(id_gelombang) {
+      this.showSwal("loading");
+
+      try {
+        await this.a$deleteGelombang(id_gelombang);
+        await this.getListGelombang();
+      } catch (error) {
+        console.log(error);
+        let msg = "";
+        if (error.error && error.error != undefined) msg = error.error;
+        else msg = error;
+        this.showSwal("failed-message", "Data gagal dihapus! " + msg);
       }
     },
 
@@ -526,6 +544,18 @@ export default {
         });
         e.preventDefault();
       });
+
+      $("#gelombang-list").on("click", `.delete`, function (e) {
+        let gelombang = this;
+        outerThis.showSwal(
+          "warning-confirmation",
+          `Menghapus gelombang ${gelombang.name}?`,
+          "Berhasil memperbarui data",
+          gelombang.id,
+          true
+        );
+        e.preventDefault();
+      });
     },
 
     setupDataTable() {
@@ -584,7 +614,7 @@ export default {
       }
     },
 
-    showSwal(type, text, toastText, id_gelombang) {
+    showSwal(type, text, toastText, id_gelombang, idDelete = false) {
       if (type === "success-message") {
         this.$swal({
           icon: "success",
@@ -656,7 +686,8 @@ export default {
           buttonsStyling: false,
         }).then((result) => {
           if (result.isConfirmed) {
-            this.switchGelombang(id_gelombang);
+            if (idDelete) this.deleteGelombang(id_gelombang);
+            else this.switchGelombang(id_gelombang);
             this.$swal({
               toast: true,
               position: "top-end",

@@ -27,6 +27,9 @@ const editGelombang = (id_gelombang, body) =>
 const switchGelombang = (id_gelombang) =>
   baseApi.patch(`${api}admin/gelombang/${id_gelombang}`);
 
+const deleteGelombang = (id_gelombang) =>
+  baseApi.delete(`${api}admin/gelombang/${id_gelombang}`);
+
 export {
   listAllGelombang,
   listGelombang,
@@ -36,4 +39,5 @@ export {
   addGelombang,
   editGelombang,
   switchGelombang,
+  deleteGelombang,
 };

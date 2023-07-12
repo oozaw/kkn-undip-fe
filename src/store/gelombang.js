@@ -126,6 +126,16 @@ const d$gelombang = defineStore("gelombangStore", {
         throw error;
       }
     },
+
+    async a$deleteGelombang(id_gelombang) {
+      try {
+        const status = await s$gelombang.deleteGelombang(id_gelombang);
+        this.status = status;
+      } catch (error) {
+        this.status = false;
+        throw error;
+      }
+    },
   },
   getters: {
     g$gelombang: ({ gelombang }) => gelombang,
