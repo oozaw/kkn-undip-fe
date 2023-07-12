@@ -165,6 +165,7 @@ export default {
       filterJenis,
       choicesJenis: undefined,
       choicesPeriode: undefined,
+      loader: undefined,
     };
   },
   computed: {

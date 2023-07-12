@@ -196,6 +196,7 @@ export default {
       choicesOptionTgl: undefined,
       id,
       optionTgl: "0",
+      loader: undefined,
     };
   },
   computed: {

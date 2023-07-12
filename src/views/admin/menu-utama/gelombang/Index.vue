@@ -389,6 +389,7 @@ export default {
         nama: "",
       },
       moment,
+      loader: undefined,
     };
   },
   computed: {

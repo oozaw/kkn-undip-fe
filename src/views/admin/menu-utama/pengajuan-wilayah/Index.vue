@@ -272,7 +272,6 @@
 import $ from "jquery";
 import { DataTable } from "simple-datatables";
 import Choices from "choices.js";
-import setTooltip from "@/assets/js/tooltip.js";
 import HeaderProfileCard from "@/views/dashboards/components/HeaderProfileCard.vue";
 import { mapActions, mapState } from "pinia";
 import d$wilayah from "@/store/wilayah";
@@ -292,6 +291,7 @@ export default {
       },
       choicesTema: undefined,
       tema: "",
+      loader: undefined,
     };
   },
   computed: {
@@ -300,13 +300,7 @@ export default {
     ...mapState(d$korwil, ["g$listKorwil"]),
   },
   async created() {
-    await this.a$listTema();
-    this.tema = this.g$listTemaActive[0].id_tema;
-    await this.a$listKorwil();
-    await this.getListKecamatan();
-    this.choicesTema = this.getChoices("choices-tema");
-
-    setTooltip(this.$store.state.bootstrap);
+    await this.getInitData();
   },
   beforeUnmount() {
     if (this.choicesTema) this.choicesTema.destroy();
@@ -320,7 +314,30 @@ export default {
     ...mapActions(d$tema, ["a$listTema"]),
     ...mapActions(d$korwil, ["a$listKorwil"]),
 
+    async getInitData() {
+      this.indexComponent++;
+
+      try {
+        await this.a$listTema();
+        this.tema = this.g$listTemaActive[0].id_tema;
+        await this.a$listKorwil();
+        await this.getListKecamatan();
+        this.choicesTema = this.getChoices("choices-tema");
+      } catch (error) {
+        console.log(error);
+        let msg = "";
+        if (error.error && error.error != undefined) msg = error.error;
+        else msg = error;
+        this.showSwal(
+          "failed-message",
+          "Terjadi kesalahan saat memuat data! " + msg
+        );
+      }
+    },
+
     async getListKecamatan() {
+      this.showLoading(true);
+
       this.tema = parseInt(this.tema);
       this.indexComponent++;
 
@@ -342,6 +359,8 @@ export default {
       this.g$listKecamatan.forEach((kec) => {
         this.getChoices(`choices-korwil-${kec.id_kecamatan}`);
       });
+
+      this.showLoading(false);
     },
 
     async accKecamatan(id_kecamatan) {
@@ -438,6 +457,17 @@ export default {
           allowHTML: true,
           shouldSort: false,
         });
+      }
+    },
+
+    showLoading(isLoading) {
+      if (isLoading && !this.loader) {
+        this.loader = this.$loading.show();
+      } else if (!isLoading && this.loader) {
+        setTimeout(() => {
+          this.loader.hide();
+          this.loader = undefined;
+        }, 400);
       }
     },
 
