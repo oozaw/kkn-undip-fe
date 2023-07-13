@@ -15,7 +15,7 @@
               :events="listEvent"
               :initial-date="initialDate"
             />
-            <div class="mt-4">
+            <div class="mt-4" v-if="g$user.role === 'MAHASISWA'">
               <timeline-list
                 v-if="listPengumuman != undefined"
                 class="h-100"
@@ -54,16 +54,62 @@
               <mini-statistics-card
                 v-if="g$user.role === 'DOSEN' || g$user.role === 'BAPPEDA'"
                 :style="'margin-left: 70%'"
+                role="button"
                 title="Data Diri"
                 title-color="primary"
-                :value="{ text: 'Sudah Lengkap', color: 'success' }"
-                description="Terakhir diubah 12/12/2020, 12.30 PM"
+                :value="{
+                  text:
+                    checkProgressDataDiriDosen() == 100
+                      ? `Sudah Lengkap (${checkProgressDataDiriDosen()}%)`
+                      : `Belum Lengkap (${checkProgressDataDiriDosen()}%)`,
+                  color:
+                    checkProgressDataDiriDosen() == 100 ? 'success' : 'danger',
+                }"
                 :icon="{
                   component: 'fa-solid fa-address-card',
                   background: 'bg-gradient-primary',
                   shape: 'rounded-circle',
                 }"
+                @click="() => $router.push({ name: 'Edit Data Diri' })"
               />
+              <mini-statistics-card
+                v-if="g$user.role === 'DOSEN' || g$user.role === 'BAPPEDA'"
+                :style="'margin-left: 70%'"
+                role="button"
+                title="Daftar Lokasi KKN"
+                title-color="primary"
+                :isValueList="true"
+                :value="{
+                  list: listWilayahDosen,
+                  color: 'dark',
+                }"
+                :icon="{
+                  component: 'fa-solid fa-map-location-dot',
+                  background: 'bg-gradient-danger',
+                  shape: 'rounded-circle',
+                }"
+                @click="() => $router.push({ name: 'Registrasi' })"
+              />
+              <div
+                class="mt-2"
+                v-if="g$user.role === 'DOSEN' || g$user.role === 'BAPPEDA'"
+              >
+                <timeline-list
+                  v-if="listPengumuman != undefined"
+                  class="h-100"
+                  title="Pengumuman KKN"
+                >
+                  <timeline-item
+                    v-for="pengumuman in listPengumuman"
+                    :key="pengumuman.id_pengumuman"
+                    :title="pengumuman.judul"
+                    :date-time="
+                      moment(pengumuman.created_at).format('DD MMMM YYYY')
+                    "
+                    :description="pengumuman.isi"
+                  />
+                </timeline-list>
+              </div>
               <div class="row">
                 <div class="col-lg-6 col-md-6 col-12">
                   <mini-statistics-card
@@ -75,7 +121,7 @@
                     :value="{
                       text:
                         checkProgressDataDiriMhs() == 100
-                          ? `Sudah Lengkap (${checkProgressLRK()}%)`
+                          ? `Sudah Lengkap (${checkProgressDataDiriMhs()}%)`
                           : `Belum Lengkap (${checkProgressDataDiriMhs()}%)`,
                       color:
                         checkProgressDataDiriMhs() == 100
@@ -184,6 +230,94 @@
                     :icon="{
                       component: 'fa-solid fa-list-check',
                       background: 'bg-gradient-warning',
+                      shape: 'rounded-circle',
+                    }"
+                  />
+                </div>
+                <div class="col-lg-6 col-md-6 col-12">
+                  <mini-statistics-card
+                    v-if="g$user.role === 'ADMIN'"
+                    :style="'margin-left: 70%'"
+                    title="Total Mahasiswa"
+                    :value="{ text: total.mahasiswa, color: 'success' }"
+                    :description="`Dari total ${total.temaActive} tema aktif`"
+                    :icon="{
+                      component: 'fa-solid fa-users',
+                      background: 'bg-gradient-info',
+                      shape: 'rounded-circle',
+                    }"
+                  />
+                </div>
+                <div class="col-lg-6 col-md-6 col-12">
+                  <mini-statistics-card
+                    v-if="g$user.role === 'ADMIN'"
+                    :style="'margin-left: 70%'"
+                    title="Total Mahasiswa Terdaftar"
+                    :value="{
+                      text: total.mahasiswaRegistered,
+                      color: 'success',
+                    }"
+                    :description="`Dari total ${total.temaActive} tema aktif`"
+                    :icon="{
+                      component: 'fa-solid fa-users',
+                      background: 'bg-gradient-primary',
+                      shape: 'rounded-circle',
+                    }"
+                  />
+                </div>
+                <div class="col-lg-6 col-md-6 col-12">
+                  <mini-statistics-card
+                    v-if="g$user.role === 'ADMIN'"
+                    :style="'margin-left: 70%'"
+                    title="Total BAPPEDA"
+                    :value="{ text: total.bappeda, color: 'success' }"
+                    :description="`Dari total ${total.temaActive} tema aktif`"
+                    :icon="{
+                      component: 'fa-solid fa-users',
+                      background: 'bg-gradient-danger',
+                      shape: 'rounded-circle',
+                    }"
+                  />
+                </div>
+                <div class="col-lg-6 col-md-6 col-12">
+                  <mini-statistics-card
+                    v-if="g$user.role === 'ADMIN'"
+                    :style="'margin-left: 70%'"
+                    title="Total Dosen"
+                    :value="{ text: total.dosen, color: 'success' }"
+                    :description="`Dari total ${total.temaActive} tema aktif`"
+                    :icon="{
+                      component: 'fa-solid fa-users',
+                      background: 'bg-gradient-secondary',
+                      shape: 'rounded-circle',
+                    }"
+                  />
+                </div>
+                <div class="col-lg-6 col-md-6 col-12">
+                  <mini-statistics-card
+                    v-if="g$user.role === 'ADMIN'"
+                    :style="'margin-left: 70%'"
+                    title="Total Reviewer"
+                    :value="{ text: total.reviewer, color: 'success' }"
+                    :icon="{
+                      component: 'fa-solid fa-users',
+                      background: 'bg-gradient-success',
+                      shape: 'rounded-circle',
+                    }"
+                  />
+                </div>
+                <div class="col-lg-6 col-md-6 col-12">
+                  <mini-statistics-card
+                    v-if="g$user.role === 'ADMIN'"
+                    :style="'margin-left: 70%'"
+                    title="Total Pimpinan"
+                    :value="{
+                      text: total.pimpinan,
+                      color: 'success',
+                    }"
+                    :icon="{
+                      component: 'fa-solid fa-users',
+                      background: 'bg-gradient-dark',
                       shape: 'rounded-circle',
                     }"
                   />
@@ -301,6 +435,12 @@ import d$laporan from "@/store/laporan";
 import d$tema from "@/store/tema";
 import d$event from "@/store/event";
 import d$pengumuman from "@/store/pengumuman";
+import d$proposal from "@/store/proposal";
+import d$mahasiswa from "@/store/mahasiswa";
+import d$dosen from "@/store/dosen";
+import d$reviewer from "@/store/reviewer";
+import d$bappeda from "@/store/bappeda";
+import d$pimpinan from "@/store/pimpinan";
 
 export default {
   name: "Dashboard",
@@ -326,11 +466,19 @@ export default {
         kabupaten: 0,
         kecamatan: 0,
         desa: 0,
+        mahasiswa: 0,
+        mahasiswaRegistered: 0,
+        dosen: 0,
+        pimpinan: 0,
+        bappeda: 0,
+        reviewer: 0,
       },
       initialDate: "",
       listEvent: undefined,
       listPengumuman: undefined,
+      listWilayahDosen: undefined,
       moment,
+      progresDataDiri: 0,
     };
   },
   computed: {
@@ -340,6 +488,12 @@ export default {
     ...mapState(d$tema, ["g$listTemaActive"]),
     ...mapState(d$event, ["g$listEvent"]),
     ...mapState(d$pengumuman, ["g$listPengumuman"]),
+    ...mapState(d$proposal, ["g$listProposal"]),
+    ...mapState(d$mahasiswa, ["g$listMahasiswa"]),
+    ...mapState(d$dosen, ["g$listDosen"]),
+    ...mapState(d$reviewer, ["g$listReviewer"]),
+    ...mapState(d$bappeda, ["g$listBappeda"]),
+    ...mapState(d$pimpinan, ["g$listPimpinan"]),
   },
   async created() {
     this.moment.locale("id");
@@ -363,8 +517,8 @@ export default {
         this.listPengumuman = this.g$listPengumuman;
 
         // progress
-        this.checkProgressDataDiriMhs();
-        this.checkProgressLRK();
+        // this.checkProgressDataDiriMhs();
+        // this.checkProgressLRK();
         break;
 
       case "ADMIN":
@@ -375,9 +529,30 @@ export default {
         await this.a$listAllEvent();
         this.parsingEvents();
 
+        // total
+        await this.getTotalMahasiswa();
+        await this.getTotalDosen();
+        await this.getTotalPimpinan();
+        await this.getTotalBappeda();
+        await this.getTotalReviewer();
+
         // pengumuman
         await this.a$listAllPengumuman();
         this.listPengumuman = this.g$listPengumuman;
+        break;
+
+      case "DOSEN":
+        // kegiatan
+        await this.a$listDosenEvent();
+        this.parsingEvents();
+
+        // wilayah
+        await this.getListWilayahDosen();
+
+        // pengumuman
+        await this.a$listMahasiswaPengumuman();
+        this.listPengumuman = this.g$listPengumuman;
+
         break;
 
       default:
@@ -429,6 +604,12 @@ export default {
       "a$listDosenPengumuman",
       "a$listBappedaPengumuman",
     ]),
+    ...mapActions(d$proposal, ["a$listAllProposalDosen"]),
+    ...mapActions(d$mahasiswa, ["a$listMahasiswa", "a$listMahasiswaAccepted"]),
+    ...mapActions(d$dosen, ["a$listDosen"]),
+    ...mapActions(d$reviewer, ["a$listReviewer"]),
+    ...mapActions(d$bappeda, ["a$listBappeda"]),
+    ...mapActions(d$pimpinan, ["a$listPimpinan"]),
 
     async getDosenAndLokasi() {
       try {
@@ -452,6 +633,29 @@ export default {
       }
     },
 
+    async getListWilayahDosen() {
+      try {
+        await this.a$listAllProposalDosen();
+        this.listWilayahDosen = [];
+        this.g$listProposal.forEach((item) => {
+          if (item.status == 1)
+            this.listWilayahDosen.push(
+              `Kec. ${item.kecamatan.nama}, Kab. ${item.kecamatan.kabupaten.nama}`
+            );
+        });
+        console.log(this.listWilayahDosen);
+      } catch (error) {
+        console.log(error);
+        let msg = "";
+        if (error.error && error.error != undefined) msg = error.error;
+        else msg = error;
+        this.showSwal(
+          "failed-message",
+          "Terjadi kesalahan saat memuat data! " + msg
+        );
+      }
+    },
+
     async getDataTema() {
       try {
         await this.a$listTema();
@@ -463,6 +667,88 @@ export default {
         });
       } catch (error) {
         console.log(error);
+      }
+    },
+
+    async getTotalMahasiswa() {
+      try {
+        await this.a$listMahasiswa();
+        this.total.mahasiswa = this.g$listMahasiswa.length;
+        await this.a$listMahasiswaAccepted();
+        this.total.mahasiswaRegistered = this.g$listMahasiswa.length;
+      } catch (error) {
+        console.log(error);
+        let msg = "";
+        if (error.error && error.error != undefined) msg = error.error;
+        else msg = error;
+        this.showSwal(
+          "failed-message",
+          "Terjadi kesalahan saat memuat data! " + msg
+        );
+      }
+    },
+
+    async getTotalDosen() {
+      try {
+        await this.a$listDosen();
+        this.total.dosen = this.g$listDosen.length;
+      } catch (error) {
+        console.log(error);
+        let msg = "";
+        if (error.error && error.error != undefined) msg = error.error;
+        else msg = error;
+        this.showSwal(
+          "failed-message",
+          "Terjadi kesalahan saat memuat data! " + msg
+        );
+      }
+    },
+
+    async getTotalReviewer() {
+      try {
+        await this.a$listReviewer();
+        this.total.reviewer = this.g$listReviewer.length;
+      } catch (error) {
+        console.log(error);
+        let msg = "";
+        if (error.error && error.error != undefined) msg = error.error;
+        else msg = error;
+        this.showSwal(
+          "failed-message",
+          "Terjadi kesalahan saat memuat data! " + msg
+        );
+      }
+    },
+
+    async getTotalBappeda() {
+      try {
+        await this.a$listBappeda();
+        this.total.bappeda = this.g$listBappeda.length;
+      } catch (error) {
+        console.log(error);
+        let msg = "";
+        if (error.error && error.error != undefined) msg = error.error;
+        else msg = error;
+        this.showSwal(
+          "failed-message",
+          "Terjadi kesalahan saat memuat data! " + msg
+        );
+      }
+    },
+
+    async getTotalPimpinan() {
+      try {
+        await this.a$listPimpinan();
+        this.total.pimpinan = this.g$listPimpinan.length;
+      } catch (error) {
+        console.log(error);
+        let msg = "";
+        if (error.error && error.error != undefined) msg = error.error;
+        else msg = error;
+        this.showSwal(
+          "failed-message",
+          "Terjadi kesalahan saat memuat data! " + msg
+        );
       }
     },
 
@@ -501,6 +787,27 @@ export default {
         ) {
           // console.log(Object.keys(this.g$infoUser)[index]);
           // console.log(this.g$infoUser[Object.keys(this.g$infoUser)[index]]);
+          attributeFilled++;
+        }
+      }
+
+      return this.percentage(attributeFilled, totalAttributeMustBeFilled);
+    },
+
+    checkProgressDataDiriDosen() {
+      let totalAttribute = Object.keys(this.g$infoUser).length;
+      let totalAttributeMustBeFilled = Object.keys(this.g$infoUser).length - 5;
+      let indexMustNotBeFilled = [0, 1, 2, 9, 10];
+      let attributeFilled = 0;
+
+      for (let index = 0; index < totalAttribute; index++) {
+        if (indexMustNotBeFilled.includes(index)) continue;
+
+        if (
+          !this.isNullEmptyOrUndefined(
+            this.g$infoUser[Object.keys(this.g$infoUser)[index]]
+          )
+        ) {
           attributeFilled++;
         }
       }
