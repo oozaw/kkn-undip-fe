@@ -17,6 +17,9 @@ const editReportase = (id_reportase, body) =>
 
 const evalReportase = (body) => baseApi.put(`${api}dosen/reportase`, body);
 
+const deleteReportase = (id_reportase) =>
+  baseApi.delete(`${api}reportase/${id_reportase}`);
+
 export {
   listReportase,
   listReportaseKecamatan,
@@ -24,4 +27,5 @@ export {
   getReportase,
   editReportase,
   evalReportase,
+  deleteReportase,
 };

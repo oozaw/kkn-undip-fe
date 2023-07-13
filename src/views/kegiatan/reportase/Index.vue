@@ -168,9 +168,13 @@
                           <i class="fas fa-user-edit text-primary"></i>
                         </a>
                         <a
-                          href="javascript:;"
+                          :id="report.id_reportase"
+                          :name="report.judul"
+                          class="delete"
+                          href="#"
                           data-bs-toggle="tooltip"
-                          data-bs-original-title="Delete product"
+                          data-bs-original-title="Hapus Reportase"
+                          title="Hapus Reportase"
                         >
                           <i class="fas fa-trash text-danger"></i>
                         </a>
@@ -429,7 +433,10 @@
                           <i class="fas fa-user-edit text-primary"></i>
                         </a>
                         <a
-                          href="javascript:;"
+                          :id="reportase.id_reportase"
+                          :name="reportase.mahasiswa.nama"
+                          class="delete"
+                          href="#"
                           data-bs-toggle="tooltip"
                           data-bs-original-title="Delete product"
                         >
@@ -464,7 +471,6 @@ import $ from "jquery";
 import { DataTable } from "simple-datatables";
 import moment from "moment";
 import Choices from "choices.js";
-// import setTooltip from "@/assets/js/tooltip.js";
 import HeaderProfileCard from "@/views/dashboards/components/HeaderProfileCard.vue";
 import { mapActions, mapState } from "pinia";
 import d$auth from "@/store/auth";
@@ -486,6 +492,7 @@ export default {
       choicesTema: undefined,
       choicesKec: undefined,
       moment,
+      loader: undefined,
     };
   },
   computed: {
@@ -495,6 +502,8 @@ export default {
     ...mapState(d$proposal, ["g$listProposal"]),
   },
   async created() {
+    this.showLoading(true);
+
     if (this.g$user.role === "MAHASISWA") await this.getListReportaseMhs();
     else if (this.g$user.role === "DOSEN") {
       await this.getInitData();
@@ -503,8 +512,6 @@ export default {
 
       this.getTema();
     }
-
-    // setTooltip(this.$store.state.bootstrap);
   },
   beforeUnmount() {
     if (this.choicesTema) this.choicesTema.destroy();
@@ -513,7 +520,11 @@ export default {
   methods: {
     ...mapActions(d$tema, ["a$listTemaDosen"]),
     ...mapActions(d$proposal, ["a$listProposalDosen"]),
-    ...mapActions(d$reportase, ["a$listReportase", "a$listReportaseKecamatan"]),
+    ...mapActions(d$reportase, [
+      "a$listReportase",
+      "a$listReportaseKecamatan",
+      "a$deleteReportase",
+    ]),
 
     async getInitData() {
       try {
@@ -536,6 +547,8 @@ export default {
     },
 
     async getListReportaseDosen() {
+      this.showLoading(true);
+
       this.indexComponent++;
       this.id_kecamatan = parseInt(this.id_kecamatan);
 
@@ -554,6 +567,8 @@ export default {
 
       this.setupDataTable("reportase-dosen-section-list");
       this.setupTableAction();
+
+      this.showLoading(false);
     },
 
     async getListKecamatan() {
@@ -577,6 +592,8 @@ export default {
     },
 
     async getListReportaseMhs() {
+      this.showLoading(true);
+
       this.indexComponent++;
 
       try {
@@ -594,6 +611,25 @@ export default {
 
       this.setupDataTable("reportase-list");
       this.setupTableAction();
+
+      this.showLoading(false);
+    },
+
+    async deleteReportase(id_reportase) {
+      this.showSwal("loading");
+
+      try {
+        await this.a$deleteReportase(id_reportase);
+        if (this.g$user.role === "MAHASISWA") await this.getListReportaseMhs();
+        else if (this.g$user.role === "DOSEN")
+          await this.getListReportaseDosen();
+      } catch (error) {
+        console.log(error);
+        let msg = "";
+        if (error.error && error.error != undefined) msg = error.error;
+        else msg = error;
+        this.showSwal("failed-message", "Data gagal dihapus! " + msg);
+      }
     },
 
     setupTableAction() {
@@ -626,6 +662,29 @@ export default {
           name: "Evaluasi Reportase",
           params: { id_reportase: reportase.id },
         });
+        e.preventDefault();
+      });
+
+      // delete
+      $("#reportase-list").on("click", `.delete`, function (e) {
+        let reportase = this;
+        outerThis.showSwal(
+          "warning-confirmation",
+          `Hapus reportase  ${reportase.name}?`,
+          "Berhasil menghapus data",
+          reportase.id
+        );
+        e.preventDefault();
+      });
+
+      $("#reportase-dosen-section-list").on("click", `.delete`, function (e) {
+        let reportase = this;
+        outerThis.showSwal(
+          "warning-confirmation",
+          `Hapus reportase mahasiswa ${reportase.name}?`,
+          "Berhasil menghapus data",
+          reportase.id
+        );
         e.preventDefault();
       });
     },
@@ -727,10 +786,6 @@ export default {
 
       var output = temp.html();
       return output;
-      // var div = document.createElement("div");
-      // div.innerHTML = element;
-      // var text = div.textContent || div.innerHTML || "";
-      // return text;
     },
 
     getTema() {
@@ -738,7 +793,18 @@ export default {
         document.getElementById("choices-tema").selectedOptions[0].text;
     },
 
-    showSwal(type, text) {
+    showLoading(isLoading) {
+      if (isLoading && !this.loader) {
+        this.loader = this.$loading.show();
+      } else if (!isLoading && this.loader) {
+        setTimeout(() => {
+          this.loader.hide();
+          this.loader = undefined;
+        }, 400);
+      }
+    },
+
+    showSwal(type, text, toastText, id_reportase) {
       if (type === "success-message") {
         this.$swal({
           icon: "success",
@@ -795,6 +861,43 @@ export default {
           willClose: () => {
             clearInterval(timerInterval);
           },
+        });
+      } else if (type === "warning-confirmation") {
+        this.$swal({
+          title: "Apakah Anda yakin?",
+          text: text,
+          showCancelButton: true,
+          confirmButtonText: "Ya!",
+          cancelButtonText: "Batal!",
+          customClass: {
+            confirmButton: "btn bg-gradient-success",
+            cancelButton: "btn bg-gradient-secondary",
+          },
+          buttonsStyling: false,
+          didOpen: () => {
+            this.$swal.hideLoading();
+          },
+        }).then((result) => {
+          if (result.isConfirmed) {
+            this.deleteReportase(id_reportase);
+            this.$swal({
+              toast: true,
+              position: "top-end",
+              title: toastText,
+              icon: "success",
+              showConfirmButton: false,
+              timer: 2500,
+              timerProgressBar: true,
+              didOpen: () => {
+                this.$swal.hideLoading();
+              },
+            });
+          } else if (
+            /* Read more about handling dismissals below */
+            result.dismiss === this.$swal.DismissReason.cancel
+          ) {
+            this.$swal.close();
+          }
         });
       } else if (type === "loading") {
         this.$swal({

@@ -44,199 +44,198 @@
               </select>
             </div>
           </div>
-          <div class="bg-white card mt-4">
-            <!-- Card header -->
-            <div class="pb-0 card-header">
-              <div class="d-lg-flex">
-                <div>
-                  <h5 class="mb-2">Data Reportase</h5>
-                  <p class="text-sm mb-0">
-                    Data reportase program mahasiswa KKN
-                  </p>
-                </div>
-                <div class="my-auto mt-4 ms-auto mt-lg-0">
-                  <div class="my-auto ms-auto">
-                    <button
-                      class="mt-2 mb-0 btn btn-outline-success btn-sm export-reportase mt-sm-0"
-                      data-type="csv"
-                      type="button"
-                      name="button"
-                    >
-                      Ekspor
-                    </button>
-                  </div>
+        </div>
+        <div class="bg-white card mt-4">
+          <!-- Card header -->
+          <div class="pb-0 card-header">
+            <div class="d-lg-flex">
+              <div>
+                <h5 class="mb-2">Data Reportase</h5>
+                <p class="text-sm mb-0">Data reportase program mahasiswa KKN</p>
+              </div>
+              <div class="my-auto mt-4 ms-auto mt-lg-0">
+                <div class="my-auto ms-auto">
+                  <button
+                    class="mt-2 mb-0 btn btn-outline-success btn-sm export-reportase mt-sm-0"
+                    data-type="csv"
+                    type="button"
+                    name="button"
+                  >
+                    Ekspor
+                  </button>
                 </div>
               </div>
             </div>
-            <div class="ms-2 pt-1 px-0 pb-0 card-body">
-              <div class="table-responsive" :key="indexComponent">
-                <table id="reportase-list" class="table table-flush">
-                  <thead class="thead-light">
-                    <tr>
-                      <th class="col-1 ps-2">No.</th>
-                      <th>Nama</th>
-                      <th>NIM</th>
-                      <th>Judul Program</th>
-                      <th>Kategori Program</th>
-                      <th>Tanggal Unggah</th>
-                      <th>Action</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr
-                      v-for="(reportase, i) in g$listReportase"
-                      :key="reportase.id_reportase"
-                    >
-                      <td class="text-sm ps-3">{{ i + 1 }}</td>
-                      <td class="ms-0 px-0">
-                        <h6 class="my-auto">{{ reportase.mahasiswa.nama }}</h6>
-                      </td>
-                      <td class="text-sm">{{ reportase.mahasiswa.nim }}</td>
-                      <td class="text-sm">{{ reportase.judul }}</td>
-                      <td class="text-sm">
-                        {{
-                          reportase.kategori == 1
-                            ? "Monodisiplin"
-                            : "Multidisiplin"
-                        }}
-                      </td>
-                      <td class="text-sm">
-                        {{ moment(reportase.created_at).format("DD-MM-YYYY") }}
-                      </td>
-                      <td class="text-sm">
-                        <a
-                          type="button"
-                          class="mb-0 me-3 text-primary"
-                          data-bs-toggle="modal"
-                          :data-bs-target="'#detail_' + reportase.id_reportase"
-                          title="Detail Reportase"
-                        >
-                          <i class="fas fa-eye text-info"></i>
-                        </a>
-                        <div
-                          :id="'detail_' + reportase.id_reportase"
-                          class="modal fade"
-                          tabindex="-1"
-                          aria-hidden="true"
-                        >
-                          <div class="modal-dialog modal-lg mt-lg-5">
-                            <div class="modal-content">
-                              <div class="modal-header">
-                                <h5 id="ModalLabel" class="modal-title">
-                                  Detail Reportase
-                                  {{ reportase.mahasiswa.nama }}
-                                </h5>
-                                <button
-                                  type="button"
-                                  class="btn-close text-dark mb-0"
-                                  data-bs-dismiss="modal"
-                                  aria-label="Close"
-                                >
-                                  <font-awesome-icon icon="fa-solid fa-xmark" />
-                                </button>
-                              </div>
-                              <div class="modal-body p-4">
-                                <ul class="list-group">
-                                  <li
-                                    class="pt-0 text-sm border-0 list-group-item ps-0"
-                                  >
-                                    <strong class="text-dark"
-                                      >Nama Lengkap:</strong
-                                    >
-                                    &nbsp;
-                                    {{ reportase.mahasiswa.nama }}
-                                  </li>
-                                  <li
-                                    class="text-sm border-0 list-group-item ps-0"
-                                  >
-                                    <strong class="text-dark">NIM:</strong>
-                                    &nbsp;
-                                    {{ reportase.mahasiswa.nim }}
-                                  </li>
-                                  <li
-                                    class="text-sm border-0 list-group-item ps-0"
-                                  >
-                                    <strong class="text-dark">Fakultas:</strong>
-                                    &nbsp;
-                                    {{
-                                      reportase.mahasiswa.prodi.fakultas.nama
-                                    }}
-                                  </li>
-                                  <li
-                                    class="text-sm border-0 list-group-item ps-0"
-                                  >
-                                    <strong class="text-dark">Prodi:</strong>
-                                    &nbsp;
-                                    {{ reportase.mahasiswa.prodi.nama }}
-                                  </li>
-                                  <li
-                                    class="text-sm border-0 list-group-item ps-0"
-                                  >
-                                    <strong class="text-dark">Judul:</strong>
-                                    &nbsp;
-                                    {{ reportase.judul }}
-                                  </li>
-                                  <li
-                                    class="text-sm border-0 list-group-item ps-0"
-                                  >
-                                    <strong class="text-dark">Kategori:</strong>
-                                    &nbsp;
-                                    {{
-                                      reportase.kategori == 1
-                                        ? "Monodisiplin"
-                                        : "Multidisiplin"
-                                    }}
-                                  </li>
-                                  <li
-                                    class="text-sm border-0 list-group-item ps-0"
-                                  >
-                                    <strong class="text-dark">Isi:</strong>
-                                    &nbsp;
-                                    <div
-                                      class="text-wrap"
-                                      v-html="getOutOfTagP(reportase.isi)"
-                                    ></div>
-                                  </li>
-                                  <li class="border-0 list-group-item ps-0">
-                                    <strong class="text-sm text-dark"
-                                      >Komentar:</strong
-                                    >
-                                    &nbsp;
-                                    <div
-                                      class="text-wrap"
-                                      v-html="getOutOfTagP(reportase.komentar)"
-                                    ></div>
-                                  </li>
-                                </ul>
-                              </div>
-                              <div class="modal-footer"></div>
+          </div>
+          <div class="ms-2 pt-1 px-0 pb-0 card-body">
+            <div class="table-responsive" :key="indexComponent">
+              <table id="reportase-list" class="table table-flush">
+                <thead class="thead-light">
+                  <tr>
+                    <th class="col-1 ps-2">No.</th>
+                    <th>Nama</th>
+                    <th>NIM</th>
+                    <th>Judul Program</th>
+                    <th>Kategori Program</th>
+                    <th>Tanggal Unggah</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr
+                    v-for="(reportase, i) in g$listReportase"
+                    :key="reportase.id_reportase"
+                  >
+                    <td class="text-sm ps-3">{{ i + 1 }}</td>
+                    <td class="ms-0 px-0">
+                      <h6 class="my-auto">{{ reportase.mahasiswa.nama }}</h6>
+                    </td>
+                    <td class="text-sm">{{ reportase.mahasiswa.nim }}</td>
+                    <td class="text-sm">{{ reportase.judul }}</td>
+                    <td class="text-sm">
+                      {{
+                        reportase.kategori == 1
+                          ? "Monodisiplin"
+                          : "Multidisiplin"
+                      }}
+                    </td>
+                    <td class="text-sm">
+                      {{ moment(reportase.created_at).format("DD-MM-YYYY") }}
+                    </td>
+                    <td class="text-sm">
+                      <a
+                        type="button"
+                        class="mb-0 me-3 text-primary"
+                        data-bs-toggle="modal"
+                        :data-bs-target="'#detail_' + reportase.id_reportase"
+                        title="Detail Reportase"
+                      >
+                        <i class="fas fa-eye text-info"></i>
+                      </a>
+                      <div
+                        :id="'detail_' + reportase.id_reportase"
+                        class="modal fade"
+                        tabindex="-1"
+                        aria-hidden="true"
+                      >
+                        <div class="modal-dialog modal-lg mt-lg-5">
+                          <div class="modal-content">
+                            <div class="modal-header">
+                              <h5 id="ModalLabel" class="modal-title">
+                                Detail Reportase
+                                {{ reportase.mahasiswa.nama }}
+                              </h5>
+                              <button
+                                type="button"
+                                class="btn-close text-dark mb-0"
+                                data-bs-dismiss="modal"
+                                aria-label="Close"
+                              >
+                                <font-awesome-icon icon="fa-solid fa-xmark" />
+                              </button>
                             </div>
+                            <div class="modal-body p-4">
+                              <ul class="list-group">
+                                <li
+                                  class="pt-0 text-sm border-0 list-group-item ps-0"
+                                >
+                                  <strong class="text-dark"
+                                    >Nama Lengkap:</strong
+                                  >
+                                  &nbsp;
+                                  {{ reportase.mahasiswa.nama }}
+                                </li>
+                                <li
+                                  class="text-sm border-0 list-group-item ps-0"
+                                >
+                                  <strong class="text-dark">NIM:</strong>
+                                  &nbsp;
+                                  {{ reportase.mahasiswa.nim }}
+                                </li>
+                                <li
+                                  class="text-sm border-0 list-group-item ps-0"
+                                >
+                                  <strong class="text-dark">Fakultas:</strong>
+                                  &nbsp;
+                                  {{ reportase.mahasiswa.prodi.fakultas.nama }}
+                                </li>
+                                <li
+                                  class="text-sm border-0 list-group-item ps-0"
+                                >
+                                  <strong class="text-dark">Prodi:</strong>
+                                  &nbsp;
+                                  {{ reportase.mahasiswa.prodi.nama }}
+                                </li>
+                                <li
+                                  class="text-sm border-0 list-group-item ps-0"
+                                >
+                                  <strong class="text-dark">Judul:</strong>
+                                  &nbsp;
+                                  {{ reportase.judul }}
+                                </li>
+                                <li
+                                  class="text-sm border-0 list-group-item ps-0"
+                                >
+                                  <strong class="text-dark">Kategori:</strong>
+                                  &nbsp;
+                                  {{
+                                    reportase.kategori == 1
+                                      ? "Monodisiplin"
+                                      : "Multidisiplin"
+                                  }}
+                                </li>
+                                <li
+                                  class="text-sm border-0 list-group-item ps-0"
+                                >
+                                  <strong class="text-dark">Isi:</strong>
+                                  &nbsp;
+                                  <div
+                                    class="text-wrap"
+                                    v-html="getOutOfTagP(reportase.isi)"
+                                  ></div>
+                                </li>
+                                <li class="border-0 list-group-item ps-0">
+                                  <strong class="text-sm text-dark"
+                                    >Komentar:</strong
+                                  >
+                                  &nbsp;
+                                  <div
+                                    class="text-wrap"
+                                    v-html="getOutOfTagP(reportase.komentar)"
+                                  ></div>
+                                </li>
+                              </ul>
+                            </div>
+                            <div class="modal-footer"></div>
                           </div>
                         </div>
-                        <a
-                          href="javascript:;"
-                          data-bs-toggle="tooltip"
-                          data-bs-original-title="Hapus Reportase"
-                          title="Hapus Reportase"
-                        >
-                          <i class="fas fa-trash text-danger"></i>
-                        </a>
-                      </td>
-                    </tr>
-                  </tbody>
-                  <tfoot>
-                    <tr>
-                      <th class="col-1 ps-2">No.</th>
-                      <th>Nama</th>
-                      <th>NIM</th>
-                      <th>Judul Program</th>
-                      <th>Kategori Program</th>
-                      <th>Tanggal</th>
-                      <th>Action</th>
-                    </tr>
-                  </tfoot>
-                </table>
-              </div>
+                      </div>
+                      <a
+                        :id="reportase.id_reportase"
+                        :name="reportase.mahasiswa.nama"
+                        class="delete"
+                        href="#"
+                        data-bs-toggle="tooltip"
+                        data-bs-original-title="Hapus Reportase"
+                        title="Hapus Reportase"
+                      >
+                        <i class="fas fa-trash text-danger"></i>
+                      </a>
+                    </td>
+                  </tr>
+                </tbody>
+                <tfoot>
+                  <tr>
+                    <th class="col-1 ps-2">No.</th>
+                    <th>Nama</th>
+                    <th>NIM</th>
+                    <th>Judul Program</th>
+                    <th>Kategori Program</th>
+                    <th>Tanggal</th>
+                    <th>Action</th>
+                  </tr>
+                </tfoot>
+              </table>
             </div>
           </div>
         </div>
@@ -250,7 +249,6 @@ import $ from "jquery";
 import moment from "moment";
 import { DataTable } from "simple-datatables";
 import Choices from "choices.js";
-import setTooltip from "@/assets/js/tooltip.js";
 import HeaderProfileCard from "@/views/dashboards/components/HeaderProfileCard.vue";
 import { mapActions, mapState } from "pinia";
 import d$tema from "@/store/tema";
@@ -270,6 +268,7 @@ export default {
       choicesTema: undefined,
       choicesLokasi: undefined,
       moment: moment,
+      loader: undefined,
     };
   },
   computed: {
@@ -278,11 +277,11 @@ export default {
     ...mapState(d$reportase, ["g$listReportase"]),
   },
   async created() {
+    this.showLoading(true);
+
     await this.getInitData();
 
     this.choicesTema = this.getChoices("choices-tema");
-
-    setTooltip(this.$store.state.bootstrap);
   },
   beforeUnmount() {
     if (this.choicesTema) this.choicesTema.destroy();
@@ -290,7 +289,10 @@ export default {
   },
   methods: {
     ...mapActions(d$tema, ["a$listTema"]),
-    ...mapActions(d$reportase, ["a$listReportaseKecamatan"]),
+    ...mapActions(d$reportase, [
+      "a$listReportaseKecamatan",
+      "a$deleteReportase",
+    ]),
     ...mapActions(d$wilayah, ["a$listAllKabupaten"]),
 
     async getInitData() {
@@ -314,6 +316,8 @@ export default {
     },
 
     async getListReportase() {
+      this.showLoading(true);
+
       this.indexComponent++;
       this.id_kecamatan = parseInt(this.id_kecamatan);
 
@@ -331,6 +335,9 @@ export default {
       }
 
       this.setupDataTable();
+      this.setupTableAction();
+
+      this.showLoading(false);
     },
 
     async getListKecamatan() {
@@ -350,6 +357,21 @@ export default {
           "failed-message",
           "Terjadi kesalahan saat memuat data! " + msg
         );
+      }
+    },
+
+    async deleteReportase(id_reportase) {
+      this.showSwal("loading");
+
+      try {
+        await this.a$deleteReportase(id_reportase);
+        await this.getListReportase();
+      } catch (error) {
+        console.log(error);
+        let msg = "";
+        if (error.error && error.error != undefined) msg = error.error;
+        else msg = error;
+        this.showSwal("failed-message", "Data gagal dihapus! " + msg);
       }
     },
 
@@ -381,6 +403,21 @@ export default {
       }
     },
 
+    setupTableAction() {
+      let outerThis = this;
+      // delete
+      $("#reportase-list").on("click", `.delete`, function (e) {
+        let reportase = this;
+        outerThis.showSwal(
+          "warning-confirmation",
+          `Hapus reportase mahasiswa ${reportase.name}?`,
+          "Berhasil menghapus data",
+          reportase.id
+        );
+        e.preventDefault();
+      });
+    },
+
     getOutOfTagP(element) {
       var temp = $("<div>").html(element);
       temp.find("p").each(function () {
@@ -389,10 +426,6 @@ export default {
 
       var output = temp.html();
       return output;
-      // var div = document.createElement("div");
-      // div.innerHTML = element;
-      // var text = div.textContent || div.innerHTML || "";
-      // return text;
     },
 
     setChoices(choices, option) {
@@ -434,7 +467,18 @@ export default {
       }
     },
 
-    showSwal(type, text) {
+    showLoading(isLoading) {
+      if (isLoading && !this.loader) {
+        this.loader = this.$loading.show();
+      } else if (!isLoading && this.loader) {
+        setTimeout(() => {
+          this.loader.hide();
+          this.loader = undefined;
+        }, 400);
+      }
+    },
+
+    showSwal(type, text, toastText, id_reportase) {
       if (type === "success-message") {
         this.$swal({
           icon: "success",
@@ -492,6 +536,59 @@ export default {
             clearInterval(timerInterval);
           },
         });
+      } else if (type === "warning-confirmation") {
+        this.$swal({
+          title: "Apakah Anda yakin?",
+          text: text,
+          showCancelButton: true,
+          confirmButtonText: "Ya!",
+          cancelButtonText: "Batal!",
+          customClass: {
+            confirmButton: "btn bg-gradient-success",
+            cancelButton: "btn bg-gradient-secondary",
+          },
+          buttonsStyling: false,
+          didOpen: () => {
+            this.$swal.hideLoading();
+          },
+        }).then((result) => {
+          if (result.isConfirmed) {
+            this.deleteReportase(id_reportase);
+            this.$swal({
+              toast: true,
+              position: "top-end",
+              title: toastText,
+              icon: "success",
+              showConfirmButton: false,
+              timer: 2500,
+              timerProgressBar: true,
+              didOpen: () => {
+                this.$swal.hideLoading();
+              },
+            });
+          } else if (
+            /* Read more about handling dismissals below */
+            result.dismiss === this.$swal.DismissReason.cancel
+          ) {
+            this.$swal.close();
+          }
+        });
+      } else if (type === "loading") {
+        this.$swal({
+          title: "Memuat...",
+          timerProgressBar: true,
+          showConfirmButton: false,
+          allowOutsideClick: false,
+          allowEscapeKey: false,
+          didOpen: () => {
+            this.$swal.showLoading();
+          },
+          didDestroy: () => {
+            this.$swal.hideLoading();
+          },
+        });
+      } else if (type === "close") {
+        this.$swal.close();
       }
     },
   },

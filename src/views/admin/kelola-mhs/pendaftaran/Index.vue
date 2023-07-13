@@ -82,7 +82,7 @@
                 </thead>
                 <tbody>
                   <tr
-                    v-for="(pendaftaran, index) in g$listMahasiswa"
+                    v-for="(pendaftaran, index) in listPendaftaran"
                     :key="pendaftaran.id_mahasiswa_kecamatan"
                   >
                     <td class="text-sm">{{ index + 1 }}</td>
@@ -324,6 +324,7 @@ export default {
       indexComponent: 0,
       choicesTema: undefined,
       choicesLokasi: undefined,
+      listPendaftaran: [],
       loader: undefined,
     };
   },
@@ -379,6 +380,9 @@ export default {
 
       try {
         await this.a$listMahasiswaRegisteredByKecamatan(this.id_kecamatan);
+        this.g$listMahasiswa.forEach((mahasiswa) => {
+          this.listPendaftaran.push(mahasiswa);
+        });
       } catch (error) {
         console.log(error);
         let msg = "";
@@ -389,9 +393,12 @@ export default {
           "Terjadi kesalahan saat memuat data! " + msg
         );
       }
-
-      this.setupDataTable();
-      this.setupTableAction();
+      setTimeout(() => {
+        this.setupDataTable();
+        this.setupTableAction();
+      }, 100);
+      // this.setupDataTable();
+      // this.setupTableAction();
 
       this.showLoading(false);
     },
@@ -524,7 +531,7 @@ export default {
       }
     },
 
-    showSwal(type, text, toastText, id_mhs) {
+    showSwal(type, text, toastText, id_mahasiswa_kecamatan) {
       if (type === "success-message") {
         this.$swal({
           icon: "success",
@@ -599,7 +606,7 @@ export default {
           },
         }).then((result) => {
           if (result.isConfirmed) {
-            this.deletePendaftaran(id_mhs);
+            this.deletePendaftaran(id_mahasiswa_kecamatan);
             this.$swal({
               toast: true,
               position: "top-end",
