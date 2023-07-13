@@ -142,6 +142,18 @@ const d$mahasiswa = defineStore("mahasiswaStore", {
       }
     },
 
+    async a$deleteDaftarLokasi(id_mahasiswa_kecamatan) {
+      try {
+        const status = await s$mahasiswa.deleteDaftarLokasi(
+          id_mahasiswa_kecamatan
+        );
+        this.status = status;
+      } catch ({ message, error }) {
+        this.status = false;
+        throw message ?? error;
+      }
+    },
+
     async a$accMahasiswa(id_mahasiswa_kecamatan) {
       try {
         const status = await s$mahasiswa.accMahasiswa(id_mahasiswa_kecamatan);

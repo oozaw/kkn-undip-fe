@@ -39,6 +39,9 @@ const listMahasiswaWilayah = (id_kecamatan) =>
 const daftarLokasi = (body) =>
   baseApi.post(`${api}mahasiswa/daftar_lokasi`, body);
 
+const deleteDaftarLokasi = (id_mahasiswa_kecamatan) =>
+  baseApi.delete(`${api}mahasiswa/daftar_lokasi/${id_mahasiswa_kecamatan}`);
+
 const accMahasiswa = (id_mahasiswa_kecamatan) =>
   baseApi.put(`${api}dosen/mahasiswa/acc/${id_mahasiswa_kecamatan}`);
 
@@ -61,6 +64,7 @@ export {
   editMahasiswa,
   listMahasiswaWilayah,
   daftarLokasi,
+  deleteDaftarLokasi,
   accMahasiswa,
   decMahasiswa,
   deleteMahasiswa,

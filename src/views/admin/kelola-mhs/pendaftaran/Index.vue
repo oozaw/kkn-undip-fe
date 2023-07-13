@@ -115,14 +115,14 @@
                         class="mb-0 me-3 text-primary"
                         data-bs-toggle="modal"
                         :data-bs-target="
-                          '#detail_' + pendaftaran.mahasiswa.id_mahasiswa
+                          '#detail_' + pendaftaran.id_mahasiswa_kecamatan
                         "
                         title="Detail Mahasiswa"
                       >
                         <i class="fas fa-eye text-info"></i>
                       </a>
                       <div
-                        :id="'detail_' + pendaftaran.mahasiswa.id_mahasiswa"
+                        :id="'detail_' + pendaftaran.id_mahasiswa_kecamatan"
                         class="modal fade"
                         tabindex="-1"
                         aria-hidden="true"
@@ -157,6 +157,13 @@
                                 <li
                                   class="text-sm border-0 list-group-item ps-0"
                                 >
+                                  <strong class="text-dark">Angkatan:</strong>
+                                  &nbsp;
+                                  {{ pendaftaran.mahasiswa.angkatan }}
+                                </li>
+                                <li
+                                  class="text-sm border-0 list-group-item ps-0"
+                                >
                                   <strong class="text-dark">NIM:</strong>
                                   &nbsp;
                                   {{ pendaftaran.mahasiswa.nim }}
@@ -167,7 +174,7 @@
                                   <strong class="text-dark">Fakultas:</strong>
                                   &nbsp;
                                   {{
-                                    pendaftaran.mahasiswa.prodi.fakultas.nama
+                                    pendaftaran.mahasiswa.prodi?.fakultas.nama
                                   }}
                                 </li>
                                 <li
@@ -175,7 +182,29 @@
                                 >
                                   <strong class="text-dark">Prodi:</strong>
                                   &nbsp;
-                                  {{ pendaftaran.mahasiswa.prodi.nama }}
+                                  {{ pendaftaran.mahasiswa.prodi?.nama }}
+                                </li>
+
+                                <li
+                                  class="text-sm border-0 list-group-item ps-0"
+                                >
+                                  <strong class="text-dark">Email:</strong>
+                                  &nbsp;
+                                  {{ pendaftaran.mahasiswa.email }}
+                                </li>
+                                <li
+                                  class="text-sm border-0 list-group-item ps-0"
+                                >
+                                  <strong class="text-dark">No. HP:</strong>
+                                  &nbsp;
+                                  {{ pendaftaran.mahasiswa.no_hp }}
+                                </li>
+                                <li
+                                  class="text-sm border-0 list-group-item ps-0"
+                                >
+                                  <strong class="text-dark">Domisili:</strong>
+                                  &nbsp;
+                                  {{ pendaftaran.mahasiswa.domisili }}
                                 </li>
                                 <li
                                   class="text-sm border-0 list-group-item ps-0"
@@ -207,7 +236,7 @@
                                   &nbsp;
                                   {{ pendaftaran.kecamatan.nama }}
                                 </li>
-                                <li class="border-0 list-group-item ps-0">
+                                <li class="pb-0 border-0 list-group-item ps-0">
                                   <strong class="text-sm text-dark"
                                     >Status:</strong
                                   >
@@ -241,18 +270,11 @@
                           </div>
                         </div>
                       </div>
-                      <!-- <a
-                        href="javascript:;"
-                        class="mx-3"
-                        data-bs-toggle="tooltip"
-                        data-bs-original-title="Edit Mahasiswa"
-                        title="Edit Mahasiswa"
-                      >
-                        <i class="fas fa-user-edit text-primary"></i>
-                      </a> -->
                       <a
-                        class="me-3"
-                        href="javascript:;"
+                        :id="pendaftaran.id_mahasiswa_kecamatan"
+                        :name="pendaftaran.mahasiswa.nama"
+                        class="me-3 delete"
+                        href="#"
                         data-bs-toggle="tooltip"
                         title="Hapus Mahasiswa"
                       >
@@ -281,10 +303,9 @@
 </template>
 
 <script>
-// import $ from "jquery";
+import $ from "jquery";
 import { DataTable } from "simple-datatables";
 import Choices from "choices.js";
-import setTooltip from "@/assets/js/tooltip.js";
 import HeaderProfileCard from "@/views/dashboards/components/HeaderProfileCard.vue";
 import { mapActions, mapState } from "pinia";
 import d$tema from "@/store/tema";
@@ -317,8 +338,6 @@ export default {
     await this.getInitData();
 
     this.choicesTema = this.getChoices("choices-tema");
-
-    setTooltip(this.$store.state.bootstrap);
   },
   beforeUnmount() {
     if (this.choicesTema) this.choicesTema.destroy();
@@ -326,7 +345,10 @@ export default {
   },
   methods: {
     ...mapActions(d$tema, ["a$listTema"]),
-    ...mapActions(d$mahasiswa, ["a$listMahasiswaRegisteredByKecamatan"]),
+    ...mapActions(d$mahasiswa, [
+      "a$listMahasiswaRegisteredByKecamatan",
+      "a$deleteDaftarLokasi",
+    ]),
     ...mapActions(d$wilayah, ["a$listAllKabupaten"]),
 
     async getInitData() {
@@ -369,6 +391,7 @@ export default {
       }
 
       this.setupDataTable();
+      this.setupTableAction();
 
       this.showLoading(false);
     },
@@ -389,6 +412,24 @@ export default {
         this.showSwal(
           "failed-message",
           "Terjadi kesalahan saat memuat data! " + msg
+        );
+      }
+    },
+
+    async deletePendaftaran(id_mahasiswa_kecamatan) {
+      this.showSwal("loading");
+
+      try {
+        await this.a$deleteDaftarLokasi(id_mahasiswa_kecamatan);
+        await this.getListMahasiswa();
+      } catch (error) {
+        console.log(error);
+        let msg = "";
+        if (error.error && error.error != undefined) msg = error.error;
+        else msg = error;
+        this.showSwal(
+          "failed-message",
+          "Terjadi kesalahan saat menghapus pendaftaran! " + msg
         );
       }
     },
@@ -419,6 +460,21 @@ export default {
           });
         });
       }
+    },
+
+    setupTableAction() {
+      let outerThis = this;
+      // delete
+      $("#pendaftaran-list").on("click", `.delete`, function (e) {
+        let mhs = this;
+        outerThis.showSwal(
+          "warning-confirmation",
+          `Hapus pendaftaran mahasiswa ${mhs.name}? Semua data yang berkaitan dengan mahasiswa tersebut akan dihapus permanen!`,
+          "Berhasil menghapus data",
+          mhs.id
+        );
+        e.preventDefault();
+      });
     },
 
     setChoices(choices, option) {
@@ -464,7 +520,6 @@ export default {
       if (isLoading && !this.loader) {
         this.loader = this.$loading.show();
       } else if (!isLoading && this.loader) {
-        console.log(this.loader);
         setTimeout(() => {
           this.loader.hide();
           this.loader = undefined;
@@ -472,7 +527,7 @@ export default {
       }
     },
 
-    showSwal(type, text) {
+    showSwal(type, text, toastText, id_mhs) {
       if (type === "success-message") {
         this.$swal({
           icon: "success",
@@ -482,6 +537,9 @@ export default {
           type: type,
           timerProgressBar: true,
           showConfirmButton: false,
+          didOpen: () => {
+            this.$swal.hideLoading();
+          },
         });
       } else if (type === "warning-message") {
         this.$swal({
@@ -505,6 +563,9 @@ export default {
           type: type,
           timerProgressBar: true,
           showConfirmButton: false,
+          didOpen: () => {
+            this.$swal.hideLoading();
+          },
         });
       } else if (type === "auto-close") {
         let timerInterval;
@@ -524,6 +585,59 @@ export default {
             clearInterval(timerInterval);
           },
         });
+      } else if (type === "warning-confirmation") {
+        this.$swal({
+          title: "Apakah Anda yakin?",
+          text: text,
+          showCancelButton: true,
+          confirmButtonText: "Ya!",
+          cancelButtonText: "Batal!",
+          customClass: {
+            confirmButton: "btn bg-gradient-success",
+            cancelButton: "btn bg-gradient-secondary",
+          },
+          buttonsStyling: false,
+          didOpen: () => {
+            this.$swal.hideLoading();
+          },
+        }).then((result) => {
+          if (result.isConfirmed) {
+            this.deletePendaftaran(id_mhs);
+            this.$swal({
+              toast: true,
+              position: "top-end",
+              title: toastText,
+              icon: "success",
+              showConfirmButton: false,
+              timer: 2500,
+              timerProgressBar: true,
+              didOpen: () => {
+                this.$swal.hideLoading();
+              },
+            });
+          } else if (
+            /* Read more about handling dismissals below */
+            result.dismiss === this.$swal.DismissReason.cancel
+          ) {
+            this.$swal.close();
+          }
+        });
+      } else if (type === "loading") {
+        this.$swal({
+          title: "Memuat...",
+          timerProgressBar: true,
+          showConfirmButton: false,
+          allowOutsideClick: false,
+          allowEscapeKey: false,
+          didOpen: () => {
+            this.$swal.showLoading();
+          },
+          didDestroy: () => {
+            this.$swal.hideLoading();
+          },
+        });
+      } else if (type === "close") {
+        this.$swal.close();
       }
     },
   },

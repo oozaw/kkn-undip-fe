@@ -295,9 +295,13 @@
                         />
                       </a>
                       <a
-                        href="javascript:;"
+                        :id="pendaftar.id_mahasiswa_kecamatan"
+                        :name="pendaftar.mahasiswa.nama"
+                        class="delete"
+                        href="#"
                         data-bs-toggle="tooltip"
-                        data-bs-original-title="Delete product"
+                        data-bs-original-title="Hapus pendaftaran"
+                        title="Hapus pendaftaran"
                       >
                         <i class="fas fa-trash text-danger"></i>
                       </a>
@@ -373,6 +377,7 @@ export default {
       "a$listMahasiswaWilayah",
       "a$accMahasiswa",
       "a$decMahasiswa",
+      "a$deleteDaftarLokasi",
     ]),
 
     async getInitData() {
@@ -436,6 +441,24 @@ export default {
       }
     },
 
+    async deletePendaftaran(id_mahasiswa_kecamatan) {
+      this.showSwal("loading");
+
+      try {
+        await this.a$deleteDaftarLokasi(id_mahasiswa_kecamatan);
+        await this.getListMahasiswa();
+      } catch (error) {
+        console.log(error);
+        let msg = "";
+        if (error.error && error.error != undefined) msg = error.error;
+        else msg = error;
+        this.showSwal(
+          "failed-message",
+          "Terjadi kesalahan saat menghapus pendaftaran! " + msg
+        );
+      }
+    },
+
     async accMahasiswa(id_mahasiswa_kecamatan) {
       this.showSwal("loading");
 
@@ -475,10 +498,12 @@ export default {
           `Menerima pendaftaran ${pendaftar.name}?`,
           "Berhasil memperbarui data",
           pendaftar.id,
+          false,
           true
         );
         e.preventDefault();
       });
+
       $("#mhs-list").on("click", `.tolak`, function (e) {
         let pendaftar = this;
         outerThis.showSwal(
@@ -486,7 +511,21 @@ export default {
           `Menolak pendaftaran ${pendaftar.name}?`,
           "Berhasil memperbarui data",
           pendaftar.id,
+          false,
           false
+        );
+        e.preventDefault();
+      });
+
+      // delete
+      $("#mhs-list").on("click", `.delete`, function (e) {
+        let mhs = this;
+        outerThis.showSwal(
+          "warning-confirmation",
+          `Hapus pendaftaran mahasiswa ${mhs.name}? Semua data yang berkaitan dengan mahasiswa tersebut akan dihapus permanen!`,
+          "Berhasil menghapus data",
+          mhs.id,
+          true
         );
         e.preventDefault();
       });
@@ -560,7 +599,7 @@ export default {
       }
     },
 
-    showSwal(type, text, toastText, id_proposal, status) {
+    showSwal(type, text, toastText, id_proposal, isDelete, status) {
       if (type === "success-message") {
         this.$swal({
           icon: "success",
@@ -635,7 +674,8 @@ export default {
           },
         }).then((result) => {
           if (result.isConfirmed) {
-            if (status) this.accMahasiswa(id_proposal);
+            if (isDelete) this.deletePendaftaran(id_proposal);
+            else if (!isDelete && status) this.accMahasiswa(id_proposal);
             else this.decMahasiswa(id_proposal);
             this.$swal({
               toast: true,
@@ -645,6 +685,9 @@ export default {
               showConfirmButton: false,
               timer: 2500,
               timerProgressBar: true,
+              didOpen: () => {
+                this.$swal.hideLoading();
+              },
             });
           } else if (
             /* Read more about handling dismissals below */
