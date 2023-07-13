@@ -15,7 +15,7 @@
               :events="listEvent"
               :initial-date="initialDate"
             />
-            <div class="mt-4" v-if="g$user.role === 'MAHASISWA'">
+            <div class="mt-4" v-if="g$user.role === 'ADMIN'">
               <timeline-list
                 v-if="listPengumuman != undefined"
                 class="h-100"
@@ -322,6 +322,97 @@
                     }"
                   />
                 </div>
+                <div class="col-lg-12 col-sm-12" v-if="g$user.role === 'ADMIN'">
+                  <div class="bg-white card mt-2">
+                    <!-- Card header -->
+                    <div class="pb-0 card-header">
+                      <div class="d-lg-flex">
+                        <div>
+                          <h5 class="mb-2">List Lokasi KKN</h5>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="ms-2 pt-1 px-0 pb-0 card-body">
+                      <div class="table-responsive">
+                        <table id="location-list" class="table table-flush">
+                          <thead class="thead-light">
+                            <tr>
+                              <th class="col-1">No.</th>
+                              <th style="max-width: 50cm">Nama/ Tema KKN</th>
+                              <th>Lokasi</th>
+                              <th>Periode</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr>
+                              <td class="text-sm font-weight-bold">1</td>
+                              <td>
+                                <h6 class="my-auto">KKN Reguler Tim I</h6>
+                              </td>
+                              <td
+                                class="text-sm font-weight-bold font-weight-bold"
+                              >
+                                Desa Bergas, Kecamatan Bergas
+                              </td>
+                              <td class="text-sm font-weight-bold">
+                                2022/2023
+                              </td>
+                            </tr>
+                            <tr>
+                              <td class="text-sm font-weight-bold">2</td>
+                              <td>
+                                <h6 class="my-auto">KKN Reguler Tim II</h6>
+                              </td>
+                              <td class="text-sm font-weight-bold">
+                                Desa Gangga, Kecamatan Gangga
+                              </td>
+                              <td class="text-sm font-weight-bold">
+                                2022/2023
+                              </td>
+                            </tr>
+                            <tr>
+                              <td class="text-sm font-weight-bold">3</td>
+                              <td>
+                                <h6 class="my-auto">
+                                  KKN Tematik Tanggap Bencana Banjir Cianjur
+                                </h6>
+                              </td>
+                              <td class="text-sm font-weight-bold">
+                                Desa Cianjur, Kecamatan Cianjur
+                              </td>
+                              <td class="text-sm font-weight-bold">
+                                2022/2023
+                              </td>
+                            </tr>
+                            <tr>
+                              <td class="text-sm font-weight-bold">4</td>
+                              <td>
+                                <h6 class="my-auto">
+                                  KKN Tematik Pengurangan Risiko Bencana
+                                  Berbasis Partisipasi Masyarakat dan Komunitas
+                                </h6>
+                              </td>
+                              <td class="text-sm font-weight-bold">
+                                Desa Kungkat, Kecamatan Kungkat
+                              </td>
+                              <td class="text-sm font-weight-bold">
+                                2022/2023
+                              </td>
+                            </tr>
+                          </tbody>
+                          <tfoot>
+                            <tr>
+                              <th class="col-1">No.</th>
+                              <th>Nama/ Tema KKN</th>
+                              <th>Lokasi</th>
+                              <th>Periode</th>
+                            </tr>
+                          </tfoot>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
             <div class="col-lg-12 col-sm-12 mt-sm-2">
@@ -329,87 +420,6 @@
                 v-if="g$user.role === 'MAHASISWA'"
                 :value="g$kecamatan.mahasiswa"
               />
-            </div>
-          </div>
-          <div class="col-lg-12 col-sm-12" v-if="g$user.role === 'ADMIN'">
-            <div class="bg-white card mt-4">
-              <!-- Card header -->
-              <div class="pb-0 card-header">
-                <div class="d-lg-flex">
-                  <div>
-                    <h5 class="mb-2">List Lokasi KKN</h5>
-                  </div>
-                </div>
-              </div>
-              <div class="ms-2 pt-1 px-0 pb-0 card-body">
-                <div class="table-responsive">
-                  <table id="location-list" class="table table-flush">
-                    <thead class="thead-light">
-                      <tr>
-                        <th class="col-1">No.</th>
-                        <th style="max-width: 50cm">Nama/ Tema KKN</th>
-                        <th>Lokasi</th>
-                        <th>Periode</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr>
-                        <td class="text-sm font-weight-bold">1</td>
-                        <td>
-                          <h6 class="my-auto">KKN Reguler Tim I</h6>
-                        </td>
-                        <td class="text-sm font-weight-bold font-weight-bold">
-                          Desa Bergas, Kecamatan Bergas
-                        </td>
-                        <td class="text-sm font-weight-bold">2022/2023</td>
-                      </tr>
-                      <tr>
-                        <td class="text-sm font-weight-bold">2</td>
-                        <td>
-                          <h6 class="my-auto">KKN Reguler Tim II</h6>
-                        </td>
-                        <td class="text-sm font-weight-bold">
-                          Desa Gangga, Kecamatan Gangga
-                        </td>
-                        <td class="text-sm font-weight-bold">2022/2023</td>
-                      </tr>
-                      <tr>
-                        <td class="text-sm font-weight-bold">3</td>
-                        <td>
-                          <h6 class="my-auto">
-                            KKN Tematik Tanggap Bencana Banjir Cianjur
-                          </h6>
-                        </td>
-                        <td class="text-sm font-weight-bold">
-                          Desa Cianjur, Kecamatan Cianjur
-                        </td>
-                        <td class="text-sm font-weight-bold">2022/2023</td>
-                      </tr>
-                      <tr>
-                        <td class="text-sm font-weight-bold">4</td>
-                        <td>
-                          <h6 class="my-auto">
-                            KKN Tematik Pengurangan Risiko Bencana Berbasis
-                            Partisipasi Masyarakat dan Komunitas
-                          </h6>
-                        </td>
-                        <td class="text-sm font-weight-bold">
-                          Desa Kungkat, Kecamatan Kungkat
-                        </td>
-                        <td class="text-sm font-weight-bold">2022/2023</td>
-                      </tr>
-                    </tbody>
-                    <tfoot>
-                      <tr>
-                        <th class="col-1">No.</th>
-                        <th>Nama/ Tema KKN</th>
-                        <th>Lokasi</th>
-                        <th>Periode</th>
-                      </tr>
-                    </tfoot>
-                  </table>
-                </div>
-              </div>
             </div>
           </div>
         </div>
@@ -643,7 +653,6 @@ export default {
               `Kec. ${item.kecamatan.nama}, Kab. ${item.kecamatan.kabupaten.nama}`
             );
         });
-        console.log(this.listWilayahDosen);
       } catch (error) {
         console.log(error);
         let msg = "";
