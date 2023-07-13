@@ -30,6 +30,17 @@ const d$proposal = defineStore("proposalStore", {
       }
     },
 
+    async a$listAllProposalDosen() {
+      try {
+        const { data, status } = await s$proposal.listAllProposalDosen();
+        this.listProposal = data ?? [];
+        this.status = status;
+      } catch (error) {
+        this.status = false;
+        throw error;
+      }
+    },
+
     async a$listProposalDosen(id_tema) {
       try {
         const { data, status } = await s$proposal.listProposalDosen(id_tema);
