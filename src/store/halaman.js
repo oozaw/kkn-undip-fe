@@ -68,7 +68,7 @@ const d$halaman = defineStore("halamanStore", {
           id_tema,
           id_halaman
         );
-        this.statusHalaman = data?.status ?? null;
+        this.statusHalaman = data ?? null;
         this.status = status;
         return data;
       } catch (error) {
