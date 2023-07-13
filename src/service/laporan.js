@@ -21,6 +21,9 @@ const getLaporan = (id_laporan) => baseApi.get(`${api}laporan/${id_laporan}`);
 
 const addLPK = (body) => baseApi.post(`${api}mahasiswa/lpk`, body);
 
+const deleteLaporan = (id_laporan) =>
+  baseApi.delete(`${api}laporan/${id_laporan}`);
+
 export {
   listLaporan,
   listLaporanKecamatan,
@@ -31,4 +34,5 @@ export {
   listLPK,
   getLaporan,
   addLPK,
+  deleteLaporan,
 };

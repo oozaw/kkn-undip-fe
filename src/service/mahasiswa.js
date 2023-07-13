@@ -18,7 +18,7 @@ const listMahasiswaAcceptedByKecamatan = (id_kecamatan) =>
   baseApi.get(`${api}mahasiswa/accepted/${id_kecamatan}`);
 
 const getMahasiswa = (id_mahasiswa) =>
-  baseApi.get(`${api}mahasiswa/${id_mahasiswa}`);
+  baseApi.get(`${api}mahasiswa/detail/${id_mahasiswa}`);
 
 const addMahasiswa = (body) =>
   baseApi.post(`${api}admin/mahasiswa/single`, body);

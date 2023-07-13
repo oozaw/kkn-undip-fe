@@ -14,7 +14,7 @@
                 </div>
                 <div class="my-auto mt-4 ms-auto mt-lg-0">
                   <div class="my-auto ms-auto">
-                    <button
+                    <!-- <button
                       type="button"
                       class="mx-2 mb-0 btn btn-primary btn-sm"
                       data-bs-toggle="modal"
@@ -76,7 +76,7 @@
                           </div>
                         </div>
                       </div>
-                    </div>
+                    </div> -->
                     <button
                       class="mt-1 mb-0 btn btn-outline-success btn-sm export-mhs-sec mt-sm-0"
                       data-type="csv"
@@ -90,7 +90,7 @@
               </div>
             </div>
             <div class="ms-2 pt-1 px-0 pb-0 card-body">
-              <div class="table-responsive">
+              <div class="table-responsive" :key="indexComponent">
                 <table id="lpk-list" class="table table-flush">
                   <thead class="thead-light">
                     <tr>
@@ -262,6 +262,9 @@
                           <i class="fas fa-user-edit text-primary"></i>
                         </a>
                         <a
+                          class="delete"
+                          :id="lpk.id_laporan"
+                          :name="lpk.program"
                           href="#"
                           data-bs-toggle="tooltip"
                           data-bs-original-title="Hapus LPK"
@@ -558,6 +561,9 @@
                           <i class="fas fa-user-edit text-primary"></i>
                         </a>
                         <a
+                          class="delete"
+                          :id="lpk.id_laporan"
+                          :name="lpk.mahasiswa.nama"
                           href="#"
                           data-bs-toggle="tooltip"
                           data-bs-original-title="Hapus LPK"
@@ -615,6 +621,7 @@ export default {
       moment,
       choicesTema: undefined,
       choicesKec: undefined,
+      loader: undefined,
     };
   },
   computed: {
@@ -624,6 +631,7 @@ export default {
     ...mapState(d$proposal, ["g$listProposal"]),
   },
   async created() {
+    this.showLoading(true);
     if (this.g$user.role === "MAHASISWA") {
       await this.getListLPK();
     } else if (this.g$user.role === "DOSEN") {
@@ -639,7 +647,11 @@ export default {
     if (this.choicesKec) this.choicesKec.destroy();
   },
   methods: {
-    ...mapActions(d$laporan, ["a$listLPK", "a$listLaporanKecamatan"]),
+    ...mapActions(d$laporan, [
+      "a$listLPK",
+      "a$listLaporanKecamatan",
+      "a$deleteLaporan",
+    ]),
     ...mapActions(d$tema, ["a$listTemaDosen"]),
     ...mapActions(d$proposal, ["a$listProposalDosen"]),
 
@@ -664,6 +676,8 @@ export default {
     },
 
     async getListLaporanDosen() {
+      this.showLoading(true);
+
       this.indexComponent++;
       this.id_kecamatan = parseInt(this.id_kecamatan);
 
@@ -682,6 +696,8 @@ export default {
 
       this.setupDataTable("lpk-dosen-section-list");
       this.setupTableAction();
+
+      this.showLoading(false);
     },
 
     async getListKecamatan() {
@@ -705,6 +721,8 @@ export default {
     },
 
     async getListLPK() {
+      this.showLoading(true);
+
       this.indexComponent++;
 
       try {
@@ -722,6 +740,24 @@ export default {
 
       this.setupDataTable("lpk-list");
       this.setupTableAction();
+
+      this.showLoading(false);
+    },
+
+    async deleteLaporan(id_laporan) {
+      this.showSwal("loading");
+
+      try {
+        await this.a$deleteLaporan(id_laporan);
+        if (this.g$user.role === "MAHASISWA") await this.getListLPK();
+        else if (this.g$user.role === "DOSEN") await this.getListLaporanDosen();
+      } catch (error) {
+        console.log(error);
+        let msg = "";
+        if (error.error && error.error != undefined) msg = error.error;
+        else msg = error;
+        this.showSwal("failed-message", "Data gagal dihapus! " + msg);
+      }
     },
 
     setChoices(choices, option) {
@@ -782,6 +818,29 @@ export default {
           name: "Evaluate LPK",
           params: { id_laporan: lpk.id },
         });
+        e.preventDefault();
+      });
+
+      // delete
+      $("#lpk-list").on("click", `.delete`, function (e) {
+        let laporan = this;
+        outerThis.showSwal(
+          "warning-confirmation",
+          `Hapus laporan ${laporan.name}? Semua data LRK dan LPK akan dihapus permanen!`,
+          "Berhasil menghapus data",
+          laporan.id
+        );
+        e.preventDefault();
+      });
+
+      $("#lpk-dosen-section-list").on("click", `.delete`, function (e) {
+        let laporan = this;
+        outerThis.showSwal(
+          "warning-confirmation",
+          `Hapus laporan mahasiswa ${laporan.name}? Semua data LRK dan LPK mahasiswa tersebut akan dihapus permanen!`,
+          "Berhasil menghapus data",
+          laporan.id
+        );
         e.preventDefault();
       });
     },
@@ -852,7 +911,18 @@ export default {
         document.getElementById("choices-tema").selectedOptions[0].text;
     },
 
-    showSwal(type, text) {
+    showLoading(isLoading) {
+      if (isLoading && !this.loader) {
+        this.loader = this.$loading.show();
+      } else if (!isLoading && this.loader) {
+        setTimeout(() => {
+          this.loader.hide();
+          this.loader = undefined;
+        }, 400);
+      }
+    },
+
+    showSwal(type, text, toastText, id_laporan) {
       if (type === "success-message") {
         this.$swal({
           icon: "success",
@@ -909,6 +979,43 @@ export default {
           willClose: () => {
             clearInterval(timerInterval);
           },
+        });
+      } else if (type === "warning-confirmation") {
+        this.$swal({
+          title: "Apakah Anda yakin?",
+          text: text,
+          showCancelButton: true,
+          confirmButtonText: "Ya!",
+          cancelButtonText: "Batal!",
+          customClass: {
+            confirmButton: "btn bg-gradient-success",
+            cancelButton: "btn bg-gradient-secondary",
+          },
+          buttonsStyling: false,
+          didOpen: () => {
+            this.$swal.hideLoading();
+          },
+        }).then((result) => {
+          if (result.isConfirmed) {
+            this.deleteLaporan(id_laporan);
+            this.$swal({
+              toast: true,
+              position: "top-end",
+              title: toastText,
+              icon: "success",
+              showConfirmButton: false,
+              timer: 2500,
+              timerProgressBar: true,
+              didOpen: () => {
+                this.$swal.hideLoading();
+              },
+            });
+          } else if (
+            /* Read more about handling dismissals below */
+            result.dismiss === this.$swal.DismissReason.cancel
+          ) {
+            this.$swal.close();
+          }
         });
       } else if (type === "loading") {
         this.$swal({

@@ -427,10 +427,7 @@ export default {
         let msg = "";
         if (error.error && error.error != undefined) msg = error.error;
         else msg = error;
-        this.showSwal(
-          "failed-message",
-          "Terjadi kesalahan saat menghapus pendaftaran! " + msg
-        );
+        this.showSwal("failed-message", "Data gagal dihapus! " + msg);
       }
     },
 

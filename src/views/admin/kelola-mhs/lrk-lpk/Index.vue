@@ -272,7 +272,9 @@
                         </div>
                       </div>
                       <a
-                        class="me-3 hapus"
+                        :id="laporan.id_laporan"
+                        :name="laporan.mahasiswa.nama"
+                        class="me-3 delete"
                         href="#"
                         data-bs-toggle="tooltip"
                         data-bs-original-title="Hapus Laporan"
@@ -328,6 +330,7 @@ export default {
       choicesTema: undefined,
       choicesLokasi: undefined,
       moment: moment,
+      loader: undefined,
     };
   },
   computed: {
@@ -336,6 +339,8 @@ export default {
     ...mapState(d$laporan, ["g$listLaporan"]),
   },
   async created() {
+    this.showLoading(true);
+
     await this.getInitData();
 
     this.choicesTema = this.getChoices("choices-tema");
@@ -349,7 +354,7 @@ export default {
   methods: {
     ...mapActions(d$tema, ["a$listTema"]),
     ...mapActions(d$wilayah, ["a$listAllKabupaten"]),
-    ...mapActions(d$laporan, ["a$listLaporanKecamatan"]),
+    ...mapActions(d$laporan, ["a$listLaporanKecamatan", "a$deleteLaporan"]),
 
     async getInitData() {
       try {
@@ -372,6 +377,8 @@ export default {
     },
 
     async getListLaporan() {
+      this.showLoading(true);
+
       this.indexComponent++;
       this.id_kecamatan = parseInt(this.id_kecamatan);
 
@@ -389,6 +396,9 @@ export default {
       }
 
       this.setupDataTable();
+      this.setupTableAction();
+
+      this.showLoading(false);
     },
 
     async getListKecamatan() {
@@ -408,6 +418,21 @@ export default {
           "failed-message",
           "Terjadi kesalahan saat memuat data! " + msg
         );
+      }
+    },
+
+    async deleteLaporan(id_laporan) {
+      this.showSwal("loading");
+
+      try {
+        await this.a$deleteLaporan(id_laporan);
+        await this.getListLaporan();
+      } catch (error) {
+        console.log(error);
+        let msg = "";
+        if (error.error && error.error != undefined) msg = error.error;
+        else msg = error;
+        this.showSwal("failed-message", "Data gagal dihapus! " + msg);
       }
     },
 
@@ -492,7 +517,33 @@ export default {
       }
     },
 
-    showSwal(type, text) {
+    setupTableAction() {
+      let outerThis = this;
+      // delete
+      $("#lrk-lpk-list").on("click", `.delete`, function (e) {
+        let laporan = this;
+        outerThis.showSwal(
+          "warning-confirmation",
+          `Hapus laporan mahasiswa ${laporan.name}? Semua data LRK dan LPK mahasiswa tersebut akan dihapus permanen!`,
+          "Berhasil menghapus data",
+          laporan.id
+        );
+        e.preventDefault();
+      });
+    },
+
+    showLoading(isLoading) {
+      if (isLoading && !this.loader) {
+        this.loader = this.$loading.show();
+      } else if (!isLoading && this.loader) {
+        setTimeout(() => {
+          this.loader.hide();
+          this.loader = undefined;
+        }, 400);
+      }
+    },
+
+    showSwal(type, text, toastText, id_laporan) {
       if (type === "success-message") {
         this.$swal({
           icon: "success",
@@ -502,6 +553,9 @@ export default {
           type: type,
           timerProgressBar: true,
           showConfirmButton: false,
+          didOpen: () => {
+            this.$swal.hideLoading();
+          },
         });
       } else if (type === "warning-message") {
         this.$swal({
@@ -525,6 +579,9 @@ export default {
           type: type,
           timerProgressBar: true,
           showConfirmButton: false,
+          didOpen: () => {
+            this.$swal.hideLoading();
+          },
         });
       } else if (type === "auto-close") {
         let timerInterval;
@@ -544,6 +601,59 @@ export default {
             clearInterval(timerInterval);
           },
         });
+      } else if (type === "warning-confirmation") {
+        this.$swal({
+          title: "Apakah Anda yakin?",
+          text: text,
+          showCancelButton: true,
+          confirmButtonText: "Ya!",
+          cancelButtonText: "Batal!",
+          customClass: {
+            confirmButton: "btn bg-gradient-success",
+            cancelButton: "btn bg-gradient-secondary",
+          },
+          buttonsStyling: false,
+          didOpen: () => {
+            this.$swal.hideLoading();
+          },
+        }).then((result) => {
+          if (result.isConfirmed) {
+            this.deleteLaporan(id_laporan);
+            this.$swal({
+              toast: true,
+              position: "top-end",
+              title: toastText,
+              icon: "success",
+              showConfirmButton: false,
+              timer: 2500,
+              timerProgressBar: true,
+              didOpen: () => {
+                this.$swal.hideLoading();
+              },
+            });
+          } else if (
+            /* Read more about handling dismissals below */
+            result.dismiss === this.$swal.DismissReason.cancel
+          ) {
+            this.$swal.close();
+          }
+        });
+      } else if (type === "loading") {
+        this.$swal({
+          title: "Memuat...",
+          timerProgressBar: true,
+          showConfirmButton: false,
+          allowOutsideClick: false,
+          allowEscapeKey: false,
+          didOpen: () => {
+            this.$swal.showLoading();
+          },
+          didDestroy: () => {
+            this.$swal.hideLoading();
+          },
+        });
+      } else if (type === "close") {
+        this.$swal.close();
       }
     },
   },
