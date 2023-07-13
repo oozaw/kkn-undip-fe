@@ -5,6 +5,7 @@
         <header-profile-card>
           <template #button>
             <argon-button
+              v-if="g$user.role !== 'DOSEN'"
               @click="() => $router.push({ name: 'Pendaftaran Dosen Admin' })"
               class="mb-0 me-2"
               color="secondary"
@@ -15,7 +16,19 @@
                 size="lg"
               />Kembali</argon-button
             >
-            <div v-if="this.g$user.role == 'ADMIN'">
+            <argon-button
+              v-else
+              @click="() => $router.push({ name: 'Registrasi' })"
+              class="mb-0 me-2"
+              color="secondary"
+              size="sm"
+              ><font-awesome-icon
+                class="text-white me-2"
+                icon="fa-solid fa-arrow-left"
+                size="lg"
+              />Kembali</argon-button
+            >
+            <div v-if="g$user.role == 'ADMIN'">
               <argon-button
                 @click="
                   showSwal(

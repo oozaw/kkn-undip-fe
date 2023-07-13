@@ -52,7 +52,12 @@
                 }"
               />
               <mini-statistics-card
-                v-if="g$user.role === 'DOSEN' || g$user.role === 'BAPPEDA'"
+                v-if="
+                  g$user.role === 'DOSEN' ||
+                  g$user.role === 'BAPPEDA' ||
+                  g$user.role === 'REVIEWER' ||
+                  g$user.role === 'PIMPINAN'
+                "
                 :style="'margin-left: 70%'"
                 role="button"
                 title="Data Diri"
@@ -92,7 +97,12 @@
               />
               <div
                 class="mt-2"
-                v-if="g$user.role === 'DOSEN' || g$user.role === 'BAPPEDA'"
+                v-if="
+                  g$user.role === 'DOSEN' ||
+                  g$user.role === 'BAPPEDA' ||
+                  g$user.role === 'REVIEWER' ||
+                  g$user.role === 'PIMPINAN'
+                "
               >
                 <timeline-list
                   v-if="listPengumuman != undefined"
@@ -561,6 +571,17 @@ export default {
 
         // pengumuman
         await this.a$listMahasiswaPengumuman();
+        this.listPengumuman = this.g$listPengumuman;
+
+        break;
+
+      case "REVIEWER":
+        // kegiatan
+        await this.a$listAllEvent();
+        this.parsingEvents();
+
+        // pengumuman
+        await this.a$listAllPengumuman();
         this.listPengumuman = this.g$listPengumuman;
 
         break;

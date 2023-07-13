@@ -91,6 +91,16 @@ const d$proposal = defineStore("proposalStore", {
         throw error;
       }
     },
+
+    async a$deleteProposal(id_proposal) {
+      try {
+        await s$proposal.deleteProposal(id_proposal);
+        this.status = true;
+      } catch (error) {
+        this.status = false;
+        throw error;
+      }
+    },
   },
   getters: {
     g$proposal: ({ proposal }) => proposal,

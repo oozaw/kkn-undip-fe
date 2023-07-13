@@ -27,6 +27,9 @@ const decProposal = (id_proposal) =>
 
 const evaluateProposal = (body) => baseApi.put(`${api}reviewer/evaluate`, body);
 
+const deleteProposal = (id_proposal) =>
+  baseApi.delete(`${api}dosen/proposal/${id_proposal}`);
+
 export {
   getProposal,
   listProposal,
@@ -36,4 +39,5 @@ export {
   accProposal,
   decProposal,
   evaluateProposal,
+  deleteProposal,
 };

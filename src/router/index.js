@@ -729,7 +729,7 @@ const routes = [
     name: "Detail Pendaftaran Dosen Admin",
     component: DetailPendaftaranDosenAdmin,
     meta: {
-      requiresAuth: [Role.admin, Role.reviewer],
+      requiresAuth: [Role.admin, Role.reviewer, Role.dosen],
     },
   },
   {

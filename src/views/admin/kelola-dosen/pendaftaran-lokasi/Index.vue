@@ -28,22 +28,6 @@
               </select>
             </div>
           </div>
-          <!-- <div class="card-header pb-0 pt-0">
-            <p class="font-weight-bold text-dark mb-2">Pilih BAPPEDA</p>
-          </div>
-          <div class="pb-3 pt-0 card-body">
-            <div class="col-12 align-self-center">
-              <select
-                id="choices-bappeda"
-                class="form-control"
-                name="choices-bappeda"
-              >
-                <option value="dosen">BAPPEDA A</option>
-                <option value="Dosen">BAPPEDA B</option>
-                <option value="bappeda">BAPPEDA C</option>
-              </select>
-            </div>
-          </div> -->
         </div>
         <div class="bg-white card mt-4">
           <!-- Card header -->
@@ -192,7 +176,9 @@
                           />
                         </a>
                         <a
-                          class="me-3 hapus"
+                          :id="proposal.id_proposal"
+                          :name="proposal.dosen.nama"
+                          class="me-3 delete"
                           href="#"
                           data-bs-toggle="tooltip"
                           data-bs-original-title="Hapus Dosen"
@@ -228,7 +214,6 @@
 import $ from "jquery";
 import { DataTable } from "simple-datatables";
 import Choices from "choices.js";
-import setTooltip from "@/assets/js/tooltip.js";
 import HeaderProfileCard from "@/views/dashboards/components/HeaderProfileCard.vue";
 import { mapActions, mapState } from "pinia";
 import d$dokumen from "@/store/dokumen";
@@ -256,14 +241,14 @@ export default {
     ...mapState(d$dokumen, ["g$dokumenLink"]),
   },
   async created() {
+    this.showLoading(true);
+
     await this.a$listTema();
     this.id_tema = this.g$listTemaActive[0].id_tema;
     await this.getListProposal();
 
     this.choicesTema = this.getChoices("choices-tema");
     this.choicesBappeda = this.getChoices("choices-bappeda");
-
-    setTooltip(this.$store.state.bootstrap);
   },
   beforeUnmount() {
     if (this.choicesTema) this.choicesTema.destroy();
@@ -274,11 +259,14 @@ export default {
       "a$listProposal",
       "a$accProposal",
       "a$decProposal",
+      "a$deleteProposal",
     ]),
     ...mapActions(d$tema, ["a$listTema"]),
     ...mapActions(d$dokumen, ["a$getDokumenLink"]),
 
     async getListProposal() {
+      this.showLoading(true);
+
       this.indexComponent++;
       this.id_tema = parseInt(this.id_tema);
 
@@ -297,6 +285,8 @@ export default {
 
       this.setupDataTable();
       this.setupTableAction();
+
+      this.showLoading(false);
     },
 
     async accProposal(id_proposal) {
@@ -326,6 +316,21 @@ export default {
         if (error.error && error.error != undefined) msg = error.error;
         else msg = error;
         this.showSwal("failed-message", "Data gagal diperbarui! " + msg);
+      }
+    },
+
+    async deleteProposal(id_proposal) {
+      this.showSwal("loading");
+
+      try {
+        await this.a$deleteProposal(id_proposal);
+        await this.getListProposal();
+      } catch (error) {
+        console.log(error);
+        let msg = "";
+        if (error.error && error.error != undefined) msg = error.error;
+        else msg = error;
+        this.showSwal("failed-message", "Data gagal dihapus! " + msg);
       }
     },
 
@@ -405,6 +410,7 @@ export default {
           `Menerima pendaftaran ${proposal.name}?`,
           "Berhasil memperbarui data",
           proposal.id,
+          false,
           true
         );
         e.preventDefault();
@@ -418,13 +424,52 @@ export default {
           `Menolak pendaftaran ${proposal.name}?`,
           "Berhasil memperbarui data",
           proposal.id,
+          false,
           false
+        );
+        e.preventDefault();
+      });
+
+      // dec proposal event
+      $("#pendaftaran-list").on("click", `.tolak`, function (e) {
+        let proposal = this;
+        outerThis.showSwal(
+          "warning-confirmation",
+          `Menolak pendaftaran ${proposal.name}?`,
+          "Berhasil memperbarui data",
+          proposal.id,
+          false,
+          false
+        );
+        e.preventDefault();
+      });
+
+      // delete
+      $("#pendaftaran-list").on("click", `.delete`, function (e) {
+        let proposal = this;
+        outerThis.showSwal(
+          "warning-confirmation",
+          `Menghapus pendaftaran ${proposal.name}?`,
+          "Berhasil menghapus data",
+          proposal.id,
+          true
         );
         e.preventDefault();
       });
     },
 
-    showSwal(type, text, toastText, id_proposal, status) {
+    showLoading(isLoading) {
+      if (isLoading && !this.loader) {
+        this.loader = this.$loading.show();
+      } else if (!isLoading && this.loader) {
+        setTimeout(() => {
+          this.loader.hide();
+          this.loader = undefined;
+        }, 400);
+      }
+    },
+
+    showSwal(type, text, toastText, id_proposal, isDelete = false, status) {
       if (type === "success-message") {
         this.$swal({
           icon: "success",
@@ -499,7 +544,8 @@ export default {
           },
         }).then((result) => {
           if (result.isConfirmed) {
-            if (status) this.accProposal(id_proposal);
+            if (isDelete) this.deleteProposal(id_proposal);
+            else if (!isDelete && status) this.accProposal(id_proposal);
             else this.decProposal(id_proposal);
             this.$swal({
               toast: true,

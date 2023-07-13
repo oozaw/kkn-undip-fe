@@ -222,7 +222,7 @@ export default {
         return;
       }
 
-      if (!this.body.file) {
+      if (!this.body.file || this.body.file == undefined) {
         this.showSwal("warning-message", "File proposal harus diisi!");
         return;
       }
@@ -358,6 +358,19 @@ export default {
         this.$swal({
           icon: "success",
           title: "Berhasil!",
+          text: text,
+          timer: 2500,
+          type: type,
+          timerProgressBar: true,
+          showConfirmButton: false,
+          didOpen: () => {
+            this.$swal.hideLoading();
+          },
+        });
+      } else if (type === "warning-message") {
+        this.$swal({
+          icon: "warning",
+          title: "Peringatan!",
           text: text,
           timer: 2500,
           type: type,
