@@ -336,14 +336,17 @@ export default {
       id_kecamatan: 0,
       choicesTema: undefined,
       choicesKec: undefined,
+      loader: undefined,
     };
   },
   computed: {
     ...mapState(d$tema, ["g$listTema"]),
-    ...mapState(d$nilai, ["g$listNilai"]),
+    ...mapState(d$nilai, ["g$listNilai", "a$resetNilai"]),
     ...mapState(d$proposal, ["g$listProposal"]),
   },
   async created() {
+    this.showLoading(true);
+
     await this.getInitData();
 
     this.choicesTema = this.getChoices("choices-tema");
@@ -400,6 +403,8 @@ export default {
     },
 
     async getListNilai() {
+      this.showLoading(true);
+
       this.indexComponent++;
       this.id_kecamatan = parseInt(this.id_kecamatan);
 
@@ -419,19 +424,30 @@ export default {
 
       this.setupDataTable();
       this.setupTableAction();
+
+      this.showLoading(false);
+    },
+
+    async resetNilai(id_nilai) {
+      this.showSwal("loading");
+
+      try {
+        await this.a$resetNilai(id_nilai);
+        await this.getListNilai();
+      } catch (error) {
+        console.log(error);
+        let msg = "";
+        if (error.error && error.error != undefined) msg = error.error;
+        else msg = error;
+        this.showSwal(
+          "failed-message",
+          "Terjadi kesalahan saat mereset nilai! " + msg
+        );
+      }
     },
 
     setupTableAction() {
       let outerThis = this;
-      // detail nilai
-      // $("#nilai-akhir-list").on("click", `.detail`, function (e) {
-      //   let nilai = this;
-      //   outerThis.$router.push({
-      //     name: "Detail Reportase",
-      //     params: { id_nilai: nilai.id },
-      //   });
-      //   e.preventDefault();
-      // });
 
       // edit nilai
       $("#nilai-akhir-list").on("click", `.edit`, function (e) {
@@ -443,15 +459,17 @@ export default {
         e.preventDefault();
       });
 
-      // // evaluate nilai
-      // $("#nilai-dosen-section-list").on("click", ".edit", function (e) {
-      //   let nilai = this;
-      //   outerThis.$router.push({
-      //     name: "Evaluasi Reportase",
-      //     params: { id_nilai: nilai.id },
-      //   });
-      //   e.preventDefault();
-      // });
+      // reset
+      $("#nilai-akhir-list").on("click", `.reset`, function (e) {
+        let nilai = this;
+        outerThis.showSwal(
+          "warning-confirmation",
+          `Reset nilai ${nilai.name}?`,
+          "Berhasil memperbarui data",
+          nilai.id
+        );
+        e.preventDefault();
+      });
     },
 
     setupDataTable() {
@@ -536,7 +554,18 @@ export default {
         document.getElementById("choices-kecamatan").selectedOptions[0].text;
     },
 
-    showSwal(type, text) {
+    showLoading(isLoading) {
+      if (isLoading && !this.loader) {
+        this.loader = this.$loading.show();
+      } else if (!isLoading && this.loader) {
+        setTimeout(() => {
+          this.loader.hide();
+          this.loader = undefined;
+        }, 400);
+      }
+    },
+
+    showSwal(type, text, toastText, id_nilai) {
       if (type === "success-message") {
         this.$swal({
           icon: "success",
@@ -593,6 +622,43 @@ export default {
           willClose: () => {
             clearInterval(timerInterval);
           },
+        });
+      } else if (type === "warning-confirmation") {
+        this.$swal({
+          title: "Apakah Anda yakin?",
+          text: text,
+          showCancelButton: true,
+          confirmButtonText: "Ya!",
+          cancelButtonText: "Batal!",
+          customClass: {
+            confirmButton: "btn bg-gradient-success",
+            cancelButton: "btn bg-gradient-secondary",
+          },
+          buttonsStyling: false,
+          didOpen: () => {
+            this.$swal.hideLoading();
+          },
+        }).then((result) => {
+          if (result.isConfirmed) {
+            this.resetNilai(id_nilai);
+            this.$swal({
+              toast: true,
+              position: "top-end",
+              title: toastText,
+              icon: "success",
+              showConfirmButton: false,
+              timer: 2500,
+              timerProgressBar: true,
+              didOpen: () => {
+                this.$swal.hideLoading();
+              },
+            });
+          } else if (
+            /* Read more about handling dismissals below */
+            result.dismiss === this.$swal.DismissReason.cancel
+          ) {
+            this.$swal.close();
+          }
         });
       } else if (type === "loading") {
         this.$swal({

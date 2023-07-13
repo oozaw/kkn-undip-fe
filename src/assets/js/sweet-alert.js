@@ -81,6 +81,9 @@ function showSwal(type, text, toastText, id_kecamatan, status) {
           showConfirmButton: false,
           timer: 2500,
           timerProgressBar: true,
+          didOpen: () => {
+            this.$swal.hideLoading();
+          },
         });
       } else if (
         /* Read more about handling dismissals below */

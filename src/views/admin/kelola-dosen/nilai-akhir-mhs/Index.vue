@@ -308,6 +308,7 @@
 </template>
 
 <script>
+import $ from "jquery";
 import { DataTable } from "simple-datatables";
 import Choices from "choices.js";
 import HeaderProfileCard from "@/views/dashboards/components/HeaderProfileCard.vue";
@@ -328,6 +329,7 @@ export default {
       indexComponent: 0,
       choicesTema: undefined,
       choicesLokasi: undefined,
+      loader: undefined,
     };
   },
   computed: {
@@ -336,6 +338,8 @@ export default {
     ...mapState(d$nilai, ["g$listNilai"]),
   },
   async created() {
+    this.showLoading(true);
+
     await this.getInitData();
 
     this.choicesTema = this.getChoices("choices-tema");
@@ -347,7 +351,7 @@ export default {
   methods: {
     ...mapActions(d$tema, ["a$listTema"]),
     ...mapActions(d$wilayah, ["a$listAllKabupaten"]),
-    ...mapActions(d$nilai, ["a$listNilaiKecamatan"]),
+    ...mapActions(d$nilai, ["a$listNilaiKecamatan", "a$resetNilai"]),
 
     async getInitData() {
       try {
@@ -370,6 +374,8 @@ export default {
     },
 
     async getListNilai() {
+      this.showLoading(true);
+
       this.indexComponent++;
       this.id_kecamatan = parseInt(this.id_kecamatan);
 
@@ -387,6 +393,9 @@ export default {
       }
 
       this.setupDataTable();
+      this.setupTableAction();
+
+      this.showLoading(false);
     },
 
     async getListKecamatan() {
@@ -405,6 +414,24 @@ export default {
         this.showSwal(
           "failed-message",
           "Terjadi kesalahan saat memuat data! " + msg
+        );
+      }
+    },
+
+    async resetNilai(id_nilai) {
+      this.showSwal("loading");
+
+      try {
+        await this.a$resetNilai(id_nilai);
+        await this.getListNilai();
+      } catch (error) {
+        console.log(error);
+        let msg = "";
+        if (error.error && error.error != undefined) msg = error.error;
+        else msg = error;
+        this.showSwal(
+          "failed-message",
+          "Terjadi kesalahan saat mereset nilai! " + msg
         );
       }
     },
@@ -435,6 +462,22 @@ export default {
           });
         });
       }
+    },
+
+    setupTableAction() {
+      let outerThis = this;
+
+      // reset
+      $("#nilai-list").on("click", `.reset`, function (e) {
+        let nilai = this;
+        outerThis.showSwal(
+          "warning-confirmation",
+          `Reset nilai ${nilai.name}?`,
+          "Berhasil memperbarui data",
+          nilai.id
+        );
+        e.preventDefault();
+      });
     },
 
     setChoices(choices, option) {
@@ -476,7 +519,18 @@ export default {
       }
     },
 
-    showSwal(type, text) {
+    showLoading(isLoading) {
+      if (isLoading && !this.loader) {
+        this.loader = this.$loading.show();
+      } else if (!isLoading && this.loader) {
+        setTimeout(() => {
+          this.loader.hide();
+          this.loader = undefined;
+        }, 400);
+      }
+    },
+
+    showSwal(type, text, toastText, id_nilai) {
       if (type === "success-message") {
         this.$swal({
           icon: "success",
@@ -486,6 +540,9 @@ export default {
           type: type,
           timerProgressBar: true,
           showConfirmButton: false,
+          didOpen: () => {
+            this.$swal.hideLoading();
+          },
         });
       } else if (type === "warning-message") {
         this.$swal({
@@ -509,6 +566,9 @@ export default {
           type: type,
           timerProgressBar: true,
           showConfirmButton: false,
+          didOpen: () => {
+            this.$swal.hideLoading();
+          },
         });
       } else if (type === "auto-close") {
         let timerInterval;
@@ -528,6 +588,59 @@ export default {
             clearInterval(timerInterval);
           },
         });
+      } else if (type === "warning-confirmation") {
+        this.$swal({
+          title: "Apakah Anda yakin?",
+          text: text,
+          showCancelButton: true,
+          confirmButtonText: "Ya!",
+          cancelButtonText: "Batal!",
+          customClass: {
+            confirmButton: "btn bg-gradient-success",
+            cancelButton: "btn bg-gradient-secondary",
+          },
+          buttonsStyling: false,
+          didOpen: () => {
+            this.$swal.hideLoading();
+          },
+        }).then((result) => {
+          if (result.isConfirmed) {
+            this.resetNilai(id_nilai);
+            this.$swal({
+              toast: true,
+              position: "top-end",
+              title: toastText,
+              icon: "success",
+              showConfirmButton: false,
+              timer: 2500,
+              timerProgressBar: true,
+              didOpen: () => {
+                this.$swal.hideLoading();
+              },
+            });
+          } else if (
+            /* Read more about handling dismissals below */
+            result.dismiss === this.$swal.DismissReason.cancel
+          ) {
+            this.$swal.close();
+          }
+        });
+      } else if (type === "loading") {
+        this.$swal({
+          title: "Memuat...",
+          timerProgressBar: true,
+          showConfirmButton: false,
+          allowOutsideClick: false,
+          allowEscapeKey: false,
+          didOpen: () => {
+            this.$swal.showLoading();
+          },
+          didDestroy: () => {
+            this.$swal.hideLoading();
+          },
+        });
+      } else if (type === "close") {
+        this.$swal.close();
       }
     },
   },
