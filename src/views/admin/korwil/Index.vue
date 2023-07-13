@@ -443,12 +443,15 @@ export default {
       indexComponent: 0,
       dataTable: undefined,
       moment,
+      loader: undefined,
     };
   },
   computed: {
     ...mapState(d$korwil, ["g$listKorwil"]),
   },
   async created() {
+    this.showLoading(true);
+
     await this.getListKorwil();
   },
   methods: {
@@ -512,6 +515,8 @@ export default {
     },
 
     async getListKorwil() {
+      this.showLoading(true);
+
       this.indexComponent++;
 
       try {
@@ -529,6 +534,8 @@ export default {
 
       this.setupDataTable();
       this.setupTableAction();
+
+      this.showLoading(false);
     },
 
     async editKorwil(id) {
@@ -637,6 +644,17 @@ export default {
         );
         e.preventDefault();
       });
+    },
+
+    showLoading(isLoading) {
+      if (isLoading && !this.loader) {
+        this.loader = this.$loading.show();
+      } else if (!isLoading && this.loader) {
+        setTimeout(() => {
+          this.loader.hide();
+          this.loader = undefined;
+        }, 400);
+      }
     },
 
     showSwal(type, text, toastText, id_korwil) {
