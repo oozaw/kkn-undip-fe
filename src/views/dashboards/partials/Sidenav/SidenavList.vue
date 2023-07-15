@@ -337,9 +337,9 @@
               />
               <sidenav-item
                 :isActive="getRoute2() === 'pemilihan-mhs'"
-                :to="{ name: 'Pemilihan Mahasiswa Admin' }"
+                :to="{ name: 'Seleksi Mahasiswa' }"
                 mini-icon="P"
-                text="Data Pemilihan Mahasiswa"
+                text="Data Seleksi Mahasiswa"
               />
               <sidenav-item
                 :isActive="

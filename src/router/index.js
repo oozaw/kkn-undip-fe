@@ -742,7 +742,7 @@ const routes = [
   },
   {
     path: "/kelola-dosen/pemilihan-mhs",
-    name: "Pemilihan Mahasiswa Admin",
+    name: "Seleksi Mahasiswa",
     component: IndexPemilihanMhsAdmin,
     meta: {
       requiresAuth: [Role.admin],

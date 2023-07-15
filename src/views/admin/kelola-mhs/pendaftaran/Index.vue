@@ -375,6 +375,7 @@ export default {
     async getListMahasiswa() {
       this.showLoading(true);
 
+      this.listPendaftaran = [];
       this.indexComponent++;
       this.id_kecamatan = parseInt(this.id_kecamatan);
 
