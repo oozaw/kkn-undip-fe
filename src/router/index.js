@@ -139,7 +139,7 @@ const routes = [
   {
     path: "/",
     name: "/",
-    redirect: "/dashboard",
+    redirect: "/login",
     meta: {
       requiresAuth: true,
     },
