@@ -210,9 +210,7 @@ export default {
     if (!(this.body.tgl_akhir && this.body.tgl_mulai))
       this.choicesStatus = this.getChoices("choices-status");
   },
-  mounted() {
-    this.choicesHalaman = this.getChoices("choices-halaman");
-  },
+  mounted() {},
   beforeUnmount() {
     if (this.choicesOptionTgl) this.choicesOptionTgl.destroy();
     if (this.choicesHalaman) this.choicesHalaman.destroy();
@@ -276,6 +274,8 @@ export default {
           this.optionTgl = "1";
           this.checkStatus();
         }
+
+        this.choicesHalaman = this.getChoices("choices-halaman");
 
         this.setChoices(this.choicesHalaman, this.g$listHalaman);
       } catch (error) {

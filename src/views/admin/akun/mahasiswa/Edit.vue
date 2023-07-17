@@ -154,7 +154,7 @@ export default {
         this.idFakultas = this.g$mahasiswa.id_fakultas ?? "";
         this.body.prodi = this.g$mahasiswa.id_prodi ?? "";
 
-        await this.a$listFakults();
+        await this.a$listFakultas();
 
         this.initChoices();
 

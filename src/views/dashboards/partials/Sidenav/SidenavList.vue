@@ -286,14 +286,14 @@
                 mini-icon="N"
                 text="Data Nilai Post Test"
               /> -->
-              <sidenav-item
+              <!-- <sidenav-item
                 :isActive="
                   getRoute2() === 'presensi' && getRoute() === 'kelola-mhs'
                 "
                 :to="{ name: 'Presensi Mahasiswa Admin' }"
                 mini-icon="P"
                 text="Data Presensi Harian"
-              />
+              /> -->
               <sidenav-item
                 :isActive="getRoute2() === 'lrk-lpk'"
                 :to="{ name: 'LRK & LPK Mahasiswa Admin' }"
@@ -341,14 +341,14 @@
                 mini-icon="P"
                 text="Data Seleksi Mahasiswa"
               />
-              <sidenav-item
+              <!-- <sidenav-item
                 :isActive="
                   getRoute2() === 'presensi' && getRoute() === 'kelola-dosen'
                 "
                 :to="{ name: 'Presensi Dosen Admin' }"
                 mini-icon="P"
                 text="Data Presensi Harian"
-              />
+              /> -->
               <sidenav-item
                 :isActive="getRoute2() === 'nilai-akhir'"
                 :to="{ name: 'Nilai Akhir Mahasiswa Admin' }"
