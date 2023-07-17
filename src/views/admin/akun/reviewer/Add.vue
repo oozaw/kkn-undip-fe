@@ -48,7 +48,7 @@
                   <label>NIP</label>
                   <input
                     class="form-control"
-                    type="number"
+                    type="text"
                     name="nip"
                     id="nip"
                     placeholder="Masukkan NIP reviewer"

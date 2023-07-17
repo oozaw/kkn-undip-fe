@@ -52,7 +52,7 @@
                   <label>NIM</label>
                   <input
                     class="form-control"
-                    type="number"
+                    type="text"
                     name="nim"
                     id="nim"
                     placeholder="NIM mahasiswa"

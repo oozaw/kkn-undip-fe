@@ -282,7 +282,7 @@
                                 <label class="form-label">NIP</label>
                                 <input
                                   class="form-control"
-                                  type="number"
+                                  type="text"
                                   name="nip"
                                   :id="`nip-${rev.id_reviewer}`"
                                   placeholder="NIP"

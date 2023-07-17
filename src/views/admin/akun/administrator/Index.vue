@@ -260,7 +260,7 @@
                                 <label class="form-label">NIP</label>
                                 <input
                                   class="form-control"
-                                  type="number"
+                                  type="text"
                                   name="nip"
                                   :id="`nip-${admin.id_admin}`"
                                   placeholder="NIP"

@@ -25,7 +25,7 @@
               </div>
               <div class="col-sm-6 col-12">
                 <label class="form-label">NIM</label>
-                <argon-input id="nim" type="number" placeholder="NIM" />
+                <argon-input id="nim" type="text" placeholder="NIM" />
               </div>
             </div>
             <div class="row">
