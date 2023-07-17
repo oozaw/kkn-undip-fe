@@ -6,6 +6,7 @@
           <HeaderProfileCard>
             <template #button>
               <argon-button
+                type="button"
                 :onclick="() => $router.push({ name: 'Registrasi' })"
                 class="mb-0 me-2"
                 color="secondary"
@@ -187,11 +188,15 @@ export default {
     ...mapState(d$halaman, ["g$statusHalaman"]),
   },
   async created() {
+    this.showSwal("loading");
+
     await this.a$checkHalaman(
       parseInt(this.$route.params.id_tema),
       parseInt(this.id_halaman)
     );
     if (this.g$statusHalaman) await this.getInitData();
+
+    this.showSwal("close");
   },
   beforeUnmount() {
     if (this.choicesProvinsi) this.choicesProvinsi.destroy();
@@ -213,12 +218,12 @@ export default {
       this.body.id_gelombang = parseInt(this.$route.params.id_gelombang);
 
       if (!this.body.id_kecamatan) {
-        this.showSwal("failed-message", "Kecamatan harus diisi!");
+        this.showSwal("warning-message", "Kecamatan harus diisi!");
         return;
       }
 
-      if (!this.body.file) {
-        this.showSwal("failed-message", "File proposal harus diisi!");
+      if (!this.body.file || this.body.file == undefined) {
+        this.showSwal("warning-message", "File proposal harus diisi!");
         return;
       }
 
@@ -230,11 +235,11 @@ export default {
           "Pengajuan proposal berhasil ditambahkan!"
         );
       } catch (error) {
-        this.showSwal(
-          "failed-message",
-          "Terjadi kesalahan saat menambahkan data! " + error.error
-        );
         console.log(error);
+        let msg = "";
+        if (error.error && error.error != undefined) msg = error.error;
+        else msg = error;
+        this.showSwal("failed-message", "Data gagal ditambahkan! " + msg);
       }
     },
 
@@ -285,8 +290,14 @@ export default {
 
         this.showSwal("close");
       } catch (error) {
-        this.showSwal("failed-message", "Terjadi kesalahan saat memuat data");
         console.log(error);
+        let msg = "";
+        if (error.error && error.error != undefined) msg = error.error;
+        else msg = error;
+        this.showSwal(
+          "failed-message",
+          "Terjadi kesalahan saat memuat data! " + msg
+        );
       }
     },
 
@@ -347,6 +358,19 @@ export default {
         this.$swal({
           icon: "success",
           title: "Berhasil!",
+          text: text,
+          timer: 2500,
+          type: type,
+          timerProgressBar: true,
+          showConfirmButton: false,
+          didOpen: () => {
+            this.$swal.hideLoading();
+          },
+        });
+      } else if (type === "warning-message") {
+        this.$swal({
+          icon: "warning",
+          title: "Peringatan!",
           text: text,
           timer: 2500,
           type: type,

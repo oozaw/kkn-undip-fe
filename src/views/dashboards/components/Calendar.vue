@@ -18,6 +18,9 @@
 </template>
 
 <script>
+import $ from "jquery";
+import moment from "moment";
+import setTooltip from "@/assets/js/tooltip.js";
 import { Calendar } from "@fullcalendar/core";
 import dayGridPlugin from "@fullcalendar/daygrid";
 let calendar;
@@ -46,7 +49,7 @@ export default {
     },
     initialDate: {
       type: String,
-      default: "2020-12-01",
+      default: moment(new Date()).format("YYYY-MM-DD"),
     },
     events: {
       type: Array,
@@ -131,6 +134,11 @@ export default {
       default: true,
     },
   },
+  data() {
+    return {
+      moment: moment,
+    };
+  },
   mounted() {
     calendar = new Calendar(document.getElementById(this.id), {
       contentHeight: "auto",
@@ -167,9 +175,23 @@ export default {
           },
         },
       },
+      eventDidMount: function (info) {
+        // info.el.title = `${info.event.title} di ${info.event.extendedProps.tempat}`;
+        $(info.el).attr("data-bs-toggle", "tooltip");
+        $(info.el).attr("data-bs-placement", "top");
+        $(info.el).attr(
+          "data-bs-title",
+          `${info.event.title} di ${info.event.extendedProps.tempat}. ${
+            info.event.extendedProps.keterangan ?? ""
+          }`
+        );
+        // $(info.el).attr("data-bs-content", info.event.extendedProps.tempat);
+      },
     });
 
     calendar.render();
+
+    setTooltip(this.$store.state.bootstrap);
   },
   beforeUnmount() {
     if (calendar) {

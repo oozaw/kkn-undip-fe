@@ -75,6 +75,16 @@ const d$reportase = defineStore("reportaseStore", {
         throw error;
       }
     },
+
+    async a$deleteReportase(id_reportase) {
+      try {
+        const status = await s$reportase.deleteReportase(id_reportase);
+        this.status = status;
+      } catch (error) {
+        this.status = false;
+        throw error;
+      }
+    },
   },
   getters: {
     g$listReportase: ({ listReportase }) => listReportase,

@@ -5,6 +5,7 @@
         <HeaderProfileCard>
           <template #button>
             <argon-button
+              type="button"
               :onclick="() => $router.push({ name: 'Dosen' })"
               class="mb-0 me-2"
               color="secondary"
@@ -56,52 +57,6 @@
                   />
                 </div>
               </div>
-              <!-- <div class="row">
-                <div class="col-3">
-                  <label class="mt-4">Fakultas</label>
-                  <select
-                    id="fakultas-add"
-                    class="form-control"
-                    name="fakultas"
-                  >
-                    <option value="0" selected disabled hidden>
-                      -- Pilih fakultas --
-                    </option>
-                    <option value="Choice 2">Real Estate</option>
-                    <option value="Choice 3">Electronics</option>
-                    <option value="Choice 4">Clothing</option>
-                    <option value="Choice 5">Others</option>
-                  </select>
-                </div>
-                <div class="col-3">
-                  <label class="mt-4">Jurusan</label>
-                  <select id="jurusan-add" class="form-control" name="fakultas">
-                    <option value="0" selected disabled hidden>
-                      -- Pilih jurusan --
-                    </option>
-                    <option value="Choice 2">Real Estate</option>
-                    <option value="Choice 3">Electronics</option>
-                    <option value="Choice 4">Clothing</option>
-                    <option value="Choice 5">Others</option>
-                  </select>
-                </div>
-                <div class="col-3">
-                  <label class="mt-4">Username</label>
-                  <input
-                    class="form-control"
-                    type="text"
-                    placeholder="Masukkan username"
-                  />
-                </div>
-                <div class="col-3">
-                  <label class="mt-4">Password</label>
-                  <input
-                    class="form-control"
-                    type="password"
-                    placeholder="Masukkan password"
-                  />
-                </div>
-              </div> -->
             </div>
           </form>
         </div>
@@ -133,14 +88,6 @@ export default {
       choicesJurusan: undefined,
     };
   },
-  mounted() {
-    // this.choicesFakultas = this.getChoices("fakultas-add");
-    // this.choicesJurusan = this.getChoices("jurusan-add");
-  },
-  beforeUnmount() {
-    // this.choicesFakultas.destroy();
-    // this.choicesJurusan.destroy();
-  },
   methods: {
     ...mapActions(d$dosen, ["a$addDosen"]),
 
@@ -159,8 +106,11 @@ export default {
         this.showSwal("success-message", "Data Dosen berhasil ditambahkan!");
         this.$router.push({ name: "Dosen" });
       } catch (error) {
-        this.showSwal("failed-message", error);
         console.log(error);
+        let msg = "";
+        if (error.error && error.error != undefined) msg = error.error;
+        else msg = error;
+        this.showSwal("failed-message", "Data gagal ditambahkan! " + msg);
       }
     },
 

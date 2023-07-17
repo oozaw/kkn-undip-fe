@@ -64,14 +64,100 @@
                       </td>
                       <td class="text-sm">
                         <a
-                          :id="report.id_reportase"
-                          class="detail"
-                          href="#"
-                          data-bs-toggle="tooltip"
+                          type="button"
+                          class="mb-0 text-primary"
+                          data-bs-toggle="modal"
+                          :data-bs-target="'#detail_' + report.id_reportase"
                           title="Detail Reportase"
                         >
                           <i class="fas fa-eye text-info"></i>
                         </a>
+                        <div
+                          :id="'detail_' + report.id_reportase"
+                          class="modal fade"
+                          tabindex="-1"
+                          aria-hidden="true"
+                        >
+                          <div class="modal-dialog modal-lg mt-lg-5">
+                            <div class="modal-content">
+                              <div class="modal-header">
+                                <h5 id="ModalLabel" class="modal-title">
+                                  Detail Reportase
+                                  {{ report.judul }}
+                                </h5>
+                                <button
+                                  type="button"
+                                  class="btn-close text-dark mb-0"
+                                  data-bs-dismiss="modal"
+                                  aria-label="Close"
+                                >
+                                  <font-awesome-icon icon="fa-solid fa-xmark" />
+                                </button>
+                              </div>
+                              <div class="modal-body p-4">
+                                <ul class="list-group">
+                                  <li
+                                    class="text-sm border-0 list-group-item ps-0"
+                                  >
+                                    <strong class="text-dark">Judul:</strong>
+                                    &nbsp;
+                                    {{ report.judul }}
+                                  </li>
+                                  <li
+                                    class="text-sm border-0 list-group-item ps-0"
+                                  >
+                                    <strong class="text-dark">Kategori:</strong>
+                                    &nbsp;
+                                    {{
+                                      report.kategori == 1
+                                        ? "Monodisiplin"
+                                        : "Multidisiplin"
+                                    }}
+                                  </li>
+                                  <li
+                                    class="text-sm border-0 list-group-item ps-0"
+                                  >
+                                    <strong class="text-dark"
+                                      >Publikasi:</strong
+                                    >
+                                    &nbsp;
+                                    <a
+                                      v-if="report.link_publikasi"
+                                      :href="report.link_publikasi"
+                                      target="_blank"
+                                    >
+                                      <font-awesome-icon
+                                        icon="fa-solid fa-up-right-from-square"
+                                      />
+                                    </a>
+                                    <span v-else> - </span>
+                                  </li>
+                                  <li
+                                    class="text-sm border-0 list-group-item ps-0"
+                                  >
+                                    <strong class="text-dark">Isi:</strong>
+                                    &nbsp;
+                                    <div
+                                      class="text-wrap"
+                                      v-html="getOutOfTagP(report.isi)"
+                                    ></div>
+                                  </li>
+                                  <li class="border-0 list-group-item ps-0">
+                                    <strong class="text-sm text-dark"
+                                      >Komentar:</strong
+                                    >
+                                    &nbsp;
+                                    <div
+                                      class="text-wrap"
+                                      v-html="getOutOfTagP(report.komentar)"
+                                    ></div>
+                                  </li>
+                                </ul>
+                              </div>
+                              <div class="modal-footer"></div>
+                            </div>
+                          </div>
+                        </div>
                         <a
                           :id="report.id_reportase"
                           href="#"
@@ -82,9 +168,13 @@
                           <i class="fas fa-user-edit text-primary"></i>
                         </a>
                         <a
-                          href="javascript:;"
+                          :id="report.id_reportase"
+                          :name="report.judul"
+                          class="delete"
+                          href="#"
                           data-bs-toggle="tooltip"
-                          data-bs-original-title="Delete product"
+                          data-bs-original-title="Hapus Reportase"
+                          title="Hapus Reportase"
                         >
                           <i class="fas fa-trash text-danger"></i>
                         </a>
@@ -259,7 +349,7 @@
                                     <strong class="text-dark">Fakultas:</strong>
                                     &nbsp;
                                     {{
-                                      reportase.mahasiswa.prodi.fakultas.nama
+                                      reportase.mahasiswa.prodi?.fakultas.nama
                                     }}
                                   </li>
                                   <li
@@ -267,7 +357,7 @@
                                   >
                                     <strong class="text-dark">Prodi:</strong>
                                     &nbsp;
-                                    {{ reportase.mahasiswa.prodi.nama }}
+                                    {{ reportase.mahasiswa.prodi?.nama }}
                                   </li>
                                   <li
                                     class="text-sm border-0 list-group-item ps-0"
@@ -275,6 +365,35 @@
                                     <strong class="text-dark">Judul:</strong>
                                     &nbsp;
                                     {{ reportase.judul }}
+                                  </li>
+                                  <li
+                                    class="text-sm border-0 list-group-item ps-0"
+                                  >
+                                    <strong class="text-dark">Kategori:</strong>
+                                    &nbsp;
+                                    {{
+                                      reportase.kategori == 1
+                                        ? "Monodisiplin"
+                                        : "Multidisiplin"
+                                    }}
+                                  </li>
+                                  <li
+                                    class="text-sm border-0 list-group-item ps-0"
+                                  >
+                                    <strong class="text-dark"
+                                      >Publikasi:</strong
+                                    >
+                                    &nbsp;
+                                    <a
+                                      v-if="reportase.link_publikasi"
+                                      :href="reportase.link_publikasi"
+                                      target="_blank"
+                                    >
+                                      <font-awesome-icon
+                                        icon="fa-solid fa-up-right-from-square"
+                                      />
+                                    </a>
+                                    <span v-else> - </span>
                                   </li>
                                   <li
                                     class="text-sm border-0 list-group-item ps-0"
@@ -314,7 +433,10 @@
                           <i class="fas fa-user-edit text-primary"></i>
                         </a>
                         <a
-                          href="javascript:;"
+                          :id="reportase.id_reportase"
+                          :name="reportase.mahasiswa.nama"
+                          class="delete"
+                          href="#"
                           data-bs-toggle="tooltip"
                           data-bs-original-title="Delete product"
                         >
@@ -349,7 +471,6 @@ import $ from "jquery";
 import { DataTable } from "simple-datatables";
 import moment from "moment";
 import Choices from "choices.js";
-// import setTooltip from "@/assets/js/tooltip.js";
 import HeaderProfileCard from "@/views/dashboards/components/HeaderProfileCard.vue";
 import { mapActions, mapState } from "pinia";
 import d$auth from "@/store/auth";
@@ -370,7 +491,8 @@ export default {
       id_kecamatan: 0,
       choicesTema: undefined,
       choicesKec: undefined,
-      moment: moment,
+      moment,
+      loader: undefined,
     };
   },
   computed: {
@@ -380,6 +502,8 @@ export default {
     ...mapState(d$proposal, ["g$listProposal"]),
   },
   async created() {
+    this.showLoading(true);
+
     if (this.g$user.role === "MAHASISWA") await this.getListReportaseMhs();
     else if (this.g$user.role === "DOSEN") {
       await this.getInitData();
@@ -388,8 +512,6 @@ export default {
 
       this.getTema();
     }
-
-    // setTooltip(this.$store.state.bootstrap);
   },
   beforeUnmount() {
     if (this.choicesTema) this.choicesTema.destroy();
@@ -398,7 +520,11 @@ export default {
   methods: {
     ...mapActions(d$tema, ["a$listTemaDosen"]),
     ...mapActions(d$proposal, ["a$listProposalDosen"]),
-    ...mapActions(d$reportase, ["a$listReportase", "a$listReportaseKecamatan"]),
+    ...mapActions(d$reportase, [
+      "a$listReportase",
+      "a$listReportaseKecamatan",
+      "a$deleteReportase",
+    ]),
 
     async getInitData() {
       try {
@@ -409,30 +535,40 @@ export default {
 
         await this.getListKecamatan();
       } catch (error) {
+        console.log(error);
+        let msg = "";
+        if (error.error && error.error != undefined) msg = error.error;
+        else msg = error;
         this.showSwal(
           "failed-message",
-          error ?? "Terjadi kesalahan saat memuat data"
+          "Terjadi kesalahan saat memuat data! " + msg
         );
-        console.log(error);
       }
     },
 
     async getListReportaseDosen() {
+      this.showLoading(true);
+
       this.indexComponent++;
       this.id_kecamatan = parseInt(this.id_kecamatan);
 
       try {
         await this.a$listReportaseKecamatan(this.id_kecamatan);
       } catch (error) {
+        console.log(error);
+        let msg = "";
+        if (error.error && error.error != undefined) msg = error.error;
+        else msg = error;
         this.showSwal(
           "failed-message",
-          error ?? "Terjadi kesalahan saat memuat data"
+          "Terjadi kesalahan saat memuat data! " + msg
         );
-        console.log(error);
       }
 
       this.setupDataTable("reportase-dosen-section-list");
       this.setupTableAction();
+
+      this.showLoading(false);
     },
 
     async getListKecamatan() {
@@ -444,29 +580,56 @@ export default {
         this.setChoices(this.choicesKec, this.g$listProposal);
         await this.getListReportaseDosen();
       } catch (error) {
+        console.log(error);
+        let msg = "";
+        if (error.error && error.error != undefined) msg = error.error;
+        else msg = error;
         this.showSwal(
           "failed-message",
-          error ?? "Terjadi kesalahan saat memuat data"
+          "Terjadi kesalahan saat memuat data! " + msg
         );
-        console.log(error);
       }
     },
 
     async getListReportaseMhs() {
+      this.showLoading(true);
+
       this.indexComponent++;
 
       try {
         await this.a$listReportase();
       } catch (error) {
+        console.log(error);
+        let msg = "";
+        if (error.error && error.error != undefined) msg = error.error;
+        else msg = error;
         this.showSwal(
           "failed-message",
-          "Terjadi kesalahan saat memuat data" + error
+          "Terjadi kesalahan saat memuat data! " + msg
         );
-        console.log(error);
       }
 
       this.setupDataTable("reportase-list");
       this.setupTableAction();
+
+      this.showLoading(false);
+    },
+
+    async deleteReportase(id_reportase) {
+      this.showSwal("loading");
+
+      try {
+        await this.a$deleteReportase(id_reportase);
+        if (this.g$user.role === "MAHASISWA") await this.getListReportaseMhs();
+        else if (this.g$user.role === "DOSEN")
+          await this.getListReportaseDosen();
+      } catch (error) {
+        console.log(error);
+        let msg = "";
+        if (error.error && error.error != undefined) msg = error.error;
+        else msg = error;
+        this.showSwal("failed-message", "Data gagal dihapus! " + msg);
+      }
     },
 
     setupTableAction() {
@@ -499,6 +662,29 @@ export default {
           name: "Evaluasi Reportase",
           params: { id_reportase: reportase.id },
         });
+        e.preventDefault();
+      });
+
+      // delete
+      $("#reportase-list").on("click", `.delete`, function (e) {
+        let reportase = this;
+        outerThis.showSwal(
+          "warning-confirmation",
+          `Hapus reportase  ${reportase.name}?`,
+          "Berhasil menghapus data",
+          reportase.id
+        );
+        e.preventDefault();
+      });
+
+      $("#reportase-dosen-section-list").on("click", `.delete`, function (e) {
+        let reportase = this;
+        outerThis.showSwal(
+          "warning-confirmation",
+          `Hapus reportase mahasiswa ${reportase.name}?`,
+          "Berhasil menghapus data",
+          reportase.id
+        );
         e.preventDefault();
       });
     },
@@ -600,10 +786,6 @@ export default {
 
       var output = temp.html();
       return output;
-      // var div = document.createElement("div");
-      // div.innerHTML = element;
-      // var text = div.textContent || div.innerHTML || "";
-      // return text;
     },
 
     getTema() {
@@ -611,7 +793,18 @@ export default {
         document.getElementById("choices-tema").selectedOptions[0].text;
     },
 
-    showSwal(type, text) {
+    showLoading(isLoading) {
+      if (isLoading && !this.loader) {
+        this.loader = this.$loading.show();
+      } else if (!isLoading && this.loader) {
+        setTimeout(() => {
+          this.loader.hide();
+          this.loader = undefined;
+        }, 400);
+      }
+    },
+
+    showSwal(type, text, toastText, id_reportase) {
       if (type === "success-message") {
         this.$swal({
           icon: "success",
@@ -668,6 +861,43 @@ export default {
           willClose: () => {
             clearInterval(timerInterval);
           },
+        });
+      } else if (type === "warning-confirmation") {
+        this.$swal({
+          title: "Apakah Anda yakin?",
+          text: text,
+          showCancelButton: true,
+          confirmButtonText: "Ya!",
+          cancelButtonText: "Batal!",
+          customClass: {
+            confirmButton: "btn bg-gradient-success",
+            cancelButton: "btn bg-gradient-secondary",
+          },
+          buttonsStyling: false,
+          didOpen: () => {
+            this.$swal.hideLoading();
+          },
+        }).then((result) => {
+          if (result.isConfirmed) {
+            this.deleteReportase(id_reportase);
+            this.$swal({
+              toast: true,
+              position: "top-end",
+              title: toastText,
+              icon: "success",
+              showConfirmButton: false,
+              timer: 2500,
+              timerProgressBar: true,
+              didOpen: () => {
+                this.$swal.hideLoading();
+              },
+            });
+          } else if (
+            /* Read more about handling dismissals below */
+            result.dismiss === this.$swal.DismissReason.cancel
+          ) {
+            this.$swal.close();
+          }
         });
       } else if (type === "loading") {
         this.$swal({

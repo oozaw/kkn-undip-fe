@@ -150,8 +150,14 @@ export default {
         await this.getListGelombang();
         // this.showSwal("close");
       } catch (error) {
-        this.showSwal("failed-message", "Terjadi kesalahan saat memuat data");
         console.log(error);
+        let msg = "";
+        if (error.error && error.error != undefined) msg = error.error;
+        else msg = error;
+        this.showSwal(
+          "failed-message",
+          "Terjadi kesalahan saat memuat data! " + msg
+        );
       }
     },
 
@@ -168,11 +174,14 @@ export default {
         );
         this.listGelombang = this.g$listGelombang;
       } catch (error) {
+        console.log(error);
+        let msg = "";
+        if (error.error && error.error != undefined) msg = error.error;
+        else msg = error;
         this.showSwal(
           "failed-message",
-          error ?? "Terjadi kesalahan saat memuat data"
+          "Terjadi kesalahan saat memuat data! " + msg
         );
-        console.log(error);
       }
 
       setTimeout(() => {

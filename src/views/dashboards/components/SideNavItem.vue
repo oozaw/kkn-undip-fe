@@ -20,6 +20,7 @@
         class="col-sm-auto ms-sm-auto mt-sm-0 mt-3 d-flex justify-content-center"
       >
         <argon-button
+          type="button"
           :onclick="() => $router.push('/profile')"
           class="mb-0 me-2"
           color="secondary"

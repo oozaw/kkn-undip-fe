@@ -5,6 +5,7 @@
         <HeaderProfileCard>
           <template #button>
             <argon-button
+              type="button"
               :onclick="() => $router.push({ name: 'Pengajuan Lokasi' })"
               class="mb-0 me-2"
               color="secondary"
@@ -281,7 +282,7 @@ export default {
         this.input.id_tema === "" ||
         this.input.id_tema === "0"
       ) {
-        this.showSwal("failed-message", "Tema tidak boleh kosong!");
+        this.showSwal("warning-message", "Tema tidak boleh kosong!");
         return;
       }
 
@@ -292,7 +293,7 @@ export default {
         potensiEditor.classList.add("is-invalid");
         potensiValidation.innerText = "Potensi tidak boleh kosong!";
         potensiRow.classList.add("pb-7");
-        this.showSwal("failed-message", "Potensi tidak boleh kosong!");
+        this.showSwal("warning-message", "Potensi tidak boleh kosong!");
 
         return;
       } else {
@@ -315,8 +316,11 @@ export default {
             "Data kecamatan berhasil ditambahkan!"
           );
         } catch (error) {
-          this.showSwal("failed-message", error.meta.field_name);
           console.log(error);
+          let msg = "";
+          if (error.error && error.error != undefined) msg = error.error;
+          else msg = error;
+          this.showSwal("failed-message", "Data gagal ditambahkan! " + msg);
         }
       }
     },

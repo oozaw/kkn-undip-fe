@@ -31,7 +31,7 @@
               v-if="isValueList"
             >
               <span v-for="(val, i) in value.list" :key="i">
-                {{ val }}
+                {{ `${i + 1}. ` + val }}
                 <br />
               </span>
               <span

@@ -5,6 +5,7 @@
         <header-profile-card>
           <template #button>
             <argon-button
+              type="button"
               :onclick="() => $router.push({ name: 'LRK' })"
               class="mb-0 me-2"
               color="secondary"
@@ -38,7 +39,7 @@
             <div class="ms-2 pt-1 ps-3 card-body">
               <div class="mt-2 row">
                 <div class="col-12">
-                  <label>Judul Program Kerja</label>
+                  <label>Program Kerja</label>
                   <input
                     class="form-control"
                     type="text"
@@ -62,95 +63,82 @@
                   </select>
                 </div>
               </div>
-              <div class="row">
+              <div class="row mt-3">
                 <div class="col-12">
-                  <label class="mt-4">1. Latar Belakang</label>
-                  <quill-editor
-                    class="bg-light"
-                    :options="options"
-                    id="latar-belakang-editor"
-                    v-model:content="g$getLaporan.latar_belakang"
-                    contentType="html"
-                    theme="snow"
-                  ></quill-editor>
-                </div>
-              </div>
-              <div class="row">
-                <div class="col-12">
-                  <label class="pt-6">2. Potensi atau Masalah</label>
+                  <label>1. Potensi atau Masalah</label>
                   <quill-editor
                     class="bg-light"
                     :options="options"
                     id="potensi-editor"
+                    style="height: 200px"
                     v-model:content="g$getLaporan.potensi"
                     contentType="html"
                     theme="snow"
                   ></quill-editor>
                 </div>
               </div>
-              <div class="row">
+              <div class="row mt-3">
                 <div class="col-12">
-                  <label class="pt-7">3. Usulan Program</label>
+                  <label>2. Usulan Program</label>
                   <quill-editor
                     class="bg-light"
                     :options="options"
                     id="usulan-editor"
+                    style="height: 200px"
                     v-model:content="g$getLaporan.program"
                     contentType="html"
                     theme="snow"
                   ></quill-editor>
                 </div>
               </div>
-              <div class="row">
+              <div class="row mt-3">
                 <div class="col-12">
-                  <label class="pt-8">4. Sasaran Program</label>
+                  <label>3. Sasaran Program</label>
                   <quill-editor
                     class="bg-light"
                     :options="options"
                     id="sasaran-editor"
+                    style="height: 200px"
                     v-model:content="g$getLaporan.sasaran"
                     contentType="html"
                     theme="snow"
                   ></quill-editor>
                 </div>
               </div>
-              <div class="row">
-                <div class="col-12">
-                  <label class="pt-9">5. Rencana Pelaksanaan</label>
-                </div>
-              </div>
               <div class="row mt-3">
                 <div class="col-12">
-                  <label>6. Metode IPTEKS yang Digunakan</label>
+                  <label>4. Metode IPTEKS yang Digunakan</label>
                   <quill-editor
                     class="bg-light"
                     :options="options"
                     id="metode-editor"
+                    style="height: 200px"
                     v-model:content="g$getLaporan.metode"
                     contentType="html"
                     theme="snow"
                   ></quill-editor>
                 </div>
               </div>
-              <div class="row">
+              <div class="row mt-3">
                 <div class="col-12">
-                  <label class="pt-5">7. Luaran Program</label>
+                  <label>5. Luaran Program</label>
                   <quill-editor
                     class="bg-light"
                     :options="options"
                     id="output-editor"
+                    style="height: 200px"
                     v-model:content="g$getLaporan.luaran"
                     contentType="html"
                     theme="snow"
                   ></quill-editor>
                 </div>
               </div>
-              <div class="row">
+              <div class="row mt-3">
                 <div class="col-12">
-                  <label class="pt-7">Evaluasi LRK</label>
+                  <label>Evaluasi LRK</label>
                   <quill-editor
                     id="evaluasi-editor"
-                    style="height: 180px"
+                    style="height: 200px"
                     v-model:content="body.komentar"
                     contentType="html"
                     theme="snow"
@@ -167,6 +155,7 @@
                   class="col-sm-auto ms-sm-auto mt-sm-0 mt-3 d-flex justify-content-end"
                 >
                   <argon-button
+                    type="button"
                     :onclick="() => $router.push({ name: 'LRK' })"
                     class="mb-0 me-2"
                     color="secondary"
@@ -246,11 +235,14 @@ export default {
 
       try {
         await this.a$evaluateLaporan(this.body);
-        this.$router.push({ name: "LPK" });
+        this.$router.push({ name: "LRK" });
         this.showSwal("success-message", "Evaluasi berhasil disimpan!");
       } catch (error) {
-        this.showSwal("failed-message", "Evaluasi gagal disimpan! " + error);
-        console.log(error.error);
+        console.log(error);
+        let msg = "";
+        if (error.error && error.error != undefined) msg = error.error;
+        else msg = error;
+        this.showSwal("failed-message", "Data gagal disimpan! " + msg);
       }
     },
 
@@ -261,8 +253,14 @@ export default {
         await this.a$getLaporan(parseInt(this.$route.params.id_laporan));
         this.body.komentar = this.g$getLaporan.komentar;
       } catch (error) {
-        this.showSwal("failed-message", "Terjadi kesalahan saat memuat data");
         console.log(error);
+        let msg = "";
+        if (error.error && error.error != undefined) msg = error.error;
+        else msg = error;
+        this.showSwal(
+          "failed-message",
+          "Terjadi kesalahan saat memuat data! " + msg
+        );
       }
 
       this.showSwal("close");

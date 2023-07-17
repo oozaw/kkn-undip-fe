@@ -9,47 +9,29 @@
       <div class="col-lg-12">
         <div class="row mt-1">
           <div class="col-lg-6 col-12">
-            <calendar title="Kalender KKN" />
-            <div class="mt-4">
-              <timeline-list class="h-100" title="Pengumuman KKN">
+            <calendar
+              v-if="listEvent != undefined"
+              title="Kalender KKN"
+              :events="listEvent"
+              :initial-date="initialDate"
+            />
+            <!-- <div class="mt-4" v-if="g$user.role === 'ADMIN'">
+              <timeline-list
+                v-if="listPengumuman != undefined"
+                class="h-100"
+                title="Pengumuman KKN"
+              >
                 <timeline-item
-                  :icon="{ component: 'ni ni-bell-55', color: 'success' }"
-                  title="Deadline Pengambilan Post Test"
-                  date-time="22 DEC 7:20 PM"
-                  description="Lorep ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
-                />
-                <TimelineItem
-                  :icon="{ component: 'ni ni-html5', color: 'danger' }"
-                  title="Deadline Pengumpulan LRK"
-                  date-time="21 DEC 11 PM"
-                  description="Lorep ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
-                />
-                <TimelineItem
-                  :icon="{ component: 'ni ni-cart', color: 'info' }"
-                  title="Deadline Pengumpulan LPK"
-                  date-time="21 DEC 9:34 PM"
-                  description="Lorep ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
-                />
-                <TimelineItem
-                  :icon="{ component: 'ni ni-credit-card', color: 'warning' }"
-                  title="Deadline Pengumpulan Laporan Akhir"
-                  date-time="20 DEC 2:20 AM"
-                  description="Lorep ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
-                />
-                <TimelineItem
-                  :icon="{ component: 'ni ni-key-25', color: 'primary' }"
-                  title="Deadline Pengumpulan Reportase"
-                  date-time="18 DEC 4:54 AM"
-                  description="Lorep ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
-                />
-                <TimelineItem
-                  :icon="{ component: 'ni ni-box-2', color: 'dark' }"
-                  title="Pelaksanaan Pembekalan"
-                  date-time="21 DEC 09:00 AM"
-                  description="Lorep ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
+                  v-for="pengumuman in listPengumuman"
+                  :key="pengumuman.id_pengumuman"
+                  :title="pengumuman.judul"
+                  :date-time="
+                    moment(pengumuman.created_at).format('DD MMMM YYYY')
+                  "
+                  :description="pengumuman.isi"
                 />
               </timeline-list>
-            </div>
+            </div> -->
           </div>
           <div class="col-lg-6 col-12 mt-lg-0 mt-4">
             <div class="col-lg-12 col-sm-12">
@@ -70,18 +52,74 @@
                 }"
               />
               <mini-statistics-card
-                v-if="g$user.role === 'DOSEN' || g$user.role === 'BAPPEDA'"
+                v-if="
+                  g$user.role === 'DOSEN' ||
+                  g$user.role === 'BAPPEDA' ||
+                  g$user.role === 'REVIEWER' ||
+                  g$user.role === 'PIMPINAN'
+                "
                 :style="'margin-left: 70%'"
+                role="button"
                 title="Data Diri"
                 title-color="primary"
-                :value="{ text: 'Sudah Lengkap', color: 'success' }"
-                description="Terakhir diubah 12/12/2020, 12.30 PM"
+                :value="{
+                  text:
+                    checkProgressDataDiriDosen() == 100
+                      ? `Sudah Lengkap (${checkProgressDataDiriDosen()}%)`
+                      : `Belum Lengkap (${checkProgressDataDiriDosen()}%)`,
+                  color:
+                    checkProgressDataDiriDosen() == 100 ? 'success' : 'danger',
+                }"
                 :icon="{
                   component: 'fa-solid fa-address-card',
                   background: 'bg-gradient-primary',
                   shape: 'rounded-circle',
                 }"
+                @click="() => $router.push({ name: 'Edit Data Diri' })"
               />
+              <mini-statistics-card
+                v-if="g$user.role === 'DOSEN' || g$user.role === 'BAPPEDA'"
+                :style="'margin-left: 70%'"
+                role="button"
+                title="Daftar Lokasi KKN"
+                title-color="primary"
+                :isValueList="true"
+                :value="{
+                  list: listWilayahDosen,
+                  color: 'dark',
+                }"
+                :icon="{
+                  component: 'fa-solid fa-map-location-dot',
+                  background: 'bg-gradient-danger',
+                  shape: 'rounded-circle',
+                }"
+                @click="() => $router.push({ name: 'Registrasi' })"
+              />
+              <div
+                class="mt-2"
+                v-if="
+                  g$user.role === 'DOSEN' ||
+                  g$user.role === 'BAPPEDA' ||
+                  g$user.role === 'REVIEWER' ||
+                  g$user.role === 'PIMPINAN'
+                "
+              >
+                <timeline-list
+                  v-if="listPengumuman != undefined"
+                  class="h-100"
+                  title="Pengumuman KKN"
+                >
+                  <timeline-item
+                    v-for="pengumuman in listPengumuman"
+                    :key="pengumuman.id_pengumuman"
+                    :title="pengumuman.judul"
+                    :date-time="
+                      moment(pengumuman.created_at).format('DD MMMM YYYY')
+                    "
+                    :description="pengumuman.isi"
+                  />
+                </timeline-list>
+              </div>
               <div class="row">
                 <div class="col-lg-6 col-md-6 col-12">
                   <mini-statistics-card
@@ -93,7 +131,7 @@
                     :value="{
                       text:
                         checkProgressDataDiriMhs() == 100
-                          ? `Sudah Lengkap (${checkProgressLRK()}%)`
+                          ? `Sudah Lengkap (${checkProgressDataDiriMhs()}%)`
                           : `Belum Lengkap (${checkProgressDataDiriMhs()}%)`,
                       color:
                         checkProgressDataDiriMhs() == 100
@@ -206,6 +244,94 @@
                     }"
                   />
                 </div>
+                <div class="col-lg-6 col-md-6 col-12">
+                  <mini-statistics-card
+                    v-if="g$user.role === 'ADMIN'"
+                    :style="'margin-left: 70%'"
+                    title="Total Mahasiswa"
+                    :value="{ text: total.mahasiswa, color: 'success' }"
+                    :description="`Dari total ${total.temaActive} tema aktif`"
+                    :icon="{
+                      component: 'fa-solid fa-users',
+                      background: 'bg-gradient-info',
+                      shape: 'rounded-circle',
+                    }"
+                  />
+                </div>
+                <div class="col-lg-6 col-md-6 col-12">
+                  <mini-statistics-card
+                    v-if="g$user.role === 'ADMIN'"
+                    :style="'margin-left: 70%'"
+                    title="Total Mahasiswa Terdaftar"
+                    :value="{
+                      text: total.mahasiswaRegistered,
+                      color: 'success',
+                    }"
+                    :description="`Dari total ${total.temaActive} tema aktif`"
+                    :icon="{
+                      component: 'fa-solid fa-users',
+                      background: 'bg-gradient-primary',
+                      shape: 'rounded-circle',
+                    }"
+                  />
+                </div>
+                <div class="col-lg-6 col-md-6 col-12">
+                  <mini-statistics-card
+                    v-if="g$user.role === 'ADMIN'"
+                    :style="'margin-left: 70%'"
+                    title="Total BAPPEDA"
+                    :value="{ text: total.bappeda, color: 'success' }"
+                    :description="`Dari total ${total.temaActive} tema aktif`"
+                    :icon="{
+                      component: 'fa-solid fa-users',
+                      background: 'bg-gradient-danger',
+                      shape: 'rounded-circle',
+                    }"
+                  />
+                </div>
+                <div class="col-lg-6 col-md-6 col-12">
+                  <mini-statistics-card
+                    v-if="g$user.role === 'ADMIN'"
+                    :style="'margin-left: 70%'"
+                    title="Total Dosen"
+                    :value="{ text: total.dosen, color: 'success' }"
+                    :description="`Dari total ${total.temaActive} tema aktif`"
+                    :icon="{
+                      component: 'fa-solid fa-users',
+                      background: 'bg-gradient-secondary',
+                      shape: 'rounded-circle',
+                    }"
+                  />
+                </div>
+                <div class="col-lg-6 col-md-6 col-12">
+                  <mini-statistics-card
+                    v-if="g$user.role === 'ADMIN'"
+                    :style="'margin-left: 70%'"
+                    title="Total Reviewer"
+                    :value="{ text: total.reviewer, color: 'success' }"
+                    :icon="{
+                      component: 'fa-solid fa-users',
+                      background: 'bg-gradient-success',
+                      shape: 'rounded-circle',
+                    }"
+                  />
+                </div>
+                <div class="col-lg-6 col-md-6 col-12">
+                  <mini-statistics-card
+                    v-if="g$user.role === 'ADMIN'"
+                    :style="'margin-left: 70%'"
+                    title="Total Pimpinan"
+                    :value="{
+                      text: total.pimpinan,
+                      color: 'success',
+                    }"
+                    :icon="{
+                      component: 'fa-solid fa-users',
+                      background: 'bg-gradient-dark',
+                      shape: 'rounded-circle',
+                    }"
+                  />
+                </div>
               </div>
             </div>
             <div class="col-lg-12 col-sm-12 mt-sm-2">
@@ -215,8 +341,29 @@
               />
             </div>
           </div>
-          <div class="col-lg-12 col-sm-12" v-if="g$user.role === 'ADMIN'">
-            <div class="bg-white card mt-4">
+        </div>
+        <div class="row mt">
+          <div class="col-12">
+            <div class="mt-lg-4 mt-3" v-if="g$user.role === 'ADMIN'">
+              <timeline-list
+                v-if="listPengumuman != undefined"
+                class="h-100"
+                title="Pengumuman KKN"
+              >
+                <timeline-item
+                  v-for="pengumuman in listPengumuman"
+                  :key="pengumuman.id_pengumuman"
+                  :title="pengumuman.judul"
+                  :date-time="
+                    moment(pengumuman.created_at).format('DD MMMM YYYY')
+                  "
+                  :description="pengumuman.isi"
+                />
+              </timeline-list>
+            </div>
+          </div>
+          <div class="col-lg-12 col-sm-12 mt-4" v-if="g$user.role === 'ADMIN'">
+            <div class="bg-white card">
               <!-- Card header -->
               <div class="pb-0 card-header">
                 <div class="d-lg-flex">
@@ -303,6 +450,7 @@
 </template>
 
 <script>
+import moment from "moment";
 import { DataTable } from "simple-datatables";
 import setTooltip from "@/assets/js/tooltip.js";
 import MiniStatisticsCard from "@/views/dashboards/components/Cards/MiniStatisticsCard.vue";
@@ -316,6 +464,14 @@ import d$auth from "@/store/auth";
 import d$wilayah from "@/store/wilayah";
 import d$laporan from "@/store/laporan";
 import d$tema from "@/store/tema";
+import d$event from "@/store/event";
+import d$pengumuman from "@/store/pengumuman";
+import d$proposal from "@/store/proposal";
+import d$mahasiswa from "@/store/mahasiswa";
+import d$dosen from "@/store/dosen";
+import d$reviewer from "@/store/reviewer";
+import d$bappeda from "@/store/bappeda";
+import d$pimpinan from "@/store/pimpinan";
 
 export default {
   name: "Dashboard",
@@ -341,7 +497,19 @@ export default {
         kabupaten: 0,
         kecamatan: 0,
         desa: 0,
+        mahasiswa: 0,
+        mahasiswaRegistered: 0,
+        dosen: 0,
+        pimpinan: 0,
+        bappeda: 0,
+        reviewer: 0,
       },
+      initialDate: "",
+      listEvent: undefined,
+      listPengumuman: undefined,
+      listWilayahDosen: undefined,
+      moment,
+      progresDataDiri: 0,
     };
   },
   computed: {
@@ -349,8 +517,18 @@ export default {
     ...mapState(d$wilayah, ["g$kecamatan"]),
     ...mapState(d$laporan, ["g$listLRK", "g$listLPK"]),
     ...mapState(d$tema, ["g$listTemaActive"]),
+    ...mapState(d$event, ["g$listEvent"]),
+    ...mapState(d$pengumuman, ["g$listPengumuman"]),
+    ...mapState(d$proposal, ["g$listProposal"]),
+    ...mapState(d$mahasiswa, ["g$listMahasiswa"]),
+    ...mapState(d$dosen, ["g$listDosen"]),
+    ...mapState(d$reviewer, ["g$listReviewer"]),
+    ...mapState(d$bappeda, ["g$listBappeda"]),
+    ...mapState(d$pimpinan, ["g$listPimpinan"]),
   },
   async created() {
+    this.moment.locale("id");
+
     switch (this.g$user.role) {
       case "MAHASISWA":
         if (!this.g$infoUser.id_tema) {
@@ -360,12 +538,63 @@ export default {
           await this.a$listLRK();
           await this.a$listLPK();
         }
-        this.checkProgressDataDiriMhs();
-        this.checkProgressLRK();
+
+        // kegiatan
+        await this.a$listMahasiswaEvent();
+        this.parsingEvents();
+
+        // pengumuman
+        await this.a$listMahasiswaPengumuman();
+        this.listPengumuman = this.g$listPengumuman;
+
+        // progress
+        // this.checkProgressDataDiriMhs();
+        // this.checkProgressLRK();
         break;
 
       case "ADMIN":
+        // tema
         await this.getDataTema();
+
+        // kegiatan
+        await this.a$listAllEvent();
+        this.parsingEvents();
+
+        // total
+        await this.getTotalMahasiswa();
+        await this.getTotalDosen();
+        await this.getTotalPimpinan();
+        await this.getTotalBappeda();
+        await this.getTotalReviewer();
+
+        // pengumuman
+        await this.a$listAllPengumuman();
+        this.listPengumuman = this.g$listPengumuman;
+        break;
+
+      case "DOSEN":
+        // kegiatan
+        await this.a$listDosenEvent();
+        this.parsingEvents();
+
+        // wilayah
+        await this.getListWilayahDosen();
+
+        // pengumuman
+        await this.a$listMahasiswaPengumuman();
+        this.listPengumuman = this.g$listPengumuman;
+
+        break;
+
+      case "REVIEWER":
+        // kegiatan
+        await this.a$listAllEvent();
+        this.parsingEvents();
+
+        // pengumuman
+        await this.a$listAllPengumuman();
+        this.listPengumuman = this.g$listPengumuman;
+
         break;
 
       default:
@@ -391,9 +620,9 @@ export default {
             filename: "soft-ui-" + type,
           };
 
-          if (type === "csv") {
-            data.columnDelimiter = "|";
-          }
+          // if (type === "csv") {
+          //   data.columnDelimiter = "|";
+          // }
 
           dataTableSearch.export(data);
         });
@@ -405,6 +634,24 @@ export default {
     ...mapActions(d$wilayah, ["a$getKecamatanMhs"]),
     ...mapActions(d$laporan, ["a$listLRK", "a$listLPK"]),
     ...mapActions(d$tema, ["a$listTema"]),
+    ...mapActions(d$event, [
+      "a$listAllEvent",
+      "a$listMahasiswaEvent",
+      "a$listDosenEvent",
+      "a$listBappedaEvent",
+    ]),
+    ...mapActions(d$pengumuman, [
+      "a$listAllPengumuman",
+      "a$listMahasiswaPengumuman",
+      "a$listDosenPengumuman",
+      "a$listBappedaPengumuman",
+    ]),
+    ...mapActions(d$proposal, ["a$listAllProposalDosen"]),
+    ...mapActions(d$mahasiswa, ["a$listMahasiswa", "a$listMahasiswaAccepted"]),
+    ...mapActions(d$dosen, ["a$listDosen"]),
+    ...mapActions(d$reviewer, ["a$listReviewer"]),
+    ...mapActions(d$bappeda, ["a$listBappeda"]),
+    ...mapActions(d$pimpinan, ["a$listPimpinan"]),
 
     async getDosenAndLokasi() {
       try {
@@ -428,6 +675,28 @@ export default {
       }
     },
 
+    async getListWilayahDosen() {
+      try {
+        await this.a$listAllProposalDosen();
+        this.listWilayahDosen = [];
+        this.g$listProposal.forEach((item) => {
+          if (item.status == 1)
+            this.listWilayahDosen.push(
+              `Kec. ${item.kecamatan.nama}, Kab. ${item.kecamatan.kabupaten.nama}`
+            );
+        });
+      } catch (error) {
+        console.log(error);
+        let msg = "";
+        if (error.error && error.error != undefined) msg = error.error;
+        else msg = error;
+        this.showSwal(
+          "failed-message",
+          "Terjadi kesalahan saat memuat data! " + msg
+        );
+      }
+    },
+
     async getDataTema() {
       try {
         await this.a$listTema();
@@ -442,10 +711,111 @@ export default {
       }
     },
 
+    async getTotalMahasiswa() {
+      try {
+        await this.a$listMahasiswa();
+        this.total.mahasiswa = this.g$listMahasiswa.length;
+        await this.a$listMahasiswaAccepted();
+        this.total.mahasiswaRegistered = this.g$listMahasiswa.length;
+      } catch (error) {
+        console.log(error);
+        let msg = "";
+        if (error.error && error.error != undefined) msg = error.error;
+        else msg = error;
+        this.showSwal(
+          "failed-message",
+          "Terjadi kesalahan saat memuat data! " + msg
+        );
+      }
+    },
+
+    async getTotalDosen() {
+      try {
+        await this.a$listDosen();
+        this.total.dosen = this.g$listDosen.length;
+      } catch (error) {
+        console.log(error);
+        let msg = "";
+        if (error.error && error.error != undefined) msg = error.error;
+        else msg = error;
+        this.showSwal(
+          "failed-message",
+          "Terjadi kesalahan saat memuat data! " + msg
+        );
+      }
+    },
+
+    async getTotalReviewer() {
+      try {
+        await this.a$listReviewer();
+        this.total.reviewer = this.g$listReviewer.length;
+      } catch (error) {
+        console.log(error);
+        let msg = "";
+        if (error.error && error.error != undefined) msg = error.error;
+        else msg = error;
+        this.showSwal(
+          "failed-message",
+          "Terjadi kesalahan saat memuat data! " + msg
+        );
+      }
+    },
+
+    async getTotalBappeda() {
+      try {
+        await this.a$listBappeda();
+        this.total.bappeda = this.g$listBappeda.length;
+      } catch (error) {
+        console.log(error);
+        let msg = "";
+        if (error.error && error.error != undefined) msg = error.error;
+        else msg = error;
+        this.showSwal(
+          "failed-message",
+          "Terjadi kesalahan saat memuat data! " + msg
+        );
+      }
+    },
+
+    async getTotalPimpinan() {
+      try {
+        await this.a$listPimpinan();
+        this.total.pimpinan = this.g$listPimpinan.length;
+      } catch (error) {
+        console.log(error);
+        let msg = "";
+        if (error.error && error.error != undefined) msg = error.error;
+        else msg = error;
+        this.showSwal(
+          "failed-message",
+          "Terjadi kesalahan saat memuat data! " + msg
+        );
+      }
+    },
+
+    parsingEvents() {
+      this.initialDate = this.moment(new Date()).format("YYYY-MM-DD");
+
+      this.listEvent = [];
+
+      this.g$listEvent.forEach((event) => {
+        let newEvent = {
+          id: event.id_event,
+          title: event.judul,
+          tempat: event.tempat,
+          start: this.moment(event.tgl_mulai).format("YYYY-MM-DD"),
+          end: this.moment(event.tgl_akhir).format("YYYY-MM-DD"),
+          className: "bg-gradient-info",
+        };
+
+        this.listEvent.push(newEvent);
+      });
+    },
+
     checkProgressDataDiriMhs() {
       let totalAttribute = Object.keys(this.g$infoUser).length;
-      let totalAttributeMustBeFilled = Object.keys(this.g$infoUser).length - 7; // minus 7
-      let indexMustNotBeFilled = [0, 1, 2, 17, 18, 19, 20];
+      let totalAttributeMustBeFilled = Object.keys(this.g$infoUser).length - 8; // minus 8
+      let indexMustNotBeFilled = [0, 1, 2, 18, 19, 20, 21, 22];
       let attributeFilled = 0;
 
       for (let index = 0; index < totalAttribute; index++) {
@@ -458,6 +828,27 @@ export default {
         ) {
           // console.log(Object.keys(this.g$infoUser)[index]);
           // console.log(this.g$infoUser[Object.keys(this.g$infoUser)[index]]);
+          attributeFilled++;
+        }
+      }
+
+      return this.percentage(attributeFilled, totalAttributeMustBeFilled);
+    },
+
+    checkProgressDataDiriDosen() {
+      let totalAttribute = Object.keys(this.g$infoUser).length;
+      let totalAttributeMustBeFilled = Object.keys(this.g$infoUser).length - 5;
+      let indexMustNotBeFilled = [0, 1, 2, 9, 10];
+      let attributeFilled = 0;
+
+      for (let index = 0; index < totalAttribute; index++) {
+        if (indexMustNotBeFilled.includes(index)) continue;
+
+        if (
+          !this.isNullEmptyOrUndefined(
+            this.g$infoUser[Object.keys(this.g$infoUser)[index]]
+          )
+        ) {
           attributeFilled++;
         }
       }
@@ -487,7 +878,7 @@ export default {
         }
       });
 
-      let totalAttributeMustBeFilled = totalAttribute - totalLRK * 5; // minus 1
+      let totalAttributeMustBeFilled = totalAttribute - totalLRK * 5;
 
       return this.percentage(attributeFilled, totalAttributeMustBeFilled);
     },
@@ -500,7 +891,7 @@ export default {
       let totalAttribute = 0;
       let totalAttributePerLPK = Object.keys(this.g$listLPK[0]).length;
 
-      let indexMustNotBeFilled = [0, 1, 2, 12, 13];
+      let indexMustNotBeFilled = [0, 1, 2, 12, 13, 14];
       let attributeFilled = 0;
 
       this.g$listLPK.forEach((item) => {
@@ -514,7 +905,7 @@ export default {
         }
       });
 
-      let totalAttributeMustBeFilled = totalAttribute - totalLPK * 5; // minus 1
+      let totalAttributeMustBeFilled = totalAttribute - totalLPK * 6;
 
       return this.percentage(attributeFilled, totalAttributeMustBeFilled);
     },
@@ -638,11 +1029,9 @@ export default {
           allowOutsideClick: false,
           allowEscapeKey: false,
           didOpen: () => {
-            this.$swal.isLoading();
-            if (this.$swal.isLoading()) this.$swal.showLoading();
+            this.$swal.showLoading();
           },
           didDestroy: () => {
-            !this.$swal.isLoading();
             this.$swal.hideLoading();
           },
         });

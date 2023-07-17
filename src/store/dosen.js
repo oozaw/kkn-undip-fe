@@ -5,6 +5,7 @@ const d$dosen = defineStore("dosenStore", {
   id: "dosen",
   state: () => ({
     listDosen: [],
+    dosen: null,
     status: null,
   }),
   actions: {
@@ -12,6 +13,17 @@ const d$dosen = defineStore("dosenStore", {
       try {
         const { data, status } = await s$dosen.listDosen();
         this.listDosen = data ?? [];
+        this.status = status;
+      } catch ({ message, error }) {
+        this.status = false;
+        throw message ?? error;
+      }
+    },
+
+    async a$getDosen(id_dosen) {
+      try {
+        const { data, status } = await s$dosen.getDosen(id_dosen);
+        this.dosen = data ?? null;
         this.status = status;
       } catch ({ message, error }) {
         this.status = false;
@@ -39,6 +51,16 @@ const d$dosen = defineStore("dosenStore", {
       }
     },
 
+    async a$editDosen(id_dosen, body) {
+      try {
+        const status = await s$dosen.editDosen(id_dosen, body);
+        this.status = status;
+      } catch (error) {
+        this.status = false;
+        throw error;
+      }
+    },
+
     async a$deleteDosen(id_dosen) {
       try {
         const status = await s$dosen.deleteDosen(id_dosen);
@@ -51,6 +73,7 @@ const d$dosen = defineStore("dosenStore", {
   },
   getters: {
     g$listDosen: ({ listDosen }) => listDosen,
+    g$dosen: ({ dosen }) => dosen,
   },
 });
 

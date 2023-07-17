@@ -247,11 +247,11 @@ export default {
         await this.a$switchTema(id_tema);
         await this.getListTema();
       } catch (error) {
-        this.showSwal(
-          "failed-message",
-          error ?? "Terjadi kesalahan saat memperbarui data"
-        );
-        // console.log(error);
+        console.log(error);
+        let msg = "";
+        if (error.error && error.error != undefined) msg = error.error;
+        else msg = error;
+        this.showSwal("failed-message", "Data gagal diperbarui! " + msg);
       }
     },
 
@@ -261,11 +261,14 @@ export default {
       try {
         await this.a$listTema();
       } catch (error) {
+        console.log(error);
+        let msg = "";
+        if (error.error && error.error != undefined) msg = error.error;
+        else msg = error;
         this.showSwal(
           "failed-message",
-          error ?? "Terjadi kesalahan saat memuat data"
+          "Terjadi kesalahan saat memuat data! " + msg
         );
-        // console.log(error);
       }
 
       this.setupDataTable();
@@ -343,6 +346,9 @@ export default {
           type: type,
           timerProgressBar: true,
           showConfirmButton: false,
+          didOpen: () => {
+            this.$swal.hideLoading();
+          },
         });
       } else if (type === "failed-message") {
         this.$swal({
@@ -353,6 +359,9 @@ export default {
           type: type,
           timerProgressBar: true,
           showConfirmButton: false,
+          didOpen: () => {
+            this.$swal.hideLoading();
+          },
         });
       } else if (type === "auto-close") {
         let timerInterval;
@@ -384,6 +393,9 @@ export default {
             cancelButton: "btn bg-gradient-secondary",
           },
           buttonsStyling: false,
+          didOpen: () => {
+            this.$swal.hideLoading();
+          },
         }).then((result) => {
           if (result.isConfirmed) {
             this.switchTema(id_tema);
@@ -395,6 +407,9 @@ export default {
               showConfirmButton: false,
               timer: 2000,
               timerProgressBar: true,
+              didOpen: () => {
+                this.$swal.hideLoading();
+              },
             });
           } else if (
             /* Read more about handling dismissals below */
@@ -411,11 +426,9 @@ export default {
           allowOutsideClick: false,
           allowEscapeKey: false,
           didOpen: () => {
-            this.$swal.isLoading();
-            if (this.$swal.isLoading()) this.$swal.showLoading();
+            this.$swal.showLoading();
           },
           didDestroy: () => {
-            !this.$swal.isLoading();
             this.$swal.hideLoading();
           },
         });

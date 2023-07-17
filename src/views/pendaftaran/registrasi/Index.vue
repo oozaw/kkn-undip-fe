@@ -90,24 +90,23 @@
                     </td>
                     <td class="text-sm">
                       <a
-                        href="javascript:;"
+                        :id="proposal.id_proposal"
+                        class="me-3 detail"
+                        href="#"
                         data-bs-toggle="tooltip"
-                        data-bs-original-title="Preview product"
+                        data-bs-original-title="Detail Proposal"
+                        title="Detail Proposal"
                       >
                         <i class="fas fa-eye text-info"></i>
                       </a>
                       <a
-                        href="javascript:;"
-                        class="mx-3"
+                        class="delete"
+                        :id="proposal.id_proposal"
+                        :name="proposal.kecamatan.nama"
+                        href="#"
                         data-bs-toggle="tooltip"
-                        data-bs-original-title="Edit product"
-                      >
-                        <i class="fas fa-user-edit text-primary"></i>
-                      </a>
-                      <a
-                        href="javascript:;"
-                        data-bs-toggle="tooltip"
-                        data-bs-original-title="Delete product"
+                        data-bs-original-title="Hapus Proposal"
+                        title="Hapus Proposal"
                       >
                         <i class="fas fa-trash text-danger"></i>
                       </a>
@@ -176,7 +175,6 @@ import $ from "jquery";
 import moment from "moment";
 import Choices from "choices.js";
 import { DataTable } from "simple-datatables";
-import setTooltip from "@/assets/js/tooltip.js";
 import HeaderProfileCard from "@/views/dashboards/components/HeaderProfileCard.vue";
 import Card from "@/views/dashboards/components/Cards/GelombangCard.vue";
 import { mapActions, mapState } from "pinia";
@@ -202,6 +200,7 @@ export default {
       listGelombang: [],
       listProposalDosen: [],
       moment,
+      loader: undefined,
     };
   },
   computed: {
@@ -212,6 +211,8 @@ export default {
     ...mapState(d$dokumen, ["g$dokumenLink"]),
   },
   async created() {
+    this.showLoading(true);
+
     moment.locale("id");
 
     await this.a$listTema();
@@ -220,18 +221,19 @@ export default {
     await this.getListGelombang();
 
     this.choicesTema = this.getChoices("choices-tema");
-    setTooltip(this.$store.state.bootstrap);
   },
   beforeUnmount() {
     if (this.choicesTema) this.choicesTema.destroy();
   },
   methods: {
-    ...mapActions(d$proposal, ["a$listProposal"]),
+    ...mapActions(d$proposal, ["a$listProposal", "a$deleteProposal"]),
     ...mapActions(d$gelombang, ["a$listGelombangDosen"]),
     ...mapActions(d$tema, ["a$listTema"]),
     ...mapActions(d$dokumen, ["a$getDokumenLink"]),
 
     async getListGelombang() {
+      this.showLoading(true);
+
       this.indexComponent++;
       this.tema = parseInt(this.tema);
 
@@ -244,14 +246,19 @@ export default {
         );
         await this.getListProposal(this.tema);
       } catch (error) {
+        console.log(error);
+        let msg = "";
+        if (error.error && error.error != undefined) msg = error.error;
+        else msg = error;
         this.showSwal(
           "failed-message",
-          error ?? "Terjadi kesalahan saat memuat data"
+          "Terjadi kesalahan saat memuat data! " + msg
         );
-        console.log(error);
       }
 
       this.setupDataTable();
+
+      this.showLoading(false);
     },
 
     async getListProposal(id_tema) {
@@ -263,16 +270,34 @@ export default {
             this.listProposalDosen.push(proposal);
         });
       } catch (error) {
+        console.log(error);
+        let msg = "";
+        if (error.error && error.error != undefined) msg = error.error;
+        else msg = error;
         this.showSwal(
           "failed-message",
-          error ?? "Terjadi kesalahan saat memuat data"
+          "Terjadi kesalahan saat memuat data! " + msg
         );
-        console.log(error);
       }
 
       this.setupDataTable();
       this.setupTableAction();
       this.setupDataTableGelombang();
+    },
+
+    async deleteProposal(id_proposal) {
+      this.showSwal("loading");
+
+      try {
+        await this.a$deleteProposal(id_proposal);
+        await this.getListGelombang();
+      } catch (error) {
+        console.log(error);
+        let msg = "";
+        if (error.error && error.error != undefined) msg = error.error;
+        else msg = error;
+        this.showSwal("failed-message", "Data gagal dihapus! " + msg);
+      }
     },
 
     async getTema() {
@@ -282,48 +307,6 @@ export default {
           return;
         }
       });
-    },
-
-    showSwal(type, text) {
-      if (type === "success-message") {
-        this.$swal({
-          icon: "success",
-          title: "Berhasil!",
-          text: text,
-          timer: 2500,
-          type: type,
-          timerProgressBar: true,
-          showConfirmButton: false,
-        });
-      } else if (type === "failed-message") {
-        this.$swal({
-          icon: "error",
-          title: "Gagal!",
-          text: text,
-          timer: 2500,
-          type: type,
-          timerProgressBar: true,
-          showConfirmButton: false,
-        });
-      } else if (type === "auto-close") {
-        let timerInterval;
-        this.$swal({
-          title: "Auto close alert!",
-          html: "I will close in <b></b> milliseconds.",
-          timer: 2000,
-          timerProgressBar: true,
-          didOpen: () => {
-            this.$swal.showLoading();
-            const b = this.$swal.getHtmlContainer().querySelector("b");
-            timerInterval = setInterval(() => {
-              b.textContent = this.$swal.getTimerLeft();
-            }, 100);
-          },
-          willClose: () => {
-            clearInterval(timerInterval);
-          },
-        });
-      }
     },
 
     getChoices(id) {
@@ -383,6 +366,152 @@ export default {
         outerThis.a$getDokumenLink(proposal.id).then((res) => window.open(res));
         e.preventDefault();
       });
+
+      $("#registrasi-list").on("click", `.detail`, function (e) {
+        let proposal = this;
+        outerThis.$router.push({
+          name: "Detail Pendaftaran Dosen Admin",
+          params: { id_proposal: proposal.id },
+        });
+        e.preventDefault();
+      });
+
+      // delete
+      $("#registrasi-list").on("click", `.delete`, function (e) {
+        let proposal = this;
+        outerThis.showSwal(
+          "warning-confirmation",
+          `Menghapus pendaftaran di kecamatan ${proposal.name}?`,
+          "Berhasil menghapus data",
+          proposal.id
+        );
+        e.preventDefault();
+      });
+    },
+
+    showLoading(isLoading) {
+      if (isLoading && !this.loader) {
+        this.loader = this.$loading.show();
+      } else if (!isLoading && this.loader) {
+        setTimeout(() => {
+          this.loader.hide();
+          this.loader = undefined;
+        }, 400);
+      }
+    },
+
+    showSwal(type, text, toastText, id_proposal) {
+      if (type === "success-message") {
+        this.$swal({
+          icon: "success",
+          title: "Berhasil!",
+          text: text,
+          timer: 2500,
+          type: type,
+          timerProgressBar: true,
+          showConfirmButton: false,
+          didOpen: () => {
+            this.$swal.hideLoading();
+          },
+        });
+      } else if (type === "warning-message") {
+        this.$swal({
+          icon: "warning",
+          title: "Peringatan!",
+          text: text,
+          timer: 2500,
+          type: type,
+          timerProgressBar: true,
+          showConfirmButton: false,
+          didOpen: () => {
+            this.$swal.hideLoading();
+          },
+        });
+      } else if (type === "failed-message") {
+        this.$swal({
+          icon: "error",
+          title: "Gagal!",
+          text: text,
+          timer: 2500,
+          type: type,
+          timerProgressBar: true,
+          showConfirmButton: false,
+          didOpen: () => {
+            this.$swal.hideLoading();
+          },
+        });
+      } else if (type === "auto-close") {
+        let timerInterval;
+        this.$swal({
+          title: "Auto close alert!",
+          html: "I will close in <b></b> milliseconds.",
+          timer: 2000,
+          timerProgressBar: true,
+          didOpen: () => {
+            this.$swal.showLoading();
+            const b = this.$swal.getHtmlContainer().querySelector("b");
+            timerInterval = setInterval(() => {
+              b.textContent = this.$swal.getTimerLeft();
+            }, 100);
+          },
+          willClose: () => {
+            clearInterval(timerInterval);
+          },
+        });
+      } else if (type === "warning-confirmation") {
+        this.$swal({
+          title: "Apakah Anda yakin?",
+          text: text,
+          showCancelButton: true,
+          confirmButtonText: "Ya!",
+          cancelButtonText: "Batal!",
+          customClass: {
+            confirmButton: "btn bg-gradient-success",
+            cancelButton: "btn bg-gradient-secondary",
+          },
+          buttonsStyling: false,
+          didOpen: () => {
+            this.$swal.hideLoading();
+          },
+        }).then((result) => {
+          if (result.isConfirmed) {
+            this.deleteProposal(id_proposal);
+            this.$swal({
+              toast: true,
+              position: "top-end",
+              title: toastText,
+              icon: "success",
+              showConfirmButton: false,
+              timer: 2500,
+              timerProgressBar: true,
+              didOpen: () => {
+                this.$swal.hideLoading();
+              },
+            });
+          } else if (
+            /* Read more about handling dismissals below */
+            result.dismiss === this.$swal.DismissReason.cancel
+          ) {
+            this.$swal.close();
+          }
+        });
+      } else if (type === "loading") {
+        this.$swal({
+          title: "Memuat...",
+          timerProgressBar: true,
+          showConfirmButton: false,
+          allowOutsideClick: false,
+          allowEscapeKey: false,
+          didOpen: () => {
+            this.$swal.showLoading();
+          },
+          didDestroy: () => {
+            this.$swal.hideLoading();
+          },
+        });
+      } else if (type === "close") {
+        this.$swal.close();
+      }
     },
   },
 };

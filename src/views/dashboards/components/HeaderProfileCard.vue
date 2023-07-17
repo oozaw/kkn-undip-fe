@@ -12,7 +12,7 @@
       </div>
       <div class="col-sm-auto col-8 my-auto">
         <div class="h-100">
-          <h5 class="mb-1 font-weight-bolder">{{ g$infoUser.nama }}</h5>
+          <h5 class="mb-1 font-weight-bolder">{{ nama }}</h5>
           <p id="role" class="mb-0 font-weight-bold text-sm"></p>
         </div>
       </div>
@@ -27,7 +27,7 @@
 
 <script>
 import ArgonAvatar from "@/components/ArgonAvatar.vue";
-import { mapState } from "pinia";
+import { mapState, mapActions } from "pinia";
 import d$auth from "@/store/auth";
 
 import imgDefault from "@/assets/img/team-3.jpg";
@@ -46,10 +46,14 @@ export default {
   data() {
     return {
       imgDefault,
+      nama: "",
     };
   },
   computed: {
     ...mapState(d$auth, ["g$user", "g$infoUser"]),
+  },
+  async created() {
+    // await this.a$getUser();
   },
   mounted() {
     if (this.g$user.role) {
@@ -58,7 +62,10 @@ export default {
     }
   },
   methods: {
+    ...mapActions(d$auth, ["a$getUser"]),
+
     checkRole(role) {
+      this.nama = this.g$infoUser.nama;
       switch (role) {
         case "SUPERADMIN":
           return "Super Administrator KKN UNDIP";

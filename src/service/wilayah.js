@@ -19,6 +19,9 @@ const accKecamatan = (id_kecamatan, body) =>
 const decKecamatan = (id_kecamatan) =>
   baseApi.put(`${api}admin/kecamatan/dec/${id_kecamatan}`);
 
+const deleteKecamatan = (id_kecamatan) =>
+  baseApi.delete(`${api}admin/kecamatan/${id_kecamatan}`);
+
 export {
   listAllWilayah,
   listWilayah,
@@ -27,4 +30,5 @@ export {
   addKecamatan,
   accKecamatan,
   decKecamatan,
+  deleteKecamatan,
 };

@@ -6,6 +6,7 @@
           <header-profile-card>
             <template #button>
               <argon-button
+                type="button"
                 :onclick="() => $router.push({ name: 'LRK' })"
                 class="mb-0 me-2"
                 color="secondary"
@@ -48,18 +49,21 @@
                       placeholder="eg. Program Edukasi Kesehatan pada Masyarakat Desa Kedungkandang"
                       v-model="body.program"
                     />
-                    <div class="invalid-feedback">Program tidak boleh kosong</div>
+                    <div class="invalid-feedback">
+                      Program tidak boleh kosong
+                    </div>
                   </div>
                 </div>
                 <div class="mt-3 row">
                   <div class="col-12">
                     <label>Kategori Program Kerja</label>
                     <select
+                      class="form-control"
                       name="choices-kategori"
                       id="choices-kategori"
                       v-model="body.kategori"
                     >
-                      <option value="">-- Pilih kategori --</option>
+                      <option value="" disabled>-- Pilih kategori --</option>
                       <option value="1">Monodisiplin</option>
                       <option value="2">Multidisiplin</option>
                     </select>
@@ -122,6 +126,7 @@
                     class="col-sm-auto ms-sm-auto mt-sm-0 mt-3 d-flex justify-content-end"
                   >
                     <argon-button
+                      type="button"
                       :onclick="() => $router.push({ name: 'LRK' })"
                       class="mb-0 me-2"
                       color="secondary"
@@ -169,7 +174,7 @@ export default {
   },
   data() {
     return {
-      id_halaman: 4,
+      id_halaman: 3,
       body: {
         id_tema: parseInt(this.$route.params.id_tema),
         kategori: "",
@@ -185,14 +190,18 @@ export default {
     ...mapState(d$halaman, ["g$statusHalaman"]),
   },
   async created() {
+    this.showSwal("loading");
+
     await this.a$checkHalaman(
       parseInt(this.$route.params.id_tema),
       parseInt(this.id_halaman)
     );
-  },
-  mounted() {
+
     this.choicesKategori = this.getChoices("choices-kategori");
+
+    this.showSwal("close");
   },
+  mounted() {},
   methods: {
     ...mapActions(d$laporan, ["a$addLRK"]),
     ...mapActions(d$halaman, ["a$checkHalaman"]),
@@ -230,8 +239,11 @@ export default {
         this.$router.push({ name: "LRK" });
         this.showSwal("success-message", "Data LRK berhasil ditambahkan!");
       } catch (error) {
-        this.showSwal("failed-message", error ?? "Data LRK gagal ditambahkan!");
         console.log(error);
+        let msg = "";
+        if (error.error && error.error != undefined) msg = error.error;
+        else msg = error;
+        this.showSwal("failed-message", "Data gagal ditambahkan! " + msg);
       }
     },
 

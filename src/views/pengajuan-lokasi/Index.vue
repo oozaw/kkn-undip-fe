@@ -319,13 +319,14 @@ export default {
         await this.getListDesa();
         await this.getTemaStatus();
       } catch (error) {
-        if (error) this.showSwal("failed-message", error);
-        else
-          this.showSwal(
-            "failed-message",
-            "Terjadi kesalahan saat memuat data!"
-          );
         console.log(error);
+        let msg = "";
+        if (error.error && error.error != undefined) msg = error.error;
+        else msg = error;
+        this.showSwal(
+          "failed-message",
+          "Terjadi kesalahan saat memuat data! " + msg
+        );
       }
 
       this.setupDataTable();

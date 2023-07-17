@@ -7,6 +7,8 @@ const getProposal = (id_proposal) =>
 
 const listProposal = (id_tema) => baseApi.get(`${api}proposal/${id_tema}`);
 
+const listAllProposalDosen = () => baseApi.get(`${api}dosen/proposal/all`);
+
 const listProposalDosen = (id_tema) =>
   baseApi.get(`${api}dosen/proposal/${id_tema}`);
 
@@ -25,12 +27,17 @@ const decProposal = (id_proposal) =>
 
 const evaluateProposal = (body) => baseApi.put(`${api}reviewer/evaluate`, body);
 
+const deleteProposal = (id_proposal) =>
+  baseApi.delete(`${api}proposal/${id_proposal}`);
+
 export {
   getProposal,
   listProposal,
+  listAllProposalDosen,
   listProposalDosen,
   addProposal,
   accProposal,
   decProposal,
   evaluateProposal,
+  deleteProposal,
 };

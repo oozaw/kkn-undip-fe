@@ -102,10 +102,10 @@
                 >
                   Kuliah Kerja Nyata Universitas Diponegoro
                 </h4>
-                <p class="text-white position-relative">
+                <!-- <p class="text-white position-relative">
                   The more effortless the writing looks, the more effort the
                   writer actually put into the process.
-                </p>
+                </p> -->
               </div>
             </div>
           </div>
@@ -172,8 +172,11 @@ export default {
           "Selamat datang " + this.g$infoUser.nama
         );
       } catch (error) {
-        this.showSwal("failed-message", "Login Gagal!", error);
-        // console.log(error);
+        console.log(error);
+        let msg = "";
+        if (error.error && error.error != undefined) msg = error.error;
+        else msg = error;
+        this.showSwal("failed-message", "Login gagal! " + msg);
       }
     },
 

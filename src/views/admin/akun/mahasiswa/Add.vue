@@ -5,6 +5,7 @@
         <HeaderProfileCard>
           <template #button>
             <argon-button
+              type="button"
               :onclick="() => $router.push({ name: 'Mahasiswa' })"
               class="mb-0 me-2"
               color="secondary"
@@ -91,22 +92,6 @@
                     <option value="" disabled>-- Pilih prodi --</option>
                   </select>
                 </div>
-                <!-- <div class="col-3">
-                  <label class="mt-4">Username</label>
-                  <input
-                    class="form-control"
-                    type="text"
-                    placeholder="Masukkan username"
-                  />
-                </div>
-                <div class="col-3">
-                  <label class="mt-4">Password</label>
-                  <input
-                    class="form-control"
-                    type="password"
-                    placeholder="Masukkan password"
-                  />
-                </div> -->
               </div>
             </div>
           </form>
@@ -182,11 +167,11 @@ export default {
         );
         this.$router.push({ name: "Mahasiswa" });
       } catch (error) {
-        this.showSwal(
-          "failed-message",
-          "Data mahasiswa gagal ditambahkan! " + error
-        );
         console.log(error);
+        let msg = "";
+        if (error.error && error.error != undefined) msg = error.error;
+        else msg = error;
+        this.showSwal("failed-message", "Data gagal ditambahkan! " + msg);
       }
     },
 

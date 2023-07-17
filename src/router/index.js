@@ -70,6 +70,7 @@ import AddDosen from "../views/admin/akun/dosen/Add.vue";
 import EditDosen from "../views/admin/akun/dosen/Edit.vue";
 import IndexBappeda from "../views/admin/akun/bappeda/Index.vue";
 import AddBappeda from "../views/admin/akun/bappeda/Add.vue";
+import EditBappeda from "../views/admin/akun/bappeda/Edit.vue";
 import IndexAdministrator from "../views/admin/akun/administrator/Index.vue";
 import AddAdministrator from "../views/admin/akun/administrator/Add.vue";
 import IndexReviewer from "../views/admin/akun/reviewer/Index.vue";
@@ -100,7 +101,7 @@ import SeleksiMhs from "../views/seleksi/Index.vue";
 import Presensi from "../views/kegiatan/presensi/Index.vue";
 import IndexNilai from "../views/kegiatan/nilai/Index.vue";
 import EditNilai from "../views/kegiatan/nilai/Edit.vue";
-import EditProfilWilayah from "../views/profile-wilayah/Edit.vue";
+// import EditProfilWilayah from "../views/profile-wilayah/Edit.vue";
 import IndexKeikutsertaanWilayah from "../views/keikutsertaan-wilayah/Index.vue";
 import IndexPengajuanLokasi from "../views/pengajuan-lokasi/Index.vue";
 import AddKecamatan from "../views/pengajuan-lokasi/kecamatan/Add.vue";
@@ -115,8 +116,10 @@ import EditGelombang from "../views/admin/menu-utama/gelombang/Edit.vue";
 import IndexPengajuanWilayah from "../views/admin/menu-utama/pengajuan-wilayah/Index.vue";
 import IndexKalender from "../views/admin/menu-utama/kalender/Index.vue";
 import TambahKalender from "../views/admin/menu-utama/kalender/Add.vue";
+import EditKalender from "../views/admin/menu-utama/kalender/Edt.vue";
 import IndexPengumuman from "../views/admin/menu-utama/pengumuman/Index.vue";
 import TambahPengumuman from "../views/admin/menu-utama/pengumuman/Add.vue";
+import EditPengumuman from "../views/admin/menu-utama/pengumuman/Edt.vue";
 import IndexKelolaHalaman from "../views/admin/menu-utama/halaman/Index.vue";
 import EditHalaman from "../views/admin/menu-utama/halaman/Edit.vue";
 import IndexPendaftaranMhsAdmin from "../views/admin/kelola-mhs/pendaftaran/Index.vue";
@@ -191,7 +194,7 @@ const routes = [
     },
   },
   {
-    path: "/akun/mahasiswa/edit",
+    path: "/akun/mahasiswa/edit/:id_mahasiswa",
     name: "Edit Mahasiswa",
     component: EditMahasiswa,
     meta: {
@@ -215,7 +218,7 @@ const routes = [
     },
   },
   {
-    path: "/akun/dosen/edit",
+    path: "/akun/dosen/edit/:id_dosen",
     name: "Edit Dosen",
     component: EditDosen,
     meta: {
@@ -234,6 +237,14 @@ const routes = [
     path: "/akun/bappeda/add",
     name: "Tambah Bappeda",
     component: AddBappeda,
+    meta: {
+      requiresAuth: [Role.admin],
+    },
+  },
+  {
+    path: "/akun/bappeda/edit/:id_bappeda",
+    name: "Edit Bappeda",
+    component: EditBappeda,
     meta: {
       requiresAuth: [Role.admin],
     },
@@ -497,7 +508,7 @@ const routes = [
   {
     path: "/profil-wilayah/edit",
     name: "Profil Wilayah",
-    component: EditProfilWilayah,
+    component: EditProfile,
     meta: {
       requiresAuth: [Role.bappeda],
     },
@@ -616,6 +627,14 @@ const routes = [
     },
   },
   {
+    path: "/admin/kalender/edit/:id_event",
+    name: "Edit Kalender",
+    component: EditKalender,
+    meta: {
+      requiresAuth: [Role.admin],
+    },
+  },
+  {
     path: "/admin/pengumuman",
     name: "Pengumuman",
     component: IndexPengumuman,
@@ -632,6 +651,14 @@ const routes = [
     },
   },
   {
+    path: "/admin/pengumuman/edit/:id_pengumuman",
+    name: "Edit Pengumuman",
+    component: EditPengumuman,
+    meta: {
+      requiresAuth: [Role.admin],
+    },
+  },
+  {
     path: "/admin/halaman",
     name: "Halaman",
     component: IndexKelolaHalaman,
@@ -640,7 +667,7 @@ const routes = [
     },
   },
   {
-    path: "/admin/halaman/edit",
+    path: "/admin/halaman/edit/:id_tema_halaman",
     name: "Edit Halaman",
     component: EditHalaman,
     meta: {
@@ -702,7 +729,7 @@ const routes = [
     name: "Detail Pendaftaran Dosen Admin",
     component: DetailPendaftaranDosenAdmin,
     meta: {
-      requiresAuth: [Role.admin, Role.reviewer],
+      requiresAuth: [Role.admin, Role.reviewer, Role.dosen],
     },
   },
   {
@@ -715,7 +742,7 @@ const routes = [
   },
   {
     path: "/kelola-dosen/pemilihan-mhs",
-    name: "Pemilihan Mahasiswa Admin",
+    name: "Seleksi Mahasiswa",
     component: IndexPemilihanMhsAdmin,
     meta: {
       requiresAuth: [Role.admin],

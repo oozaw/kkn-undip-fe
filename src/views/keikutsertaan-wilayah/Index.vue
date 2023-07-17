@@ -247,11 +247,14 @@ export default {
         this.indexComponentModal++;
         await this.getListWilayah();
       } catch (error) {
+        console.log(error);
+        let msg = "";
+        if (error.error && error.error != undefined) msg = error.error;
+        else msg = error;
         this.showSwal(
           "failed-message",
-          error.error ?? "Terjadi kesalahan saat menambahkan data!"
+          "Terjadi kesalahan saat memuat data! " + msg
         );
-        console.log(error);
       }
     },
 
@@ -288,11 +291,14 @@ export default {
           );
         });
       } catch (error) {
-        if (error)
-          this.showSwal(
-            "failed-message",
-            error ?? "Terjadi kesalahan saat memuat data!"
-          );
+        console.log(error);
+        let msg = "";
+        if (error.error && error.error != undefined) msg = error.error;
+        else msg = error;
+        this.showSwal(
+          "failed-message",
+          "Terjadi kesalahan saat memuat data! " + msg
+        );
       }
     },
 
@@ -319,11 +325,11 @@ export default {
         let dataJumlahDesa = {};
         let jmlDesa = 0;
         kab.kecamatan.forEach((kec) => {
-          jmlDesa += kec.desa.length
+          jmlDesa += kec.desa.length;
         });
         dataJumlahDesa = {
-            jumlah_desa: jmlDesa,
-          };
+          jumlah_desa: jmlDesa,
+        };
         newDataKab = Object.assign(
           {},
           kab,

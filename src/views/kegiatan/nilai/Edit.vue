@@ -5,6 +5,7 @@
         <HeaderProfileCard>
           <template #button>
             <argon-button
+              type="button"
               :onclick="() => $router.push({ name: 'Nilai Akhir' })"
               class="mb-0 me-2"
               color="secondary"
@@ -170,7 +171,7 @@
                     name="tugas"
                     type="number"
                     placeholder="Nilai tugas"
-                    @keyup="updateValueNilai()"
+                    readonly
                   />
                 </div>
                 <div class="col-sm-3 col-12">
@@ -236,23 +237,10 @@
                   />
                 </div>
               </div>
-              <!-- <div class="row mt-2">
-              <div class="col-12 align-self-center">
-                <label class="form-label mt-2">Status Kelulusan</label>
-                <select
-                  id="choices-status-kelulusan"
-                  class="form-control"
-                  name="choices-status-kelulusan"
-                >
-                  <option value="lulus" selected>Diluluskan</option>
-                  <option value="tidak-lulus">Digagalkan</option>
-                  <option value="ditangguhkan">Ditangguhkan</option>
-                </select>
-              </div>
-            </div> -->
               <div class="row mt-2">
                 <div class="col-12 mt-3 d-flex justify-content-end">
                   <argon-button
+                    type="button"
                     :onclick="() => $router.push({ name: 'Nilai Akhir' })"
                     class="mb-0 me-2"
                     color="secondary"
@@ -333,11 +321,14 @@ export default {
         await this.a$getNilai(this.body.id_nilai);
         this.assignNilai();
       } catch (error) {
+        console.log(error);
+        let msg = "";
+        if (error.error && error.error != undefined) msg = error.error;
+        else msg = error;
         this.showSwal(
           "failed-message",
-          "Terjadi kesalahan saat memuat data! " + error
+          "Terjadi kesalahan saat memuat data! " + msg
         );
-        console.log(error);
       }
     },
 
@@ -349,11 +340,11 @@ export default {
         this.showSwal("success-message", "Nilai berhasil diubah!");
         this.$router.push({ name: "Nilai Akhir" });
       } catch (error) {
-        this.showSwal(
-          "failed-message",
-          "Terjadi kesalahan saat mengubah data! " + error
-        );
         console.log(error);
+        let msg = "";
+        if (error.error && error.error != undefined) msg = error.error;
+        else msg = error;
+        this.showSwal("failed-message", "Data gagal disimpan! " + msg);
       }
     },
 
@@ -361,6 +352,7 @@ export default {
       this.getNilaiUas();
       this.getNilaiUts();
       this.getJumlahNilai();
+      this.getNilaiTugas();
       this.getNilaiAkhir();
       this.getNilaiHuruf();
     },
@@ -385,6 +377,17 @@ export default {
         this.body.uts * (25 / 100) +
         this.body.uas * (25 / 100)
       ).toFixed(2);
+    },
+
+    getNilaiTugas() {
+      this.body.tugas = Math.round(
+        (this.body.pembekalan +
+          this.body.upacara +
+          this.body.integritas +
+          this.body.kehadiran_dilokasi +
+          this.body.sosial_kemasyarakatan) /
+          5
+      );
     },
 
     getNilaiUas() {

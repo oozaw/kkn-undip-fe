@@ -3,8 +3,9 @@
     <div class="row mb-5 mt-4">
       <div class="col-lg-12 mt-lg-0 mt-4">
         <header-profile-card>
-          <template #button v-if="this.g$user.role == 'ADMIN'">
+          <template #button>
             <argon-button
+              v-if="g$user.role !== 'DOSEN'"
               @click="() => $router.push({ name: 'Pendaftaran Dosen Admin' })"
               class="mb-0 me-2"
               color="secondary"
@@ -16,43 +17,57 @@
               />Kembali</argon-button
             >
             <argon-button
-              @click="
-                showSwal(
-                  'warning-confirmation',
-                  `Menolak pendaftaran ${g$proposal?.dosen.nama}?`,
-                  'Berhasil memperbarui data',
-                  id_proposal,
-                  false
-                )
-              "
+              v-else
+              @click="() => $router.push({ name: 'Registrasi' })"
               class="mb-0 me-2"
-              color="danger"
+              color="secondary"
               size="sm"
               ><font-awesome-icon
                 class="text-white me-2"
-                icon="fa-solid fa-xmark"
+                icon="fa-solid fa-arrow-left"
                 size="lg"
-              />Tolak</argon-button
+              />Kembali</argon-button
             >
-            <argon-button
-              @click="
-                showSwal(
-                  'warning-confirmation',
-                  `Menerima pendaftaran ${g$proposal?.dosen.nama}?`,
-                  'Berhasil memperbarui data',
-                  id_proposal,
-                  true
-                )
-              "
-              class="mb-0 me-lg-2"
-              color="success"
-              size="sm"
-              ><font-awesome-icon
-                class="text-white me-2"
-                icon="fa-solid fa-check"
-                size="lg"
-              />Terima</argon-button
-            >
+            <div v-if="g$user.role == 'ADMIN'">
+              <argon-button
+                @click="
+                  showSwal(
+                    'warning-confirmation',
+                    `Menolak pendaftaran ${g$proposal?.dosen.nama}?`,
+                    'Berhasil memperbarui data',
+                    id_proposal,
+                    false
+                  )
+                "
+                class="mb-0 me-2"
+                color="danger"
+                size="sm"
+                ><font-awesome-icon
+                  class="text-white me-2"
+                  icon="fa-solid fa-xmark"
+                  size="lg"
+                />Tolak</argon-button
+              >
+              <argon-button
+                @click="
+                  showSwal(
+                    'warning-confirmation',
+                    `Menerima pendaftaran ${g$proposal?.dosen.nama}?`,
+                    'Berhasil memperbarui data',
+                    id_proposal,
+                    true
+                  )
+                "
+                class="mb-0 me-lg-2"
+                color="success"
+                size="sm"
+                ><font-awesome-icon
+                  class="text-white me-2"
+                  icon="fa-solid fa-check"
+                  size="lg"
+                />Terima</argon-button
+              >
+            </div>
           </template>
         </header-profile-card>
         <div class="bg-white pb-2 card mt-4">
@@ -191,8 +206,14 @@ export default {
         await this.a$getProposal(this.id_proposal);
         await this.a$getDokumenEmbedLink(this.g$proposal.dokumen.id_dokumen);
       } catch (error) {
-        this.showSwal("failed-message", "Terjadi kesalahan saat memuat data");
         console.log(error);
+        let msg = "";
+        if (error.error && error.error != undefined) msg = error.error;
+        else msg = error;
+        this.showSwal(
+          "failed-message",
+          "Terjadi kesalahan saat memuat data! " + msg
+        );
       }
 
       this.showSwal("close");
@@ -206,11 +227,11 @@ export default {
         await this.getProposal();
         this.showSwal("success-message", "Proposal berhasil diterima");
       } catch (error) {
-        this.showSwal(
-          "failed-message",
-          error ?? "Terjadi kesalahan saat mengubah data"
-        );
-        // console.log(error);
+        console.log(error);
+        let msg = "";
+        if (error.error && error.error != undefined) msg = error.error;
+        else msg = error;
+        this.showSwal("failed-message", "Data gagal diperbarui! " + msg);
       }
     },
 
@@ -222,11 +243,11 @@ export default {
         await this.getProposal();
         this.showSwal("success-message", "Proposal berhasil ditolak");
       } catch (error) {
-        this.showSwal(
-          "failed-message",
-          error ?? "Terjadi kesalahan saat mengubah data"
-        );
-        // console.log(error);
+        console.log(error);
+        let msg = "";
+        if (error.error && error.error != undefined) msg = error.error;
+        else msg = error;
+        this.showSwal("failed-message", "Data gagal diperbarui! " + msg);
       }
     },
 

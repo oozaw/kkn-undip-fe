@@ -8,4 +8,6 @@ const logout = (body) => baseApi.post(`${api}logout`, body);
 
 const getUser = () => baseApi.get(`${api}auth`);
 
-export { login, logout, getUser };
+const editUser = (body) => baseApi.put(`${api}auth`, body);
+
+export { login, logout, getUser, editUser };

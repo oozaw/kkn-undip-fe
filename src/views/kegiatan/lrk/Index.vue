@@ -15,76 +15,13 @@
                 <div class="my-auto mt-4 ms-auto mt-lg-0">
                   <div class="my-auto ms-auto">
                     <router-link
-                      class="mb-0 btn bg-gradient-success btn-sm"
+                      class="mb-0 me-2 btn bg-gradient-success btn-sm"
                       :to="{
                         name: 'Tambah LRK',
                         params: { id_tema: g$infoUser.id_tema },
                       }"
                       >+&nbsp; Tambah LRK
                     </router-link>
-                    <button
-                      type="button"
-                      class="mx-2 mb-0 btn btn-primary btn-sm"
-                      data-bs-toggle="modal"
-                      data-bs-target="#import-lrk"
-                    >
-                      Impor
-                    </button>
-                    <div
-                      id="import-lrk"
-                      class="modal fade"
-                      tabindex="-1"
-                      aria-hidden="true"
-                    >
-                      <div class="modal-dialog mt-lg-10">
-                        <div class="modal-content">
-                          <div class="modal-header">
-                            <h5 id="ModalLabel" class="modal-title">
-                              Impor Data LRK via File Excel
-                            </h5>
-                            <i class="fas fa-upload ms-3"></i>
-                            <button
-                              type="button"
-                              class="btn-close"
-                              data-bs-dismiss="modal"
-                              aria-label="Close"
-                            ></button>
-                          </div>
-                          <div class="modal-body">
-                            <p>
-                              Silahkan cari dan pilih file excel berisi data LRK
-                            </p>
-                            <input
-                              type="file"
-                              placeholder="Browse file..."
-                              class="mb-1 form-control"
-                            />
-                            <div>
-                              <small class="text-danger text-sm-start">
-                                <i class="fas fa-info-circle"></i>
-                                File yang diizinkan hanya file excel dengan
-                                ekstensi .xls atau .xlsx
-                              </small>
-                            </div>
-                          </div>
-                          <div class="modal-footer">
-                            <button
-                              type="button"
-                              class="btn bg-gradient-secondary btn-sm"
-                              data-bs-dismiss="modal"
-                            >
-                              Batal
-                            </button>
-                            <button
-                              type="button"
-                              class="btn bg-gradient-success btn-sm"
-                            >
-                              Unggah
-                            </button>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
                     <button
                       class="mt-1 mb-0 btn btn-outline-success btn-sm export-mhs-sec mt-sm-0"
                       data-type="csv"
@@ -240,8 +177,10 @@
                           <i class="fas fa-user-edit text-primary"></i>
                         </a>
                         <a
+                          :id="lrk.id_laporan"
+                          :name="lrk.program"
+                          class="delete"
                           href="#"
-                          class="hapus"
                           data-bs-toggle="tooltip"
                           data-bs-original-title="Hapus LRK"
                           title="Hapus LRK"
@@ -409,19 +348,19 @@
                                   >
                                     <strong class="text-dark">Fakultas:</strong>
                                     &nbsp;
-                                    {{ lrk.mahasiswa.prodi.fakultas.nama }}
+                                    {{ lrk.mahasiswa.prodi?.fakultas.nama }}
                                   </li>
                                   <li
                                     class="text-sm border-0 list-group-item ps-0"
                                   >
                                     <strong class="text-dark">Prodi:</strong>
                                     &nbsp;
-                                    {{ lrk.mahasiswa.prodi.nama }}
+                                    {{ lrk.mahasiswa.prodi?.nama }}
                                   </li>
                                   <li
                                     class="text-sm border-0 list-group-item ps-0"
                                   >
-                                    <strong class="text-dark">Judul:</strong>
+                                    <strong class="text-dark">Program:</strong>
                                     &nbsp;
                                     <div
                                       class="text-wrap"
@@ -507,6 +446,9 @@
                           <i class="fas fa-user-edit text-primary"></i>
                         </a>
                         <a
+                          :id="lrk.id_laporan"
+                          :name="lrk.mahasiswa.nama"
+                          class="delete"
                           href="#"
                           data-bs-toggle="tooltip"
                           data-bs-original-title="Hapus lrk"
@@ -543,7 +485,6 @@ import $ from "jquery";
 import { DataTable } from "simple-datatables";
 import moment from "moment";
 import Choices from "choices.js";
-import setTooltip from "@/assets/js/tooltip.js";
 import HeaderProfileCard from "@/views/dashboards/components/HeaderProfileCard.vue";
 import { mapActions, mapState } from "pinia";
 import d$tema from "@/store/tema";
@@ -574,6 +515,8 @@ export default {
     ...mapState(d$proposal, ["g$listProposal"]),
   },
   async created() {
+    this.showLoading(true);
+
     if (this.g$user.role === "MAHASISWA") {
       await this.getListLRK();
     } else if (this.g$user.role === "DOSEN") {
@@ -582,8 +525,6 @@ export default {
   },
   mounted() {
     this.setupDataTable("lrk-dosen-section-list");
-
-    setTooltip(this.$store.state.bootstrap);
   },
   beforeUnmount() {
     if (this.choicesTema) this.choicesTema.destroy();
@@ -591,7 +532,11 @@ export default {
   },
   methods: {
     ...mapActions(d$tema, ["a$listTemaDosen"]),
-    ...mapActions(d$laporan, ["a$listLRK", "a$listLaporanKecamatan"]),
+    ...mapActions(d$laporan, [
+      "a$listLRK",
+      "a$listLaporanKecamatan",
+      "a$deleteLaporan",
+    ]),
     ...mapActions(d$proposal, ["a$listProposalDosen"]),
 
     async getInitData() {
@@ -606,30 +551,40 @@ export default {
 
         await this.getListKecamatan();
       } catch (error) {
+        console.log(error);
+        let msg = "";
+        if (error.error && error.error != undefined) msg = error.error;
+        else msg = error;
         this.showSwal(
           "failed-message",
-          error ?? "Terjadi kesalahan saat memuat data"
+          "Terjadi kesalahan saat memuat data! " + msg
         );
-        console.log(error);
       }
     },
 
     async getListLaporanDosen() {
+      this.showLoading(true);
+
       this.indexComponent++;
       this.id_kecamatan = parseInt(this.id_kecamatan);
 
       try {
         await this.a$listLaporanKecamatan(this.id_kecamatan);
       } catch (error) {
+        console.log(error);
+        let msg = "";
+        if (error.error && error.error != undefined) msg = error.error;
+        else msg = error;
         this.showSwal(
           "failed-message",
-          error ?? "Terjadi kesalahan saat memuat data"
+          "Terjadi kesalahan saat memuat data! " + msg
         );
-        console.log(error);
       }
 
       this.setupDataTable("lrk-dosen-section-list");
       this.setupTableAction();
+
+      this.showLoading(false);
     },
 
     async getListKecamatan() {
@@ -641,26 +596,55 @@ export default {
         this.setChoices(this.choicesKec, this.g$listProposal);
         await this.getListLaporanDosen();
       } catch (error) {
+        console.log(error);
+        let msg = "";
+        if (error.error && error.error != undefined) msg = error.error;
+        else msg = error;
         this.showSwal(
           "failed-message",
-          error ?? "Terjadi kesalahan saat memuat data"
+          "Terjadi kesalahan saat memuat data! " + msg
         );
-        console.log(error);
       }
     },
 
     async getListLRK() {
+      this.showLoading(true);
+
       this.indexComponent++;
 
       try {
         await this.a$listLRK();
       } catch (error) {
-        this.showSwal("failed-message", "Terjadi kesalahan saat memuat data");
-        console.log(error.error);
+        console.log(error);
+        let msg = "";
+        if (error.error && error.error != undefined) msg = error.error;
+        else msg = error;
+        this.showSwal(
+          "failed-message",
+          "Terjadi kesalahan saat memuat data! " + msg
+        );
       }
 
       this.setupDataTable("lrk-list");
       this.setupTableAction();
+
+      this.showLoading(false);
+    },
+
+    async deleteLaporan(id_laporan) {
+      this.showSwal("loading");
+
+      try {
+        await this.a$deleteLaporan(id_laporan);
+        if (this.g$user.role === "MAHASISWA") await this.getListLRK();
+        else if (this.g$user.role === "DOSEN") await this.getListLaporanDosen();
+      } catch (error) {
+        console.log(error);
+        let msg = "";
+        if (error.error && error.error != undefined) msg = error.error;
+        else msg = error;
+        this.showSwal("failed-message", "Data gagal dihapus! " + msg);
+      }
     },
 
     setupDataTable(id) {
@@ -706,6 +690,51 @@ export default {
           });
         });
       }
+    },
+
+    setupTableAction() {
+      let outerThis = this;
+      $("#lrk-list").on("click", `.edit`, function (e) {
+        let lrk = this;
+        outerThis.$router.push({
+          name: "Edit LRK",
+          params: { id_laporan: lrk.id },
+        });
+        e.preventDefault();
+      });
+
+      // evaluate lrk for dosen
+      $("#lrk-dosen-section-list").on("click", `.edit`, function (e) {
+        let lrk = this;
+        outerThis.$router.push({
+          name: "Evaluate LRK",
+          params: { id_laporan: lrk.id },
+        });
+        e.preventDefault();
+      });
+
+      // delete
+      $("#lrk-list").on("click", `.delete`, function (e) {
+        let laporan = this;
+        outerThis.showSwal(
+          "warning-confirmation",
+          `Hapus laporan ${laporan.name}? Semua data LRK dan LPK akan dihapus permanen!`,
+          "Berhasil menghapus data",
+          laporan.id
+        );
+        e.preventDefault();
+      });
+
+      $("#lrk-dosen-section-list").on("click", `.delete`, function (e) {
+        let laporan = this;
+        outerThis.showSwal(
+          "warning-confirmation",
+          `Hapus laporan mahasiswa ${laporan.name}? Semua data LRK dan LPK mahasiswa tersebut akan dihapus permanen!`,
+          "Berhasil menghapus data",
+          laporan.id
+        );
+        e.preventDefault();
+      });
     },
 
     getOutOfTagP(element) {
@@ -767,29 +796,18 @@ export default {
         document.getElementById("choices-tema").selectedOptions[0].text;
     },
 
-    setupTableAction() {
-      let outerThis = this;
-      $("#lrk-list").on("click", `.edit`, function (e) {
-        let lrk = this;
-        outerThis.$router.push({
-          name: "Edit LRK",
-          params: { id_laporan: lrk.id },
-        });
-        e.preventDefault();
-      });
-
-      // evaluate lrk for dosen
-      $("#lrk-dosen-section-list").on("click", `.edit`, function (e) {
-        let lrk = this;
-        outerThis.$router.push({
-          name: "Evaluate LRK",
-          params: { id_laporan: lrk.id },
-        });
-        e.preventDefault();
-      });
+    showLoading(isLoading) {
+      if (isLoading && !this.loader) {
+        this.loader = this.$loading.show();
+      } else if (!isLoading && this.loader) {
+        setTimeout(() => {
+          this.loader.hide();
+          this.loader = undefined;
+        }, 400);
+      }
     },
 
-    showSwal(type, text) {
+    showSwal(type, text, toastText, id_laporan) {
       if (type === "success-message") {
         this.$swal({
           icon: "success",
@@ -799,6 +817,9 @@ export default {
           type: type,
           timerProgressBar: true,
           showConfirmButton: false,
+          didOpen: () => {
+            this.$swal.hideLoading();
+          },
         });
       } else if (type === "warning-message") {
         this.$swal({
@@ -809,6 +830,9 @@ export default {
           type: type,
           timerProgressBar: true,
           showConfirmButton: false,
+          didOpen: () => {
+            this.$swal.hideLoading();
+          },
         });
       } else if (type === "failed-message") {
         this.$swal({
@@ -819,6 +843,9 @@ export default {
           type: type,
           timerProgressBar: true,
           showConfirmButton: false,
+          didOpen: () => {
+            this.$swal.hideLoading();
+          },
         });
       } else if (type === "auto-close") {
         let timerInterval;
@@ -838,6 +865,43 @@ export default {
             clearInterval(timerInterval);
           },
         });
+      } else if (type === "warning-confirmation") {
+        this.$swal({
+          title: "Apakah Anda yakin?",
+          text: text,
+          showCancelButton: true,
+          confirmButtonText: "Ya!",
+          cancelButtonText: "Batal!",
+          customClass: {
+            confirmButton: "btn bg-gradient-success",
+            cancelButton: "btn bg-gradient-secondary",
+          },
+          buttonsStyling: false,
+          didOpen: () => {
+            this.$swal.hideLoading();
+          },
+        }).then((result) => {
+          if (result.isConfirmed) {
+            this.deleteLaporan(id_laporan);
+            this.$swal({
+              toast: true,
+              position: "top-end",
+              title: toastText,
+              icon: "success",
+              showConfirmButton: false,
+              timer: 2500,
+              timerProgressBar: true,
+              didOpen: () => {
+                this.$swal.hideLoading();
+              },
+            });
+          } else if (
+            /* Read more about handling dismissals below */
+            result.dismiss === this.$swal.DismissReason.cancel
+          ) {
+            this.$swal.close();
+          }
+        });
       } else if (type === "loading") {
         this.$swal({
           title: "Memuat...",
@@ -846,11 +910,9 @@ export default {
           allowOutsideClick: false,
           allowEscapeKey: false,
           didOpen: () => {
-            this.$swal.isLoading();
-            if (this.$swal.isLoading()) this.$swal.showLoading();
+            this.$swal.showLoading();
           },
           didDestroy: () => {
-            !this.$swal.isLoading();
             this.$swal.hideLoading();
           },
         });

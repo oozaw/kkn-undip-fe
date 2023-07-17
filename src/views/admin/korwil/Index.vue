@@ -214,22 +214,182 @@
                     <td class="text-sm">{{ korwil.nk }}</td>
                     <td class="text-sm">
                       <a
-                        href="javascript:;"
-                        data-bs-toggle="tooltip"
-                        data-bs-original-title="Detail Korwil"
+                        type="button"
+                        class="mb-0 text-primary"
+                        data-bs-toggle="modal"
+                        :data-bs-target="'#detail_' + korwil.id_korwil"
                         title="Detail Korwil"
                       >
                         <i class="fas fa-eye text-info"></i>
                       </a>
+                      <div
+                        :id="'detail_' + korwil.id_korwil"
+                        class="modal fade"
+                        tabindex="-1"
+                        aria-hidden="true"
+                      >
+                        <div class="modal-dialog modal-lg mt-lg-5">
+                          <div class="modal-content">
+                            <div class="modal-header">
+                              <h5 id="ModalLabel" class="modal-title">
+                                Detail Korwil {{ korwil.nama }}
+                              </h5>
+                              <button
+                                type="button"
+                                class="btn-close text-dark mb-0"
+                                data-bs-dismiss="modal"
+                                aria-label="Close"
+                              >
+                                <font-awesome-icon icon="fa-solid fa-xmark" />
+                              </button>
+                            </div>
+                            <div class="modal-body p-4">
+                              <div class="row">
+                                <div class="col-lg-6 col-12 pt-0 text-sm">
+                                  <strong class="text-dark"
+                                    >Nama Lengkap:</strong
+                                  >
+                                  &nbsp;
+                                  {{ korwil.nama }}
+                                </div>
+                                <div
+                                  class="col-lg-6 col-12 mt-2 mt-lg-0 pt-0 text-sm"
+                                >
+                                  <strong class="text-dark">NIP:</strong>
+                                  &nbsp;
+                                  {{ korwil.nk }}
+                                </div>
+                              </div>
+                              <div class="row mt-3">
+                                <div class="col-lg-6 col-12 text-sm">
+                                  <strong class="text-dark"
+                                    >Jenis Kelamin:</strong
+                                  >
+                                  &nbsp;
+                                  <span v-if="korwil.jenis_kelamin == 1"
+                                    >Laki-laki</span
+                                  >
+                                  <span v-else-if="korwil.jenis_kelamin == 2"
+                                    >Perempuan</span
+                                  >
+                                  <span v-else>-</span>
+                                </div>
+                                <div
+                                  class="col-lg-6 col-12 mt-2 mt-lg-0 text-sm"
+                                >
+                                  <strong class="text-dark"
+                                    >Tanggal Lahir:</strong
+                                  >
+                                  &nbsp;
+                                  {{
+                                    korwil.ttl
+                                      ? moment(korwil.ttl).format(
+                                          "DD MMMM YYYY"
+                                        )
+                                      : ""
+                                  }}
+                                </div>
+                              </div>
+                              <div class="row mt-3">
+                                <div class="col-lg-6 col-12 text-sm">
+                                  <strong class="text-dark">No Telepon:</strong>
+                                  &nbsp;
+                                  {{ korwil.no_hp }}
+                                </div>
+                                <div
+                                  class="col-lg-6 col-12 mt-2 mt-lg-0 text-sm"
+                                >
+                                  <strong class="text-dark">Alamat:</strong>
+                                  &nbsp;
+                                  {{ korwil.alamat }}
+                                </div>
+                              </div>
+                            </div>
+                            <div class="modal-footer"></div>
+                          </div>
+                        </div>
+                      </div>
                       <a
-                        href="javascript:;"
-                        class="mx-3"
-                        data-bs-toggle="tooltip"
-                        data-bs-original-title="Edit Korwil"
+                        type="button"
+                        class="mx-3 mb-0"
+                        data-bs-toggle="modal"
+                        :data-bs-target="`#edit-korwil-${korwil.id_korwil}`"
                         title="Edit Korwil"
                       >
                         <i class="fas fa-user-edit text-primary"></i>
                       </a>
+                      <div
+                        :id="`edit-korwil-${korwil.id_korwil}`"
+                        class="modal fade"
+                        tabindex="-1"
+                        aria-hidden="true"
+                        :key="indexComponent"
+                      >
+                        <div class="modal-dialog mt-lg-10">
+                          <div class="modal-content">
+                            <div class="modal-header">
+                              <h5 id="ModalLabel" class="modal-title">
+                                Edit Korwil
+                              </h5>
+                              <i class="fas fa-upload ms-3"></i>
+                              <button
+                                type="button"
+                                class="btn-close"
+                                data-bs-dismiss="modal"
+                                aria-label="Close"
+                              ></button>
+                            </div>
+                            <div class="modal-body">
+                              <form
+                                role="form"
+                                :id="`form-edit-korwil-${korwil.id_korwil}`"
+                                @submit.prevent="editKorwil(this.id)"
+                              >
+                                <label class="form-label">Nama Lengkap</label>
+                                <input
+                                  class="form-control"
+                                  type="text"
+                                  name="nama"
+                                  :id="`nama-${korwil.id_korwil}`"
+                                  placeholder="Nama korwil"
+                                  :value="korwil.nama"
+                                  required
+                                />
+                                <label class="form-label"
+                                  >Nomor Induk Korwil</label
+                                >
+                                <input
+                                  class="form-control"
+                                  type="number"
+                                  name="nk"
+                                  :id="`nk-${korwil.id_korwil}`"
+                                  placeholder="Nomor induk korwil"
+                                  :value="korwil.nk"
+                                  required
+                                />
+                              </form>
+                            </div>
+                            <div class="modal-footer">
+                              <button
+                                :id="`button-close-modal-${korwil.id_korwil}`"
+                                type="button"
+                                class="btn bg-gradient-secondary btn-sm"
+                                data-bs-dismiss="modal"
+                              >
+                                Batal
+                              </button>
+                              <button
+                                :id="korwil.id_korwil"
+                                :form="`form-edit-korwil-${korwil.id_korwil}`"
+                                type="submit"
+                                class="btn bg-gradient-primary btn-sm edit"
+                              >
+                                Simpan
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
                       <a
                         :id="korwil.id_korwil"
                         :name="korwil.nama"
@@ -263,6 +423,7 @@
 
 <script>
 import $ from "jquery";
+import moment from "moment";
 import { DataTable } from "simple-datatables";
 import HeaderProfileCard from "@/views/dashboards/components/HeaderProfileCard.vue";
 import { mapActions, mapState } from "pinia";
@@ -281,12 +442,16 @@ export default {
       },
       indexComponent: 0,
       dataTable: undefined,
+      moment,
+      loader: undefined,
     };
   },
   computed: {
     ...mapState(d$korwil, ["g$listKorwil"]),
   },
   async created() {
+    this.showLoading(true);
+
     await this.getListKorwil();
   },
   methods: {
@@ -294,6 +459,7 @@ export default {
       "a$listKorwil",
       "a$addKorwil",
       "a$importKorwil",
+      "a$editKorwil",
       "a$deleteKorwil",
     ]),
 
@@ -314,11 +480,11 @@ export default {
         this.body.nama = "";
         this.body.nk = "";
       } catch (error) {
-        this.showSwal(
-          "failed-message",
-          "Terjadi kesalahan saat menyimpan data! " + error.error
-        );
-        console.log(error.error);
+        console.log(error);
+        let msg = "";
+        if (error.error && error.error != undefined) msg = error.error;
+        else msg = error;
+        this.showSwal("failed-message", "Data gagal ditambahkan! " + msg);
       }
     },
 
@@ -337,31 +503,70 @@ export default {
         await this.getListKorwil();
         this.showSwal("success-message", "Data Korwil berhasil diimpor!");
       } catch (error) {
-        if (error) this.showSwal("failed-message", error);
-        else
-          this.showSwal(
-            "failed-message",
-            "Terjadi kesalahan saat mengimpor data!"
-          );
         console.log(error);
+        let msg = "";
+        if (error.error && error.error != undefined) msg = error.error;
+        else msg = error;
+        this.showSwal(
+          "failed-message",
+          "Terjadi kesalahan saat mengunggah data! " + msg
+        );
       }
     },
 
     async getListKorwil() {
+      this.showLoading(true);
+
       this.indexComponent++;
 
       try {
         await this.a$listKorwil();
       } catch (error) {
+        console.log(error);
+        let msg = "";
+        if (error.error && error.error != undefined) msg = error.error;
+        else msg = error;
         this.showSwal(
           "failed-message",
-          "Terjadi kesalahan saat memuat data!" + error
+          "Terjadi kesalahan saat memuat data! " + msg
         );
-        console.log(error);
       }
 
       this.setupDataTable();
       this.setupTableAction();
+
+      this.showLoading(false);
+    },
+
+    async editKorwil(id) {
+      this.showSwal("loading");
+
+      id = parseInt(id);
+      let data = {
+        nama: $(`#nama-${id}`).val(),
+        nk: $(`#nk-${id}`).val(),
+      };
+
+      if (data.nama === "" || data.nk === "") {
+        this.showSwal("warning-message", "Lengkapi data terlebih dahulu!");
+        return;
+      }
+
+      data.nk = data.nk.toString();
+
+      try {
+        document.getElementById(`button-close-modal-${id}`).click();
+        await this.a$editKorwil(id, data);
+        this.showSwal("success-message", "Data korwil berhasil disimpan!");
+
+        await this.getListKorwil();
+      } catch (error) {
+        console.log(error);
+        let msg = "";
+        if (error.error && error.error != undefined) msg = error.error;
+        else msg = error;
+        this.showSwal("failed-message", "Data gagal disimpan! " + msg);
+      }
     },
 
     async deleteKorwil(id_korwil) {
@@ -374,11 +579,11 @@ export default {
         await this.a$listKorwil();
         this.showSwal("success-message", "Data korwil berhasil dihapus!");
       } catch (error) {
-        this.showSwal(
-          "failed-message",
-          "Terjadi kesalahan saat memperbarui data! " + error.error
-        );
         console.log(error);
+        let msg = "";
+        if (error.error && error.error != undefined) msg = error.error;
+        else msg = error;
+        this.showSwal("failed-message", "Data gagal dihapus! " + msg);
       }
 
       this.setupDataTable();
@@ -421,6 +626,13 @@ export default {
 
     setupTableAction() {
       let outerThis = this;
+      // edit
+      $("#korwil-list").on("click", `.edit`, function (e) {
+        let korwil = this;
+        outerThis.editKorwil(korwil.id);
+        e.preventDefault();
+      });
+
       // delete
       $("#korwil-list").on("click", `.delete`, function (e) {
         let korwil = this;
@@ -432,6 +644,17 @@ export default {
         );
         e.preventDefault();
       });
+    },
+
+    showLoading(isLoading) {
+      if (isLoading && !this.loader) {
+        this.loader = this.$loading.show();
+      } else if (!isLoading && this.loader) {
+        setTimeout(() => {
+          this.loader.hide();
+          this.loader = undefined;
+        }, 400);
+      }
     },
 
     showSwal(type, text, toastText, id_korwil) {

@@ -107,6 +107,16 @@ const d$laporan = defineStore("laporanStore", {
         throw error;
       }
     },
+
+    async a$deleteLaporan(id_laporan) {
+      try {
+        const status = await s$laporan.deleteLaporan(id_laporan);
+        this.status = status;
+      } catch (error) {
+        this.status = false;
+        throw error;
+      }
+    },
   },
   getters: {
     g$listLaporan: ({ listLaporan }) => listLaporan,

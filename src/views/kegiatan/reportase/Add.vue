@@ -5,6 +5,7 @@
         <header-profile-card>
           <template #button>
             <argon-button
+              type="button"
               :onclick="() => $router.push({ name: 'Reportase' })"
               class="mb-0 me-2"
               color="secondary"
@@ -50,22 +51,36 @@
                 </div>
               </div>
               <div class="mt-3 row">
-                  <div class="col-12">
-                    <label>Kategori Program Kerja</label>
-                    <select
-                      name="choices-kategori"
-                      id="choices-kategori"
-                      v-model="body.kategori"
-                    >
-                      <option value="">-- Pilih kategori --</option>
-                      <option value="1">Monodisiplin</option>
-                      <option value="2">Multidisiplin</option>
-                    </select>
-                  </div>
-                </div>
-              <div class="row pb-7">
                 <div class="col-12">
-                  <label class="mt-4">Isi Reportase</label>
+                  <label>Kategori Program Kerja</label>
+                  <select
+                    name="choices-kategori"
+                    id="choices-kategori"
+                    v-model="body.kategori"
+                  >
+                    <option value="">-- Pilih kategori --</option>
+                    <option value="1">Monodisiplin</option>
+                    <option value="2">Multidisiplin</option>
+                  </select>
+                </div>
+              </div>
+              <div class="mt-3 row">
+                <div class="col-12">
+                  <label>Link Publikasi</label>
+                  <input
+                    id="publikasi"
+                    name="publikasi"
+                    class="form-control"
+                    type="text"
+                    placeholder="Link publikasi reportase"
+                    v-model="body.link_publikasi"
+                    required
+                  />
+                </div>
+              </div>
+              <div class="row mt-3 pb-7">
+                <div class="col-12">
+                  <label>Isi Reportase</label>
                   <div id="isi-editor" class="h-100"></div>
                   <!-- <quill-editor
                     id="isi-editor"
@@ -82,6 +97,7 @@
               <div class="row mt-2">
                 <div class="col-12 mt-3 d-flex justify-content-end">
                   <argon-button
+                    type="button"
                     :onclick="() => $router.push({ name: 'Reportase' })"
                     class="mb-0 me-2"
                     color="secondary"
@@ -128,6 +144,7 @@ export default {
         id_tema: "",
         judul: "",
         kategori: "",
+        link_publikasi: "",
         isi: "",
       },
       options: {
@@ -162,7 +179,10 @@ export default {
         if (
           !this.body.judul ||
           this.body.judul == "" ||
+          !this.body.kategori ||
           this.body.kategori == "" ||
+          !this.body.link_publikasi ||
+          this.body.link_publikasi == "" ||
           this.isQuillEmpty(this.body.isi)
         ) {
           this.showSwal(
@@ -183,8 +203,11 @@ export default {
         this.showSwal("success-message", "Data reportase berhasil ditambahkan");
         this.$router.push({ name: "Reportase" });
       } catch (error) {
-        this.showSwal("failed-message", "Data reportase gagal ditambahkan");
         console.log(error);
+        let msg = "";
+        if (error.error && error.error != undefined) msg = error.error;
+        else msg = error;
+        this.showSwal("failed-message", "Data gagal ditambahkan! " + msg);
       }
     },
 

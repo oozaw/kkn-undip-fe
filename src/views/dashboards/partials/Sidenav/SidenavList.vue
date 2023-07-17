@@ -143,11 +143,11 @@
           <template #list>
             <ul class="nav ms-4">
               <!-- nav links -->
-              <sidenav-item
+              <!-- <sidenav-item
                 :to="{ name: 'Edit Data Diri' }"
                 mini-icon="S"
                 text="Statistik"
-              />
+              /> -->
               <sidenav-item
                 :isActive="getRoute2() === 'tema'"
                 :to="{ name: 'Tema KKN' }"
@@ -169,7 +169,7 @@
                 :isActive="getRoute2() === 'kalender'"
                 :to="{ name: 'Kalender' }"
                 mini-icon="K"
-                text="Kalender KKN"
+                text="Kalender Kegiatan"
               />
               <sidenav-item
                 :isActive="getRoute2() === 'pengumuman'"
@@ -280,20 +280,20 @@
                 mini-icon="P"
                 text="Data Pendaftaran"
               />
-              <sidenav-item
+              <!-- <sidenav-item
                 :isActive="getRoute2() === 'post-test'"
                 :to="{ name: 'Nilai Post Test Mahasiswa Admin' }"
                 mini-icon="N"
                 text="Data Nilai Post Test"
-              />
-              <sidenav-item
+              /> -->
+              <!-- <sidenav-item
                 :isActive="
                   getRoute2() === 'presensi' && getRoute() === 'kelola-mhs'
                 "
                 :to="{ name: 'Presensi Mahasiswa Admin' }"
                 mini-icon="P"
                 text="Data Presensi Harian"
-              />
+              /> -->
               <sidenav-item
                 :isActive="getRoute2() === 'lrk-lpk'"
                 :to="{ name: 'LRK & LPK Mahasiswa Admin' }"
@@ -337,18 +337,18 @@
               />
               <sidenav-item
                 :isActive="getRoute2() === 'pemilihan-mhs'"
-                :to="{ name: 'Pemilihan Mahasiswa Admin' }"
+                :to="{ name: 'Seleksi Mahasiswa' }"
                 mini-icon="P"
-                text="Data Pemilihan Mahasiswa"
+                text="Data Seleksi Mahasiswa"
               />
-              <sidenav-item
+              <!-- <sidenav-item
                 :isActive="
                   getRoute2() === 'presensi' && getRoute() === 'kelola-dosen'
                 "
                 :to="{ name: 'Presensi Dosen Admin' }"
                 mini-icon="P"
                 text="Data Presensi Harian"
-              />
+              /> -->
               <sidenav-item
                 :isActive="getRoute2() === 'nilai-akhir'"
                 :to="{ name: 'Nilai Akhir Mahasiswa Admin' }"

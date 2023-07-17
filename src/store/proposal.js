@@ -30,6 +30,17 @@ const d$proposal = defineStore("proposalStore", {
       }
     },
 
+    async a$listAllProposalDosen() {
+      try {
+        const { data, status } = await s$proposal.listAllProposalDosen();
+        this.listProposal = data ?? [];
+        this.status = status;
+      } catch (error) {
+        this.status = false;
+        throw error;
+      }
+    },
+
     async a$listProposalDosen(id_tema) {
       try {
         const { data, status } = await s$proposal.listProposalDosen(id_tema);
@@ -74,6 +85,16 @@ const d$proposal = defineStore("proposalStore", {
     async a$evaluateProposal(body) {
       try {
         await s$proposal.evaluateProposal(body);
+        this.status = true;
+      } catch (error) {
+        this.status = false;
+        throw error;
+      }
+    },
+
+    async a$deleteProposal(id_proposal) {
+      try {
+        await s$proposal.deleteProposal(id_proposal);
         this.status = true;
       } catch (error) {
         this.status = false;

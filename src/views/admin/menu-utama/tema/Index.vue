@@ -50,7 +50,9 @@
                     <td>
                       <h6 class="my-auto">{{ tema.nama }}</h6>
                     </td>
-                    <td class="text-sm">{{ tema.nama }}</td>
+                    <td class="text-sm">
+                      {{ tema.jenis == 1 ? "Reguler" : "Tematik" }}
+                    </td>
                     <td class="text-sm">
                       <a
                         type="button"
@@ -66,7 +68,7 @@
                         tabindex="-1"
                         aria-hidden="true"
                       >
-                        <div class="modal-dialog mt-lg-10">
+                        <div class="modal-dialog">
                           <div class="modal-content">
                             <div class="modal-header">
                               <h5 id="ModalLabel" class="modal-title">
@@ -137,13 +139,79 @@
                     </td>
                     <td class="text-sm">
                       <a
-                        href="javascript:;"
-                        class="me-3"
-                        data-bs-toggle="tooltip"
-                        data-bs-original-title="Preview product"
+                        type="button"
+                        class="mb-0 me-3 text-primary"
+                        data-bs-toggle="modal"
+                        :data-bs-target="'#detail_' + tema.id_tema"
+                        title="Detail Tema"
                       >
                         <i class="fas fa-eye text-info"></i>
                       </a>
+                      <div
+                        :id="'detail_' + tema.id_tema"
+                        class="modal fade"
+                        tabindex="-1"
+                        aria-hidden="true"
+                      >
+                        <div class="modal-dialog mt-lg-3">
+                          <div class="modal-content">
+                            <div class="modal-header">
+                              <h5 id="ModalLabel" class="modal-title">
+                                Detail Tema {{ tema.nama }}
+                              </h5>
+                              <button
+                                type="button"
+                                class="btn-close text-dark mb-0"
+                                data-bs-dismiss="modal"
+                                aria-label="Close"
+                              >
+                                <font-awesome-icon icon="fa-solid fa-xmark" />
+                              </button>
+                            </div>
+                            <div class="modal-body p-4">
+                              <ul class="list-group">
+                                <li
+                                  class="pt-0 text-sm border-0 list-group-item ps-0"
+                                >
+                                  <strong class="text-dark">Nama:</strong>
+                                  &nbsp;
+                                  {{ tema.nama }}
+                                </li>
+                                <li
+                                  class="text-sm border-0 list-group-item ps-0"
+                                >
+                                  <strong class="text-dark">Jenis:</strong>
+                                  &nbsp;
+                                  {{ tema.jenis == 1 ? "Reguler" : "Tematik" }}
+                                </li>
+                                <li
+                                  class="text-sm border-0 list-group-item ps-0"
+                                >
+                                  <strong class="text-dark">Periode:</strong>
+                                  &nbsp;
+                                  {{ tema.periode }}
+                                </li>
+                                <li
+                                  class="text-sm border-0 list-group-item ps-0"
+                                >
+                                  <strong class="text-dark">Status:</strong>
+                                  &nbsp;
+                                  <span
+                                    v-if="tema.status"
+                                    class="badge badge-success"
+                                  >
+                                    Aktif
+                                  </span>
+                                  <span v-else class="badge badge-danger">
+                                    Tidak Aktif
+                                  </span>
+                                </li>
+                              </ul>
+                            </div>
+                            <div class="modal-footer"></div>
+                          </div>
+                        </div>
+                      </div>
                       <a
                         href="#"
                         :id="tema.id_tema"
@@ -155,9 +223,11 @@
                         <i class="fas fa-user-edit text-primary"></i>
                       </a>
                       <a
-                        href="javascript:;"
+                        :id="tema.id_tema"
+                        :name="tema.nama"
+                        href="#"
                         data-bs-toggle="tooltip"
-                        class="me-3"
+                        class="me-3 delete"
                         data-bs-original-title="Delete product"
                       >
                         <i class="fas fa-trash text-danger"></i>
@@ -220,7 +290,6 @@
 <script>
 import $ from "jquery";
 import { DataTable } from "simple-datatables";
-import setTooltip from "@/assets/js/tooltip.js";
 import HeaderProfileCard from "@/views/dashboards/components/HeaderProfileCard.vue";
 import { mapActions, mapState } from "pinia";
 import d$tema from "@/store/tema";
@@ -233,6 +302,7 @@ export default {
   data() {
     return {
       indexComponent: 0,
+      loader: undefined,
     };
   },
   computed: {
@@ -240,10 +310,9 @@ export default {
   },
   async created() {
     await this.getListTema();
-    setTooltip(this.$store.state.bootstrap);
   },
   methods: {
-    ...mapActions(d$tema, ["a$listTema", "a$switchTema"]),
+    ...mapActions(d$tema, ["a$listTema", "a$switchTema", "a$deleteTema"]),
 
     async switchTema(id_tema) {
       this.showSwal("loading");
@@ -252,33 +321,57 @@ export default {
         await this.a$switchTema(id_tema);
         await this.getListTema();
       } catch (error) {
-        this.showSwal(
-          "failed-message",
-          "Terjadi kesalahan saat memperbarui data! " + error
-        );
-        // console.log(error);
+        console.log(error);
+        let msg = "";
+        if (error.error && error.error != undefined) msg = error.error;
+        else msg = error;
+        this.showSwal("failed-message", "Data gagal diperbarui! " + msg);
+      }
+    },
+
+    async deleteTema(id_tema) {
+      this.showSwal("loading");
+
+      try {
+        await this.a$deleteTema(id_tema);
+        await this.getListTema();
+      } catch (error) {
+        console.log(error);
+        let msg = "";
+        if (error.error && error.error != undefined) msg = error.error;
+        else msg = error;
+        this.showSwal("failed-message", "Data gagal dihapus! " + msg);
       }
     },
 
     async getListTema() {
+      this.showLoading(true);
+
       this.indexComponent++;
 
       try {
         await this.a$listTema();
       } catch (error) {
+        console.log(error);
+        let msg = "";
+        if (error.error && error.error != undefined) msg = error.error;
+        else msg = error;
         this.showSwal(
           "failed-message",
-          "Terjadi kesalahan saat memuat data! " + error
+          "Terjadi kesalahan saat memuat data! " + msg
         );
-        // console.log(error);
       }
 
       this.setupDataTable();
       this.setupTableAction();
+
+      this.showLoading(false);
     },
 
     setupTableAction() {
       let outerThis = this;
+
+      // activate
       $("#kkn-list").on("click", `.aktif`, function (e) {
         let tema = this;
         outerThis.showSwal(
@@ -290,6 +383,7 @@ export default {
         e.preventDefault();
       });
 
+      // deactivate
       $("#kkn-list").on("click", `.non-aktif`, function (e) {
         let tema = this;
         outerThis.showSwal(
@@ -301,12 +395,26 @@ export default {
         e.preventDefault();
       });
 
+      // edit
       $("#kkn-list").on("click", `.edit`, function (e) {
         let tema = this;
         outerThis.$router.push({
           name: "Edit Tema KKN",
           params: { id_tema: tema.id },
         });
+        e.preventDefault();
+      });
+
+      // delete
+      $("#kkn-list").on("click", `.delete`, function (e) {
+        let tema = this;
+        outerThis.showSwal(
+          "warning-confirmation",
+          `Menghapus tema ${tema.name}?`,
+          "Berhasil menghapus data",
+          tema.id,
+          true
+        );
         e.preventDefault();
       });
     },
@@ -338,7 +446,18 @@ export default {
       }
     },
 
-    showSwal(type, text, toastText, id_tema) {
+    showLoading(isLoading) {
+      if (isLoading && !this.loader) {
+        this.loader = this.$loading.show();
+      } else if (!isLoading && this.loader) {
+        setTimeout(() => {
+          this.loader.hide();
+          this.loader = undefined;
+        }, 400);
+      }
+    },
+
+    showSwal(type, text, toastText, id_tema, isDelete = false) {
       if (type === "success-message") {
         this.$swal({
           icon: "success",
@@ -348,6 +467,9 @@ export default {
           type: type,
           timerProgressBar: true,
           showConfirmButton: false,
+          didOpen: () => {
+            this.$swal.hideLoading();
+          },
         });
       } else if (type === "failed-message") {
         this.$swal({
@@ -358,6 +480,9 @@ export default {
           type: type,
           timerProgressBar: true,
           showConfirmButton: false,
+          didOpen: () => {
+            this.$swal.hideLoading();
+          },
         });
       } else if (type === "auto-close") {
         let timerInterval;
@@ -389,9 +514,13 @@ export default {
             cancelButton: "btn bg-gradient-secondary",
           },
           buttonsStyling: false,
+          didOpen: () => {
+            this.$swal.hideLoading();
+          },
         }).then((result) => {
           if (result.isConfirmed) {
-            this.switchTema(id_tema);
+            if (isDelete) this.deleteTema(id_tema);
+            else this.switchTema(id_tema);
             this.$swal({
               toast: true,
               position: "top-end",
@@ -400,6 +529,9 @@ export default {
               showConfirmButton: false,
               timer: 2000,
               timerProgressBar: true,
+              didOpen: () => {
+                this.$swal.hideLoading();
+              },
             });
           } else if (
             /* Read more about handling dismissals below */
@@ -416,11 +548,9 @@ export default {
           allowOutsideClick: false,
           allowEscapeKey: false,
           didOpen: () => {
-            this.$swal.isLoading();
-            if (this.$swal.isLoading()) this.$swal.showLoading();
+            this.$swal.showLoading();
           },
           didDestroy: () => {
-            !this.$swal.isLoading();
             this.$swal.hideLoading();
           },
         });

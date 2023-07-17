@@ -5,6 +5,7 @@
         <HeaderProfileCard>
           <template #button>
             <argon-button
+              type="button"
               :onclick="() => $router.push({ name: 'Tema KKN' })"
               class="mb-0 me-2"
               color="secondary"
@@ -207,8 +208,11 @@ export default {
         this.$router.push({ name: "Tema KKN" });
         this.showSwal("success-message", "Tema KKN berhasil disimpan!");
       } catch (error) {
-        this.showSwal("failed-message", error ?? "Tema KKN gagal disimpan!");
         console.log(error);
+        let msg = "";
+        if (error.error && error.error != undefined) msg = error.error;
+        else msg = error;
+        this.showSwal("failed-message", "Data gagal disimpan! " + msg);
       }
     },
 
@@ -227,11 +231,14 @@ export default {
           this.body.desa = this.g$tema.desa;
         }
       } catch (error) {
+        console.log(error);
+        let msg = "";
+        if (error.error && error.error != undefined) msg = error.error;
+        else msg = error;
         this.showSwal(
           "failed-message",
-          "Terjadi kesalahan saat memuat data! " + error
+          "Terjadi kesalahan saat memuat data! " + msg
         );
-        console.log(error);
       }
     },
 
@@ -327,7 +334,7 @@ export default {
           allowOutsideClick: false,
           allowEscapeKey: false,
           didOpen: () => {
-            this.$swal.isLoading();
+            this.$swal.showLoading();
           },
           didDestroy: () => {
             this.$swal.hideLoading();

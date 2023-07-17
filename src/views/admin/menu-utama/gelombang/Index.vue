@@ -74,22 +74,6 @@
                             id="form-add-gelombang"
                             @submit.prevent="addGelombang()"
                           >
-                            <!-- <label class="form-label">Tema</label>
-                            <select
-                              name="jenis"
-                              id="choices-tema-modal"
-                              class="choices-tema-modal form-select"
-                              v-model="body.id_tema"
-                            >
-                              <option value="0" hidden>-- Pilih Tema --</option>
-                              <option
-                                v-for="tema in g$listTema"
-                                :key="tema.id_tema"
-                                :value="tema.id_tema"
-                              >
-                                {{ tema.nama }}
-                              </option>
-                            </select> -->
                             <label class="form-label">Halaman</label>
                             <select
                               name="jenis"
@@ -160,7 +144,7 @@
                     <th class="col-1">No.</th>
                     <th>Nama</th>
                     <th>Halaman</th>
-                    <th>Tema</th>
+                    <th>Periode</th>
                     <th>Status</th>
                     <th>Action</th>
                   </tr>
@@ -175,10 +159,23 @@
                       <h6 class="my-auto">{{ gelombang.nama }}</h6>
                     </td>
                     <td class="text-sm">
-                      {{ gelombang.tema_halaman.halaman.nama }}
+                      {{ gelombang.tema_halaman?.halaman.nama }}
                     </td>
                     <td class="text-sm">
-                      {{ gelombang.tema_halaman.tema.nama }}
+                      {{
+                        gelombang.tgl_mulai
+                          ? moment(gelombang.tgl_mulai).format(
+                              "DD MMMM YYYY HH:mm"
+                            ) + " - "
+                          : "-"
+                      }}
+                      {{
+                        gelombang.tgl_akhir
+                          ? moment(gelombang.tgl_akhir).format(
+                              "DD MMMM YYYY HH:mm"
+                            )
+                          : ""
+                      }}
                     </td>
                     <td>
                       <span
@@ -208,7 +205,7 @@
                         tabindex="-1"
                         aria-hidden="true"
                       >
-                        <div class="modal-dialog mt-lg-12">
+                        <div class="modal-dialog mt-lg-8">
                           <div class="modal-content">
                             <div class="modal-header">
                               <h5 id="ModalLabel" class="modal-title">
@@ -301,9 +298,11 @@
                         <i class="fas fa-user-edit text-primary"></i>
                       </a>
                       <a
-                        href="javascript:;"
+                        :id="gelombang.id_gelombang"
+                        :name="gelombang.nama"
+                        href="#"
                         data-bs-toggle="tooltip"
-                        class="me-3"
+                        class="me-3 delete"
                         data-bs-original-title="Hapus Gelombang"
                         title="Hapus Gelombang"
                       >
@@ -349,7 +348,7 @@
                     <th class="col-1">No.</th>
                     <th>Nama</th>
                     <th>Halaman</th>
-                    <th>Tema</th>
+                    <th>Periode</th>
                     <th>Status</th>
                     <th>Action</th>
                   </tr>
@@ -392,6 +391,7 @@ export default {
         nama: "",
       },
       moment,
+      loader: undefined,
     };
   },
   computed: {
@@ -411,7 +411,6 @@ export default {
   },
   beforeUnmount() {
     if (this.choicesTema) this.choicesTema.destroy();
-    // if (this.choicesTemaModal) this.choicesTemaModal.destroy();
     if (this.choicesHalamanModal) this.choicesHalamanModal.destroy();
   },
   methods: {
@@ -420,11 +419,11 @@ export default {
       "a$listAllGelombang",
       "a$switchGelombang",
       "a$addGelombang",
+      "a$deleteGelombang",
     ]),
     ...mapActions(d$halaman, ["a$listHalaman"]),
 
     async addGelombang() {
-      console.log(this.body);
       // validation
       if (!this.body.id_tema_halaman || this.body.id_tema_halaman === "0") {
         this.showSwal("warning-message", "Lengkapi data terlebih dahulu!");
@@ -432,7 +431,6 @@ export default {
       }
 
       this.showSwal("loading");
-      // this.body.id_tema = parseInt(this.body.id_tema);
       this.body.id_tema_halaman = parseInt(this.body.id_tema_halaman);
 
       try {
@@ -444,15 +442,13 @@ export default {
 
         await this.getListGelombang();
         this.showSwal("success-message", "Berhasil menambahkan gelombang");
-        // this.indexComponent++;
-        // this.setupChoices();
         this.body.nama = "";
       } catch (error) {
-        this.showSwal(
-          "failed-message",
-          error.error ?? "Terjadi kesalahan saat menambahkan gelombang"
-        );
         console.log(error);
+        let msg = "";
+        if (error.error && error.error != undefined) msg = error.error;
+        else msg = error;
+        this.showSwal("failed-message", "Data gagal ditambahkan! " + msg);
       }
     },
 
@@ -463,15 +459,32 @@ export default {
         await this.a$switchGelombang(id_tema);
         await this.getListGelombang();
       } catch (error) {
-        this.showSwal(
-          "failed-message",
-          error ?? "Terjadi kesalahan saat memperbarui data"
-        );
-        // console.log(error);
+        console.log(error);
+        let msg = "";
+        if (error.error && error.error != undefined) msg = error.error;
+        else msg = error;
+        this.showSwal("failed-message", "Data gagal diperbarui! " + msg);
+      }
+    },
+
+    async deleteGelombang(id_gelombang) {
+      this.showSwal("loading");
+
+      try {
+        await this.a$deleteGelombang(id_gelombang);
+        await this.getListGelombang();
+      } catch (error) {
+        console.log(error);
+        let msg = "";
+        if (error.error && error.error != undefined) msg = error.error;
+        else msg = error;
+        this.showSwal("failed-message", "Data gagal dihapus! " + msg);
       }
     },
 
     async getListGelombang() {
+      this.showLoading(true);
+
       this.indexComponent++;
 
       try {
@@ -480,12 +493,20 @@ export default {
 
         await this.a$listAllGelombang(parseInt(this.tema));
       } catch (error) {
-        this.showSwal("failed-message", "Terjadi kesalahan saat memuat data");
-        console.log(error.error);
+        console.log(error);
+        let msg = "";
+        if (error.error && error.error != undefined) msg = error.error;
+        else msg = error;
+        this.showSwal(
+          "failed-message",
+          "Terjadi kesalahan saat memuat data! " + msg
+        );
       }
 
       this.setupDataTable();
       this.setupTableAction();
+
+      this.showLoading(false);
     },
 
     setupTableAction() {
@@ -521,6 +542,18 @@ export default {
             id_gelombang: gelombang.id,
           },
         });
+        e.preventDefault();
+      });
+
+      $("#gelombang-list").on("click", `.delete`, function (e) {
+        let gelombang = this;
+        outerThis.showSwal(
+          "warning-confirmation",
+          `Menghapus gelombang ${gelombang.name}?`,
+          "Berhasil memperbarui data",
+          gelombang.id,
+          true
+        );
         e.preventDefault();
       });
     },
@@ -570,7 +603,18 @@ export default {
       }
     },
 
-    showSwal(type, text, toastText, id_gelombang) {
+    showLoading(isLoading) {
+      if (isLoading && !this.loader) {
+        this.loader = this.$loading.show();
+      } else if (!isLoading && this.loader) {
+        setTimeout(() => {
+          this.loader.hide();
+          this.loader = undefined;
+        }, 400);
+      }
+    },
+
+    showSwal(type, text, toastText, id_gelombang, idDelete = false) {
       if (type === "success-message") {
         this.$swal({
           icon: "success",
@@ -642,7 +686,8 @@ export default {
           buttonsStyling: false,
         }).then((result) => {
           if (result.isConfirmed) {
-            this.switchGelombang(id_gelombang);
+            if (idDelete) this.deleteGelombang(id_gelombang);
+            else this.switchGelombang(id_gelombang);
             this.$swal({
               toast: true,
               position: "top-end",

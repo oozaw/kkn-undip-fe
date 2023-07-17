@@ -9,7 +9,6 @@ const getNilai = (id_nilai) => baseApi.get(`${api}nilai/${id_nilai}`);
 
 const editNilai = (body) => baseApi.put(`${api}dosen/nilai/`, body);
 
-const resetNilai = (id_nilai) =>
-  baseApi.put(`${api}dosen/nilai/reset/${id_nilai}`);
+const resetNilai = (id_nilai) => baseApi.put(`${api}nilai/reset/${id_nilai}`);
 
 export { listNilaiKecamatan, getNilai, editNilai, resetNilai };

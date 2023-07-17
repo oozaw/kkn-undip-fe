@@ -6,6 +6,7 @@
           <header-profile-card>
             <template #button>
               <argon-button
+                type="button"
                 :onclick="() => $router.push({ name: 'LPK' })"
                 class="mb-0 me-2"
                 color="secondary"
@@ -64,61 +65,65 @@
                     </select>
                   </div>
                 </div>
-                <div class="row">
+                <div class="row mt-3">
                   <div class="col-12">
-                    <label class="pt-4">1. Potensi atau Masalah</label>
+                    <label>1. Potensi atau Masalah</label>
                     <quill-editor
                       class="bg-light"
                       :options="options"
                       id="potensi-editor"
+                      style="height: 200px"
                       v-model:content="body.potensi"
                       contentType="html"
                       theme="snow"
                     ></quill-editor>
                   </div>
                 </div>
-                <div class="row">
+                <div class="row mt-3">
                   <div class="col-12">
-                    <label class="pt-6">2. Sasaran Program</label>
+                    <label>2. Sasaran Program</label>
                     <quill-editor
                       class="bg-light"
                       :options="options"
                       id="sasaran-editor"
+                      style="height: 200px"
                       v-model:content="body.sasaran"
                       contentType="html"
                       theme="snow"
                     ></quill-editor>
                   </div>
                 </div>
-                <div class="row">
+                <div class="row mt-3">
                   <div class="col-12">
-                    <label class="pt-8">3. Metode IPTEKS yang Digunakan</label>
+                    <label>3. Metode IPTEKS yang Digunakan</label>
                     <quill-editor
                       class="bg-light"
                       :options="options"
                       id="metode-editor"
+                      style="height: 200px"
                       v-model:content="body.metode"
                       contentType="html"
                       theme="snow"
                     ></quill-editor>
                   </div>
                 </div>
-                <div class="row">
+                <div class="row mt-3">
                   <div class="col-12">
-                    <label class="pt-10">4. Luaran Program</label>
+                    <label>4. Luaran Program</label>
                     <quill-editor
                       class="bg-light"
                       :options="options"
                       id="output-editor"
+                      style="height: 200px"
                       v-model:content="body.luaran"
                       contentType="html"
                       theme="snow"
                     ></quill-editor>
                   </div>
                 </div>
-                <div class="row">
+                <div class="row mt-3">
                   <div class="col-12">
-                    <label class="pt-12">5. Pelaksanaan Program</label>
+                    <label>5. Pelaksanaan Program</label>
                     <quill-editor
                       id="pelaksanaan-editor"
                       style="height: 180px"
@@ -131,9 +136,9 @@
                     ></quill-editor>
                   </div>
                 </div>
-                <div class="row">
+                <div class="row mt-3">
                   <div class="col-12">
-                    <label class="pt-4">6. Capaian</label>
+                    <label>6. Capaian</label>
                     <quill-editor
                       id="capaian-editor"
                       style="height: 180px"
@@ -148,9 +153,9 @@
                     ></quill-editor>
                   </div>
                 </div>
-                <div class="row">
+                <div class="row mt-3">
                   <div class="col-12">
-                    <label class="pt-4">7. Hambatan</label>
+                    <label>7. Hambatan</label>
                     <quill-editor
                       id="hambatan-editor"
                       style="height: 180px"
@@ -165,9 +170,9 @@
                     ></quill-editor>
                   </div>
                 </div>
-                <div class="row">
+                <div class="row mt-3">
                   <div class="col-12">
-                    <label class="pt-4">8. Keberlanjutan Program</label>
+                    <label>8. Keberlanjutan Program</label>
                     <quill-editor
                       id="keberlanjutan-editor"
                       style="height: 180px"
@@ -182,17 +187,26 @@
                     ></quill-editor>
                   </div>
                 </div>
-                <div class="row">
+                <div class="row mt-3">
                   <div class="col-12">
-                    <label class="pt-4">9. Dokumentasi</label>
-                    <p class="text-xs form-text text-muted ms-1 d-inline">
-                      (*.rar)
-                    </p>
+                    <label class="mb-0 pb-0">9. Link File Dokumentasi</label>
+                    <div class="mt-0 pt-0 mb-3 text-xs">
+                      <span
+                        class="text-xs ms-3 mt-0 mb-2 form-text text-muted d-inline"
+                      >
+                        <i>
+                          Dapat berupa link Google Drive, OneDrive, atau cloud
+                          storage lainnya
+                        </i>
+                      </span>
+                    </div>
                     <input
                       class="form-control"
-                      type="file"
-                      name="file-dokumentasi"
-                      id="file-dokumentasi"
+                      type="text"
+                      name="dokumentasi"
+                      id="dokumentasi"
+                      placeholder="Link dokumentasi program kerja"
+                      v-model="body.dokumentasi"
                     />
                   </div>
                 </div>
@@ -201,6 +215,7 @@
                     class="col-sm-auto ms-sm-auto mt-sm-0 mt-3 d-flex justify-content-end"
                   >
                     <argon-button
+                      type="button"
                       :onclick="() => $router.push({ name: 'LPK' })"
                       class="mb-0 me-2"
                       color="secondary"
@@ -278,12 +293,15 @@ export default {
     ...mapState(d$halaman, ["g$statusHalaman"]),
   },
   async created() {
+    this.showSwal("loading");
+
     await this.a$checkHalaman(
       parseInt(this.g$infoUser.id_tema),
       this.id_halaman
     );
 
     if (this.g$statusHalaman) await this.getLaporan();
+    this.showSwal("close");
   },
   methods: {
     ...mapActions(d$laporan, ["a$getLaporan", "a$addLPK"]),
@@ -319,8 +337,11 @@ export default {
         this.$router.push({ name: "LPK" });
         this.showSwal("success-message", "Data LPK berhasil disimpan!");
       } catch (error) {
-        this.showSwal("failed-message", "Data LPK gagal disimpan!");
-        console.log(error.error);
+        console.log(error);
+        let msg = "";
+        if (error.error && error.error != undefined) msg = error.error;
+        else msg = error;
+        this.showSwal("failed-message", "Data gagal ditambahkan! " + msg);
       }
     },
 
@@ -340,8 +361,14 @@ export default {
         this.body.hambatan = this.g$getLaporan.hambatan;
         this.body.kelanjutan = this.g$getLaporan.kelanjutan;
       } catch (error) {
-        this.showSwal("failed-message", "Terjadi kesalahan saat memuat data");
         console.log(error);
+        let msg = "";
+        if (error.error && error.error != undefined) msg = error.error;
+        else msg = error;
+        this.showSwal(
+          "failed-message",
+          "Terjadi kesalahan saat memuat data! " + msg
+        );
       }
 
       this.showSwal("close");

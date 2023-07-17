@@ -17,6 +17,9 @@ const listMahasiswaRegisteredByKecamatan = (id_kecamatan) =>
 const listMahasiswaAcceptedByKecamatan = (id_kecamatan) =>
   baseApi.get(`${api}mahasiswa/accepted/${id_kecamatan}`);
 
+const getMahasiswa = (id_mahasiswa) =>
+  baseApi.get(`${api}mahasiswa/detail/${id_mahasiswa}`);
+
 const addMahasiswa = (body) =>
   baseApi.post(`${api}admin/mahasiswa/single`, body);
 
@@ -27,11 +30,17 @@ const importMahasiswa = (body) =>
     },
   });
 
+const editMahasiswa = (id_mahasiswa, body) =>
+  baseApi.put(`${api}admin/mahasiswa/${id_mahasiswa}`, body);
+
 const listMahasiswaWilayah = (id_kecamatan) =>
   baseApi.get(`${api}dosen/mahasiswa/${id_kecamatan}`);
 
 const daftarLokasi = (body) =>
   baseApi.post(`${api}mahasiswa/daftar_lokasi`, body);
+
+const deleteDaftarLokasi = (id_mahasiswa_kecamatan) =>
+  baseApi.delete(`${api}mahasiswa/daftar_lokasi/${id_mahasiswa_kecamatan}`);
 
 const accMahasiswa = (id_mahasiswa_kecamatan) =>
   baseApi.put(`${api}dosen/mahasiswa/acc/${id_mahasiswa_kecamatan}`);
@@ -49,10 +58,13 @@ export {
   listMahasiswaAccepted,
   listMahasiswaRegisteredByKecamatan,
   listMahasiswaAcceptedByKecamatan,
+  getMahasiswa,
   addMahasiswa,
   importMahasiswa,
+  editMahasiswa,
   listMahasiswaWilayah,
   daftarLokasi,
+  deleteDaftarLokasi,
   accMahasiswa,
   decMahasiswa,
   deleteMahasiswa,

@@ -5,6 +5,7 @@
         <HeaderProfileCard>
           <template #button>
             <argon-button
+              type="button"
               :onclick="() => $router.push({ name: 'Bappeda' })"
               class="mb-0 me-2"
               color="secondary"
@@ -152,11 +153,11 @@ export default {
         this.showSwal("success-message", "Data BAPPEDA berhasil ditambahkan!");
         this.$router.push({ name: "Bappeda" });
       } catch (error) {
-        this.showSwal(
-          "failed-message",
-          "Terjadi kesalahan saat menambahkan data"
-        );
         console.log(error);
+        let msg = "";
+        if (error.error && error.error != undefined) msg = error.error;
+        else msg = error;
+        this.showSwal("failed-message", "Data gagal ditambahkan! " + msg);
       }
     },
 
