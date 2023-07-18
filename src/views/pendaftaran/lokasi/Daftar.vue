@@ -39,7 +39,7 @@
                   id="form-daftar-lokasi"
                   @submit.prevent="daftarLokasi()"
                 >
-                  <div class="row">
+                  <!-- <div class="row">
                     <div class="col-12 align-self-center">
                       <label class="form-label mt-2">Provinsi</label>
                       <select
@@ -53,7 +53,7 @@
                         </option>
                       </select>
                     </div>
-                  </div>
+                  </div> -->
                   <div class="row mt-3">
                     <div class="col-12 align-self-center">
                       <label class="form-label mt-2">Kabupaten</label>
