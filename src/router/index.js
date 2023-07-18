@@ -173,7 +173,7 @@ const routes = [
     name: "Reset",
     component: Reset,
     meta: {
-      requiresAuth: [],
+      guest: true,
     },
   },
   // Akun

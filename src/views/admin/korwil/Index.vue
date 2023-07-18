@@ -360,7 +360,7 @@
                                 >
                                 <input
                                   class="form-control"
-                                  type="number"
+                                  type="text"
                                   name="nk"
                                   :id="`nk-${korwil.id_korwil}`"
                                   placeholder="Nomor induk korwil"

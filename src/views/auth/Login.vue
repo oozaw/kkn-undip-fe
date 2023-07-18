@@ -50,13 +50,13 @@
                         :isRequired="true"
                       />
                     </div>
-                    <div class="text-end me-2">
+                    <!-- <div class="text-end me-2">
                       <router-link
                         :to="{ name: 'Reset' }"
                         class="text-sm text-primary"
                         >Lupa password?</router-link
                       >
-                    </div>
+                    </div> -->
                     <div class="text-center">
                       <argon-button
                         class="mt-3"

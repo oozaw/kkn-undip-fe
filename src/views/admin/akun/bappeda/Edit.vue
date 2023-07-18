@@ -52,7 +52,7 @@
                   <label>Nomor BAPPEDA</label>
                   <input
                     class="form-control"
-                    type="number"
+                    type="text"
                     name="nomor"
                     id="nomor"
                     placeholder="Masukkan nomor BAPPEDA"

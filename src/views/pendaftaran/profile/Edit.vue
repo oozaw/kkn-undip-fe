@@ -147,7 +147,7 @@
                     class="form-control"
                     id="no-hp"
                     name="no-hp"
-                    type="number"
+                    type="text"
                     placeholder="Nomor telepon aktif mahasiswa"
                     v-model="body.no_hp"
                     required
@@ -227,7 +227,7 @@
                     class="form-control"
                     id="no-hp-cp"
                     name="no-hp-cp"
-                    type="number"
+                    type="text"
                     placeholder="Nomor telepon contact person darurat"
                     v-model="body.no_hp_cp_urgent"
                     required
@@ -421,7 +421,7 @@
                     class="form-control"
                     id="no-hp"
                     name="no-hp"
-                    type="number"
+                    type="text"
                     placeholder="Nomor telepon aktif"
                     v-model="body.no_hp"
                     required

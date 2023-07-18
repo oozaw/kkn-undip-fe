@@ -37,7 +37,7 @@
               <div class="mt-2 row">
                 <div class="col-md-6 col-12">
                   <div class="reguler-section" :hidden="filterJenis !== 1">
-                    <div class="row">
+                    <!-- <div class="row">
                       <div class="col-12 align-self-center">
                         <label class="form-label mt-2">Provinsi</label>
                         <select
@@ -51,7 +51,7 @@
                           </option>
                         </select>
                       </div>
-                    </div>
+                    </div> -->
                     <div class="row mt-3">
                       <div class="col-12 align-self-center">
                         <label class="form-label mt-2">Kabupaten/ Kota</label>
@@ -280,7 +280,7 @@ export default {
           parseInt(this.id_halaman)
         );
 
-        this.choicesProvinsi = this.getChoices("choices-provinsi");
+        // this.choicesProvinsi = this.getChoices("choices-provinsi");
         this.choicesKabupaten = this.getChoices("choices-kab");
         this.choicesKecamatan = this.getChoices("choices-kec");
 

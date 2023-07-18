@@ -72,7 +72,7 @@
               </div>
               <div class="tematik-section" v-if="filterJenis === '2'">
                 <div class="row">
-                  <div class="col-sm-6 col-12">
+                  <!-- <div class="col-sm-6 col-12">
                     <label class="form-label mt-4">Lokasi Provinsi</label>
                     <input
                       class="form-control"
@@ -83,8 +83,8 @@
                       v-model="body.prov"
                       :isRequired="true"
                     />
-                  </div>
-                  <div class="col-sm-6 col-12">
+                  </div> -->
+                  <div class="col-12">
                     <label class="form-label mt-4">Lokasi Kabupaten</label>
                     <input
                       class="form-control"
