@@ -92,7 +92,7 @@
                     </td>
                     <td class="text-sm">{{ nilai.mahasiswa.nim }}</td>
                     <td class="text-sm">
-                      {{ nilai.mahasiswa.prodi.fakultas.nama }}
+                      {{ nilai.mahasiswa.prodi?.fakultas?.nama }}
                     </td>
                     <td class="text-sm">{{ nilai.nilai_akhir ?? "-" }}</td>
                     <td class="text-sm">{{ nilai.nilai_huruf ?? "-" }}</td>

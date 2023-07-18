@@ -157,14 +157,16 @@
                                 >
                                   <strong class="text-dark">Fakultas:</strong>
                                   &nbsp;
-                                  {{ reportase.mahasiswa.prodi.fakultas.nama }}
+                                  {{
+                                    reportase.mahasiswa.prodi?.fakultas?.nama
+                                  }}
                                 </li>
                                 <li
                                   class="text-sm border-0 list-group-item ps-0"
                                 >
                                   <strong class="text-dark">Prodi:</strong>
                                   &nbsp;
-                                  {{ reportase.mahasiswa.prodi.nama }}
+                                  {{ reportase.mahasiswa.prodi?.nama }}
                                 </li>
                                 <li
                                   class="text-sm border-0 list-group-item ps-0"
