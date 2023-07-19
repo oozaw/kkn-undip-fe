@@ -516,7 +516,7 @@ export default {
         return new Choices(element, {
           searchEnabled: true,
           allowHTML: true,
-          shouldSort: false,
+          shouldSort: true,
         });
       }
     },
