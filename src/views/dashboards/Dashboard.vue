@@ -52,9 +52,8 @@
                 }"
               />
               <mini-statistics-card
-                v-if="
+                v-else-if="
                   g$user.role === 'DOSEN' ||
-                  g$user.role === 'BAPPEDA' ||
                   g$user.role === 'REVIEWER' ||
                   g$user.role === 'PIMPINAN'
                 "
@@ -78,6 +77,29 @@
                 @click="() => $router.push({ name: 'Edit Data Diri' })"
               />
               <mini-statistics-card
+                v-else-if="g$user.role === 'BAPPEDA'"
+                :style="'margin-left: 70%'"
+                role="button"
+                title="Data Diri"
+                title-color="primary"
+                :value="{
+                  text:
+                    checkProgressDataDiriBappeda() == 100
+                      ? `Sudah Lengkap (${checkProgressDataDiriBappeda()}%)`
+                      : `Belum Lengkap (${checkProgressDataDiriBappeda()}%)`,
+                  color:
+                    checkProgressDataDiriBappeda() == 100
+                      ? 'success'
+                      : 'danger',
+                }"
+                :icon="{
+                  component: 'fa-solid fa-address-card',
+                  background: 'bg-gradient-primary',
+                  shape: 'rounded-circle',
+                }"
+                @click="() => $router.push({ name: 'Edit Data Diri' })"
+              />
+              <mini-statistics-card
                 v-if="g$user.role === 'DOSEN' || g$user.role === 'BAPPEDA'"
                 :style="'margin-left: 70%'"
                 role="button"
@@ -85,7 +107,7 @@
                 title-color="primary"
                 :isValueList="true"
                 :value="{
-                  list: listWilayahDosen,
+                  list: listWilayah,
                   color: 'dark',
                 }"
                 :icon="{
@@ -507,14 +529,14 @@ export default {
       initialDate: "",
       listEvent: undefined,
       listPengumuman: undefined,
-      listWilayahDosen: undefined,
+      listWilayah: undefined,
       moment,
       progresDataDiri: 0,
     };
   },
   computed: {
     ...mapState(d$auth, ["g$user", "g$infoUser"]),
-    ...mapState(d$wilayah, ["g$kecamatan"]),
+    ...mapState(d$wilayah, ["g$kecamatan", "g$listKabupaten"]),
     ...mapState(d$laporan, ["g$listLRK", "g$listLPK"]),
     ...mapState(d$tema, ["g$listTemaActive"]),
     ...mapState(d$event, ["g$listEvent"]),
@@ -523,7 +545,7 @@ export default {
     ...mapState(d$mahasiswa, ["g$listMahasiswa"]),
     ...mapState(d$dosen, ["g$listDosen"]),
     ...mapState(d$reviewer, ["g$listReviewer"]),
-    ...mapState(d$bappeda, ["g$listBappeda"]),
+    ...mapState(d$bappeda, ["g$listBappeda", "g$listKabupatenBappeda"]),
     ...mapState(d$pimpinan, ["g$listPimpinan"]),
   },
   async created() {
@@ -586,7 +608,31 @@ export default {
 
         break;
 
+      case "BAPPEDA":
+        // kegiatan
+        await this.a$listBappedaEvent();
+        this.parsingEvents();
+
+        // wilayah
+        await this.getListWilayahBappeda();
+
+        // pengumuman
+        await this.a$listBappedaPengumuman();
+        this.listPengumuman = this.g$listPengumuman;
+        break;
+
       case "REVIEWER":
+        // kegiatan
+        await this.a$listAllEvent();
+        this.parsingEvents();
+
+        // pengumuman
+        await this.a$listAllPengumuman();
+        this.listPengumuman = this.g$listPengumuman;
+
+        break;
+
+      case "PIMPINAN":
         // kegiatan
         await this.a$listAllEvent();
         this.parsingEvents();
@@ -631,7 +677,7 @@ export default {
     setTooltip(this.$store.state.bootstrap);
   },
   methods: {
-    ...mapActions(d$wilayah, ["a$getKecamatanMhs"]),
+    ...mapActions(d$wilayah, ["a$getKecamatanMhs", "a$listKabupaten"]),
     ...mapActions(d$laporan, ["a$listLRK", "a$listLPK"]),
     ...mapActions(d$tema, ["a$listTema"]),
     ...mapActions(d$event, [
@@ -650,7 +696,7 @@ export default {
     ...mapActions(d$mahasiswa, ["a$listMahasiswa", "a$listMahasiswaAccepted"]),
     ...mapActions(d$dosen, ["a$listDosen"]),
     ...mapActions(d$reviewer, ["a$listReviewer"]),
-    ...mapActions(d$bappeda, ["a$listBappeda"]),
+    ...mapActions(d$bappeda, ["a$listBappeda", "a$listKabupatenBappeda"]),
     ...mapActions(d$pimpinan, ["a$listPimpinan"]),
 
     async getDosenAndLokasi() {
@@ -678,12 +724,34 @@ export default {
     async getListWilayahDosen() {
       try {
         await this.a$listAllProposalDosen();
-        this.listWilayahDosen = [];
+        this.listWilayah = [];
         this.g$listProposal.forEach((item) => {
           if (item.status == 1)
-            this.listWilayahDosen.push(
+            this.listWilayah.push(
               `Kec. ${item.kecamatan.nama}, Kab. ${item.kecamatan.kabupaten.nama}`
             );
+        });
+      } catch (error) {
+        console.log(error);
+        let msg = "";
+        if (error.error && error.error != undefined) msg = error.error;
+        else msg = error;
+        this.showSwal(
+          "failed-message",
+          "Terjadi kesalahan saat memuat data! " + msg
+        );
+      }
+    },
+
+    async getListWilayahBappeda() {
+      try {
+        await this.a$listKabupatenBappeda();
+        this.listWilayah = [];
+        this.g$listKabupatenBappeda.forEach((kab) => {
+          kab.kecamatan.forEach((kecamatan) => {
+            if (kecamatan.status == 1)
+              this.listWilayah.push(`Kec. ${kecamatan.nama}`);
+          });
         });
       } catch (error) {
         console.log(error);
@@ -839,6 +907,27 @@ export default {
       let totalAttribute = Object.keys(this.g$infoUser).length;
       let totalAttributeMustBeFilled = Object.keys(this.g$infoUser).length - 5;
       let indexMustNotBeFilled = [0, 1, 2, 9, 10];
+      let attributeFilled = 0;
+
+      for (let index = 0; index < totalAttribute; index++) {
+        if (indexMustNotBeFilled.includes(index)) continue;
+
+        if (
+          !this.isNullEmptyOrUndefined(
+            this.g$infoUser[Object.keys(this.g$infoUser)[index]]
+          )
+        ) {
+          attributeFilled++;
+        }
+      }
+
+      return this.percentage(attributeFilled, totalAttributeMustBeFilled);
+    },
+
+    checkProgressDataDiriBappeda() {
+      let totalAttribute = Object.keys(this.g$infoUser).length;
+      let totalAttributeMustBeFilled = Object.keys(this.g$infoUser).length - 4;
+      let indexMustNotBeFilled = [0, 1, 9, 10];
       let attributeFilled = 0;
 
       for (let index = 0; index < totalAttribute; index++) {

@@ -5,6 +5,7 @@ const d$bappeda = defineStore("bappedaStore", {
   id: "bappeda",
   state: () => ({
     listBappeda: [],
+    listKabupaten: [],
     bappeda: null,
     status: null,
   }),
@@ -41,6 +42,17 @@ const d$bappeda = defineStore("bappedaStore", {
       }
     },
 
+    async a$listKabupatenBappeda() {
+      try {
+        const { data, status } = await s$bappeda.listKabupatenBappeda();
+        this.listKabupaten = data ?? [];
+        this.status = status;
+      } catch ({ message, error }) {
+        this.status = false;
+        throw message ?? error;
+      }
+    },
+
     async a$importBappeda(body) {
       try {
         const status = await s$bappeda.importBappeda(body);
@@ -73,6 +85,7 @@ const d$bappeda = defineStore("bappedaStore", {
   },
   getters: {
     g$listBappeda: ({ listBappeda }) => listBappeda,
+    g$listKabupatenBappeda: ({ listKabupaten }) => listKabupaten,
     g$bappeda: ({ bappeda }) => bappeda,
   },
 });

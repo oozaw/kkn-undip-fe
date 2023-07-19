@@ -6,6 +6,8 @@ const listBappeda = () => baseApi.get(`${api}bappeda`);
 
 const getBappeda = (id_bappeda) => baseApi.get(`${api}bappeda/${id_bappeda}`);
 
+const listKabupatenBappeda = () => baseApi.get(`${api}bappeda/kabupaten/list`);
+
 const addBappeda = (body) => baseApi.post(`${api}admin/bappeda/single`, body);
 
 const importBappeda = (body) =>
@@ -25,6 +27,7 @@ export {
   listBappeda,
   getBappeda,
   addBappeda,
+  listKabupatenBappeda,
   importBappeda,
   editBappeda,
   deleteBappeda,
