@@ -223,21 +223,21 @@
                             <div class="modal-body p-4">
                               <ul class="list-group">
                                 <li
-                                  class="pt-0 text-sm border-0 list-group-item ps-0"
+                                  class="pt-0 text-sm border-0 list-group-item ps-0 text-wrap"
                                 >
                                   <strong class="text-dark">Nama:</strong>
                                   &nbsp;
                                   {{ gelombang.nama }}
                                 </li>
                                 <li
-                                  class="text-sm border-0 list-group-item ps-0"
+                                  class="text-sm border-0 list-group-item ps-0 text-wrap"
                                 >
                                   <strong class="text-dark">Halaman:</strong>
                                   &nbsp;
                                   {{ gelombang.tema_halaman.halaman.nama }}
                                 </li>
                                 <li
-                                  class="text-sm border-0 list-group-item ps-0"
+                                  class="text-sm border-0 list-group-item ps-0 text-wrap"
                                 >
                                   <strong class="text-dark"
                                     >Tanggal Dibuka:</strong
@@ -252,7 +252,7 @@
                                   }}
                                 </li>
                                 <li
-                                  class="text-sm border-0 list-group-item ps-0"
+                                  class="text-sm border-0 list-group-item ps-0 text-wrap"
                                 >
                                   <strong class="text-dark"
                                     >Tanggal Ditutup:</strong
@@ -267,7 +267,7 @@
                                   }}
                                 </li>
                                 <li
-                                  class="text-sm border-0 list-group-item ps-0"
+                                  class="text-sm border-0 list-group-item ps-0 text-wrap"
                                 >
                                   <strong class="text-dark">Status:</strong>
                                   &nbsp;

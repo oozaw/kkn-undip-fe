@@ -199,7 +199,9 @@
                             </div>
                             <div class="modal-body p-4">
                               <div class="row">
-                                <div class="col-lg-6 col-12 pt-0 text-sm">
+                                <div
+                                  class="col-lg-6 col-12 pt-0 text-sm text-wrap"
+                                >
                                   <strong class="text-dark"
                                     >Nama Lengkap:</strong
                                   >
@@ -207,7 +209,7 @@
                                   {{ mhs.nama }}
                                 </div>
                                 <div
-                                  class="col-lg-6 col-12 mt-2 mt-lg-0 pt-0 text-sm"
+                                  class="col-lg-6 col-12 mt-2 mt-lg-0 pt-0 text-sm text-wrap"
                                 >
                                   <strong class="text-dark">NIM:</strong>
                                   &nbsp;
@@ -215,13 +217,13 @@
                                 </div>
                               </div>
                               <div class="row mt-2">
-                                <div class="col-lg-6 col-12 text-sm">
+                                <div class="col-lg-6 col-12 text-sm text-wrap">
                                   <strong class="text-dark">Fakultas:</strong>
                                   &nbsp;
                                   {{ mhs.prodi?.fakultas?.nama }}
                                 </div>
                                 <div
-                                  class="col-lg-6 col-12 mt-2 mt-lg-0 text-sm"
+                                  class="col-lg-6 col-12 mt-2 mt-lg-0 text-sm text-wrap"
                                 >
                                   <strong class="text-dark">Prodi:</strong>
                                   &nbsp;
@@ -229,7 +231,7 @@
                                 </div>
                               </div>
                               <div class="row mt-2">
-                                <div class="col-lg-6 col-12 text-sm">
+                                <div class="col-lg-6 col-12 text-sm text-wrap">
                                   <strong class="text-dark"
                                     >Jenis Kelamin:</strong
                                   >
@@ -243,7 +245,7 @@
                                   <span v-else>-</span>
                                 </div>
                                 <div
-                                  class="col-lg-6 col-12 mt-2 mt-lg-0 text-sm"
+                                  class="col-lg-6 col-12 mt-2 mt-lg-0 text-sm text-wrap"
                                 >
                                   <strong class="text-dark"
                                     >Tanggal Lahir:</strong
@@ -257,13 +259,13 @@
                                 </div>
                               </div>
                               <div class="row mt-2">
-                                <div class="col-lg-6 col-12 text-sm">
+                                <div class="col-lg-6 col-12 text-sm text-wrap">
                                   <strong class="text-dark">No Telepon:</strong>
                                   &nbsp;
                                   {{ mhs.no_hp }}
                                 </div>
                                 <div
-                                  class="col-lg-6 col-12 mt-2 mt-lg-0 text-sm"
+                                  class="col-lg-6 col-12 mt-2 mt-lg-0 text-sm text-wrap"
                                 >
                                   <strong class="text-dark">Alamat:</strong>
                                   &nbsp;
@@ -271,7 +273,7 @@
                                 </div>
                               </div>
                               <div class="row mt-2">
-                                <div class="col-lg-6 col-12 text-sm">
+                                <div class="col-lg-6 col-12 text-sm text-wrap">
                                   <strong class="text-dark"
                                     >Riwayat Penyakit:</strong
                                   >
@@ -279,7 +281,7 @@
                                   {{ mhs.riwayat_penyakit }}
                                 </div>
                                 <div
-                                  class="col-lg-6 col-12 mt-2 mt-lg-0 text-sm"
+                                  class="col-lg-6 col-12 mt-2 mt-lg-0 text-sm text-wrap"
                                 >
                                   <strong class="text-dark">Nama Ortu:</strong>
                                   &nbsp;
@@ -287,7 +289,7 @@
                                 </div>
                               </div>
                               <div class="row mt-2">
-                                <div class="col-lg-6 col-12 text-sm">
+                                <div class="col-lg-6 col-12 text-sm text-wrap">
                                   <strong class="text-dark"
                                     >No Telp Ortu:</strong
                                   >
@@ -295,7 +297,7 @@
                                   {{ mhs.no_hp_ortu }}
                                 </div>
                                 <div
-                                  class="col-lg-6 col-12 mt-2 mt-lg-0 text-sm"
+                                  class="col-lg-6 col-12 mt-2 mt-lg-0 text-sm text-wrap"
                                 >
                                   <strong class="text-dark"
                                     >Alamat Ortu:</strong
@@ -305,7 +307,7 @@
                                 </div>
                               </div>
                               <div class="row mt-2">
-                                <div class="col-lg-6 col-12 text-sm">
+                                <div class="col-lg-6 col-12 text-sm text-wrap">
                                   <strong class="text-dark"
                                     >Nama CP Darurat:</strong
                                   >
@@ -313,7 +315,7 @@
                                   {{ mhs.nama_cp_urgent }}
                                 </div>
                                 <div
-                                  class="col-lg-6 col-12 mt-2 mt-lg-0 text-sm"
+                                  class="col-lg-6 col-12 mt-2 mt-lg-0 text-sm text-wrap"
                                 >
                                   <strong class="text-dark"
                                     >No Telp CP Darurat:</strong
@@ -323,7 +325,7 @@
                                 </div>
                               </div>
                               <div class="row mt-2">
-                                <div class="col-lg-6 col-12 text-sm">
+                                <div class="col-lg-6 col-12 text-sm text-wrap">
                                   <strong class="text-dark"
                                     >Alamat CP Darurat:</strong
                                   >
@@ -331,7 +333,7 @@
                                   {{ mhs.alamat_cp_urgent }}
                                 </div>
                                 <div
-                                  class="col-lg-6 col-12 mt-2 mt-lg-0 text-sm"
+                                  class="col-lg-6 col-12 mt-2 mt-lg-0 text-sm text-wrap"
                                 >
                                   <strong class="text-dark">Hubungan:</strong>
                                   &nbsp;

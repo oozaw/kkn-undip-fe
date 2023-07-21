@@ -146,7 +146,7 @@
                             <div class="modal-body p-4">
                               <ul class="list-group">
                                 <li
-                                  class="pt-0 text-sm border-0 list-group-item ps-0"
+                                  class="pt-0 text-sm border-0 list-group-item ps-0 text-wrap"
                                 >
                                   <strong class="text-dark"
                                     >Nama Lengkap:</strong
@@ -155,28 +155,28 @@
                                   {{ pendaftar.mahasiswa.nama }}
                                 </li>
                                 <li
-                                  class="text-sm border-0 list-group-item ps-0"
+                                  class="text-sm border-0 list-group-item ps-0 text-wrap"
                                 >
                                   <strong class="text-dark">Angkatan:</strong>
                                   &nbsp;
                                   {{ pendaftar.mahasiswa.angkatan }}
                                 </li>
                                 <li
-                                  class="text-sm border-0 list-group-item ps-0"
+                                  class="text-sm border-0 list-group-item ps-0 text-wrap"
                                 >
                                   <strong class="text-dark">NIM:</strong>
                                   &nbsp;
                                   {{ pendaftar.mahasiswa.nim }}
                                 </li>
                                 <li
-                                  class="text-sm border-0 list-group-item ps-0"
+                                  class="text-sm border-0 list-group-item ps-0 text-wrap"
                                 >
                                   <strong class="text-dark">Fakultas:</strong>
                                   &nbsp;
                                   {{ pendaftar.mahasiswa.prodi?.fakultas.nama }}
                                 </li>
                                 <li
-                                  class="text-sm border-0 list-group-item ps-0"
+                                  class="text-sm border-0 list-group-item ps-0 text-wrap"
                                 >
                                   <strong class="text-dark">Prodi:</strong>
                                   &nbsp;
@@ -184,55 +184,57 @@
                                 </li>
 
                                 <li
-                                  class="text-sm border-0 list-group-item ps-0"
+                                  class="text-sm border-0 list-group-item ps-0 text-wrap"
                                 >
                                   <strong class="text-dark">Email:</strong>
                                   &nbsp;
                                   {{ pendaftar.mahasiswa.email }}
                                 </li>
                                 <li
-                                  class="text-sm border-0 list-group-item ps-0"
+                                  class="text-sm border-0 list-group-item ps-0 text-wrap"
                                 >
                                   <strong class="text-dark">No. HP:</strong>
                                   &nbsp;
                                   {{ pendaftar.mahasiswa.no_hp }}
                                 </li>
                                 <li
-                                  class="text-sm border-0 list-group-item ps-0"
+                                  class="text-sm border-0 list-group-item ps-0 text-wrap"
                                 >
                                   <strong class="text-dark">Domisili:</strong>
                                   &nbsp;
                                   {{ pendaftar.mahasiswa.domisili }}
                                 </li>
                                 <li
-                                  class="text-sm border-0 list-group-item ps-0"
+                                  class="text-sm border-0 list-group-item ps-0 text-wrap"
                                 >
                                   <strong class="text-dark">Tema:</strong>
                                   &nbsp;
                                   {{ pendaftar.kecamatan.kabupaten.tema.nama }}
                                 </li>
                                 <li
-                                  class="text-sm border-0 list-group-item ps-0"
+                                  class="text-sm border-0 list-group-item ps-0 text-wrap"
                                 >
                                   <strong class="text-dark">Gelombang:</strong>
                                   &nbsp;
                                   {{ pendaftar.gelombang.nama }}
                                 </li>
                                 <li
-                                  class="text-sm border-0 list-group-item ps-0"
+                                  class="text-sm border-0 list-group-item ps-0 text-wrap"
                                 >
                                   <strong class="text-dark">Kabupaten:</strong>
                                   &nbsp;
                                   {{ pendaftar.kecamatan.kabupaten.nama }}
                                 </li>
                                 <li
-                                  class="text-sm border-0 list-group-item ps-0"
+                                  class="text-sm border-0 list-group-item ps-0 text-wrap"
                                 >
                                   <strong class="text-dark">Kecamatan:</strong>
                                   &nbsp;
                                   {{ pendaftar.kecamatan.nama }}
                                 </li>
-                                <li class="pb-0 border-0 list-group-item ps-0">
+                                <li
+                                  class="pb-0 border-0 list-group-item ps-0 text-wrap"
+                                >
                                   <strong class="text-sm text-dark"
                                     >Status:</strong
                                   >

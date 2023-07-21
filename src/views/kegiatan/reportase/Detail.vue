@@ -57,11 +57,11 @@
             <div class="mt-2 row">
               <div class="col-12">
                 <ul class="list-group">
-                  <li class="text-sm border-0 list-group-item ps-0">
+                  <li class="text-sm border-0 list-group-item ps-0 text-wrap">
                     <strong class="text-dark">Judul:</strong>
                     &nbsp; {{ g$reportase?.judul }}
                   </li>
-                  <li class="text-sm border-0 list-group-item ps-0">
+                  <li class="text-sm border-0 list-group-item ps-0 text-wrap">
                     <strong class="text-dark">Diunggah pada:</strong>
                     &nbsp;
                     {{ moment(g$reportase?.created_at).format("DD-MM-YYYY") }}
@@ -72,7 +72,7 @@
             <div class="row mt-0 pb-4">
               <div class="col-12">
                 <ul class="list-group">
-                  <li class="text-sm border-0 list-group-item ps-0">
+                  <li class="text-sm border-0 list-group-item ps-0 text-wrap">
                     <strong class="text-dark">Isi Reportase:</strong>
                   </li>
                 </ul>
@@ -89,7 +89,7 @@
             <div class="row mt-3 pb-5">
               <div class="col-12">
                 <ul class="list-group">
-                  <li class="text-sm border-0 list-group-item ps-0">
+                  <li class="text-sm border-0 list-group-item ps-0 text-wrap">
                     <strong class="text-dark">Komentar:</strong>
                   </li>
                 </ul>

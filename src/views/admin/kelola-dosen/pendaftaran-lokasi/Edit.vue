@@ -33,34 +33,34 @@
               </div>
               <div class="p-4 card-body">
                 <ul class="list-group">
-                  <li class="text-sm border-0 list-group-item ps-0">
+                  <li class="text-sm border-0 list-group-item ps-0 text-wrap">
                     <strong class="text-dark">Nama Lengkap:</strong>
                     &nbsp; {{ g$proposal?.dosen.nama }}
                   </li>
-                  <li class="text-sm border-0 list-group-item ps-0">
+                  <li class="text-sm border-0 list-group-item ps-0 text-wrap">
                     <strong class="text-dark">NIP:</strong>
                     &nbsp; {{ g$proposal?.dosen.nip }}
                   </li>
-                  <li class="text-sm border-0 list-group-item ps-0">
+                  <li class="text-sm border-0 list-group-item ps-0 text-wrap">
                     <strong class="text-dark">Tema:</strong>
                     &nbsp;
                     {{
                       `${g$proposal?.kecamatan.kabupaten.tema.nama} ${g$proposal?.kecamatan.kabupaten.tema.periode}`
                     }}
                   </li>
-                  <li class="text-sm border-0 list-group-item ps-0">
+                  <li class="text-sm border-0 list-group-item ps-0 text-wrap">
                     <strong class="text-dark">Gelombang:</strong>
                     &nbsp; {{ g$proposal?.gelombang.nama }}
                   </li>
-                  <li class="text-sm border-0 list-group-item ps-0">
+                  <li class="text-sm border-0 list-group-item ps-0 text-wrap">
                     <strong class="text-dark">Kabupaten:</strong>
                     &nbsp; {{ g$proposal?.kecamatan.kabupaten.nama }}
                   </li>
-                  <li class="text-sm border-0 list-group-item ps-0">
+                  <li class="text-sm border-0 list-group-item ps-0 text-wrap">
                     <strong class="text-dark">Kecamatan:</strong>
                     &nbsp; {{ g$proposal?.kecamatan.nama }}
                   </li>
-                  <li class="text-sm border-0 list-group-item ps-0">
+                  <li class="text-sm border-0 list-group-item ps-0 text-wrap">
                     <strong class="text-dark">Status Proposal:</strong>
                     &nbsp;
                     <span

@@ -97,14 +97,14 @@
                               <div class="modal-body p-4">
                                 <ul class="list-group">
                                   <li
-                                    class="text-sm border-0 list-group-item ps-0"
+                                    class="text-sm border-0 list-group-item ps-0 text-wrap"
                                   >
                                     <strong class="text-dark">Judul:</strong>
                                     &nbsp;
                                     {{ report.judul }}
                                   </li>
                                   <li
-                                    class="text-sm border-0 list-group-item ps-0"
+                                    class="text-sm border-0 list-group-item ps-0 text-wrap"
                                   >
                                     <strong class="text-dark">Kategori:</strong>
                                     &nbsp;
@@ -115,7 +115,7 @@
                                     }}
                                   </li>
                                   <li
-                                    class="text-sm border-0 list-group-item ps-0"
+                                    class="text-sm border-0 list-group-item ps-0 text-wrap"
                                   >
                                     <strong class="text-dark"
                                       >Publikasi:</strong
@@ -133,7 +133,7 @@
                                     <span v-else> - </span>
                                   </li>
                                   <li
-                                    class="text-sm border-0 list-group-item ps-0"
+                                    class="text-sm border-0 list-group-item ps-0 text-wrap"
                                   >
                                     <strong class="text-dark">Isi:</strong>
                                     &nbsp;
@@ -142,7 +142,9 @@
                                       v-html="getOutOfTagP(report.isi)"
                                     ></div>
                                   </li>
-                                  <li class="border-0 list-group-item ps-0">
+                                  <li
+                                    class="border-0 list-group-item ps-0 text-wrap"
+                                  >
                                     <strong class="text-sm text-dark"
                                       >Komentar:</strong
                                     >
@@ -328,7 +330,7 @@
                               <div class="modal-body p-4">
                                 <ul class="list-group">
                                   <li
-                                    class="pt-0 text-sm border-0 list-group-item ps-0"
+                                    class="pt-0 text-sm border-0 list-group-item ps-0 text-wrap"
                                   >
                                     <strong class="text-dark"
                                       >Nama Lengkap:</strong
@@ -337,14 +339,14 @@
                                     {{ reportase.mahasiswa.nama }}
                                   </li>
                                   <li
-                                    class="text-sm border-0 list-group-item ps-0"
+                                    class="text-sm border-0 list-group-item ps-0 text-wrap"
                                   >
                                     <strong class="text-dark">NIM:</strong>
                                     &nbsp;
                                     {{ reportase.mahasiswa.nim }}
                                   </li>
                                   <li
-                                    class="text-sm border-0 list-group-item ps-0"
+                                    class="text-sm border-0 list-group-item ps-0 text-wrap"
                                   >
                                     <strong class="text-dark">Fakultas:</strong>
                                     &nbsp;
@@ -353,21 +355,21 @@
                                     }}
                                   </li>
                                   <li
-                                    class="text-sm border-0 list-group-item ps-0"
+                                    class="text-sm border-0 list-group-item ps-0 text-wrap"
                                   >
                                     <strong class="text-dark">Prodi:</strong>
                                     &nbsp;
                                     {{ reportase.mahasiswa.prodi?.nama }}
                                   </li>
                                   <li
-                                    class="text-sm border-0 list-group-item ps-0"
+                                    class="text-sm border-0 list-group-item ps-0 text-wrap"
                                   >
                                     <strong class="text-dark">Judul:</strong>
                                     &nbsp;
                                     {{ reportase.judul }}
                                   </li>
                                   <li
-                                    class="text-sm border-0 list-group-item ps-0"
+                                    class="text-sm border-0 list-group-item ps-0 text-wrap"
                                   >
                                     <strong class="text-dark">Kategori:</strong>
                                     &nbsp;
@@ -378,7 +380,7 @@
                                     }}
                                   </li>
                                   <li
-                                    class="text-sm border-0 list-group-item ps-0"
+                                    class="text-sm border-0 list-group-item ps-0 text-wrap"
                                   >
                                     <strong class="text-dark"
                                       >Publikasi:</strong
@@ -396,7 +398,7 @@
                                     <span v-else> - </span>
                                   </li>
                                   <li
-                                    class="text-sm border-0 list-group-item ps-0"
+                                    class="text-sm border-0 list-group-item ps-0 text-wrap"
                                   >
                                     <strong class="text-dark">Isi:</strong>
                                     &nbsp;
@@ -405,7 +407,9 @@
                                       v-html="getOutOfTagP(reportase.isi)"
                                     ></div>
                                   </li>
-                                  <li class="border-0 list-group-item ps-0">
+                                  <li
+                                    class="border-0 list-group-item ps-0 text-wrap"
+                                  >
                                     <strong class="text-sm text-dark"
                                       >Komentar:</strong
                                     >

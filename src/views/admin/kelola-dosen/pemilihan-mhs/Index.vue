@@ -146,7 +146,7 @@
                             <div class="modal-body p-4">
                               <ul class="list-group">
                                 <li
-                                  class="pt-0 text-sm border-0 list-group-item ps-0"
+                                  class="pt-0 text-sm border-0 list-group-item ps-0 text-wrap"
                                 >
                                   <strong class="text-dark"
                                     >Nama Lengkap:</strong
@@ -155,21 +155,21 @@
                                   {{ pendaftaran.mahasiswa.nama }}
                                 </li>
                                 <li
-                                  class="text-sm border-0 list-group-item ps-0"
+                                  class="text-sm border-0 list-group-item ps-0 text-wrap"
                                 >
                                   <strong class="text-dark">Angkatan:</strong>
                                   &nbsp;
                                   {{ pendaftaran.mahasiswa.angkatan }}
                                 </li>
                                 <li
-                                  class="text-sm border-0 list-group-item ps-0"
+                                  class="text-sm border-0 list-group-item ps-0 text-wrap"
                                 >
                                   <strong class="text-dark">NIM:</strong>
                                   &nbsp;
                                   {{ pendaftaran.mahasiswa.nim }}
                                 </li>
                                 <li
-                                  class="text-sm border-0 list-group-item ps-0"
+                                  class="text-sm border-0 list-group-item ps-0 text-wrap"
                                 >
                                   <strong class="text-dark">Fakultas:</strong>
                                   &nbsp;
@@ -178,7 +178,7 @@
                                   }}
                                 </li>
                                 <li
-                                  class="text-sm border-0 list-group-item ps-0"
+                                  class="text-sm border-0 list-group-item ps-0 text-wrap"
                                 >
                                   <strong class="text-dark">Prodi:</strong>
                                   &nbsp;
@@ -186,28 +186,28 @@
                                 </li>
 
                                 <li
-                                  class="text-sm border-0 list-group-item ps-0"
+                                  class="text-sm border-0 list-group-item ps-0 text-wrap"
                                 >
                                   <strong class="text-dark">Email:</strong>
                                   &nbsp;
                                   {{ pendaftaran.mahasiswa.email }}
                                 </li>
                                 <li
-                                  class="text-sm border-0 list-group-item ps-0"
+                                  class="text-sm border-0 list-group-item ps-0 text-wrap"
                                 >
                                   <strong class="text-dark">No. HP:</strong>
                                   &nbsp;
                                   {{ pendaftaran.mahasiswa.no_hp }}
                                 </li>
                                 <li
-                                  class="text-sm border-0 list-group-item ps-0"
+                                  class="text-sm border-0 list-group-item ps-0 text-wrap"
                                 >
                                   <strong class="text-dark">Domisili:</strong>
                                   &nbsp;
                                   {{ pendaftaran.mahasiswa.domisili }}
                                 </li>
                                 <li
-                                  class="text-sm border-0 list-group-item ps-0"
+                                  class="text-sm border-0 list-group-item ps-0 text-wrap"
                                 >
                                   <strong class="text-dark">Tema:</strong>
                                   &nbsp;
@@ -216,27 +216,29 @@
                                   }}
                                 </li>
                                 <li
-                                  class="text-sm border-0 list-group-item ps-0"
+                                  class="text-sm border-0 list-group-item ps-0 text-wrap"
                                 >
                                   <strong class="text-dark">Gelombang:</strong>
                                   &nbsp;
                                   {{ pendaftaran.gelombang.nama }}
                                 </li>
                                 <li
-                                  class="text-sm border-0 list-group-item ps-0"
+                                  class="text-sm border-0 list-group-item ps-0 text-wrap"
                                 >
                                   <strong class="text-dark">Kabupaten:</strong>
                                   &nbsp;
                                   {{ pendaftaran.kecamatan.kabupaten.nama }}
                                 </li>
                                 <li
-                                  class="text-sm border-0 list-group-item ps-0"
+                                  class="text-sm border-0 list-group-item ps-0 text-wrap"
                                 >
                                   <strong class="text-dark">Kecamatan:</strong>
                                   &nbsp;
                                   {{ pendaftaran.kecamatan.nama }}
                                 </li>
-                                <li class="pb-0 border-0 list-group-item ps-0">
+                                <li
+                                  class="pb-0 border-0 list-group-item ps-0 text-wrap"
+                                >
                                   <strong class="text-sm text-dark"
                                     >Status:</strong
                                   >

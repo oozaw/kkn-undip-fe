@@ -111,7 +111,7 @@
                                 <font-awesome-icon icon="fa-solid fa-xmark" />
                               </button>
                             </div>
-                            <div class="modal-body">
+                            <div class="modal-body text-wrap">
                               <span v-html="kec.potensi"></span>
                             </div>
                             <div class="modal-footer"></div>
@@ -164,21 +164,21 @@
                             <div class="modal-body p-4">
                               <ul class="list-group">
                                 <li
-                                  class="pt-0 text-sm border-0 list-group-item ps-0"
+                                  class="pt-0 text-sm border-0 list-group-item ps-0 text-wrap"
                                 >
                                   <strong class="text-dark">Nama:</strong>
                                   &nbsp;
                                   {{ kec.nama }}
                                 </li>
                                 <li
-                                  class="text-sm border-0 list-group-item ps-0"
+                                  class="text-sm border-0 list-group-item ps-0 text-wrap"
                                 >
                                   <strong class="text-dark">Kabupaten:</strong>
                                   &nbsp;
                                   {{ kec.nama_kabupaten }}
                                 </li>
                                 <li
-                                  class="text-sm border-0 list-group-item ps-0"
+                                  class="text-sm border-0 list-group-item ps-0 text-wrap"
                                 >
                                   <strong class="text-dark">Desa:</strong>
                                   &nbsp;
@@ -192,14 +192,14 @@
                                   </ol>
                                 </li>
                                 <li
-                                  class="text-sm border-0 list-group-item ps-0"
+                                  class="text-sm border-0 list-group-item ps-0 text-wrap"
                                 >
                                   <strong class="text-dark">Potensi:</strong>
                                   &nbsp;
                                   <span v-html="kec.potensi"></span>
                                 </li>
                                 <li
-                                  class="text-sm border-0 list-group-item ps-0"
+                                  class="text-sm border-0 list-group-item ps-0 text-wrap"
                                 >
                                   <strong class="text-dark">Status:</strong>
                                   &nbsp;

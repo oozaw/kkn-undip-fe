@@ -88,7 +88,7 @@
                             <div class="modal-body p-4">
                               <ul class="list-group">
                                 <li
-                                  class="pt-0 text-sm border-0 list-group-item ps-0"
+                                  class="pt-0 text-sm border-0 list-group-item ps-0 text-wrap"
                                 >
                                   <strong class="text-dark">Judul:</strong>
                                   &nbsp;
@@ -102,7 +102,7 @@
                                   {{ pengumuman.isi }}
                                 </li>
                                 <li
-                                  class="text-sm border-0 list-group-item ps-0"
+                                  class="text-sm border-0 list-group-item ps-0 text-wrap"
                                 >
                                   <strong class="text-dark"
                                     >Tanggal Dibuat:</strong
@@ -117,7 +117,7 @@
                                   }}
                                 </li>
                                 <li
-                                  class="text-sm border-0 list-group-item ps-0"
+                                  class="text-sm border-0 list-group-item ps-0 text-wrap"
                                 >
                                   <strong class="text-dark"
                                     >Ditujukan Untuk:</strong

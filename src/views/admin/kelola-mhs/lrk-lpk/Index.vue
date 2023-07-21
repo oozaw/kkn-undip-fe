@@ -135,7 +135,7 @@
                             <div class="modal-body p-4">
                               <ul class="list-group">
                                 <li
-                                  class="pt-0 text-sm border-0 list-group-item ps-0"
+                                  class="pt-0 text-sm border-0 list-group-item ps-0 text-wrap"
                                 >
                                   <strong class="text-dark"
                                     >Nama Lengkap:</strong
@@ -144,28 +144,28 @@
                                   {{ laporan.mahasiswa.nama }}
                                 </li>
                                 <li
-                                  class="text-sm border-0 list-group-item ps-0"
+                                  class="text-sm border-0 list-group-item ps-0 text-wrap"
                                 >
                                   <strong class="text-dark">NIM:</strong>
                                   &nbsp;
                                   {{ laporan.mahasiswa.nim }}
                                 </li>
                                 <li
-                                  class="text-sm border-0 list-group-item ps-0"
+                                  class="text-sm border-0 list-group-item ps-0 text-wrap"
                                 >
                                   <strong class="text-dark">Fakultas:</strong>
                                   &nbsp;
                                   {{ laporan.mahasiswa.prodi?.fakultas?.nama }}
                                 </li>
                                 <li
-                                  class="text-sm border-0 list-group-item ps-0"
+                                  class="text-sm border-0 list-group-item ps-0 text-wrap"
                                 >
                                   <strong class="text-dark">Prodi:</strong>
                                   &nbsp;
                                   {{ laporan.mahasiswa.prodi?.nama }}
                                 </li>
                                 <li
-                                  class="text-sm border-0 list-group-item ps-0"
+                                  class="text-sm border-0 list-group-item ps-0 text-wrap"
                                 >
                                   <strong class="text-dark">Judul:</strong>
                                   &nbsp;
@@ -175,7 +175,7 @@
                                   ></div>
                                 </li>
                                 <li
-                                  class="text-sm border-0 list-group-item ps-0"
+                                  class="text-sm border-0 list-group-item ps-0 text-wrap"
                                 >
                                   <strong class="text-dark">Kategori:</strong>
                                   &nbsp;
@@ -186,7 +186,7 @@
                                   }}
                                 </li>
                                 <li
-                                  class="text-sm border-0 list-group-item ps-0"
+                                  class="text-sm border-0 list-group-item ps-0 text-wrap"
                                 >
                                   <strong class="text-dark">Potensi:</strong>
                                   &nbsp;
@@ -196,7 +196,7 @@
                                   ></div>
                                 </li>
                                 <li
-                                  class="text-sm border-0 list-group-item ps-0"
+                                  class="text-sm border-0 list-group-item ps-0 text-wrap"
                                 >
                                   <strong class="text-dark">Sasaran:</strong>
                                   &nbsp;
@@ -206,7 +206,7 @@
                                   ></div>
                                 </li>
                                 <li
-                                  class="text-sm border-0 list-group-item ps-0"
+                                  class="text-sm border-0 list-group-item ps-0 text-wrap"
                                 >
                                   <strong class="text-dark">Metode:</strong>
                                   &nbsp;
@@ -215,7 +215,9 @@
                                     v-html="getOutOfTagP(laporan.metode)"
                                   ></div>
                                 </li>
-                                <li class="border-0 list-group-item ps-0">
+                                <li
+                                  class="border-0 list-group-item ps-0 text-wrap"
+                                >
                                   <strong class="text-sm text-dark"
                                     >Keluaran:</strong
                                   >
@@ -225,7 +227,9 @@
                                     v-html="getOutOfTagP(laporan.luaran)"
                                   ></div>
                                 </li>
-                                <li class="border-0 list-group-item ps-0">
+                                <li
+                                  class="border-0 list-group-item ps-0 text-wrap"
+                                >
                                   <strong class="text-sm text-dark"
                                     >Pelaksanaan:</strong
                                   >
@@ -235,7 +239,9 @@
                                     v-html="getOutOfTagP(laporan.pelaksanaan)"
                                   ></div>
                                 </li>
-                                <li class="border-0 list-group-item ps-0">
+                                <li
+                                  class="border-0 list-group-item ps-0 text-wrap"
+                                >
                                   <strong class="text-sm text-dark"
                                     >Capaian:</strong
                                   >
@@ -245,7 +251,9 @@
                                     v-html="getOutOfTagP(laporan.capaian)"
                                   ></div>
                                 </li>
-                                <li class="border-0 list-group-item ps-0">
+                                <li
+                                  class="border-0 list-group-item ps-0 text-wrap"
+                                >
                                   <strong class="text-sm text-dark"
                                     >Hambatan:</strong
                                   >
@@ -255,7 +263,9 @@
                                     v-html="getOutOfTagP(laporan.hambatan)"
                                   ></div>
                                 </li>
-                                <li class="border-0 list-group-item ps-0">
+                                <li
+                                  class="border-0 list-group-item ps-0 text-wrap"
+                                >
                                   <strong class="text-sm text-dark"
                                     >Komentar:</strong
                                   >

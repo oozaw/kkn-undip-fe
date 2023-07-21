@@ -89,21 +89,21 @@
                             <div class="modal-body p-4">
                               <ul class="list-group">
                                 <li
-                                  class="pt-0 text-sm border-0 list-group-item ps-0"
+                                  class="pt-0 text-sm border-0 list-group-item ps-0 text-wrap"
                                 >
                                   <strong class="text-dark">Judul:</strong>
                                   &nbsp;
                                   {{ event.judul }}
                                 </li>
                                 <li
-                                  class="text-sm border-0 list-group-item ps-0"
+                                  class="text-sm border-0 list-group-item ps-0 text-wrap"
                                 >
                                   <strong class="text-dark">Tempat:</strong>
                                   &nbsp;
                                   {{ event.tempat }}
                                 </li>
                                 <li
-                                  class="text-sm border-0 list-group-item ps-0"
+                                  class="text-sm border-0 list-group-item ps-0 text-wrap"
                                 >
                                   <strong class="text-dark"
                                     >Tanggal Dimulai:</strong
@@ -118,7 +118,7 @@
                                   }}
                                 </li>
                                 <li
-                                  class="text-sm border-0 list-group-item ps-0"
+                                  class="text-sm border-0 list-group-item ps-0 text-wrap"
                                 >
                                   <strong class="text-dark"
                                     >Tanggal Berakhir:</strong
@@ -133,14 +133,14 @@
                                   }}
                                 </li>
                                 <li
-                                  class="text-sm border-0 list-group-item ps-0 text-wrap"
+                                  class="text-sm border-0 list-group-item ps-0 text-wrap text-wrap"
                                 >
                                   <strong class="text-dark">Keterangan:</strong>
                                   &nbsp;
                                   {{ event.keterangan }}
                                 </li>
                                 <li
-                                  class="text-sm border-0 list-group-item ps-0"
+                                  class="text-sm border-0 list-group-item ps-0 text-wrap"
                                 >
                                   <strong class="text-dark"
                                     >Ditujukan Untuk:</strong

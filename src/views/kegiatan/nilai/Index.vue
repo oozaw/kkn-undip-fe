@@ -136,35 +136,35 @@
                             <div class="modal-body p-4">
                               <ul class="list-group">
                                 <li
-                                  class="text-sm border-0 list-group-item ps-0"
+                                  class="text-sm border-0 list-group-item ps-0 text-wrap"
                                 >
                                   <strong class="text-dark">Nama:</strong>
                                   &nbsp;
                                   {{ nilai.mahasiswa.nama }}
                                 </li>
                                 <li
-                                  class="text-sm border-0 list-group-item ps-0"
+                                  class="text-sm border-0 list-group-item ps-0 text-wrap"
                                 >
                                   <strong class="text-dark">NIM:</strong>
                                   &nbsp;
                                   {{ nilai.mahasiswa.nim }}
                                 </li>
                                 <li
-                                  class="text-sm border-0 list-group-item ps-0"
+                                  class="text-sm border-0 list-group-item ps-0 text-wrap"
                                 >
                                   <strong class="text-dark">Pembekalan:</strong>
                                   &nbsp;
                                   {{ nilai.pembekalan }}
                                 </li>
                                 <li
-                                  class="text-sm border-0 list-group-item ps-0"
+                                  class="text-sm border-0 list-group-item ps-0 text-wrap"
                                 >
                                   <strong class="text-dark">Upacara:</strong>
                                   &nbsp;
                                   {{ nilai.upacara }}
                                 </li>
                                 <li
-                                  class="text-sm border-0 list-group-item ps-0"
+                                  class="text-sm border-0 list-group-item ps-0 text-wrap"
                                 >
                                   <strong class="text-dark"
                                     >Kehadiran Dilokasi:</strong
@@ -172,77 +172,99 @@
                                   &nbsp;
                                   {{ nilai.kehadiran_dilokasi }}
                                 </li>
-                                <li class="border-0 list-group-item ps-0">
+                                <li
+                                  class="border-0 list-group-item ps-0 text-wrap"
+                                >
                                   <strong class="text-sm text-dark"
                                     >LRK:</strong
                                   >
                                   &nbsp;
                                   {{ nilai.lrk }}
                                 </li>
-                                <li class="border-0 list-group-item ps-0">
+                                <li
+                                  class="border-0 list-group-item ps-0 text-wrap"
+                                >
                                   <strong class="text-sm text-dark"
                                     >Integritas:</strong
                                   >
                                   &nbsp;
                                   {{ nilai.integritas }}
                                 </li>
-                                <li class="border-0 list-group-item ps-0">
+                                <li
+                                  class="border-0 list-group-item ps-0 text-wrap"
+                                >
                                   <strong class="text-sm text-dark"
                                     >Sosial:</strong
                                   >
                                   &nbsp;
                                   {{ nilai.sosial_kemasyarakatan }}
                                 </li>
-                                <li class="border-0 list-group-item ps-0">
+                                <li
+                                  class="border-0 list-group-item ps-0 text-wrap"
+                                >
                                   <strong class="text-sm text-dark"
                                     >LPK:</strong
                                   >
                                   &nbsp;
                                   {{ nilai.lpk }}
                                 </li>
-                                <li class="border-0 list-group-item ps-0">
+                                <li
+                                  class="border-0 list-group-item ps-0 text-wrap"
+                                >
                                   <strong class="text-sm text-dark"
                                     >Ujian Akhir:</strong
                                   >
                                   &nbsp;
                                   {{ nilai.ujian_akhir }}
                                 </li>
-                                <li class="border-0 list-group-item ps-0">
+                                <li
+                                  class="border-0 list-group-item ps-0 text-wrap"
+                                >
                                   <strong class="text-sm text-dark"
                                     >Tugas:</strong
                                   >
                                   &nbsp;
                                   {{ nilai.tugas }}
                                 </li>
-                                <li class="border-0 list-group-item ps-0">
+                                <li
+                                  class="border-0 list-group-item ps-0 text-wrap"
+                                >
                                   <strong class="text-sm text-dark"
                                     >UTS:</strong
                                   >
                                   &nbsp;
                                   {{ nilai.uts }}
                                 </li>
-                                <li class="border-0 list-group-item ps-0">
+                                <li
+                                  class="border-0 list-group-item ps-0 text-wrap"
+                                >
                                   <strong class="text-sm text-dark"
                                     >UAS:</strong
                                   >
                                   &nbsp;
                                   {{ nilai.uas }}
                                 </li>
-                                <li class="border-0 list-group-item ps-0">
+                                <li
+                                  class="border-0 list-group-item ps-0 text-wrap"
+                                >
                                   <strong class="text-sm text-dark"
                                     >Nilai Akhir:</strong
                                   >
                                   &nbsp;
                                   {{ nilai.nilai_akhir }}
                                 </li>
-                                <li class="border-0 list-group-item ps-0">
+                                <li
+                                  class="border-0 list-group-item ps-0 text-wrap"
+                                >
                                   <strong class="text-sm text-dark"
                                     >Nilai Akhir (Huruf):</strong
                                   >
                                   &nbsp;
                                   {{ nilai.nilai_huruf }}
                                 </li>
-                                <li class="border-0 list-group-item ps-0">
+                                <li
+                                  class="border-0 list-group-item ps-0 text-wrap"
+                                >
                                   <strong class="text-sm text-dark"
                                     >Status:</strong
                                   >

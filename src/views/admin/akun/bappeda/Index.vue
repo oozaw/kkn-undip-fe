@@ -178,13 +178,15 @@
                             </div>
                             <div class="modal-body p-4">
                               <div class="row">
-                                <div class="col-lg-6 col-12 pt-0 text-sm">
+                                <div
+                                  class="col-lg-6 col-12 pt-0 text-sm text-wrap"
+                                >
                                   <strong class="text-dark">Nama :</strong>
                                   &nbsp;
                                   {{ bappeda.nama }}
                                 </div>
                                 <div
-                                  class="col-lg-6 col-12 mt-2 mt-lg-0 pt-0 text-sm"
+                                  class="col-lg-6 col-12 mt-2 mt-lg-0 pt-0 text-sm text-wrap"
                                 >
                                   <strong class="text-dark"
                                     >Nomor Induk:</strong
@@ -194,7 +196,7 @@
                                 </div>
                               </div>
                               <div class="row mt-3">
-                                <div class="col-lg-6 col-12 text-sm">
+                                <div class="col-lg-6 col-12 text-sm text-wrap">
                                   <strong class="text-dark"
                                     >Nama Kabupaten/ Kota:</strong
                                   >
@@ -202,7 +204,7 @@
                                   {{ bappeda.nama_kabupaten }}
                                 </div>
                                 <div
-                                  class="col-lg-6 col-12 mt-2 mt-lg-0 text-sm"
+                                  class="col-lg-6 col-12 mt-2 mt-lg-0 text-sm text-wrap"
                                 >
                                   <strong class="text-dark"
                                     >Nama Penanggung Jawab:</strong
@@ -212,13 +214,13 @@
                                 </div>
                               </div>
                               <div class="row mt-3">
-                                <div class="col-lg-6 col-12 text-sm">
+                                <div class="col-lg-6 col-12 text-sm text-wrap">
                                   <strong class="text-dark">No Telepon:</strong>
                                   &nbsp;
                                   {{ bappeda.no_hp }}
                                 </div>
                                 <div
-                                  class="col-lg-6 col-12 mt-2 mt-lg-0 text-sm"
+                                  class="col-lg-6 col-12 mt-2 mt-lg-0 text-sm text-wrap"
                                 >
                                   <strong class="text-dark">Alamat:</strong>
                                   &nbsp;
@@ -226,7 +228,7 @@
                                 </div>
                               </div>
                               <div class="row mt-3">
-                                <div class="col-12 text-sm">
+                                <div class="col-12 text-sm text-wrap">
                                   <strong class="text-dark"
                                     >Wilayah (Kabupaten - Kecamatan -
                                     Desa):</strong
