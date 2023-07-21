@@ -36,7 +36,7 @@
                     <div class="modal-dialog mt-lg-10">
                       <div class="modal-content">
                         <div class="modal-header">
-                          <h5 id="ModalLabel" class="modal-title">
+                          <h5 id="ModalLabel" class="modal-title text-wrap">
                             Impor Data BAPPEDA via File Excel
                           </h5>
                           <i class="fas fa-upload ms-3"></i>
@@ -164,7 +164,7 @@
                         <div class="modal-dialog modal-lg mt-lg-5">
                           <div class="modal-content">
                             <div class="modal-header">
-                              <h5 id="ModalLabel" class="modal-title">
+                              <h5 id="ModalLabel" class="modal-title text-wrap">
                                 Detail {{ bappeda.nama }}
                               </h5>
                               <button

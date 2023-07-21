@@ -69,7 +69,7 @@
                         <div class="modal-dialog mt-lg-10">
                           <div class="modal-content">
                             <div class="modal-header">
-                              <h5 id="ModalLabel" class="modal-title">
+                              <h5 id="ModalLabel" class="modal-title text-wrap">
                                 Lokasi KKN Reguler Tim 1
                               </h5>
                               <button

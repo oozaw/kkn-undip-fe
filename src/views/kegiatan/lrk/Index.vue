@@ -75,7 +75,10 @@
                           <div class="modal-dialog modal-lg mt-lg-5">
                             <div class="modal-content">
                               <div class="modal-header">
-                                <h5 id="ModalLabel" class="modal-title">
+                                <h5
+                                  id="ModalLabel"
+                                  class="modal-title text-wrap"
+                                >
                                   Detail Laporan
                                 </h5>
                                 <button
@@ -316,7 +319,10 @@
                           <div class="modal-dialog modal-lg mt-lg-5">
                             <div class="modal-content">
                               <div class="modal-header">
-                                <h5 id="ModalLabel" class="modal-title">
+                                <h5
+                                  id="ModalLabel"
+                                  class="modal-title text-wrap"
+                                >
                                   Detail Laporan
                                   {{ lrk.mahasiswa.nama }}
                                 </h5>

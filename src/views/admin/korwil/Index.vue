@@ -30,7 +30,7 @@
                     <div class="modal-dialog mt-lg-10">
                       <div class="modal-content">
                         <div class="modal-header">
-                          <h5 id="ModalLabel" class="modal-title">
+                          <h5 id="ModalLabel" class="modal-title text-wrap">
                             Tambah Koordinator Wilayah
                           </h5>
                           <i class="fas fa-upload ms-3"></i>
@@ -109,7 +109,7 @@
                     <div class="modal-dialog mt-lg-10">
                       <div class="modal-content">
                         <div class="modal-header">
-                          <h5 id="ModalLabel" class="modal-title">
+                          <h5 id="ModalLabel" class="modal-title text-wrap">
                             Impor Data Korwil via File Excel
                           </h5>
                           <i class="fas fa-upload ms-3"></i>
@@ -330,7 +330,7 @@
                         <div class="modal-dialog mt-lg-10">
                           <div class="modal-content">
                             <div class="modal-header">
-                              <h5 id="ModalLabel" class="modal-title">
+                              <h5 id="ModalLabel" class="modal-title text-wrap">
                                 Edit Korwil
                               </h5>
                               <i class="fas fa-upload ms-3"></i>

@@ -130,7 +130,7 @@
                         <div class="modal-dialog mt-lg-5">
                           <div class="modal-content">
                             <div class="modal-header">
-                              <h5 id="ModalLabel" class="modal-title">
+                              <h5 id="ModalLabel" class="modal-title text-wrap">
                                 Detail Mahasiswa
                                 {{ pendaftar.mahasiswa.nama }}
                               </h5>

@@ -81,7 +81,10 @@
                           <div class="modal-dialog modal-lg mt-lg-5">
                             <div class="modal-content">
                               <div class="modal-header">
-                                <h5 id="ModalLabel" class="modal-title">
+                                <h5
+                                  id="ModalLabel"
+                                  class="modal-title text-wrap"
+                                >
                                   Detail Reportase
                                   {{ report.judul }}
                                 </h5>
@@ -314,7 +317,10 @@
                           <div class="modal-dialog modal-lg mt-lg-5">
                             <div class="modal-content">
                               <div class="modal-header">
-                                <h5 id="ModalLabel" class="modal-title">
+                                <h5
+                                  id="ModalLabel"
+                                  class="modal-title text-wrap"
+                                >
                                   Detail Reportase
                                   {{ reportase.mahasiswa.nama }}
                                 </h5>
