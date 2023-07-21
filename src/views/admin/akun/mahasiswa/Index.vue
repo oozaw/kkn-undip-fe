@@ -232,6 +232,20 @@
                               </div>
                               <div class="row mt-2">
                                 <div class="col-lg-6 col-12 text-sm text-wrap">
+                                  <strong class="text-dark">Lokasi:</strong>
+                                  &nbsp;
+                                  {{ mhs.lokasi }}
+                                </div>
+                                <div
+                                  class="col-lg-6 col-12 mt-2 mt-lg-0 text-sm text-wrap"
+                                >
+                                  <strong class="text-dark">Gelombang:</strong>
+                                  &nbsp;
+                                  {{ mhs.gelombang }}
+                                </div>
+                              </div>
+                              <div class="row mt-2">
+                                <div class="col-lg-6 col-12 text-sm text-wrap">
                                   <strong class="text-dark"
                                     >Jenis Kelamin:</strong
                                   >
