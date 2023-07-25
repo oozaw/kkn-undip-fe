@@ -10,15 +10,10 @@
             ©
             {{ new Date().getFullYear() }}, made with
             <i class="fa fa-heart"></i> by
-            <a
-              href="https://www.creative-tim.com"
-              class="font-weight-bold"
-              target="_blank"
-              >Tim P2KKN UNDIP</a
-            >
+            <span class="font-weight-bold text-dark">Tim P2KKN UNDIP</span>
           </div>
         </div>
-        <div class="col-lg-6">
+        <!-- <div class="col-lg-6">
           <ul
             class="nav nav-footer justify-content-center justify-content-lg-end"
           >
@@ -55,7 +50,7 @@
               >
             </li>
           </ul>
-        </div>
+        </div> -->
       </div>
     </div>
   </footer>
