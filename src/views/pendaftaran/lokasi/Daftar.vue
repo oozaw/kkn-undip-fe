@@ -172,7 +172,7 @@ export default {
   },
   methods: {
     ...mapActions(d$mahasiswa, ["a$daftarLokasi"]),
-    ...mapActions(d$wilayah, ["a$listAllKabupaten"]),
+    ...mapActions(d$wilayah, ["a$listKabupaten"]),
     ...mapActions(d$gelombang, ["a$listGelombang"]),
     ...mapActions(d$tema, ["a$listTema"]),
     ...mapActions(d$halaman, ["a$checkHalaman"]),
@@ -258,7 +258,7 @@ export default {
       let tema = parseInt(this.$route.params.id_tema);
 
       try {
-        await this.a$listAllKabupaten(tema);
+        await this.a$listKabupaten(tema);
         this.setChoices(this.choicesKab, this.g$listKabupaten);
       } catch (error) {
         console.log(error);

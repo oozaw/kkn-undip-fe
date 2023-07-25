@@ -6,14 +6,15 @@ const d$wilayah = defineStore("wilayahStore", {
   state: () => ({
     listKabupaten: [],
     listKecamatan: [],
+    listKecamatanAccepted: [],
     listDesa: [],
     kecamatan: {},
     status: null,
   }),
   actions: {
-    async a$listKabupaten(id_tema, id_bappeda) {
+    async a$listKabupatenTemaBappeda(id_tema, id_bappeda) {
       try {
-        const { data, status } = await s$wilayah.listWilayah(
+        const { data, status } = await s$wilayah.listWilayahTemaBappeda(
           id_tema,
           id_bappeda
         );
@@ -27,9 +28,9 @@ const d$wilayah = defineStore("wilayahStore", {
       }
     },
 
-    async a$listAllKabupaten(id_tema) {
+    async a$listKabupaten(id_tema) {
       try {
-        const { data, status } = await s$wilayah.listAllWilayah(id_tema);
+        const { data, status } = await s$wilayah.listWilayah(id_tema);
         this.listKabupaten = data ?? [];
         var dataKecamatan = [];
         data.forEach((kab) => {
@@ -46,6 +47,22 @@ const d$wilayah = defineStore("wilayahStore", {
           });
         });
         this.listKecamatan = dataKecamatan;
+        this.status = status;
+      } catch (error) {
+        this.status = false;
+        throw error;
+      }
+    },
+
+    async a$listAllKecamatan() {
+      try {
+        const { data, status } = await s$wilayah.listAllKecamatan();
+        this.listKecamatan = data ?? [];
+        data.forEach((kec) => {
+          if (kec.status == 1) {
+            this.listKecamatanAccepted.push(kec);
+          }
+        });
         this.status = status;
       } catch (error) {
         this.status = false;
@@ -117,6 +134,8 @@ const d$wilayah = defineStore("wilayahStore", {
   getters: {
     g$listKabupaten: ({ listKabupaten }) => listKabupaten,
     g$listKecamatan: ({ listKecamatan }) => listKecamatan,
+    g$listKecamatanAccepted: ({ listKecamatanAccepted }) =>
+      listKecamatanAccepted,
     g$listDesa: ({ listDesa }) => listDesa,
     g$kecamatan: ({ kecamatan }) => kecamatan,
   },

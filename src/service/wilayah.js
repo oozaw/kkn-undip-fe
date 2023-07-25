@@ -2,10 +2,12 @@ import { baseApi } from "@/utils/axios";
 
 const api = `/`;
 
-const listWilayah = (id_tema, id_bappeda) =>
+const listWilayahTemaBappeda = (id_tema, id_bappeda) =>
   baseApi.get(`${api}wilayah/${id_tema}/${id_bappeda}`);
 
-const listAllWilayah = (id_tema) => baseApi.get(`${api}wilayah/${id_tema}`);
+const listWilayah = (id_tema) => baseApi.get(`${api}wilayah/${id_tema}`);
+
+const listAllKecamatan = () => baseApi.get(`${api}wilayah`);
 
 const getKecamatanMhs = () => baseApi.get(`${api}mahasiswa/kecamatan`);
 
@@ -23,8 +25,9 @@ const deleteKecamatan = (id_kecamatan) =>
   baseApi.delete(`${api}admin/kecamatan/${id_kecamatan}`);
 
 export {
-  listAllWilayah,
   listWilayah,
+  listWilayahTemaBappeda,
+  listAllKecamatan,
   getKecamatanMhs,
   addKabupaten,
   addKecamatan,

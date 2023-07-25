@@ -395,7 +395,7 @@
                 </div>
               </div>
               <div class="ms-2 pt-1 px-0 pb-0 card-body">
-                <div class="table-responsive">
+                <div class="table-responsive" :key="indexComponent">
                   <table id="location-list" class="table table-flush">
                     <thead class="thead-light">
                       <tr>
@@ -406,50 +406,20 @@
                       </tr>
                     </thead>
                     <tbody>
-                      <tr>
-                        <td class="text-sm font-weight-bold">1</td>
+                      <tr
+                        v-for="(kec, i) in g$listKecamatanAccepted"
+                        :key="kec.id_kecamatan"
+                      >
+                        <td class="text-sm font-weight-bold">{{ i + 1 }}</td>
                         <td>
-                          <h6 class="my-auto">KKN Reguler Tim I</h6>
+                          <h6 class="my-auto">{{ kec.nama_tema }}</h6>
                         </td>
                         <td class="text-sm font-weight-bold font-weight-bold">
-                          Desa Bergas, Kecamatan Bergas
-                        </td>
-                        <td class="text-sm font-weight-bold">2022/2023</td>
-                      </tr>
-                      <tr>
-                        <td class="text-sm font-weight-bold">2</td>
-                        <td>
-                          <h6 class="my-auto">KKN Reguler Tim II</h6>
+                          {{ kec.nama }}, {{ kec.nama_kabupaten }}
                         </td>
                         <td class="text-sm font-weight-bold">
-                          Desa Gangga, Kecamatan Gangga
+                          {{ kec.periode }}
                         </td>
-                        <td class="text-sm font-weight-bold">2022/2023</td>
-                      </tr>
-                      <tr>
-                        <td class="text-sm font-weight-bold">3</td>
-                        <td>
-                          <h6 class="my-auto">
-                            KKN Tematik Tanggap Bencana Banjir Cianjur
-                          </h6>
-                        </td>
-                        <td class="text-sm font-weight-bold">
-                          Desa Cianjur, Kecamatan Cianjur
-                        </td>
-                        <td class="text-sm font-weight-bold">2022/2023</td>
-                      </tr>
-                      <tr>
-                        <td class="text-sm font-weight-bold">4</td>
-                        <td>
-                          <h6 class="my-auto">
-                            KKN Tematik Pengurangan Risiko Bencana Berbasis
-                            Partisipasi Masyarakat dan Komunitas
-                          </h6>
-                        </td>
-                        <td class="text-sm font-weight-bold">
-                          Desa Kungkat, Kecamatan Kungkat
-                        </td>
-                        <td class="text-sm font-weight-bold">2022/2023</td>
                       </tr>
                     </tbody>
                     <tfoot>
@@ -474,7 +444,6 @@
 <script>
 import moment from "moment";
 import { DataTable } from "simple-datatables";
-import setTooltip from "@/assets/js/tooltip.js";
 import MiniStatisticsCard from "@/views/dashboards/components/Cards/MiniStatisticsCard.vue";
 import Calendar from "@/views/dashboards/components/Calendar.vue";
 import MembersTable from "@/views/dashboards/components/MembersTable.vue";
@@ -507,6 +476,7 @@ export default {
   },
   data() {
     return {
+      indexComponent: 0,
       dosenName: [],
       lokasi: {
         desa: "",
@@ -530,13 +500,18 @@ export default {
       listEvent: undefined,
       listPengumuman: undefined,
       listWilayah: undefined,
+      listWilayahDiterima: undefined,
       moment,
       progresDataDiri: 0,
     };
   },
   computed: {
     ...mapState(d$auth, ["g$user", "g$infoUser"]),
-    ...mapState(d$wilayah, ["g$kecamatan", "g$listKabupaten"]),
+    ...mapState(d$wilayah, [
+      "g$kecamatan",
+      "g$listKabupaten",
+      "g$listKecamatanAccepted",
+    ]),
     ...mapState(d$laporan, ["g$listLRK", "g$listLPK"]),
     ...mapState(d$tema, ["g$listTemaActive"]),
     ...mapState(d$event, ["g$listEvent"]),
@@ -592,6 +567,9 @@ export default {
         // pengumuman
         await this.a$listAllPengumuman();
         this.listPengumuman = this.g$listPengumuman;
+
+        // wilayah
+        await this.getListKecamatanDiterima();
         break;
 
       case "DOSEN":
@@ -649,35 +627,13 @@ export default {
   },
   mounted() {
     this.checkError();
-
-    if (document.getElementById("location-list")) {
-      const dataTableSearch = new DataTable("#location-list", {
-        searchable: true,
-        fixedHeight: false,
-        perPage: 7,
-      });
-
-      document.querySelectorAll(".export").forEach(function (el) {
-        el.addEventListener("click", function () {
-          var type = el.dataset.type;
-
-          var data = {
-            type: type,
-            filename: "soft-ui-" + type,
-          };
-
-          // if (type === "csv") {
-          //   data.columnDelimiter = "|";
-          // }
-
-          dataTableSearch.export(data);
-        });
-      });
-    }
-    setTooltip(this.$store.state.bootstrap);
   },
   methods: {
-    ...mapActions(d$wilayah, ["a$getKecamatanMhs", "a$listKabupaten"]),
+    ...mapActions(d$wilayah, [
+      "a$getKecamatanMhs",
+      "a$listKabupatenTemaBappeda",
+      "a$listAllKecamatan",
+    ]),
     ...mapActions(d$laporan, ["a$listLRK", "a$listLPK"]),
     ...mapActions(d$tema, ["a$listTema"]),
     ...mapActions(d$event, [
@@ -719,6 +675,27 @@ export default {
       } catch (error) {
         console.log(error);
       }
+    },
+
+    async getListKecamatanDiterima() {
+      this.indexComponent++;
+
+      try {
+        await this.a$listAllKecamatan();
+        this.listWilayahDiterima = [];
+        this.listWilayahDiterima = this.g$listKecamatanAccepted;
+      } catch (error) {
+        console.log(error);
+        let msg = "";
+        if (error.error && error.error != undefined) msg = error.error;
+        else msg = error;
+        this.showSwal(
+          "failed-message",
+          "Terjadi kesalahan saat memuat data! " + msg
+        );
+      }
+
+      this.setupDataTable();
     },
 
     async getListWilayahDosen() {
@@ -1017,6 +994,33 @@ export default {
 
     isNullEmptyOrUndefined(value) {
       return value === null || value === "" || value === undefined;
+    },
+
+    setupDataTable() {
+      if (document.getElementById("location-list")) {
+        const dataTableSearch = new DataTable("#location-list", {
+          searchable: true,
+          fixedHeight: false,
+          perPage: 7,
+        });
+
+        document.querySelectorAll(".export").forEach(function (el) {
+          el.addEventListener("click", function () {
+            var type = el.dataset.type;
+
+            var data = {
+              type: type,
+              filename: "soft-ui-" + type,
+            };
+
+            // if (type === "csv") {
+            //   data.columnDelimiter = "|";
+            // }
+
+            dataTableSearch.export(data);
+          });
+        });
+      }
     },
 
     showSwal(type, text, toastText) {

@@ -224,7 +224,7 @@ export default {
   },
   methods: {
     ...mapActions(d$wilayah, [
-      "a$listKabupaten",
+      "a$listKabupatenTemaBappeda",
       "a$addAllKabupaten",
       "a$addKabupaten",
     ]),
@@ -303,7 +303,7 @@ export default {
     },
 
     async getListKabupaten(id_tema, nama_tema, id_bappeda) {
-      await this.a$listKabupaten(id_tema, id_bappeda);
+      await this.a$listKabupatenTemaBappeda(id_tema, id_bappeda);
       if (this.g$listKabupaten.length === 0) {
         this.getListTema();
         setTimeout(() => {

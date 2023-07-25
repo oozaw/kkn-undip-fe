@@ -89,9 +89,7 @@
                 class="position-relative h-100 m-3 px-7 border-radius-lg d-flex flex-column justify-content-center overflow-hidden"
                 :style="{
                   backgroundImage:
-                    'url(' +
-                    'https://raw.githubusercontent.com/creativetimofficial/public-assets/master/argon-dashboard-pro/assets/img/signin-ill.jpg' +
-                    ')',
+                    'url(' + require('@/assets/img/logos/wp.jpg') + ')',
                   backgroundSize: 'cover',
                 }"
               >

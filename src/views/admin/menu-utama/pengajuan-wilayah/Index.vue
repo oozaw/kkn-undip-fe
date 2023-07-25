@@ -390,7 +390,7 @@ export default {
   },
   methods: {
     ...mapActions(d$wilayah, [
-      "a$listAllKabupaten",
+      "a$listKabupaten",
       "a$accKecamatan",
       "a$decKecamatan",
       "a$deleteKecamatan",
@@ -441,7 +441,7 @@ export default {
       this.indexComponent++;
 
       try {
-        await this.a$listAllKabupaten(this.tema);
+        await this.a$listKabupaten(this.tema);
       } catch (error) {
         console.log(error);
         let msg = "";

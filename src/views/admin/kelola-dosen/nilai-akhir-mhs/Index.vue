@@ -372,7 +372,7 @@ export default {
   },
   methods: {
     ...mapActions(d$tema, ["a$listTema"]),
-    ...mapActions(d$wilayah, ["a$listAllKabupaten"]),
+    ...mapActions(d$wilayah, ["a$listKabupaten"]),
     ...mapActions(d$nilai, ["a$listNilaiKecamatan", "a$resetNilai"]),
 
     async getInitData() {
@@ -424,7 +424,7 @@ export default {
       this.id_tema = parseInt(this.id_tema);
 
       try {
-        await this.a$listAllKabupaten(this.id_tema);
+        await this.a$listKabupaten(this.id_tema);
         this.id_kecamatan = this.g$listKecamatan[0]?.id_kecamatan ?? 0;
         this.setChoices(this.choicesLokasi, this.g$listKecamatan);
         await this.getListNilai();

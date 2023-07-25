@@ -153,7 +153,7 @@ export default {
     this.choicesTema.destroy();
   },
   methods: {
-    ...mapActions(d$wilayah, ["a$addKecamatan", "a$listKabupaten"]),
+    ...mapActions(d$wilayah, ["a$addKecamatan", "a$listKabupatenTemaBappeda"]),
     ...mapActions(d$tema, ["a$listTema"]),
 
     async getListTemaRegistered() {
@@ -174,7 +174,10 @@ export default {
         let temaData = {
           nama_tema,
         };
-        await this.a$listKabupaten(id_tema, this.g$infoUser.id_bappeda);
+        await this.a$listKabupatenTemaBappeda(
+          id_tema,
+          this.g$infoUser.id_bappeda
+        );
         await this.g$listKabupaten.forEach((kabupaten) => {
           let newData = {
             ...kabupaten,

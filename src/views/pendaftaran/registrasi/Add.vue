@@ -204,7 +204,7 @@ export default {
     if (this.choicesKecamatan) this.choicesKecamatan.destroy();
   },
   methods: {
-    ...mapActions(d$wilayah, ["a$listAllKabupaten"]),
+    ...mapActions(d$wilayah, ["a$listKabupaten"]),
     ...mapActions(d$tema, ["a$listTema"]),
     ...mapActions(d$gelombang, ["a$listGelombang"]),
     ...mapActions(d$proposal, ["a$addProposal"]),
@@ -303,7 +303,7 @@ export default {
 
     async getListKabupaten() {
       try {
-        await this.a$listAllKabupaten(parseInt(this.tema.id_tema));
+        await this.a$listKabupaten(parseInt(this.tema.id_tema));
         this.setChoices(this.choicesKabupaten, this.g$listKabupaten);
       } catch (error) {
         console.log(error);

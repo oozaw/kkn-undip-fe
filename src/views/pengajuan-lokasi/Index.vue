@@ -308,14 +308,17 @@ export default {
     this.choicesTema.destroy();
   },
   methods: {
-    ...mapActions(d$wilayah, ["a$listKabupaten"]),
+    ...mapActions(d$wilayah, ["a$listKabupatenTemaBappeda"]),
     ...mapActions(d$tema, ["a$listTema"]),
 
     async getListKecamatan() {
       this.indexComponent++;
 
       try {
-        await this.a$listKabupaten(this.tema, this.g$infoUser.id_bappeda);
+        await this.a$listKabupatenTemaBappeda(
+          this.tema,
+          this.g$infoUser.id_bappeda
+        );
         await this.getListDesa();
         await this.getTemaStatus();
       } catch (error) {
