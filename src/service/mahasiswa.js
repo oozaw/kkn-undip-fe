@@ -33,7 +33,7 @@ const editMahasiswa = (id_mahasiswa, body) =>
   baseApi.put(`${api}mahasiswa/${id_mahasiswa}`, body);
 
 const listMahasiswaWilayah = (id_kecamatan) =>
-  baseApi.get(`${api}dosen/mahasiswa/${id_kecamatan}`);
+  baseApi.get(`${api}mahasiswa/${id_kecamatan}`);
 
 const daftarLokasi = (body) =>
   baseApi.post(`${api}mahasiswa/daftar_lokasi`, body);
