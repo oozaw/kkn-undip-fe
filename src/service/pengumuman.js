@@ -11,15 +11,15 @@ const listDosenPengumuman = () => baseApi.get(`${api}pengumuman/dosen`);
 const listBappedaPengumuman = () => baseApi.get(`${api}pengumuman/bappeda`);
 
 const getPengumuman = (id_pengumuman) =>
-  baseApi.get(`${api}pengumuman/${id_pengumuman}`);
+  baseApi.get(`${api}pengumuman/detail/${id_pengumuman}`);
 
-const addPengumuman = (body) => baseApi.post(`${api}admin/pengumuman`, body);
+const addPengumuman = (body) => baseApi.post(`${api}pengumuman`, body);
 
 const editPengumuman = (id_pengumuman, body) =>
-  baseApi.put(`${api}admin/pengumuman/${id_pengumuman}`, body);
+  baseApi.put(`${api}pengumuman/${id_pengumuman}`, body);
 
 const deletePengumuman = (id_pengumuman) =>
-  baseApi.delete(`${api}admin/pengumuman/${id_pengumuman}`);
+  baseApi.delete(`${api}pengumuman/${id_pengumuman}`);
 
 export {
   listAllPengumuman,
