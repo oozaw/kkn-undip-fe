@@ -20,18 +20,17 @@ const listMahasiswaAcceptedByKecamatan = (id_kecamatan) =>
 const getMahasiswa = (id_mahasiswa) =>
   baseApi.get(`${api}mahasiswa/detail/${id_mahasiswa}`);
 
-const addMahasiswa = (body) =>
-  baseApi.post(`${api}admin/mahasiswa/single`, body);
+const addMahasiswa = (body) => baseApi.post(`${api}mahasiswa`, body);
 
 const importMahasiswa = (body) =>
-  baseApi.post(`${api}admin/mahasiswa`, body, {
+  baseApi.post(`${api}mahasiswa/import`, body, {
     headers: {
       "Content-Type": "multipart/form-data",
     },
   });
 
 const editMahasiswa = (id_mahasiswa, body) =>
-  baseApi.put(`${api}admin/mahasiswa/${id_mahasiswa}`, body);
+  baseApi.put(`${api}mahasiswa/${id_mahasiswa}`, body);
 
 const listMahasiswaWilayah = (id_kecamatan) =>
   baseApi.get(`${api}dosen/mahasiswa/${id_kecamatan}`);
@@ -49,7 +48,7 @@ const decMahasiswa = (id_mahasiswa_kecamatan) =>
   baseApi.put(`${api}dosen/mahasiswa/dec/${id_mahasiswa_kecamatan}`);
 
 const deleteMahasiswa = (id_mahasiswa) =>
-  baseApi.delete(`${api}admin/mahasiswa/${id_mahasiswa}`);
+  baseApi.delete(`${api}mahasiswa/${id_mahasiswa}`);
 
 export {
   listMahasiswa,
