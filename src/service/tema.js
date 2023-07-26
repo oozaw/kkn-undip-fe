@@ -8,14 +8,13 @@ const listTemaDosen = () => baseApi.get(`${api}tema/dosen`);
 
 const getTema = (id_tema) => baseApi.get(`${api}tema/${id_tema}`);
 
-const addTema = (body) => baseApi.post(`${api}admin/tema`, body);
+const addTema = (body) => baseApi.post(`${api}tema`, body);
 
-const editTema = (id_tema, body) =>
-  baseApi.put(`${api}admin/tema/edit/${id_tema}`, body);
+const editTema = (id_tema, body) => baseApi.put(`${api}tema/${id_tema}`, body);
 
-const switchTema = (id_tema) => baseApi.patch(`${api}admin/tema/${id_tema}`);
+const switchTema = (id_tema) => baseApi.patch(`${api}tema/${id_tema}`);
 
-const deleteTema = (id_tema) => baseApi.delete(`${api}admin/tema/${id_tema}`);
+const deleteTema = (id_tema) => baseApi.delete(`${api}tema/${id_tema}`);
 
 export {
   listTema,
