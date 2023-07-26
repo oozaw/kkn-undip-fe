@@ -5,27 +5,27 @@ const api = `/`;
 const getProposal = (id_proposal) =>
   baseApi.get(`${api}proposal/detail/${id_proposal}`);
 
-const listProposal = (id_tema) => baseApi.get(`${api}proposal/${id_tema}`);
+const listProposal = (id_tema) => baseApi.get(`${api}proposal/tema/${id_tema}`);
 
-const listAllProposalDosen = () => baseApi.get(`${api}dosen/proposal/all`);
+const listAllProposalDosen = () => baseApi.get(`${api}proposal/dosen`);
 
 const listProposalDosen = (id_tema) =>
-  baseApi.get(`${api}dosen/proposal/${id_tema}`);
+  baseApi.get(`${api}proposal/dosen/tema/${id_tema}`);
 
 const addProposal = (body) =>
-  baseApi.post(`${api}dosen/proposal`, body, {
+  baseApi.post(`${api}proposal`, body, {
     headers: {
       "Content-Type": "multipart/form-data",
     },
   });
 
 const accProposal = (id_proposal) =>
-  baseApi.put(`${api}admin/proposal/acc/${id_proposal}`);
+  baseApi.put(`${api}proposal/acc/${id_proposal}`);
 
 const decProposal = (id_proposal) =>
-  baseApi.put(`${api}admin/proposal/dec/${id_proposal}`);
+  baseApi.put(`${api}proposal/dec/${id_proposal}`);
 
-const evaluateProposal = (body) => baseApi.put(`${api}reviewer/evaluate`, body);
+const evaluateProposal = (body) => baseApi.put(`${api}proposal/evaluate`, body);
 
 const deleteProposal = (id_proposal) =>
   baseApi.delete(`${api}proposal/${id_proposal}`);

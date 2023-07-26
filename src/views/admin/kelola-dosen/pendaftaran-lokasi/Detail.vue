@@ -114,6 +114,11 @@
                     {{ moment(g$proposal?.created_at).format("DD MMMM YYYY") }}
                   </li>
                   <li class="text-sm border-0 list-group-item ps-0 text-wrap">
+                    <strong class="text-dark">Komentar:</strong>
+                    &nbsp;
+                    {{ g$proposal?.komentar }}
+                  </li>
+                  <li class="text-sm border-0 list-group-item ps-0 text-wrap">
                     <strong class="text-dark">Rekomendasi:</strong>
                     &nbsp;
                     <span
