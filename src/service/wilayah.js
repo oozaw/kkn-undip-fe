@@ -7,22 +7,22 @@ const listWilayahTemaBappeda = (id_tema, id_bappeda) =>
 
 const listWilayah = (id_tema) => baseApi.get(`${api}wilayah/${id_tema}`);
 
-const listAllKecamatan = () => baseApi.get(`${api}wilayah`);
+const listAllKecamatan = () => baseApi.get(`${api}kecamatan`);
 
-const getKecamatanMhs = () => baseApi.get(`${api}mahasiswa/kecamatan`);
+const getKecamatanMhs = () => baseApi.get(`${api}kecamatan/mahasiswa`);
 
 const addKabupaten = (body) => baseApi.post(`${api}bappeda/kabupaten`, body);
 
-const addKecamatan = (body) => baseApi.post(`${api}bappeda/kecamatan`, body);
+const addKecamatan = (body) => baseApi.post(`${api}kecamatan`, body);
 
 const accKecamatan = (id_kecamatan, body) =>
-  baseApi.put(`${api}admin/kecamatan/acc/${id_kecamatan}`, body);
+  baseApi.put(`${api}kecamatan/acc/${id_kecamatan}`, body);
 
 const decKecamatan = (id_kecamatan) =>
-  baseApi.put(`${api}admin/kecamatan/dec/${id_kecamatan}`);
+  baseApi.put(`${api}kecamatan/dec/${id_kecamatan}`);
 
 const deleteKecamatan = (id_kecamatan) =>
-  baseApi.delete(`${api}admin/kecamatan/${id_kecamatan}`);
+  baseApi.delete(`${api}kecamatan/${id_kecamatan}`);
 
 export {
   listWilayah,
