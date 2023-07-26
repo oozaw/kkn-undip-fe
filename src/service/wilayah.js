@@ -3,15 +3,15 @@ import { baseApi } from "@/utils/axios";
 const api = `/`;
 
 const listWilayahTemaBappeda = (id_tema, id_bappeda) =>
-  baseApi.get(`${api}wilayah/${id_tema}/${id_bappeda}`);
+  baseApi.get(`${api}kabupaten/bappeda/tema/${id_tema}/${id_bappeda}`);
 
-const listWilayah = (id_tema) => baseApi.get(`${api}wilayah/${id_tema}`);
+const listWilayah = (id_tema) => baseApi.get(`${api}kabupaten/tema/${id_tema}`);
 
 const listAllKecamatan = () => baseApi.get(`${api}kecamatan`);
 
 const getKecamatanMhs = () => baseApi.get(`${api}kecamatan/mahasiswa`);
 
-const addKabupaten = (body) => baseApi.post(`${api}bappeda/kabupaten`, body);
+const addKabupaten = (body) => baseApi.post(`${api}kabupaten`, body);
 
 const addKecamatan = (body) => baseApi.post(`${api}kecamatan`, body);
 

@@ -7,7 +7,7 @@ const listBappeda = () => baseApi.get(`${api}bappeda`);
 const getBappeda = (id_bappeda) =>
   baseApi.get(`${api}bappeda/detail/${id_bappeda}`);
 
-const listKabupatenBappeda = () => baseApi.get(`${api}bappeda/kabupaten/list`);
+const listKabupatenBappeda = () => baseApi.get(`${api}kabupaten/bappeda`);
 
 const addBappeda = (body) => baseApi.post(`${api}bappeda`, body);
 
