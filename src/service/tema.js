@@ -6,7 +6,7 @@ const listTema = () => baseApi.get(`${api}tema`);
 
 const listTemaDosen = () => baseApi.get(`${api}tema/dosen`);
 
-const getTema = (id_tema) => baseApi.get(`${api}tema/${id_tema}`);
+const getTema = (id_tema) => baseApi.get(`${api}tema/detail/${id_tema}`);
 
 const addTema = (body) => baseApi.post(`${api}tema`, body);
 
