@@ -35,17 +35,16 @@ const editMahasiswa = (id_mahasiswa, body) =>
 const listMahasiswaWilayah = (id_kecamatan) =>
   baseApi.get(`${api}mahasiswa/${id_kecamatan}`);
 
-const daftarLokasi = (body) =>
-  baseApi.post(`${api}mahasiswa/daftar_lokasi`, body);
+const daftarLokasi = (body) => baseApi.post(`${api}pendaftaran`, body);
 
 const deleteDaftarLokasi = (id_mahasiswa_kecamatan) =>
-  baseApi.delete(`${api}mahasiswa/daftar_lokasi/${id_mahasiswa_kecamatan}`);
+  baseApi.delete(`${api}pendaftaran/${id_mahasiswa_kecamatan}`);
 
 const accMahasiswa = (id_mahasiswa_kecamatan) =>
-  baseApi.put(`${api}dosen/mahasiswa/acc/${id_mahasiswa_kecamatan}`);
+  baseApi.put(`${api}pendaftaran/acc/${id_mahasiswa_kecamatan}`);
 
 const decMahasiswa = (id_mahasiswa_kecamatan) =>
-  baseApi.put(`${api}dosen/mahasiswa/dec/${id_mahasiswa_kecamatan}`);
+  baseApi.put(`${api}pendaftaran/dec/${id_mahasiswa_kecamatan}`);
 
 const deleteMahasiswa = (id_mahasiswa) =>
   baseApi.delete(`${api}mahasiswa/${id_mahasiswa}`);
