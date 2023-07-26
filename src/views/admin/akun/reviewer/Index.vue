@@ -240,7 +240,7 @@
                         class="mx-3 mb-0"
                         data-bs-toggle="modal"
                         :data-bs-target="`#edit-reviewer-${rev.id_reviewer}`"
-                        title="Edit Pimpinan"
+                        title="Edit Reviewer"
                       >
                         <i class="fas fa-user-edit text-primary"></i>
                       </a>
@@ -255,7 +255,7 @@
                           <div class="modal-content">
                             <div class="modal-header">
                               <h5 id="ModalLabel" class="modal-title text-wrap">
-                                Edit Pimpinan
+                                Edit Reviewer
                               </h5>
                               <i class="fas fa-upload ms-3"></i>
                               <button
@@ -408,7 +408,7 @@ export default {
       this.showLoading(false);
     },
 
-    async editPimpinan(id) {
+    async editReviewer(id) {
       this.showSwal("loading");
 
       id = parseInt(id);
@@ -525,7 +525,7 @@ export default {
       // edit
       $("#reviewer-list").on("click", `.edit`, function (e) {
         let reviewer = this;
-        outerThis.editPimpinan(reviewer.id);
+        outerThis.editReviewer(reviewer.id);
         e.preventDefault();
       });
 

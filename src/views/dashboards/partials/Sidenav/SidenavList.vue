@@ -183,11 +183,11 @@
                 mini-icon="H"
                 text="Kelola Halaman"
               />
-              <sidenav-item
+              <!-- <sidenav-item
                 :to="{ name: 'Registrasi' }"
                 mini-icon="K"
                 text="Download Area"
-              />
+              /> -->
             </ul>
           </template>
         </sidenav-collapse>
@@ -527,7 +527,7 @@
       </li>
 
       <!-- Download Area -->
-      <li class="nav-item">
+      <!-- <li class="nav-item">
         <router-link :to="{ name: 'Mahasiswa' }">
           <sidenav-collapse
             nav-text="Download Area"
@@ -544,7 +544,7 @@
             </template>
           </sidenav-collapse>
         </router-link>
-      </li>
+      </li> -->
     </ul>
   </div>
 </template>
