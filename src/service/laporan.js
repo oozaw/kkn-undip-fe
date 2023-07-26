@@ -7,19 +7,20 @@ const listLaporan = () => baseApi.get(`${api}laporan`);
 const listLaporanKecamatan = (id_kecamatan) =>
   baseApi.get(`${api}laporan/kecamatan/${id_kecamatan}`);
 
-const evaluateLaporan = (body) => baseApi.put(`${api}dosen/laporan`, body);
+const evaluateLaporan = (body) => baseApi.put(`${api}laporan/evaluate`, body);
 
-const listLRK = () => baseApi.get(`${api}mahasiswa/lrk`);
+const listLRK = () => baseApi.get(`${api}laporan/lrk`);
 
-const addLRK = (body) => baseApi.post(`${api}mahasiswa/lrk`, body);
+const addLRK = (body) => baseApi.post(`${api}laporan/lrk`, body);
 
-const editLRK = (body) => baseApi.put(`${api}mahasiswa/lrk/edit`, body);
+const editLRK = (body) => baseApi.put(`${api}laporan/lrk`, body);
 
-const listLPK = () => baseApi.get(`${api}mahasiswa/lpk`);
+const listLPK = () => baseApi.get(`${api}laporan/lpk`);
 
-const getLaporan = (id_laporan) => baseApi.get(`${api}laporan/${id_laporan}`);
+const getLaporan = (id_laporan) =>
+  baseApi.get(`${api}laporan/detail/${id_laporan}`);
 
-const addLPK = (body) => baseApi.post(`${api}mahasiswa/lpk`, body);
+const addLPK = (body) => baseApi.post(`${api}laporan/lpk`, body);
 
 const deleteLaporan = (id_laporan) =>
   baseApi.delete(`${api}laporan/${id_laporan}`);
