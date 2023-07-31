@@ -12,6 +12,7 @@
         :name="name"
         :placeholder="placeholder"
         :required="isRequired"
+        :autofocus="isAutoFocus"
         v-model="modelValueData"
         @input="$emit('update:modelValue', $event.target.value)"
       />
@@ -67,6 +68,10 @@ export default {
       default: "text",
     },
     isRequired: {
+      type: Boolean,
+      default: false,
+    },
+    isAutoFocus: {
       type: Boolean,
       default: false,
     },

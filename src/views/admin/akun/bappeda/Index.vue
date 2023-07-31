@@ -388,7 +388,7 @@ export default {
     },
 
     async importBappeda() {
-      this.showLoading(true);
+      this.showSwal("loading");
 
       this.body.file = this.$refs.file.files[0];
       this.indexComponent++;
@@ -397,7 +397,6 @@ export default {
       try {
         await this.a$importBappeda(this.body);
         this.showSwal("success-message", "Data BAPPEDA berhasil diimpor!");
-        this.showLoading(false);
 
         await this.getInitData();
       } catch (error) {
@@ -416,14 +415,13 @@ export default {
     },
 
     async deleteBappeda(id_bappeda) {
-      this.showLoading(true);
+      this.showSwal("loading");
 
       this.indexComponent++;
 
       try {
         await this.a$deleteBappeda(parseInt(id_bappeda));
         this.showSwal("success-message", "Data BAPPEDA berhasil dihapus!");
-        this.showLoading(false);
 
         await this.getInitData();
       } catch (error) {
@@ -614,9 +612,10 @@ export default {
     },
 
     showLoading(isLoading) {
-      if (isLoading && !this.loader) {
+      if (isLoading && (!this.loader || this.loader === undefined)) {
         this.loader = this.$loading.show();
-      } else if (!isLoading && this.loader) {
+      } else if (!isLoading && (this.loader || this.loader !== undefined)) {
+        console.log(this.loader);
         setTimeout(() => {
           this.loader.hide();
           this.loader = undefined;

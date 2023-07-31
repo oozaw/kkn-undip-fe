@@ -35,6 +35,7 @@
                         placeholder="Nama pengguna"
                         name="username"
                         size="lg"
+                        :isAutoFocus="true"
                         :isRequired="true"
                       />
                     </div>

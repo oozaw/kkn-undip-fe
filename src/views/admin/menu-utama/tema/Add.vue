@@ -201,7 +201,7 @@ export default {
 
       try {
         this.body.jenis = parseInt(this.body.jenis);
-        // delete this.body.prov;
+        delete this.body.prov;
         await this.a$addTema(this.body);
         this.$router.push({ name: "Tema KKN" });
         this.showSwal("success-message", "Tema KKN berhasil ditambahkan!");
