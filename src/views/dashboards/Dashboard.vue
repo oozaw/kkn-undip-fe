@@ -58,7 +58,6 @@
                   g$user.role === 'PIMPINAN'
                 "
                 :style="'margin-left: 70%'"
-                role="button"
                 title="Data Diri"
                 title-color="primary"
                 :value="{
@@ -74,6 +73,7 @@
                   background: 'bg-gradient-primary',
                   shape: 'rounded-circle',
                 }"
+                role="button"
                 @click="() => $router.push({ name: 'Edit Data Diri' })"
               />
               <mini-statistics-card
@@ -241,6 +241,8 @@
                 <div class="col-lg-6 col-md-6 col-12">
                   <mini-statistics-card
                     v-if="g$user.role === 'ADMIN'"
+                    role="button"
+                    @click="() => $router.push({ name: 'Pengajuan Wilayah' })"
                     :style="'margin-left: 70%'"
                     title="Total Kecamatan Terdaftar"
                     :value="{ text: total.kecamatan, color: 'success' }"
@@ -255,6 +257,8 @@
                 <div class="col-lg-6 col-md-6 col-12">
                   <mini-statistics-card
                     v-if="g$user.role === 'ADMIN'"
+                    role="button"
+                    @click="() => $router.push({ name: 'Pengajuan Wilayah' })"
                     :style="'margin-left: 70%'"
                     title="Total Kelurahan Terdaftar"
                     :value="{ text: total.desa, color: 'success' }"
@@ -269,6 +273,8 @@
                 <div class="col-lg-6 col-md-6 col-12">
                   <mini-statistics-card
                     v-if="g$user.role === 'ADMIN'"
+                    role="button"
+                    @click="() => $router.push({ name: 'Mahasiswa' })"
                     :style="'margin-left: 70%'"
                     title="Total Mahasiswa"
                     :value="{ text: total.mahasiswa, color: 'success' }"
@@ -283,6 +289,11 @@
                 <div class="col-lg-6 col-md-6 col-12">
                   <mini-statistics-card
                     v-if="g$user.role === 'ADMIN'"
+                    role="button"
+                    @click="
+                      () =>
+                        $router.push({ name: 'Pendaftaran Mahasiswa Admin' })
+                    "
                     :style="'margin-left: 70%'"
                     title="Total Mahasiswa Terdaftar"
                     :value="{
@@ -300,6 +311,8 @@
                 <div class="col-lg-6 col-md-6 col-12">
                   <mini-statistics-card
                     v-if="g$user.role === 'ADMIN'"
+                    role="button"
+                    @click="() => $router.push({ name: 'Bappeda' })"
                     :style="'margin-left: 70%'"
                     title="Total BAPPEDA"
                     :value="{ text: total.bappeda, color: 'success' }"
@@ -314,6 +327,8 @@
                 <div class="col-lg-6 col-md-6 col-12">
                   <mini-statistics-card
                     v-if="g$user.role === 'ADMIN'"
+                    role="button"
+                    @click="() => $router.push({ name: 'Dosen' })"
                     :style="'margin-left: 70%'"
                     title="Total Dosen"
                     :value="{ text: total.dosen, color: 'success' }"
@@ -328,6 +343,8 @@
                 <div class="col-lg-6 col-md-6 col-12">
                   <mini-statistics-card
                     v-if="g$user.role === 'ADMIN'"
+                    role="button"
+                    @click="() => $router.push({ name: 'Reviewer' })"
                     :style="'margin-left: 70%'"
                     title="Total Reviewer"
                     :value="{ text: total.reviewer, color: 'success' }"
@@ -341,6 +358,8 @@
                 <div class="col-lg-6 col-md-6 col-12">
                   <mini-statistics-card
                     v-if="g$user.role === 'ADMIN'"
+                    role="button"
+                    @click="() => $router.push({ name: 'Pimpinan' })"
                     :style="'margin-left: 70%'"
                     title="Total Pimpinan"
                     :value="{
@@ -366,7 +385,7 @@
         </div>
         <div class="row mt">
           <div class="col-12">
-            <div class="mt-lg-4 mt-3" v-if="g$user.role === 'ADMIN'">
+            <div class="mt-lg-4 mt-0" v-if="g$user.role === 'ADMIN'">
               <timeline-list
                 v-if="listPengumuman != undefined"
                 class="h-100"
