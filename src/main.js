@@ -15,6 +15,7 @@ import ArgonDashboard from "./argon-dashboard";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import icon from "@/assets/js/font-awesome-icon";
+import SimpleWebWorker from "simple-web-worker";
 
 library.add(icon);
 
@@ -25,6 +26,7 @@ const appInstance = createApp(App);
 appInstance.use(pinia);
 appInstance.use(store);
 appInstance.use(router);
+appInstance.config.globalProperties.$worker = SimpleWebWorker;
 appInstance.use(VueTilt);
 appInstance.use(VueSweetalert2);
 appInstance.use(
@@ -39,6 +41,7 @@ appInstance.use(
   },
   {
     // slots
+    // default: "Loading...",
   }
 );
 appInstance.use(ArgonDashboard);

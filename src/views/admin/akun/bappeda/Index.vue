@@ -3,7 +3,8 @@
     <div class="row">
       <div class="col-lg-12 mt-lg-0 mt-4">
         <header-profile-card />
-        <div class="bg-white card mt-4">
+        <table-content-loader v-if="isLoading" />
+        <div class="bg-white card mt-4" :hidden="isLoading">
           <!-- Card header -->
           <div class="pb-0 card-header">
             <div class="d-lg-flex">
@@ -133,7 +134,7 @@
                 </thead>
                 <tbody>
                   <tr
-                    v-for="(bappeda, index) in g$listBappeda"
+                    v-for="(bappeda, index) in listBappeda"
                     :key="bappeda.id_bappeda"
                   >
                     <td class="text-sm">{{ index + 1 }}</td>
@@ -334,6 +335,7 @@ import $ from "jquery";
 import Choices from "choices.js";
 import { DataTable } from "simple-datatables";
 import HeaderProfileCard from "@/views/dashboards/components/HeaderProfileCard.vue";
+import TableContentLoader from "@/views/dashboards/components/TableContentLoader.vue";
 import d$bappeda from "@/store/bappeda";
 import { mapActions, mapState } from "pinia";
 
@@ -341,6 +343,7 @@ export default {
   name: "IndexBappeda",
   components: {
     HeaderProfileCard,
+    TableContentLoader,
   },
   data() {
     return {
@@ -348,6 +351,8 @@ export default {
       body: {
         file: "",
       },
+      listBappeda: [],
+      isLoading: true,
       dataTable: undefined,
       loader: undefined,
     };
@@ -366,7 +371,8 @@ export default {
     ]),
 
     async getInitData() {
-      this.showLoading(true);
+      this.isLoading = true;
+      this.indexComponent++;
 
       try {
         await this.a$listBappeda();
@@ -381,10 +387,16 @@ export default {
         );
       }
 
-      this.setupDataTable();
-      this.setupTableAction();
+      this.listBappeda = this.g$listBappeda;
 
-      this.showLoading(false);
+      setTimeout(() => {
+        this.setupDataTable();
+        this.setupTableAction();
+      }, 10);
+
+      setTimeout(() => {
+        this.isLoading = false;
+      }, 400);
     },
 
     async importBappeda() {

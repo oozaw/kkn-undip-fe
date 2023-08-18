@@ -3,7 +3,8 @@
     <div class="row">
       <div class="col-lg-12 mt-lg-0 mt-4">
         <header-profile-card />
-        <div class="bg-white card mt-4">
+        <table-content-loader v-if="isLoading" />
+        <div class="bg-white card mt-4" :hidden="isLoading">
           <!-- Card header -->
           <div class="pb-0 card-header">
             <div class="d-lg-flex">
@@ -138,10 +139,7 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <tr
-                    v-for="(mhs, index) in g$listMahasiswa"
-                    :key="mhs.id_mahasiswa"
-                  >
+                  <tr v-for="(mhs, index) in listMhs" :key="mhs.id_mahasiswa">
                     <td class="text-sm">{{ index + 1 }}</td>
                     <td>
                       <h6 class="my-auto">{{ mhs.nama }}</h6>
@@ -408,6 +406,7 @@ import $ from "jquery";
 import moment from "moment";
 import Choices from "choices.js";
 import { DataTable } from "simple-datatables";
+import TableContentLoader from "@/views/dashboards/components/TableContentLoader.vue";
 import HeaderProfileCard from "@/views/dashboards/components/HeaderProfileCard.vue";
 import d$mahasiswa from "@/store/mahasiswa";
 import { mapActions, mapState } from "pinia";
@@ -416,6 +415,7 @@ export default {
   name: "IndexMahasiswa",
   components: {
     HeaderProfileCard,
+    TableContentLoader,
   },
   computed: {
     ...mapState(d$mahasiswa, ["g$listMahasiswa"]),
@@ -431,6 +431,8 @@ export default {
       dataTable: undefined,
       moment,
       loader: undefined,
+      isLoading: true,
+      listMhs: [],
     };
   },
   async created() {
@@ -446,7 +448,7 @@ export default {
     ]),
 
     async getListMahasiswa() {
-      this.showLoading(true);
+      this.isLoading = true;
       this.indexComponent++;
 
       try {
@@ -462,10 +464,16 @@ export default {
         );
       }
 
-      this.setupDataTable();
-      this.setupTableAction();
+      this.listMhs = this.g$listMahasiswa;
 
-      this.showLoading(false);
+      setTimeout(() => {
+        this.setupDataTable();
+        this.setupTableAction();
+      }, 10);
+
+      setTimeout(() => {
+        this.isLoading = false;
+      }, 400);
     },
 
     async importMahasiswa() {
@@ -587,12 +595,14 @@ export default {
 
     showLoading(isLoading) {
       if (isLoading && !this.loader) {
+        this.isLoading = true;
         this.loader = this.$loading.show({
           isFullPage: false,
           container: this.$refs.container,
         });
       } else if (!isLoading && this.loader) {
         setTimeout(() => {
+          this.isLoading = false;
           this.loader.hide();
           this.loader = undefined;
         }, 400);

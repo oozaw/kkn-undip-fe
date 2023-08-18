@@ -3,7 +3,8 @@
     <div class="row">
       <div class="col-lg-12 mt-lg-0 mt-4">
         <header-profile-card />
-        <div class="bg-white card mt-4">
+        <table-content-loader v-if="isLoading" />
+        <div class="bg-white card mt-4" :hidden="isLoading">
           <!-- Card header -->
           <div class="pb-0 card-header">
             <div class="d-lg-flex">
@@ -130,7 +131,7 @@
                 </thead>
                 <tbody>
                   <tr
-                    v-for="(pimpinan, index) in g$listPimpinan"
+                    v-for="(pimpinan, index) in listPimpinan"
                     :key="pimpinan.id_pimpinan"
                   >
                     <td class="text-sm">{{ index + 1 }}</td>
@@ -352,6 +353,7 @@ import $ from "jquery";
 import moment from "moment";
 import { DataTable } from "simple-datatables";
 import HeaderProfileCard from "@/views/dashboards/components/HeaderProfileCard.vue";
+import TableContentLoader from "@/views/dashboards/components/TableContentLoader.vue";
 import d$pimpinan from "@/store/pimpinan";
 import { mapActions, mapState } from "pinia";
 
@@ -359,12 +361,15 @@ export default {
   name: "IndexPimpinan",
   components: {
     HeaderProfileCard,
+    TableContentLoader,
   },
   data() {
     return {
       body: {
         file: "",
       },
+      listPimpinan: [],
+      isLoading: true,
       indexComponent: 0,
       dataTable: undefined,
       moment,
@@ -388,7 +393,7 @@ export default {
     ]),
 
     async getInitData() {
-      this.showLoading(true);
+      this.isLoading = true;
       this.indexComponent++;
 
       try {
@@ -404,10 +409,16 @@ export default {
         );
       }
 
-      this.setupDataTable();
-      this.setupTableAction();
+      this.listPimpinan = this.g$listPimpinan;
 
-      this.showLoading(false);
+      setTimeout(() => {
+        this.setupDataTable();
+        this.setupTableAction();
+      }, 10);
+
+      setTimeout(() => {
+        this.isLoading = false;
+      }, 400);
     },
 
     async editPimpinan(id) {

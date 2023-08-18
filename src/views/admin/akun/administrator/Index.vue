@@ -3,8 +3,8 @@
     <div class="row">
       <div class="col-lg-12 mt-lg-0 mt-4">
         <header-profile-card />
-
-        <div class="bg-white card mt-4">
+        <table-content-loader v-if="isLoading" />
+        <div class="bg-white card mt-4" :hidden="isLoading">
           <!-- Card header -->
           <div class="pb-0 card-header">
             <div class="d-lg-flex">
@@ -107,10 +107,7 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <tr
-                    v-for="(admin, index) in g$listAdmin"
-                    :key="admin.id_admin"
-                  >
+                  <tr v-for="(admin, index) in listAdmin" :key="admin.id_admin">
                     <td class="text-sm">{{ index + 1 }}</td>
                     <td>
                       <h6 class="my-auto">{{ admin.nama }}</h6>
@@ -326,6 +323,7 @@ import moment from "moment";
 import Choices from "choices.js";
 import { DataTable } from "simple-datatables";
 import HeaderProfileCard from "@/views/dashboards/components/HeaderProfileCard.vue";
+import TableContentLoader from "@/views/dashboards/components/TableContentLoader.vue";
 import d$admin from "@/store/admin";
 import { mapState, mapActions } from "pinia";
 
@@ -333,6 +331,7 @@ export default {
   name: "IndexAdministrator",
   components: {
     HeaderProfileCard,
+    TableContentLoader,
   },
   computed: {
     ...mapState(d$admin, ["g$listAdmin"]),
@@ -341,6 +340,8 @@ export default {
     return {
       indexComponent: 0,
       moment,
+      listAdmin: [],
+      isLoading: true,
       loader: undefined,
     };
   },
@@ -351,8 +352,7 @@ export default {
     ...mapActions(d$admin, ["a$listAdmin", "a$editAdmin"]),
 
     async getInitData() {
-      this.showLoading(true);
-
+      this.isLoading = true;
       this.indexComponent++;
 
       try {
@@ -368,10 +368,16 @@ export default {
         );
       }
 
-      this.setupDataTable();
-      this.setupTableAction();
+      this.listAdmin = this.g$listAdmin;
 
-      this.showLoading(false);
+      setTimeout(() => {
+        this.setupDataTable();
+        this.setupTableAction();
+      }, 10);
+
+      setTimeout(() => {
+        this.isLoading = false;
+      }, 400);
     },
 
     async editAdmin(id) {

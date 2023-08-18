@@ -3,7 +3,8 @@
     <div class="row">
       <div class="col-lg-12 mt-lg-0 mt-4">
         <header-profile-card />
-        <div class="bg-white card mt-4">
+        <table-content-loader v-if="isLoading" />
+        <div class="bg-white card mt-4" :hidden="isLoading">
           <!-- Card header -->
           <div class="pb-0 card-header">
             <div class="d-lg-flex">
@@ -130,10 +131,7 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <tr
-                    v-for="(dosen, index) in g$listDosen"
-                    :key="dosen.id_dosen"
-                  >
+                  <tr v-for="(dosen, index) in listDosen" :key="dosen.id_dosen">
                     <td class="text-sm">{{ index + 1 }}</td>
                     <td>
                       <h6 class="my-auto">{{ dosen.nama }}</h6>
@@ -283,6 +281,7 @@ import moment from "moment";
 import Choices from "choices.js";
 import { DataTable } from "simple-datatables";
 import HeaderProfileCard from "@/views/dashboards/components/HeaderProfileCard.vue";
+import TableContentLoader from "@/views/dashboards/components/TableContentLoader.vue";
 import d$dosen from "@/store/dosen";
 import { mapActions, mapState } from "pinia";
 
@@ -290,10 +289,13 @@ export default {
   name: "IndexDosen",
   components: {
     HeaderProfileCard,
+    TableContentLoader,
   },
   data() {
     return {
       indexComponent: 0,
+      listDosen: [],
+      isLoading: true,
       dataTable: undefined,
       body: {
         file: "",
@@ -314,7 +316,8 @@ export default {
     ...mapActions(d$dosen, ["a$listDosen", "a$importDosen", "a$deleteDosen"]),
 
     async getInitData() {
-      this.showLoading(true);
+      this.isLoading = true;
+      this.indexComponent++;
 
       try {
         await this.a$listDosen();
@@ -329,10 +332,16 @@ export default {
         );
       }
 
-      this.setupDataTable();
-      this.setupTableAction();
+      this.listDosen = this.g$listDosen;
 
-      this.showLoading(false);
+      setTimeout(() => {
+        this.setupDataTable();
+        this.setupTableAction();
+      }, 10);
+
+      setTimeout(() => {
+        this.isLoading = false;
+      }, 400);
     },
 
     async importDosen() {
