@@ -3,7 +3,8 @@
     <div class="row mb-5 mt-4">
       <div class="col-lg-12 mt-lg-0 mt-4">
         <HeaderProfileCard />
-        <div class="bg-white card mt-4">
+        <table-content-loader v-if="isLoading" />
+        <div class="bg-white card mt-4" :hidden="isLoading">
           <!-- Card header -->
           <div class="pb-0 card-header">
             <div class="d-lg-flex">
@@ -44,7 +45,7 @@
                 </thead>
                 <tbody>
                   <tr
-                    v-for="(pengumuman, i) in g$listPengumuman"
+                    v-for="(pengumuman, i) in listPengumuman"
                     :key="pengumuman.id_pengumuman"
                   >
                     <td class="text-sm ps-3">{{ i + 1 }}</td>
@@ -179,6 +180,7 @@ import moment from "moment";
 import { DataTable } from "simple-datatables";
 import Choices from "choices.js";
 import HeaderProfileCard from "@/views/dashboards/components/HeaderProfileCard.vue";
+import TableContentLoader from "@/views/dashboards/components/TableContentLoader.vue";
 import { mapActions, mapState } from "pinia";
 import d$pengumuman from "@/store/pengumuman";
 
@@ -186,11 +188,14 @@ export default {
   name: "IndexPengumuman",
   components: {
     HeaderProfileCard,
+    TableContentLoader,
   },
   data() {
     return {
       indexComponent: 0,
       moment,
+      listPengumuman: [],
+      isLoading: true,
       loader: undefined,
     };
   },
@@ -206,8 +211,7 @@ export default {
     ...mapActions(d$pengumuman, ["a$listAllPengumuman", "a$deletePengumuman"]),
 
     async getInitData() {
-      this.showLoading(true);
-
+      this.isLoading = true;
       this.indexComponent++;
 
       try {
@@ -223,10 +227,16 @@ export default {
         );
       }
 
-      this.setupDataTable();
-      this.setupTableAction();
+      this.listPengumuman = this.g$listPengumuman;
 
-      this.showLoading(false);
+      setTimeout(() => {
+        this.setupDataTable();
+        this.setupTableAction();
+      }, 10);
+
+      setTimeout(() => {
+        this.isLoading = false;
+      }, 400);
     },
 
     async deletePengumuman(id_pengumuman) {

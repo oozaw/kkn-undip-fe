@@ -3,7 +3,8 @@
     <div class="row mb-5 mt-4">
       <div class="col-lg-12 mt-lg-0 mt-4">
         <header-profile-card />
-        <div class="bg-white card mt-4">
+        <table-content-loader v-if="isLoading" />
+        <div class="bg-white card mt-4" :hidden="isLoading">
           <!-- Card header -->
           <div class="pb-0 card-header">
             <div class="d-lg-flex">
@@ -45,7 +46,7 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <tr v-for="(tema, index) in g$listTema" :key="tema.id_tema">
+                  <tr v-for="(tema, index) in listTema" :key="tema.id_tema">
                     <td class="text-sm">{{ index + 1 }}</td>
                     <td>
                       <h6 class="my-auto">{{ tema.nama }}</h6>
@@ -291,6 +292,7 @@
 import $ from "jquery";
 import { DataTable } from "simple-datatables";
 import HeaderProfileCard from "@/views/dashboards/components/HeaderProfileCard.vue";
+import TableContentLoader from "@/views/dashboards/components/TableContentLoader.vue";
 import { mapActions, mapState } from "pinia";
 import d$tema from "@/store/tema";
 
@@ -298,10 +300,13 @@ export default {
   name: "IndexTemaKKN",
   components: {
     HeaderProfileCard,
+    TableContentLoader,
   },
   data() {
     return {
       indexComponent: 0,
+      listTema: [],
+      isLoading: true,
       loader: undefined,
     };
   },
@@ -345,8 +350,7 @@ export default {
     },
 
     async getListTema() {
-      this.showLoading(true);
-
+      this.isLoading = true;
       this.indexComponent++;
 
       try {
@@ -362,10 +366,16 @@ export default {
         );
       }
 
-      this.setupDataTable();
-      this.setupTableAction();
+      this.listTema = this.g$listTema;
 
-      this.showLoading(false);
+      setTimeout(() => {
+        this.setupDataTable();
+        this.setupTableAction();
+      }, 10);
+
+      setTimeout(() => {
+        this.isLoading = false;
+      }, 400);
     },
 
     setupTableAction() {

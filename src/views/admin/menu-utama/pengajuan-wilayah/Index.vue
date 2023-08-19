@@ -2,11 +2,9 @@
   <div class="container-fluid">
     <div class="row mb-5 mt-4">
       <div class="col-lg-12 mt-lg-0 mt-4">
-        <HeaderProfileCard
-          name="BAPPEDA Kota Semarang"
-          description="Kota Semarang, Jawa Tengah, Indonesia"
-        />
-        <div class="bg-white card mt-4">
+        <HeaderProfileCard />
+        <choices-content-loader v-if="isLoadingOnInit" />
+        <div class="bg-white card mt-4" :hidden="isLoadingOnInit">
           <div class="card-header pb-0 pt-3">
             <p class="font-weight-bold text-dark mb-2">
               Pilih Tema KKN Terdaftar
@@ -32,7 +30,8 @@
             </div>
           </div>
         </div>
-        <div class="bg-white card mt-4">
+        <table-content-loader v-if="isLoading" />
+        <div class="bg-white card mt-4" :hidden="isLoading">
           <!-- Card header -->
           <div class="pb-0 card-header">
             <div class="d-lg-flex">
@@ -72,7 +71,7 @@
                 </thead>
                 <tbody>
                   <tr
-                    v-for="(kec, index) in g$listKecamatan"
+                    v-for="(kec, index) in listKecamatan"
                     :key="kec.id_kecamatan"
                   >
                     <td class="text-sm ps-3">{{ index + 1 }}</td>
@@ -356,6 +355,8 @@ import $ from "jquery";
 import { DataTable } from "simple-datatables";
 import Choices from "choices.js";
 import HeaderProfileCard from "@/views/dashboards/components/HeaderProfileCard.vue";
+import TableContentLoader from "@/views/dashboards/components/TableContentLoader.vue";
+import ChoicesContentLoader from "@/views/dashboards/components/ChoicesContentLoader.vue";
 import { mapActions, mapState } from "pinia";
 import d$wilayah from "@/store/wilayah";
 import d$tema from "@/store/tema";
@@ -365,10 +366,15 @@ export default {
   name: "IndexPengajuanWilayah",
   components: {
     HeaderProfileCard,
+    TableContentLoader,
+    ChoicesContentLoader,
   },
   data() {
     return {
       indexComponent: 0,
+      listKecamatan: [],
+      isLoading: true,
+      isLoadingOnInit: true,
       body: {
         id_korwil: "",
       },
@@ -399,6 +405,7 @@ export default {
     ...mapActions(d$korwil, ["a$listKorwil"]),
 
     async getInitData() {
+      this.isLoadingOnInit = true;
       this.indexComponent++;
 
       try {
@@ -417,6 +424,10 @@ export default {
           "Terjadi kesalahan saat memuat data! " + msg
         );
       }
+
+      setTimeout(() => {
+        this.isLoadingOnInit = false;
+      }, 50);
     },
 
     async deleteKecamatan(id_kecamatan) {
@@ -435,8 +446,7 @@ export default {
     },
 
     async getListKecamatan() {
-      this.showLoading(true);
-
+      this.isLoading = true;
       this.tema = parseInt(this.tema);
       this.indexComponent++;
 
@@ -453,13 +463,19 @@ export default {
         );
       }
 
-      this.setupDataTable();
-      this.setupTableAction();
+      this.listKecamatan = this.g$listKecamatan;
+
+      setTimeout(() => {
+        this.setupDataTable();
+        this.setupTableAction();
+      }, 10);
       this.g$listKecamatan.forEach((kec) => {
         this.getChoices(`choices-korwil-${kec.id_kecamatan}`);
       });
 
-      this.showLoading(false);
+      setTimeout(() => {
+        this.isLoading = false;
+      }, 400);
     },
 
     async accKecamatan(id_kecamatan) {

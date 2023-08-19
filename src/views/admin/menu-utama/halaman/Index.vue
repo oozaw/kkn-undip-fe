@@ -3,7 +3,8 @@
     <div class="row mb-5 mt-4">
       <div class="col-lg-12 mt-lg-0 mt-4">
         <HeaderProfileCard />
-        <div class="bg-white card mt-4">
+        <choices-content-loader v-if="isLoadingOnInit" />
+        <div class="bg-white card mt-4" :hidden="isLoadingOnInit">
           <div class="card-header pb-0 pt-3">
             <p class="font-weight-bold text-dark mb-2">
               Pilih Tema KKN Terdaftar
@@ -29,7 +30,8 @@
             </div>
           </div>
         </div>
-        <div class="bg-white card mt-4">
+        <table-content-loader v-if="isLoading" />
+        <div class="bg-white card mt-4" :hidden="isLoading">
           <!-- Card header -->
           <div class="pb-0 card-header">
             <div class="d-lg-flex">
@@ -66,7 +68,7 @@
                 </thead>
                 <tbody>
                   <tr
-                    v-for="(halaman, index) in g$listHalaman"
+                    v-for="(halaman, index) in listHalaman"
                     :key="halaman.id_tema_halaman"
                   >
                     <td class="text-sm ps-3">{{ index + 1 }}</td>
@@ -265,6 +267,8 @@ import { DataTable } from "simple-datatables";
 import moment from "moment";
 import Choices from "choices.js";
 import HeaderProfileCard from "@/views/dashboards/components/HeaderProfileCard.vue";
+import TableContentLoader from "@/views/dashboards/components/TableContentLoader.vue";
+import ChoicesContentLoader from "@/views/dashboards/components/ChoicesContentLoader.vue";
 import { mapActions, mapState } from "pinia";
 import d$halaman from "@/store/halaman";
 import d$tema from "@/store/tema";
@@ -273,12 +277,17 @@ export default {
   name: "IndexKelolaHalaman",
   components: {
     HeaderProfileCard,
+    TableContentLoader,
+    ChoicesContentLoader,
   },
   data() {
     return {
       tema: "",
       choicesTema: undefined,
       indexComponent: 0,
+      listHalaman: [],
+      isLoadingOnInit: true,
+      isLoading: true,
       moment,
       loader: undefined,
     };
@@ -291,8 +300,6 @@ export default {
     moment.locale("id");
 
     await this.getInitData();
-
-    this.choicesTema = this.getChoices("choices-tema");
   },
   beforeUnmount() {
     if (this.choicesTema) this.choicesTema.destroy();
@@ -306,10 +313,13 @@ export default {
     ...mapActions(d$tema, ["a$listTema"]),
 
     async getInitData() {
+      this.isLoadingOnInit = true;
+
       try {
         await this.a$listTema();
         this.tema = this.g$listTema[0].id_tema;
         await this.getListHalaman();
+        this.choicesTema = this.getChoices("choices-tema");
       } catch (error) {
         console.log(error);
         let msg = "";
@@ -320,10 +330,14 @@ export default {
           "Terjadi kesalahan saat memuat data! " + msg
         );
       }
+
+      setTimeout(() => {
+        this.isLoadingOnInit = false;
+      }, 50);
     },
 
     async getListHalaman() {
-      this.showLoading(true);
+      this.isLoading = true;
       this.indexComponent++;
 
       try {
@@ -339,10 +353,16 @@ export default {
         );
       }
 
-      this.setupDataTable();
-      this.setupTableAction();
+      this.listHalaman = this.g$listHalaman;
 
-      this.showLoading(false);
+      setTimeout(() => {
+        this.setupDataTable();
+        this.setupTableAction();
+      }, 10);
+
+      setTimeout(() => {
+        this.isLoading = false;
+      }, 400);
     },
 
     async switchHalaman(id_halaman) {

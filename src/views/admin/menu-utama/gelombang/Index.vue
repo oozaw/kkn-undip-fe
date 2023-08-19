@@ -3,7 +3,8 @@
     <div class="row mb-5 mt-4">
       <div class="col-lg-12 mt-lg-0 mt-4">
         <header-profile-card />
-        <div class="bg-white card mt-4">
+        <choices-content-loader v-if="isLoadingOnInit" />
+        <div class="bg-white card mt-4" :hidden="isLoadingOnInit">
           <div class="card-header pb-0 pt-3">
             <p class="font-weight-bold text-dark mb-2">
               Pilih Tema KKN Terdaftar
@@ -29,7 +30,8 @@
             </div>
           </div>
         </div>
-        <div class="bg-white card mt-4">
+        <table-content-loader v-if="isLoading" />
+        <div class="bg-white card mt-4" :hidden="isLoading">
           <!-- Card header -->
           <div class="pb-0 card-header">
             <div class="d-lg-flex">
@@ -151,7 +153,7 @@
                 </thead>
                 <tbody>
                   <tr
-                    v-for="(gelombang, index) in g$listGelombang"
+                    v-for="(gelombang, index) in listGelombang"
                     :key="gelombang.id_gelombang"
                   >
                     <td class="text-sm">{{ index + 1 }}</td>
@@ -368,6 +370,8 @@ import Choices from "choices.js";
 import moment from "moment";
 import { DataTable } from "simple-datatables";
 import HeaderProfileCard from "@/views/dashboards/components/HeaderProfileCard.vue";
+import TableContentLoader from "@/views/dashboards/components/TableContentLoader.vue";
+import ChoicesContentLoader from "@/views/dashboards/components/ChoicesContentLoader.vue";
 import { mapActions, mapState } from "pinia";
 import d$tema from "@/store/tema";
 import d$gelombang from "@/store/gelombang";
@@ -377,11 +381,16 @@ export default {
   name: "IndexGelombang",
   components: {
     HeaderProfileCard,
+    TableContentLoader,
+    ChoicesContentLoader,
   },
   data() {
     return {
       tema: "",
       indexComponent: 0,
+      listGelombang: [],
+      isLoadingOnInit: true,
+      isLoading: true,
       choicesTema: undefined,
       choicesTemaModal: undefined,
       choicesHalamanModal: undefined,
@@ -400,6 +409,7 @@ export default {
     ...mapState(d$halaman, ["g$listHalaman"]),
   },
   async created() {
+    this.isLoadingOnInit = true;
     moment.locale("id");
 
     await this.a$listTema();
@@ -408,6 +418,10 @@ export default {
     await this.getListGelombang();
 
     this.setupChoices();
+
+    setTimeout(() => {
+      this.isLoadingOnInit = false;
+    }, 50);
   },
   beforeUnmount() {
     if (this.choicesTema) this.choicesTema.destroy();
@@ -483,8 +497,7 @@ export default {
     },
 
     async getListGelombang() {
-      this.showLoading(true);
-
+      this.isLoading = true;
       this.indexComponent++;
 
       try {
@@ -503,10 +516,16 @@ export default {
         );
       }
 
-      this.setupDataTable();
-      this.setupTableAction();
+      this.listGelombang = this.g$listGelombang;
 
-      this.showLoading(false);
+      setTimeout(() => {
+        this.setupDataTable();
+        this.setupTableAction();
+      }, 10);
+
+      setTimeout(() => {
+        this.isLoading = false;
+      }, 400);
     },
 
     setupTableAction() {
