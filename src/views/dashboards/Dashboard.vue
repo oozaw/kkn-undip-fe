@@ -1,16 +1,13 @@
 <template>
-  <div class="card shadow-lg mx-4 mt-4">
-    <div class="card shadow-lg">
-      <HeaderProfileCard />
-    </div>
-  </div>
   <div class="py-4 container-fluid">
     <div class="row">
       <div class="col-lg-12">
-        <div class="row mt-1">
+        <HeaderProfileCard />
+        <div class="row mt-4">
           <div class="col-lg-6 col-12">
+            <CalendarContentLoader v-if="isLoading" />
             <calendar
-              v-if="listEvent != undefined"
+              v-if="listEvent != undefined && !isLoading"
               title="Kalender KKN"
               :events="listEvent"
               :initial-date="initialDate"
@@ -237,10 +234,11 @@
                   />
                 </div>
               </div>
-              <div class="row">
+              <div v-if="g$user.role === 'ADMIN'" class="row">
                 <div class="col-lg-6 col-md-6 col-12">
+                  <StatisticCardContentLoader v-if="isLoading" />
                   <mini-statistics-card
-                    v-if="g$user.role === 'ADMIN'"
+                    :hidden="isLoading"
                     role="button"
                     @click="() => $router.push({ name: 'Pengajuan Wilayah' })"
                     :style="'margin-left: 70%'"
@@ -255,8 +253,9 @@
                   />
                 </div>
                 <div class="col-lg-6 col-md-6 col-12">
+                  <StatisticCardContentLoader v-if="isLoading" />
                   <mini-statistics-card
-                    v-if="g$user.role === 'ADMIN'"
+                    :hidden="isLoading"
                     role="button"
                     @click="() => $router.push({ name: 'Pengajuan Wilayah' })"
                     :style="'margin-left: 70%'"
@@ -271,8 +270,9 @@
                   />
                 </div>
                 <div class="col-lg-6 col-md-6 col-12">
+                  <StatisticCardContentLoader v-if="isLoading" />
                   <mini-statistics-card
-                    v-if="g$user.role === 'ADMIN'"
+                    :hidden="isLoading"
                     role="button"
                     @click="() => $router.push({ name: 'Mahasiswa' })"
                     :style="'margin-left: 70%'"
@@ -287,8 +287,9 @@
                   />
                 </div>
                 <div class="col-lg-6 col-md-6 col-12">
+                  <StatisticCardContentLoader v-if="isLoading" />
                   <mini-statistics-card
-                    v-if="g$user.role === 'ADMIN'"
+                    :hidden="isLoading"
                     role="button"
                     @click="
                       () =>
@@ -309,8 +310,9 @@
                   />
                 </div>
                 <div class="col-lg-6 col-md-6 col-12">
+                  <StatisticCardContentLoader v-if="isLoading" />
                   <mini-statistics-card
-                    v-if="g$user.role === 'ADMIN'"
+                    :hidden="isLoading"
                     role="button"
                     @click="() => $router.push({ name: 'Bappeda' })"
                     :style="'margin-left: 70%'"
@@ -325,8 +327,9 @@
                   />
                 </div>
                 <div class="col-lg-6 col-md-6 col-12">
+                  <StatisticCardContentLoader v-if="isLoading" />
                   <mini-statistics-card
-                    v-if="g$user.role === 'ADMIN'"
+                    :hidden="isLoading"
                     role="button"
                     @click="() => $router.push({ name: 'Dosen' })"
                     :style="'margin-left: 70%'"
@@ -341,8 +344,9 @@
                   />
                 </div>
                 <div class="col-lg-6 col-md-6 col-12">
+                  <StatisticCardContentLoader v-if="isLoading" />
                   <mini-statistics-card
-                    v-if="g$user.role === 'ADMIN'"
+                    :hidden="isLoading"
                     role="button"
                     @click="() => $router.push({ name: 'Reviewer' })"
                     :style="'margin-left: 70%'"
@@ -356,8 +360,9 @@
                   />
                 </div>
                 <div class="col-lg-6 col-md-6 col-12">
+                  <StatisticCardContentLoader v-if="isLoading" />
                   <mini-statistics-card
-                    v-if="g$user.role === 'ADMIN'"
+                    :hidden="isLoading"
                     role="button"
                     @click="() => $router.push({ name: 'Pimpinan' })"
                     :style="'margin-left: 70%'"
@@ -386,10 +391,12 @@
         <div class="row mt">
           <div class="col-12">
             <div class="mt-lg-4 mt-0" v-if="g$user.role === 'ADMIN'">
+              <TimelineCardContentLoader v-if="isLoading" :col="12" />
               <timeline-list
                 v-if="listPengumuman != undefined"
                 class="h-100"
                 title="Pengumuman KKN"
+                :hidden="isLoading"
               >
                 <timeline-item
                   v-for="pengumuman in listPengumuman"
@@ -403,8 +410,9 @@
               </timeline-list>
             </div>
           </div>
-          <div class="col-lg-12 col-sm-12 mt-4" v-if="g$user.role === 'ADMIN'">
-            <div class="bg-white card">
+          <div class="col-lg-12 col-sm-12" v-if="g$user.role === 'ADMIN'">
+            <TableContentLoader v-if="isLoading" />
+            <div class="bg-white card mt-4" :hidden="isLoading">
               <!-- Card header -->
               <div class="pb-0 card-header">
                 <div class="d-lg-flex">
@@ -469,6 +477,10 @@ import MembersTable from "@/views/dashboards/components/MembersTable.vue";
 import TimelineList from "@/views/dashboards/components/Cards/TimelineList.vue";
 import TimelineItem from "@/views/dashboards/components/Cards/TimelineItem.vue";
 import HeaderProfileCard from "@/views/dashboards/components/HeaderProfileCard.vue";
+import TableContentLoader from "@/views/dashboards/components/TableContentLoader.vue";
+import StatisticCardContentLoader from "@/views/dashboards/components/StatisticCardContentLoader.vue";
+import TimelineCardContentLoader from "@/views/dashboards/components/TimelineCardContentLoader.vue";
+import CalendarContentLoader from "@/views/dashboards/components/CalendarContentLoader.vue";
 import { mapState, mapActions } from "pinia";
 import d$auth from "@/store/auth";
 import d$wilayah from "@/store/wilayah";
@@ -492,6 +504,10 @@ export default {
     TimelineList,
     TimelineItem,
     HeaderProfileCard,
+    TableContentLoader,
+    StatisticCardContentLoader,
+    TimelineCardContentLoader,
+    CalendarContentLoader,
   },
   data() {
     return {
@@ -503,6 +519,7 @@ export default {
         kabupaten: "",
         provinsi: "",
       },
+      isLoading: true,
       total: {
         temaActive: 0,
         kabupaten: 0,
@@ -543,6 +560,7 @@ export default {
     ...mapState(d$pimpinan, ["g$listPimpinan"]),
   },
   async created() {
+    this.isLoading = true;
     this.moment.locale("id");
 
     switch (this.g$user.role) {
@@ -643,6 +661,10 @@ export default {
       default:
         break;
     }
+
+    setTimeout(() => {
+      this.isLoading = false;
+    }, 100);
   },
   mounted() {
     this.checkError();
@@ -1020,7 +1042,7 @@ export default {
         const dataTableSearch = new DataTable("#location-list", {
           searchable: true,
           fixedHeight: false,
-          perPage: 7,
+          perPage: 5,
         });
 
         document.querySelectorAll(".export").forEach(function (el) {
