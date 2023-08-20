@@ -365,7 +365,11 @@ export default {
 
       try {
         await this.a$listKabupaten(this.id_tema);
-        this.id_kecamatan = this.g$listKecamatan[0]?.id_kecamatan ?? 0;
+        let listKecamatan = [];
+        listKecamatan = this.g$listKecamatan.sort((a, b) =>
+          a.nama > b.nama ? 1 : a.nama < b.nama ? -1 : 0
+        );
+        this.id_kecamatan = listKecamatan[0]?.id_kecamatan ?? 0;
         this.setChoices(this.choicesLokasi, this.g$listKecamatan);
         await this.getListReportase();
       } catch (error) {
