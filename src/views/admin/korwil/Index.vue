@@ -3,7 +3,8 @@
     <div class="row">
       <div class="col-lg-12 mt-lg-0 mt-4">
         <header-profile-card />
-        <div class="bg-white card mt-4">
+        <table-content-loader v-if="isLoading" />
+        <div class="bg-white card mt-4" :hidden="isLoading">
           <!-- Card header -->
           <div class="pb-0 card-header">
             <div class="d-lg-flex">
@@ -204,7 +205,7 @@
                 </thead>
                 <tbody>
                   <tr
-                    v-for="(korwil, index) in g$listKorwil"
+                    v-for="(korwil, index) in listKorwil"
                     :key="korwil.id_korwil"
                   >
                     <td class="text-sm">{{ index + 1 }}</td>
@@ -428,6 +429,7 @@ import $ from "jquery";
 import moment from "moment";
 import { DataTable } from "simple-datatables";
 import HeaderProfileCard from "@/views/dashboards/components/HeaderProfileCard.vue";
+import TableContentLoader from "@/views/dashboards/components/TableContentLoader.vue";
 import { mapActions, mapState } from "pinia";
 import d$korwil from "@/store/korwil";
 
@@ -435,6 +437,7 @@ export default {
   name: "IndexKorwil",
   components: {
     HeaderProfileCard,
+    TableContentLoader,
   },
   data() {
     return {
@@ -442,6 +445,8 @@ export default {
         nama: "",
         nk: "",
       },
+      listKorwil: [],
+      isLoading: true,
       indexComponent: 0,
       dataTable: undefined,
       moment,
@@ -452,8 +457,6 @@ export default {
     ...mapState(d$korwil, ["g$listKorwil"]),
   },
   async created() {
-    this.showLoading(true);
-
     await this.getListKorwil();
   },
   methods: {
@@ -517,7 +520,7 @@ export default {
     },
 
     async getListKorwil() {
-      this.showLoading(true);
+      this.isLoading = true;
 
       this.indexComponent++;
 
@@ -534,10 +537,16 @@ export default {
         );
       }
 
-      this.setupDataTable();
-      this.setupTableAction();
+      this.listKorwil = this.g$listKorwil;
 
-      this.showLoading(false);
+      setTimeout(() => {
+        this.setupDataTable();
+        this.setupTableAction();
+      }, 10);
+
+      setTimeout(() => {
+        this.isLoading = false;
+      }, 400);
     },
 
     async editKorwil(id) {
