@@ -3,7 +3,8 @@
     <div class="row mb-5 mt-4">
       <div class="col-lg-12 mt-lg-0 mt-4">
         <HeaderProfileCard />
-        <div class="bg-white card mt-4">
+        <TwoChoicesContentLoader v-if="isLoadingOnInit" />
+        <div class="bg-white card mt-4" :hidden="isLoadingOnInit">
           <div class="card-header pb-0 pt-3">
             <p class="font-weight-bold text-dark mb-2">
               Pilih Tema KKN Terdaftar
@@ -45,7 +46,8 @@
             </div>
           </div>
         </div>
-        <div class="bg-white card mt-4">
+        <TableContentLoader v-if="isLoading" />
+        <div class="bg-white card mt-4" :hidden="isLoading">
           <!-- Card header -->
           <div class="pb-0 card-header">
             <div class="d-lg-flex">
@@ -83,7 +85,7 @@
                 </thead>
                 <tbody>
                   <tr
-                    v-for="(reportase, i) in g$listReportase"
+                    v-for="(reportase, i) in listReportase"
                     :key="reportase.id_reportase"
                   >
                     <td class="text-sm ps-3">{{ i + 1 }}</td>
@@ -254,6 +256,8 @@ import moment from "moment";
 import { DataTable } from "simple-datatables";
 import Choices from "choices.js";
 import HeaderProfileCard from "@/views/dashboards/components/HeaderProfileCard.vue";
+import TwoChoicesContentLoader from "@/views/dashboards/components/TwoChoicesContentLoader.vue";
+import TableContentLoader from "@/views/dashboards/components/TableContentLoader.vue";
 import { mapActions, mapState } from "pinia";
 import d$tema from "@/store/tema";
 import d$wilayah from "@/store/wilayah";
@@ -263,11 +267,16 @@ export default {
   name: "IndexReportaseMhsAdmin",
   components: {
     HeaderProfileCard,
+    TwoChoicesContentLoader,
+    TableContentLoader,
   },
   data() {
     return {
       id_tema: "",
       id_kecamatan: "",
+      isLoadingOnInit: true,
+      isLoading: true,
+      listReportase: [],
       indexComponent: 0,
       choicesTema: undefined,
       choicesLokasi: undefined,
@@ -281,11 +290,7 @@ export default {
     ...mapState(d$reportase, ["g$listReportase"]),
   },
   async created() {
-    this.showLoading(true);
-
     await this.getInitData();
-
-    this.choicesTema = this.getChoices("choices-tema");
   },
   beforeUnmount() {
     if (this.choicesTema) this.choicesTema.destroy();
@@ -300,13 +305,14 @@ export default {
     ...mapActions(d$wilayah, ["a$listKabupaten"]),
 
     async getInitData() {
+      this.isLoadingOnInit = true;
+
       try {
         await this.a$listTema();
         this.id_tema = this.g$listTema[0].id_tema;
-
         this.choicesLokasi = this.getChoices("choices-lokasi");
-
         await this.getListKecamatan();
+        this.choicesTema = this.getChoices("choices-tema");
       } catch (error) {
         console.log(error);
         let msg = "";
@@ -317,10 +323,14 @@ export default {
           "Terjadi kesalahan saat memuat data! " + msg
         );
       }
+
+      setTimeout(() => {
+        this.isLoadingOnInit = false;
+      }, 50);
     },
 
     async getListReportase() {
-      this.showLoading(true);
+      this.isLoading = true;
 
       this.indexComponent++;
       this.id_kecamatan = parseInt(this.id_kecamatan);
@@ -338,10 +348,16 @@ export default {
         );
       }
 
-      this.setupDataTable();
-      this.setupTableAction();
+      this.listReportase = this.g$listReportase;
 
-      this.showLoading(false);
+      setTimeout(() => {
+        this.setupDataTable();
+        this.setupTableAction();
+      }, 10);
+
+      setTimeout(() => {
+        this.isLoading = false;
+      }, 400);
     },
 
     async getListKecamatan() {
