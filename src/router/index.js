@@ -676,7 +676,7 @@ const routes = [
   },
   // Kelola Mahasiswa
   {
-    path: "/kelola-mhs/pendaftaran",
+    path: "/mahasiswa/pendaftaran",
     name: "Pendaftaran Mahasiswa Admin",
     component: IndexPendaftaranMhsAdmin,
     meta: {
@@ -684,7 +684,7 @@ const routes = [
     },
   },
   {
-    path: "/kelola-mhs/post-test",
+    path: "/mahasiswa/post-test",
     name: "Nilai Post Test Mahasiswa Admin",
     component: IndexNilaiPostTestMhsAdmin,
     meta: {
@@ -692,7 +692,7 @@ const routes = [
     },
   },
   {
-    path: "/kelola-mhs/presensi",
+    path: "/mahasiswa/presensi",
     name: "Presensi Mahasiswa Admin",
     component: IndexPresensiMhsAdmin,
     meta: {
@@ -700,7 +700,7 @@ const routes = [
     },
   },
   {
-    path: "/kelola-mhs/lrk-lpk",
+    path: "/mahasiswa/lrk-lpk",
     name: "LRK & LPK Mahasiswa Admin",
     component: IndexLRKLPKMhsAdmin,
     meta: {
@@ -708,7 +708,7 @@ const routes = [
     },
   },
   {
-    path: "/kelola-mhs/reportase",
+    path: "/mahasiswa/reportase",
     name: "Reportase Mahasiswa Admin",
     component: IndexReportaseMhsAdmin,
     meta: {
@@ -717,7 +717,7 @@ const routes = [
   },
   // Kelola Dosen
   {
-    path: "/kelola-dosen/pendaftaran",
+    path: "/dosen/pendaftaran",
     name: "Pendaftaran Dosen Admin",
     component: IndexPendaftaranDosenAdmin,
     meta: {
@@ -725,7 +725,7 @@ const routes = [
     },
   },
   {
-    path: "/kelola-dosen/pendaftaran/:id_proposal",
+    path: "/dosen/pendaftaran/:id_proposal",
     name: "Detail Pendaftaran Dosen Admin",
     component: DetailPendaftaranDosenAdmin,
     meta: {
@@ -733,7 +733,7 @@ const routes = [
     },
   },
   {
-    path: "/kelola-dosen/pendaftaran/evaluasi/:id_proposal",
+    path: "/dosen/pendaftaran/evaluasi/:id_proposal",
     name: "Evaluasi Proposal",
     component: EditEvaluasiProposalDosen,
     meta: {
@@ -741,7 +741,7 @@ const routes = [
     },
   },
   {
-    path: "/kelola-dosen/pemilihan-mhs",
+    path: "/dosen/pemilihan-mhs",
     name: "Seleksi Mahasiswa",
     component: IndexPemilihanMhsAdmin,
     meta: {
@@ -749,7 +749,7 @@ const routes = [
     },
   },
   {
-    path: "/kelola-dosen/presensi",
+    path: "/dosen/presensi",
     name: "Presensi Dosen Admin",
     component: IndexPresensiDosenAdmin,
     meta: {
@@ -757,7 +757,7 @@ const routes = [
     },
   },
   {
-    path: "/kelola-dosen/nilai-akhir",
+    path: "/dosen/nilai-akhir",
     name: "Nilai Akhir Mahasiswa Admin",
     component: IndexNilaiAkhirMhsAdmin,
     meta: {
