@@ -1,12 +1,17 @@
 <template>
   <div class="card">
     <div class="card-header pt-3 pb-0 font-weight-bold">
-      Daftar Anggota Kelompok
+      Daftar Anggota Kelompok Kecamatan
     </div>
     <div class="table-responsive">
       <table class="table align-items-center mb-0">
         <thead>
           <tr>
+            <th
+              class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"
+            >
+              No.
+            </th>
             <th
               class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"
             >
@@ -32,6 +37,7 @@
         </thead>
         <tbody>
           <tr v-for="(mhs, i) in value" :key="i">
+            <td class="text-sm text-center">{{ i + 1 }}</td>
             <td>
               <div class="d-flex px-2 py-1">
                 <div class="d-flex flex-column justify-content-center">

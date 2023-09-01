@@ -380,12 +380,6 @@
                 </div>
               </div>
             </div>
-            <div class="col-lg-12 col-sm-12 mt-sm-2">
-              <members-table
-                v-if="g$user.role === 'MAHASISWA'"
-                :value="g$kecamatan.mahasiswa"
-              />
-            </div>
           </div>
         </div>
         <div class="row mt">
@@ -409,6 +403,12 @@
                 />
               </timeline-list>
             </div>
+          </div>
+          <div class="col-lg-12 col-sm-12 mt-4">
+            <members-table
+              v-if="g$user.role === 'MAHASISWA'"
+              :value="g$kecamatan.mahasiswa"
+            />
           </div>
           <div class="col-lg-12 col-sm-12" v-if="g$user.role === 'ADMIN'">
             <TableContentLoader v-if="isLoading" />
