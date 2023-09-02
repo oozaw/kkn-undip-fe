@@ -58,13 +58,15 @@
               <div class="my-auto mt-4 ms-auto mt-lg-0">
                 <div class="my-auto ms-auto">
                   <button
-                    class="mt-2 mb-0 btn btn-outline-success btn-sm export-pendaftaran mt-sm-0"
+                    class="mt-2 mb-0 btn btn-outline-success btn-sm mt-sm-0"
                     data-type="csv"
                     type="button"
                     name="button"
+                    @click="exportToExcel()"
                   >
                     Ekspor
                   </button>
+                  <a href="#" hidden id="file-placeholder"></a>
                 </div>
               </div>
             </div>
@@ -317,6 +319,7 @@ import { mapActions, mapState } from "pinia";
 import d$tema from "@/store/tema";
 import d$wilayah from "@/store/wilayah";
 import d$mahasiswa from "@/store/mahasiswa";
+import d$export from "@/store/export";
 
 export default {
   name: "IndexPendaftaranMhsAdmin",
@@ -342,6 +345,7 @@ export default {
     ...mapState(d$tema, ["g$listTema"]),
     ...mapState(d$wilayah, ["g$listKecamatan"]),
     ...mapState(d$mahasiswa, ["g$listMahasiswa"]),
+    ...mapState(d$export, ["g$exportData"]),
   },
   async created() {
     await this.getInitData();
@@ -357,6 +361,7 @@ export default {
       "a$deleteDaftarLokasi",
     ]),
     ...mapActions(d$wilayah, ["a$listKabupaten"]),
+    ...mapActions(d$export, ["a$excelPendaftaranMhsKecamatan"]),
 
     async getInitData() {
       this.isLoadingOnInit = true;
@@ -452,6 +457,44 @@ export default {
         if (error.error && error.error != undefined) msg = error.error;
         else msg = error;
         this.showSwal("failed-message", "Data gagal dihapus! " + msg);
+      }
+    },
+
+    async exportToExcel() {
+      this.showSwal("loading");
+
+      const button = document.getElementById("file-placeholder");
+
+      try {
+        await this.a$excelPendaftaranMhsKecamatan(this.id_kecamatan);
+        const fileURL = window.URL.createObjectURL(
+          new Blob([this.g$exportData], { type: "application/xlsx" })
+        );
+
+        const kecamatan = this.g$listKecamatan.find(
+          (kecamatan) => kecamatan.id_kecamatan == this.id_kecamatan
+        );
+
+        const namaKecamatan = kecamatan.nama;
+        const namaKabupaten = kecamatan.nama_kabupaten;
+
+        let namaTema =
+          document.getElementById("choices-tema").selectedOptions[0].innerHTML;
+
+        namaTema = namaTema.replace(/\//g, "-");
+
+        button.href = fileURL;
+        button.download = `Data Pendaftaran Mahasiswa Kec. ${namaKecamatan}, Kab. ${namaKabupaten} - ${namaTema}.xlsx`;
+
+        button.click();
+
+        this.showSwal("close");
+      } catch (error) {
+        console.log(error);
+        let msg = "";
+        if (error.error && error.error != undefined) msg = error.error;
+        else msg = error;
+        this.showSwal("failed-message", "Data gagal diunduh! " + msg);
       }
     },
 

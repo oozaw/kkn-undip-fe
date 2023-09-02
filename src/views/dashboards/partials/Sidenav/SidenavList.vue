@@ -51,7 +51,7 @@
             :collapse="false"
             url="#"
             :aria-controls="''"
-            collapse-ref="/kelola-dosen/pendaftaran"
+            collapse-ref="/dosen/pendaftaran"
             :class="getRoute2() === 'pendaftaran' ? 'active' : ''"
           >
             <template #icon>
@@ -259,9 +259,9 @@
       <!-- Kelola Mahasiswa -->
       <li class="nav-item" v-if="a$checkAuth(['ADMIN'])">
         <sidenav-collapse
-          collapse-ref="kelola-mhs"
+          collapse-ref="mahasiswa"
           nav-text="Kelola Mahasiswa"
-          :class="getRoute() === 'kelola-mhs' ? 'active' : ''"
+          :class="getRoute() === 'mahasiswa' ? 'active' : ''"
         >
           <template #icon>
             <font-awesome-icon
@@ -274,7 +274,7 @@
               <!-- nav links -->
               <sidenav-item
                 :isActive="
-                  getRoute2() === 'pendaftaran' && getRoute() === 'kelola-mhs'
+                  getRoute2() === 'pendaftaran' && getRoute() === 'mahasiswa'
                 "
                 :to="{ name: 'Pendaftaran Mahasiswa Admin' }"
                 mini-icon="P"
@@ -288,7 +288,7 @@
               /> -->
               <!-- <sidenav-item
                 :isActive="
-                  getRoute2() === 'presensi' && getRoute() === 'kelola-mhs'
+                  getRoute2() === 'presensi' && getRoute() === 'mahasiswa'
                 "
                 :to="{ name: 'Presensi Mahasiswa Admin' }"
                 mini-icon="P"
@@ -314,9 +314,9 @@
       <!-- Kelola Dosen -->
       <li class="nav-item" v-if="a$checkAuth(['ADMIN'])">
         <sidenav-collapse
-          collapse-ref="kelola-dosen"
+          collapse-ref="dosen"
           nav-text="Kelola Dosen"
-          :class="getRoute() === 'kelola-dosen' ? 'active' : ''"
+          :class="getRoute() === 'dosen' ? 'active' : ''"
         >
           <template #icon>
             <font-awesome-icon
@@ -329,7 +329,7 @@
               <!-- nav links -->
               <sidenav-item
                 :isActive="
-                  getRoute2() === 'pendaftaran' && getRoute() === 'kelola-dosen'
+                  getRoute2() === 'pendaftaran' && getRoute() === 'dosen'
                 "
                 :to="{ name: 'Pendaftaran Dosen Admin' }"
                 mini-icon="P"
@@ -343,7 +343,7 @@
               />
               <!-- <sidenav-item
                 :isActive="
-                  getRoute2() === 'presensi' && getRoute() === 'kelola-dosen'
+                  getRoute2() === 'presensi' && getRoute() === 'dosen'
                 "
                 :to="{ name: 'Presensi Dosen Admin' }"
                 mini-icon="P"
