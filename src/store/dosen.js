@@ -20,6 +20,17 @@ const d$dosen = defineStore("dosenStore", {
       }
     },
 
+    async a$listDosenTema(id_tema) {
+      try {
+        const { data, status } = await s$dosen.listDosenTema(id_tema);
+        this.listDosen = data ?? [];
+        this.status = status;
+      } catch ({ message, error }) {
+        this.status = false;
+        throw message ?? error;
+      }
+    },
+
     async a$getDosen(id_dosen) {
       try {
         const { data, status } = await s$dosen.getDosen(id_dosen);

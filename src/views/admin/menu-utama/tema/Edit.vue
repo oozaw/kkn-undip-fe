@@ -6,7 +6,7 @@
           <template #button>
             <argon-button
               type="button"
-              :onclick="() => $router.push({ name: 'Tema KKN' })"
+              :onclick="() => $router.go(-1)"
               class="mb-0 me-2"
               color="secondary"
               size="sm"
@@ -87,12 +87,12 @@
                   <div class="col-12">
                     <label class="form-label mt-4">Lokasi Kabupaten</label>
                     <input
-                      class="form-control"
                       id="kabupaten"
+                      v-model="body.kab"
+                      class="form-control"
                       name="kabupaten"
                       type="text"
                       placeholder="Masukkan kabupaten"
-                      v-model="body.kab"
                       :isRequired="true"
                     />
                   </div>
@@ -206,7 +206,7 @@ export default {
 
       try {
         await this.a$editTema(this.idTema, input);
-        this.$router.push({ name: "Tema KKN" });
+        this.$router.go(-1);
         this.showSwal("success-message", "Tema KKN berhasil disimpan!");
       } catch (error) {
         console.log(error);

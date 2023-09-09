@@ -4,6 +4,9 @@ const api = `/`;
 
 const listMahasiswa = () => baseApi.get(`${api}mahasiswa`);
 
+const listMahasiswaTema = (id_tema) =>
+  baseApi.get(`${api}mahasiswa/tema/${id_tema}`);
+
 const listMahasiswaUnregistered = () =>
   baseApi.get(`${api}mahasiswa/unregistered`);
 
@@ -51,6 +54,7 @@ const deleteMahasiswa = (id_mahasiswa) =>
 
 export {
   listMahasiswa,
+  listMahasiswaTema,
   listMahasiswaUnregistered,
   listMahasiswaRegistered,
   listMahasiswaAccepted,

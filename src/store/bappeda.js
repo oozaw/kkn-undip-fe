@@ -21,6 +21,17 @@ const d$bappeda = defineStore("bappedaStore", {
       }
     },
 
+    async a$listBappedaTema(id_tema) {
+      try {
+        const { data, status } = await s$bappeda.listBappedaTema(id_tema);
+        this.listBappeda = data ?? [];
+        this.status = status;
+      } catch ({ message, error }) {
+        this.status = false;
+        throw message ?? error;
+      }
+    },
+
     async a$getBappeda(id_bappeda) {
       try {
         const { data, status } = await s$bappeda.getBappeda(id_bappeda);

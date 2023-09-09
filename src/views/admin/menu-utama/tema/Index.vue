@@ -19,14 +19,14 @@
                     :to="{ name: 'Tambah Tema KKN' }"
                     >+&nbsp; Daftarkan KKN Baru
                   </router-link>
-                  <button
+                  <!-- <button
                     class="mt-1 mb-0 btn btn-outline-success btn-sm export mt-sm-0"
                     data-type="csv"
                     type="button"
                     name="button"
                   >
                     Ekspor
-                  </button>
+                  </button> -->
                 </div>
               </div>
             </div>
@@ -140,10 +140,11 @@
                     </td>
                     <td class="text-sm">
                       <a
-                        type="button"
-                        class="mb-0 me-3 text-primary"
-                        data-bs-toggle="modal"
-                        :data-bs-target="'#detail_' + tema.id_tema"
+                        href="#"
+                        :id="tema.id_tema"
+                        class="me-3 detail"
+                        data-bs-toggle="tooltip"
+                        data-bs-original-title="Detail Tema"
                         title="Detail Tema"
                       >
                         <i class="fas fa-eye text-info"></i>
@@ -405,6 +406,16 @@ export default {
         e.preventDefault();
       });
 
+      // detail
+      $("#kkn-list").on("click", `.detail`, function (e) {
+        let tema = this;
+        outerThis.$router.push({
+          name: "Detail Tema KKN",
+          params: { id_tema: tema.id },
+        });
+        e.preventDefault();
+      });
+
       // edit
       $("#kkn-list").on("click", `.edit`, function (e) {
         let tema = this;
@@ -420,7 +431,7 @@ export default {
         let tema = this;
         outerThis.showSwal(
           "warning-confirmation",
-          `Menghapus tema ${tema.name}?`,
+          `Menghapus tema ${tema.name}? Semua data terkait tema ini akan dihapus!`,
           "Berhasil menghapus data",
           tema.id,
           true

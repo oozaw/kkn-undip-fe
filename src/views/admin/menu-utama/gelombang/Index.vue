@@ -126,14 +126,15 @@
                       </div>
                     </div>
                   </div>
-                  <button
+                  <!-- Ekspor Button -->
+                  <!-- <button
                     class="mt-1 mb-0 btn btn-outline-success btn-sm export mt-sm-0"
                     data-type="csv"
                     type="button"
                     name="button"
                   >
                     Ekspor
-                  </button>
+                  </button> -->
                 </div>
               </div>
             </div>

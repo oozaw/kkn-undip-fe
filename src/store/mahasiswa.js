@@ -20,6 +20,17 @@ const d$mahasiswa = defineStore("mahasiswaStore", {
       }
     },
 
+    async a$listMahasiswaTema(id_tema) {
+      try {
+        const { data, status } = await s$mahasiswa.listMahasiswaTema(id_tema);
+        this.listMahasiswa = data ?? [];
+        this.status = status;
+      } catch ({ message, error }) {
+        this.status = false;
+        throw message ?? error;
+      }
+    },
+
     async a$listMahasiswaUnregistered() {
       try {
         const { data, status } = await s$mahasiswa.listMahasiswaUnregistered();
