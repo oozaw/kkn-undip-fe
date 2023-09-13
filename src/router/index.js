@@ -135,6 +135,7 @@ import IndexPemilihanMhsAdmin from "../views/admin/kelola-dosen/pemilihan-mhs/In
 import IndexPresensiDosenAdmin from "../views/admin/kelola-dosen/presensi/Index.vue";
 import IndexNilaiAkhirMhsAdmin from "../views/admin/kelola-dosen/nilai-akhir-mhs/Index.vue";
 import IndexKorwil from "../views/admin/korwil/Index.vue";
+import IndexExport from "../views/export/Index.vue";
 
 const routes = [
   {
@@ -771,6 +772,14 @@ const routes = [
     component: IndexNilaiAkhirMhsAdmin,
     meta: {
       requiresAuth: [Role.admin],
+    },
+  },
+  {
+    path: "/export",
+    name: "Export",
+    component: IndexExport,
+    meta: {
+      requiresAuth: [Role.admin, Role.dosen],
     },
   },
 

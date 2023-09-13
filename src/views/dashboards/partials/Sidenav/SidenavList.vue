@@ -526,6 +526,26 @@
         </sidenav-collapse>
       </li>
 
+      <!-- Export -->
+      <li class="nav-item">
+        <router-link :to="{ name: 'Export' }">
+          <sidenav-collapse
+            nav-text="Ekspor Area"
+            collapse-ref=""
+            :collapse="false"
+            url="#"
+            :aria-controls="''"
+            :class="getRoute() === 'export' ? 'active' : ''"
+          >
+            <template #icon>
+              <i
+                class="ni ni-single-copy-04 text-success text-sm opacity-10"
+              ></i>
+            </template>
+          </sidenav-collapse>
+        </router-link>
+      </li>
+
       <!-- Download Area -->
       <!-- <li class="nav-item">
         <router-link :to="{ name: 'Mahasiswa' }">
