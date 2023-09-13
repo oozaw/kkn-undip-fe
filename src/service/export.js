@@ -8,7 +8,7 @@ const excelPendaftaranMhsKecamatan = (id_kecamatan) =>
   });
 
 const excelNilaiMhsKecamatan = (id_kecamatan) =>
-  baseApi.get(`${api}excel/nilai/mahasiswa/${id_kecamatan}`, {
+  baseApi.get(`${api}excel/nilai/${id_kecamatan}`, {
     responseType: "blob",
   });
 
@@ -16,5 +16,9 @@ const excelPendaftaranDosenTema = (id_tema) =>
   baseApi.get(`${api}excel/pendaftaran/dosen/${id_tema}`, {
     responseType: "blob",
   });
-  
-export { excelPendaftaranMhsKecamatan, excelNilaiMhsKecamatan, excelPendaftaranDosenTema };
+
+export {
+  excelPendaftaranMhsKecamatan,
+  excelNilaiMhsKecamatan,
+  excelPendaftaranDosenTema,
+};

@@ -19,7 +19,7 @@ const d$export = defineStore("exportStore", {
       }
     },
 
-    async a$excelPendafataranDosenTema(id_tema) {
+    async a$excelPendaftaranDosenTema(id_tema) {
       try {
         const data = await s$export.excelPendaftaranDosenTema(id_tema);
         this.exports = data ?? null;
