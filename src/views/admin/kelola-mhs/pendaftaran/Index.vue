@@ -343,7 +343,7 @@ export default {
   },
   computed: {
     ...mapState(d$tema, ["g$listTema"]),
-    ...mapState(d$wilayah, ["g$listKecamatan"]),
+    ...mapState(d$wilayah, ["g$listKecamatanAccepted"]),
     ...mapState(d$mahasiswa, ["g$listMahasiswa"]),
     ...mapState(d$export, ["g$exportData"]),
   },
@@ -427,11 +427,11 @@ export default {
       try {
         await this.a$listKabupaten(this.id_tema);
         let listKecamatan = [];
-        listKecamatan = this.g$listKecamatan.sort((a, b) =>
+        listKecamatan = this.g$listKecamatanAccepted.sort((a, b) =>
           a.nama > b.nama ? 1 : a.nama < b.nama ? -1 : 0
         );
         this.id_kecamatan = listKecamatan[0]?.id_kecamatan ?? 0;
-        this.setChoices(this.choicesLokasi, this.g$listKecamatan);
+        this.setChoices(this.choicesLokasi, this.g$listKecamatanAccepted);
         await this.getListMahasiswa();
       } catch (error) {
         console.log(error);
@@ -471,7 +471,7 @@ export default {
           new Blob([this.g$exportData], { type: "application/xlsx" })
         );
 
-        const kecamatan = this.g$listKecamatan.find(
+        const kecamatan = this.g$listKecamatanAccepted.find(
           (kecamatan) => kecamatan.id_kecamatan == this.id_kecamatan
         );
 
