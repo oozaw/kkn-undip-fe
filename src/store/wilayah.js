@@ -47,6 +47,12 @@ const d$wilayah = defineStore("wilayahStore", {
           });
         });
         this.listKecamatan = dataKecamatan;
+        this.listKecamatanAccepted = [];
+        dataKecamatan.forEach((kec) => {
+          if (kec.status == 1) {
+            this.listKecamatanAccepted.push(kec);
+          }
+        });
         this.status = status;
       } catch (error) {
         this.status = false;
