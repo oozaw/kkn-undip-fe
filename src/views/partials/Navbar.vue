@@ -5,7 +5,7 @@
     :class="isBlur ? isBlur : 'shadow-none my-2 navbar-transparent w-100'"
   >
     <div class="container ps-1 pe-0">
-      <router-link class="navbar-brand ms-lg-0 me-0 w-25" to="/home">
+      <span class="navbar-brand ms-lg-0 me-0 w-25">
         <img
           :src="logo"
           class="navbar-brand-img"
@@ -18,7 +18,7 @@
         >
           KKN Universitas Diponegoro
         </span>
-      </router-link>
+      </span>
       <button
         class="shadow-none navbar-toggler ms-2"
         type="button"
@@ -34,7 +34,7 @@
           <span class="navbar-toggler-bar bar3"></span>
         </span>
       </button>
-      <div
+      <!-- <div
         id="navigation"
         class="pt-3 pb-2 collapse navbar-collapse w-100 py-lg-0"
       >
@@ -48,7 +48,7 @@
             >
           </li>
         </ul>
-      </div>
+      </div> -->
     </div>
   </nav>
   <!-- End Navbar -->
