@@ -18,6 +18,28 @@ const d$export = defineStore("exportStore", {
         throw message ?? error;
       }
     },
+
+    async a$excelPendafataranDosenTema(id_tema) {
+      try {
+        const data = await s$export.excelPendaftaranDosenTema(id_tema);
+        this.exports = data ?? null;
+        this.status = true;
+      } catch ({ message, error }) {
+        this.status = false;
+        throw message ?? error;
+      }
+    },
+
+    async a$excelNilaiMhsKecamatan(id_kecamatan) {
+      try {
+        const data = await s$export.excelNilaiMhsKecamatan(id_kecamatan);
+        this.exports = data ?? null;
+        this.status = true;
+      } catch ({ message, error }) {
+        this.status = false;
+        throw message ?? error;
+      }
+    },
   },
   getters: {
     g$exportData: ({ exports }) => exports,
