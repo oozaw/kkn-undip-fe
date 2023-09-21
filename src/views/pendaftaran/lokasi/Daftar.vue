@@ -54,7 +54,7 @@
                       </select>
                     </div>
                   </div> -->
-                  <div class="row mt-3">
+                  <div class="row">
                     <div class="col-12 align-self-center">
                       <label class="form-label mt-2">Kabupaten</label>
                       <select
@@ -97,6 +97,73 @@
                     <span id="potensi" class="" v-html="kec.potensi"></span>
                   </div>
                 </div>
+                <div class="col-12 ms-md-2 pe-1">
+                  <div class="d-flex">
+                    <label class="form-label">Indikator Pendaftar:</label>
+                    <span id="indikator-label" class="cursor-pointer">
+                      <font-awesome-icon
+                        class="text-black ms-1 mt-1"
+                        icon="fa-regular fa-circle-question"
+                      />
+                    </span>
+                    <div
+                      class="text-sm ms-8 mt-5 position-absolute bg-white border p-3 rounded rounded-4 p-2 shadow-sm hide"
+                    >
+                      Merupakan indikator jumlah mahasiswa yang telah mendaftar
+                      pada kecamatan yang dipilih. Dari hijau (paling besar
+                      kemungkinan diterima) hingga merah (paling kecil
+                      kemungkinan diterima).
+                      <div class="row justify-content-center mt-2">
+                        <img
+                          class="width-64-px mx-4"
+                          :src="greenIndicator"
+                          alt="green-indicator"
+                        />
+                        <img
+                          class="width-64-px mx-4"
+                          :src="yellowIndicator"
+                          alt="yellow-indicator"
+                        />
+                        <img
+                          class="width-64-px mx-4"
+                          :src="orangeIndicator"
+                          alt="orange-indicator"
+                        />
+                        <img
+                          class="width-64-px mx-4"
+                          :src="redIndicator"
+                          alt="red-indicator"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row ms-1 text-md">
+                    <img
+                      v-if="kec.jumlah_pendaftar <= 80"
+                      class="width-64-px"
+                      :src="greenIndicator"
+                      alt="green-indicator"
+                    />
+                    <img
+                      v-else-if="kec.jumlah_pendaftar <= 100"
+                      class="width-64-px"
+                      :src="yellowIndicator"
+                      alt="yellow-indicator"
+                    />
+                    <img
+                      v-else-if="kec.jumlah_pendaftar <= 150"
+                      class="width-64-px"
+                      :src="orangeIndicator"
+                      alt="orange-indicator"
+                    />
+                    <img
+                      v-else-if="kec.jumlah_pendaftar > 150"
+                      class="width-64-px"
+                      :src="redIndicator"
+                      alt="red-indicator"
+                    />
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -106,6 +173,15 @@
     </div>
   </div>
 </template>
+
+<style scoped>
+.hide {
+  display: none;
+}
+#indikator-label:hover + .hide {
+  display: block;
+}
+</style>
 
 <script>
 import * as Choices from "choices.js";
@@ -118,6 +194,10 @@ import d$wilayah from "@/store/wilayah";
 import d$gelombang from "@/store/gelombang";
 import d$tema from "@/store/tema";
 import d$halaman from "@/store/halaman";
+import redIndicator from "@/assets/img/shapes/red-circle.png";
+import greenIndicator from "@/assets/img/shapes/green-circle.png";
+import yellowIndicator from "@/assets/img/shapes/yellow-circle.png";
+import orangeIndicator from "@/assets/img/shapes/orange-circle.png";
 
 export default {
   name: "DaftarLokasi",
@@ -143,10 +223,14 @@ export default {
       tema: "",
       gelombang: "",
       listKecamatan: [],
+      redIndicator,
+      greenIndicator,
+      yellowIndicator,
+      orangeIndicator,
     };
   },
   computed: {
-    ...mapState(d$wilayah, ["g$listKabupaten", "g$listKecamatan"]),
+    ...mapState(d$wilayah, ["g$listKabupaten", "g$listKecamatanAccepted"]),
     ...mapState(d$gelombang, ["g$listGelombang"]),
     ...mapState(d$tema, ["g$listTemaActive"]),
     ...mapState(d$halaman, ["g$statusHalaman"]),
@@ -231,7 +315,7 @@ export default {
     },
 
     async getPotensi() {
-      await this.g$listKecamatan.forEach((kecamatan) => {
+      await this.g$listKecamatanAccepted.forEach((kecamatan) => {
         if (kecamatan.id_kecamatan == this.body.id_kecamatan) {
           this.kec = kecamatan;
         }
@@ -243,7 +327,7 @@ export default {
       this.kab = parseInt(this.kab);
 
       try {
-        await this.g$listKecamatan.forEach((kecamatan) => {
+        await this.g$listKecamatanAccepted.forEach((kecamatan) => {
           if (kecamatan.id_kabupaten === this.kab && kecamatan.status === 1) {
             this.listKecamatan.push(kecamatan);
           }

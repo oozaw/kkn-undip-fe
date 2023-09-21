@@ -1,5 +1,8 @@
 // icon
-import { faSquareCheck as farSquareCheck } from "@fortawesome/free-regular-svg-icons";
+import {
+  faSquareCheck as farSquareCheck,
+  faCircleQuestion,
+} from "@fortawesome/free-regular-svg-icons";
 import {
   faUsers,
   faUsersRays,
@@ -45,6 +48,7 @@ const icon = [
   faClone,
   faArrowLeft,
   faUpRightFromSquare,
+  faCircleQuestion,
 ];
 
 export default icon;
