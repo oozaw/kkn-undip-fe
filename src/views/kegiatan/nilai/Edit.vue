@@ -376,7 +376,7 @@ export default {
         this.body.tugas * (50 / 100) +
         this.body.uts * (25 / 100) +
         this.body.uas * (25 / 100)
-      ).toFixed;
+      ).toFixed(2);
     },
 
     getNilaiTugas() {
