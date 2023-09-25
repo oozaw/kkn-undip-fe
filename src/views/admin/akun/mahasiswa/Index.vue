@@ -428,7 +428,7 @@ export default {
       // tema: "1",
       body: {
         file: "",
-        id_periode: "",
+        // id_periode: "",
       },
       dataTable: undefined,
       moment,
@@ -483,13 +483,12 @@ export default {
       this.showSwal("loading");
 
       this.body.file = this.$refs.file.files[0];
-      this.body.id_periode = this.tema;
-      this.indexComponent++;
+      // this.body.id_periode = this.tema;
       document.getElementById("button-close-modal").click();
 
       try {
         await this.a$importMahasiswa(this.body);
-        await this.a$listMahasiswa();
+        await this.getListMahasiswa();
         this.showSwal("success-message", "Data mahasiswa berhasil diimpor!");
       } catch (error) {
         console.log(error);
