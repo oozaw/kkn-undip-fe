@@ -51,6 +51,96 @@
               <div class="my-auto mt-4 ms-auto mt-lg-0">
                 <div class="my-auto ms-auto">
                   <button
+                    type="button"
+                    class="mx-2 mb-0 btn btn-primary btn-sm"
+                    data-bs-toggle="modal"
+                    data-bs-target="#import-nilai"
+                  >
+                    Impor
+                  </button>
+                  <div
+                    id="import-nilai"
+                    class="modal fade"
+                    tabindex="-1"
+                    aria-hidden="true"
+                    :key="indexComponent"
+                  >
+                    <div class="modal-dialog mt-lg-10">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h5 id="ModalLabel" class="modal-title text-wrap">
+                            Impor Data Nilai Mahasiswa via File Excel
+                          </h5>
+                          <i class="fas fa-upload ms-3"></i>
+                          <button
+                            type="button"
+                            class="btn-close"
+                            data-bs-dismiss="modal"
+                            aria-label="Close"
+                          ></button>
+                        </div>
+                        <div class="modal-body">
+                          <p class="mb-1">
+                            Silahkan download dan isi format file di bawah ini!
+                          </p>
+                          <button
+                            class="btn btn-success d-inline-block"
+                            type="button"
+                            name="button"
+                            @click="downloadFormatImport()"
+                          >
+                            <font-awesome-icon
+                              class="me-1"
+                              icon="fa-solid fa-file-arrow-down"
+                            />
+                            Download Format File
+                          </button>
+                          <a href="#" id="file-placeholder" hidden></a>
+                          <form
+                            role="form"
+                            id="form-import-nilai"
+                            enctype="multipart/form-data"
+                            @submit.prevent="importNilai()"
+                          >
+                            <input
+                              id="file"
+                              name="file"
+                              ref="file"
+                              type="file"
+                              placeholder="Browse file..."
+                              class="mb-1 form-control"
+                              required
+                            />
+                          </form>
+                          <div>
+                            <small class="text-danger text-sm-start">
+                              <i class="fas fa-info-circle"></i>
+                              File yang diizinkan hanya file excel dengan
+                              ekstensi .xls atau .xlsx
+                            </small>
+                          </div>
+                        </div>
+                        <div class="modal-footer">
+                          <button
+                            id="button-close-modal"
+                            type="button"
+                            class="btn bg-gradient-secondary btn-sm"
+                            data-bs-dismiss="modal"
+                          >
+                            Batal
+                          </button>
+                          <button
+                            form="form-import-nilai"
+                            type="submit"
+                            class="btn bg-gradient-primary btn-sm"
+                          >
+                            Unggah
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <button
                     :key="indexComponent"
                     class="mt-1 mb-0 btn btn-outline-success btn-sm export mt-sm-0"
                     data-type="csv"
@@ -356,6 +446,9 @@ export default {
       kecamatan: "",
       id_tema: 0,
       id_kecamatan: 0,
+      body: {
+        file: "",
+      },
       choicesTema: undefined,
       choicesKec: undefined,
       loader: undefined,
@@ -363,8 +456,8 @@ export default {
   },
   computed: {
     ...mapState(d$tema, ["g$listTema"]),
-    ...mapState(d$nilai, ["g$listNilai", "a$resetNilai"]),
-    ...mapState(d$proposal, ["g$listProposal"]),
+    ...mapState(d$nilai, ["g$listNilai", "g$formatFile"]),
+    ...mapState(d$proposal, ["g$listProposalAccepted"]),
   },
   async created() {
     this.showLoading(true);
@@ -381,7 +474,12 @@ export default {
   },
   methods: {
     ...mapActions(d$tema, ["a$listTemaDosen"]),
-    ...mapActions(d$nilai, ["a$listNilaiKecamatan"]),
+    ...mapActions(d$nilai, [
+      "a$listNilaiKecamatan",
+      "a$resetNilai",
+      "a$downloadFormatImport",
+      "a$importNilai",
+    ]),
     ...mapActions(d$proposal, ["a$listProposalDosen"]),
 
     async getInitData() {
@@ -409,8 +507,8 @@ export default {
 
       try {
         await this.a$listProposalDosen(this.id_tema);
-        this.id_kecamatan = this.g$listProposal[0]?.id_kecamatan ?? 0;
-        this.setChoices(this.choicesKec, this.g$listProposal);
+        this.id_kecamatan = this.g$listProposalAccepted[0]?.id_kecamatan ?? 0;
+        this.setChoices(this.choicesKec, this.g$listProposalAccepted);
         await this.getListNilai();
       } catch (error) {
         console.log(error);
@@ -465,6 +563,64 @@ export default {
           "failed-message",
           "Terjadi kesalahan saat mereset nilai! " + msg
         );
+      }
+    },
+
+    async importNilai() {
+      this.showSwal("loading");
+
+      this.body.file = this.$refs.file.files[0];
+      this.indexComponent++;
+      document.getElementById("button-close-modal").click();
+
+      try {
+        await this.a$importNilai(this.body);
+        await this.getListNilai();
+        this.showSwal("success-message", "Data nilai berhasil diimpor!");
+      } catch (error) {
+        console.log(error);
+        let msg = "";
+        if (error.error && error.error != undefined) msg = error.error;
+        else msg = error;
+        this.showSwal("failed-message", "Data gagal diimpor! " + msg);
+      }
+    },
+
+    async downloadFormatImport() {
+      this.showSwal("loading");
+
+      const button = document.getElementById("file-placeholder");
+
+      try {
+        await this.a$downloadFormatImport(this.id_kecamatan);
+        const fileURL = window.URL.createObjectURL(
+          new Blob([this.g$formatFile], { type: "application/xlsx" })
+        );
+
+        const proposal = this.g$listProposalAccepted.find(
+          (proposal) => proposal.id_kecamatan == this.id_kecamatan
+        );
+
+        const namaKecamatan = proposal.kecamatan.nama;
+        const namaKabupaten = proposal.kecamatan.kabupaten.nama;
+
+        let namaTema =
+          document.getElementById("choices-tema").selectedOptions[0].innerHTML;
+
+        namaTema = namaTema.replace(/\//g, "-");
+
+        button.href = fileURL;
+        button.download = `Format Impor Nilai Mahasiswa Kec. ${namaKecamatan}, Kab. ${namaKabupaten} - ${namaTema}.xlsx`;
+
+        button.click();
+
+        this.showSwal("close");
+      } catch (error) {
+        console.log(error);
+        let msg = "";
+        if (error.error && error.error != undefined) msg = error.error;
+        else msg = error;
+        this.showSwal("failed-message", "Data gagal diunduh! " + msg);
       }
     },
 

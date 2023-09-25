@@ -7,6 +7,7 @@ const d$nilai = defineStore("nilaiStore", {
     listNilai: [],
     nilai: {},
     status: null,
+    formatFile: null,
   }),
   actions: {
     async a$listNilaiKecamatan(id_kecamatan) {
@@ -50,10 +51,32 @@ const d$nilai = defineStore("nilaiStore", {
         throw error;
       }
     },
+
+    async a$downloadFormatImport(id_kecamatan) {
+      try {
+        const data = await s$nilai.downloadFormatImport(id_kecamatan);
+        this.formatFile = data ?? null;
+        this.status = true;
+      } catch ({ message, error }) {
+        this.status = false;
+        throw message ?? error;
+      }
+    },
+
+    async a$importNilai(body) {
+      try {
+        const status = await s$nilai.importNilai(body);
+        this.status = status;
+      } catch (error) {
+        this.status = false;
+        throw error;
+      }
+    },
   },
   getters: {
     g$listNilai: ({ listNilai }) => listNilai,
     g$nilai: ({ nilai }) => nilai,
+    g$formatFile: ({ formatFile }) => formatFile,
   },
 });
 

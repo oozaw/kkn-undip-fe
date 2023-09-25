@@ -11,4 +11,23 @@ const editNilai = (body) => baseApi.put(`${api}nilai/`, body);
 
 const resetNilai = (id_nilai) => baseApi.put(`${api}nilai/reset/${id_nilai}`);
 
-export { listNilaiKecamatan, getNilai, editNilai, resetNilai };
+const downloadFormatImport = (id_kecamatan) =>
+  baseApi.get(`${api}nilai/import/${id_kecamatan}`, {
+    responseType: "blob",
+  });
+
+const importNilai = (body) =>
+  baseApi.post(`${api}nilai/import`, body, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  });
+
+export {
+  listNilaiKecamatan,
+  getNilai,
+  editNilai,
+  resetNilai,
+  downloadFormatImport,
+  importNilai,
+};

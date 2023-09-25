@@ -7,6 +7,7 @@ const d$proposal = defineStore("proposalStore", {
     status: null,
     proposal: undefined,
     listProposal: [],
+    listProposalAccepted: [],
   }),
   actions: {
     async a$getProposal(id_proposal) {
@@ -23,6 +24,12 @@ const d$proposal = defineStore("proposalStore", {
       try {
         const { data, status } = await s$proposal.listProposal(id_tema);
         this.listProposal = data ?? [];
+        this.listProposalAccepted = [];
+        data.forEach((proposal) => {
+          if (proposal.status == 1) {
+            this.listProposalAccepted.push(proposal);
+          }
+        });
         this.status = status;
       } catch (error) {
         this.status = false;
@@ -34,6 +41,12 @@ const d$proposal = defineStore("proposalStore", {
       try {
         const { data, status } = await s$proposal.listAllProposalDosen();
         this.listProposal = data ?? [];
+        this.listProposalAccepted = [];
+        data.forEach((proposal) => {
+          if (proposal.status == 1) {
+            this.listProposalAccepted.push(proposal);
+          }
+        });
         this.status = status;
       } catch (error) {
         this.status = false;
@@ -45,6 +58,12 @@ const d$proposal = defineStore("proposalStore", {
       try {
         const { data, status } = await s$proposal.listProposalDosen(id_tema);
         this.listProposal = data ?? [];
+        this.listProposalAccepted = [];
+        data.forEach((proposal) => {
+          if (proposal.status == 1) {
+            this.listProposalAccepted.push(proposal);
+          }
+        });
         this.status = status;
       } catch (error) {
         this.status = false;
@@ -105,6 +124,7 @@ const d$proposal = defineStore("proposalStore", {
   getters: {
     g$proposal: ({ proposal }) => proposal,
     g$listProposal: ({ listProposal }) => listProposal,
+    g$listProposalAccepted: ({ listProposalAccepted }) => listProposalAccepted,
   },
 });
 
