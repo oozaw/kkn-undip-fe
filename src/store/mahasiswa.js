@@ -7,6 +7,7 @@ const d$mahasiswa = defineStore("mahasiswaStore", {
     listMahasiswa: [],
     mahasiswa: null,
     status: null,
+    formatFile: null,
   }),
   actions: {
     async a$listMahasiswa() {
@@ -194,10 +195,22 @@ const d$mahasiswa = defineStore("mahasiswaStore", {
         throw message ?? error;
       }
     },
+
+    async a$downloadFormatImport() {
+      try {
+        const data = await s$mahasiswa.downloadFormatImport();
+        this.formatFile = data ?? null;
+        this.status = true;
+      } catch ({ message, error }) {
+        this.status = false;
+        throw message ?? error;
+      }
+    },
   },
   getters: {
     g$listMahasiswa: ({ listMahasiswa }) => listMahasiswa,
     g$mahasiswa: ({ mahasiswa }) => mahasiswa,
+    g$formatFile: ({ formatFile }) => formatFile,
   },
 });
 

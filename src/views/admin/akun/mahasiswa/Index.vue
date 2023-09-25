@@ -52,17 +52,19 @@
                           <p class="mb-1">
                             Silahkan download dan isi format file di bawah ini!
                           </p>
-                          <a
-                            href="../others/Format Import Mahasiswa - KKN UNDIP.xlsx"
-                            target="_blank"
+                          <button
+                            type="button"
+                            name="button"
                             class="btn btn-success d-inline-block"
+                            @click="downloadFormatImport()"
                           >
                             <font-awesome-icon
                               class="me-1"
                               icon="fa-solid fa-file-arrow-down"
                             />
                             Download Format File
-                          </a>
+                          </button>
+                          <a href="#" id="file-placeholder" hidden></a>
                           <form
                             role="form"
                             id="form-import-mhs"
@@ -418,7 +420,7 @@ export default {
     TableContentLoader,
   },
   computed: {
-    ...mapState(d$mahasiswa, ["g$listMahasiswa"]),
+    ...mapState(d$mahasiswa, ["g$listMahasiswa", "g$formatFile"]),
   },
   data() {
     return {
@@ -445,6 +447,7 @@ export default {
       "a$listMahasiswa",
       "a$importMahasiswa",
       "a$deleteMahasiswa",
+      "a$downloadFormatImport",
     ]),
 
     async getListMahasiswa() {
@@ -501,6 +504,35 @@ export default {
 
       this.setupDataTable();
       this.setupTableAction();
+    },
+
+    async downloadFormatImport() {
+      this.showSwal("loading");
+
+      const button = document.getElementById("file-placeholder");
+
+      try {
+        await this.a$downloadFormatImport();
+        const fileURL = window.URL.createObjectURL(
+          new Blob([this.g$formatFile], { type: "application/xlsx" })
+        );
+
+        button.href = fileURL;
+        button.download = `Format Impor Mahasiswa - KKN UNDIP.xlsx`;
+
+        button.click();
+
+        this.showSwal("close");
+      } catch (error) {
+        console.log(error);
+        let msg = "";
+        if (error.error && error.error != undefined) msg = error.error;
+        else msg = error;
+        this.showSwal(
+          "failed-message",
+          "Terjadi kesalahan saat mengunduh format file! " + msg
+        );
+      }
     },
 
     async deleteMahasiswa(id_mahasiswa) {

@@ -52,6 +52,11 @@ const decMahasiswa = (id_mahasiswa_kecamatan) =>
 const deleteMahasiswa = (id_mahasiswa) =>
   baseApi.delete(`${api}mahasiswa/${id_mahasiswa}`);
 
+const downloadFormatImport = () =>
+  baseApi.get(`${api}mahasiswa/import`, {
+    responseType: "blob",
+  });
+
 export {
   listMahasiswa,
   listMahasiswaTema,
@@ -70,4 +75,5 @@ export {
   accMahasiswa,
   decMahasiswa,
   deleteMahasiswa,
+  downloadFormatImport,
 };
