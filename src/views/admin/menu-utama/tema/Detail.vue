@@ -6,6 +6,14 @@
           <template #button>
             <argon-button
               type="button"
+              :onclick="() => $router.go(-1)"
+              class="mb-0 me-2"
+              color="secondary"
+              size="sm"
+              >Kembali</argon-button
+            >
+            <argon-button
+              type="button"
               class="mb-0 me-2"
               color="danger"
               size="sm"

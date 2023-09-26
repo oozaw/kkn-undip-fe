@@ -67,8 +67,42 @@
                   />
                 </div>
               </div>
+              <div class="row mt-1">
+                <label class="form-label">Tanggal Pelaksanaan</label>
+                <div class="col-sm-6 col-12">
+                  <VueDatePicker
+                    id="ttl"
+                    name="ttl"
+                    v-model="body.tgl_mulai"
+                    placeholder="Pilih tanggal mulai"
+                    locale="id"
+                    cancel-text="Batal"
+                    select-text="Pilih"
+                    :format="'dd MMMM yyyy'"
+                    :enable-time-picker="false"
+                    :format-locale="id"
+                    required
+                  ></VueDatePicker>
+                </div>
+                <div class="col-sm-6 col-12 mt-sm-0 mt-3">
+                  <VueDatePicker
+                    id="ttl"
+                    name="ttl"
+                    v-model="body.tgl_akhir"
+                    placeholder="Pilih tanggal berakhir"
+                    locale="id"
+                    cancel-text="Batal"
+                    select-text="Pilih"
+                    :format="'dd MMMM yyyy'"
+                    :enable-time-picker="false"
+                    :format-locale="id"
+                    :min-date="body.tgl_mulai"
+                    required
+                  ></VueDatePicker>
+                </div>
+              </div>
               <div class="tematik-section" v-if="filterJenis === '2'">
-                <div class="row">
+                <div class="row mt-3">
                   <!-- <div class="col-sm-6 col-12">
                     <label class="form-label">Lokasi Provinsi</label>
                     <argon-input
@@ -126,6 +160,9 @@
 </template>
 
 <script>
+import { id } from "date-fns/locale";
+import VueDatePicker from "@vuepic/vue-datepicker";
+import "@vuepic/vue-datepicker/dist/main.css";
 import { ref } from "vue";
 import Choices from "choices.js";
 import HeaderProfileCard from "@/views/dashboards/components/HeaderProfileCard.vue";
@@ -140,6 +177,7 @@ export default {
     HeaderProfileCard,
     ArgonInput,
     ArgonButton,
+    VueDatePicker,
   },
   data() {
     const filterJenis = ref("1");
@@ -153,10 +191,13 @@ export default {
         kab: "",
         kec: "",
         desa: "",
+        tgl_mulai: "",
+        tgl_akhir: "",
       },
       filterJenis,
       choicesJenis: undefined,
       choicesPeriode: undefined,
+      id,
     };
   },
   mounted() {
@@ -173,14 +214,17 @@ export default {
     async addTema() {
       this.showSwal("loading");
 
-      console.log(this.body);
       if (
         !this.body.nama ||
         this.body.nama == "" ||
         !this.body.periode ||
         this.body.periode == "" ||
         !this.body.jenis ||
-        this.body.jenis == "0"
+        this.body.jenis == "0" ||
+        !this.body.tgl_mulai ||
+        this.body.tgl_mulai == "" ||
+        !this.body.tgl_akhir ||
+        this.body.tgl_akhir == ""
       ) {
         this.showSwal("warning-message", "Lengkapi data terlebih dahulu!");
         return;
