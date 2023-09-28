@@ -353,7 +353,7 @@ export default {
     },
 
     initMap() {
-      const map = L.map("map-container").setView([this.lat, this.long], 13);
+      const map = L.map("map-container").setView([this.lat, this.long], 15);
 
       const myIcon = L.icon({
         iconUrl: this.markerIcon,
@@ -375,7 +375,7 @@ export default {
       navigator.geolocation.getCurrentPosition((position) => {
         this.lat = position.coords.latitude;
         this.long = position.coords.longitude;
-        map.flyTo([this.lat, this.long], 13);
+        map.flyTo([this.lat, this.long], 15);
         this.marker.setLatLng([this.lat, this.long]);
         this.circle.setLatLng([this.lat, this.long]);
       });

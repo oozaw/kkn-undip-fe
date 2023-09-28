@@ -501,6 +501,18 @@ export default {
 
     setupTableAction() {
       let outerThis = this;
+
+      // detail
+      $("#kecamatan-list").on("click", `.detail-kecamatan`, function (e) {
+        let kec = this;
+        outerThis.$router.push({
+          name: "Detail Kecamatan",
+          params: { id_kecamatan: kec.id },
+        });
+        e.preventDefault();
+      });
+
+      // edit
       $("#kecamatan-list").on("click", `.edit-kecamatan`, function (e) {
         let kec = this;
         outerThis.$router.push({

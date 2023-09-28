@@ -106,6 +106,7 @@ import IndexKeikutsertaanWilayah from "../views/keikutsertaan-wilayah/Index.vue"
 import IndexPengajuanLokasi from "../views/pengajuan-lokasi/Index.vue";
 import AddKecamatan from "../views/pengajuan-lokasi/kecamatan/Add.vue";
 import EditKecamatan from "../views/pengajuan-lokasi/kecamatan/Edit.vue";
+import DetailKecamatan from "../views/pengajuan-lokasi/kecamatan/Detail.vue";
 import AddDesa from "../views/pengajuan-lokasi/desa/Add.vue";
 import EditDesa from "../views/pengajuan-lokasi/desa/Edit.vue";
 import IndexTemaKKN from "../views/admin/menu-utama/tema/Index.vue";
@@ -546,6 +547,14 @@ const routes = [
     component: EditKecamatan,
     meta: {
       requiresAuth: [Role.bappeda],
+    },
+  },
+  {
+    path: "/pengajuan-lokasi/kecamatan/detail/:id_kecamatan",
+    name: "Detail Kecamatan",
+    component: DetailKecamatan,
+    meta: {
+      requiresAuth: [Role.bappeda, Role.admin],
     },
   },
   {

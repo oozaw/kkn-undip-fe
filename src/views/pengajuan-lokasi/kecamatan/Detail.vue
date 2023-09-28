@@ -2,107 +2,139 @@
   <div class="container-fluid">
     <div class="row mb-5 mt-4">
       <div class="col-lg-12 mt-lg-0 mt-4">
-        <HeaderProfileCard>
+        <header-profile-card>
           <template #button>
             <argon-button
-              type="button"
-              :onclick="() => $router.go(-1)"
+              @click="() => $router.go(-1)"
               class="mb-0 me-2"
               color="secondary"
               size="sm"
-              >Batal</argon-button
+              >Kembali</argon-button
             >
             <argon-button
-              type="submit"
-              form="form-kec"
+              @click="
+                showSwal(
+                  'warning-confirmation',
+                  `Hapus kecamatan ${kecamatan?.nama}?`,
+                  'Berhasil menghapus data',
+                  id_kecamatan
+                )
+              "
+              class="mb-0 me-2"
+              color="danger"
+              size="sm"
+              v-if="kecamatan?.status == 0"
+              >Hapus</argon-button
+            >
+            <argon-button
+              @click="
+                () =>
+                  $router.push({
+                    name: 'Edit Kecamatan',
+                    params: { id_kecamatan: kecamatan?.id_kecamatan },
+                  })
+              "
               class="mb-0 me-lg-2"
               color="primary"
-              variant="gradient"
               size="sm"
-              >Simpan Perubahan</argon-button
+              >Edit</argon-button
             >
           </template>
-        </HeaderProfileCard>
-        <div id="card-profile-wilayah" class="card mt-4 pb-3">
-          <div class="card-header">
-            <h5>Edit Lokasi Kecamatan dan Potensi</h5>
+        </header-profile-card>
+        <div class="bg-white pb-2 card mt-4">
+          <!-- Card header -->
+          <div class="pb-0 card-header">
+            <div class="d-lg-flex">
+              <h5 class="mb-2">Detail Kecamatan</h5>
+            </div>
           </div>
-          <div class="card-body pt-0">
-            <form id="form-kec" role="form" @submit.prevent="editKecamatan()">
+          <div class="ms-2 pt-1 ps-3 card-body">
+            <ul class="list-group px-3">
               <div class="row">
-                <div class="col-12">
-                  <label class="form-label">Tema KKN</label>
-                  <input
-                    name="tema"
-                    id="tema"
-                    class="form-control"
-                    :value="tema"
-                    readonly
-                    required
-                  />
-                </div>
+                <li
+                  class="col-12 col-md-6 text-sm border-0 list-group-item ps-0 text-wrap"
+                >
+                  <strong class="text-dark">Tema:</strong>
+                  &nbsp; {{ kecamatan?.nama_tema }}
+                </li>
+                <li
+                  class="col-12 col-md-6 text-sm border-0 list-group-item ps-0 text-wrap"
+                >
+                  <strong class="text-dark">Koordinator Wilayah:</strong>
+                  &nbsp; {{ kecamatan?.nama_korwil ?? "-" }}
+                </li>
               </div>
-              <div class="row mt-3">
-                <div class="col-12">
-                  <label class="form-label">Kecamatan</label>
-                  <input
-                    class="form-control"
-                    id="nama-kecamatan"
-                    type="text"
-                    placeholder="Nama kecamatan"
-                    v-model="kecamatan"
-                    required
-                  />
-                </div>
+              <div class="row">
+                <li
+                  class="col-12 col-md-6 text-sm border-0 list-group-item ps-0 text-wrap"
+                >
+                  <strong class="text-dark">Nama Kecamatan:</strong>
+                  &nbsp; {{ kecamatan?.nama }}
+                </li>
+                <li
+                  class="col-12 col-md-6 text-sm border-0 list-group-item ps-0 text-wrap"
+                >
+                  <strong class="text-dark">Status:</strong>
+                  &nbsp;
+                  <span
+                    v-if="kecamatan?.status == 1"
+                    class="badge badge-success"
+                    >Diterima</span
+                  >
+                  <span
+                    v-else-if="kecamatan?.status == 0"
+                    class="badge badge-secondary"
+                    >Sedang diproses</span
+                  >
+                  <span v-else class="badge badge-danger">Ditolak</span>
+                </li>
               </div>
-              <div id="potensi-row" class="row mt-3">
-                <div class="col-12">
-                  <label class="mt-2">Potensi</label>
-                  <quill-editor
-                    id="potensi-editor"
-                    v-model:content="potensi"
-                    contentType="html"
-                    theme="snow"
-                    style="height: 200px"
-                    placeholder="Isi dengan potensi kecamatan"
-                  ></quill-editor>
-                  <div class="invalid-feedback mb-3 ms-1">
-                    <span id="potensi-validation"></span>
-                  </div>
-                </div>
+              <div class="row">
+                <li
+                  class="col-12 col-md-6 text-sm border-0 list-group-item ps-0 text-wrap"
+                >
+                  <strong class="text-dark">Jumlah Desa:</strong>
+                  &nbsp; {{ kecamatan?.desa.length }}
+                </li>
+                <li
+                  class="col-12 col-md-6 text-sm border-0 list-group-item ps-0 text-wrap"
+                >
+                  <strong class="text-dark">Desa:</strong>
+                  &nbsp;
+                  {{
+                    kecamatan?.desa.length > 0
+                      ? kecamatan?.desa?.map((item) => item.nama).join(", ")
+                      : "-"
+                  }}
+                </li>
               </div>
-              <div class="row mt-4">
-                <div class="col-12">
-                  <label class="form-label">Lokasi</label>
-                  <p class="font-italic text-sm mt-0 ms-1 mb-0">
-                    Cari lokasi kecamatan, tandai lokasi tersebut dengan
-                    menggeser penanda/ pointer pada peta ke tengah lokasi
-                    kecamatan. Kemudia masukkan radius wilayah dari titik tengah
-                    kecamatan melalui field di bawah ini.
-                  </p>
-                  <div class="d-flex ms-1">
-                    <div class="mt-3">Radius (m):</div>
-                    <div class="my-2 ms-2">
-                      <input
-                        class="form-control"
-                        id="radius"
-                        name="radius"
-                        type="number"
-                        placeholder="Masukkan radius wilayah dari titik tengah kecamatan (m)"
-                        v-model="radius"
-                        @input="setRadius()"
-                        required
-                      />
-                    </div>
-                  </div>
-                  <div
-                    class="ms-1"
-                    id="map-container"
-                    style="width: 100%; height: 500px"
-                  ></div>
-                </div>
+            </ul>
+            <div class="row mt-0 pb-4 px-1 mt-2">
+              <div class="col-12">
+                <strong class="text-dark text-sm mb-2">Potensi:</strong>
+                <br />
+                <quill-editor
+                  class="bg-light mt-2"
+                  :options="options"
+                  id="potensi-editor"
+                  style="height: 200px"
+                  v-model:content="g$kecamatan.potensi"
+                  contentType="html"
+                  theme="snow"
+                ></quill-editor>
               </div>
-            </form>
+            </div>
+            <div class="row mt-0 pb-4 px-1">
+              <div class="col-12">
+                <strong class="text-dark text-sm mb-2">Lokasi:</strong>
+                <br />
+                <div
+                  class="mt-2"
+                  id="map-container"
+                  style="width: 100%; height: 500px"
+                ></div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -111,70 +143,63 @@
 </template>
 
 <script>
-import { QuillEditor } from "@vueup/vue-quill";
 import L from "leaflet";
 import { GeocodingControl } from "@maptiler/geocoding-control/leaflet";
 import "@maptiler/geocoding-control/style.css";
+import { QuillEditor } from "@vueup/vue-quill";
+import moment from "moment";
 import HeaderProfileCard from "@/views/dashboards/components/HeaderProfileCard.vue";
 import ArgonButton from "@/components/ArgonButton.vue";
+import { mapActions, mapState } from "pinia";
 import d$wilayah from "@/store/wilayah";
 import d$auth from "@/store/auth";
-import d$tema from "@/store/tema";
-import { mapActions, mapState } from "pinia";
 import markerIcon from "@/assets/img/icons/marker.png";
 
 export default {
-  name: "EditKecamatan",
+  name: "DetailKecamatan",
   components: {
     HeaderProfileCard,
-    QuillEditor,
     ArgonButton,
+    QuillEditor,
   },
   data() {
     return {
       markerIcon,
+      options: {
+        modules: {
+          toolbar: false,
+        },
+        readOnly: true,
+      },
+      id_kecamatan: parseInt(this.$route.params.id_kecamatan),
+      kecamatan: undefined,
+      moment,
       GeocodingControl,
-      marker: undefined,
-      circle: undefined,
-      radius: 500,
-      valueFormDesa: "",
-      id_kecamatan: this.$route.params.id_kecamatan,
-      tema: "",
-      kecamatan: "",
-      potensi: "",
       lat: -6.990632,
       long: 110.422941,
+      radius: 500,
     };
   },
   computed: {
-    ...mapState(d$tema, ["g$listTemaActive"]),
-    ...mapState(d$auth, ["g$infoUser"]),
-    ...mapState(d$wilayah, ["g$listKabupaten", "g$kecamatan"]),
+    ...mapState(d$auth, ["g$user"]),
+    ...mapState(d$wilayah, ["g$kecamatan"]),
   },
   async created() {
     await this.getInitData();
   },
   methods: {
-    ...mapActions(d$wilayah, [
-      "a$editKecamatan",
-      "a$listKabupatenTemaBappeda",
-      "a$getKecamatan",
-    ]),
-    ...mapActions(d$tema, ["a$listTema"]),
+    ...mapActions(d$wilayah, ["a$getKecamatan", "a$deleteKecamatan"]),
 
     async getInitData() {
       this.showSwal("loading");
 
       try {
-        await this.a$getKecamatan(Number(this.id_kecamatan));
-        this.tema = this.g$kecamatan.nama_tema;
-        this.kecamatan = this.g$kecamatan.nama;
-        this.potensi = this.g$kecamatan.potensi;
+        await this.a$getKecamatan(this.id_kecamatan);
+        this.kecamatan = this.g$kecamatan;
         this.lat = this.g$kecamatan.latitude ?? -6.990632;
         this.long = this.g$kecamatan.longitude ?? 110.422941;
         this.radius = this.g$kecamatan.radius ?? 500;
         this.initMap();
-        this.showSwal("close");
       } catch (error) {
         console.log(error);
         let msg = "";
@@ -182,55 +207,32 @@ export default {
         else msg = error;
         this.showSwal(
           "failed-message",
-          "Terjadi kesalahan saat memuat data. " + msg
+          "Terjadi kesalahan saat memuat data! " + msg
         );
       }
+
+      this.showSwal("close");
     },
 
-    async editKecamatan() {
+    async deleteKecamatan(id_kecamatan) {
       this.showSwal("loading");
 
-      // validation
-      if (!this.tema || this.tema === "" || this.tema === "0") {
-        this.showSwal("warning-message", "Tema tidak boleh kosong!");
-        return;
+      this.indexComponent++;
+
+      try {
+        await this.a$deleteKecamatan(parseInt(id_kecamatan));
+        await this.getListKecamatan();
+        this.showSwal("success-message", "Data mahasiswa berhasil dihapus!");
+      } catch (error) {
+        console.log(error);
+        let msg = "";
+        if (error.error && error.error != undefined) msg = error.error;
+        else msg = error;
+        this.showSwal("failed-message", "Data gagal dihapus! " + msg);
       }
 
-      var potensiEditor = document.getElementById("potensi-editor");
-      var potensiValidation = document.getElementById("potensi-validation");
-      var potensiRow = document.getElementById("potensi-row");
-      if (this.isEmptyPotensi()) {
-        potensiEditor.classList.add("is-invalid");
-        potensiValidation.innerText = "Potensi tidak boleh kosong!";
-        potensiRow.classList.add("pb-7");
-        this.showSwal("warning-message", "Potensi tidak boleh kosong!");
-
-        return;
-      } else {
-        potensiEditor.classList.remove("is-invalid");
-        potensiValidation.innerText = "";
-        potensiRow.classList.remove("pb-7");
-
-        var data = {
-          nama: this.kecamatan,
-          potensi: this.potensi,
-          latitude: this.lat,
-          longitude: this.long,
-          radius: this.radius,
-        };
-
-        try {
-          await this.a$editKecamatan(this.id_kecamatan, data);
-          this.$router.push({ name: "Pengajuan Lokasi" });
-          this.showSwal("success-message", "Data kecamatan berhasil disimpan!");
-        } catch (error) {
-          console.log(error);
-          let msg = "";
-          if (error.error && error.error != undefined) msg = error.error;
-          else msg = error;
-          this.showSwal("failed-message", "Data gagal ditambahkan! " + msg);
-        }
-      }
+      this.setupDataTable();
+      this.setupTableAction();
     },
 
     initMap() {
@@ -243,7 +245,7 @@ export default {
 
       this.marker = L.marker([this.lat, this.long], {
         icon: myIcon,
-        draggable: true,
+        draggable: false,
       }).addTo(map);
 
       this.circle = L.circle([this.lat, this.long], {
@@ -279,37 +281,10 @@ export default {
         }
       ).addTo(map);
 
-      L.control.maptilerGeocoding({ apiKey }).addTo(map);
-
-      // onclick marker
-      this.marker.on("dragend", (e) => {
-        this.lat = e.target._latlng.lat;
-        this.long = e.target._latlng.lng;
-        this.circle.setLatLng([this.lat, this.long]);
-      });
-
-      // onclick map
-      map.on("click", (e) => {
-        this.lat = e.latlng.lat;
-        this.long = e.latlng.lng;
-        this.marker.setLatLng([this.lat, this.long]);
-        this.circle.setLatLng([this.lat, this.long]);
-      });
+      // L.control.maptilerGeocoding({ apiKey }).addTo(map);
     },
 
-    setRadius() {
-      this.circle.setRadius(this.radius);
-    },
-
-    isEmptyPotensi() {
-      if (this.potensi == "" || this.potensi == "<p><br></p>") {
-        return true;
-      } else {
-        return false;
-      }
-    },
-
-    showSwal(type, text, toastText) {
+    showSwal(type, text, toastText, id_kecamatan) {
       if (type === "success-message") {
         this.$swal({
           icon: "success",
@@ -384,6 +359,7 @@ export default {
           },
         }).then((result) => {
           if (result.isConfirmed) {
+            this.deleteKecamatan(id_kecamatan);
             this.$swal({
               toast: true,
               position: "top-end",

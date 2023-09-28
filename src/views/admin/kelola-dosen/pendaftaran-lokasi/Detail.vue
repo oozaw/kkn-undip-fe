@@ -78,77 +78,103 @@
             </div>
           </div>
           <div class="ms-2 pt-1 ps-3 card-body">
-            <div class="mt-2 row">
-              <div class="col-12">
-                <ul class="list-group">
-                  <li class="text-sm border-0 list-group-item ps-0 text-wrap">
-                    <strong class="text-dark">Nama Lengkap:</strong>
-                    &nbsp; {{ g$proposal?.dosen.nama }}
-                  </li>
-                  <li class="text-sm border-0 list-group-item ps-0 text-wrap">
-                    <strong class="text-dark">NIP:</strong>
-                    &nbsp; {{ g$proposal?.dosen.nip }}
-                  </li>
-                  <li class="text-sm border-0 list-group-item ps-0 text-wrap">
-                    <strong class="text-dark">Tema:</strong>
-                    &nbsp;
-                    {{
-                      `${g$proposal?.kecamatan.kabupaten.tema.nama} ${g$proposal?.kecamatan.kabupaten.tema.periode}`
-                    }}
-                  </li>
-                  <li class="text-sm border-0 list-group-item ps-0 text-wrap">
-                    <strong class="text-dark">Gelombang:</strong>
-                    &nbsp; {{ g$proposal?.gelombang.nama }}
-                  </li>
-                  <li class="text-sm border-0 list-group-item ps-0 text-wrap">
-                    <strong class="text-dark">Kabupaten:</strong>
-                    &nbsp; {{ g$proposal?.kecamatan.kabupaten.nama }}
-                  </li>
-                  <li class="text-sm border-0 list-group-item ps-0 text-wrap">
-                    <strong class="text-dark">Kecamatan:</strong>
-                    &nbsp; {{ g$proposal?.kecamatan.nama }}
-                  </li>
-                  <li class="text-sm border-0 list-group-item ps-0 text-wrap">
-                    <strong class="text-dark">Diunggah pada:</strong>
-                    &nbsp;
-                    {{ moment(g$proposal?.created_at).format("DD MMMM YYYY") }}
-                  </li>
-                  <li class="text-sm border-0 list-group-item ps-0 text-wrap">
-                    <strong class="text-dark">Komentar:</strong>
-                    &nbsp;
-                    {{ g$proposal?.komentar }}
-                  </li>
-                  <li class="text-sm border-0 list-group-item ps-0 text-wrap">
-                    <strong class="text-dark">Rekomendasi:</strong>
-                    &nbsp;
-                    <span
-                      v-if="g$proposal?.rekomendasi == 1"
-                      class="badge badge-success"
-                      >Direkomendasikan</span
-                    >
-                    <span v-else class="badge badge-danger"
-                      >Tidak direkomendasikan</span
-                    >
-                  </li>
-                  <li class="text-sm border-0 list-group-item ps-0 text-wrap">
-                    <strong class="text-dark">Status Proposal:</strong>
-                    &nbsp;
-                    <span
-                      v-if="g$proposal?.status == 1"
-                      class="badge badge-success"
-                      >Diterima</span
-                    >
-                    <span
-                      v-else-if="g$proposal?.status == 0"
-                      class="badge badge-primary"
-                      >Sedang diproses</span
-                    >
-                    <span v-else class="badge badge-danger">Ditolak</span>
-                  </li>
-                </ul>
+            <ul class="list-group px-3">
+              <div class="row">
+                <li
+                  class="col-12 col-md-6 text-sm border-0 list-group-item ps-0 text-wrap"
+                >
+                  <strong class="text-dark">Nama Lengkap:</strong>
+                  &nbsp; {{ g$proposal?.dosen.nama }}
+                </li>
+                <li
+                  class="col-12 col-md-6 text-sm border-0 list-group-item ps-0 text-wrap"
+                >
+                  <strong class="text-dark">NIP:</strong>
+                  &nbsp; {{ g$proposal?.dosen.nip }}
+                </li>
               </div>
-            </div>
-            <div class="row mt-0 pb-4">
+              <div class="row">
+                <li
+                  class="col-12 col-md-6 text-sm border-0 list-group-item ps-0 text-wrap"
+                >
+                  <strong class="text-dark">Tema:</strong>
+                  &nbsp;
+                  {{
+                    `${g$proposal?.kecamatan.kabupaten.tema.nama} ${g$proposal?.kecamatan.kabupaten.tema.periode}`
+                  }}
+                </li>
+                <li
+                  class="col-12 col-md-6 text-sm border-0 list-group-item ps-0 text-wrap"
+                >
+                  <strong class="text-dark">Gelombang:</strong>
+                  &nbsp; {{ g$proposal?.gelombang.nama }}
+                </li>
+              </div>
+              <div class="row">
+                <li
+                  class="col-12 col-md-6 text-sm border-0 list-group-item ps-0 text-wrap"
+                >
+                  <strong class="text-dark">Kabupaten:</strong>
+                  &nbsp; {{ g$proposal?.kecamatan.kabupaten.nama }}
+                </li>
+                <li
+                  class="col-12 col-md-6 text-sm border-0 list-group-item ps-0 text-wrap"
+                >
+                  <strong class="text-dark">Kecamatan:</strong>
+                  &nbsp; {{ g$proposal?.kecamatan.nama }}
+                </li>
+              </div>
+              <div class="row">
+                <li
+                  class="col-12 col-md-6 text-sm border-0 list-group-item ps-0 text-wrap"
+                >
+                  <strong class="text-dark">Diunggah pada:</strong>
+                  &nbsp;
+                  {{ moment(g$proposal?.created_at).format("DD MMMM YYYY") }}
+                </li>
+                <li
+                  class="col-12 col-md-6 text-sm border-0 list-group-item ps-0 text-wrap"
+                >
+                  <strong class="text-dark">Komentar:</strong>
+                  &nbsp;
+                  {{ g$proposal?.komentar }}
+                </li>
+              </div>
+              <div class="row">
+                <li
+                  class="col-12 col-md-6 text-sm border-0 list-group-item ps-0 text-wrap"
+                >
+                  <strong class="text-dark">Rekomendasi:</strong>
+                  &nbsp;
+                  <span
+                    v-if="g$proposal?.rekomendasi == 1"
+                    class="badge badge-success"
+                    >Direkomendasikan</span
+                  >
+                  <span v-else class="badge badge-danger"
+                    >Tidak direkomendasikan</span
+                  >
+                </li>
+                <li
+                  class="col-12 col-md-6 text-sm border-0 list-group-item ps-0 text-wrap"
+                >
+                  <strong class="text-dark">Status Proposal:</strong>
+                  &nbsp;
+                  <span
+                    v-if="g$proposal?.status == 1"
+                    class="badge badge-success"
+                    >Diterima</span
+                  >
+                  <span
+                    v-else-if="g$proposal?.status == 0"
+                    class="badge badge-primary"
+                    >Sedang diproses</span
+                  >
+                  <span v-else class="badge badge-danger">Ditolak</span>
+                </li>
+              </div>
+            </ul>
+            <div class="row mt-0 pb-4 px-1">
               <div class="col-12">
                 <strong class="text-dark text-sm mb-2">Proposal:</strong>
                 <br />
