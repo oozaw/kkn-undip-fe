@@ -2,11 +2,32 @@
   <div class="container-fluid">
     <div class="row mb-5 mt-4">
       <div class="col-lg-12 mt-lg-0 mt-4">
-        <HeaderProfileCard />
+        <HeaderProfileCard>
+          <template #button>
+            <router-link
+              class="btn btn-success btn-sm mt-sm-0 me-2 mb-0"
+              :to="{ name: 'Tambah Kecamatan' }"
+            >
+              + Tambah Kecamatan
+            </router-link>
+            <router-link
+              class="mb-0 btn btn-success btn-sm mt-sm-0 me-2 mb-0"
+              :to="{ name: 'Tambah Desa' }"
+            >
+              + Tambah Desa
+            </router-link>
+          </template>
+        </HeaderProfileCard>
         <div class="bg-white card mt-4">
           <div class="card-header pb-0 pt-3">
             <p class="font-weight-bold text-dark mb-2">
               Pilih Tema KKN Terdaftar
+              <span class="ms-1 text-xxs badge badge-success" v-if="temaStatus"
+                >Aktif</span
+              >
+              <span class="ms-1 text-xxs badge badge-danger" v-else
+                >Tidak Aktif</span
+              >
             </p>
           </div>
           <div class="pb-3 pt-0 card-body">
@@ -41,13 +62,6 @@
               </div>
               <div class="my-auto mt-4 ms-auto mt-lg-0">
                 <div class="my-auto ms-auto">
-                  <router-link
-                    class="mb-0 btn btn-success btn-sm mt-sm-0 me-3"
-                    :to="{ name: 'Tambah Kecamatan' }"
-                    v-if="temaStatus"
-                  >
-                    + Tambah Kecamatan
-                  </router-link>
                   <button
                     class="mt-2 mb-0 btn btn-outline-success btn-sm export-kec mt-sm-0"
                     data-type="csv"
@@ -184,13 +198,6 @@
               </div>
               <div class="my-auto mt-4 ms-auto mt-lg-0">
                 <div class="my-auto ms-auto">
-                  <router-link
-                    class="mb-0 btn btn-success btn-sm mt-sm-0 me-3"
-                    :to="{ name: 'Tambah Desa' }"
-                    v-if="temaStatus"
-                  >
-                    + Tambah Desa
-                  </router-link>
                   <button
                     class="mt-2 mb-0 btn btn-outline-success btn-sm export-desa mt-sm-0"
                     data-type="csv"
@@ -350,6 +357,7 @@ export default {
         return new Choices(element, {
           searchEnabled: false,
           allowHTML: true,
+          shouldSort: false,
         });
       }
     },
