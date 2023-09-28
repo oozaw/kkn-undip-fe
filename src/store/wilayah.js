@@ -76,6 +76,43 @@ const d$wilayah = defineStore("wilayahStore", {
       }
     },
 
+    async a$listKecamatanKabupaten(id_kabupaten) {
+      try {
+        const { data, status } = await s$wilayah.listKecamatanKabupaten(
+          id_kabupaten
+        );
+        this.listKecamatan = data ?? [];
+        this.status = status;
+      } catch (error) {
+        this.status = false;
+        throw error;
+      }
+    },
+
+    async a$listAllDesa() {
+      try {
+        const { data, status } = await s$wilayah.listAllDesa();
+        this.listDesa = data ?? [];
+        this.status = status;
+      } catch (error) {
+        this.status = false;
+        throw error;
+      }
+    },
+
+    async a$listDesaKecamatan(id_kecamatan) {
+      try {
+        const { data, status } = await s$wilayah.listDesaKecamatan(
+          id_kecamatan
+        );
+        this.listDesa = data ?? [];
+        this.status = status;
+      } catch (error) {
+        this.status = false;
+        throw error;
+      }
+    },
+
     async a$getKecamatan(id_kecamatan) {
       try {
         const { data, status } = await s$wilayah.getKecamatan(id_kecamatan);
@@ -91,6 +128,17 @@ const d$wilayah = defineStore("wilayahStore", {
       try {
         const { data, status } = await s$wilayah.getKecamatanMhs();
         this.kecamatan = data ?? {};
+        this.status = status;
+      } catch (error) {
+        this.status = false;
+        throw error;
+      }
+    },
+
+    async a$getDesa(id_desa) {
+      try {
+        const { data, status } = await s$wilayah.getDesa(id_desa);
+        this.desa = data ?? {};
         this.status = status;
       } catch (error) {
         this.status = false;
@@ -118,9 +166,29 @@ const d$wilayah = defineStore("wilayahStore", {
       }
     },
 
+    async a$addDesa(body) {
+      try {
+        const status = await s$wilayah.addDesa(body);
+        this.status = status;
+      } catch (error) {
+        this.status = false;
+        throw error;
+      }
+    },
+
     async a$editKecamatan(id_kecamatan, body) {
       try {
         const status = await s$wilayah.editKecamatan(id_kecamatan, body);
+        this.status = status;
+      } catch (error) {
+        this.status = false;
+        throw error;
+      }
+    },
+
+    async a$editDesa(id_desa, body) {
+      try {
+        const status = await s$wilayah.editDesa(id_desa, body);
         this.status = status;
       } catch (error) {
         this.status = false;
@@ -151,6 +219,16 @@ const d$wilayah = defineStore("wilayahStore", {
     async a$deleteKecamatan(id_kecamatan) {
       try {
         await s$wilayah.deleteKecamatan(id_kecamatan);
+        this.status = true;
+      } catch (error) {
+        this.status = false;
+        throw error;
+      }
+    },
+
+    async a$deleteDesa(id_desa) {
+      try {
+        await s$wilayah.deleteDesa(id_desa);
         this.status = true;
       } catch (error) {
         this.status = false;
