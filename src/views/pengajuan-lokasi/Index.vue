@@ -341,6 +341,7 @@ export default {
     ...mapActions(d$wilayah, [
       "a$listKabupatenTemaBappeda",
       "a$deleteKecamatan",
+      "a$deleteDesa",
     ]),
     ...mapActions(d$tema, ["a$listTema"]),
 
@@ -416,7 +417,28 @@ export default {
       try {
         await this.a$deleteKecamatan(parseInt(id_kecamatan));
         await this.getListKecamatan();
-        this.showSwal("success-message", "Data mahasiswa berhasil dihapus!");
+        this.showSwal("success-message", "Data kecamatan berhasil dihapus!");
+      } catch (error) {
+        console.log(error);
+        let msg = "";
+        if (error.error && error.error != undefined) msg = error.error;
+        else msg = error;
+        this.showSwal("failed-message", "Data gagal dihapus! " + msg);
+      }
+
+      this.setupDataTable();
+      this.setupTableAction();
+    },
+
+    async deleteDesa(id_desa) {
+      this.showSwal("loading");
+
+      this.indexComponent++;
+
+      try {
+        await this.a$deleteDesa(parseInt(id_desa));
+        await this.getListKecamatan();
+        this.showSwal("success-message", "Data desa berhasil dihapus!");
       } catch (error) {
         console.log(error);
         let msg = "";
@@ -536,7 +558,8 @@ export default {
           "warning-confirmation",
           `Hapus kecamatan ${kec.name}?`,
           "Berhasil menghapus data",
-          kec.id
+          kec.id,
+          true
         );
         e.preventDefault();
       });
@@ -558,7 +581,8 @@ export default {
           "warning-confirmation",
           `Hapus desa ${desa.name}?`,
           "Berhasil menghapus data",
-          desa.id
+          desa.id,
+          false
         );
         e.preventDefault();
       });
@@ -577,7 +601,7 @@ export default {
       });
     },
 
-    showSwal(type, text, toastText, id_kecamatan) {
+    showSwal(type, text, toastText, id, isKecamatan) {
       if (type === "success-message") {
         this.$swal({
           icon: "success",
@@ -652,7 +676,8 @@ export default {
           },
         }).then((result) => {
           if (result.isConfirmed) {
-            this.deleteKecamatan(id_kecamatan);
+            if (isKecamatan) this.deleteKecamatan(id);
+            else this.deleteDesa(id);
             this.$swal({
               toast: true,
               position: "top-end",
