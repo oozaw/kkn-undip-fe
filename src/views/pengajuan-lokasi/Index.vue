@@ -249,15 +249,6 @@
                         :id="desa.id_desa"
                         :name="desa.nama"
                         href="javascript:;"
-                        data-bs-toggle="tooltip"
-                        data-bs-original-title="Detail Desa"
-                      >
-                        <i class="fas fa-eye text-info"></i>
-                      </a>
-                      <a
-                        :id="desa.id_desa"
-                        :name="desa.nama"
-                        href="javascript:;"
                         class="mx-3 edit-desa"
                         data-bs-toggle="tooltip"
                         data-bs-original-title="Edit Desa"
