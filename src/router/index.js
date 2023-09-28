@@ -541,7 +541,7 @@ const routes = [
     },
   },
   {
-    path: "/pengajuan-lokasi/kecamatan/edit",
+    path: "/pengajuan-lokasi/kecamatan/edit/:id_kecamatan",
     name: "Edit Kecamatan",
     component: EditKecamatan,
     meta: {

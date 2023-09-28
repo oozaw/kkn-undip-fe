@@ -6,7 +6,7 @@
           <template #button>
             <argon-button
               type="button"
-              :onclick="() => $router.push({ name: 'Pengajuan Lokasi' })"
+              :onclick="() => $router.go(-1)"
               class="mb-0 me-2"
               color="secondary"
               size="sm"
@@ -194,7 +194,7 @@ export default {
     this.choicesTema = this.getChoices("choices-tema");
   },
   beforeUnmount() {
-    this.choicesTema.destroy();
+    if (this.choicesTema) this.choicesTema.destroy();
   },
   methods: {
     ...mapActions(d$wilayah, ["a$addKecamatan", "a$listKabupatenTemaBappeda"]),
@@ -423,7 +423,7 @@ export default {
         let newOption = [];
         option.forEach((item) => {
           newOption.push({
-            value: Object.values(item)[0],
+            value: Object.values(item)[0], // id_kabupaten
             label: item.nama_tema,
           });
         });

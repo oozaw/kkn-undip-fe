@@ -9,11 +9,17 @@ const listWilayah = (id_tema) => baseApi.get(`${api}kabupaten/tema/${id_tema}`);
 
 const listAllKecamatan = () => baseApi.get(`${api}kecamatan`);
 
+const getKecamatan = (id_kecamatan) =>
+  baseApi.get(`${api}kecamatan/detail/${id_kecamatan}`);
+
 const getKecamatanMhs = () => baseApi.get(`${api}kecamatan/mahasiswa`);
 
 const addKabupaten = (body) => baseApi.post(`${api}kabupaten`, body);
 
 const addKecamatan = (body) => baseApi.post(`${api}kecamatan`, body);
+
+const editKecamatan = (id_kecamatan, body) =>
+  baseApi.put(`${api}kecamatan/${id_kecamatan}`, body);
 
 const accKecamatan = (id_kecamatan, body) =>
   baseApi.put(`${api}kecamatan/acc/${id_kecamatan}`, body);
@@ -28,9 +34,11 @@ export {
   listWilayah,
   listWilayahTemaBappeda,
   listAllKecamatan,
+  getKecamatan,
   getKecamatanMhs,
   addKabupaten,
   addKecamatan,
+  editKecamatan,
   accKecamatan,
   decKecamatan,
   deleteKecamatan,

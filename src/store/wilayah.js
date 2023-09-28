@@ -76,6 +76,17 @@ const d$wilayah = defineStore("wilayahStore", {
       }
     },
 
+    async a$getKecamatan(id_kecamatan) {
+      try {
+        const { data, status } = await s$wilayah.getKecamatan(id_kecamatan);
+        this.kecamatan = data ?? {};
+        this.status = status;
+      } catch (error) {
+        this.status = false;
+        throw error;
+      }
+    },
+
     async a$getKecamatanMhs() {
       try {
         const { data, status } = await s$wilayah.getKecamatanMhs();
@@ -100,6 +111,16 @@ const d$wilayah = defineStore("wilayahStore", {
     async a$addKecamatan(body) {
       try {
         const status = await s$wilayah.addKecamatan(body);
+        this.status = status;
+      } catch (error) {
+        this.status = false;
+        throw error;
+      }
+    },
+
+    async a$editKecamatan(id_kecamatan, body) {
+      try {
+        const status = await s$wilayah.editKecamatan(id_kecamatan, body);
         this.status = status;
       } catch (error) {
         this.status = false;

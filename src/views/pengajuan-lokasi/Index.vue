@@ -18,7 +18,8 @@
             </router-link>
           </template>
         </HeaderProfileCard>
-        <div class="bg-white card mt-4">
+        <ChoicesContentLoader v-if="isLoadingOnInit" />
+        <div class="bg-white card mt-4" :hidden="isLoadingOnInit">
           <div class="card-header pb-0 pt-3">
             <p class="font-weight-bold text-dark mb-2">
               Pilih Tema KKN Terdaftar
@@ -50,7 +51,8 @@
             </div>
           </div>
         </div>
-        <div class="bg-white card mt-4">
+        <TableContentLoader v-if="isLoading" />
+        <div class="bg-white card mt-4" :hidden="isLoading">
           <!-- Card header -->
           <div class="pb-0 card-header">
             <div class="d-lg-flex">
@@ -127,7 +129,7 @@
                                 <font-awesome-icon icon="fa-solid fa-xmark" />
                               </button>
                             </div>
-                            <div class="modal-body">
+                            <div class="modal-body text-wrap">
                               <span v-html="kec.potensi"></span>
                             </div>
                           </div>
@@ -147,7 +149,10 @@
                     </td>
                     <td class="text-sm">
                       <a
+                        :id="kec.id_kecamatan"
+                        :name="kec.nama"
                         href="javascript:;"
+                        class="detail-kecamatan"
                         data-bs-toggle="tooltip"
                         data-bs-original-title="Detail kecamatan"
                         title="Detail kecamatan"
@@ -155,8 +160,10 @@
                         <i class="fas fa-eye text-info"></i>
                       </a>
                       <a
+                        :id="kec.id_kecamatan"
+                        :name="kec.nama"
                         href="javascript:;"
-                        class="mx-3"
+                        class="mx-3 edit-kecamatan"
                         data-bs-toggle="tooltip"
                         data-bs-original-title="Edit kecamatan"
                         title="Edit kecamatan"
@@ -164,7 +171,10 @@
                         <i class="fas fa-user-edit text-primary"></i>
                       </a>
                       <a
+                        :id="kec.id_kecamatan"
+                        :name="kec.nama"
                         href="javascript:;"
+                        class="hapus-kecamatan"
                         data-bs-toggle="tooltip"
                         data-bs-original-title="Hapus kecamatan"
                         title="Hapus kecamatan"
@@ -188,7 +198,12 @@
             </div>
           </div>
         </div>
-        <div class="bg-white card mt-4" :key="indexComponent">
+        <TableContentLoader v-if="isLoading" />
+        <div
+          class="bg-white card mt-4"
+          :key="indexComponent"
+          :hidden="isLoading"
+        >
           <!-- Card header -->
           <div class="pb-0 card-header">
             <div class="d-lg-flex">
@@ -272,10 +287,12 @@
 </template>
 
 <script>
+import $ from "jquery";
 import { DataTable } from "simple-datatables";
 import Choices from "choices.js";
-import setTooltip from "@/assets/js/tooltip.js";
 import HeaderProfileCard from "@/views/dashboards/components/HeaderProfileCard.vue";
+import TableContentLoader from "@/views/dashboards/components/TableContentLoader.vue";
+import ChoicesContentLoader from "@/views/dashboards/components/ChoicesContentLoader.vue";
 import { mapActions, mapState } from "pinia";
 import d$wilayah from "@/store/wilayah";
 import d$auth from "@/store/auth";
@@ -285,9 +302,13 @@ export default {
   name: "IndexPengajuanLokasi",
   components: {
     HeaderProfileCard,
+    TableContentLoader,
+    ChoicesContentLoader,
   },
   data() {
     return {
+      isLoadingOnInit: true,
+      isLoading: true,
       tema: "",
       temaStatus: "",
       indexComponent: 0,
@@ -303,22 +324,42 @@ export default {
     ...mapState(d$tema, ["g$listTema", "g$listTemaActive"]),
   },
   async created() {
-    await this.a$listTema();
-    this.tema = this.g$listTemaActive[0].id_tema;
-    await this.getListKecamatan();
-
-    this.choicesTema = this.getChoices("choices-tema");
-
-    setTooltip(this.$store.state.bootstrap);
+    await this.getInitData();
   },
   beforeUnmount() {
-    this.choicesTema.destroy();
+    if (this.choicesTema) this.choicesTema.destroy();
   },
   methods: {
     ...mapActions(d$wilayah, ["a$listKabupatenTemaBappeda"]),
     ...mapActions(d$tema, ["a$listTema"]),
 
+    async getInitData() {
+      this.isLoadingOnInit = true;
+
+      try {
+        await this.a$listTema();
+        this.tema = this.g$listTemaActive[0].id_tema;
+        await this.getListKecamatan();
+        this.choicesTema = this.getChoices("choices-tema");
+      } catch (error) {
+        console.log(error);
+        let msg = "";
+        if (error.error && error.error != undefined) msg = error.error;
+        else msg = error;
+        this.showSwal(
+          "failed-message",
+          "Terjadi kesalahan saat memuat data! " + msg
+        );
+      }
+
+      setTimeout(() => {
+        this.isLoadingOnInit = false;
+      }, 50);
+    },
+
     async getListKecamatan() {
+      this.isLoading = true;
+
       this.indexComponent++;
 
       try {
@@ -340,6 +381,11 @@ export default {
       }
 
       this.setupDataTable();
+      this.setupTableAction();
+
+      setTimeout(() => {
+        this.isLoading = false;
+      }, 400);
     },
 
     async getTemaStatus() {
@@ -426,6 +472,51 @@ export default {
 
         this.dataTableDesa = dataTableSearchDesa;
       }
+    },
+
+    setupTableAction() {
+      let outerThis = this;
+      $("#kecamatan-list").on("click", `.edit-kecamatan`, function (e) {
+        let kec = this;
+        outerThis.$router.push({
+          name: "Edit Kecamatan",
+          params: { id_kecamatan: kec.id },
+        });
+        e.preventDefault();
+      });
+
+      // // evaluate lpk for dosen
+      // $("#lpk-dosen-section-list").on("click", `.edit`, function (e) {
+      //   let lpk = this;
+      //   outerThis.$router.push({
+      //     name: "Evaluate LPK",
+      //     params: { id_laporan: lpk.id },
+      //   });
+      //   e.preventDefault();
+      // });
+
+      // // delete
+      // $("#kecamatan-list").on("click", `.delete`, function (e) {
+      //   let laporan = this;
+      //   outerThis.showSwal(
+      //     "warning-confirmation",
+      //     `Hapus laporan ${laporan.name}? Semua data LRK dan LPK akan dihapus permanen!`,
+      //     "Berhasil menghapus data",
+      //     laporan.id
+      //   );
+      //   e.preventDefault();
+      // });
+
+      // $("#lpk-dosen-section-list").on("click", `.delete`, function (e) {
+      //   let laporan = this;
+      //   outerThis.showSwal(
+      //     "warning-confirmation",
+      //     `Hapus laporan mahasiswa ${laporan.name}? Semua data LRK dan LPK mahasiswa tersebut akan dihapus permanen!`,
+      //     "Berhasil menghapus data",
+      //     laporan.id
+      //   );
+      //   e.preventDefault();
+      // });
     },
 
     async getListDesa() {
