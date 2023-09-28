@@ -171,10 +171,11 @@
                         <i class="fas fa-user-edit text-primary"></i>
                       </a>
                       <a
+                        v-if="kec.status == 0"
                         :id="kec.id_kecamatan"
                         :name="kec.nama"
                         href="javascript:;"
-                        class="hapus-kecamatan"
+                        class="delete-kecamatan"
                         data-bs-toggle="tooltip"
                         data-bs-original-title="Hapus kecamatan"
                         title="Hapus kecamatan"
@@ -330,7 +331,10 @@ export default {
     if (this.choicesTema) this.choicesTema.destroy();
   },
   methods: {
-    ...mapActions(d$wilayah, ["a$listKabupatenTemaBappeda"]),
+    ...mapActions(d$wilayah, [
+      "a$listKabupatenTemaBappeda",
+      "a$deleteKecamatan",
+    ]),
     ...mapActions(d$tema, ["a$listTema"]),
 
     async getInitData() {
@@ -395,6 +399,27 @@ export default {
           this.temaStatus = tema.status;
         }
       });
+    },
+
+    async deleteKecamatan(id_kecamatan) {
+      this.showSwal("loading");
+
+      this.indexComponent++;
+
+      try {
+        await this.a$deleteKecamatan(parseInt(id_kecamatan));
+        await this.getListKecamatan();
+        this.showSwal("success-message", "Data mahasiswa berhasil dihapus!");
+      } catch (error) {
+        console.log(error);
+        let msg = "";
+        if (error.error && error.error != undefined) msg = error.error;
+        else msg = error;
+        this.showSwal("failed-message", "Data gagal dihapus! " + msg);
+      }
+
+      this.setupDataTable();
+      this.setupTableAction();
     },
 
     getChoices(id) {
@@ -485,27 +510,17 @@ export default {
         e.preventDefault();
       });
 
-      // // evaluate lpk for dosen
-      // $("#lpk-dosen-section-list").on("click", `.edit`, function (e) {
-      //   let lpk = this;
-      //   outerThis.$router.push({
-      //     name: "Evaluate LPK",
-      //     params: { id_laporan: lpk.id },
-      //   });
-      //   e.preventDefault();
-      // });
-
-      // // delete
-      // $("#kecamatan-list").on("click", `.delete`, function (e) {
-      //   let laporan = this;
-      //   outerThis.showSwal(
-      //     "warning-confirmation",
-      //     `Hapus laporan ${laporan.name}? Semua data LRK dan LPK akan dihapus permanen!`,
-      //     "Berhasil menghapus data",
-      //     laporan.id
-      //   );
-      //   e.preventDefault();
-      // });
+      // delete
+      $("#kecamatan-list").on("click", `.delete-kecamatan`, function (e) {
+        let kec = this;
+        outerThis.showSwal(
+          "warning-confirmation",
+          `Hapus kecamatan ${kec.name}?`,
+          "Berhasil menghapus data",
+          kec.id
+        );
+        e.preventDefault();
+      });
 
       // $("#lpk-dosen-section-list").on("click", `.delete`, function (e) {
       //   let laporan = this;
@@ -532,7 +547,7 @@ export default {
       });
     },
 
-    showSwal(type, text) {
+    showSwal(type, text, toastText, id_kecamatan) {
       if (type === "success-message") {
         this.$swal({
           icon: "success",
@@ -542,6 +557,22 @@ export default {
           type: type,
           timerProgressBar: true,
           showConfirmButton: false,
+          didOpen: () => {
+            this.$swal.hideLoading();
+          },
+        });
+      } else if (type === "warning-message") {
+        this.$swal({
+          icon: "warning",
+          title: "Peringatan!",
+          text: text,
+          timer: 2500,
+          type: type,
+          timerProgressBar: true,
+          showConfirmButton: false,
+          didOpen: () => {
+            this.$swal.hideLoading();
+          },
         });
       } else if (type === "failed-message") {
         this.$swal({
@@ -552,6 +583,9 @@ export default {
           type: type,
           timerProgressBar: true,
           showConfirmButton: false,
+          didOpen: () => {
+            this.$swal.hideLoading();
+          },
         });
       } else if (type === "auto-close") {
         let timerInterval;
@@ -571,6 +605,59 @@ export default {
             clearInterval(timerInterval);
           },
         });
+      } else if (type === "warning-confirmation") {
+        this.$swal({
+          title: "Apakah Anda yakin?",
+          text: text,
+          showCancelButton: true,
+          confirmButtonText: "Ya!",
+          cancelButtonText: "Batal!",
+          customClass: {
+            confirmButton: "btn bg-gradient-success",
+            cancelButton: "btn bg-gradient-secondary",
+          },
+          buttonsStyling: false,
+          didOpen: () => {
+            this.$swal.hideLoading();
+          },
+        }).then((result) => {
+          if (result.isConfirmed) {
+            this.deleteKecamatan(id_kecamatan);
+            this.$swal({
+              toast: true,
+              position: "top-end",
+              title: toastText,
+              icon: "success",
+              showConfirmButton: false,
+              timer: 2500,
+              timerProgressBar: true,
+              didOpen: () => {
+                this.$swal.hideLoading();
+              },
+            });
+          } else if (
+            /* Read more about handling dismissals below */
+            result.dismiss === this.$swal.DismissReason.cancel
+          ) {
+            this.$swal.close();
+          }
+        });
+      } else if (type === "loading") {
+        this.$swal({
+          title: "Memuat...",
+          timerProgressBar: true,
+          showConfirmButton: false,
+          allowOutsideClick: false,
+          allowEscapeKey: false,
+          didOpen: () => {
+            this.$swal.showLoading();
+          },
+          didDestroy: () => {
+            this.$swal.hideLoading();
+          },
+        });
+      } else if (type === "close") {
+        this.$swal.close();
       }
     },
   },
