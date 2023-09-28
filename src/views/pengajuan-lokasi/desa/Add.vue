@@ -122,6 +122,7 @@ export default {
       id_tema: "",
       id_kecamatan: "",
       desa: "",
+      listKabupatenTerdaftar: [],
     };
   },
   computed: {

@@ -246,24 +246,31 @@
                     <td class="text-sm">{{ desa.nama_kecamatan }}</td>
                     <td class="text-sm">
                       <a
+                        :id="desa.id_desa"
+                        :name="desa.nama"
                         href="javascript:;"
                         data-bs-toggle="tooltip"
-                        data-bs-original-title="Preview product"
+                        data-bs-original-title="Detail Desa"
                       >
                         <i class="fas fa-eye text-info"></i>
                       </a>
                       <a
+                        :id="desa.id_desa"
+                        :name="desa.nama"
                         href="javascript:;"
-                        class="mx-3"
+                        class="mx-3 edit-desa"
                         data-bs-toggle="tooltip"
-                        data-bs-original-title="Edit product"
+                        data-bs-original-title="Edit Desa"
                       >
                         <i class="fas fa-user-edit text-primary"></i>
                       </a>
                       <a
+                        :id="desa.id_desa"
+                        :name="desa.nama"
                         href="javascript:;"
+                        class="delete-desa"
                         data-bs-toggle="tooltip"
-                        data-bs-original-title="Delete product"
+                        data-bs-original-title="Hapus Desa"
                       >
                         <i class="fas fa-trash text-danger"></i>
                       </a>
@@ -534,16 +541,27 @@ export default {
         e.preventDefault();
       });
 
-      // $("#lpk-dosen-section-list").on("click", `.delete`, function (e) {
-      //   let laporan = this;
-      //   outerThis.showSwal(
-      //     "warning-confirmation",
-      //     `Hapus laporan mahasiswa ${laporan.name}? Semua data LRK dan LPK mahasiswa tersebut akan dihapus permanen!`,
-      //     "Berhasil menghapus data",
-      //     laporan.id
-      //   );
-      //   e.preventDefault();
-      // });
+      // edit
+      $("#desa-list").on("click", `.edit-desa`, function (e) {
+        let desa = this;
+        outerThis.$router.push({
+          name: "Edit Desa",
+          params: { id_desa: desa.id },
+        });
+        e.preventDefault();
+      });
+
+      // delete
+      $("#desa-list").on("click", `.delete-desa`, function (e) {
+        let desa = this;
+        outerThis.showSwal(
+          "warning-confirmation",
+          `Hapus desa ${desa.name}?`,
+          "Berhasil menghapus data",
+          desa.id
+        );
+        e.preventDefault();
+      });
     },
 
     async getListDesa() {

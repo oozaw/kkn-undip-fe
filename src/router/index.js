@@ -566,7 +566,7 @@ const routes = [
     },
   },
   {
-    path: "/pengajuan-lokasi/desa/edit",
+    path: "/pengajuan-lokasi/desa/edit/:id_desa",
     name: "Edit Desa",
     component: EditDesa,
     meta: {

@@ -9,6 +9,7 @@ const d$wilayah = defineStore("wilayahStore", {
     listKecamatanAccepted: [],
     listDesa: [],
     kecamatan: {},
+    desa: {},
     status: null,
   }),
   actions: {
@@ -243,6 +244,7 @@ const d$wilayah = defineStore("wilayahStore", {
       listKecamatanAccepted,
     g$listDesa: ({ listDesa }) => listDesa,
     g$kecamatan: ({ kecamatan }) => kecamatan,
+    g$desa: ({ desa }) => desa,
   },
 });
 
