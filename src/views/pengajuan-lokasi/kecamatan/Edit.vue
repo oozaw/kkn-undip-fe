@@ -102,6 +102,29 @@
                   ></div>
                 </div>
               </div>
+              <div class="row mt-4">
+                <div
+                  class="col-sm-auto ms-sm-auto mt-sm-0 mt-3 d-flex justify-content-end"
+                >
+                  <argon-button
+                    type="button"
+                    :onclick="() => $router.go(-1)"
+                    class="mb-0 me-2"
+                    color="secondary"
+                    size="sm"
+                    >Batal</argon-button
+                  >
+                  <argon-button
+                    type="submit"
+                    form="form-kec"
+                    class="mb-0 me-lg-2"
+                    color="primary"
+                    variant="gradient"
+                    size="sm"
+                    >Simpan Perubahan</argon-button
+                  >
+                </div>
+              </div>
             </form>
           </div>
         </div>

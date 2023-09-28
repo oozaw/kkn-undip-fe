@@ -6,7 +6,7 @@
           <template #button>
             <argon-button
               type="button"
-              :onclick="() => $router.go(-1)"
+              :onclick="() => $router.push({ name: 'Pengajuan Lokasi' })"
               class="mb-0 me-2"
               color="secondary"
               size="sm"
@@ -122,6 +122,29 @@
                   ></div>
                 </div>
               </div>
+              <div class="row mt-4">
+                <div
+                  class="col-sm-auto ms-sm-auto mt-sm-0 mt-3 d-flex justify-content-end"
+                >
+                  <argon-button
+                    type="button"
+                    :onclick="() => $router.push({ name: 'Pengajuan Lokasi' })"
+                    class="mb-0 me-2"
+                    color="secondary"
+                    size="sm"
+                    >Batal</argon-button
+                  >
+                  <argon-button
+                    type="submit"
+                    form="form-kec"
+                    class="mb-0 me-lg-2"
+                    color="success"
+                    variant="gradient"
+                    size="sm"
+                    >Tambah Kecamatan</argon-button
+                  >
+                </div>
+              </div>
             </form>
           </div>
         </div>
@@ -210,6 +233,13 @@ export default {
         });
       } catch (error) {
         console.log(error);
+        let msg = "";
+        if (error.error && error.error != undefined) msg = error.error;
+        else msg = error;
+        this.showSwal(
+          "failed-message",
+          "Terjadi kesalahan saat memuat data! " + msg
+        );
       }
     },
 
@@ -232,6 +262,13 @@ export default {
         this.setChoices(this.choicesTema, this.listKabupatenTerdaftar);
       } catch (error) {
         console.log(error);
+        let msg = "";
+        if (error.error && error.error != undefined) msg = error.error;
+        else msg = error;
+        this.showSwal(
+          "failed-message",
+          "Terjadi kesalahan saat memuat data! " + msg
+        );
       }
     },
 
