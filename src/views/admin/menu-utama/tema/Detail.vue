@@ -22,7 +22,7 @@
                   'warning-confirmation',
                   `Menghapus tema ${tema.nama}? Semua data terkait tema ini akan dihapus!`,
                   'Berhasil menghapus data',
-                  tema.id,
+                  id_tema,
                   true
                 )
               "
@@ -67,8 +67,12 @@
                 Tidak Aktif
               </span>
             </h5>
+            <span>
+              {{ moment(tema.tgl_mulai).format("dddd, DD MMMM YYYY") }}
+              - {{ moment(tema.tgl_akhir).format("dddd, DD MMMM YYYY") }}
+            </span>
           </div>
-          <div class="card-body pt-2">
+          <div class="card-body pt-3">
             <div class="d-flex flex-wrap">
               <div class="col-6 col-md-4">
                 <label class="text-lg mb-1">Jenis KKN</label>
@@ -112,32 +116,35 @@
                   {{ jmlBappeda }}
                 </p>
               </div>
-              <div class="col-6 col-md-4 mt-2 mt-md-0" v-if="tema.jenis == '1'">
+              <div class="col-6 col-md-4 mt-2 mt-md-0">
                 <label class="text-lg mb-1">Mahasiswa</label>
                 <p class="font-weight-bold ms-1 text-lg">
                   {{ jmlMahasiswa }}
                 </p>
               </div>
-              <div class="col-6 col-md-4 mt-2 mt-md-0" v-if="tema.jenis == '1'">
+              <div class="col-6 col-md-4 mt-2 mt-md-0">
                 <label class="text-lg mb-1">Dosen</label>
                 <p class="font-weight-bold ms-1 text-lg">
                   {{ jmlDosen }}
                 </p>
               </div>
-              <div class="tematik-section" v-if="tema.jenis == '2'">
-                <div class="row">
-                  <div class="col-12">
-                    <label class="form-label">Lokasi Kabupaten</label>
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="col-sm-6 align-self-center">
-                    <label class="form-label">Lokasi Kecamatan</label>
-                  </div>
-                  <div class="col-sm-6 align-self-center">
-                    <label class="form-label">Lokasi Desa/ Kelurahan</label>
-                  </div>
-                </div>
+              <div class="col-6 col-md-4 mt-2 mt-md-0" v-if="tema.jenis == '2'">
+                <label class="text-lg mb-1">Kabupaten</label>
+                <p class="font-weight-bold ms-1 text-lg">
+                  {{ tema.kab ?? "-" }}
+                </p>
+              </div>
+              <div class="col-6 col-md-4 mt-2 mt-md-0" v-if="tema.jenis == '2'">
+                <label class="text-lg mb-1">Kecamatan</label>
+                <p class="font-weight-bold ms-1 text-lg">
+                  {{ tema.kec ?? "-" }}
+                </p>
+              </div>
+              <div class="col-6 col-md-4 mt-2 mt-md-0" v-if="tema.jenis == '2'">
+                <label class="text-lg mb-1">Desa/ Kelurahan</label>
+                <p class="font-weight-bold ms-1 text-lg">
+                  {{ tema.desa ?? "-" }}
+                </p>
               </div>
             </div>
           </div>
@@ -149,6 +156,7 @@
 
 <script>
 import Choices from "choices.js";
+import moment from "moment";
 import HeaderProfileCard from "@/views/dashboards/components/HeaderProfileCard.vue";
 import ArgonButton from "@/components/ArgonButton.vue";
 import { mapActions, mapState } from "pinia";
@@ -165,6 +173,7 @@ export default {
   },
   data() {
     return {
+      moment,
       id_tema: this.$route.params.id_tema,
       tema: {
         id: "",
@@ -172,9 +181,6 @@ export default {
         jenis: "1",
         periode: "",
         status: "",
-        lokasi_kabupaten: "",
-        lokasi_kecamatan: "",
-        lokasi_desa: "",
       },
       jmlBappeda: 0,
       jmlDosen: 0,
@@ -188,10 +194,11 @@ export default {
     ...mapState(d$mahasiswa, ["g$listMahasiswa"]),
   },
   async created() {
+    moment.locale("id");
     await this.getInitData();
   },
   methods: {
-    ...mapActions(d$tema, ["a$getTema"]),
+    ...mapActions(d$tema, ["a$getTema", "a$deleteTema", "a$switchTema"]),
     ...mapActions(d$bappeda, ["a$listBappedaTema"]),
     ...mapActions(d$dosen, ["a$listDosenTema"]),
     ...mapActions(d$mahasiswa, ["a$listMahasiswaTema"]),
@@ -221,6 +228,36 @@ export default {
           "failed-message",
           "Terjadi kesalahan saat memuat data! " + msg
         );
+      }
+    },
+
+    async deleteTema(id_tema) {
+      this.showSwal("loading");
+
+      try {
+        await this.a$deleteTema(id_tema);
+        this.$router.push({ name: "Tema KKN" });
+      } catch (error) {
+        console.log(error);
+        let msg = "";
+        if (error.error && error.error != undefined) msg = error.error;
+        else msg = error;
+        this.showSwal("failed-message", "Data gagal dihapus! " + msg);
+      }
+    },
+
+    async switchTema(id_tema) {
+      this.showSwal("loading");
+
+      try {
+        await this.a$switchTema(id_tema);
+        await this.getInitData();
+      } catch (error) {
+        console.log(error);
+        let msg = "";
+        if (error.error && error.error != undefined) msg = error.error;
+        else msg = error;
+        this.showSwal("failed-message", "Data gagal diperbarui! " + msg);
       }
     },
 
