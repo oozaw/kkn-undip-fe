@@ -117,7 +117,7 @@
 <script>
 import { mapActions, mapState } from "pinia";
 import d$auth from "@/store/auth";
-
+import d$presensi from "@/store/presensi";
 import Navbar from "@/views/partials/Navbar.vue";
 import ArgonInput from "@/components/ArgonInput.vue";
 import ArgonButton from "@/components/ArgonButton.vue";
@@ -157,6 +157,7 @@ export default {
   methods: {
     ...mapActions(d$auth, ["a$login", "a$getUser"]),
     ...mapMutations(["toggleDefaultLayout"]),
+    ...mapActions(d$presensi, ["a$updateStatusPresensi"]),
 
     async login() {
       this.showSwal("loading");
@@ -170,6 +171,7 @@ export default {
           "Login Berhasil!",
           "Selamat datang " + this.g$infoUser.nama
         );
+        await this.a$updateStatusPresensi();
       } catch (error) {
         console.log(error);
         let msg = "";

@@ -280,20 +280,20 @@
                 mini-icon="P"
                 text="Data Pendaftaran"
               />
-              <!-- <sidenav-item
+              <sidenav-item
                 :isActive="getRoute2() === 'post-test'"
                 :to="{ name: 'Nilai Post Test Mahasiswa Admin' }"
                 mini-icon="N"
                 text="Data Nilai Post Test"
-              /> -->
-              <!-- <sidenav-item
+              />
+              <sidenav-item
                 :isActive="
                   getRoute2() === 'presensi' && getRoute() === 'mahasiswa'
                 "
                 :to="{ name: 'Presensi Mahasiswa Admin' }"
                 mini-icon="P"
                 text="Data Presensi Harian"
-              /> -->
+              />
               <sidenav-item
                 :isActive="getRoute2() === 'lrk-lpk'"
                 :to="{ name: 'LRK & LPK Mahasiswa Admin' }"
