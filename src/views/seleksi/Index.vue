@@ -3,11 +3,10 @@
     <div class="row mb-5 mt-4">
       <div class="col-lg-12 mt-lg-0 mt-4">
         <header-profile-card />
-        <div class="bg-white card mt-4">
+        <TwoChoicesContentLoader v-if="isLoadingOnInit" />
+        <div class="bg-white card mt-4" :hidden="isLoadingOnInit">
           <div class="card-header pb-0 pt-3">
-            <p class="font-weight-bold text-dark mb-2">
-              Pilih Tema dan Wilayah Terdaftar
-            </p>
+            <p class="font-weight-bold text-dark mb-2">Pilih Tema Terdaftar</p>
           </div>
           <div class="pb-3 pt-0 card-body">
             <div class="col-12 align-self-center">
@@ -27,7 +26,12 @@
                 </option>
               </select>
             </div>
-            <div class="col-12 align-self-center mt-3">
+          </div>
+          <div class="card-header pb-0 pt-0">
+            <p class="font-weight-bold text-dark mb-2">Pilih Lokasi</p>
+          </div>
+          <div class="pb-4 pt-0 card-body">
+            <div class="col-12 align-self-center">
               <select
                 id="choices-kecamatan"
                 class="form-control"
@@ -40,7 +44,8 @@
             </div>
           </div>
         </div>
-        <div class="bg-white card mt-4">
+        <TableContentLoader v-if="isLoading" />
+        <div class="bg-white card mt-4" :hidden="isLoading">
           <!-- Card header -->
           <div class="pb-0 card-header">
             <div class="d-lg-flex">
@@ -335,8 +340,9 @@
 import $ from "jquery";
 import { DataTable } from "simple-datatables";
 import Choices from "choices.js";
-import setTooltip from "@/assets/js/tooltip.js";
 import HeaderProfileCard from "@/views/dashboards/components/HeaderProfileCard.vue";
+import TableContentLoader from "@/views/dashboards/components/TableContentLoader.vue";
+import TwoChoicesContentLoader from "@/views/dashboards/components/TwoChoicesContentLoader.vue";
 import { mapState, mapActions } from "pinia";
 import d$proposal from "@/store/proposal";
 import d$tema from "@/store/tema";
@@ -346,6 +352,8 @@ export default {
   name: "IndexSeleksiMhs",
   components: {
     HeaderProfileCard,
+    TableContentLoader,
+    TwoChoicesContentLoader,
   },
   data() {
     return {
@@ -354,6 +362,8 @@ export default {
       indexComponent: 0,
       choicesTema: undefined,
       choicesKec: undefined,
+      isLoading: true,
+      isLoadingOnInit: true,
     };
   },
   computed: {
@@ -363,10 +373,6 @@ export default {
   },
   async created() {
     await this.getInitData();
-
-    this.choicesTema = this.getChoices("choices-tema");
-
-    setTooltip(this.$store.state.bootstrap);
   },
   beforeUnmount() {
     if (this.choicesTema) this.choicesTema.destroy();
@@ -383,12 +389,14 @@ export default {
     ]),
 
     async getInitData() {
+      this.isLoadingOnInit = true;
+      this.isLoading = true;
+
       try {
         await this.a$listTemaDosen();
         this.id_tema = this.g$listTema[0].id_tema;
-
+        this.choicesTema = this.getChoices("choices-tema");
         this.choicesKec = this.getChoices("choices-kecamatan");
-
         await this.getListKecamatan();
       } catch (error) {
         console.log(error);
@@ -400,9 +408,14 @@ export default {
           "Terjadi kesalahan saat memuat data! " + msg
         );
       }
+
+      setTimeout(() => {
+        this.isLoadingOnInit = false;
+      }, 50);
     },
 
     async getListMahasiswa() {
+      this.isLoading = true;
       this.indexComponent++;
       this.id_kecamatan = parseInt(this.id_kecamatan);
 
@@ -419,8 +432,14 @@ export default {
         );
       }
 
-      this.setupDataTable();
-      this.setupTableAction();
+      setTimeout(() => {
+        this.setupDataTable();
+        this.setupTableAction();
+      }, 10);
+
+      setTimeout(() => {
+        this.isLoading = false;
+      }, 400);
     },
 
     async getListKecamatan() {
