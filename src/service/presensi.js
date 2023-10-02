@@ -20,6 +20,9 @@ const addJadwalPresensi = (body) => baseApi.post(`${api}presensi/jadwal`, body);
 const setupJadwalPresensiTema = (id_tema) =>
   baseApi.post(`${api}presensi/jadwal/${id_tema}`);
 
+const editJadwalPresensi = (id_presensi, body) =>
+  baseApi.put(`${api}presensi/jadwal/${id_presensi}`, body);
+
 const editPresensi = (id_riwayat_presensi, body) =>
   baseApi.put(`${api}presensi/${id_riwayat_presensi}`, body);
 
@@ -43,6 +46,7 @@ export {
   getPresensi,
   addJadwalPresensi,
   setupJadwalPresensiTema,
+  editJadwalPresensi,
   editPresensi,
   submitPresensi,
   updateStatusJadwalPresensi,

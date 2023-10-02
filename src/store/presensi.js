@@ -91,6 +91,16 @@ const d$presensi = defineStore("presensiStore", {
       }
     },
 
+    async a$editJadwalPresensi(id_presensi, body) {
+      try {
+        const status = await s$presensi.editJadwalPresensi(id_presensi, body);
+        this.status = status;
+      } catch ({ message, error }) {
+        this.status = false;
+        throw message ?? error;
+      }
+    },
+
     async a$editPresensi(id_riwayat_presensi, body) {
       try {
         const status = await s$presensi.editPresensi(id_riwayat_presensi, body);

@@ -640,7 +640,7 @@ const routes = [
     },
   },
   {
-    path: "/admin/presensi/edit",
+    path: "/admin/presensi/edit/:id_jadwal_presensi",
     name: "Edit Jadwal Presensi",
     component: EditJadwalPresensi,
     meta: {

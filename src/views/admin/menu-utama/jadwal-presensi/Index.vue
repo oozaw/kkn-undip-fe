@@ -111,6 +111,77 @@
                       </div>
                     </div>
                   </div>
+                  <a
+                    id="edit-jadwal-button-modal"
+                    type="button"
+                    class="me-3"
+                    data-bs-toggle="modal"
+                    data-bs-target="#edit-jadwal"
+                    hidden
+                  >
+                    <i class="fas fa-user-edit text-primary"></i>
+                  </a>
+                  <div
+                    id="edit-jadwal"
+                    class="modal fade"
+                    tabindex="-1"
+                    aria-hidden="true"
+                    :key="indexComponent"
+                  >
+                    <div class="modal-dialog mt-lg-6">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h5 id="ModalLabel" class="modal-title text-wrap">
+                            Edit Jadwal Presensi {{ edit.judul }}
+                          </h5>
+                          <button
+                            type="button"
+                            class="btn-close"
+                            data-bs-dismiss="modal"
+                            aria-label="Close"
+                          ></button>
+                        </div>
+                        <div class="modal-body">
+                          <form
+                            role="form"
+                            id="form-edit-jadwal"
+                            @submit.prevent="editJadwalPresensi()"
+                          >
+                            <label class="form-label">Tanggal</label>
+                            <VueDatePicker
+                              id="tgl-edit"
+                              name="tgl-edit"
+                              v-model="edit.tgl"
+                              placeholder="Pilih tanggal"
+                              locale="id"
+                              cancel-text="Batal"
+                              select-text="Pilih"
+                              :format="'dd MMMM yyyy'"
+                              :enable-time-picker="false"
+                              :format-locale="id"
+                            ></VueDatePicker>
+                          </form>
+                        </div>
+                        <div class="modal-footer">
+                          <button
+                            id="button-close-modal-edit"
+                            type="button"
+                            class="btn bg-gradient-secondary btn-sm"
+                            data-bs-dismiss="modal"
+                          >
+                            Batal
+                          </button>
+                          <button
+                            form="form-edit-jadwal"
+                            type="submit"
+                            class="btn bg-gradient-success btn-sm edit"
+                          >
+                            Tambah
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                   <!-- Ekspor Button -->
                   <!-- <button
                      class="mt-1 mb-0 btn btn-outline-success btn-sm export mt-sm-0"
@@ -168,6 +239,7 @@
                     <td class="text-sm">
                       <a
                         :id="presensi.id_presensi"
+                        :name="presensi.tgl"
                         href="#"
                         class="me-3 edit"
                         data-bs-toggle="tooltip"
@@ -278,6 +350,11 @@ export default {
         id_tema: "",
         tgl: "",
       },
+      edit: {
+        id_presensi: "",
+        tgl: "",
+        judul: "",
+      },
       moment,
     };
   },
@@ -299,6 +376,7 @@ export default {
       "a$listJadwalPresensiTema",
       "a$addJadwalPresensi",
       "a$deleteJadwalPresensi",
+      "a$editJadwalPresensi",
     ]),
 
     async getInitData() {
@@ -380,6 +458,34 @@ export default {
       }
     },
 
+    async editJadwalPresensi() {
+      // validation
+      if (!this.edit.tgl || this.edit.tgl === "") {
+        this.showSwal("warning-message", "Lengkapi data terlebih dahulu!");
+        return;
+      }
+
+      this.showSwal("loading");
+
+      const body = {
+        tgl: this.edit.tgl,
+      };
+
+      try {
+        document.getElementById("button-close-modal-edit").click();
+        await this.a$editJadwalPresensi(this.edit.id_presensi, body);
+        await this.getListJadwalPresensi();
+        this.showSwal("success-message", "Berhasil mengubah jadwal presensi");
+        this.edit.tgl = "";
+      } catch (error) {
+        console.log(error);
+        let msg = "";
+        if (error.error && error.error != undefined) msg = error.error;
+        else msg = error;
+        this.showSwal("failed-message", "Data gagal diubah! " + msg);
+      }
+    },
+
     async deleteJadwalPresensi(id_presensi) {
       this.showSwal("loading");
 
@@ -396,38 +502,20 @@ export default {
       }
     },
 
+    getEditTgl() {
+      const data = Object.assign({}, this.edit);
+      this.edit.judul = moment(data.tgl).format("dddd, DD MMMM YYYY");
+    },
+
     setupTableAction() {
       let outerThis = this;
-      // $("#jadwal-presensi-list").on("click", `.aktif`, function (e) {
-      //   let presensi = this;
-      //   outerThis.showSwal(
-      //     "warning-confirmation",
-      //     `Mengaktifkan presensi ${presensi.name}?`,
-      //     "Berhasil memperbarui data",
-      //     presensi.id
-      //   );
-      //   e.preventDefault();
-      // });
-
-      // $("#jadwal-presensi-list").on("click", `.non-aktif`, function (e) {
-      //   let presensi = this;
-      //   outerThis.showSwal(
-      //     "warning-confirmation",
-      //     `Menonaktifkan presensi ${presensi.name}?`,
-      //     "Berhasil memperbarui data",
-      //     presensi.id
-      //   );
-      //   e.preventDefault();
-      // });
 
       $("#jadwal-presensi-list").on("click", `.edit`, function (e) {
         let presensi = this;
-        outerThis.$router.push({
-          name: "Edit Jadwal Presensi",
-          params: {
-            id_jadwal_presensi: presensi.id,
-          },
-        });
+        outerThis.edit.id_presensi = presensi.id;
+        outerThis.edit.tgl = presensi.name;
+        outerThis.getEditTgl();
+        document.getElementById("edit-jadwal-button-modal").click();
         e.preventDefault();
       });
 
@@ -435,7 +523,7 @@ export default {
         let presensi = this;
         outerThis.showSwal(
           "warning-confirmation",
-          `Hapus jadwal presensi ${presensi.name}?`,
+          `Hapus jadwal presensi ${presensi.name}? Semua riwayat presensi mahasiswa pada tanggal tersebut akan dihapus!`,
           presensi.id
         );
         e.preventDefault();

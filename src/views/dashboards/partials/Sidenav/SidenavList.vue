@@ -169,7 +169,7 @@
                 :isActive="getRoute2() === 'presensi'"
                 :to="{ name: 'Jadwal Presensi' }"
                 mini-icon="P"
-                text="Jadwal Presensi Mahasiswa"
+                text="Jadwal Presensi"
               />
               <sidenav-item
                 :isActive="getRoute2() === 'kalender'"
