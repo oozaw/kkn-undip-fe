@@ -171,8 +171,8 @@ export default {
   },
   methods: {
     ...mapActions(d$presensi, [
-      "a$listRiwayatPresensiMahasiswa",
-      "a$getRiwayatPresensi",
+      "a$listPresensiMahasiswa",
+      "a$getPresensi",
       "a$submitPresensi",
     ]),
     ...mapActions(d$wilayah, ["a$getKecamatanMhs"]),
@@ -183,8 +183,8 @@ export default {
       this.listRiwayatPresensi = [];
 
       try {
-        await this.a$listRiwayatPresensiMahasiswa();
-        await this.a$getRiwayatPresensi(
+        await this.a$listPresensiMahasiswa();
+        await this.a$getPresensi(
           Number(this.g$infoUser.id_mahasiswa),
           moment().format("YYYY-MM-DD")
         );

@@ -2,30 +2,38 @@ import { baseApi } from "@/utils/axios";
 
 const api = `/`;
 
-const listAllPresensi = () => baseApi.get(`${api}presensi`);
+const listJadwalPresensi = () => baseApi.get(`${api}presensi/jadwal`);
 
-const listPresensiTema = (id_tema) =>
-  baseApi.get(`${api}presensi/tema/${id_tema}`);
+const listJadwalPresensiTema = (id_tema) =>
+  baseApi.get(`${api}presensi/jadwal/tema/${id_tema}`);
 
-const listRiwayatPresensiMahasiswa = () =>
-  baseApi.get(`${api}presensi/riwayat/mahasiswa`);
+const listPresensiMahasiswa = () => baseApi.get(`${api}presensi/mahasiswa`);
 
-const getRiwayatPresensi = (id_mahasiswa, tgl) =>
-  baseApi.get(`${api}presensi/riwayat/${id_mahasiswa}/${tgl}`);
+const listPresensiKecamatan = (id_kecamatan) =>
+  baseApi.get(`${api}presensi/kecamatan/${id_kecamatan}`);
 
-const addPresensi = (id_tema) => baseApi.post(`${api}presensi/${id_tema}`);
+const getPresensi = (id_mahasiswa, tgl) =>
+  baseApi.get(`${api}presensi/detail/${id_mahasiswa}/${tgl}`);
+
+const addJadwalPresensi = (body) => baseApi.post(`${api}presensi/jadwal`, body);
+
+const setupJadwalPresensiTema = (id_tema) =>
+  baseApi.post(`${api}presensi/jadwal/${id_tema}`);
 
 const submitPresensi = (id_tema, body) =>
   baseApi.post(`${api}presensi/submit/${id_tema}`, body);
 
-const updateStatusPresensi = () => baseApi.put(`${api}presensi/status`);
+const updateStatusJadwalPresensi = () =>
+  baseApi.put(`${api}presensi/jadwal/status`);
 
 export {
-  listAllPresensi,
-  listPresensiTema,
-  listRiwayatPresensiMahasiswa,
-  getRiwayatPresensi,
-  addPresensi,
+  listJadwalPresensi,
+  listJadwalPresensiTema,
+  listPresensiMahasiswa,
+  listPresensiKecamatan,
+  getPresensi,
+  addJadwalPresensi,
+  setupJadwalPresensiTema,
   submitPresensi,
-  updateStatusPresensi,
+  updateStatusJadwalPresensi,
 };

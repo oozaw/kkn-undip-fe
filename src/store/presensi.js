@@ -9,9 +9,9 @@ const d$presensi = defineStore("presensiStore", {
     status: null,
   }),
   actions: {
-    async a$listAllPresensi() {
+    async a$listJadwalPresensi() {
       try {
-        const { data, status } = await s$presensi.listAllPresensi();
+        const { data, status } = await s$presensi.listJadwalPresensi();
         this.listPresensi = data ?? [];
         this.status = status;
       } catch ({ message, error }) {
@@ -20,9 +20,11 @@ const d$presensi = defineStore("presensiStore", {
       }
     },
 
-    async a$listPresensiTema(id_tema) {
+    async a$listJadwalPresensiTema(id_tema) {
       try {
-        const { data, status } = await s$presensi.listPresensiTema(id_tema);
+        const { data, status } = await s$presensi.listJadwalPresensiTema(
+          id_tema
+        );
         this.listPresensi = data ?? [];
         this.status = status;
       } catch ({ message, error }) {
@@ -31,10 +33,9 @@ const d$presensi = defineStore("presensiStore", {
       }
     },
 
-    async a$listRiwayatPresensiMahasiswa() {
+    async a$listPresensiMahasiswa() {
       try {
-        const { data, status } =
-          await s$presensi.listRiwayatPresensiMahasiswa();
+        const { data, status } = await s$presensi.listPresensiMahasiswa();
         this.listPresensi = data ?? [];
         this.status = status;
       } catch ({ message, error }) {
@@ -43,9 +44,22 @@ const d$presensi = defineStore("presensiStore", {
       }
     },
 
-    async a$getRiwayatPresensi(id_mahasiswa, tgl) {
+    async a$listPresensiKecamatan(id_kecamatan) {
       try {
-        const { data, status } = await s$presensi.getRiwayatPresensi(
+        const { data, status } = await s$presensi.listPresensiKecamatan(
+          id_kecamatan
+        );
+        this.listPresensi = data ?? [];
+        this.status = status;
+      } catch ({ message, error }) {
+        this.status = false;
+        throw message ?? error;
+      }
+    },
+
+    async a$getPresensi(id_mahasiswa, tgl) {
+      try {
+        const { data, status } = await s$presensi.getPresensi(
           id_mahasiswa,
           tgl
         );
@@ -57,9 +71,19 @@ const d$presensi = defineStore("presensiStore", {
       }
     },
 
-    async a$addPresensi(id_tema) {
+    async a$addJadwalPresensi(body) {
       try {
-        const status = await s$presensi.addPresensi(id_tema);
+        const status = await s$presensi.addJadwalPresensi(body);
+        this.status = status;
+      } catch ({ message, error }) {
+        this.status = false;
+        throw message ?? error;
+      }
+    },
+
+    async a$setupJadwalPresensiTema(id_tema) {
+      try {
+        const status = await s$presensi.setupJadwalPresensiTema(id_tema);
         this.status = status;
       } catch ({ message, error }) {
         this.status = false;
@@ -77,9 +101,9 @@ const d$presensi = defineStore("presensiStore", {
       }
     },
 
-    async a$updateStatusPresensi() {
+    async a$updateStatusJadwalPresensi() {
       try {
-        const status = await s$presensi.updateStatusPresensi();
+        const status = await s$presensi.updateStatusJadwalPresensi();
         this.status = status;
       } catch ({ message, error }) {
         this.status = false;
