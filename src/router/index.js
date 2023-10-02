@@ -138,7 +138,6 @@ import IndexNilaiAkhirMhsAdmin from "../views/admin/kelola-dosen/nilai-akhir-mhs
 import IndexKorwil from "../views/admin/korwil/Index.vue";
 import IndexExport from "../views/export/Index.vue";
 import IndexJadwalPresensi from "../views/admin/menu-utama/jadwal-presensi/Index.vue";
-import EditJadwalPresensi from "../views/admin/menu-utama/jadwal-presensi/Edit.vue";
 
 const routes = [
   {
@@ -635,14 +634,6 @@ const routes = [
     path: "/admin/presensi",
     name: "Jadwal Presensi",
     component: IndexJadwalPresensi,
-    meta: {
-      requiresAuth: [Role.admin],
-    },
-  },
-  {
-    path: "/admin/presensi/edit/:id_jadwal_presensi",
-    name: "Edit Jadwal Presensi",
-    component: EditJadwalPresensi,
     meta: {
       requiresAuth: [Role.admin],
     },
