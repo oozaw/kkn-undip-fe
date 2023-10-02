@@ -4,7 +4,8 @@
       <div class="col-lg-12 mt-lg-0 mt-4">
         <header-profile-card />
         <section id="mhs-section" v-if="g$user.role === 'MAHASISWA'">
-          <div class="bg-white card mt-4">
+          <TableContentLoader v-if="isLoading" />
+          <div class="bg-white card mt-4" :hidden="isLoading">
             <!-- Card header -->
             <div class="pb-0 card-header">
               <div class="d-lg-flex">
@@ -201,10 +202,11 @@
           </div>
         </section>
         <section id="dosen-section" v-else-if="g$user.role === 'DOSEN'">
-          <div class="bg-white card mt-4">
+          <TwoChoicesContentLoader v-if="isLoadingOnInit" />
+          <div class="bg-white card mt-4" :hidden="isLoadingOnInit">
             <div class="card-header pb-0 pt-3">
               <p class="font-weight-bold text-dark mb-2">
-                Pilih Tema dan Wilayah Terdaftar
+                Pilih Tema Terdaftar
               </p>
             </div>
             <div class="pb-3 pt-0 card-body">
@@ -225,20 +227,26 @@
                   </option>
                 </select>
               </div>
-              <div class="col-12 align-self-center mt-3">
+            </div>
+            <div class="card-header pb-0 pt-0">
+              <p class="font-weight-bold text-dark mb-2">Pilih Lokasi</p>
+            </div>
+            <div class="pb-4 pt-0 card-body">
+              <div class="col-12 align-self-center">
                 <select
                   id="choices-kecamatan"
                   class="form-control"
                   name="choices-kecamatan"
                   v-model="id_kecamatan"
-                  @change="getListReportaseDosen()"
+                  @change="getListLaporanDosen()"
                 >
                   <option value="" disabled>-- Pilih wilayah --</option>
                 </select>
               </div>
             </div>
           </div>
-          <div class="bg-white card mt-4">
+          <TableContentLoader v-if="isLoading" />
+          <div class="bg-white card mt-4" :hidden="isLoading">
             <!-- Card header -->
             <div class="pb-0 card-header">
               <div class="d-lg-flex">
@@ -482,6 +490,8 @@ import { DataTable } from "simple-datatables";
 import moment from "moment";
 import Choices from "choices.js";
 import HeaderProfileCard from "@/views/dashboards/components/HeaderProfileCard.vue";
+import TableContentLoader from "@/views/dashboards/components/TableContentLoader.vue";
+import TwoChoicesContentLoader from "@/views/dashboards/components/TwoChoicesContentLoader.vue";
 import { mapActions, mapState } from "pinia";
 import d$auth from "@/store/auth";
 import d$tema from "@/store/tema";
@@ -492,6 +502,8 @@ export default {
   name: "IndexReportase",
   components: {
     HeaderProfileCard,
+    TableContentLoader,
+    TwoChoicesContentLoader,
   },
   data() {
     return {
@@ -502,7 +514,8 @@ export default {
       choicesTema: undefined,
       choicesKec: undefined,
       moment,
-      loader: undefined,
+      isLoading: true,
+      isLoadingOnInit: true,
     };
   },
   computed: {
@@ -512,16 +525,8 @@ export default {
     ...mapState(d$proposal, ["g$listProposal"]),
   },
   async created() {
-    this.showLoading(true);
-
     if (this.g$user.role === "MAHASISWA") await this.getListReportaseMhs();
-    else if (this.g$user.role === "DOSEN") {
-      await this.getInitData();
-
-      this.choicesTema = this.getChoices("choices-tema");
-
-      this.getTema();
-    }
+    else if (this.g$user.role === "DOSEN") await this.getInitData();
   },
   beforeUnmount() {
     if (this.choicesTema) this.choicesTema.destroy();
@@ -537,10 +542,15 @@ export default {
     ]),
 
     async getInitData() {
+      this.isLoadingOnInit = true;
+      this.isLoading = true;
+
       try {
         await this.a$listTemaDosen();
         this.id_tema = this.g$listTema[0].id_tema;
 
+        this.choicesTema = this.getChoices("choices-tema");
+        this.getTema();
         this.choicesKec = this.getChoices("choices-kecamatan");
 
         await this.getListKecamatan();
@@ -554,10 +564,14 @@ export default {
           "Terjadi kesalahan saat memuat data! " + msg
         );
       }
+
+      setTimeout(() => {
+        this.isLoadingOnInit = false;
+      }, 50);
     },
 
     async getListReportaseDosen() {
-      this.showLoading(true);
+      this.isLoading = true;
 
       this.indexComponent++;
       this.id_kecamatan = parseInt(this.id_kecamatan);
@@ -575,10 +589,14 @@ export default {
         );
       }
 
-      this.setupDataTable("reportase-dosen-section-list");
-      this.setupTableAction();
+      setTimeout(() => {
+        this.setupDataTable("reportase-dosen-section-list");
+        this.setupTableAction();
+      }, 10);
 
-      this.showLoading(false);
+      setTimeout(() => {
+        this.isLoading = false;
+      }, 400);
     },
 
     async getListKecamatan() {
@@ -602,8 +620,7 @@ export default {
     },
 
     async getListReportaseMhs() {
-      this.showLoading(true);
-
+      this.isLoading = true;
       this.indexComponent++;
 
       try {
@@ -619,10 +636,14 @@ export default {
         );
       }
 
-      this.setupDataTable("reportase-list");
-      this.setupTableAction();
+      setTimeout(() => {
+        this.setupDataTable("reportase-list");
+        this.setupTableAction();
+      }, 10);
 
-      this.showLoading(false);
+      setTimeout(() => {
+        this.isLoading = false;
+      }, 400);
     },
 
     async deleteReportase(id_reportase) {
@@ -801,17 +822,6 @@ export default {
     getTema() {
       this.tema =
         document.getElementById("choices-tema").selectedOptions[0].text;
-    },
-
-    showLoading(isLoading) {
-      if (isLoading && !this.loader) {
-        this.loader = this.$loading.show();
-      } else if (!isLoading && this.loader) {
-        setTimeout(() => {
-          this.loader.hide();
-          this.loader = undefined;
-        }, 400);
-      }
     },
 
     showSwal(type, text, toastText, id_reportase) {
