@@ -3,11 +3,10 @@
     <div class="row mb-5 mt-4">
       <div class="col-lg-12 mt-lg-0 mt-4">
         <header-profile-card />
-        <div class="bg-white card mt-4">
+        <TwoChoicesContentLoader v-if="isLoadingOnInit" />
+        <div class="bg-white card mt-4" :hidden="isLoadingOnInit">
           <div class="card-header pb-0 pt-3">
-            <p class="font-weight-bold text-dark mb-2">
-              Pilih Tema dan Wilayah Terdaftar
-            </p>
+            <p class="font-weight-bold text-dark mb-2">Pilih Tema Terdaftar</p>
           </div>
           <div class="pb-3 pt-0 card-body">
             <div class="col-12 align-self-center">
@@ -27,7 +26,12 @@
                 </option>
               </select>
             </div>
-            <div class="col-12 align-self-center mt-3">
+          </div>
+          <div class="card-header pb-0 pt-0">
+            <p class="font-weight-bold text-dark mb-2">Pilih Lokasi</p>
+          </div>
+          <div class="pb-4 pt-0 card-body">
+            <div class="col-12 align-self-center">
               <select
                 id="choices-kecamatan"
                 class="form-control"
@@ -40,7 +44,8 @@
             </div>
           </div>
         </div>
-        <div class="bg-white card mt-4">
+        <TableContentLoader v-if="isLoading" />
+        <div class="bg-white card mt-4" :hidden="isLoading">
           <!-- Card header -->
           <div class="pb-0 card-header">
             <div class="d-lg-flex">
@@ -142,13 +147,14 @@
                   </div>
                   <button
                     :key="indexComponent"
-                    class="mt-1 mb-0 btn btn-outline-success btn-sm export mt-sm-0"
-                    data-type="csv"
+                    class="mt-1 mb-0 btn btn-outline-success btn-sm mt-sm-0"
                     type="button"
                     name="button"
+                    @click="exportToExcel()"
                   >
                     Expor
                   </button>
+                  <a href="#" hidden id="file-placeholder"></a>
                 </div>
               </div>
             </div>
@@ -428,15 +434,20 @@ import $ from "jquery";
 import { DataTable } from "simple-datatables";
 import Choices from "choices.js";
 import HeaderProfileCard from "@/views/dashboards/components/HeaderProfileCard.vue";
+import TableContentLoader from "@/views/dashboards/components/TableContentLoader.vue";
+import TwoChoicesContentLoader from "@/views/dashboards/components/TwoChoicesContentLoader.vue";
 import { mapActions, mapState } from "pinia";
 import d$nilai from "@/store/nilai";
 import d$tema from "@/store/tema";
 import d$proposal from "@/store/proposal";
+import d$export from "@/store/export";
 
 export default {
   name: "IndexNilaiAkhir",
   components: {
     HeaderProfileCard,
+    TableContentLoader,
+    TwoChoicesContentLoader,
   },
   data() {
     return {
@@ -451,21 +462,18 @@ export default {
       },
       choicesTema: undefined,
       choicesKec: undefined,
-      loader: undefined,
+      isLoadingOnInit: true,
+      isLoading: true,
     };
   },
   computed: {
     ...mapState(d$tema, ["g$listTema"]),
     ...mapState(d$nilai, ["g$listNilai", "g$formatFile"]),
     ...mapState(d$proposal, ["g$listProposalAccepted"]),
+    ...mapState(d$export, ["g$exportData"]),
   },
   async created() {
-    this.showLoading(true);
-
     await this.getInitData();
-
-    this.choicesTema = this.getChoices("choices-tema");
-
     this.getTemaAndKecamatan();
   },
   beforeUnmount() {
@@ -481,13 +489,18 @@ export default {
       "a$importNilai",
     ]),
     ...mapActions(d$proposal, ["a$listProposalDosen"]),
+    ...mapActions(d$export, ["a$excelNilaiMhsKecamatan"]),
 
     async getInitData() {
+      this.isLoadingOnInit = true;
+      this.isLoading = true;
+
       try {
         await this.a$listTemaDosen();
         this.id_tema = this.g$listTema[0].id_tema;
 
         this.choicesKec = this.getChoices("choices-kecamatan");
+        this.choicesTema = this.getChoices("choices-tema");
 
         await this.getListKecamatan();
       } catch (error) {
@@ -500,6 +513,10 @@ export default {
           "Terjadi kesalahan saat memuat data! " + msg
         );
       }
+
+      setTimeout(() => {
+        this.isLoadingOnInit = false;
+      }, 50);
     },
 
     async getListKecamatan() {
@@ -523,7 +540,7 @@ export default {
     },
 
     async getListNilai() {
-      this.showLoading(true);
+      this.isLoading = true;
 
       this.indexComponent++;
       this.id_kecamatan = parseInt(this.id_kecamatan);
@@ -542,10 +559,14 @@ export default {
         );
       }
 
-      this.setupDataTable();
-      this.setupTableAction();
+      setTimeout(() => {
+        this.setupDataTable();
+        this.setupTableAction();
+      }, 10);
 
-      this.showLoading(false);
+      setTimeout(() => {
+        this.isLoading = false;
+      }, 400);
     },
 
     async resetNilai(id_nilai) {
@@ -611,6 +632,46 @@ export default {
 
         button.href = fileURL;
         button.download = `Format Impor Nilai Mahasiswa Kec. ${namaKecamatan}, Kab. ${namaKabupaten} - ${namaTema}.xlsx`;
+
+        button.click();
+
+        this.showSwal("close");
+      } catch (error) {
+        console.log(error);
+        let msg = "";
+        if (error.error && error.error != undefined) msg = error.error;
+        else msg = error;
+        this.showSwal("failed-message", "Data gagal diunduh! " + msg);
+      }
+    },
+
+    async exportToExcel() {
+      this.showSwal("loading");
+
+      const button = document.getElementById("file-placeholder");
+
+      try {
+        let namaTema =
+          document.getElementById("choices-tema").selectedOptions[0].innerHTML;
+
+        namaTema = namaTema.replace(/\//g, "-");
+
+        const proposal = this.g$listProposalAccepted.find(
+          (proposal) => proposal.id_kecamatan == this.id_kecamatan
+        );
+
+        const namaKecamatan = proposal.kecamatan?.nama;
+        const namaKabupaten = proposal.kecamatan.kabupaten?.nama;
+
+        await this.a$excelNilaiMhsKecamatan(this.id_kecamatan);
+        const namaFile = `Data Nilai Mahasiswa Kec. ${namaKecamatan}, Kab. ${namaKabupaten} - ${namaTema}.xlsx`;
+
+        const fileURL = window.URL.createObjectURL(
+          new Blob([this.g$exportData], { type: "application/xlsx" })
+        );
+
+        button.href = fileURL;
+        button.download = namaFile;
 
         button.click();
 
@@ -730,17 +791,6 @@ export default {
 
       this.kecamatan =
         document.getElementById("choices-kecamatan").selectedOptions[0].text;
-    },
-
-    showLoading(isLoading) {
-      if (isLoading && !this.loader) {
-        this.loader = this.$loading.show();
-      } else if (!isLoading && this.loader) {
-        setTimeout(() => {
-          this.loader.hide();
-          this.loader = undefined;
-        }, 400);
-      }
     },
 
     showSwal(type, text, toastText, id_nilai) {
