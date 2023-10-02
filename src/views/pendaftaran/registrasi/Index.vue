@@ -3,13 +3,14 @@
     <div class="row mb-5 mt-4">
       <div class="col-lg-12 mt-lg-0 mt-4">
         <header-profile-card />
-        <div class="bg-white card mt-4">
+        <ChoicesContentLoader v-if="isLoadingOnInit" />
+        <div class="bg-white card mt-4" :hidden="isLoadingOnInit">
           <div class="card-header pb-0 pt-3">
             <p class="font-weight-bold text-dark mb-2">
               Pilih Tema KKN Terdaftar
             </p>
           </div>
-          <div class="pb-3 pt-0 card-body">
+          <div class="pb-4 pt-0 card-body">
             <div class="col-12 align-self-center">
               <select
                 id="choices-tema"
@@ -29,7 +30,8 @@
             </div>
           </div>
         </div>
-        <div class="bg-white card mt-4">
+        <TableContentLoader v-if="isLoading" />
+        <div class="bg-white card mt-4" :hidden="isLoading">
           <!-- Card header -->
           <div class="pb-0 card-header">
             <div class="d-lg-flex">
@@ -126,7 +128,12 @@
             </div>
           </div>
         </div>
-        <div id="card-section" class="row" :key="indexComponent">
+        <div
+          id="card-section"
+          class="row"
+          :key="indexComponent"
+          :hidden="isLoading"
+        >
           <div
             class="col-lg-6"
             v-for="gel in g$listGelombang"
@@ -176,6 +183,8 @@ import moment from "moment";
 import Choices from "choices.js";
 import { DataTable } from "simple-datatables";
 import HeaderProfileCard from "@/views/dashboards/components/HeaderProfileCard.vue";
+import TableContentLoader from "@/views/dashboards/components/TableContentLoader.vue";
+import ChoicesContentLoader from "@/views/dashboards/components/ChoicesContentLoader.vue";
 import Card from "@/views/dashboards/components/Cards/GelombangCard.vue";
 import { mapActions, mapState } from "pinia";
 import d$proposal from "@/store/proposal";
@@ -189,6 +198,8 @@ export default {
   components: {
     HeaderProfileCard,
     Card,
+    TableContentLoader,
+    ChoicesContentLoader,
   },
   data() {
     return {
@@ -200,7 +211,8 @@ export default {
       listGelombang: [],
       listProposalDosen: [],
       moment,
-      loader: undefined,
+      isLoading: true,
+      isLoadingOnInit: true,
     };
   },
   computed: {
@@ -211,16 +223,8 @@ export default {
     ...mapState(d$dokumen, ["g$dokumenLink"]),
   },
   async created() {
-    this.showLoading(true);
-
     moment.locale("id");
-
-    await this.a$listTema();
-    this.tema = this.g$listTemaActive[0].id_tema;
-
-    await this.getListGelombang();
-
-    this.choicesTema = this.getChoices("choices-tema");
+    await this.getInitData();
   },
   beforeUnmount() {
     if (this.choicesTema) this.choicesTema.destroy();
@@ -231,9 +235,32 @@ export default {
     ...mapActions(d$tema, ["a$listTema"]),
     ...mapActions(d$dokumen, ["a$getDokumenLink"]),
 
-    async getListGelombang() {
-      this.showLoading(true);
+    async getInitData() {
+      this.isLoadingOnInit = true;
+      this.isLoading = true;
 
+      try {
+        await this.a$listTema();
+        this.tema = this.g$listTemaActive[0].id_tema;
+        await this.getListGelombang();
+        this.choicesTema = this.getChoices("choices-tema");
+      } catch (error) {
+        console.log(error);
+        let msg = "";
+        if (error.error && error.error != undefined) msg = error.error;
+        else msg = error;
+        this.showSwal(
+          "failed-message",
+          "Terjadi kesalahan saat memuat data! " + msg
+        );
+      }
+
+      setTimeout(() => {
+        this.isLoadingOnInit = false;
+      }, 50);
+    },
+
+    async getListGelombang() {
       this.indexComponent++;
       this.tema = parseInt(this.tema);
 
@@ -255,13 +282,11 @@ export default {
           "Terjadi kesalahan saat memuat data! " + msg
         );
       }
-
-      this.setupDataTable();
-
-      this.showLoading(false);
     },
 
     async getListProposal(id_tema) {
+      this.isLoading = true;
+
       try {
         await this.a$listProposal(id_tema);
         this.listProposalDosen = [];
@@ -280,9 +305,15 @@ export default {
         );
       }
 
-      this.setupDataTable();
-      this.setupTableAction();
-      this.setupDataTableGelombang();
+      setTimeout(() => {
+        this.setupDataTable();
+        this.setupTableAction();
+        this.setupDataTableGelombang();
+      }, 10);
+
+      setTimeout(() => {
+        this.isLoading = false;
+      }, 400);
     },
 
     async deleteProposal(id_proposal) {

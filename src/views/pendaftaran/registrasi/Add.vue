@@ -272,7 +272,6 @@ export default {
     },
 
     async getInitData() {
-      this.showSwal("loading");
       try {
         await this.a$listTema();
         await this.a$listGelombang(
@@ -287,8 +286,6 @@ export default {
         await this.getTema();
         await this.getGelombang();
         await this.getListKabupaten();
-
-        this.showSwal("close");
       } catch (error) {
         console.log(error);
         let msg = "";
