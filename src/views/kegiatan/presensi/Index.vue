@@ -70,6 +70,7 @@
                     <th>Tanggal</th>
                     <th>Status</th>
                     <th>Waktu</th>
+                    <th>Oleh</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -95,7 +96,10 @@
                       >
                     </td>
                     <td class="text-sm">
-                      {{ moment(presensi.updated_at).format("HH:mm:ss") }} WIB
+                      {{ moment(presensi.updated_at).format("HH:mm") }} WIB
+                    </td>
+                    <td class="text-sm">
+                      {{ presensi.by }}
                     </td>
                   </tr>
                 </tbody>
@@ -105,6 +109,7 @@
                     <th>Tanggal</th>
                     <th>Status</th>
                     <th>Waktu</th>
+                    <th>Oleh</th>
                   </tr>
                 </tfoot>
               </table>
