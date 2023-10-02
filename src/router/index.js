@@ -137,6 +137,8 @@ import IndexPresensiDosenAdmin from "../views/admin/kelola-dosen/presensi/Index.
 import IndexNilaiAkhirMhsAdmin from "../views/admin/kelola-dosen/nilai-akhir-mhs/Index.vue";
 import IndexKorwil from "../views/admin/korwil/Index.vue";
 import IndexExport from "../views/export/Index.vue";
+import IndexJadwalPresensi from "../views/admin/menu-utama/jadwal-presensi/Index.vue";
+import EditJadwalPresensi from "../views/admin/menu-utama/jadwal-presensi/Edit.vue";
 
 const routes = [
   {
@@ -625,6 +627,22 @@ const routes = [
     path: "/admin/pengajuan-wilayah",
     name: "Pengajuan Wilayah",
     component: IndexPengajuanWilayah,
+    meta: {
+      requiresAuth: [Role.admin],
+    },
+  },
+  {
+    path: "/admin/presensi",
+    name: "Jadwal Presensi",
+    component: IndexJadwalPresensi,
+    meta: {
+      requiresAuth: [Role.admin],
+    },
+  },
+  {
+    path: "/admin/presensi/edit",
+    name: "Edit Jadwal Presensi",
+    component: EditJadwalPresensi,
     meta: {
       requiresAuth: [Role.admin],
     },

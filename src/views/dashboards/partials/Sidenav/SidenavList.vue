@@ -151,7 +151,7 @@
               <sidenav-item
                 :isActive="getRoute2() === 'tema'"
                 :to="{ name: 'Tema KKN' }"
-                mini-icon="P"
+                mini-icon="T"
                 text="Tema KKN"
               />
               <sidenav-item
@@ -162,8 +162,14 @@
               />
               <sidenav-item
                 :to="{ name: 'Pengajuan Wilayah' }"
-                mini-icon="L"
+                mini-icon="W"
                 text="Pengajuan Wilayah"
+              />
+              <sidenav-item
+                :isActive="getRoute2() === 'presensi'"
+                :to="{ name: 'Jadwal Presensi' }"
+                mini-icon="P"
+                text="Jadwal Presensi Mahasiswa"
               />
               <sidenav-item
                 :isActive="getRoute2() === 'kalender'"
