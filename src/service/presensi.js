@@ -17,6 +17,8 @@ const getPresensi = (id_mahasiswa, tgl) =>
 
 const addJadwalPresensi = (body) => baseApi.post(`${api}presensi/jadwal`, body);
 
+const addPresensi = (body) => baseApi.post(`${api}presensi`, body);
+
 const setupJadwalPresensiTema = (id_tema) =>
   baseApi.post(`${api}presensi/jadwal/${id_tema}`);
 
@@ -45,6 +47,7 @@ export {
   listPresensiKecamatan,
   getPresensi,
   addJadwalPresensi,
+  addPresensi,
   setupJadwalPresensiTema,
   editJadwalPresensi,
   editPresensi,

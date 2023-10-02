@@ -59,6 +59,36 @@
               <div class="my-auto mt-4 ms-auto mt-lg-0">
                 <div class="my-auto ms-auto">
                   <button
+                    v-if="this.g$user.role === 'ADMIN'"
+                    type="button"
+                    class="mb-0 btn btn-success btn-sm me-2"
+                    @click="
+                      () => {
+                        $router.push({
+                          name: 'Tambah Presensi Mahasiswa Admin',
+                          params: { id_kecamatan: id_kecamatan },
+                        });
+                      }
+                    "
+                  >
+                    + Tambah Riwayat Presensi
+                  </button>
+                  <button
+                    v-else-if="this.g$user.role === 'DOSEN'"
+                    type="button"
+                    class="mb-0 btn btn-success btn-sm me-2"
+                    @click="
+                      () => {
+                        $router.push({
+                          name: 'Tambah Presensi Mahasiswa',
+                          params: { id_kecamatan: id_kecamatan },
+                        });
+                      }
+                    "
+                  >
+                    + Tambah Riwayat Presensi
+                  </button>
+                  <button
                     class="mt-2 mb-0 btn btn-outline-success btn-sm export-presensi mt-sm-0"
                     data-type="csv"
                     type="button"
@@ -81,6 +111,7 @@
                     <th>Tanggal</th>
                     <th>Status</th>
                     <th>Waktu</th>
+                    <th>Oleh</th>
                     <th>Action</th>
                   </tr>
                 </thead>
@@ -113,6 +144,9 @@
                     </td>
                     <td class="text-sm">
                       {{ moment(presensi.updated_at).format("HH:mm") }} WIB
+                    </td>
+                    <td class="text-sm">
+                      {{ presensi.by }}
                     </td>
                     <td class="text-sm">
                       <a
@@ -193,6 +227,7 @@
                     <th>Tanggal</th>
                     <th>Status</th>
                     <th>Waktu</th>
+                    <th>Oleh</th>
                     <th>Action</th>
                   </tr>
                 </tfoot>
@@ -217,6 +252,7 @@ import { mapActions, mapState } from "pinia";
 import d$presensi from "@/store/presensi";
 import d$wilayah from "@/store/wilayah";
 import d$tema from "@/store/tema";
+import d$auth from "@/store/auth";
 
 export default {
   name: "IndexPresensiMhsAdmin",
@@ -243,6 +279,7 @@ export default {
     ...mapState(d$tema, ["g$listTema"]),
     ...mapState(d$wilayah, ["g$listKecamatanAccepted"]),
     ...mapState(d$presensi, ["g$listPresensi"]),
+    ...mapState(d$auth, ["g$user"]),
   },
   async created() {
     moment.locale("id");

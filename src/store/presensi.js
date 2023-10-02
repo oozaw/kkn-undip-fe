@@ -81,6 +81,16 @@ const d$presensi = defineStore("presensiStore", {
       }
     },
 
+    async a$addPresensi(body) {
+      try {
+        const status = await s$presensi.addPresensi(body);
+        this.status = status;
+      } catch ({ message, error }) {
+        this.status = false;
+        throw message ?? error;
+      }
+    },
+
     async a$setupJadwalPresensiTema(id_tema) {
       try {
         const status = await s$presensi.setupJadwalPresensiTema(id_tema);

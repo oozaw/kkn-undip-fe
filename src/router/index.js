@@ -126,7 +126,8 @@ import IndexKelolaHalaman from "../views/admin/menu-utama/halaman/Index.vue";
 import EditHalaman from "../views/admin/menu-utama/halaman/Edit.vue";
 import IndexPendaftaranMhsAdmin from "../views/admin/kelola-mhs/pendaftaran/Index.vue";
 import IndexNilaiPostTestMhsAdmin from "../views/admin/kelola-mhs/post-test/Index.vue";
-import IndexPresensiMhsAdmin from "../views/admin/kelola-mhs/presensi/Index.vue";
+import IndexPresensiMhs from "../views/admin/kelola-mhs/presensi/Index.vue";
+import AddPresensiMhs from "../views/admin/kelola-mhs/presensi/Add.vue";
 import IndexLRKLPKMhsAdmin from "../views/admin/kelola-mhs/lrk-lpk/Index.vue";
 import IndexReportaseMhsAdmin from "../views/admin/kelola-mhs/reportase/Index.vue";
 import IndexPendaftaranDosenAdmin from "../views/admin/kelola-dosen/pendaftaran-lokasi/Index.vue";
@@ -488,7 +489,15 @@ const routes = [
   {
     path: "/kegiatan/presensi-mhs",
     name: "Review Presensi Mahasiswa",
-    component: Presensi,
+    component: IndexPresensiMhs,
+    meta: {
+      requiresAuth: [Role.dosen],
+    },
+  },
+  {
+    path: "/kegiatan/presensi-mhs/add/:id_kecamatan",
+    name: "Tambah Presensi Mahasiswa",
+    component: AddPresensiMhs,
     meta: {
       requiresAuth: [Role.dosen],
     },
@@ -722,7 +731,15 @@ const routes = [
   {
     path: "/mahasiswa/presensi",
     name: "Presensi Mahasiswa Admin",
-    component: IndexPresensiMhsAdmin,
+    component: IndexPresensiMhs,
+    meta: {
+      requiresAuth: [Role.admin],
+    },
+  },
+  {
+    path: "/mahasiswa/presensi/add/:id_kecamatan",
+    name: "Tambah Presensi Mahasiswa Admin",
+    component: AddPresensiMhs,
     meta: {
       requiresAuth: [Role.admin],
     },
