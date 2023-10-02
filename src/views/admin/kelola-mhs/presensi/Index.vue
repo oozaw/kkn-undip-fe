@@ -253,6 +253,7 @@ import d$presensi from "@/store/presensi";
 import d$wilayah from "@/store/wilayah";
 import d$tema from "@/store/tema";
 import d$auth from "@/store/auth";
+import d$proposal from "@/store/proposal";
 
 export default {
   name: "IndexPresensiMhsAdmin",
@@ -280,6 +281,7 @@ export default {
     ...mapState(d$wilayah, ["g$listKecamatanAccepted"]),
     ...mapState(d$presensi, ["g$listPresensi"]),
     ...mapState(d$auth, ["g$user"]),
+    ...mapState(d$proposal, ["g$listProposalAccepted"]),
   },
   async created() {
     moment.locale("id");
@@ -290,22 +292,26 @@ export default {
     if (this.choicesLokasi) this.choicesLokasi.destroy();
   },
   methods: {
-    ...mapActions(d$tema, ["a$listTema"]),
+    ...mapActions(d$tema, ["a$listTema", "a$listTemaDosen"]),
     ...mapActions(d$wilayah, ["a$listKabupaten"]),
     ...mapActions(d$presensi, [
       "a$listPresensiKecamatan",
       "a$deletePresensi",
       "a$editPresensi",
     ]),
+    ...mapActions(d$proposal, ["a$listProposalDosen"]),
 
     async getInitData() {
       this.isLoadingOnInit = true;
 
       try {
-        await this.a$listTema();
+        if (this.g$user.role === "ADMIN") await this.a$listTema();
+        else if (this.g$user.role === "DOSEN") await this.a$listTemaDosen();
         this.id_tema = this.g$listTema[0].id_tema;
         this.choicesLokasi = this.getChoices("choices-lokasi");
-        await this.getListKecamatan();
+        if (this.g$user.role === "ADMIN") await this.getListKecamatan();
+        else if (this.g$user.role === "DOSEN")
+          await this.getListKecamatanDosen();
         this.choicesTema = this.getChoices("choices-tema");
       } catch (error) {
         console.log(error);
@@ -321,6 +327,29 @@ export default {
       setTimeout(() => {
         this.isLoadingOnInit = false;
       }, 50);
+    },
+
+    async getListKecamatanDosen() {
+      this.id_tema = parseInt(this.id_tema);
+
+      try {
+        await this.a$listProposalDosen(this.id_tema);
+        this.id_kecamatan = this.g$listProposalAccepted[0]?.id_kecamatan ?? 0;
+        this.setChoicesKecamatanDosen(
+          this.choicesLokasi,
+          this.g$listProposalAccepted
+        );
+        await this.getListPresensi();
+      } catch (error) {
+        console.log(error);
+        let msg = "";
+        if (error.error && error.error != undefined) msg = error.error;
+        else msg = error;
+        this.showSwal(
+          "failed-message",
+          "Terjadi kesalahan saat memuat data! " + msg
+        );
+      }
     },
 
     async getListKecamatan() {
@@ -511,6 +540,36 @@ export default {
               label: item.nama,
               selected: Object.values(item)[0] == this.id_kecamatan,
             });
+          });
+          choices.setChoices(newOption);
+        } else {
+          choices.setChoices([
+            {
+              value: "",
+              label: "Tidak ada data",
+              selected: true,
+              disabled: true,
+            },
+          ]);
+        }
+      }
+    },
+
+    setChoicesKecamatanDosen(choices, option) {
+      if (choices) {
+        choices.clearChoices();
+        choices.removeActiveItems();
+
+        if (option.length !== 0) {
+          let newOption = [];
+          option.forEach((item) => {
+            if (Object.values(item)[7] == 1) {
+              newOption.push({
+                value: Object.values(item)[1],
+                label: Object.values(item)[10].nama,
+                selected: Object.values(item)[1] == this.id_kecamatan,
+              });
+            }
           });
           choices.setChoices(newOption);
         } else {
