@@ -29,6 +29,9 @@ const submitPresensi = (id_tema, body) =>
 const updateStatusJadwalPresensi = () =>
   baseApi.put(`${api}presensi/jadwal/status`);
 
+const deleteJadwalPresensi = (id_presensi) =>
+  baseApi.delete(`${api}presensi/jadwal/${id_presensi}`);
+
 const deletePresensi = (id_riwayat_presensi) =>
   baseApi.delete(`${api}presensi/${id_riwayat_presensi}`);
 
@@ -43,5 +46,6 @@ export {
   editPresensi,
   submitPresensi,
   updateStatusJadwalPresensi,
+  deleteJadwalPresensi,
   deletePresensi,
 };

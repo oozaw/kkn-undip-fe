@@ -178,7 +178,9 @@
                       </a>
                       <a
                         :id="presensi.id_presensi"
-                        :name="presensi.nama"
+                        :name="
+                          moment(presensi.tgl).format('dddd, DD MMMM YYYY')
+                        "
                         href="#"
                         data-bs-toggle="tooltip"
                         class="me-3 delete"
@@ -378,12 +380,13 @@ export default {
       }
     },
 
-    async deletePresensi(id_presensi) {
+    async deleteJadwalPresensi(id_presensi) {
       this.showSwal("loading");
 
       try {
-        await this.a$deletePresensi(id_presensi);
+        await this.a$deleteJadwalPresensi(id_presensi);
         await this.getListJadwalPresensi();
+        this.showSwal("success-message", "Berhasil menghapus jadwal presensi");
       } catch (error) {
         console.log(error);
         let msg = "";
@@ -395,35 +398,34 @@ export default {
 
     setupTableAction() {
       let outerThis = this;
-      $("#jadwal-presensi-list").on("click", `.aktif`, function (e) {
-        let presensi = this;
-        outerThis.showSwal(
-          "warning-confirmation",
-          `Mengaktifkan presensi ${presensi.name}?`,
-          "Berhasil memperbarui data",
-          presensi.id
-        );
-        e.preventDefault();
-      });
+      // $("#jadwal-presensi-list").on("click", `.aktif`, function (e) {
+      //   let presensi = this;
+      //   outerThis.showSwal(
+      //     "warning-confirmation",
+      //     `Mengaktifkan presensi ${presensi.name}?`,
+      //     "Berhasil memperbarui data",
+      //     presensi.id
+      //   );
+      //   e.preventDefault();
+      // });
 
-      $("#jadwal-presensi-list").on("click", `.non-aktif`, function (e) {
-        let presensi = this;
-        outerThis.showSwal(
-          "warning-confirmation",
-          `Menonaktifkan presensi ${presensi.name}?`,
-          "Berhasil memperbarui data",
-          presensi.id
-        );
-        e.preventDefault();
-      });
+      // $("#jadwal-presensi-list").on("click", `.non-aktif`, function (e) {
+      //   let presensi = this;
+      //   outerThis.showSwal(
+      //     "warning-confirmation",
+      //     `Menonaktifkan presensi ${presensi.name}?`,
+      //     "Berhasil memperbarui data",
+      //     presensi.id
+      //   );
+      //   e.preventDefault();
+      // });
 
       $("#jadwal-presensi-list").on("click", `.edit`, function (e) {
         let presensi = this;
         outerThis.$router.push({
-          name: "Edit Presensi",
+          name: "Edit Jadwal Presensi",
           params: {
-            id_tema: parseInt(outerThis.tema),
-            id_presensi: presensi.id,
+            id_jadwal_presensi: presensi.id,
           },
         });
         e.preventDefault();
@@ -433,10 +435,8 @@ export default {
         let presensi = this;
         outerThis.showSwal(
           "warning-confirmation",
-          `Menghapus presensi ${presensi.name}?`,
-          "Berhasil memperbarui data",
-          presensi.id,
-          true
+          `Hapus jadwal presensi ${presensi.name}?`,
+          presensi.id
         );
         e.preventDefault();
       });
@@ -486,7 +486,7 @@ export default {
       }
     },
 
-    showSwal(type, text, toastText, id_presensi, idDelete = false) {
+    showSwal(type, text, idPresensi) {
       if (type === "success-message") {
         this.$swal({
           icon: "success",
@@ -558,20 +558,19 @@ export default {
           buttonsStyling: false,
         }).then((result) => {
           if (result.isConfirmed) {
-            if (idDelete) this.deletePresensi(id_presensi);
-            else this.switchPresensi(id_presensi);
-            this.$swal({
-              toast: true,
-              position: "top-end",
-              title: toastText,
-              icon: "success",
-              showConfirmButton: false,
-              timer: 2000,
-              timerProgressBar: true,
-              didOpen: () => {
-                this.$swal.hideLoading();
-              },
-            });
+            this.deleteJadwalPresensi(idPresensi);
+            // this.$swal({
+            //   toast: true,
+            //   position: "top-end",
+            //   title: toastText,
+            //   icon: "success",
+            //   showConfirmButton: false,
+            //   timer: 2000,
+            //   timerProgressBar: true,
+            //   didOpen: () => {
+            //     this.$swal.hideLoading();
+            //   },
+            // });
           } else if (
             /* Read more about handling dismissals below */
             result.dismiss === this.$swal.DismissReason.cancel

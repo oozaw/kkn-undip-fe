@@ -121,6 +121,16 @@ const d$presensi = defineStore("presensiStore", {
       }
     },
 
+    async a$deleteJadwalPresensi(id_presensi) {
+      try {
+        const status = await s$presensi.deleteJadwalPresensi(id_presensi);
+        this.status = status;
+      } catch ({ message, error }) {
+        this.status = false;
+        throw message ?? error;
+      }
+    },
+
     async a$deletePresensi(id_riwayat_presensi) {
       try {
         const status = await s$presensi.deletePresensi(id_riwayat_presensi);
