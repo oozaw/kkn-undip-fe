@@ -91,6 +91,16 @@ const d$presensi = defineStore("presensiStore", {
       }
     },
 
+    async a$editPresensi(id_riwayat_presensi, body) {
+      try {
+        const status = await s$presensi.editPresensi(id_riwayat_presensi, body);
+        this.status = status;
+      } catch ({ message, error }) {
+        this.status = false;
+        throw message ?? error;
+      }
+    },
+
     async a$submitPresensi(id_tema, body) {
       try {
         const status = await s$presensi.submitPresensi(id_tema, body);
@@ -104,6 +114,16 @@ const d$presensi = defineStore("presensiStore", {
     async a$updateStatusJadwalPresensi() {
       try {
         const status = await s$presensi.updateStatusJadwalPresensi();
+        this.status = status;
+      } catch ({ message, error }) {
+        this.status = false;
+        throw message ?? error;
+      }
+    },
+
+    async a$deletePresensi(id_riwayat_presensi) {
+      try {
+        const status = await s$presensi.deletePresensi(id_riwayat_presensi);
         this.status = status;
       } catch ({ message, error }) {
         this.status = false;

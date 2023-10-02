@@ -157,7 +157,7 @@ export default {
   methods: {
     ...mapActions(d$auth, ["a$login", "a$getUser"]),
     ...mapMutations(["toggleDefaultLayout"]),
-    ...mapActions(d$presensi, ["a$updateStatusPresensi"]),
+    ...mapActions(d$presensi, ["a$updateStatusJadwalPresensi"]),
 
     async login() {
       this.showSwal("loading");
@@ -171,7 +171,7 @@ export default {
           "Login Berhasil!",
           "Selamat datang " + this.g$infoUser.nama
         );
-        await this.a$updateStatusPresensi();
+        await this.a$updateStatusJadwalPresensi();
       } catch (error) {
         console.log(error);
         let msg = "";
