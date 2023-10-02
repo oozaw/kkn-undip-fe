@@ -4,7 +4,8 @@
       <div class="col-lg-12 mt-lg-0 mt-4">
         <header-profile-card />
         <section id="mhs-section" v-if="g$user.role === 'MAHASISWA'">
-          <div class="bg-white card mt-4">
+          <TableContentLoader v-if="isLoading" />
+          <div class="bg-white card mt-4" :hidden="isLoading">
             <!-- Card header -->
             <div class="pb-0 card-header">
               <div class="d-lg-flex">
@@ -14,69 +15,6 @@
                 </div>
                 <div class="my-auto mt-4 ms-auto mt-lg-0">
                   <div class="my-auto ms-auto">
-                    <!-- <button
-                      type="button"
-                      class="mx-2 mb-0 btn btn-primary btn-sm"
-                      data-bs-toggle="modal"
-                      data-bs-target="#import-lpk"
-                    >
-                      Impor
-                    </button>
-                    <div
-                      id="import-lpk"
-                      class="modal fade"
-                      tabindex="-1"
-                      aria-hidden="true"
-                    >
-                      <div class="modal-dialog mt-lg-10">
-                        <div class="modal-content">
-                          <div class="modal-header">
-                            <h5 id="ModalLabel" class="modal-title text-wrap">
-                              Impor Data LPK via File Excel
-                            </h5>
-                            <i class="fas fa-upload ms-3"></i>
-                            <button
-                              type="button"
-                              class="btn-close"
-                              data-bs-dismiss="modal"
-                              aria-label="Close"
-                            ></button>
-                          </div>
-                          <div class="modal-body">
-                            <p>
-                              Silahkan cari dan pilih file excel berisi data LPK
-                            </p>
-                            <input
-                              type="file"
-                              placeholder="Browse file..."
-                              class="mb-1 form-control"
-                            />
-                            <div>
-                              <small class="text-danger text-sm-start">
-                                <i class="fas fa-info-circle"></i>
-                                File yang diizinkan hanya file excel dengan
-                                ekstensi .xls atau .xlsx
-                              </small>
-                            </div>
-                          </div>
-                          <div class="modal-footer">
-                            <button
-                              type="button"
-                              class="btn bg-gradient-secondary btn-sm"
-                              data-bs-dismiss="modal"
-                            >
-                              Batal
-                            </button>
-                            <button
-                              type="button"
-                              class="btn bg-gradient-success btn-sm"
-                            >
-                              Unggah
-                            </button>
-                          </div>
-                        </div>
-                      </div>
-                    </div> -->
                     <button
                       class="mt-1 mb-0 btn btn-outline-success btn-sm export-mhs-sec mt-sm-0"
                       data-type="csv"
@@ -302,10 +240,11 @@
           </div>
         </section>
         <section id="dosen-section" v-else>
-          <div class="bg-white card mt-4">
+          <TwoChoicesContentLoader v-if="isLoadingOnInit" />
+          <div class="bg-white card mt-4" :hidden="isLoadingOnInit">
             <div class="card-header pb-0 pt-3">
               <p class="font-weight-bold text-dark mb-2">
-                Pilih Tema dan Wilayah Terdaftar
+                Pilih Tema Terdaftar
               </p>
             </div>
             <div class="pb-3 pt-0 card-body">
@@ -326,7 +265,12 @@
                   </option>
                 </select>
               </div>
-              <div class="col-12 align-self-center mt-3">
+            </div>
+            <div class="card-header pb-0 pt-0">
+              <p class="font-weight-bold text-dark mb-2">Pilih Lokasi</p>
+            </div>
+            <div class="pb-4 pt-0 card-body">
+              <div class="col-12 align-self-center">
                 <select
                   id="choices-kecamatan"
                   class="form-control"
@@ -339,7 +283,8 @@
               </div>
             </div>
           </div>
-          <div class="bg-white card mt-4">
+          <TableContentLoader v-if="isLoading" />
+          <div class="bg-white card mt-4" :hidden="isLoading">
             <!-- Card header -->
             <div class="pb-0 card-header">
               <div class="d-lg-flex">
@@ -626,8 +571,9 @@ import $ from "jquery";
 import { DataTable } from "simple-datatables";
 import moment from "moment";
 import Choices from "choices.js";
-import setTooltip from "@/assets/js/tooltip.js";
 import HeaderProfileCard from "@/views/dashboards/components/HeaderProfileCard.vue";
+import TableContentLoader from "@/views/dashboards/components/TableContentLoader.vue";
+import TwoChoicesContentLoader from "@/views/dashboards/components/TwoChoicesContentLoader.vue";
 import { mapActions, mapState } from "pinia";
 import d$tema from "@/store/tema";
 import d$auth from "@/store/auth";
@@ -638,6 +584,8 @@ export default {
   name: "IndexLPK",
   components: {
     HeaderProfileCard,
+    TableContentLoader,
+    TwoChoicesContentLoader,
   },
   data() {
     return {
@@ -647,7 +595,8 @@ export default {
       moment,
       choicesTema: undefined,
       choicesKec: undefined,
-      loader: undefined,
+      isLoading: true,
+      isLoadingOnInit: true,
     };
   },
   computed: {
@@ -657,16 +606,11 @@ export default {
     ...mapState(d$proposal, ["g$listProposal"]),
   },
   async created() {
-    this.showLoading(true);
     if (this.g$user.role === "MAHASISWA") {
       await this.getListLPK();
     } else if (this.g$user.role === "DOSEN") {
       await this.getInitData();
-
-      this.choicesTema = this.getChoices("choices-tema");
     }
-
-    setTooltip(this.$store.state.bootstrap);
   },
   beforeUnmount() {
     if (this.choicesTema) this.choicesTema.destroy();
@@ -682,10 +626,14 @@ export default {
     ...mapActions(d$proposal, ["a$listProposalDosen"]),
 
     async getInitData() {
+      this.isLoadingOnInit = true;
+      this.isLoading = true;
+
       try {
         await this.a$listTemaDosen();
         this.id_tema = this.g$listTema[0].id_tema;
 
+        this.choicesTema = this.getChoices("choices-tema");
         this.choicesKec = this.getChoices("choices-kecamatan");
 
         await this.getListKecamatan();
@@ -699,10 +647,14 @@ export default {
           "Terjadi kesalahan saat memuat data! " + msg
         );
       }
+
+      setTimeout(() => {
+        this.isLoadingOnInit = false;
+      }, 50);
     },
 
     async getListLaporanDosen() {
-      this.showLoading(true);
+      this.isLoading = true;
 
       this.indexComponent++;
       this.id_kecamatan = parseInt(this.id_kecamatan);
@@ -720,10 +672,14 @@ export default {
         );
       }
 
-      this.setupDataTable("lpk-dosen-section-list");
-      this.setupTableAction();
+      setTimeout(() => {
+        this.setupDataTable("lpk-dosen-section-list");
+        this.setupTableAction();
+      }, 10);
 
-      this.showLoading(false);
+      setTimeout(() => {
+        this.isLoading = false;
+      }, 400);
     },
 
     async getListKecamatan() {
@@ -747,8 +703,7 @@ export default {
     },
 
     async getListLPK() {
-      this.showLoading(true);
-
+      this.isLoading = true;
       this.indexComponent++;
 
       try {
@@ -764,10 +719,14 @@ export default {
         );
       }
 
-      this.setupDataTable("lpk-list");
-      this.setupTableAction();
+      setTimeout(() => {
+        this.setupDataTable("lpk-list");
+        this.setupTableAction();
+      }, 10);
 
-      this.showLoading(false);
+      setTimeout(() => {
+        this.isLoading = false;
+      }, 400);
     },
 
     async deleteLaporan(id_laporan) {
@@ -935,17 +894,6 @@ export default {
     getTema() {
       this.tema =
         document.getElementById("choices-tema").selectedOptions[0].text;
-    },
-
-    showLoading(isLoading) {
-      if (isLoading && !this.loader) {
-        this.loader = this.$loading.show();
-      } else if (!isLoading && this.loader) {
-        setTimeout(() => {
-          this.loader.hide();
-          this.loader = undefined;
-        }, 400);
-      }
     },
 
     showSwal(type, text, toastText, id_laporan) {
