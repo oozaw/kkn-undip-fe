@@ -3,7 +3,8 @@
     <div class="row mb-5 mt-4">
       <div class="col-lg-12 mt-lg-0 mt-4">
         <HeaderProfileCard />
-        <div class="bg-white card mt-4">
+        <ChoicesContentLoader v-if="isLoading" />
+        <div class="bg-white card mt-4" :hidden="isLoading">
           <div class="card-header pb-0 pt-3">
             <p class="font-weight-bold text-dark mb-2">
               Pilih Tema KKN Terdaftar
@@ -29,7 +30,12 @@
             </div>
           </div>
         </div>
-        <div id="card-section" class="row" :key="indexComponent">
+        <div
+          id="card-section"
+          class="row"
+          :key="indexComponent"
+          :hidden="isLoading"
+        >
           <div
             class="col-lg-6"
             v-for="gel in listGelombang"
@@ -95,6 +101,7 @@ import { DataTable } from "simple-datatables";
 import moment from "moment";
 import Choices from "choices.js";
 import HeaderProfileCard from "@/views/dashboards/components/HeaderProfileCard.vue";
+import ChoicesContentLoader from "@/views/dashboards/components/ChoicesContentLoader.vue";
 import Card from "@/views/dashboards/components/Cards/GelombangCard.vue";
 import { mapActions, mapState } from "pinia";
 import d$gelombang from "@/store/gelombang";
@@ -108,6 +115,7 @@ export default {
   components: {
     HeaderProfileCard,
     Card,
+    ChoicesContentLoader,
   },
   data() {
     return {
@@ -120,6 +128,7 @@ export default {
       idGelombang: "",
       listGelombang: [],
       moment,
+      isLoading: true,
     };
   },
   computed: {
@@ -131,8 +140,6 @@ export default {
     moment.locale("id");
 
     await this.getInitData();
-
-    this.choicesTema = this.getChoices("choices-tema");
   },
   beforeUnmount() {
     if (this.choicesTema) this.choicesTema.destroy();
@@ -142,13 +149,13 @@ export default {
     ...mapActions(d$tema, ["a$listTema"]),
 
     async getInitData() {
-      // this.showSwal("loading");
+      this.isLoading = true;
 
       try {
         await this.a$listTema();
         this.tema = this.g$listTemaActive[0].id_tema;
+        this.choicesTema = this.getChoices("choices-tema");
         await this.getListGelombang();
-        // this.showSwal("close");
       } catch (error) {
         console.log(error);
         let msg = "";
@@ -159,6 +166,10 @@ export default {
           "Terjadi kesalahan saat memuat data! " + msg
         );
       }
+
+      setTimeout(() => {
+        this.isLoading = false;
+      }, 400);
     },
 
     async getListGelombang() {

@@ -94,6 +94,16 @@
                         v-if="presensi.status == 1"
                         >Hadir</span
                       >
+                      <span
+                        class="badge badge-danger"
+                        v-else-if="presensi.status == -1"
+                        >Tidak Hadir</span
+                      >
+                      <span
+                        class="badge badge-warning"
+                        v-else-if="presensi.status == 2"
+                        >Izin</span
+                      >
                     </td>
                     <td class="text-sm">
                       {{ moment(presensi.updated_at).format("HH:mm") }} WIB
