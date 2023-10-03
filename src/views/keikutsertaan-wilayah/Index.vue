@@ -3,7 +3,8 @@
     <div class="row mb-5 mt-4">
       <div class="col-lg-12 mt-lg-0 mt-4">
         <HeaderProfileCard />
-        <div class="bg-white card mt-4">
+        <TableContentLoader v-if="isLoading" />
+        <div class="bg-white card mt-4" :hidden="isLoading">
           <!-- Card header -->
           <div class="pb-0 card-header">
             <div class="d-lg-flex">
@@ -186,8 +187,8 @@
 <script>
 import { DataTable } from "simple-datatables";
 import Choices from "choices.js";
-import setTooltip from "@/assets/js/tooltip.js";
 import HeaderProfileCard from "@/views/dashboards/components/HeaderProfileCard.vue";
+import TableContentLoader from "@/views/dashboards/components/TableContentLoader.vue";
 import { mapActions, mapState } from "pinia";
 import d$wilayah from "@/store/wilayah";
 import d$auth from "@/store/auth";
@@ -197,6 +198,7 @@ export default {
   name: "IndexKeikutsertaanWilayah",
   components: {
     HeaderProfileCard,
+    TableContentLoader,
   },
   data() {
     return {
@@ -207,6 +209,7 @@ export default {
       dataTableKab: undefined,
       listAllKabupaten: [],
       listTemaAvailable: [],
+      isLoading: true,
     };
   },
   computed: {
@@ -216,8 +219,6 @@ export default {
   },
   async created() {
     await this.getListWilayah();
-
-    setTooltip(this.$store.state.bootstrap);
   },
   beforeUnmount() {
     if (this.choicesTema) this.choicesTema.destroy();
@@ -279,6 +280,8 @@ export default {
     },
 
     async getListWilayah() {
+      this.isLoading = true;
+
       try {
         this.listAllKabupaten = [];
 
@@ -300,6 +303,10 @@ export default {
           "Terjadi kesalahan saat memuat data! " + msg
         );
       }
+
+      setTimeout(() => {
+        this.isLoading = false;
+      }, 400);
     },
 
     async getListKabupaten(id_tema, nama_tema, id_bappeda) {

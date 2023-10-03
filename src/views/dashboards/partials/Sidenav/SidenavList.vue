@@ -533,7 +533,7 @@
       </li>
 
       <!-- Export -->
-      <li class="nav-item">
+      <li class="nav-item" v-if="a$checkAuth(['ADMIN'])">
         <router-link :to="{ name: 'Export' }">
           <sidenav-collapse
             nav-text="Ekspor Area"
