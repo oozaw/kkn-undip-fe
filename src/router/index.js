@@ -99,6 +99,7 @@ import IndexRegistrasi from "../views/pendaftaran/registrasi/Index.vue";
 import AddRegistrasi from "../views/pendaftaran/registrasi/Add.vue";
 import SeleksiMhs from "../views/seleksi/Index.vue";
 import Presensi from "../views/kegiatan/presensi/Index.vue";
+import PresensiQR from "../views/kegiatan/presensi/qr/Index.vue";
 import IndexNilai from "../views/kegiatan/nilai/Index.vue";
 import EditNilai from "../views/kegiatan/nilai/Edit.vue";
 // import EditProfilWilayah from "../views/profile-wilayah/Edit.vue";
@@ -484,6 +485,14 @@ const routes = [
     component: Presensi,
     meta: {
       requiresAuth: [Role.mahasiswa, Role.dosen],
+    },
+  },
+  {
+    path: "/kegiatan/presensi/qr/:tgl",
+    name: "Presensi QR",
+    component: PresensiQR,
+    meta: {
+      requiresAuth: [Role.mahasiswa],
     },
   },
   {

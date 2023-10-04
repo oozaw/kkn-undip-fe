@@ -29,10 +29,70 @@
                     size="sm"
                     color="primary"
                     variant="contained"
+                    @click="generateQR()"
                   >
                     <font-awesome-icon icon="fa-solid fa-qrcode" class="me-2" />
                     Generate QR
                   </argon-button>
+                  <button
+                    id="button-generate-qr-modal"
+                    type="button"
+                    class="mx-2 mb-0 btn btn-primary btn-sm"
+                    data-bs-toggle="modal"
+                    data-bs-target="#generate-qr"
+                    hidden
+                  >
+                    <font-awesome-icon icon="fa-solid fa-qrcode" class="me-2" />
+                    Generate QR
+                  </button>
+                  <div
+                    id="generate-qr"
+                    class="modal fade"
+                    tabindex="-1"
+                    aria-hidden="true"
+                    :key="indexComponent"
+                  >
+                    <div class="modal-dialog mt-lg-6">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h5 id="ModalLabel" class="modal-title text-wrap">
+                            QR Code Presensi {{ today.date }}
+                          </h5>
+                          <font-awesome-icon
+                            icon="fa-solid fa-qrcode"
+                            class="mx-2"
+                          />
+                          <button
+                            id="button-generate-qr-modal-close"
+                            type="button"
+                            class="btn-close"
+                            data-bs-dismiss="modal"
+                            aria-label="Close"
+                          ></button>
+                        </div>
+                        <div class="modal-body text-center">
+                          <img
+                            id="image-qr-placeholder"
+                            src=""
+                            alt="qr-code"
+                            class="w-50 h-50 mt-4"
+                          />
+                          <div class="mt-4 mb-4">
+                            <argon-button
+                              class="mb-0 me-2"
+                              size="sm"
+                              color="warning"
+                              variant="contained"
+                              @click="downloadQR()"
+                            >
+                              Download QR Code
+                            </argon-button>
+                          </div>
+                          <a href="#" id="file-image-qr-placeholder" hidden></a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -144,7 +204,7 @@ import { mapActions, mapState } from "pinia";
 import d$presensi from "@/store/presensi";
 import d$auth from "@/store/auth";
 import d$wilayah from "@/store/wilayah";
-import markerIcon from "@/assets/img/icons/marker.png";
+import d$qr from "@/store/qr";
 
 export default {
   name: "IndexPresensi",
@@ -156,7 +216,6 @@ export default {
   },
   data() {
     return {
-      markerIcon,
       isLoading: true,
       moment,
       today: {
@@ -167,12 +226,14 @@ export default {
       indexComponent: 0,
       riwayatPresensi: undefined,
       listRiwayatPresensi: [],
+      qrURL: "",
     };
   },
   computed: {
     ...mapState(d$auth, ["g$infoUser"]),
     ...mapState(d$presensi, ["g$presensi", "g$listPresensi"]),
     ...mapState(d$wilayah, ["g$kecamatan"]),
+    ...mapState(d$qr, ["g$qr"]),
   },
   async created() {
     moment.locale("id");
@@ -191,6 +252,7 @@ export default {
       "a$submitPresensi",
     ]),
     ...mapActions(d$wilayah, ["a$getKecamatanMhs"]),
+    ...mapActions(d$qr, ["a$generateQR"]),
 
     async getInitData() {
       this.isLoading = true;
@@ -228,10 +290,10 @@ export default {
     async submitPresensi() {
       this.showSwal("loading");
 
-      try {
-        if (navigator.geolocation) {
-          navigator.geolocation.getCurrentPosition(
-            async (position) => {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+          async (position) => {
+            try {
               await this.a$getKecamatanMhs();
 
               const distance = this.getDistance(this.g$kecamatan, position);
@@ -241,7 +303,7 @@ export default {
                   "failed-message",
                   "Anda berada di luar radius kecamatan!"
                 );
-                return;
+                throw "Anda berada di luar radius kecamatan!";
               }
 
               await this.a$submitPresensi(Number(this.g$infoUser.id_tema), {
@@ -251,30 +313,60 @@ export default {
 
               this.showSwal("success-message", "Berhasil melakukan presensi!");
               await this.getInitData();
-            },
-            (error) => {
-              if (error.code == error.PERMISSION_DENIED) {
-                this.showSwal(
-                  "failed-message",
-                  "Anda harus mengizinkan akses lokasi untuk melakukan presensi!"
-                );
-                return;
-              } else {
-                this.showSwal(
-                  "failed-message",
-                  "Terjadi kesalahan saat mengambil lokasi!"
-                );
-                return;
-              }
+            } catch (error) {
+              console.log(error);
+              let msg = "";
+              if (error.error && error.error != undefined) msg = error.error;
+              else msg = error;
+              this.showSwal(
+                "failed-message",
+                "Presensi gagal dilakukan! " + msg
+              );
             }
-          );
-        } else {
-          this.showSwal(
-            "failed-message",
-            "Browser tidak mendukung geolocation!"
-          );
-          return;
-        }
+          },
+          (error) => {
+            if (error.code == error.PERMISSION_DENIED) {
+              this.showSwal(
+                "failed-message",
+                error.message +
+                  "Anda harus mengizinkan akses lokasi untuk melakukan presensi! "
+              );
+              return;
+            } else {
+              this.showSwal(
+                "failed-message",
+                "Terjadi kesalahan saat mengambil lokasi!"
+              );
+              return;
+            }
+          }
+        );
+      } else {
+        this.showSwal("failed-message", "Browser tidak mendukung geolocation!");
+        return;
+      }
+    },
+
+    async generateQR() {
+      this.showSwal("loading");
+
+      try {
+        const imagePlaceholder = document.getElementById(
+          "image-qr-placeholder"
+        );
+        const buttonModal = document.getElementById("button-generate-qr-modal");
+
+        const presensiURL = `${
+          window.location.origin
+        }/kegiatan/presensi/qr/${moment().format("YYYY-MM-DD")}`;
+
+        await this.a$generateQR(presensiURL);
+        this.qrURL = window.URL.createObjectURL(this.g$qr);
+
+        imagePlaceholder.src = this.qrURL;
+        buttonModal.click();
+
+        this.showSwal("close");
       } catch (error) {
         console.log(error);
         let msg = "";
@@ -282,9 +374,18 @@ export default {
         else msg = error;
         this.showSwal(
           "failed-message",
-          "Terjadi kesalahan saat melakukan presensi! " + msg
+          "Terjadi kesalahan saat generate QR! " + msg
         );
       }
+    },
+
+    downloadQR() {
+      const filePlacholder = document.getElementById(
+        "file-image-qr-placeholder"
+      );
+      filePlacholder.href = this.qrURL;
+      filePlacholder.download = `Presensi - ${this.today.date}.png`;
+      filePlacholder.click();
     },
 
     getDistance(kecamatan, position) {

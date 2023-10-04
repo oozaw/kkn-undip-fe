@@ -1,5 +1,8 @@
 const host = process.env.VUE_APP_BASE_URL;
+const hostQR = "https://api.qrserver.com/v1";
 
 const baseApiUrl = `${host}`;
 
-export { host, baseApiUrl };
+const baseApiQR = `${hostQR}`;
+
+export { host, baseApiUrl, baseApiQR };
