@@ -331,6 +331,7 @@ export default {
           capaian: this.body.capaian,
           hambatan: this.body.hambatan,
           kelanjutan: this.body.kelanjutan,
+          metode: this.body.metode,
         };
 
         await this.a$addLPK(data);
