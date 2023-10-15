@@ -25,6 +25,7 @@ import {
   faArrowLeft,
   faUpRightFromSquare,
   faQrcode,
+  faPager,
 } from "@fortawesome/free-solid-svg-icons";
 
 const icon = [
@@ -51,6 +52,7 @@ const icon = [
   faUpRightFromSquare,
   faCircleQuestion,
   faQrcode,
+  faPager,
 ];
 
 export default icon;

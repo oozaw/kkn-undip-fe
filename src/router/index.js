@@ -140,6 +140,10 @@ import IndexNilaiAkhirMhsAdmin from "../views/admin/kelola-dosen/nilai-akhir-mhs
 import IndexKorwil from "../views/admin/korwil/Index.vue";
 import IndexExport from "../views/export/Index.vue";
 import IndexJadwalPresensi from "../views/admin/menu-utama/jadwal-presensi/Index.vue";
+import IndexBerita from "../views/berita/Index.vue";
+import AddBerita from "../views/berita/Add.vue";
+import EditBerita from "../views/berita/Edit.vue";
+import DetailBerita from "../views/berita/Detail.vue";
 
 const routes = [
   {
@@ -814,6 +818,72 @@ const routes = [
     path: "/dosen/nilai-akhir",
     name: "Nilai Akhir Mahasiswa Admin",
     component: IndexNilaiAkhirMhsAdmin,
+    meta: {
+      requiresAuth: [Role.admin],
+    },
+  },
+
+  // Landing page
+  {
+    path: "/landing/profile",
+    name: "Landing Profile",
+    component: IndexPresensiDosenAdmin,
+    meta: {
+      requiresAuth: [Role.admin],
+    },
+  },
+  {
+    path: "/landing/berita",
+    name: "Landing Berita",
+    component: IndexBerita,
+    meta: {
+      requiresAuth: [Role.admin, Role.dosen, Role.reviewer, Role.pimpinan],
+    },
+  },
+  {
+    path: "/landing/berita/:id_berita",
+    name: "Landing Detail Berita",
+    component: DetailBerita,
+    meta: {
+      requiresAuth: [Role.admin, Role.dosen, Role.reviewer, Role.pimpinan],
+    },
+  },
+  {
+    path: "/landing/berita/add",
+    name: "Landing Tambah Berita",
+    component: AddBerita,
+    meta: {
+      requiresAuth: [Role.admin, Role.dosen, Role.reviewer, Role.pimpinan],
+    },
+  },
+  {
+    path: "/landing/berita/edit/:id_berita",
+    name: "Landing Edit Berita",
+    component: EditBerita,
+    meta: {
+      requiresAuth: [Role.admin, Role.dosen, Role.reviewer, Role.pimpinan],
+    },
+  },
+  {
+    path: "/landing/struktur",
+    name: "Landing Struktur",
+    component: IndexPresensiDosenAdmin,
+    meta: {
+      requiresAuth: [Role.admin],
+    },
+  },
+  {
+    path: "/landing/galeri",
+    name: "Landing Galeri",
+    component: IndexPresensiDosenAdmin,
+    meta: {
+      requiresAuth: [Role.admin],
+    },
+  },
+  {
+    path: "/landing/reportase",
+    name: "Landing Reportase",
+    component: IndexPresensiDosenAdmin,
     meta: {
       requiresAuth: [Role.admin],
     },

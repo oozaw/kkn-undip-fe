@@ -366,6 +366,60 @@
         </sidenav-collapse>
       </li>
 
+      <!-- Kelola Landing Page -->
+      <li class="nav-item" v-if="a$checkAuth(['ADMIN'])">
+        <sidenav-collapse
+          collapse-ref="landing-page"
+          nav-text="Landing Page"
+          :class="getRoute() === 'landing' ? 'active' : ''"
+        >
+          <template #icon>
+            <font-awesome-icon icon="fa-solid fa-pager" class="text-danger" />
+          </template>
+          <template #list>
+            <ul class="nav ms-4">
+              <!-- nav links -->
+              <sidenav-item
+                :isActive="
+                  getRoute2() === 'profile' && getRoute() === 'landing'
+                "
+                :to="{ name: 'Landing Profile' }"
+                mini-icon="P"
+                text="Profile"
+              />
+              <sidenav-item
+                :isActive="getRoute2() === 'berita' && getRoute() === 'landing'"
+                :to="{ name: 'Landing Berita' }"
+                mini-icon="B"
+                text="Berita"
+              />
+              <sidenav-item
+                :isActive="
+                  getRoute2() === 'reportase' && getRoute() === 'landing'
+                "
+                :to="{ name: 'Landing Reportase' }"
+                mini-icon="R"
+                text="Reportase"
+              />
+              <sidenav-item
+                :isActive="
+                  getRoute2() === 'struktur' && getRoute() === 'landing'
+                "
+                :to="{ name: 'Landing Struktur' }"
+                mini-icon="S"
+                text="Struktur"
+              />
+              <sidenav-item
+                :isActive="getRoute2() === 'galeri' && getRoute() === 'landing'"
+                :to="{ name: 'Landing Galeri' }"
+                mini-icon="G"
+                text="Galeri"
+              />
+            </ul>
+          </template>
+        </sidenav-collapse>
+      </li>
+
       <!-- Koordinator Wilayah -->
       <li class="nav-item" v-if="a$checkAuth(['ADMIN', 'BAPPEDA'])">
         <router-link :to="{ name: 'Koordinator Wilayah' }">
