@@ -64,7 +64,7 @@
                         {{ moment(report.created_at).format("DD-MM-YYYY") }}
                       </td>
                       <td class="text-sm">
-                        <a
+                        <!-- <a
                           type="button"
                           class="mb-0 text-primary"
                           data-bs-toggle="modal"
@@ -163,7 +163,16 @@
                               <div class="modal-footer"></div>
                             </div>
                           </div>
-                        </div>
+                        </div> -->
+                        <a
+                          :id="report.id_reportase"
+                          href="#"
+                          class="detail"
+                          data-bs-toggle="tooltip"
+                          title="Detail Reportase"
+                        >
+                          <i class="fas fa-eye text-info"></i>
+                        </a>
                         <a
                           :id="report.id_reportase"
                           href="#"
@@ -292,9 +301,9 @@
                     >
                       <td class="text-sm ps-3">{{ i + 1 }}</td>
                       <td class="ms-0 px-0">
-                        <h6 class="my-auto">{{ reportase.mahasiswa.nama }}</h6>
+                        <h6 class="my-auto">{{ reportase.mahasiswa?.nama }}</h6>
                       </td>
-                      <td class="text-sm">{{ reportase.mahasiswa.nim }}</td>
+                      <td class="text-sm">{{ reportase.mahasiswa?.nim }}</td>
                       <td class="text-sm">{{ reportase.judul }}</td>
                       <td class="text-sm">
                         {{
@@ -308,6 +317,17 @@
                       </td>
                       <td class="text-sm">
                         <a
+                          :id="reportase.id_reportase"
+                          :name="reportase.mahasiswa?.nama"
+                          href="#"
+                          class="me-3 detail"
+                          data-bs-toggle="tooltip"
+                          data-bs-original-title="Detail Reportase"
+                          title="Detail Reportase"
+                        >
+                          <i class="fas fa-eye text-info"></i>
+                        </a>
+                        <!-- <a
                           type="button"
                           class="mb-0 me-3 text-primary"
                           data-bs-toggle="modal"
@@ -438,10 +458,10 @@
                               <div class="modal-footer"></div>
                             </div>
                           </div>
-                        </div>
+                        </div> -->
                         <a
                           :id="reportase.id_reportase"
-                          :name="reportase.mahasiswa.nama"
+                          :name="reportase.mahasiswa?.nama"
                           href="#"
                           class="me-3 edit"
                           data-bs-toggle="tooltip"
@@ -452,7 +472,7 @@
                         </a>
                         <a
                           :id="reportase.id_reportase"
-                          :name="reportase.mahasiswa.nama"
+                          :name="reportase.mahasiswa?.nama"
                           class="delete"
                           href="#"
                           data-bs-toggle="tooltip"
@@ -668,6 +688,15 @@ export default {
 
       // detail reportase
       $("#reportase-list").on("click", `.detail`, function (e) {
+        let reportase = this;
+        outerThis.$router.push({
+          name: "Detail Reportase",
+          params: { id_reportase: reportase.id },
+        });
+        e.preventDefault();
+      });
+
+      $("#reportase-dosen-section-list").on("click", `.detail`, function (e) {
         let reportase = this;
         outerThis.$router.push({
           name: "Detail Reportase",

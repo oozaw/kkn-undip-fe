@@ -106,6 +106,16 @@
                     </td>
                     <td class="text-sm">
                       <a
+                        :id="reportase.id_reportase"
+                        :name="reportase.mahasiswa.nama"
+                        href="#"
+                        data-bs-toggle="tooltip"
+                        class="mb-0 me-3 detail"
+                        title="Detail Reportase"
+                      >
+                        <i class="fas fa-eye text-info"></i>
+                      </a>
+                      <!-- <a
                         type="button"
                         class="mb-0 me-3 text-primary"
                         data-bs-toggle="modal"
@@ -215,11 +225,11 @@
                             <div class="modal-footer"></div>
                           </div>
                         </div>
-                      </div>
+                      </div> -->
                       <a
                         :id="reportase.id_reportase"
                         :name="reportase.mahasiswa.nama"
-                        class="delete"
+                        class="me-3 delete"
                         href="#"
                         data-bs-toggle="tooltip"
                         data-bs-original-title="Hapus Reportase"
@@ -429,6 +439,18 @@ export default {
 
     setupTableAction() {
       let outerThis = this;
+      // detail
+      $("#reportase-list").on("click", ".detail", function (e) {
+        let reportase = this;
+        outerThis.$router.push({
+          name: "Detail Reportase Mahasiswa Admin",
+          params: {
+            id_reportase: reportase.id,
+          },
+        });
+        e.preventDefault();
+      });
+
       // delete
       $("#reportase-list").on("click", `.delete`, function (e) {
         let reportase = this;

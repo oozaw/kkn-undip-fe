@@ -5,6 +5,19 @@
         <header-profile-card>
           <template #button>
             <argon-button
+              v-if="this.g$user.role === 'ADMIN'"
+              @click="() => $router.push({ name: 'Reportase Mahasiswa Admin' })"
+              class="mb-0 me-2"
+              color="secondary"
+              size="sm"
+              ><font-awesome-icon
+                class="text-white me-2"
+                icon="fa-solid fa-arrow-left"
+                size="lg"
+              />Kembali</argon-button
+            >
+            <argon-button
+              v-else
               @click="() => $router.push({ name: 'Reportase' })"
               class="mb-0 me-2"
               color="secondary"
@@ -16,6 +29,7 @@
               />Kembali</argon-button
             >
             <argon-button
+              v-if="this.g$user.role !== 'ADMIN'"
               @click="
                 showSwal(
                   'warning-confirmation',
@@ -31,6 +45,7 @@
               ><i class="fas fa-trash text-white me-2"></i>Hapus</argon-button
             >
             <argon-button
+              v-if="this.g$user.role === 'MAHASISWA'"
               @click="
                 () =>
                   $router.push({
@@ -41,9 +56,25 @@
               class="mb-0 me-lg-2"
               color="primary"
               size="sm"
-              ><i class="fas fa-user-edit text-white me-2"></i
-              >Edit</argon-button
             >
+              <i class="fas fa-user-edit text-white me-2"></i>
+              Edit
+            </argon-button>
+            <argon-button
+              v-else-if="this.g$user.role === 'DOSEN'"
+              @click="
+                () =>
+                  $router.push({
+                    name: 'Evaluasi Reportase',
+                    params: { id_reportase: id_reportase },
+                  })
+              "
+              class="mb-0 me-lg-2"
+              color="primary"
+              size="sm"
+              ><i class="fas fa-user-edit text-white me-2"></i>
+              Evaluasi
+            </argon-button>
           </template>
         </header-profile-card>
         <div class="bg-white pb-2 card mt-4">
@@ -60,6 +91,20 @@
                   <li class="text-sm border-0 list-group-item ps-0 text-wrap">
                     <strong class="text-dark">Judul:</strong>
                     &nbsp; {{ g$reportase?.judul }}
+                  </li>
+                  <li
+                    class="text-sm border-0 list-group-item ps-0 text-wrap"
+                    v-if="this.g$user.role !== 'MAHASISWA'"
+                  >
+                    <strong class="text-dark">Nama Mahasiswa:</strong>
+                    &nbsp; {{ g$reportase?.mahasiswa?.nama }}
+                  </li>
+                  <li
+                    class="text-sm border-0 list-group-item ps-0 text-wrap"
+                    v-if="this.g$user.role !== 'MAHASISWA'"
+                  >
+                    <strong class="text-dark">NIM:</strong>
+                    &nbsp; {{ g$reportase?.mahasiswa?.nim }}
                   </li>
                   <li class="text-sm border-0 list-group-item ps-0 text-wrap">
                     <strong class="text-dark">Diunggah pada:</strong>
@@ -117,6 +162,7 @@ import HeaderProfileCard from "@/views/dashboards/components/HeaderProfileCard.v
 import ArgonButton from "@/components/ArgonButton.vue";
 import { mapActions, mapState } from "pinia";
 import d$reportase from "@/store/reportase";
+import d$auth from "@/store/auth";
 
 export default {
   name: "DetailReportase",
@@ -138,6 +184,7 @@ export default {
     };
   },
   computed: {
+    ...mapState(d$auth, ["g$user"]),
     ...mapState(d$reportase, ["g$reportase"]),
   },
   async created() {
@@ -145,9 +192,24 @@ export default {
     await this.a$getReportase(this.id_reportase);
   },
   methods: {
-    ...mapActions(d$reportase, ["a$getReportase"]),
+    ...mapActions(d$reportase, ["a$getReportase", "a$deleteReportase"]),
 
-    showSwal(type, text, toastText, id_halaman) {
+    async deleteReportase(id_reportase) {
+      this.showSwal("loading");
+
+      try {
+        await this.a$deleteReportase(id_reportase);
+        this.$router.push({ name: "Reportase" });
+      } catch (error) {
+        console.log(error);
+        let msg = "";
+        if (error.error && error.error != undefined) msg = error.error;
+        else msg = error;
+        this.showSwal("failed-message", "Data gagal dihapus! " + msg);
+      }
+    },
+
+    showSwal(type, text, toastText, id_reportase) {
       if (type === "success-message") {
         this.$swal({
           icon: "success",
@@ -222,7 +284,7 @@ export default {
           },
         }).then((result) => {
           if (result.isConfirmed) {
-            this.switchHalaman(id_halaman);
+            this.deleteReportase(id_reportase);
             this.$swal({
               toast: true,
               position: "top-end",

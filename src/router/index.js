@@ -432,7 +432,7 @@ const routes = [
     name: "Detail Reportase",
     component: DetailReportase,
     meta: {
-      requiresAuth: [Role.mahasiswa],
+      requiresAuth: [Role.mahasiswa, Role.dosen],
     },
   },
   {
@@ -769,6 +769,14 @@ const routes = [
     path: "/mahasiswa/reportase",
     name: "Reportase Mahasiswa Admin",
     component: IndexReportaseMhsAdmin,
+    meta: {
+      requiresAuth: [Role.admin],
+    },
+  },
+  {
+    path: "/mahasiswa/reportase/detail/:id_reportase",
+    name: "Detail Reportase Mahasiswa Admin",
+    component: DetailReportase,
     meta: {
       requiresAuth: [Role.admin],
     },

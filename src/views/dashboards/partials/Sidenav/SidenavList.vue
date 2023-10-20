@@ -559,7 +559,7 @@
                 :isActive="getRoute2() === 'reportase'"
                 :to="{ name: 'Reportase' }"
                 mini-icon="R"
-                text="Data Reportase"
+                text="Reportase"
                 :isDisabled="!isAccepted()"
               />
               <sidenav-item

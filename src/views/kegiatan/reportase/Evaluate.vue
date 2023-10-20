@@ -307,8 +307,8 @@ export default {
         await this.a$getReportase(this.id_reportase);
         this.data.nama_mhs = this.g$reportase.mahasiswa.nama;
         this.data.nim = this.g$reportase.mahasiswa.nim;
-        this.data.prodi = this.g$reportase.mahasiswa.prodi;
-        this.data.fakultas = this.g$reportase.mahasiswa.fakultas;
+        this.data.prodi = this.g$reportase.prodi;
+        this.data.fakultas = this.g$reportase.fakultas;
         this.data.tema = this.g$reportase.tema;
         this.data.kecamatan = this.g$reportase.kecamatan;
         this.data.kabupaten = this.g$reportase.kabupaten;
