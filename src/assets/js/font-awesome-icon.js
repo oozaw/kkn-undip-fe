@@ -26,7 +26,16 @@ import {
   faUpRightFromSquare,
   faQrcode,
   faPager,
+  faEnvelope,
+  faPhone,
 } from "@fortawesome/free-solid-svg-icons";
+
+import {
+  faFacebook,
+  faInstagram,
+  faTwitter,
+  faYoutube,
+} from "@fortawesome/free-brands-svg-icons";
 
 const icon = [
   faUsers,
@@ -53,6 +62,12 @@ const icon = [
   faCircleQuestion,
   faQrcode,
   faPager,
+  faFacebook,
+  faInstagram,
+  faYoutube,
+  faTwitter,
+  faEnvelope,
+  faPhone,
 ];
 
 export default icon;

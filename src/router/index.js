@@ -144,6 +144,8 @@ import IndexBerita from "../views/berita/Index.vue";
 import AddBerita from "../views/berita/Add.vue";
 import EditBerita from "../views/berita/Edit.vue";
 import DetailBerita from "../views/berita/Detail.vue";
+import IndexLandingProfile from "../views/profile/Index.vue";
+import EditLandingProfile from "../views/profile/Edit.vue";
 
 const routes = [
   {
@@ -835,7 +837,15 @@ const routes = [
   {
     path: "/landing/profile",
     name: "Landing Profile",
-    component: IndexPresensiDosenAdmin,
+    component: IndexLandingProfile,
+    meta: {
+      requiresAuth: [Role.admin],
+    },
+  },
+  {
+    path: "/landing/profile/edit",
+    name: "Edit Landing Profile",
+    component: EditLandingProfile,
     meta: {
       requiresAuth: [Role.admin],
     },
@@ -896,6 +906,7 @@ const routes = [
       requiresAuth: [Role.admin],
     },
   },
+  // Export
   {
     path: "/export",
     name: "Export",
