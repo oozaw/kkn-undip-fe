@@ -64,7 +64,7 @@
                           :id="berita.id_berita"
                           type="button"
                           class="mb-0 text-primary detail"
-                          title="Detail Reportase"
+                          title="Detail Berita"
                         >
                           <i class="fas fa-eye text-info"></i>
                         </a>
@@ -73,7 +73,7 @@
                           href="#"
                           class="mx-3 edit"
                           data-bs-toggle="tooltip"
-                          title="Edit Reportase"
+                          title="Edit Berita"
                         >
                           <i class="fas fa-user-edit text-primary"></i>
                         </a>
@@ -83,8 +83,8 @@
                           class="delete"
                           href="#"
                           data-bs-toggle="tooltip"
-                          data-bs-original-title="Hapus Reportase"
-                          title="Hapus Reportase"
+                          data-bs-original-title="Hapus Berita"
+                          title="Hapus Berita"
                         >
                           <i class="fas fa-trash text-danger"></i>
                         </a>
@@ -123,7 +123,7 @@ import d$auth from "@/store/auth";
 import d$berita from "@/store/berita";
 
 export default {
-  name: "IndexReportase",
+  name: "IndexBerita",
   components: {
     HeaderProfileCard,
     TableContentLoader,

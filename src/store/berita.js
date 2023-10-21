@@ -6,6 +6,7 @@ const d$berita = defineStore("beritaStore", {
   state: () => ({
     listBerita: [],
     berita: null,
+    thumbnail: null,
     status: null,
   }),
   actions: {
@@ -25,6 +26,17 @@ const d$berita = defineStore("beritaStore", {
         const { data, status } = await s$berita.getBerita(id_berita);
         this.berita = data ?? null;
         this.status = status;
+      } catch ({ message, error }) {
+        this.status = false;
+        throw message ?? error;
+      }
+    },
+
+    async a$getThumbnail(id_berita) {
+      try {
+        const data = await s$berita.getThumbnail(id_berita);
+        this.thumbnail = data ?? null;
+        this.status = true;
       } catch ({ message, error }) {
         this.status = false;
         throw message ?? error;
@@ -64,6 +76,7 @@ const d$berita = defineStore("beritaStore", {
   getters: {
     g$listBerita: ({ listBerita }) => listBerita,
     g$berita: ({ berita }) => berita,
+    g$thumbnail: ({ thumbnail }) => thumbnail,
   },
 });
 
