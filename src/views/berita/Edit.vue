@@ -238,7 +238,7 @@ export default {
 
         await this.a$editBerita(this.id_berita, this.body);
         this.showSwal("success-message", "Berita berhasil disimpan");
-        this.$router.push({ name: "Landing Berita" });
+        this.$router.go(-1);
       } catch (error) {
         console.log(error);
         let msg = "";

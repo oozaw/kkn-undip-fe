@@ -403,7 +403,7 @@ export default {
           },
         }).then((result) => {
           if (result.isConfirmed) {
-            this.a$deleteBerita(id_berita);
+            this.deleteBerita(id_berita);
             this.$swal({
               toast: true,
               position: "top-end",

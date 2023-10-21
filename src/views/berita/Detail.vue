@@ -20,9 +20,7 @@
                 showSwal(
                   'warning-confirmation',
                   `Hapus berita ini?`,
-                  'Berhasil memperbarui data',
-                  id_reportase,
-                  false
+                  'Berhasil menghapus data'
                 )
               "
               class="mb-0 me-2"
@@ -117,6 +115,22 @@ export default {
       "a$getThumbnail",
     ]),
 
+    async deleteBerita() {
+      this.showSwal("loading");
+
+      try {
+        await this.a$deleteBerita(this.id_berita);
+        this.showSwal("success-message", "Data berhasil dihapus!");
+        this.$router.push({ name: "Landing Berita" });
+      } catch (error) {
+        console.log(error);
+        let msg = "";
+        if (error.error && error.error != undefined) msg = error.error;
+        else msg = error;
+        this.showSwal("failed-message", "Data gagal dihapus! " + msg);
+      }
+    },
+
     async getThumbnail() {
       try {
         const thumbnailPlaceholder = document.getElementById(
@@ -132,7 +146,7 @@ export default {
       }
     },
 
-    showSwal(type, text, toastText, id_berita) {
+    showSwal(type, text, toastText) {
       if (type === "success-message") {
         this.$swal({
           icon: "success",
@@ -207,7 +221,7 @@ export default {
           },
         }).then((result) => {
           if (result.isConfirmed) {
-            this.deleteBerita(id_berita);
+            this.deleteBerita();
             this.$swal({
               toast: true,
               position: "top-end",
