@@ -16,7 +16,7 @@
               <div class="my-auto mt-4 ms-auto mt-lg-3">
                 <div class="my-auto ms-auto">
                   <argon-button
-                    v-if="!riwayatPresensi"
+                    v-if="!riwayatPresensi && isTemaOnGoing"
                     class="mb-0 me-2"
                     size="sm"
                     color="success"
@@ -25,6 +25,7 @@
                     >Hadir
                   </argon-button>
                   <argon-button
+                    v-if="isTemaOnGoing"
                     class="mb-0 me-2"
                     size="sm"
                     color="primary"
@@ -227,6 +228,7 @@ export default {
       riwayatPresensi: undefined,
       listRiwayatPresensi: [],
       qrURL: "",
+      isTemaOnGoing: false,
     };
   },
   computed: {
@@ -253,6 +255,7 @@ export default {
     ]),
     ...mapActions(d$wilayah, ["a$getKecamatanMhs"]),
     ...mapActions(d$qr, ["a$generateQR"]),
+    ...mapActions(d$auth, ["a$getUser"]),
 
     async getInitData() {
       this.isLoading = true;
@@ -260,11 +263,21 @@ export default {
       this.listRiwayatPresensi = [];
 
       try {
+        await this.a$getUser();
         await this.a$listPresensiMahasiswa();
-        await this.a$getPresensi(
-          Number(this.g$infoUser.id_mahasiswa),
-          moment().format("YYYY-MM-DD")
-        );
+
+        if (
+          this.moment() <= this.moment(this.g$infoUser.tema.tgl_akhir) &&
+          this.moment() >= this.moment(this.g$infoUser.tema.tgl_mulai)
+        ) {
+          this.isTemaOnGoing = true;
+          await this.a$getPresensi(
+            Number(this.g$infoUser.id_mahasiswa),
+            moment().format("YYYY-MM-DD")
+          );
+        } else {
+          this.isTemaOnGoing = false;
+        }
         this.listRiwayatPresensi = this.g$listPresensi;
         this.riwayatPresensi = this.g$presensi;
       } catch (error) {
