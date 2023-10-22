@@ -30,46 +30,46 @@
             <div class="pt-4 px-6 pb-3 card-body">
               <div class="text-center">
                 <h5 class="">Profil</h5>
-                <p class="" v-html="g$profile.profile"></p>
+                <p class="" v-html="g$profile?.profile"></p>
               </div>
               <div class="text-center mt-3">
                 <h5 class="">Visi</h5>
-                <p class="" v-html="g$profile.visi"></p>
+                <p class="" v-html="g$profile?.visi"></p>
               </div>
               <div class="text-center mt-3">
                 <h5 class="">Misi</h5>
-                <p class="" v-html="g$profile.misi"></p>
+                <p class="" v-html="g$profile?.misi"></p>
               </div>
               <div class="text-center mt-3">
                 <h5 class="">Alamat</h5>
-                <p class="" v-html="g$profile.alamat"></p>
+                <p class="" v-html="g$profile?.alamat"></p>
               </div>
               <div class="text-center mt-3">
                 <h5 class="mb-1">Kontak</h5>
                 <div class="d-flex justify-content-center">
                   <span>
                     <font-awesome-icon icon="fa-solid fa-phone" />
-                    <p class="me-3">{{ g$profile.no_hp }}</p>
+                    <p class="me-3">{{ g$profile?.no_hp }}</p>
                   </span>
                   <span>
                     <font-awesome-icon icon="fa-solid fa-envelope" />
-                    <p class="me-3">{{ g$profile.email }}</p>
+                    <p class="me-3">{{ g$profile?.email }}</p>
                   </span>
                   <span>
                     <font-awesome-icon icon="fa-brands fa-instagram" />
-                    <p class="me-3">{{ g$profile.instagram }}</p>
+                    <p class="me-3">{{ g$profile?.instagram }}</p>
                   </span>
                   <span>
                     <font-awesome-icon icon="fa-brands fa-facebook" />
-                    <p class="me-3">{{ g$profile.facebook }}</p>
+                    <p class="me-3">{{ g$profile?.facebook }}</p>
                   </span>
                   <span>
                     <font-awesome-icon icon="fa-brands fa-twitter" />
-                    <p class="me-3">{{ g$profile.twitter }}</p>
+                    <p class="me-3">{{ g$profile?.twitter }}</p>
                   </span>
                   <span>
                     <font-awesome-icon icon="fa-brands fa-youtube" />
-                    <p class="me-3">{{ g$profile.youtube }}</p>
+                    <p class="me-3">{{ g$profile?.youtube }}</p>
                   </span>
                 </div>
               </div>
