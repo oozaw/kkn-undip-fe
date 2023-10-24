@@ -405,7 +405,7 @@
                 :isActive="
                   getRoute2() === 'struktur' && getRoute() === 'landing'
                 "
-                :to="{ name: 'Landing Struktur' }"
+                :to="{ name: 'Struktur Organisasi' }"
                 mini-icon="S"
                 text="Struktur"
               />

@@ -28,6 +28,8 @@ import {
   faPager,
   faEnvelope,
   faPhone,
+  faPlus,
+  faMinus,
 } from "@fortawesome/free-solid-svg-icons";
 
 import {
@@ -68,6 +70,8 @@ const icon = [
   faTwitter,
   faEnvelope,
   faPhone,
+  faPlus,
+  faMinus,
 ];
 
 export default icon;

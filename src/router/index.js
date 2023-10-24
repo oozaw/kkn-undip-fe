@@ -146,6 +146,7 @@ import EditBerita from "../views/berita/Edit.vue";
 import DetailBerita from "../views/berita/Detail.vue";
 import IndexLandingProfile from "../views/profile/Index.vue";
 import EditLandingProfile from "../views/profile/Edit.vue";
+import IndexStruktur from "../views/struktur/Index.vue";
 
 const routes = [
   {
@@ -884,8 +885,8 @@ const routes = [
   },
   {
     path: "/landing/struktur",
-    name: "Landing Struktur",
-    component: IndexPresensiDosenAdmin,
+    name: "Struktur Organisasi",
+    component: IndexStruktur,
     meta: {
       requiresAuth: [Role.admin],
     },
