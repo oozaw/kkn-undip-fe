@@ -315,7 +315,7 @@ const routes = [
     name: "Koordinator Wilayah",
     component: IndexKorwil,
     meta: {
-      requiresAuth: [Role.admin, Role.bappeda],
+      requiresAuth: [Role.admin, Role.bappeda, Role.pimpinan],
     },
   },
   {
@@ -604,7 +604,7 @@ const routes = [
     name: "Tema KKN",
     component: IndexTemaKKN,
     meta: {
-      requiresAuth: [Role.admin],
+      requiresAuth: [Role.admin, Role.pimpinan],
     },
   },
   {
@@ -733,7 +733,7 @@ const routes = [
     name: "Pendaftaran Mahasiswa Admin",
     component: IndexPendaftaranMhsAdmin,
     meta: {
-      requiresAuth: [Role.admin],
+      requiresAuth: [Role.admin, Role.pimpinan],
     },
   },
   {
@@ -741,7 +741,7 @@ const routes = [
     name: "Nilai Post Test Mahasiswa Admin",
     component: IndexNilaiPostTestMhsAdmin,
     meta: {
-      requiresAuth: [Role.admin],
+      requiresAuth: [Role.admin, Role.pimpinan],
     },
   },
   {
@@ -749,7 +749,7 @@ const routes = [
     name: "Presensi Mahasiswa Admin",
     component: IndexPresensiMhs,
     meta: {
-      requiresAuth: [Role.admin],
+      requiresAuth: [Role.admin, Role.pimpinan],
     },
   },
   {
@@ -765,7 +765,7 @@ const routes = [
     name: "LRK & LPK Mahasiswa Admin",
     component: IndexLRKLPKMhsAdmin,
     meta: {
-      requiresAuth: [Role.admin],
+      requiresAuth: [Role.admin, Role.pimpinan],
     },
   },
   {
@@ -773,7 +773,7 @@ const routes = [
     name: "Reportase Mahasiswa Admin",
     component: IndexReportaseMhsAdmin,
     meta: {
-      requiresAuth: [Role.admin],
+      requiresAuth: [Role.admin, Role.pimpinan],
     },
   },
   {
@@ -790,7 +790,7 @@ const routes = [
     name: "Pendaftaran Dosen Admin",
     component: IndexPendaftaranDosenAdmin,
     meta: {
-      requiresAuth: [Role.admin, Role.reviewer],
+      requiresAuth: [Role.admin, Role.reviewer, Role.pimpinan],
     },
   },
   {
@@ -822,7 +822,7 @@ const routes = [
     name: "Presensi Dosen Admin",
     component: IndexPresensiDosenAdmin,
     meta: {
-      requiresAuth: [Role.admin],
+      requiresAuth: [Role.admin, Role.pimpinan],
     },
   },
   {
@@ -830,7 +830,7 @@ const routes = [
     name: "Nilai Akhir Mahasiswa Admin",
     component: IndexNilaiAkhirMhsAdmin,
     meta: {
-      requiresAuth: [Role.admin],
+      requiresAuth: [Role.admin, Role.pimpinan],
     },
   },
 

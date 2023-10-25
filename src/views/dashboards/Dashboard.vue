@@ -4,6 +4,7 @@
       <div class="col-lg-12">
         <HeaderProfileCard />
         <div class="row mt-4">
+          <!-- calendar -->
           <div class="col-lg-6 col-12">
             <CalendarContentLoader v-if="isLoading" />
             <calendar
@@ -12,28 +13,12 @@
               :events="listEvent"
               :initial-date="initialDate"
             />
-            <!-- <div class="mt-4" v-if="g$user.role === 'ADMIN'">
-              <timeline-list
-                v-if="listPengumuman != undefined"
-                class="h-100"
-                title="Pengumuman KKN"
-              >
-                <timeline-item
-                  v-for="pengumuman in listPengumuman"
-                  :key="pengumuman.id_pengumuman"
-                  :title="pengumuman.judul"
-                  :date-time="
-                    moment(pengumuman.created_at).format('DD MMMM YYYY')
-                  "
-                  :description="pengumuman.isi"
-                />
-              </timeline-list>
-            </div> -->
           </div>
           <div class="col-lg-6 col-12 mt-lg-0 mt-4">
-            <div class="col-lg-12 col-sm-12">
+            <div class="col-lg-12 col-sm-12" v-if="g$user.role === 'MAHASISWA'">
+              <StatisticCardContentLoader v-if="isLoading" />
               <mini-statistics-card
-                v-if="g$user.role === 'MAHASISWA'"
+                :hidden="isLoading"
                 class="py-2"
                 :style="'margin-left: 85.5%'"
                 title="Dosen Pembimbing"
@@ -48,12 +33,18 @@
                   shape: 'rounded-circle',
                 }"
               />
+            </div>
+            <div
+              class="col-lg-12 col-sm-12"
+              v-else-if="
+                g$user.role === 'DOSEN' ||
+                g$user.role === 'REVIEWER' ||
+                g$user.role === 'PIMPINAN'
+              "
+            >
+              <StatisticCardContentLoader v-if="isLoading" />
               <mini-statistics-card
-                v-else-if="
-                  g$user.role === 'DOSEN' ||
-                  g$user.role === 'REVIEWER' ||
-                  g$user.role === 'PIMPINAN'
-                "
+                :hidden="isLoading"
                 :style="'margin-left: 70%'"
                 title="Data Diri"
                 title-color="primary"
@@ -73,8 +64,14 @@
                 role="button"
                 @click="() => $router.push({ name: 'Edit Data Diri' })"
               />
+            </div>
+            <div
+              class="col-lg-12 col-sm-12"
+              v-else-if="g$user.role === 'BAPPEDA'"
+            >
+              <StatisticCardContentLoader v-if="isLoading" />
               <mini-statistics-card
-                v-else-if="g$user.role === 'BAPPEDA'"
+                :hidden="isLoading"
                 :style="'margin-left: 70%'"
                 role="button"
                 title="Data Diri"
@@ -96,8 +93,14 @@
                 }"
                 @click="() => $router.push({ name: 'Edit Data Diri' })"
               />
+            </div>
+            <div
+              class="col-lg-12 col-sm-12"
+              v-if="g$user.role === 'DOSEN' || g$user.role === 'BAPPEDA'"
+            >
+              <StatisticCardContentLoader v-if="isLoading" />
               <mini-statistics-card
-                v-if="g$user.role === 'DOSEN' || g$user.role === 'BAPPEDA'"
+                :hidden="isLoading"
                 :style="'margin-left: 70%'"
                 role="button"
                 title="Daftar Lokasi KKN"
@@ -119,11 +122,12 @@
                 v-if="
                   g$user.role === 'DOSEN' ||
                   g$user.role === 'BAPPEDA' ||
-                  g$user.role === 'REVIEWER' ||
-                  g$user.role === 'PIMPINAN'
+                  g$user.role === 'REVIEWER'
                 "
               >
+                <TimelineCardContentLoader v-if="isLoading" :col="6" />
                 <timeline-list
+                  :hidden="isLoading"
                   v-if="listPengumuman != undefined"
                   class="h-100"
                   title="Pengumuman KKN"
@@ -139,6 +143,8 @@
                   />
                 </timeline-list>
               </div>
+            </div>
+            <div class="col-lg-12 col-sm-12">
               <div class="row">
                 <div class="col-lg-6 col-md-6 col-12">
                   <mini-statistics-card
@@ -234,7 +240,10 @@
                   />
                 </div>
               </div>
-              <div v-if="g$user.role === 'ADMIN'" class="row">
+              <div
+                v-if="g$user.role === 'ADMIN' || g$user.role === 'PIMPINAN'"
+                class="row"
+              >
                 <div class="col-lg-6 col-md-6 col-12">
                   <StatisticCardContentLoader v-if="isLoading" />
                   <mini-statistics-card
@@ -274,7 +283,12 @@
                   <mini-statistics-card
                     :hidden="isLoading"
                     role="button"
-                    @click="() => $router.push({ name: 'Mahasiswa' })"
+                    @click="
+                      () =>
+                        g$user.role === 'ADMIN'
+                          ? $router.push({ name: 'Mahasiswa' })
+                          : ''
+                    "
                     :style="'margin-left: 70%'"
                     title="Total Mahasiswa"
                     :value="{ text: total.mahasiswa, color: 'success' }"
@@ -314,7 +328,12 @@
                   <mini-statistics-card
                     :hidden="isLoading"
                     role="button"
-                    @click="() => $router.push({ name: 'Bappeda' })"
+                    @click="
+                      () =>
+                        g$user.role === 'ADMIN'
+                          ? $router.push({ name: 'Bappeda' })
+                          : ''
+                    "
                     :style="'margin-left: 70%'"
                     title="Total BAPPEDA"
                     :value="{ text: total.bappeda, color: 'success' }"
@@ -331,7 +350,12 @@
                   <mini-statistics-card
                     :hidden="isLoading"
                     role="button"
-                    @click="() => $router.push({ name: 'Dosen' })"
+                    @click="
+                      () =>
+                        g$user.role === 'ADMIN'
+                          ? $router.push({ name: 'Dosen' })
+                          : ''
+                    "
                     :style="'margin-left: 70%'"
                     title="Total Dosen"
                     :value="{ text: total.dosen, color: 'success' }"
@@ -348,7 +372,12 @@
                   <mini-statistics-card
                     :hidden="isLoading"
                     role="button"
-                    @click="() => $router.push({ name: 'Reviewer' })"
+                    @click="
+                      () =>
+                        g$user.role === 'ADMIN'
+                          ? $router.push({ name: 'Reviewer' })
+                          : ''
+                    "
                     :style="'margin-left: 70%'"
                     title="Total Reviewer"
                     :value="{ text: total.reviewer, color: 'success' }"
@@ -364,7 +393,12 @@
                   <mini-statistics-card
                     :hidden="isLoading"
                     role="button"
-                    @click="() => $router.push({ name: 'Pimpinan' })"
+                    @click="
+                      () =>
+                        g$user.role === 'ADMIN'
+                          ? $router.push({ name: 'Pimpinan' })
+                          : ''
+                    "
                     :style="'margin-left: 70%'"
                     title="Total Pimpinan"
                     :value="{
@@ -384,7 +418,10 @@
         </div>
         <div class="row mt">
           <div class="col-12">
-            <div class="mt-lg-4 mt-0" v-if="g$user.role === 'ADMIN'">
+            <div
+              class="mt-lg-4 mt-0"
+              v-if="g$user.role === 'ADMIN' || g$user.role === 'PIMPINAN'"
+            >
               <TimelineCardContentLoader v-if="isLoading" :col="12" />
               <timeline-list
                 v-if="listPengumuman != undefined"
@@ -404,13 +441,16 @@
               </timeline-list>
             </div>
           </div>
-          <div class="col-lg-12 col-sm-12 mt-4">
-            <members-table
-              v-if="g$user.role === 'MAHASISWA'"
-              :value="g$kecamatan.mahasiswa"
-            />
+          <div
+            class="col-lg-12 col-sm-12 mt-4"
+            v-if="g$user.role === 'MAHASISWA'"
+          >
+            <members-table :value="g$kecamatan.mahasiswa" />
           </div>
-          <div class="col-lg-12 col-sm-12" v-if="g$user.role === 'ADMIN'">
+          <div
+            class="col-lg-12 col-sm-12"
+            v-if="g$user.role === 'ADMIN' || g$user.role === 'PIMPINAN'"
+          >
             <TableContentLoader v-if="isLoading" />
             <div class="bg-white card mt-4" :hidden="isLoading">
               <!-- Card header -->
@@ -427,7 +467,7 @@
                     <thead class="thead-light">
                       <tr>
                         <th class="col-1">No.</th>
-                        <th style="max-width: 50cm">Nama/ Tema KKN</th>
+                        <th style="max-width: 50cm">Nama Tema KKN</th>
                         <th>Lokasi</th>
                         <th>Periode</th>
                       </tr>
@@ -648,14 +688,26 @@ export default {
         break;
 
       case "PIMPINAN":
+        // tema
+        await this.getDataTema();
+
         // kegiatan
         await this.a$listAllEvent();
         this.parsingEvents();
+
+        // total
+        await this.getTotalMahasiswa();
+        await this.getTotalDosen();
+        await this.getTotalPimpinan();
+        await this.getTotalBappeda();
+        await this.getTotalReviewer();
 
         // pengumuman
         await this.a$listAllPengumuman();
         this.listPengumuman = this.g$listPengumuman;
 
+        // wilayah
+        await this.getListKecamatanDiterima();
         break;
 
       default:
