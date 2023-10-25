@@ -150,7 +150,7 @@
                       >
                         <i class="fas fa-eye text-info"></i>
                       </a>
-                      <section v-if="g$user.role === 'ADMIN'">
+                      <span v-if="g$user.role === 'ADMIN'">
                         <a
                           href="#"
                           :id="tema.id_tema"
@@ -203,7 +203,7 @@
                             size="xl"
                           />
                         </a>
-                      </section>
+                      </span>
                     </td>
                   </tr>
                 </tbody>
