@@ -112,7 +112,7 @@
                     <th>Status</th>
                     <th>Waktu</th>
                     <th>Oleh</th>
-                    <th>Action</th>
+                    <th v-if="g$user.role === 'ADMIN'">Action</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -148,7 +148,7 @@
                     <td class="text-sm">
                       {{ presensi.by }}
                     </td>
-                    <td class="text-sm">
+                    <td class="text-sm" v-if="g$user.role === 'ADMIN'">
                       <a
                         v-if="presensi.status != -1"
                         :id="presensi.id_riwayat_presensi"
@@ -228,7 +228,7 @@
                     <th>Status</th>
                     <th>Waktu</th>
                     <th>Oleh</th>
-                    <th>Action</th>
+                    <th v-if="g$user.role === 'ADMIN'">Action</th>
                   </tr>
                 </tfoot>
               </table>
@@ -305,11 +305,13 @@ export default {
       this.isLoadingOnInit = true;
 
       try {
-        if (this.g$user.role === "ADMIN") await this.a$listTema();
+        if (this.g$user.role === "ADMIN" || this.g$user.role === "PIMPINAN")
+          await this.a$listTema();
         else if (this.g$user.role === "DOSEN") await this.a$listTemaDosen();
         this.id_tema = this.g$listTema[0].id_tema;
         this.choicesLokasi = this.getChoices("choices-lokasi");
-        if (this.g$user.role === "ADMIN") await this.getListKecamatan();
+        if (this.g$user.role === "ADMIN" || this.g$user.role === "PIMPINAN")
+          await this.getListKecamatan();
         else if (this.g$user.role === "DOSEN")
           await this.getListKecamatanDosen();
         this.choicesTema = this.getChoices("choices-tema");
