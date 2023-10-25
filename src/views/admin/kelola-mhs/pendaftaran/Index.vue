@@ -277,6 +277,7 @@
                         </div>
                       </div>
                       <a
+                        v-if="g$user.role === 'ADMIN'"
                         :id="pendaftaran.id_mahasiswa_kecamatan"
                         :name="pendaftaran.mahasiswa.nama"
                         class="me-3 delete"
@@ -320,6 +321,7 @@ import d$tema from "@/store/tema";
 import d$wilayah from "@/store/wilayah";
 import d$mahasiswa from "@/store/mahasiswa";
 import d$export from "@/store/export";
+import d$auth from "@/store/auth";
 
 export default {
   name: "IndexPendaftaranMhsAdmin",
@@ -346,6 +348,7 @@ export default {
     ...mapState(d$wilayah, ["g$listKecamatanAccepted"]),
     ...mapState(d$mahasiswa, ["g$listMahasiswa"]),
     ...mapState(d$export, ["g$exportData"]),
+    ...mapState(d$auth, ["g$user"]),
   },
   async created() {
     await this.getInitData();
