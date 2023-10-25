@@ -14,6 +14,7 @@
               <div class="my-auto mt-4 ms-auto mt-lg-0">
                 <div class="my-auto ms-auto">
                   <button
+                    v-if="g$user.role === 'ADMIN'"
                     type="button"
                     class="mb-0 btn btn-success btn-sm"
                     data-bs-toggle="modal"
@@ -93,6 +94,7 @@
                     </div>
                   </div>
                   <button
+                    v-if="g$user.role === 'ADMIN'"
                     type="button"
                     class="mx-2 mb-0 btn btn-primary btn-sm"
                     data-bs-toggle="modal"
@@ -313,6 +315,7 @@
                         </div>
                       </div>
                       <a
+                        v-if="g$user.role === 'ADMIN'"
                         type="button"
                         class="mx-3 mb-0"
                         data-bs-toggle="modal"
@@ -394,6 +397,7 @@
                         </div>
                       </div>
                       <a
+                        v-if="g$user.role === 'ADMIN'"
                         :id="korwil.id_korwil"
                         :name="korwil.nama"
                         class="delete"
@@ -432,6 +436,7 @@ import HeaderProfileCard from "@/views/dashboards/components/HeaderProfileCard.v
 import TableContentLoader from "@/views/dashboards/components/TableContentLoader.vue";
 import { mapActions, mapState } from "pinia";
 import d$korwil from "@/store/korwil";
+import d$auth from "@/store/auth";
 
 export default {
   name: "IndexKorwil",
@@ -455,6 +460,7 @@ export default {
   },
   computed: {
     ...mapState(d$korwil, ["g$listKorwil"]),
+    ...mapState(d$auth, ["g$user"]),
   },
   async created() {
     await this.getListKorwil();
