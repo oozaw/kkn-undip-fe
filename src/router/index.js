@@ -781,7 +781,7 @@ const routes = [
     name: "Detail Reportase Mahasiswa Admin",
     component: DetailReportase,
     meta: {
-      requiresAuth: [Role.admin],
+      requiresAuth: [Role.admin, Role.pimpinan],
     },
   },
   // Kelola Dosen

@@ -5,7 +5,9 @@
         <header-profile-card>
           <template #button>
             <argon-button
-              v-if="this.g$user.role === 'ADMIN'"
+              v-if="
+                this.g$user.role === 'ADMIN' || this.g$user.role === 'PIMPINAN'
+              "
               @click="() => $router.push({ name: 'Reportase Mahasiswa Admin' })"
               class="mb-0 me-2"
               color="secondary"
@@ -29,7 +31,9 @@
               />Kembali</argon-button
             >
             <argon-button
-              v-if="this.g$user.role !== 'ADMIN'"
+              v-if="
+                this.g$user.role !== 'ADMIN' && this.g$user.role !== 'PIMPINAN'
+              "
               @click="
                 showSwal(
                   'warning-confirmation',
