@@ -16,7 +16,7 @@
           </div>
           <div class="col-lg-6 col-12 mt-lg-0 mt-4">
             <div class="col-lg-12 col-sm-12" v-if="g$user.role === 'MAHASISWA'">
-              <StatisticCardContentLoader v-if="isLoading" />
+              <StatisticCardContentLoader :col="12" v-if="isLoading" />
               <mini-statistics-card
                 :hidden="isLoading"
                 class="py-2"
@@ -42,7 +42,7 @@
                 g$user.role === 'PIMPINAN'
               "
             >
-              <StatisticCardContentLoader v-if="isLoading" />
+              <StatisticCardContentLoader :col="12" v-if="isLoading" />
               <mini-statistics-card
                 :hidden="isLoading"
                 :style="'margin-left: 70%'"
