@@ -222,111 +222,116 @@
                           </div>
                         </div>
                       </div>
-                      <a
-                        :id="kec.id_kecamatan"
-                        :name="kec.nama"
-                        class="me-3 delete"
-                        href="#"
-                        data-bs-toggle="tooltip"
-                        data-bs-original-title="Hapus Kecamatan"
-                        title="Hapus Kecamatan"
-                      >
-                        <i class="fas fa-trash text-danger"></i>
-                      </a>
-                      <a
-                        v-if="kec.status == 0 || kec.status == 1"
-                        :id="kec.id_kecamatan"
-                        :name="kec.nama"
-                        class="me-3 tolak"
-                        href=""
-                        data-bs-toggle="tooltip"
-                        data-bs-original-title="Tolak Kecamatan"
-                        title="Tolak"
-                      >
-                        <font-awesome-icon
-                          class="text-danger"
-                          icon="fa-solid fa-square-xmark"
-                          size="xl"
-                        />
-                      </a>
-                      <a
-                        v-if="kec.status == 0 || kec.status != 1"
-                        :id="kec.id_kecamatan"
-                        :name="kec.nama"
-                        class="me-3 terima"
-                        href=""
-                        data-bs-toggle="modal"
-                        :data-bs-target="'#terima_' + kec.id_kecamatan"
-                        title="Terima"
-                      >
-                        <font-awesome-icon
-                          class="text-success"
-                          icon="fa-solid fa-square-check"
-                          size="xl"
-                        />
-                      </a>
-                      <div
-                        :id="'terima_' + kec.id_kecamatan"
-                        class="modal fade"
-                        tabindex="-1"
-                        aria-hidden="true"
-                      >
-                        <div class="modal-dialog modal-lg mt-lg-10">
-                          <div class="modal-content">
-                            <div class="modal-header">
-                              <h5 id="ModalLabel" class="modal-title text-wrap">
-                                Terima Pengajuan Kecamatan {{ kec.nama }}?
-                              </h5>
-                              <button
-                                type="button"
-                                class="btn-close text-dark mb-0"
-                                data-bs-dismiss="modal"
-                                aria-label="Close"
-                              >
-                                <font-awesome-icon icon="fa-solid fa-xmark" />
-                              </button>
-                            </div>
-                            <div class="modal-body">
-                              <label class="form-label"
-                                >Koordinator Wilayah</label
-                              >
-                              <select
-                                :id="`choices-korwil-${kec.id_kecamatan}`"
-                                class="form-control"
-                                :name="`choices-korwil-${kec.id_kecamatan}`"
-                              >
-                                <option value="" selected>
-                                  -- Pilih korwil --
-                                </option>
-                                <option
-                                  v-for="korwil in g$listKorwil"
-                                  :key="korwil.id_korwil"
-                                  :value="korwil.id_korwil"
+                      <section v-if="g$user.role === 'ADMIN'">
+                        <a
+                          :id="kec.id_kecamatan"
+                          :name="kec.nama"
+                          class="me-3 delete"
+                          href="#"
+                          data-bs-toggle="tooltip"
+                          data-bs-original-title="Hapus Kecamatan"
+                          title="Hapus Kecamatan"
+                        >
+                          <i class="fas fa-trash text-danger"></i>
+                        </a>
+                        <a
+                          v-if="kec.status == 0 || kec.status == 1"
+                          :id="kec.id_kecamatan"
+                          :name="kec.nama"
+                          class="me-3 tolak"
+                          href=""
+                          data-bs-toggle="tooltip"
+                          data-bs-original-title="Tolak Kecamatan"
+                          title="Tolak"
+                        >
+                          <font-awesome-icon
+                            class="text-danger"
+                            icon="fa-solid fa-square-xmark"
+                            size="xl"
+                          />
+                        </a>
+                        <a
+                          v-if="kec.status == 0 || kec.status != 1"
+                          :id="kec.id_kecamatan"
+                          :name="kec.nama"
+                          class="me-3 terima"
+                          href=""
+                          data-bs-toggle="modal"
+                          :data-bs-target="'#terima_' + kec.id_kecamatan"
+                          title="Terima"
+                        >
+                          <font-awesome-icon
+                            class="text-success"
+                            icon="fa-solid fa-square-check"
+                            size="xl"
+                          />
+                        </a>
+                        <div
+                          :id="'terima_' + kec.id_kecamatan"
+                          class="modal fade"
+                          tabindex="-1"
+                          aria-hidden="true"
+                        >
+                          <div class="modal-dialog modal-lg mt-lg-10">
+                            <div class="modal-content">
+                              <div class="modal-header">
+                                <h5
+                                  id="ModalLabel"
+                                  class="modal-title text-wrap"
                                 >
-                                  {{ korwil.nama }}
-                                </option>
-                              </select>
-                            </div>
-                            <div class="modal-footer mb-0">
-                              <button
-                                :id="`button-close-modal-${kec.id_kecamatan}`"
-                                type="button"
-                                class="btn bg-gradient-secondary btn-sm"
-                                data-bs-dismiss="modal"
-                              >
-                                Batal
-                              </button>
-                              <button
-                                :id="kec.id_kecamatan"
-                                type="button"
-                                class="btn bg-gradient-success btn-sm submit-acc-kecamatan"
-                              >
-                                Ya, terima
-                              </button>
+                                  Terima Pengajuan Kecamatan {{ kec.nama }}?
+                                </h5>
+                                <button
+                                  type="button"
+                                  class="btn-close text-dark mb-0"
+                                  data-bs-dismiss="modal"
+                                  aria-label="Close"
+                                >
+                                  <font-awesome-icon icon="fa-solid fa-xmark" />
+                                </button>
+                              </div>
+                              <div class="modal-body">
+                                <label class="form-label"
+                                  >Koordinator Wilayah</label
+                                >
+                                <select
+                                  :id="`choices-korwil-${kec.id_kecamatan}`"
+                                  class="form-control"
+                                  :name="`choices-korwil-${kec.id_kecamatan}`"
+                                >
+                                  <option value="" selected>
+                                    -- Pilih korwil --
+                                  </option>
+                                  <option
+                                    v-for="korwil in g$listKorwil"
+                                    :key="korwil.id_korwil"
+                                    :value="korwil.id_korwil"
+                                  >
+                                    {{ korwil.nama }}
+                                  </option>
+                                </select>
+                              </div>
+                              <div class="modal-footer mb-0">
+                                <button
+                                  :id="`button-close-modal-${kec.id_kecamatan}`"
+                                  type="button"
+                                  class="btn bg-gradient-secondary btn-sm"
+                                  data-bs-dismiss="modal"
+                                >
+                                  Batal
+                                </button>
+                                <button
+                                  :id="kec.id_kecamatan"
+                                  type="button"
+                                  class="btn bg-gradient-success btn-sm submit-acc-kecamatan"
+                                >
+                                  Ya, terima
+                                </button>
+                              </div>
                             </div>
                           </div>
                         </div>
-                      </div>
+                      </section>
                     </td>
                   </tr>
                 </tbody>
@@ -361,6 +366,7 @@ import { mapActions, mapState } from "pinia";
 import d$wilayah from "@/store/wilayah";
 import d$tema from "@/store/tema";
 import d$korwil from "@/store/korwil";
+import d$auth from "@/store/auth";
 
 export default {
   name: "IndexPengajuanWilayah",
@@ -387,6 +393,7 @@ export default {
     ...mapState(d$wilayah, ["g$listKecamatan"]),
     ...mapState(d$tema, ["g$listTemaActive"]),
     ...mapState(d$korwil, ["g$listKorwil"]),
+    ...mapState(d$auth, ["g$user"]),
   },
   async created() {
     await this.getInitData();

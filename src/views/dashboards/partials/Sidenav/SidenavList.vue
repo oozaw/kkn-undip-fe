@@ -23,7 +23,7 @@
       </li>
 
       <!-- Profile Diri -->
-      <li class="nav-item" v-if="a$checkAuth(['REVIEWER'])">
+      <li class="nav-item" v-if="a$checkAuth(['REVIEWER', 'PIMPINAN'])">
         <router-link :to="{ name: 'Edit Data Diri' }">
           <sidenav-collapse
             nav-text="Profil Diri"
@@ -163,7 +163,7 @@
                 text="Gelombang Pendaftaran"
               />
               <sidenav-item
-                v-if="a$checkAuth(['ADMIN'])"
+                v-if="a$checkAuth(['ADMIN', 'PIMPINAN'])"
                 :to="{ name: 'Pengajuan Wilayah' }"
                 mini-icon="W"
                 text="Pengajuan Wilayah"

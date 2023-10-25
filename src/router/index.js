@@ -323,7 +323,7 @@ const routes = [
     name: "Edit Data Diri",
     component: EditProfile,
     meta: {
-      requiresAuth: [Role.mahasiswa, Role.dosen, Role.reviewer],
+      requiresAuth: [Role.mahasiswa, Role.dosen, Role.reviewer, Role.pimpinan],
     },
   },
   {
@@ -652,7 +652,7 @@ const routes = [
     name: "Pengajuan Wilayah",
     component: IndexPengajuanWilayah,
     meta: {
-      requiresAuth: [Role.admin],
+      requiresAuth: [Role.admin, Role.pimpinan],
     },
   },
   {
