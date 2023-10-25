@@ -284,6 +284,7 @@
                         </div>
                       </div>
                       <a
+                        v-if="g$user.role === 'ADMIN'"
                         :id="laporan.id_laporan"
                         :name="laporan.mahasiswa.nama"
                         class="me-3 delete"
@@ -329,6 +330,7 @@ import { mapActions, mapState } from "pinia";
 import d$tema from "@/store/tema";
 import d$laporan from "@/store/laporan";
 import d$wilayah from "@/store/wilayah";
+import d$auth from "@/store/auth";
 
 export default {
   name: "IndexLRKLPKMhsAdmin",
@@ -355,6 +357,7 @@ export default {
     ...mapState(d$tema, ["g$listTema"]),
     ...mapState(d$wilayah, ["g$listKecamatan"]),
     ...mapState(d$laporan, ["g$listLaporan"]),
+    ...mapState(d$auth, ["g$user"]),
   },
   async created() {
     await this.getInitData();
