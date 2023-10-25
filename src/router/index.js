@@ -612,7 +612,7 @@ const routes = [
     name: "Detail Tema KKN",
     component: DetailTemaKKN,
     meta: {
-      requiresAuth: [Role.admin],
+      requiresAuth: [Role.admin, Role.pimpinan],
     },
   },
   {
@@ -913,7 +913,7 @@ const routes = [
     name: "Export",
     component: IndexExport,
     meta: {
-      requiresAuth: [Role.admin, Role.dosen],
+      requiresAuth: [Role.admin, Role.dosen, Role.pimpinan],
     },
   },
 
