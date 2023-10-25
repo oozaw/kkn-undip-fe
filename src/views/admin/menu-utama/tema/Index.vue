@@ -15,6 +15,7 @@
               <div class="my-auto mt-4 ms-auto mt-lg-0">
                 <div class="my-auto ms-auto">
                   <router-link
+                    v-if="g$user.role === 'ADMIN'"
                     class="mb-0 btn bg-gradient-success btn-sm me-2"
                     :to="{ name: 'Tambah Tema KKN' }"
                     >+&nbsp; Daftarkan KKN Baru
@@ -149,123 +150,60 @@
                       >
                         <i class="fas fa-eye text-info"></i>
                       </a>
-                      <div
-                        :id="'detail_' + tema.id_tema"
-                        class="modal fade"
-                        tabindex="-1"
-                        aria-hidden="true"
-                      >
-                        <div class="modal-dialog mt-lg-3">
-                          <div class="modal-content">
-                            <div class="modal-header">
-                              <h5 id="ModalLabel" class="modal-title text-wrap">
-                                Detail Tema {{ tema.nama }}
-                              </h5>
-                              <button
-                                type="button"
-                                class="btn-close text-dark mb-0"
-                                data-bs-dismiss="modal"
-                                aria-label="Close"
-                              >
-                                <font-awesome-icon icon="fa-solid fa-xmark" />
-                              </button>
-                            </div>
-                            <div class="modal-body p-4">
-                              <ul class="list-group">
-                                <li
-                                  class="pt-0 text-sm border-0 list-group-item ps-0 text-wrap"
-                                >
-                                  <strong class="text-dark">Nama:</strong>
-                                  &nbsp;
-                                  {{ tema.nama }}
-                                </li>
-                                <li
-                                  class="text-sm border-0 list-group-item ps-0 text-wrap"
-                                >
-                                  <strong class="text-dark">Jenis:</strong>
-                                  &nbsp;
-                                  {{ tema.jenis == 1 ? "Reguler" : "Tematik" }}
-                                </li>
-                                <li
-                                  class="text-sm border-0 list-group-item ps-0 text-wrap"
-                                >
-                                  <strong class="text-dark">Periode:</strong>
-                                  &nbsp;
-                                  {{ tema.periode }}
-                                </li>
-                                <li
-                                  class="text-sm border-0 list-group-item ps-0 text-wrap"
-                                >
-                                  <strong class="text-dark">Status:</strong>
-                                  &nbsp;
-                                  <span
-                                    v-if="tema.status"
-                                    class="badge badge-success"
-                                  >
-                                    Aktif
-                                  </span>
-                                  <span v-else class="badge badge-danger">
-                                    Tidak Aktif
-                                  </span>
-                                </li>
-                              </ul>
-                            </div>
-                            <div class="modal-footer"></div>
-                          </div>
-                        </div>
-                      </div>
-                      <a
-                        href="#"
-                        :id="tema.id_tema"
-                        class="me-3 edit"
-                        data-bs-toggle="tooltip"
-                        data-bs-original-title="Edit Tema"
-                        title="Edit Tema"
-                      >
-                        <i class="fas fa-user-edit text-primary"></i>
-                      </a>
-                      <a
-                        :id="tema.id_tema"
-                        :name="tema.nama"
-                        href="#"
-                        data-bs-toggle="tooltip"
-                        class="me-3 delete"
-                        data-bs-original-title="Delete product"
-                      >
-                        <i class="fas fa-trash text-danger"></i>
-                      </a>
-                      <a
-                        v-if="tema.status"
-                        :id="tema.id_tema"
-                        :name="tema.nama"
-                        class="me-3 non-aktif"
-                        href="#"
-                        data-bs-toggle="tooltip"
-                        data-bs-original-title="Non-aktifkan Tema"
-                        title="Non-aktifkan Tema"
-                      >
-                        <font-awesome-icon
-                          class="text-danger"
-                          icon="fa-solid fa-square-xmark"
-                          size="xl"
-                        />
-                      </a>
-                      <a
-                        v-else
-                        :id="tema.id_tema"
-                        :name="tema.nama"
-                        class="me-3 aktif"
-                        href="#"
-                        data-bs-toggle="tooltip"
-                        data-bs-original-title="Aktifkan Tema"
-                        title="Aktifkan Tema"
-                      >
-                        <font-awesome-icon
-                          class="text-success"
-                          icon="fa-solid fa-square-check"
-                          size="xl"
-                        />
-                      </a>
+                      <section v-if="g$user.role === 'ADMIN'">
+                        <a
+                          href="#"
+                          :id="tema.id_tema"
+                          class="me-3 edit"
+                          data-bs-toggle="tooltip"
+                          data-bs-original-title="Edit Tema"
+                          title="Edit Tema"
+                        >
+                          <i class="fas fa-user-edit text-primary"></i>
+                        </a>
+                        <a
+                          :id="tema.id_tema"
+                          :name="tema.nama"
+                          href="#"
+                          data-bs-toggle="tooltip"
+                          class="me-3 delete"
+                          data-bs-original-title="Delete product"
+                        >
+                          <i class="fas fa-trash text-danger"></i>
+                        </a>
+                        <a
+                          v-if="tema.status && g$user.role === 'ADMIN'"
+                          :id="tema.id_tema"
+                          :name="tema.nama"
+                          class="me-3 non-aktif"
+                          href="#"
+                          data-bs-toggle="tooltip"
+                          data-bs-original-title="Non-aktifkan Tema"
+                          title="Non-aktifkan Tema"
+                        >
+                          <font-awesome-icon
+                            class="text-danger"
+                            icon="fa-solid fa-square-xmark"
+                            size="xl"
+                          />
+                        </a>
+                        <a
+                          v-else
+                          :id="tema.id_tema"
+                          :name="tema.nama"
+                          class="me-3 aktif"
+                          href="#"
+                          data-bs-toggle="tooltip"
+                          data-bs-original-title="Aktifkan Tema"
+                          title="Aktifkan Tema"
+                        >
+                          <font-awesome-icon
+                            class="text-success"
+                            icon="fa-solid fa-square-check"
+                            size="xl"
+                          />
+                        </a>
+                      </section>
                     </td>
                   </tr>
                 </tbody>
@@ -296,6 +234,7 @@ import HeaderProfileCard from "@/views/dashboards/components/HeaderProfileCard.v
 import TableContentLoader from "@/views/dashboards/components/TableContentLoader.vue";
 import { mapActions, mapState } from "pinia";
 import d$tema from "@/store/tema";
+import d$auth from "@/store/auth";
 
 export default {
   name: "IndexTemaKKN",
@@ -313,6 +252,7 @@ export default {
   },
   computed: {
     ...mapState(d$tema, ["g$listTema"]),
+    ...mapState(d$auth, ["g$user"]),
   },
   async created() {
     await this.getListTema();

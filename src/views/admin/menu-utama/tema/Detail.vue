@@ -12,36 +12,38 @@
               size="sm"
               >Kembali</argon-button
             >
-            <argon-button
-              type="button"
-              class="mb-0 me-2"
-              color="danger"
-              size="sm"
-              @click="
-                showSwal(
-                  'warning-confirmation',
-                  `Menghapus tema ${tema.nama}? Semua data terkait tema ini akan dihapus!`,
-                  'Berhasil menghapus data',
-                  id_tema,
-                  true
-                )
-              "
-              >Hapus</argon-button
-            >
-            <argon-button
-              type="button"
-              :onclick="
-                () =>
-                  $router.push({
-                    name: 'Edit Tema KKN',
-                    params: { id_tema: id_tema },
-                  })
-              "
-              class="mb-0 me-2"
-              color="primary"
-              size="sm"
-              >Edit</argon-button
-            >
+            <section v-if="g$user.role === 'ADMIN'">
+              <argon-button
+                type="button"
+                class="mb-0 me-2"
+                color="danger"
+                size="sm"
+                @click="
+                  showSwal(
+                    'warning-confirmation',
+                    `Menghapus tema ${tema.nama}? Semua data terkait tema ini akan dihapus!`,
+                    'Berhasil menghapus data',
+                    id_tema,
+                    true
+                  )
+                "
+                >Hapus</argon-button
+              >
+              <argon-button
+                type="button"
+                :onclick="
+                  () =>
+                    $router.push({
+                      name: 'Edit Tema KKN',
+                      params: { id_tema: id_tema },
+                    })
+                "
+                class="mb-0 me-2"
+                color="primary"
+                size="sm"
+                >Edit</argon-button
+              >
+            </section>
             <argon-button
               type="button"
               class="mb-0 me-lg-2"
@@ -164,6 +166,7 @@ import d$tema from "@/store/tema";
 import d$bappeda from "@/store/bappeda";
 import d$dosen from "@/store/dosen";
 import d$mahasiswa from "@/store/mahasiswa";
+import d$auth from "@/store/auth";
 
 export default {
   name: "DetailTemaKKN",
@@ -192,6 +195,7 @@ export default {
     ...mapState(d$bappeda, ["g$listBappeda"]),
     ...mapState(d$dosen, ["g$listDosen"]),
     ...mapState(d$mahasiswa, ["g$listMahasiswa"]),
+    ...mapState(d$auth, ["g$user"]),
   },
   async created() {
     moment.locale("id");
