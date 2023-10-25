@@ -222,7 +222,7 @@
                           </div>
                         </div>
                       </div>
-                      <section v-if="g$user.role === 'ADMIN'">
+                      <span v-if="g$user.role === 'ADMIN'">
                         <a
                           :id="kec.id_kecamatan"
                           :name="kec.nama"
@@ -331,7 +331,7 @@
                             </div>
                           </div>
                         </div>
-                      </section>
+                      </span>
                     </td>
                   </tr>
                 </tbody>
