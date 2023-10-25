@@ -299,6 +299,7 @@
                         </div>
                       </div>
                       <a
+                        v-if="g$user.role === 'ADMIN'"
                         :id="nilai.id_nilai"
                         :name="nilai.mahasiswa.nama"
                         class="reset"
@@ -344,6 +345,7 @@ import d$tema from "@/store/tema";
 import d$wilayah from "@/store/wilayah";
 import d$nilai from "@/store/nilai";
 import { mapActions, mapState } from "pinia";
+import d$auth from "@/store/auth";
 
 export default {
   name: "IndexNilaiAkhirMhsAdmin",
@@ -369,6 +371,7 @@ export default {
     ...mapState(d$tema, ["g$listTema"]),
     ...mapState(d$wilayah, ["g$listKecamatan"]),
     ...mapState(d$nilai, ["g$listNilai"]),
+    ...mapState(d$auth, ["g$user"]),
   },
   async created() {
     await this.getInitData();
