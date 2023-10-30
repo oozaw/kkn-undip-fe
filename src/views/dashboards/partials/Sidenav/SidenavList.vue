@@ -525,7 +525,7 @@
       </li> -->
 
       <!-- Seleksi Mahasiswa -->
-      <li class="nav-item" v-if="a$checkAuth(['DOSEN'])">
+      <li class="nav-item" v-if="a$checkAuth(['DOSEN']) && isAccepted()">
         <router-link :to="{ name: 'Seleksi' }">
           <sidenav-collapse
             nav-text="Seleksi Mahasiswa"
@@ -593,6 +593,7 @@
                 :to="{ name: 'Nilai Akhir' }"
                 mini-icon="N"
                 text="Nilai Akhir Mahasiswa"
+                :isDisabled="!isAccepted()"
                 v-if="a$checkAuth(['DOSEN'])"
               />
             </ul>

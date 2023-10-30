@@ -16,6 +16,7 @@
                 <div class="my-auto mt-4 ms-auto mt-lg-0">
                   <div class="my-auto ms-auto">
                     <router-link
+                      v-if="g$statusHalaman"
                       class="mb-0 me-2 btn bg-gradient-success btn-sm"
                       :to="{
                         name: 'Tambah LRK',
@@ -175,6 +176,7 @@
                           </div>
                         </div>
                         <a
+                          v-if="g$statusHalaman"
                           :id="lrk.id_laporan"
                           href="#"
                           class="mx-3 edit"
@@ -185,6 +187,7 @@
                           <i class="fas fa-user-edit text-primary"></i>
                         </a>
                         <a
+                          v-if="g$statusHalaman"
                           :id="lrk.id_laporan"
                           :name="lrk.program"
                           class="delete"
@@ -515,6 +518,7 @@ import d$tema from "@/store/tema";
 import d$auth from "@/store/auth";
 import d$laporan from "@/store/laporan";
 import d$proposal from "@/store/proposal";
+import d$halaman from "@/store/halaman";
 
 export default {
   name: "IndexLRK",
@@ -527,6 +531,7 @@ export default {
     return {
       tema: "",
       id_tema: 0,
+      id_halaman: 3,
       id_kecamatan: 0,
       indexComponent: 0,
       choicesTema: undefined,
@@ -540,10 +545,16 @@ export default {
     ...mapState(d$auth, ["g$user", "g$infoUser"]),
     ...mapState(d$laporan, ["g$listLRK", "g$listLaporan"]),
     ...mapState(d$tema, ["g$listTema"]),
+    ...mapState(d$halaman, ["g$statusHalaman"]),
     ...mapState(d$proposal, ["g$listProposal"]),
   },
   async created() {
     if (this.g$user.role === "MAHASISWA") {
+      await this.a$checkHalaman(
+        parseInt(this.g$infoUser.id_tema),
+        parseInt(this.id_halaman)
+      );
+
       await this.getListLRK();
     } else if (this.g$user.role === "DOSEN") {
       await this.getInitData();
@@ -564,6 +575,7 @@ export default {
       "a$deleteLaporan",
     ]),
     ...mapActions(d$proposal, ["a$listProposalDosen"]),
+    ...mapActions(d$halaman, ["a$checkHalaman"]),
 
     async getInitData() {
       this.isLoadingOnInit = true;

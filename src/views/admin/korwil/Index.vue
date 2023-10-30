@@ -589,11 +589,9 @@ export default {
     async deleteKorwil(id_korwil) {
       this.showSwal("loading");
 
-      this.indexComponent++;
-
       try {
         await this.a$deleteKorwil(parseInt(id_korwil));
-        await this.a$listKorwil();
+        await this.getListKorwil();
         this.showSwal("success-message", "Data korwil berhasil dihapus!");
       } catch (error) {
         console.log(error);
@@ -602,9 +600,6 @@ export default {
         else msg = error;
         this.showSwal("failed-message", "Data gagal dihapus! " + msg);
       }
-
-      this.setupDataTable();
-      this.setupTableAction();
     },
 
     setupDataTable() {

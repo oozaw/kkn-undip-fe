@@ -31,9 +31,7 @@
               />Kembali</argon-button
             >
             <argon-button
-              v-if="
-                this.g$user.role !== 'ADMIN' && this.g$user.role !== 'PIMPINAN'
-              "
+              v-if="this.g$user.role === 'MAHASISWA' && g$statusHalaman"
               @click="
                 showSwal(
                   'warning-confirmation',
@@ -49,7 +47,23 @@
               ><i class="fas fa-trash text-white me-2"></i>Hapus</argon-button
             >
             <argon-button
-              v-if="this.g$user.role === 'MAHASISWA'"
+              v-else-if="this.g$user.role === 'DOSEN'"
+              @click="
+                showSwal(
+                  'warning-confirmation',
+                  `Hapus reportase ini?`,
+                  'Berhasil memperbarui data',
+                  id_reportase,
+                  false
+                )
+              "
+              class="mb-0 me-2"
+              color="danger"
+              size="sm"
+              ><i class="fas fa-trash text-white me-2"></i>Hapus</argon-button
+            >
+            <argon-button
+              v-if="this.g$user.role === 'MAHASISWA' && g$statusHalaman"
               @click="
                 () =>
                   $router.push({
@@ -167,6 +181,7 @@ import ArgonButton from "@/components/ArgonButton.vue";
 import { mapActions, mapState } from "pinia";
 import d$reportase from "@/store/reportase";
 import d$auth from "@/store/auth";
+import d$halaman from "@/store/halaman";
 
 export default {
   name: "DetailReportase",
@@ -185,11 +200,13 @@ export default {
         readOnly: true,
       },
       moment,
+      id_halaman: 5,
     };
   },
   computed: {
-    ...mapState(d$auth, ["g$user"]),
+    ...mapState(d$auth, ["g$user"], ["g$infoUser"]),
     ...mapState(d$reportase, ["g$reportase"]),
+    ...mapState(d$halaman, ["g$statusHalaman"]),
   },
   async created() {
     moment.locale("id");
@@ -197,6 +214,7 @@ export default {
   },
   methods: {
     ...mapActions(d$reportase, ["a$getReportase", "a$deleteReportase"]),
+    ...mapActions(d$halaman, ["a$checkHalaman"]),
 
     async deleteReportase(id_reportase) {
       this.showSwal("loading");

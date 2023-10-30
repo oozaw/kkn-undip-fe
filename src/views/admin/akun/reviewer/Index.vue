@@ -464,9 +464,6 @@ export default {
         else msg = error;
         this.showSwal("failed-message", "Data gagal dihapus! " + msg);
       }
-
-      this.setupDataTable();
-      this.setupTableAction();
     },
 
     async importReviewer() {

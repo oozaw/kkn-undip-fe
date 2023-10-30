@@ -429,8 +429,6 @@ export default {
     async deleteBappeda(id_bappeda) {
       this.showSwal("loading");
 
-      this.indexComponent++;
-
       try {
         await this.a$deleteBappeda(parseInt(id_bappeda));
         this.showSwal("success-message", "Data BAPPEDA berhasil dihapus!");
@@ -443,9 +441,6 @@ export default {
         else msg = error;
         this.showSwal("failed-message", "Data gagal dihapus! " + msg);
       }
-
-      this.setupDataTable();
-      this.setupTableAction();
     },
 
     setupDataTable() {
