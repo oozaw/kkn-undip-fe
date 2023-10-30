@@ -481,11 +481,9 @@ export default {
     async deletePimpinan(id_pimpinan) {
       this.showSwal("loading");
 
-      this.indexComponent++;
-
       try {
         await this.a$deletePimpinan(parseInt(id_pimpinan));
-        await this.a$listPimpinan();
+        await this.getInitData();
         this.showSwal("success-message", "Data pimpinan berhasil dihapus!");
       } catch (error) {
         console.log(error);

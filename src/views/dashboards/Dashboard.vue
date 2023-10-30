@@ -942,7 +942,7 @@ export default {
           title: event.judul,
           tempat: event.tempat,
           start: this.moment(event.tgl_mulai).format("YYYY-MM-DD"),
-          end: this.moment(event.tgl_akhir).format("YYYY-MM-DD"),
+          end: this.moment(event.tgl_akhir).add(1, "days").format("YYYY-MM-DD"),
           className: "bg-gradient-info",
         };
 

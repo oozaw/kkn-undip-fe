@@ -373,11 +373,9 @@ export default {
     async deleteDosen(id_dosen) {
       this.showSwal("loading");
 
-      this.indexComponent++;
-
       try {
         await this.a$deleteDosen(parseInt(id_dosen));
-        await this.a$listDosen();
+        await this.getInitData();
         this.showSwal("success-message", "Data dosen berhasil dihapus!");
       } catch (error) {
         console.log(error);

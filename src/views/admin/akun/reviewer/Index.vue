@@ -453,11 +453,9 @@ export default {
     async deleteReviewer(id_reviewer) {
       this.showSwal("loading");
 
-      this.indexComponent++;
-
       try {
         await this.a$deleteReviewer(parseInt(id_reviewer));
-        await this.a$listReviewer();
+        await this.getInitData();
         this.showSwal("success-message", "Data reviewer berhasil dihapus!");
       } catch (error) {
         console.log(error);
