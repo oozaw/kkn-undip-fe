@@ -348,12 +348,11 @@ export default {
       this.showSwal("loading");
 
       this.body.file = this.$refs.file.files[0];
-      this.indexComponent++;
       document.getElementById("button-close-modal").click();
 
       try {
         await this.a$importDosen(this.body);
-        await this.a$listDosen();
+        await this.getInitData();
         this.showSwal("success-message", "Data dosen berhasil diimpor!");
       } catch (error) {
         console.log(error);
@@ -365,9 +364,6 @@ export default {
           "Terjadi kesalahan saat mengunggah data! " + msg
         );
       }
-
-      this.setupDataTable();
-      this.setupTableAction();
     },
 
     async deleteDosen(id_dosen) {

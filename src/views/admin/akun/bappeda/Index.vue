@@ -403,7 +403,6 @@ export default {
       this.showSwal("loading");
 
       this.body.file = this.$refs.file.files[0];
-      this.indexComponent++;
       document.getElementById("button-close-modal").click();
 
       try {
@@ -421,9 +420,6 @@ export default {
           "Terjadi kesalahan saat mengunggah data! " + msg
         );
       }
-
-      this.setupDataTable();
-      this.setupTableAction();
     },
 
     async deleteBappeda(id_bappeda) {

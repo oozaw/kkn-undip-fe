@@ -500,9 +500,6 @@ export default {
           "Terjadi kesalahan saat mengunggah data! " + msg
         );
       }
-
-      this.setupDataTable();
-      this.setupTableAction();
     },
 
     async downloadFormatImport() {

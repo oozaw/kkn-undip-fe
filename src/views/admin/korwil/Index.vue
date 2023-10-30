@@ -506,7 +506,6 @@ export default {
         file: this.$refs.file.files[0],
       };
 
-      this.indexComponent++;
       document.getElementById("button-close-modal-impor").click();
 
       try {
