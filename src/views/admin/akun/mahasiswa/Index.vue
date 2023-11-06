@@ -109,14 +109,14 @@
                       </div>
                     </div>
                   </div>
-                  <!-- <button
+                  <button
                     class="mt-1 mb-0 btn btn-outline-success btn-sm export mt-sm-0"
                     data-type="csv"
                     type="button"
                     name="button"
                   >
                     Ekspor
-                  </button> -->
+                  </button>
                 </div>
               </div>
             </div>
@@ -534,9 +534,11 @@ export default {
     async deleteMahasiswa(id_mahasiswa) {
       this.showSwal("loading");
 
+      this.indexComponent++;
+
       try {
         await this.a$deleteMahasiswa(parseInt(id_mahasiswa));
-        await this.getListMahasiswa();
+        await this.a$listMahasiswa();
         this.showSwal("success-message", "Data mahasiswa berhasil dihapus!");
       } catch (error) {
         console.log(error);
@@ -545,6 +547,9 @@ export default {
         else msg = error;
         this.showSwal("failed-message", "Data gagal dihapus! " + msg);
       }
+
+      this.setupDataTable();
+      this.setupTableAction();
     },
 
     getChoices(id) {

@@ -161,6 +161,13 @@
                                 <li
                                   class="text-sm border-0 list-group-item ps-0 text-wrap"
                                 >
+                                  <strong class="text-dark">Angkatan:</strong>
+                                  &nbsp;
+                                  {{ pendaftaran.mahasiswa.angkatan }}
+                                </li>
+                                <li
+                                  class="text-sm border-0 list-group-item ps-0 text-wrap"
+                                >
                                   <strong class="text-dark">NIM:</strong>
                                   &nbsp;
                                   {{ pendaftaran.mahasiswa.nim }}
@@ -181,6 +188,14 @@
                                   &nbsp;
                                   {{ pendaftaran.mahasiswa.prodi?.nama }}
                                 </li>
+
+                                <li
+                                  class="text-sm border-0 list-group-item ps-0 text-wrap"
+                                >
+                                  <strong class="text-dark">Email:</strong>
+                                  &nbsp;
+                                  {{ pendaftaran.mahasiswa.email }}
+                                </li>
                                 <li
                                   class="text-sm border-0 list-group-item ps-0 text-wrap"
                                 >
@@ -191,9 +206,9 @@
                                 <li
                                   class="text-sm border-0 list-group-item ps-0 text-wrap"
                                 >
-                                  <strong class="text-dark">Alamat:</strong>
+                                  <strong class="text-dark">Domisili:</strong>
                                   &nbsp;
-                                  {{ pendaftaran.mahasiswa.alamat }}
+                                  {{ pendaftaran.mahasiswa.domisili }}
                                 </li>
                                 <li
                                   class="text-sm border-0 list-group-item ps-0 text-wrap"

@@ -20,14 +20,14 @@
                   >
                     + Tambah Pengumuman
                   </router-link>
-                  <!-- <button
+                  <button
                     class="mt-2 mb-0 btn btn-outline-success btn-sm export-kalendar mt-sm-0"
                     data-type="csv"
                     type="button"
                     name="button"
                   >
                     Expor
-                  </button> -->
+                  </button>
                 </div>
               </div>
             </div>

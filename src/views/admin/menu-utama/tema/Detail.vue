@@ -44,14 +44,14 @@
                 >Edit</argon-button
               >
             </section>
-            <!-- <argon-button
+            <argon-button
               type="button"
               class="mb-0 me-lg-2"
               color="success"
               size="sm"
               variant="outline"
               >Ekspor Data Tema</argon-button
-            > -->
+            >
           </template>
         </HeaderProfileCard>
         <div class="card mt-4">
