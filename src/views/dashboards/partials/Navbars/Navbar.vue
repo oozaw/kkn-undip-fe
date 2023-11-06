@@ -87,7 +87,7 @@
             </router-link>
           </li>
           <!-- Notification -->
-          <!-- <li
+          <li
             class="nav-item dropdown d-flex align-items-center me-2"
             :class="isRTL ? 'ps-2' : 'pe-2'"
           >
@@ -210,7 +210,7 @@
                 </a>
               </li>
             </ul>
-          </li> -->
+          </li>
           <!-- Logout -->
           <li
             class="nav-item dropdown d-flex align-items-center"
