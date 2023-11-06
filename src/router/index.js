@@ -92,6 +92,9 @@ import IndexLandingProfile from "../views/profile/Index.vue";
 import EditLandingProfile from "../views/profile/Edit.vue";
 import IndexStruktur from "../views/struktur/Index.vue";
 
+// Landing Page
+import IndexLanding from "../views/landing/Index.vue";
+
 const routes = [
   {
     path: "/",
@@ -851,6 +854,15 @@ const routes = [
       requiresAuth: [Role.admin],
     },
   },
+  {
+    path: "/home",
+    name: "Home",
+    component: IndexLanding,
+    meta: {
+      guest: true,
+    },
+  },
+
   // Export
   {
     path: "/export",
