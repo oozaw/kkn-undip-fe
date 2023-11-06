@@ -453,11 +453,9 @@ export default {
     async deleteReviewer(id_reviewer) {
       this.showSwal("loading");
 
-      this.indexComponent++;
-
       try {
         await this.a$deleteReviewer(parseInt(id_reviewer));
-        await this.a$listReviewer();
+        await this.getInitData();
         this.showSwal("success-message", "Data reviewer berhasil dihapus!");
       } catch (error) {
         console.log(error);
@@ -466,21 +464,17 @@ export default {
         else msg = error;
         this.showSwal("failed-message", "Data gagal dihapus! " + msg);
       }
-
-      this.setupDataTable();
-      this.setupTableAction();
     },
 
     async importReviewer() {
       this.showSwal("loading");
 
       this.body.file = this.$refs.file.files[0];
-      this.indexComponent++;
       document.getElementById("button-close-modal").click();
 
       try {
         await this.a$importReviewer(this.body);
-        await this.a$listReviewer();
+        await this.getInitData();
         this.showSwal("success-message", "Data reviewer berhasil diimpor!");
       } catch (error) {
         console.log(error);
@@ -492,9 +486,6 @@ export default {
           "Terjadi kesalahan saat mengunggah data! " + msg
         );
       }
-
-      this.setupDataTable();
-      this.setupTableAction();
     },
 
     setupDataTable() {

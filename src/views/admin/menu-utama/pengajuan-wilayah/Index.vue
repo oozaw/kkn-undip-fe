@@ -387,6 +387,7 @@ export default {
       choicesTema: undefined,
       tema: "",
       loader: undefined,
+      korwilChoices: [],
     };
   },
   computed: {
@@ -419,6 +420,7 @@ export default {
         await this.a$listTema();
         this.tema = this.g$listTemaActive[0].id_tema;
         await this.a$listKorwil();
+        this.clearKorwilChoices();
         await this.getListKecamatan();
         this.choicesTema = this.getChoices("choices-tema");
       } catch (error) {
@@ -475,10 +477,14 @@ export default {
       setTimeout(() => {
         this.setupDataTable();
         this.setupTableAction();
+
+        this.g$listKecamatan.forEach((kec) => {
+          this.korwilChoices = [];
+          this.korwilChoices.push(
+            this.getChoices(`choices-korwil-${kec.id_kecamatan}`)
+          );
+        });
       }, 10);
-      this.g$listKecamatan.forEach((kec) => {
-        this.getChoices(`choices-korwil-${kec.id_kecamatan}`);
-      });
 
       setTimeout(() => {
         this.isLoading = false;
@@ -522,6 +528,13 @@ export default {
         else msg = error;
         this.showSwal("failed-message", "Data gagal diperbarui! " + msg);
       }
+    },
+
+    clearKorwilChoices() {
+      this.korwilChoices.forEach((choice) => {
+        choice.destroy();
+      });
+      this.korwilChoices = [];
     },
 
     setupDataTable() {

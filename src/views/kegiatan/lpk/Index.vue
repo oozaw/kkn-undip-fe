@@ -203,6 +203,7 @@
                           </div>
                         </div>
                         <a
+                          v-if="g$statusHalaman"
                           :id="lpk.id_laporan"
                           href="#"
                           class="mx-3 edit"
@@ -213,6 +214,7 @@
                           <i class="fas fa-user-edit text-primary"></i>
                         </a>
                         <a
+                          v-if="g$statusHalaman"
                           class="delete"
                           :id="lpk.id_laporan"
                           :name="lpk.program"
@@ -579,6 +581,7 @@ import d$tema from "@/store/tema";
 import d$auth from "@/store/auth";
 import d$laporan from "@/store/laporan";
 import d$proposal from "@/store/proposal";
+import d$halaman from "@/store/halaman";
 
 export default {
   name: "IndexLPK",
@@ -591,6 +594,7 @@ export default {
     return {
       indexComponent: 0,
       id_tema: 0,
+      id_halaman: 4,
       id_kecamatan: 0,
       moment,
       choicesTema: undefined,
@@ -601,12 +605,18 @@ export default {
   },
   computed: {
     ...mapState(d$laporan, ["g$listLPK", "g$listLaporan"]),
-    ...mapState(d$auth, ["g$user"]),
+    ...mapState(d$auth, ["g$user", "g$infoUser"]),
     ...mapState(d$tema, ["g$listTema"]),
     ...mapState(d$proposal, ["g$listProposal"]),
+    ...mapState(d$halaman, ["g$statusHalaman"]),
   },
   async created() {
     if (this.g$user.role === "MAHASISWA") {
+      await this.a$checkHalaman(
+        parseInt(this.g$infoUser.id_tema),
+        parseInt(this.id_halaman)
+      );
+
       await this.getListLPK();
     } else if (this.g$user.role === "DOSEN") {
       await this.getInitData();
@@ -624,6 +634,7 @@ export default {
     ]),
     ...mapActions(d$tema, ["a$listTemaDosen"]),
     ...mapActions(d$proposal, ["a$listProposalDosen"]),
+    ...mapActions(d$halaman, ["a$checkHalaman"]),
 
     async getInitData() {
       this.isLoadingOnInit = true;

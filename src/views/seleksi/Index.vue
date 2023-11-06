@@ -92,23 +92,23 @@
                       <span class="me-2">{{ i + 1 }}</span>
                     </td>
                     <td class="ms-0 px-0">
-                      <h6 class="my-auto">{{ pendaftar.mahasiswa.nama }}</h6>
+                      <h6 class="my-auto">{{ pendaftar.mahasiswa?.nama }}</h6>
                     </td>
-                    <td class="text-sm">{{ pendaftar.mahasiswa.nim }}</td>
+                    <td class="text-sm">{{ pendaftar.mahasiswa?.nim }}</td>
                     <td class="text-sm">
                       {{ pendaftar.mahasiswa.prodi?.nama }}
                     </td>
                     <td class="text-sm">
-                      {{ pendaftar.mahasiswa.prodi?.fakultas.nama }}
+                      {{ pendaftar.mahasiswa.prodi?.fakultas?.nama }}
                     </td>
                     <td class="text-sm">
                       <span
-                        v-if="pendaftar.status == 1"
+                        v-if="pendaftar?.status == 1"
                         class="badge badge-success"
                         >Diterima</span
                       >
                       <span
-                        v-else-if="pendaftar.status == 0"
+                        v-else-if="pendaftar?.status == 0"
                         class="badge badge-primary"
                         >Sedang diproses</span
                       >
@@ -120,14 +120,14 @@
                         class="mb-0 me-3 text-primary"
                         data-bs-toggle="modal"
                         :data-bs-target="
-                          '#detail_' + pendaftar.id_mahasiswa_kecamatan
+                          '#detail_' + pendaftar?.id_mahasiswa_kecamatan
                         "
                         title="Detail Mahasiswa"
                       >
                         <i class="fas fa-eye text-info"></i>
                       </a>
                       <div
-                        :id="'detail_' + pendaftar.id_mahasiswa_kecamatan"
+                        :id="'detail_' + pendaftar?.id_mahasiswa_kecamatan"
                         class="modal fade"
                         tabindex="-1"
                         aria-hidden="true"
@@ -270,9 +270,9 @@
                         </div>
                       </div>
                       <a
-                        v-if="pendaftar.status == 0 || pendaftar.status == 1"
-                        :id="pendaftar.id_mahasiswa_kecamatan"
-                        :name="pendaftar.mahasiswa.nama"
+                        v-if="pendaftar?.status == 0 || pendaftar?.status == 1"
+                        :id="pendaftar?.id_mahasiswa_kecamatan"
+                        :name="pendaftar.mahasiswa?.nama"
                         class="me-3 tolak"
                         href="#"
                         data-bs-toggle="tooltip"
@@ -286,9 +286,9 @@
                         />
                       </a>
                       <a
-                        v-if="pendaftar.status == 0 || pendaftar.status != 1"
-                        :id="pendaftar.id_mahasiswa_kecamatan"
-                        :name="pendaftar.mahasiswa.nama"
+                        v-if="pendaftar?.status == 0 || pendaftar?.status != 1"
+                        :id="pendaftar?.id_mahasiswa_kecamatan"
+                        :name="pendaftar.mahasiswa?.nama"
                         class="me-3 terima"
                         href="#"
                         data-bs-toggle="tooltip"
@@ -302,8 +302,8 @@
                         />
                       </a>
                       <a
-                        :id="pendaftar.id_mahasiswa_kecamatan"
-                        :name="pendaftar.mahasiswa.nama"
+                        :id="pendaftar?.id_mahasiswa_kecamatan"
+                        :name="pendaftar.mahasiswa?.nama"
                         class="delete"
                         href="#"
                         data-bs-toggle="tooltip"

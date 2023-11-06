@@ -403,7 +403,6 @@ export default {
       this.showSwal("loading");
 
       this.body.file = this.$refs.file.files[0];
-      this.indexComponent++;
       document.getElementById("button-close-modal").click();
 
       try {
@@ -421,15 +420,10 @@ export default {
           "Terjadi kesalahan saat mengunggah data! " + msg
         );
       }
-
-      this.setupDataTable();
-      this.setupTableAction();
     },
 
     async deleteBappeda(id_bappeda) {
       this.showSwal("loading");
-
-      this.indexComponent++;
 
       try {
         await this.a$deleteBappeda(parseInt(id_bappeda));
@@ -443,9 +437,6 @@ export default {
         else msg = error;
         this.showSwal("failed-message", "Data gagal dihapus! " + msg);
       }
-
-      this.setupDataTable();
-      this.setupTableAction();
     },
 
     setupDataTable() {

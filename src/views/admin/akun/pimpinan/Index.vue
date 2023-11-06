@@ -456,12 +456,11 @@ export default {
       this.showSwal("loading");
 
       this.body.file = this.$refs.file.files[0];
-      this.indexComponent++;
       document.getElementById("button-close-modal").click();
 
       try {
         await this.a$importPimpinan(this.body);
-        await this.a$listPimpinan();
+        await this.getInitData();
         this.showSwal("success-message", "Data pimpinan berhasil diimpor!");
       } catch (error) {
         console.log(error);
@@ -473,19 +472,14 @@ export default {
           "Terjadi kesalahan saat mengunggah data! " + msg
         );
       }
-
-      this.setupDataTable();
-      this.setupTableAction();
     },
 
     async deletePimpinan(id_pimpinan) {
       this.showSwal("loading");
 
-      this.indexComponent++;
-
       try {
         await this.a$deletePimpinan(parseInt(id_pimpinan));
-        await this.a$listPimpinan();
+        await this.getInitData();
         this.showSwal("success-message", "Data pimpinan berhasil dihapus!");
       } catch (error) {
         console.log(error);
@@ -494,9 +488,6 @@ export default {
         else msg = error;
         this.showSwal("failed-message", "Data gagal dihapus! " + msg);
       }
-
-      this.setupDataTable();
-      this.setupTableAction();
     },
 
     setupDataTable() {
