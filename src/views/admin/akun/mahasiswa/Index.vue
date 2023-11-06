@@ -541,7 +541,7 @@ export default {
 
       try {
         await this.a$deleteMahasiswa(parseInt(id_mahasiswa));
-        await this.a$listMahasiswa();
+        await this.getListMahasiswa();
         this.showSwal("success-message", "Data mahasiswa berhasil dihapus!");
       } catch (error) {
         console.log(error);
@@ -550,9 +550,6 @@ export default {
         else msg = error;
         this.showSwal("failed-message", "Data gagal dihapus! " + msg);
       }
-
-      this.setupDataTable();
-      this.setupTableAction();
     },
 
     getChoices(id) {
