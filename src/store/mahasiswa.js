@@ -206,6 +206,36 @@ const d$mahasiswa = defineStore("mahasiswaStore", {
         throw message ?? error;
       }
     },
+
+    async a$addKHS(body) {
+      try {
+        const status = await s$mahasiswa.addKHS(body);
+        this.status = status;
+      } catch ({ message, error }) {
+        this.status = false;
+        throw message ?? error;
+      }
+    },
+
+    async a$addSuratPernyataan(body) {
+      try {
+        const status = await s$mahasiswa.addSuratPernyataan(body);
+        this.status = status;
+      } catch ({ message, error }) {
+        this.status = false;
+        throw message ?? error;
+      }
+    },
+
+    async a$addFoto(body) {
+      try {
+        const status = await s$mahasiswa.addFoto(body);
+        this.status = status;
+      } catch ({ message, error }) {
+        this.status = false;
+        throw message ?? error;
+      }
+    },
   },
   getters: {
     g$listMahasiswa: ({ listMahasiswa }) => listMahasiswa,

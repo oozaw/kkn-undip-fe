@@ -57,6 +57,27 @@ const downloadFormatImport = () =>
     responseType: "blob",
   });
 
+const addKHS = (body) =>
+  baseApi.post(`${api}mahasiswa/khs`, body, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  });
+
+const addSuratPernyataan = (body) =>
+  baseApi.post(`${api}mahasiswa/surat_pernyataan`, body, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  });
+
+const addFoto = (body) =>
+  baseApi.post(`${api}mahasiswa/foto`, body, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  });
+
 export {
   listMahasiswa,
   listMahasiswaTema,
@@ -76,4 +97,7 @@ export {
   decMahasiswa,
   deleteMahasiswa,
   downloadFormatImport,
+  addKHS,
+  addSuratPernyataan,
+  addFoto,
 };

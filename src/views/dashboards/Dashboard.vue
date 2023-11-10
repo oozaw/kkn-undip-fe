@@ -953,7 +953,7 @@ export default {
     checkProgressDataDiriMhs() {
       let totalAttribute = Object.keys(this.g$infoUser).length;
       let totalAttributeMustBeFilled = Object.keys(this.g$infoUser).length - 8; // minus 8
-      let indexMustNotBeFilled = [0, 1, 2, 18, 19, 20, 21, 22];
+      let indexMustNotBeFilled = [0, 1, 2, 20, 21, 22, 23, 24];
       let attributeFilled = 0;
 
       for (let index = 0; index < totalAttribute; index++) {

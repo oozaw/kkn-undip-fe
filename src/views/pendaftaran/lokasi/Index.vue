@@ -3,94 +3,126 @@
     <div class="row mb-5 mt-4">
       <div class="col-lg-12 mt-lg-0 mt-4">
         <HeaderProfileCard />
-        <ChoicesContentLoader v-if="isLoading" />
-        <div class="bg-white card mt-4" :hidden="isLoading">
-          <div class="card-header pb-0 pt-3">
-            <p class="font-weight-bold text-dark mb-2">
-              Pilih Tema KKN Terdaftar
-            </p>
-          </div>
-          <div class="pb-3 pt-0 card-body">
-            <div class="col-12 align-self-center">
-              <select
-                id="choices-tema"
-                class="form-control"
-                name="choices-tema"
-                v-model="tema"
-                @change="getListGelombang()"
-              >
-                <option
-                  v-for="tema in g$listTemaActive"
-                  :key="tema.id_tema"
-                  :value="tema.id_tema"
+        <section v-if="isBerkasIsComplete">
+          <ChoicesContentLoader v-if="isLoading" />
+          <div class="bg-white card mt-4" :hidden="isLoading">
+            <div class="card-header pb-0 pt-3">
+              <p class="font-weight-bold text-dark mb-2">
+                Pilih Tema KKN Terdaftar
+              </p>
+            </div>
+            <div class="pb-3 pt-0 card-body">
+              <div class="col-12 align-self-center">
+                <select
+                  id="choices-tema"
+                  class="form-control"
+                  name="choices-tema"
+                  v-model="tema"
+                  @change="getListGelombang()"
                 >
-                  {{ tema.nama }}
-                </option>
-              </select>
+                  <option
+                    v-for="tema in g$listTemaActive"
+                    :key="tema.id_tema"
+                    :value="tema.id_tema"
+                  >
+                    {{ tema.nama }}
+                  </option>
+                </select>
+              </div>
             </div>
           </div>
-        </div>
-        <div
-          id="card-section"
-          class="row"
-          :key="indexComponent"
-          :hidden="isLoading"
-        >
           <div
-            class="col-lg-6"
-            v-for="gel in listGelombang"
-            :key="gel.id_gelombang"
+            id="card-section"
+            class="row"
+            :key="indexComponent"
+            :hidden="isLoading"
           >
-            <card
-              :is-dosen="false"
-              :title="gel.nama"
-              :status="gel.status"
-              :status-pendaftaran="
-                gel.jumlah_pendaftaran != 0
-                  ? gel.mahasiswa_kecamatan[0]?.status
-                  : -2
-              "
-              :nama-kecamatan="
-                gel.jumlah_pendaftaran != 0
-                  ? gel.mahasiswa_kecamatan[0]?.kecamatan.nama
-                  : ''
-              "
-              :nama-tema="namaTema"
-              :id-gelombang="gel.id_gelombang"
-              :nama-gelombang="gel.nama"
-              :jumlah-gelombang="g$listGelombang.length"
-              :deadline="
-                gel.tgl_akhir
-                  ? moment(gel.tgl_akhir).format('dddd, DD MMMM YYYY HH:mm')
-                  : '-'
-              "
+            <div
+              class="col-lg-6"
+              v-for="gel in listGelombang"
+              :key="gel.id_gelombang"
             >
-              <template
-                #button
-                v-if="
-                  !gel.mahasiswa_kecamatan[0]?.status &&
-                  gel.status &&
-                  gel.mahasiswa_kecamatan[0]?.status != 0 &&
-                  !g$infoUser.id_tema
+              <card
+                :is-dosen="false"
+                :title="gel.nama"
+                :status="gel.status"
+                :status-pendaftaran="
+                  gel.jumlah_pendaftaran != 0
+                    ? gel.mahasiswa_kecamatan[0]?.status
+                    : -2
+                "
+                :nama-kecamatan="
+                  gel.jumlah_pendaftaran != 0
+                    ? gel.mahasiswa_kecamatan[0]?.kecamatan.nama
+                    : ''
+                "
+                :nama-tema="namaTema"
+                :id-gelombang="gel.id_gelombang"
+                :nama-gelombang="gel.nama"
+                :jumlah-gelombang="g$listGelombang.length"
+                :deadline="
+                  gel.tgl_akhir
+                    ? moment(gel.tgl_akhir).format('dddd, DD MMMM YYYY HH:mm')
+                    : '-'
                 "
               >
-                <router-link
-                  :to="{
-                    name: 'Daftar Lokasi',
-                    params: {
-                      id_tema: tema,
-                      id_gelombang: gel.id_gelombang,
-                    },
-                  }"
-                  type="button"
-                  class="mb-0 btn btn-sm bg-gradient-success"
+                <template
+                  #button
+                  v-if="
+                    !gel.mahasiswa_kecamatan[0]?.status &&
+                    gel.status &&
+                    gel.mahasiswa_kecamatan[0]?.status != 0 &&
+                    !g$infoUser.id_tema
+                  "
                 >
-                  Daftar
-                </router-link>
-              </template>
-            </card>
+                  <router-link
+                    :to="{
+                      name: 'Daftar Lokasi',
+                      params: {
+                        id_tema: tema,
+                        id_gelombang: gel.id_gelombang,
+                      },
+                    }"
+                    type="button"
+                    class="mb-0 btn btn-sm bg-gradient-success"
+                  >
+                    Daftar
+                  </router-link>
+                </template>
+              </card>
+            </div>
           </div>
-        </div>
+        </section>
+        <section v-else>
+          <main class="main-content mt-0">
+            <div class="card mt-4">
+              <div class="page-header min-vh-70">
+                <div class="container">
+                  <div class="row justify-content-center">
+                    <div class="col-lg-6 col-md-7 mx-auto text-center">
+                      <h1 class="display-4 text-bolder text-danger mb-5">
+                        Berkas Belum Lengkap
+                      </h1>
+                      <!-- <h3>Anda belum melengkapi berkas pendaftaran</h3> -->
+                      <p class="lead">
+                        Silahkan lengkapi berkas pendaftaran dan data diri
+                        terlebih dahulu. Jika anda merasa ini adalah kesalahan,
+                        silahkan hubungi admin.
+                      </p>
+                      <argon-button
+                        @click="this.$router.push({ name: 'Edit Data Berkas' })"
+                        color="primary"
+                        variant="gradient"
+                        class="mt-3"
+                        >Lengkapi Berkas</argon-button
+                      >
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </main>
+        </section>
       </div>
     </div>
   </div>
@@ -102,6 +134,7 @@ import moment from "moment";
 import Choices from "choices.js";
 import HeaderProfileCard from "@/views/dashboards/components/HeaderProfileCard.vue";
 import ChoicesContentLoader from "@/views/dashboards/components/ChoicesContentLoader.vue";
+import ArgonButton from "@/components/ArgonButton.vue";
 import Card from "@/views/dashboards/components/Cards/GelombangCard.vue";
 import { mapActions, mapState } from "pinia";
 import d$gelombang from "@/store/gelombang";
@@ -116,6 +149,7 @@ export default {
     HeaderProfileCard,
     Card,
     ChoicesContentLoader,
+    ArgonButton,
   },
   data() {
     return {
@@ -129,6 +163,7 @@ export default {
       listGelombang: [],
       moment,
       isLoading: true,
+      isBerkasIsComplete: true,
     };
   },
   computed: {
@@ -152,6 +187,7 @@ export default {
       this.isLoading = true;
 
       try {
+        this.checkBerkasUser();
         await this.a$listTema();
         this.tema = this.g$listTemaActive[0].id_tema;
         this.choicesTema = this.getChoices("choices-tema");
@@ -207,6 +243,38 @@ export default {
           return;
         }
       });
+    },
+
+    checkBerkasUser() {
+      let totalAttribute = Object.keys(this.g$infoUser).length;
+      let indexMustNotBeFilled = [0, 1, 2, 20, 21, 22, 23, 24];
+
+      for (let index = 0; index < totalAttribute; index++) {
+        if (indexMustNotBeFilled.includes(index)) continue;
+
+        if (
+          this.isNullEmptyOrUndefined(
+            this.g$infoUser[Object.keys(this.g$infoUser)[index]]
+          )
+        ) {
+          this.isBerkasIsComplete = false;
+          return;
+        }
+      }
+
+      this.isBerkasIsComplete = true;
+
+      // if (
+      //   this.g$infoUser.khs &&
+      //   this.g$infoUser.foto_profile &&
+      //   this.g$infoUser.surat_pernyataan
+      // )
+      //   this.isBerkasIsComplete = true;
+      // else this.isBerkasIsComplete = false;
+    },
+
+    isNullEmptyOrUndefined(value) {
+      return value === null || value === "" || value === undefined;
     },
 
     getChoices(id) {

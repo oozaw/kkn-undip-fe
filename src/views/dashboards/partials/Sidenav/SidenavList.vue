@@ -473,7 +473,7 @@
               <sidenav-item
                 :to="{ name: 'Edit Data Diri' }"
                 mini-icon="P"
-                text="Pendaftaran Diri"
+                text="Data Diri"
               />
               <!-- <sidenav-item
                 :isActive="getRoute2() === 'tema'"
