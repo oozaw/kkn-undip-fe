@@ -42,45 +42,69 @@
                 </p>
               </div>
               <div class="my-auto mt-4 ms-auto mt-lg-0">
-                <div class="my-auto ms-auto">
-                  <button
-                    class="mt-2 mb-0 btn btn-outline-success btn-sm export-kec mt-sm-0"
-                    data-type="csv"
-                    type="button"
-                    name="button"
-                  >
-                    Expor
-                  </button>
+                <div class="my-auto ms-auto d-flex flex-wra">
+                  <div id="button-table"></div>
                 </div>
               </div>
             </div>
           </div>
-          <div class="ms-2 pt-1 px-0 pb-0 card-body">
+          <div class="ms-2 pt-1 mt-4 card-body">
             <div class="table-responsive" :key="indexComponent">
               <table id="wilayah-list" class="table table-flush">
                 <thead class="thead-light">
                   <tr>
-                    <th class="col-1 ps-2">No.</th>
-                    <th class="col-3 ps-0">Kecamatan</th>
-                    <th class="ps-0">Total Desa</th>
-                    <th>BAPPEDA</th>
-                    <th>Potensi</th>
-                    <th>Status</th>
-                    <th>Action</th>
+                    <th
+                      class="thead-light font-weight-bolder text-xxs text-uppercase text-secondary"
+                    >
+                      No.
+                    </th>
+                    <th
+                      class="thead-light font-weight-bolder text-xxs text-uppercase text-secondary"
+                    >
+                      Kecamatan
+                    </th>
+                    <th
+                      class="thead-light font-weight-bolder text-xxs text-uppercase text-secondary"
+                    >
+                      Total Desa
+                    </th>
+                    <th
+                      class="thead-light font-weight-bolder text-xxs text-uppercase text-secondary"
+                    >
+                      BAPPEDA
+                    </th>
+                    <th
+                      class="thead-light font-weight-bolder text-xxs text-uppercase text-secondary"
+                    >
+                      Potensi
+                    </th>
+                    <th hidden>Potensi</th>
+                    <th
+                      class="thead-light font-weight-bolder text-xxs text-uppercase text-secondary"
+                    >
+                      Status
+                    </th>
+                    <th
+                      class="thead-light font-weight-bolder text-xxs text-uppercase text-secondary"
+                    >
+                      Action
+                    </th>
                   </tr>
                 </thead>
                 <tbody>
                   <tr
                     v-for="(kec, index) in listKecamatan"
                     :key="kec.id_kecamatan"
+                    class="align-middle"
+                    height="46px"
                   >
-                    <td class="text-sm ps-3">{{ index + 1 }}</td>
+                    <td class="text-sm ps-4">{{ index + 1 }}</td>
                     <td class="ms-0 px-0">
-                      <h6 class="my-auto">{{ kec.nama }}</h6>
+                      <h6 class="my-auto ps-3">{{ kec.nama }}</h6>
                     </td>
-                    <td class="text-sm">{{ kec.desa.length }}</td>
-                    <td class="text-sm">{{ kec.nama_kabupaten }}</td>
-                    <td class="text-sm">
+                    <td class="ps-4 text-sm">{{ kec.desa.length }}</td>
+                    <td class="ps-4 text-sm">{{ kec.nama_kabupaten }}</td>
+                    <td class="ps-4 text-sm">
                       <a
                         type="button"
                         class="mb-0 text-primary"
@@ -118,7 +142,10 @@
                         </div>
                       </div>
                     </td>
-                    <td class="text-sm">
+                    <td class="ps-4 text-sm" hidden>
+                      {{ getOutOfTagP(kec.potensi) }}
+                    </td>
+                    <td class="ps-4 text-sm">
                       <span class="badge badge-primary" v-if="kec.status === 0"
                         >Sedang diproses</span
                       >
@@ -129,7 +156,7 @@
                       >
                       <span class="badge badge-danger" v-else>Ditolak</span>
                     </td>
-                    <td class="text-sm">
+                    <td class="ps-4 text-sm">
                       <a
                         type="button"
                         class="mb-0 me-3 text-primary"
@@ -335,17 +362,6 @@
                     </td>
                   </tr>
                 </tbody>
-                <tfoot>
-                  <tr>
-                    <th class="col-1 ps-2">No.</th>
-                    <th class="ps-0">Kecamatan</th>
-                    <th>Total Desa</th>
-                    <th>BAPPEDA</th>
-                    <th>Potensi</th>
-                    <th>Status</th>
-                    <th>Action</th>
-                  </tr>
-                </tfoot>
               </table>
             </div>
           </div>
@@ -357,7 +373,6 @@
 
 <script>
 import $ from "jquery";
-import { DataTable } from "simple-datatables";
 import Choices from "choices.js";
 import HeaderProfileCard from "@/views/dashboards/components/HeaderProfileCard.vue";
 import TableContentLoader from "@/views/dashboards/components/TableContentLoader.vue";
@@ -367,6 +382,22 @@ import d$wilayah from "@/store/wilayah";
 import d$tema from "@/store/tema";
 import d$korwil from "@/store/korwil";
 import d$auth from "@/store/auth";
+import DataTable from "datatables.net-vue3";
+import DataTableLib from "datatables.net-bs5";
+import Buttons from "datatables.net-buttons-bs5";
+import ButtonHtml5 from "datatables.net-buttons/js/buttons.html5";
+import print from "datatables.net-buttons/js/buttons.print";
+import pdfmake from "pdfmake";
+import pdfFonts from "pdfmake/build/vfs_fonts";
+import "datatables.net-responsive-bs5";
+import JsZip from "jszip";
+pdfmake.vfs = pdfFonts.pdfMake.vfs;
+window.JsZip = JsZip;
+DataTable.use(DataTableLib);
+DataTable.use(pdfmake);
+DataTable.use(Buttons);
+DataTable.use(ButtonHtml5);
+DataTable.use(print);
 
 export default {
   name: "IndexPengajuanWilayah",
@@ -538,29 +569,52 @@ export default {
     },
 
     setupDataTable() {
+      if (this.dataTable) {
+        this.dataTable.clear();
+        this.dataTable.destroy();
+      }
+
       if (document.getElementById("wilayah-list")) {
-        const dataTableSearch = new DataTable("#wilayah-list", {
-          searchable: true,
-          fixedHeight: false,
-          perPage: 5,
+        const dataTableSearch = $("#wilayah-list").DataTable({
+          pageLength: 5,
+          lengthChange: true,
+          lengthMenu: [5, 10, 25, 50, 75, 100],
+          language: {
+            paginate: {
+              next: "&#155;", // or '→'
+              previous: "&#139;", // or '←'
+            },
+          },
+          // language: {
+          //   url: "{{ url('/json/dataTable-id.json') }}",
+          // },
+          responsive: true,
+          autoWidth: false,
+          initComplete: function () {
+            var api = this.api();
+
+            new $.fn.dataTable.Buttons(api, {
+              buttons: [
+                {
+                  extend: "csv",
+                  text: "Ekspor",
+                  title: "Data Pengajuan Wilayah | KKN UNDIP",
+                  exportOptions: {
+                    columns: [0, 1, 2, 3, 5, 6],
+                  },
+                  attr: {
+                    class: "btn btn-outline-success btn-sm",
+                    style: "height: 32px;",
+                  },
+                },
+              ],
+            });
+
+            api.buttons().container().appendTo("#button-table");
+          },
         });
 
-        document.querySelectorAll(".export-kec").forEach(function (el) {
-          el.addEventListener("click", function () {
-            var type = el.dataset.type;
-
-            var data = {
-              type: type,
-              filename: "Data Pengajuan Wilayah",
-            };
-
-            // if (type === "csv") {
-            //   data.columnDelimiter = "|";
-            // }
-
-            dataTableSearch.export(data);
-          });
-        });
+        this.dataTable = dataTableSearch;
       }
     },
 
@@ -597,6 +651,23 @@ export default {
         );
         e.preventDefault();
       });
+    },
+
+    getOutOfTagP(element) {
+      var temp = $("<div>").html(element);
+      temp.find("p").each(function () {
+        $(this).replaceWith(this.childNodes);
+      });
+      temp.find("span").each(function () {
+        $(this).replaceWith(this.childNodes);
+      });
+
+      var output = temp.html();
+      return output;
+      // var div = document.createElement("div");
+      // div.innerHTML = element;
+      // var text = div.textContent || div.innerHTML || "";
+      // return text;
     },
 
     getChoices(id) {
