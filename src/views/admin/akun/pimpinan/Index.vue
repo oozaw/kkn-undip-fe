@@ -12,20 +12,24 @@
                 <h5 class="mb-2">Data Pimpinan</h5>
               </div>
               <div class="my-auto mt-4 ms-auto mt-lg-0">
-                <div class="my-auto ms-auto">
-                  <router-link
-                    class="mb-0 btn bg-gradient-success btn-sm"
-                    :to="{ name: 'Tambah Pimpinan' }"
-                    >+&nbsp; Tambah Pimpinan
-                  </router-link>
-                  <button
-                    type="button"
-                    class="mx-2 mb-0 btn btn-primary btn-sm"
-                    data-bs-toggle="modal"
-                    data-bs-target="#import-pimpinan"
-                  >
-                    Impor
-                  </button>
+                <div class="my-auto ms-auto d-flex flex-wrap">
+                  <div class="my-0">
+                    <router-link
+                      class="mb-0 btn bg-gradient-success btn-sm"
+                      :to="{ name: 'Tambah Pimpinan' }"
+                      >+&nbsp; Tambah Pimpinan
+                    </router-link>
+                  </div>
+                  <div class="my-0">
+                    <button
+                      type="button"
+                      class="mx-2 mb-0 btn btn-primary btn-sm"
+                      data-bs-toggle="modal"
+                      data-bs-target="#import-pimpinan"
+                    >
+                      Impor
+                    </button>
+                  </div>
                   <div
                     id="import-pimpinan"
                     class="modal fade"
@@ -106,40 +110,93 @@
                       </div>
                     </div>
                   </div>
-                  <button
-                    class="mt-1 mb-0 btn btn-outline-success btn-sm export mt-sm-0"
-                    data-type="csv"
-                    type="button"
-                    name="button"
-                  >
-                    Ekspor
-                  </button>
+                  <div id="button-table"></div>
                 </div>
               </div>
             </div>
           </div>
-          <div class="pt-1 px-0 pb-0 card-body">
+          <div class="pt-1 mt-4 card-body">
             <div class="table-responsive" :key="indexComponent">
               <table id="pimpinan-list" class="table table-flush">
                 <thead class="thead-light">
                   <tr>
-                    <th class="col-1">No.</th>
-                    <th>Nama</th>
-                    <th>NIP</th>
-                    <th>Action</th>
+                    <th
+                      class="thead-light font-weight-bolder text-xxs text-uppercase text-secondary"
+                    >
+                      No.
+                    </th>
+                    <th
+                      class="thead-light font-weight-bolder text-xxs text-uppercase text-secondary"
+                    >
+                      Nama
+                    </th>
+                    <th
+                      class="thead-light font-weight-bolder text-xxs text-uppercase text-secondary"
+                    >
+                      NIP
+                    </th>
+                    <th
+                      class="thead-light font-weight-bolder text-xxs text-uppercase text-secondary"
+                      hidden
+                    >
+                      Jenis Kelamin
+                    </th>
+                    <th
+                      class="thead-light font-weight-bolder text-xxs text-uppercase text-secondary"
+                      hidden
+                    >
+                      Tanggal Lahir
+                    </th>
+                    <th
+                      class="thead-light font-weight-bolder text-xxs text-uppercase text-secondary"
+                      hidden
+                    >
+                      No. Telepon
+                    </th>
+                    <th
+                      class="thead-light font-weight-bolder text-xxs text-uppercase text-secondary"
+                      hidden
+                    >
+                      Alamat
+                    </th>
+                    <th
+                      class="thead-light font-weight-bolder text-xxs text-uppercase text-secondary"
+                    >
+                      Action
+                    </th>
                   </tr>
                 </thead>
                 <tbody>
                   <tr
                     v-for="(pimpinan, index) in listPimpinan"
                     :key="pimpinan.id_pimpinan"
+                    class="align-middle"
+                    height="46px"
                   >
-                    <td class="text-sm">{{ index + 1 }}</td>
+                    <td class="ps4 text-sm">{{ index + 1 }}</td>
                     <td>
-                      <h6 class="my-auto">{{ pimpinan.nama }}</h6>
+                      <h6 class="my-auto ps-3">{{ pimpinan.nama }}</h6>
                     </td>
-                    <td class="text-sm">{{ pimpinan.nip }}</td>
-                    <td class="text-sm">
+                    <td class="ps4 text-sm">{{ pimpinan.nip }}</td>
+                    <td class="ps-4 text-sm" hidden>
+                      {{
+                        pimpinan.jenis_kelamin == 1
+                          ? "Laki-laki"
+                          : pimpinan.jenis_kelamin == 2
+                          ? "Perempuan"
+                          : ""
+                      }}
+                    </td>
+                    <td class="ps-4 text-sm" hidden>
+                      {{
+                        pimpinan.ttl
+                          ? moment(pimpinan.ttl).format("DD MMMM YYYY")
+                          : ""
+                      }}
+                    </td>
+                    <td class="ps-4 text-sm" hidden>{{ pimpinan.no_hp }}</td>
+                    <td class="ps-4 text-sm" hidden>{{ pimpinan.alamat }}</td>
+                    <td class="ps4 text-sm">
                       <a
                         type="button"
                         class="mb-0 text-primary"
@@ -274,26 +331,30 @@
                                 :id="`form-edit-pimpinan-${pimpinan.id_pimpinan}`"
                                 @submit.prevent="editPimpinan(this.id)"
                               >
-                                <label class="form-label">Nama Lengkap</label>
-                                <input
-                                  class="form-control"
-                                  type="text"
-                                  name="nama"
-                                  :id="`nama-${pimpinan.id_pimpinan}`"
-                                  placeholder="Nama pimpinan"
-                                  :value="pimpinan.nama"
-                                  required
-                                />
-                                <label class="form-label">NIP</label>
-                                <input
-                                  class="form-control"
-                                  type="text"
-                                  name="nip"
-                                  :id="`nip-${pimpinan.id_pimpinan}`"
-                                  placeholder="NIP"
-                                  :value="pimpinan.nip"
-                                  required
-                                />
+                                <div class="mb-3">
+                                  <label class="form-label">Nama Lengkap</label>
+                                  <input
+                                    class="form-control"
+                                    type="text"
+                                    name="nama"
+                                    :id="`nama-${pimpinan.id_pimpinan}`"
+                                    placeholder="Nama pimpinan"
+                                    :value="pimpinan.nama"
+                                    required
+                                  />
+                                </div>
+                                <div class="mb-3">
+                                  <label class="form-label">NIP</label>
+                                  <input
+                                    class="form-control"
+                                    type="text"
+                                    name="nip"
+                                    :id="`nip-${pimpinan.id_pimpinan}`"
+                                    placeholder="NIP"
+                                    :value="pimpinan.nip"
+                                    required
+                                  />
+                                </div>
                               </form>
                             </div>
                             <div class="modal-footer">
@@ -331,14 +392,6 @@
                     </td>
                   </tr>
                 </tbody>
-                <tfoot>
-                  <tr>
-                    <th class="col-1">No.</th>
-                    <th>Nama</th>
-                    <th>NIP</th>
-                    <th>Action</th>
-                  </tr>
-                </tfoot>
               </table>
             </div>
           </div>
@@ -351,11 +404,26 @@
 <script>
 import $ from "jquery";
 import moment from "moment";
-import { DataTable } from "simple-datatables";
 import HeaderProfileCard from "@/views/dashboards/components/HeaderProfileCard.vue";
 import TableContentLoader from "@/views/dashboards/components/TableContentLoader.vue";
 import d$pimpinan from "@/store/pimpinan";
 import { mapActions, mapState } from "pinia";
+import DataTable from "datatables.net-vue3";
+import DataTableLib from "datatables.net-bs5";
+import Buttons from "datatables.net-buttons-bs5";
+import ButtonHtml5 from "datatables.net-buttons/js/buttons.html5";
+import print from "datatables.net-buttons/js/buttons.print";
+import pdfmake from "pdfmake";
+import pdfFonts from "pdfmake/build/vfs_fonts";
+import "datatables.net-responsive-bs5";
+import JsZip from "jszip";
+pdfmake.vfs = pdfFonts.pdfMake.vfs;
+window.JsZip = JsZip;
+DataTable.use(DataTableLib);
+DataTable.use(pdfmake);
+DataTable.use(Buttons);
+DataTable.use(ButtonHtml5);
+DataTable.use(print);
 
 export default {
   name: "IndexPimpinan",
@@ -497,27 +565,43 @@ export default {
       }
 
       if (document.getElementById("pimpinan-list")) {
-        const dataTableSearch = new DataTable("#pimpinan-list", {
-          searchable: true,
-          fixedHeight: false,
-          perPage: 5,
-        });
+        const dataTableSearch = $("#pimpinan-list").DataTable({
+          pageLength: 5,
+          lengthChange: true,
+          lengthMenu: [5, 10, 25, 50, 75, 100],
+          language: {
+            paginate: {
+              next: "&#155;", // or '→'
+              previous: "&#139;", // or '←'
+            },
+          },
+          // language: {
+          //   url: "{{ url('/json/dataTable-id.json') }}",
+          // },
+          responsive: true,
+          autoWidth: false,
+          initComplete: function () {
+            var api = this.api();
 
-        document.querySelectorAll(".export").forEach(function (el) {
-          el.addEventListener("click", function () {
-            var type = el.dataset.type;
+            new $.fn.dataTable.Buttons(api, {
+              buttons: [
+                {
+                  extend: "csv",
+                  text: "Ekspor",
+                  title: "Data Pimpinan | KKN UNDIP",
+                  exportOptions: {
+                    columns: [0, 1, 2, 3, 4, 5, 6],
+                  },
+                  attr: {
+                    class: "btn btn-outline-success btn-sm",
+                    style: "height: 32px;",
+                  },
+                },
+              ],
+            });
 
-            var data = {
-              type: type,
-              filename: "Data Pimpinan",
-            };
-
-            // if (type === "csv") {
-            //   data.columnDelimiter = "|";
-            // }
-
-            dataTableSearch.export(data);
-          });
+            api.buttons().container().appendTo("#button-table");
+          },
         });
 
         this.dataTable = dataTableSearch;

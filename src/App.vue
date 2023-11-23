@@ -10,6 +10,11 @@
     <app-footer v-show="showFooter" />
   </main>
 </template>
+
+<style>
+@import "datatables.net-bs5";
+</style>
+
 <script>
 import Sidenav from "@/views/dashboards/partials/Sidenav/index.vue";
 import Navbar from "@/views/dashboards/partials/Navbars/Navbar.vue";

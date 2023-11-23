@@ -13,20 +13,24 @@
                 <p class="text-sm mb-0">Data administrator terdaftar</p>
               </div>
               <div class="my-auto mt-4 ms-auto mt-lg-0">
-                <div class="my-auto ms-auto">
-                  <router-link
-                    class="mb-0 btn bg-gradient-success btn-sm"
-                    :to="{ name: 'Tambah Administrator' }"
-                    >+&nbsp; Tambah Administrator
-                  </router-link>
-                  <button
-                    type="button"
-                    class="mx-2 mb-0 btn btn-primary btn-sm"
-                    data-bs-toggle="modal"
-                    data-bs-target="#import-admin"
-                  >
-                    Impor
-                  </button>
+                <div class="my-auto ms-auto d-flex flex-wrap">
+                  <div class="my-0">
+                    <router-link
+                      class="mb-0 btn bg-gradient-success btn-sm"
+                      :to="{ name: 'Tambah Administrator' }"
+                      >+&nbsp; Tambah Administrator
+                    </router-link>
+                  </div>
+                  <div class="my-0">
+                    <button
+                      type="button"
+                      class="mx-2 mb-0 btn btn-primary btn-sm"
+                      data-bs-toggle="modal"
+                      data-bs-target="#import-admin"
+                    >
+                      Impor
+                    </button>
+                  </div>
                   <div
                     id="import-admin"
                     class="modal fade"
@@ -83,37 +87,93 @@
                       </div>
                     </div>
                   </div>
-                  <button
-                    class="mt-1 mb-0 btn btn-outline-success btn-sm export mt-sm-0"
-                    data-type="csv"
-                    type="button"
-                    name="button"
-                  >
-                    Ekspor
-                  </button>
+                  <div id="button-table"></div>
                 </div>
               </div>
             </div>
           </div>
-          <div class="pt-1 px-0 pb-0 card-body">
+          <div class="pt-1 mt-4 card-body">
             <div class="table-responsive" :key="indexComponent">
               <table id="admin-list" class="table table-flush">
                 <thead class="thead-light">
                   <tr>
-                    <th class="col-1">No.</th>
-                    <th>Nama</th>
-                    <th>NIP</th>
-                    <th>Action</th>
+                    <th
+                      class="thead-light font-weight-bolder text-xxs text-uppercase text-secondary"
+                    >
+                      No.
+                    </th>
+                    <th
+                      class="thead-light font-weight-bolder text-xxs text-uppercase text-secondary"
+                    >
+                      Nama
+                    </th>
+                    <th
+                      class="thead-light font-weight-bolder text-xxs text-uppercase text-secondary"
+                    >
+                      NIP
+                    </th>
+                    <th
+                      class="thead-light font-weight-bolder text-xxs text-uppercase text-secondary"
+                      hidden
+                    >
+                      Jenis Kelamin
+                    </th>
+                    <th
+                      class="thead-light font-weight-bolder text-xxs text-uppercase text-secondary"
+                      hidden
+                    >
+                      Tanggal Lahir
+                    </th>
+                    <th
+                      class="thead-light font-weight-bolder text-xxs text-uppercase text-secondary"
+                      hidden
+                    >
+                      No. Telepon
+                    </th>
+                    <th
+                      class="thead-light font-weight-bolder text-xxs text-uppercase text-secondary"
+                      hidden
+                    >
+                      Alamat
+                    </th>
+                    <th
+                      class="thead-light font-weight-bolder text-xxs text-uppercase text-secondary"
+                    >
+                      Action
+                    </th>
                   </tr>
                 </thead>
                 <tbody>
-                  <tr v-for="(admin, index) in listAdmin" :key="admin.id_admin">
-                    <td class="text-sm">{{ index + 1 }}</td>
+                  <tr
+                    v-for="(admin, index) in listAdmin"
+                    :key="admin.id_admin"
+                    class="align-middle"
+                    height="46px"
+                  >
+                    <td class="text-sm ps-4">{{ index + 1 }}</td>
                     <td>
-                      <h6 class="my-auto">{{ admin.nama }}</h6>
+                      <h6 class="my-auto ps-3">{{ admin.nama }}</h6>
                     </td>
-                    <td class="text-sm">{{ admin.nip }}</td>
-                    <td class="text-sm">
+                    <td class="text-sm ps-4">{{ admin.nip }}</td>
+                    <td class="ps-4 text-sm" hidden>
+                      {{
+                        admin.jenis_kelamin == 1
+                          ? "Laki-laki"
+                          : admin.jenis_kelamin == 2
+                          ? "Perempuan"
+                          : ""
+                      }}
+                    </td>
+                    <td class="ps-4 text-sm" hidden>
+                      {{
+                        admin.ttl
+                          ? moment(admin.ttl).format("DD MMMM YYYY")
+                          : ""
+                      }}
+                    </td>
+                    <td class="ps-4 text-sm" hidden>{{ admin.no_hp }}</td>
+                    <td class="ps-4 text-sm" hidden>{{ admin.alamat }}</td>
+                    <td class="ps-4 text-sm">
                       <a
                         type="button"
                         class="mb-0 text-primary"
@@ -300,14 +360,6 @@
                     </td>
                   </tr>
                 </tbody>
-                <tfoot>
-                  <tr>
-                    <th class="col-1">No.</th>
-                    <th>Nama</th>
-                    <th>NIP</th>
-                    <th>Action</th>
-                  </tr>
-                </tfoot>
               </table>
             </div>
           </div>
@@ -321,11 +373,26 @@
 import $ from "jquery";
 import moment from "moment";
 import Choices from "choices.js";
-import { DataTable } from "simple-datatables";
 import HeaderProfileCard from "@/views/dashboards/components/HeaderProfileCard.vue";
 import TableContentLoader from "@/views/dashboards/components/TableContentLoader.vue";
 import d$admin from "@/store/admin";
 import { mapState, mapActions } from "pinia";
+import DataTable from "datatables.net-vue3";
+import DataTableLib from "datatables.net-bs5";
+import Buttons from "datatables.net-buttons-bs5";
+import ButtonHtml5 from "datatables.net-buttons/js/buttons.html5";
+import print from "datatables.net-buttons/js/buttons.print";
+import pdfmake from "pdfmake";
+import pdfFonts from "pdfmake/build/vfs_fonts";
+import "datatables.net-responsive-bs5";
+import JsZip from "jszip";
+pdfmake.vfs = pdfFonts.pdfMake.vfs;
+window.JsZip = JsZip;
+DataTable.use(DataTableLib);
+DataTable.use(pdfmake);
+DataTable.use(Buttons);
+DataTable.use(ButtonHtml5);
+DataTable.use(print);
 
 export default {
   name: "IndexAdministrator",
@@ -434,29 +501,52 @@ export default {
     },
 
     setupDataTable() {
+      if (this.dataTable) {
+        this.dataTable.clear();
+        this.dataTable.destroy();
+      }
+
       if (document.getElementById("admin-list")) {
-        const dataTableSearch = new DataTable("#admin-list", {
-          searchable: true,
-          fixedHeight: false,
-          perPage: 5,
+        const dataTableSearch = $("#admin-list").DataTable({
+          pageLength: 5,
+          lengthChange: true,
+          lengthMenu: [5, 10, 25, 50, 75, 100],
+          language: {
+            paginate: {
+              next: "&#155;", // or '→'
+              previous: "&#139;", // or '←'
+            },
+          },
+          // language: {
+          //   url: "{{ url('/json/dataTable-id.json') }}",
+          // },
+          responsive: true,
+          autoWidth: false,
+          initComplete: function () {
+            var api = this.api();
+
+            new $.fn.dataTable.Buttons(api, {
+              buttons: [
+                {
+                  extend: "csv",
+                  text: "Ekspor",
+                  title: "Data Admin | KKN UNDIP",
+                  exportOptions: {
+                    columns: [0, 1, 2, 3, 4, 5, 6],
+                  },
+                  attr: {
+                    class: "btn btn-outline-success btn-sm",
+                    style: "height: 32px;",
+                  },
+                },
+              ],
+            });
+
+            api.buttons().container().appendTo("#button-table");
+          },
         });
 
-        document.querySelectorAll(".export").forEach(function (el) {
-          el.addEventListener("click", function () {
-            var type = el.dataset.type;
-
-            var data = {
-              type: type,
-              filename: "Data Administrator",
-            };
-
-            // if (type === "csv") {
-            //   data.columnDelimiter = "|";
-            // }
-
-            dataTableSearch.export(data);
-          });
-        });
+        this.dataTable = dataTableSearch;
       }
     },
 

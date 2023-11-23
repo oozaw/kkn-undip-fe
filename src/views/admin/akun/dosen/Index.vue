@@ -13,20 +13,24 @@
                 <p class="text-sm mb-0">Data dosen terdaftar</p>
               </div>
               <div class="my-auto mt-4 ms-auto mt-lg-0">
-                <div class="my-auto ms-auto">
-                  <router-link
-                    class="mb-0 btn bg-gradient-success btn-sm"
-                    :to="{ name: 'Tambah Dosen' }"
-                    >+&nbsp; Tambah Dosen
-                  </router-link>
-                  <button
-                    type="button"
-                    class="mx-2 mb-0 btn btn-primary btn-sm"
-                    data-bs-toggle="modal"
-                    data-bs-target="#import-dosen"
-                  >
-                    Impor
-                  </button>
+                <div class="my-auto ms-auto d-flex flex-wrap">
+                  <div class="my-0">
+                    <router-link
+                      class="mb-0 btn bg-gradient-success btn-sm"
+                      :to="{ name: 'Tambah Dosen' }"
+                      >+&nbsp; Tambah Dosen
+                    </router-link>
+                  </div>
+                  <div class="my-0">
+                    <button
+                      type="button"
+                      class="mx-2 mb-0 btn btn-primary btn-sm"
+                      data-bs-toggle="modal"
+                      data-bs-target="#import-dosen"
+                    >
+                      Impor
+                    </button>
+                  </div>
                   <div
                     id="import-dosen"
                     class="modal fade"
@@ -107,37 +111,93 @@
                       </div>
                     </div>
                   </div>
-                  <button
-                    class="mt-1 mb-0 btn btn-outline-success btn-sm export mt-sm-0"
-                    data-type="csv"
-                    type="button"
-                    name="button"
-                  >
-                    Ekspor
-                  </button>
+                  <div id="button-table"></div>
                 </div>
               </div>
             </div>
           </div>
-          <div class="pt-1 px-0 pb-0 card-body">
+          <div class="pt-1 mt-4 card-body">
             <div class="table-responsive" :key="indexComponent">
               <table id="dosen-list" class="table table-flush">
                 <thead class="thead-light">
                   <tr>
-                    <th class="col-1">No.</th>
-                    <th>Nama</th>
-                    <th>NIP</th>
-                    <th>Action</th>
+                    <th
+                      class="thead-light font-weight-bolder text-xxs text-uppercase text-secondary"
+                    >
+                      No.
+                    </th>
+                    <th
+                      class="thead-light font-weight-bolder text-xxs text-uppercase text-secondary"
+                    >
+                      Nama
+                    </th>
+                    <th
+                      class="thead-light font-weight-bolder text-xxs text-uppercase text-secondary"
+                    >
+                      NIP
+                    </th>
+                    <th
+                      class="thead-light font-weight-bolder text-xxs text-uppercase text-secondary"
+                      hidden
+                    >
+                      Jenis Kelamin
+                    </th>
+                    <th
+                      class="thead-light font-weight-bolder text-xxs text-uppercase text-secondary"
+                      hidden
+                    >
+                      Tanggal Lahir
+                    </th>
+                    <th
+                      class="thead-light font-weight-bolder text-xxs text-uppercase text-secondary"
+                      hidden
+                    >
+                      No. Telepon
+                    </th>
+                    <th
+                      class="thead-light font-weight-bolder text-xxs text-uppercase text-secondary"
+                      hidden
+                    >
+                      Alamat
+                    </th>
+                    <th
+                      class="thead-light font-weight-bolder text-xxs text-uppercase text-secondary"
+                    >
+                      Action
+                    </th>
                   </tr>
                 </thead>
                 <tbody>
-                  <tr v-for="(dosen, index) in listDosen" :key="dosen.id_dosen">
-                    <td class="text-sm">{{ index + 1 }}</td>
+                  <tr
+                    v-for="(dosen, index) in listDosen"
+                    :key="dosen.id_dosen"
+                    class="align-middle"
+                    height="46px"
+                  >
+                    <td class="ps-4 text-sm">{{ index + 1 }}</td>
                     <td>
-                      <h6 class="my-auto">{{ dosen.nama }}</h6>
+                      <h6 class="ps-3 my-auto">{{ dosen.nama }}</h6>
                     </td>
-                    <td class="text-sm">{{ dosen.nip }}</td>
-                    <td class="text-sm">
+                    <td class="ps-4 text-sm">{{ dosen.nip }}</td>
+                    <td class="ps-4 text-sm" hidden>
+                      {{
+                        dosen.jenis_kelamin == 1
+                          ? "Laki-laki"
+                          : dosen.jenis_kelamin == 2
+                          ? "Perempuan"
+                          : ""
+                      }}
+                    </td>
+                    <td class="ps-4 text-sm" hidden>
+                      {{
+                        dosen.ttl
+                          ? moment(dosen.ttl).format("DD MMMM YYYY")
+                          : ""
+                      }}
+                    </td>
+                    <td class="ps-4 text-sm" hidden>{{ dosen.no_hp }}</td>
+                    <td class="ps-4 text-sm" hidden>{{ dosen.alamat }}</td>
+                    <td class="ps-4 text-sm">
                       <a
                         type="button"
                         class="mb-0 text-primary"
@@ -258,14 +318,6 @@
                     </td>
                   </tr>
                 </tbody>
-                <tfoot>
-                  <tr>
-                    <th class="col-1">No.</th>
-                    <th>Nama</th>
-                    <th>NIP</th>
-                    <th>Action</th>
-                  </tr>
-                </tfoot>
               </table>
             </div>
           </div>
@@ -279,11 +331,26 @@
 import $ from "jquery";
 import moment from "moment";
 import Choices from "choices.js";
-import { DataTable } from "simple-datatables";
 import HeaderProfileCard from "@/views/dashboards/components/HeaderProfileCard.vue";
 import TableContentLoader from "@/views/dashboards/components/TableContentLoader.vue";
 import d$dosen from "@/store/dosen";
 import { mapActions, mapState } from "pinia";
+import DataTable from "datatables.net-vue3";
+import DataTableLib from "datatables.net-bs5";
+import Buttons from "datatables.net-buttons-bs5";
+import ButtonHtml5 from "datatables.net-buttons/js/buttons.html5";
+import print from "datatables.net-buttons/js/buttons.print";
+import pdfmake from "pdfmake";
+import pdfFonts from "pdfmake/build/vfs_fonts";
+import "datatables.net-responsive-bs5";
+import JsZip from "jszip";
+pdfmake.vfs = pdfFonts.pdfMake.vfs;
+window.JsZip = JsZip;
+DataTable.use(DataTableLib);
+DataTable.use(pdfmake);
+DataTable.use(Buttons);
+DataTable.use(ButtonHtml5);
+DataTable.use(print);
 
 export default {
   name: "IndexDosen",
@@ -389,32 +456,82 @@ export default {
       }
 
       if (document.getElementById("dosen-list")) {
-        const dataTableSearch = new DataTable("#dosen-list", {
-          searchable: true,
-          fixedHeight: false,
-          perPage: 5,
-        });
+        const dataTableSearch = $("#dosen-list").DataTable({
+          pageLength: 5,
+          lengthChange: true,
+          lengthMenu: [5, 10, 25, 50, 75, 100],
+          language: {
+            paginate: {
+              next: "&#155;", // or '→'
+              previous: "&#139;", // or '←'
+            },
+          },
+          // language: {
+          //   url: "{{ url('/json/dataTable-id.json') }}",
+          // },
+          responsive: true,
+          autoWidth: false,
+          initComplete: function () {
+            var api = this.api();
 
-        document.querySelectorAll(".export").forEach(function (el) {
-          el.addEventListener("click", function () {
-            var type = el.dataset.type;
+            new $.fn.dataTable.Buttons(api, {
+              buttons: [
+                {
+                  extend: "csv",
+                  text: "Ekspor",
+                  title: "Data Dosen | KKN UNDIP",
+                  exportOptions: {
+                    columns: [0, 1, 2, 3, 4, 5, 6],
+                  },
+                  attr: {
+                    class: "btn btn-outline-success btn-sm",
+                    style: "height: 32px;",
+                  },
+                },
+              ],
+            });
 
-            var data = {
-              type: type,
-              filename: "Data Dosen",
-            };
-
-            // if (type === "csv") {
-            //   data.columnDelimiter = "|";
-            // }
-
-            dataTableSearch.export(data);
-          });
+            api.buttons().container().appendTo("#button-table");
+          },
         });
 
         this.dataTable = dataTableSearch;
       }
     },
+
+    // setupDataTable() {
+    //   if (this.dataTable) {
+    //     this.dataTable.clear();
+    //     this.dataTable.destroy();
+    //   }
+
+    //   if (document.getElementById("dosen-list")) {
+    //     const dataTableSearch = new DataTable("#dosen-list", {
+    //       searchable: true,
+    //       fixedHeight: false,
+    //       perPage: 5,
+    //     });
+
+    //     document.querySelectorAll(".export").forEach(function (el) {
+    //       el.addEventListener("click", function () {
+    //         var type = el.dataset.type;
+
+    //         var data = {
+    //           type: type,
+    //           filename: "Data Dosen",
+    //         };
+
+    //         // if (type === "csv") {
+    //         //   data.columnDelimiter = "|";
+    //         // }
+
+    //         dataTableSearch.export(data);
+    //       });
+    //     });
+
+    //     this.dataTable = dataTableSearch;
+    //   }
+    // },
 
     setupTableAction() {
       let outerThis = this;

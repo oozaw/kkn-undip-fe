@@ -69,9 +69,11 @@
             >
               <i class="fa fa-user" :class="isRTL ? 'ms-sm-2' : 'me-sm-1'"></i>
               <span v-if="isRTL" class="d-sm-inline d-none">
-                {{ g$user.name }}</span
+                {{ g$infoUser.nama }}</span
               >
-              <span v-else class="d-sm-inline d-none">{{ g$user.name }}</span>
+              <span v-else class="d-sm-inline d-none">{{
+                g$infoUser.nama
+              }}</span>
             </router-link>
             <router-link
               v-else
@@ -86,147 +88,68 @@
               <span v-else class="d-sm-inline d-none">Login</span>
             </router-link>
           </li>
-          <!-- Notification -->
-          <li
-            class="nav-item dropdown d-flex align-items-center me-2"
-            :class="isRTL ? 'ps-2' : 'pe-2'"
-          >
-            <a
-              id="dropdownMenuButton"
-              href="#"
-              :class="`p-0 nav-link ${
-                isNavFixed && !darkMode ? ' opacity-8 text-dark' : 'text-white'
-              } ${showMenu ? 'show' : ''}`"
-              data-bs-toggle="dropdown"
-              aria-expanded="false"
-              @click="showMenu = !showMenu"
-            >
-              <i class="cursor-pointer fa fa-bell"></i>
-            </a>
-            <ul
-              class="px-2 py-3 dropdown-menu dropdown-menu-end me-sm-n4"
-              :class="showMenu ? 'show' : ''"
-              aria-labelledby="dropdownMenuButton"
-            >
-              <li class="mb-2">
-                <a class="dropdown-item border-radius-md" href="javascript:;">
-                  <div class="py-1 d-flex">
-                    <div class="my-auto">
-                      <img
-                        src="@/assets/img/team-2.jpg"
-                        class="avatar avatar-sm me-3"
-                        alt="user image"
-                      />
-                    </div>
-                    <div class="d-flex flex-column justify-content-center">
-                      <h6 class="mb-1 text-sm font-weight-normal">
-                        <span class="font-weight-bold">New message</span> from
-                        Laur
-                      </h6>
-                      <p class="mb-0 text-xs text-secondary">
-                        <i class="fa fa-clock me-1"></i>
-                        13 minutes ago
-                      </p>
-                    </div>
-                  </div>
-                </a>
-              </li>
-              <li class="mb-2">
-                <a class="dropdown-item border-radius-md" href="javascript:;">
-                  <div class="py-1 d-flex">
-                    <div class="my-auto">
-                      <img
-                        src="@/assets/img/small-logos/logo-spotify.svg"
-                        class="avatar avatar-sm bg-gradient-dark me-3"
-                        alt="logo spotify"
-                      />
-                    </div>
-                    <div class="d-flex flex-column justify-content-center">
-                      <h6 class="mb-1 text-sm font-weight-normal">
-                        <span class="font-weight-bold">New album</span> by
-                        Travis Scott
-                      </h6>
-                      <p class="mb-0 text-xs text-secondary">
-                        <i class="fa fa-clock me-1"></i>
-                        1 day
-                      </p>
-                    </div>
-                  </div>
-                </a>
-              </li>
-              <li>
-                <a class="dropdown-item border-radius-md" href="javascript:;">
-                  <div class="py-1 d-flex">
-                    <div
-                      class="my-auto avatar avatar-sm bg-gradient-secondary me-3"
-                    >
-                      <svg
-                        width="12px"
-                        height="12px"
-                        viewBox="0 0 43 36"
-                        version="1.1"
-                        xmlns="http://www.w3.org/2000/svg"
-                        xmlns:xlink="http://www.w3.org/1999/xlink"
-                      >
-                        <title>credit-card</title>
-                        <g
-                          stroke="none"
-                          stroke-width="1"
-                          fill="none"
-                          fill-rule="evenodd"
-                        >
-                          <g
-                            transform="translate(-2169.000000, -745.000000)"
-                            fill="#FFFFFF"
-                            fill-rule="nonzero"
-                          >
-                            <g transform="translate(1716.000000, 291.000000)">
-                              <g transform="translate(453.000000, 454.000000)">
-                                <path
-                                  class="color-background"
-                                  d="M43,10.7482083 L43,3.58333333 C43,1.60354167 41.3964583,0 39.4166667,0 L3.58333333,0 C1.60354167,0 0,1.60354167 0,3.58333333 L0,10.7482083 L43,10.7482083 Z"
-                                  opacity="0.593633743"
-                                />
-                                <path
-                                  class="color-background"
-                                  d="M0,16.125 L0,32.25 C0,34.2297917 1.60354167,35.8333333 3.58333333,35.8333333 L39.4166667,35.8333333 C41.3964583,35.8333333 43,34.2297917 43,32.25 L43,16.125 L0,16.125 Z M19.7083333,26.875 L7.16666667,26.875 L7.16666667,23.2916667 L19.7083333,23.2916667 L19.7083333,26.875 Z M35.8333333,26.875 L28.6666667,26.875 L28.6666667,23.2916667 L35.8333333,23.2916667 L35.8333333,26.875 Z"
-                                />
-                              </g>
-                            </g>
-                          </g>
-                        </g>
-                      </svg>
-                    </div>
-                    <div class="d-flex flex-column justify-content-center">
-                      <h6 class="mb-1 text-sm font-weight-normal">
-                        Payment successfully completed
-                      </h6>
-                      <p class="mb-0 text-xs text-secondary">
-                        <i class="fa fa-clock me-1"></i>
-                        2 days
-                      </p>
-                    </div>
-                  </div>
-                </a>
-              </li>
-            </ul>
-          </li>
           <!-- Logout -->
           <li
             class="nav-item dropdown d-flex align-items-center"
             :class="isRTL ? 'ps-2' : 'pe-2'"
           >
             <a
-              href=""
-              @click.prevent="logout()"
+              href="#"
               class="px-0 nav-link font-weight-bold"
               :class="
                 isNavFixed && !darkMode ? ' opacity-8 text-dark' : 'text-white'
               "
+              data-bs-toggle="modal"
+              data-bs-target="#logout-modal"
             >
               <font-awesome-icon icon="fa-solid fa-right-from-bracket" />
               Logout
             </a>
+            <div
+              id="logout-modal"
+              class="modal fade"
+              tabindex="-1"
+              aria-hidden="true"
+              :key="indexComponent"
+            >
+              <div class="modal-dialog mt-lg-6">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 id="ModalLabel" class="modal-title text-wrap text-2xl">
+                      Logout
+                    </h5>
+                    <button
+                      type="button"
+                      class="btn-close"
+                      data-bs-dismiss="modal"
+                      aria-label="Close"
+                    ></button>
+                  </div>
+                  <div class="modal-body">
+                    <p class="mb-1 text-lg">
+                      Apakah Anda yakin ingin keluar dari aplikasi?
+                    </p>
+                  </div>
+                  <div class="modal-footer">
+                    <button
+                      id="button-close-modal"
+                      type="button"
+                      class="btn bg-gradient-secondary btn-sm"
+                      data-bs-dismiss="modal"
+                    >
+                      Batal
+                    </button>
+                    <button
+                      @click.prevent="logout()"
+                      type="submit"
+                      class="btn bg-gradient-danger btn-sm"
+                    >
+                      Keluar
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
           </li>
         </ul>
       </div>
@@ -260,7 +183,7 @@ export default {
       return dir.charAt(0).toUpperCase() + dir.slice(1);
     },
 
-    ...mapStatePinia(d$auth, ["g$user"]),
+    ...mapStatePinia(d$auth, ["g$user", "g$infoUser"]),
   },
   created() {
     this.minNav;

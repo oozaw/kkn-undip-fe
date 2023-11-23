@@ -13,20 +13,24 @@
                 <p class="text-sm mb-0">Data BAPPEDA terdaftar</p>
               </div>
               <div class="my-auto mt-4 ms-auto mt-lg-0">
-                <div class="my-auto ms-auto">
-                  <router-link
-                    class="mb-0 btn bg-gradient-success btn-sm"
-                    :to="{ name: 'Tambah Bappeda' }"
-                    >+&nbsp; Tambah BAPPEDA
-                  </router-link>
-                  <button
-                    type="button"
-                    class="mx-2 mb-0 btn btn-primary btn-sm"
-                    data-bs-toggle="modal"
-                    data-bs-target="#import-bappeda"
-                  >
-                    Impor
-                  </button>
+                <div class="my-auto ms-auto d-flex flex-wrap">
+                  <div class="my-0">
+                    <router-link
+                      class="mb-0 btn bg-gradient-success btn-sm"
+                      :to="{ name: 'Tambah Bappeda' }"
+                      >+&nbsp; Tambah BAPPEDA
+                    </router-link>
+                  </div>
+                  <div class="my-0">
+                    <button
+                      type="button"
+                      class="mx-2 mb-0 btn btn-primary btn-sm"
+                      data-bs-toggle="modal"
+                      data-bs-target="#import-bappeda"
+                    >
+                      Impor
+                    </button>
+                  </div>
                   <div
                     id="import-bappeda"
                     class="modal fade"
@@ -107,46 +111,83 @@
                       </div>
                     </div>
                   </div>
-                  <button
-                    class="mt-1 mb-0 btn btn-outline-success btn-sm export mt-sm-0"
-                    data-type="csv"
-                    type="button"
-                    name="button"
-                  >
-                    Ekspor
-                  </button>
+                  <div id="button-table"></div>
                 </div>
               </div>
             </div>
           </div>
-          <div class="pt-1 px-0 pb-0 card-body">
+          <div class="pt-1 mt-4 card-body">
             <div class="table-responsive" :key="indexComponent">
               <table id="bappeda-list" class="table table-flush">
                 <thead class="thead-light">
                   <tr>
-                    <th class="col-1">No.</th>
-                    <th>Nama</th>
-                    <th>Nomor BAPPEDA</th>
-                    <th>Daerah (Kecamatan/Desa)</th>
-                    <th>Penanggung Jawab</th>
-                    <th>Action</th>
+                    <th
+                      class="thead-light font-weight-bolder text-xxs text-uppercase text-secondary"
+                    >
+                      No.
+                    </th>
+                    <th
+                      class="thead-light font-weight-bolder text-xxs text-uppercase text-secondary"
+                    >
+                      Nama
+                    </th>
+                    <th
+                      class="thead-light font-weight-bolder text-xxs text-uppercase text-secondary"
+                    >
+                      Nomor BAPPEDA
+                    </th>
+                    <th
+                      class="thead-light font-weight-bolder text-xxs text-uppercase text-secondary"
+                      hidden
+                    >
+                      Kabupaten
+                    </th>
+                    <th
+                      class="thead-light font-weight-bolder text-xxs text-uppercase text-secondary"
+                    >
+                      Daerah (Kecamatan/Desa)
+                    </th>
+                    <th
+                      class="thead-light font-weight-bolder text-xxs text-uppercase text-secondary"
+                    >
+                      Penanggung Jawab
+                    </th>
+                    <th
+                      class="thead-light font-weight-bolder text-xxs text-uppercase text-secondary"
+                      hidden
+                    >
+                      Alamat
+                    </th>
+                    <th
+                      class="thead-light font-weight-bolder text-xxs text-uppercase text-secondary"
+                    >
+                      Action
+                    </th>
                   </tr>
                 </thead>
                 <tbody>
                   <tr
                     v-for="(bappeda, index) in listBappeda"
                     :key="bappeda.id_bappeda"
+                    class="align-middle"
+                    height="46px"
                   >
-                    <td class="text-sm">{{ index + 1 }}</td>
-                    <td>
-                      <h6 class="my-auto">{{ bappeda.nama }}</h6>
+                    <td class="text-sm ps-4">
+                      {{ index + 1 }}
                     </td>
-                    <td class="text-sm">{{ bappeda.nb }}</td>
-                    <td class="text-sm">
+                    <td>
+                      <h6 class="my-auto ps-3">{{ bappeda.nama }}</h6>
+                    </td>
+                    <td class="text-sm ps-4">{{ bappeda.nb }}</td>
+                    <td class="text-sm ps-4" hidden>
+                      {{ bappeda.nama_kabupaten ?? "" }}
+                    </td>
+                    <td class="text-sm ps-4">
                       {{ bappeda.total_kecamatan + "/" + bappeda.total_desa }}
                     </td>
-                    <td class="text-sm">{{ bappeda.nama_pj }}</td>
-                    <td class="text-sm">
+                    <td class="text-sm ps-4">{{ bappeda.nama_pj }}</td>
+                    <td class="text-sm ps-4" hidden>{{ bappeda.alamat }}</td>
+                    <td class="text-sm ps-4">
                       <a
                         type="button"
                         class="mb-0 text-primary"
@@ -311,16 +352,6 @@
                     </td>
                   </tr>
                 </tbody>
-                <tfoot>
-                  <tr>
-                    <th class="col-1">No.</th>
-                    <th>Nama</th>
-                    <th>Nomor BAPPEDA</th>
-                    <th>Daerah (Kecamatan/Desa)</th>
-                    <th>Status</th>
-                    <th>Action</th>
-                  </tr>
-                </tfoot>
               </table>
             </div>
           </div>
@@ -333,11 +364,27 @@
 <script>
 import $ from "jquery";
 import Choices from "choices.js";
-import { DataTable } from "simple-datatables";
+// import { DataTable } from "simple-datatables";
 import HeaderProfileCard from "@/views/dashboards/components/HeaderProfileCard.vue";
 import TableContentLoader from "@/views/dashboards/components/TableContentLoader.vue";
 import d$bappeda from "@/store/bappeda";
 import { mapActions, mapState } from "pinia";
+import DataTable from "datatables.net-vue3";
+import DataTableLib from "datatables.net-bs5";
+import Buttons from "datatables.net-buttons-bs5";
+import ButtonHtml5 from "datatables.net-buttons/js/buttons.html5";
+import print from "datatables.net-buttons/js/buttons.print";
+import pdfmake from "pdfmake";
+import pdfFonts from "pdfmake/build/vfs_fonts";
+import "datatables.net-responsive-bs5";
+import JsZip from "jszip";
+pdfmake.vfs = pdfFonts.pdfMake.vfs;
+window.JsZip = JsZip;
+DataTable.use(DataTableLib);
+DataTable.use(pdfmake);
+DataTable.use(Buttons);
+DataTable.use(ButtonHtml5);
+DataTable.use(print);
 
 export default {
   name: "IndexBappeda",
@@ -446,32 +493,82 @@ export default {
       }
 
       if (document.getElementById("bappeda-list")) {
-        const dataTableSearch = new DataTable("#bappeda-list", {
-          searchable: true,
-          fixedHeight: false,
-          perPage: 5,
-        });
+        const dataTableSearch = $("#bappeda-list").DataTable({
+          pageLength: 5,
+          lengthChange: true,
+          lengthMenu: [5, 10, 25, 50, 75, 100],
+          language: {
+            paginate: {
+              next: "&#155;", // or '→'
+              previous: "&#139;", // or '←'
+            },
+          },
+          // language: {
+          //   url: "{{ url('/json/dataTable-id.json') }}",
+          // },
+          responsive: true,
+          autoWidth: false,
+          initComplete: function () {
+            var api = this.api();
 
-        document.querySelectorAll(".export").forEach(function (el) {
-          el.addEventListener("click", function () {
-            var type = el.dataset.type;
+            new $.fn.dataTable.Buttons(api, {
+              buttons: [
+                {
+                  extend: "csv",
+                  text: "Ekspor",
+                  title: "Data BAPPEDA | KKN UNDIP",
+                  exportOptions: {
+                    columns: [0, 1, 2, 3, 5, 6],
+                  },
+                  attr: {
+                    class: "btn btn-outline-success btn-sm",
+                    style: "height: 32px;",
+                  },
+                },
+              ],
+            });
 
-            var data = {
-              type: type,
-              filename: "Data Bappeda",
-            };
-
-            // if (type === "csv") {
-            //   data.columnDelimiter = "|";
-            // }
-
-            dataTableSearch.export(data);
-          });
+            api.buttons().container().appendTo("#button-table");
+          },
         });
 
         this.dataTable = dataTableSearch;
       }
     },
+
+    // setupDataTable() {
+    //   if (this.dataTable) {
+    //     this.dataTable.clear();
+    //     this.dataTable.destroy();
+    //   }
+
+    //   if (document.getElementById("bappeda-list")) {
+    //     const dataTableSearch = new DataTable("#bappeda-list", {
+    //       searchable: true,
+    //       fixedHeight: false,
+    //       perPage: 5,
+    //     });
+
+    //     document.querySelectorAll(".export").forEach(function (el) {
+    //       el.addEventListener("click", function () {
+    //         var type = el.dataset.type;
+
+    //         var data = {
+    //           type: type,
+    //           filename: "Data Bappeda",
+    //         };
+
+    //         // if (type === "csv") {
+    //         //   data.columnDelimiter = "|";
+    //         // }
+
+    //         dataTableSearch.export(data);
+    //       });
+    //     });
+
+    //     this.dataTable = dataTableSearch;
+    //   }
+    // },
 
     setupTableAction() {
       let outerThis = this;
