@@ -57,79 +57,114 @@
                 <p class="text-sm mb-0">Riwayat Presensi Mahasiswa KKN</p>
               </div>
               <div class="my-auto mt-4 ms-auto mt-lg-0">
-                <div class="my-auto ms-auto">
-                  <button
-                    v-if="this.g$user.role === 'ADMIN'"
-                    type="button"
-                    class="mb-0 btn btn-success btn-sm me-2"
-                    @click="
-                      () => {
-                        $router.push({
-                          name: 'Tambah Presensi Mahasiswa Admin',
-                          params: { id_kecamatan: id_kecamatan },
-                        });
-                      }
-                    "
-                  >
-                    + Tambah Riwayat Presensi
-                  </button>
-                  <button
-                    v-else-if="this.g$user.role === 'DOSEN'"
-                    type="button"
-                    class="mb-0 btn btn-success btn-sm me-2"
-                    @click="
-                      () => {
-                        $router.push({
-                          name: 'Tambah Presensi Mahasiswa',
-                          params: { id_kecamatan: id_kecamatan },
-                        });
-                      }
-                    "
-                  >
-                    + Tambah Riwayat Presensi
-                  </button>
-                  <button
-                    class="mt-2 mb-0 btn btn-outline-success btn-sm export-presensi mt-sm-0"
-                    data-type="csv"
-                    type="button"
-                    name="button"
-                  >
-                    Ekspor
-                  </button>
+                <div class="my-auto ms-auto d-flex flex-wrap">
+                  <div class="my-0">
+                    <button
+                      v-if="this.g$user.role === 'ADMIN'"
+                      type="button"
+                      class="mb-0 btn btn-success btn-sm me-2"
+                      @click="
+                        () => {
+                          $router.push({
+                            name: 'Tambah Presensi Mahasiswa Admin',
+                            params: { id_kecamatan: id_kecamatan },
+                          });
+                        }
+                      "
+                    >
+                      + Tambah Riwayat Presensi
+                    </button>
+                    <button
+                      v-else-if="this.g$user.role === 'DOSEN'"
+                      type="button"
+                      class="mb-0 btn btn-success btn-sm me-2"
+                      @click="
+                        () => {
+                          $router.push({
+                            name: 'Tambah Presensi Mahasiswa',
+                            params: { id_kecamatan: id_kecamatan },
+                          });
+                        }
+                      "
+                    >
+                      + Tambah Riwayat Presensi
+                    </button>
+                  </div>
+                  <div id="button-table"></div>
                 </div>
               </div>
             </div>
           </div>
-          <div class="ms-2 pt-1 px-0 pb-0 card-body">
+          <div class="ms-2 pt-1 mt-4 card-body">
             <div class="table-responsive" :key="indexComponent">
               <table id="presensi-list" class="table table-flush">
                 <thead class="thead-light">
                   <tr>
-                    <th class="col-1 ps-2">No.</th>
-                    <th>Nama</th>
-                    <th>NIM</th>
-                    <th>Tanggal</th>
-                    <th>Status</th>
-                    <th>Waktu</th>
-                    <th>Oleh</th>
-                    <th v-if="g$user.role === 'ADMIN'">Action</th>
+                    <th
+                      class="thead-light font-weight-bolder text-xxs text-uppercase text-secondary"
+                    >
+                      No.
+                    </th>
+                    <th
+                      class="thead-light font-weight-bolder text-xxs text-uppercase text-secondary"
+                    >
+                      Nama
+                    </th>
+                    <th
+                      class="thead-light font-weight-bolder text-xxs text-uppercase text-secondary"
+                    >
+                      NIM
+                    </th>
+                    <th
+                      class="thead-light font-weight-bolder text-xxs text-uppercase text-secondary"
+                    >
+                      Tanggal
+                    </th>
+                    <th
+                      class="thead-light font-weight-bolder text-xxs text-uppercase text-secondary"
+                    >
+                      Status
+                    </th>
+                    <th
+                      class="thead-light font-weight-bolder text-xxs text-uppercase text-secondary"
+                    >
+                      Waktu
+                    </th>
+                    <th
+                      class="thead-light font-weight-bolder text-xxs text-uppercase text-secondary"
+                    >
+                      Oleh
+                    </th>
+                    <th
+                      class="thead-light font-weight-bolder text-xxs text-uppercase text-secondary"
+                      v-if="g$user.role === 'ADMIN'"
+                    >
+                      Action
+                    </th>
                   </tr>
                 </thead>
                 <tbody>
-                  <tr v-for="(presensi, i) in listPresensi" :key="i">
-                    <td class="text-sm ps-3">{{ i + 1 }}</td>
+                  <tr
+                    v-for="(presensi, i) in listPresensi"
+                    :key="i"
+                    class="align-middle"
+                    height="46px"
+                  >
+                    <td class="text-sm ps-4">{{ i + 1 }}</td>
                     <td class="ms-0 px-0">
-                      <h6 class="my-auto">{{ presensi.mahasiswa.nama }}</h6>
+                      <h6 class="my-auto ps-4">
+                        {{ presensi.mahasiswa.nama }}
+                      </h6>
                     </td>
-                    <td class="text-sm">{{ presensi.mahasiswa.nim }}</td>
-                    <td class="text-sm">
+                    <td class="ps-4 text-sm">{{ presensi.mahasiswa.nim }}</td>
+                    <td class="ps-4 text-sm">
                       {{
                         moment(presensi.presensi.tgl).format(
                           "dddd, DD MMM YYYY"
                         )
                       }}
                     </td>
-                    <td class="text-sm">
+                    <td class="ps-4 text-sm">
                       <span
                         class="badge badge-success"
                         v-if="presensi.status == 1"
@@ -142,13 +177,13 @@
                       >
                       <span class="badge badge-danger" v-else>Absen</span>
                     </td>
-                    <td class="text-sm">
+                    <td class="ps-4 text-sm">
                       {{ moment(presensi.updated_at).format("HH:mm") }} WIB
                     </td>
-                    <td class="text-sm">
+                    <td class="ps-4 text-sm">
                       {{ presensi.by }}
                     </td>
-                    <td class="text-sm" v-if="g$user.role === 'ADMIN'">
+                    <td class="ps-4 text-sm" v-if="g$user.role === 'ADMIN'">
                       <a
                         v-if="presensi.status != -1"
                         :id="presensi.id_riwayat_presensi"
@@ -219,18 +254,6 @@
                     </td>
                   </tr>
                 </tbody>
-                <tfoot>
-                  <tr>
-                    <th class="col-1 ps-2">No.</th>
-                    <th>Nama</th>
-                    <th>NIM</th>
-                    <th>Tanggal</th>
-                    <th>Status</th>
-                    <th>Waktu</th>
-                    <th>Oleh</th>
-                    <th v-if="g$user.role === 'ADMIN'">Action</th>
-                  </tr>
-                </tfoot>
               </table>
             </div>
           </div>
@@ -242,7 +265,6 @@
 
 <script>
 import $ from "jquery";
-import { DataTable } from "simple-datatables";
 import moment from "moment";
 import Choices from "choices.js";
 import HeaderProfileCard from "@/views/dashboards/components/HeaderProfileCard.vue";
@@ -254,6 +276,22 @@ import d$wilayah from "@/store/wilayah";
 import d$tema from "@/store/tema";
 import d$auth from "@/store/auth";
 import d$proposal from "@/store/proposal";
+import DataTable from "datatables.net-vue3";
+import DataTableLib from "datatables.net-bs5";
+import Buttons from "datatables.net-buttons-bs5";
+import ButtonHtml5 from "datatables.net-buttons/js/buttons.html5";
+import print from "datatables.net-buttons/js/buttons.print";
+import pdfmake from "pdfmake";
+import pdfFonts from "pdfmake/build/vfs_fonts";
+import "datatables.net-responsive-bs5";
+import JsZip from "jszip";
+pdfmake.vfs = pdfFonts.pdfMake.vfs;
+window.JsZip = JsZip;
+DataTable.use(DataTableLib);
+DataTable.use(pdfmake);
+DataTable.use(Buttons);
+DataTable.use(ButtonHtml5);
+DataTable.use(print);
 
 export default {
   name: "IndexPresensiMhsAdmin",
@@ -448,30 +486,52 @@ export default {
     },
 
     setupDataTable() {
+      if (this.dataTable) {
+        this.dataTable.clear();
+        this.dataTable.destroy();
+      }
+
       if (document.getElementById("presensi-list")) {
-        const dataTableSearch = new DataTable("#presensi-list", {
-          searchable: true,
-          fixedHeight: false,
-          perPage: 5,
+        const dataTableSearch = $("#presensi-list").DataTable({
+          pageLength: 5,
+          lengthChange: true,
+          lengthMenu: [5, 10, 25, 50, 75, 100],
+          language: {
+            paginate: {
+              next: "&#155;", // or '→'
+              previous: "&#139;", // or '←'
+            },
+          },
+          // language: {
+          //   url: "{{ url('/json/dataTable-id.json') }}",
+          // },
+          responsive: true,
+          autoWidth: false,
+          initComplete: function () {
+            var api = this.api();
+
+            new $.fn.dataTable.Buttons(api, {
+              buttons: [
+                {
+                  extend: "csv",
+                  text: "Ekspor",
+                  title: "Data Presensi Mahasiswa | KKN UNDIP",
+                  exportOptions: {
+                    columns: [0, 1, 2, 3, 4, 5, 6],
+                  },
+                  attr: {
+                    class: "btn btn-outline-success btn-sm",
+                    style: "height: 32px;",
+                  },
+                },
+              ],
+            });
+
+            api.buttons().container().appendTo("#button-table");
+          },
         });
 
-        document.querySelectorAll(".export-presensi").forEach(function (el) {
-          el.addEventListener("click", function () {
-            var type = el.dataset.type;
-
-            var data = {
-              type: type,
-              // tambah nama yang lebih spesifik, cth: nama desa, tanggal
-              filename: "Data Presensi",
-            };
-
-            // if (type === "csv") {
-            //   data.columnDelimiter = "|";
-            // }
-
-            dataTableSearch.export(data);
-          });
-        });
+        this.dataTable = dataTableSearch;
       }
     },
 
