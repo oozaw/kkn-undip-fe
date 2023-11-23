@@ -152,7 +152,7 @@
                     name="button"
                     @click="exportToExcel()"
                   >
-                    Expor
+                    Ekspor
                   </button>
                   <a href="#" hidden id="file-placeholder"></a>
                 </div>
