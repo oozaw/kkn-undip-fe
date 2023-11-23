@@ -13,50 +13,76 @@
                 <p class="text-sm mb-0">Jadwal Kegiatan KKN</p>
               </div>
               <div class="my-auto mt-4 ms-auto mt-lg-0">
-                <div class="my-auto ms-auto">
-                  <router-link
-                    class="mb-0 btn btn-success btn-sm mt-sm-0 me-2"
-                    :to="{ name: 'Tambah Kalender' }"
-                  >
-                    + Tambah Kegiatan
-                  </router-link>
-                  <button
-                    class="mt-2 mb-0 btn btn-outline-success btn-sm export-kalendar mt-sm-0"
-                    data-type="csv"
-                    type="button"
-                    name="button"
-                  >
-                    Expor
-                  </button>
+                <div class="my-auto ms-auto d-flex flex-wrap">
+                  <div class="my-0">
+                    <router-link
+                      class="mb-0 btn btn-success btn-sm mt-sm-0 me-2"
+                      :to="{ name: 'Tambah Kalender' }"
+                    >
+                      + Tambah Kegiatan
+                    </router-link>
+                  </div>
+                  <div id="button-table"></div>
                 </div>
               </div>
             </div>
           </div>
-          <div class="ms-2 pt-1 px-0 pb-0 card-body">
+          <div class="ms-2 pt-1 mt-4 card-body">
             <div class="table-responsive" :key="indexComponent">
               <table id="event-list" class="table table-flush">
                 <thead class="thead-light">
                   <tr>
-                    <th class="col-1 ps-2">No.</th>
-                    <th class="col-4">Judul</th>
-                    <th>Tanggal Mulai</th>
-                    <th>Tanggal Berakhir</th>
-                    <th>Action</th>
+                    <th
+                      class="thead-light font-weight-bolder text-xxs text-uppercase text-secondary"
+                    >
+                      No.
+                    </th>
+                    <th
+                      class="thead-light font-weight-bolder text-xxs text-uppercase text-secondary"
+                    >
+                      Judul
+                    </th>
+                    <th hidden>Tempat</th>
+                    <th
+                      class="thead-light font-weight-bolder text-xxs text-uppercase text-secondary"
+                    >
+                      Tanggal Mulai
+                    </th>
+                    <th
+                      class="thead-light font-weight-bolder text-xxs text-uppercase text-secondary"
+                    >
+                      Tanggal Berakhir
+                    </th>
+                    <th hidden>Keterangan</th>
+                    <th hidden>Peruntukan</th>
+                    <th
+                      class="thead-light font-weight-bolder text-xxs text-uppercase text-secondary"
+                    >
+                      Action
+                    </th>
                   </tr>
                 </thead>
                 <tbody>
-                  <tr v-for="(event, i) in listEvent" :key="event.id_event">
-                    <td class="text-sm ps-3">{{ i + 1 }}</td>
+                  <tr
+                    v-for="(event, i) in listEvent"
+                    :key="event.id_event"
+                    class="align-middle"
+                    height="46px"
+                  >
+                    <td class="text-sm ps-4">{{ i + 1 }}</td>
                     <td class="ms-0 px-0">
-                      <h6 class="my-auto">{{ event.judul }}</h6>
+                      <h6 class="my-auto ps-3">{{ event.judul }}</h6>
                     </td>
-                    <td class="text-sm">
+                    <td class="text-sm ps-4" hidden>{{ event.tempat }}</td>
+                    <td class="ps-4 text-sm">
                       {{ moment(event.tgl_mulai).format("DD MMMM YYYY") }}
                     </td>
-                    <td class="text-sm">
+                    <td class="ps-4 text-sm">
                       {{ moment(event.tgl_akhir).format("DD MMMM YYYY") }}
                     </td>
-                    <td class="text-sm">
+                    <td class="text-sm ps-4" hidden>{{ event.keterangan }}</td>
+                    <td class="text-sm ps-4" hidden>{{ event.peruntukan }}</td>
+                    <td class="ps-4 text-sm">
                       <a
                         type="button"
                         class="mb-0 text-primary"
@@ -179,15 +205,6 @@
                     </td>
                   </tr>
                 </tbody>
-                <tfoot>
-                  <tr>
-                    <th class="col-1 ps-2">No.</th>
-                    <th class="col-4">Judul</th>
-                    <th>Tanggal Mulai</th>
-                    <th>Tanggal Berakhir</th>
-                    <th>Action</th>
-                  </tr>
-                </tfoot>
               </table>
             </div>
           </div>
@@ -200,12 +217,27 @@
 <script>
 import $ from "jquery";
 import moment from "moment";
-import { DataTable } from "simple-datatables";
 import Choices from "choices.js";
 import HeaderProfileCard from "@/views/dashboards/components/HeaderProfileCard.vue";
 import TableContentLoader from "@/views/dashboards/components/TableContentLoader.vue";
 import { mapActions, mapState } from "pinia";
 import d$event from "@/store/event";
+import DataTable from "datatables.net-vue3";
+import DataTableLib from "datatables.net-bs5";
+import Buttons from "datatables.net-buttons-bs5";
+import ButtonHtml5 from "datatables.net-buttons/js/buttons.html5";
+import print from "datatables.net-buttons/js/buttons.print";
+import pdfmake from "pdfmake";
+import pdfFonts from "pdfmake/build/vfs_fonts";
+import "datatables.net-responsive-bs5";
+import JsZip from "jszip";
+pdfmake.vfs = pdfFonts.pdfMake.vfs;
+window.JsZip = JsZip;
+DataTable.use(DataTableLib);
+DataTable.use(pdfmake);
+DataTable.use(Buttons);
+DataTable.use(ButtonHtml5);
+DataTable.use(print);
 
 export default {
   name: "IndexKalender",
@@ -307,29 +339,52 @@ export default {
     },
 
     setupDataTable() {
+      if (this.dataTable) {
+        this.dataTable.clear();
+        this.dataTable.destroy();
+      }
+
       if (document.getElementById("event-list")) {
-        const dataTableSearch = new DataTable("#event-list", {
-          searchable: true,
-          fixedHeight: false,
-          perPage: 5,
+        const dataTableSearch = $("#event-list").DataTable({
+          pageLength: 5,
+          lengthChange: true,
+          lengthMenu: [5, 10, 25, 50, 75, 100],
+          language: {
+            paginate: {
+              next: "&#155;", // or '→'
+              previous: "&#139;", // or '←'
+            },
+          },
+          // language: {
+          //   url: "{{ url('/json/dataTable-id.json') }}",
+          // },
+          responsive: true,
+          autoWidth: false,
+          initComplete: function () {
+            var api = this.api();
+
+            new $.fn.dataTable.Buttons(api, {
+              buttons: [
+                {
+                  extend: "csv",
+                  text: "Ekspor",
+                  title: "Data Kegiatan | KKN UNDIP",
+                  exportOptions: {
+                    columns: [0, 1, 2, 3, 4, 5, 6],
+                  },
+                  attr: {
+                    class: "btn btn-outline-success btn-sm",
+                    style: "height: 32px;",
+                  },
+                },
+              ],
+            });
+
+            api.buttons().container().appendTo("#button-table");
+          },
         });
 
-        document.querySelectorAll(".export-kalendar").forEach(function (el) {
-          el.addEventListener("click", function () {
-            var type = el.dataset.type;
-
-            var data = {
-              type: type,
-              filename: "Data Kalendar Kegiatan",
-            };
-
-            // if (type === "csv") {
-            //   data.columnDelimiter = "|";
-            // }
-
-            dataTableSearch.export(data);
-          });
-        });
+        this.dataTable = dataTableSearch;
       }
     },
 
