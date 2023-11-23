@@ -110,7 +110,6 @@
               class="modal fade"
               tabindex="-1"
               aria-hidden="true"
-              :key="indexComponent"
             >
               <div class="modal-dialog mt-lg-6">
                 <div class="modal-content">
