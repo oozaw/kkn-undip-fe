@@ -110,6 +110,7 @@
               class="modal fade"
               tabindex="-1"
               aria-hidden="true"
+              :key="indexComponent"
             >
               <div class="modal-dialog mt-lg-6">
                 <div class="modal-content">
@@ -155,6 +156,7 @@
     </div>
   </nav>
 </template>
+
 <script>
 import Breadcrumbs from "../Breadcrumbs.vue";
 import { mapState, mapMutations, mapActions } from "vuex";
@@ -170,6 +172,7 @@ export default {
   data() {
     return {
       showMenu: false,
+      indexComponent: 0,
     };
   },
   computed: {
@@ -202,6 +205,9 @@ export default {
     ...mapActionsPinia(d$auth, ["a$logout"]),
 
     async logout() {
+      document.getElementById("button-close-modal").click();
+      this.indexComponent++;
+
       try {
         await this.a$logout();
         this.$router.push({ name: "Login" });
