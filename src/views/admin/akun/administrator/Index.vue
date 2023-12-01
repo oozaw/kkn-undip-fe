@@ -14,78 +14,12 @@
               </div>
               <div class="my-auto mt-4 ms-auto mt-lg-0">
                 <div class="my-auto ms-auto d-flex flex-wrap">
-                  <div class="my-0">
+                  <div class="my-0 me-2">
                     <router-link
                       class="mb-0 btn bg-gradient-success btn-sm"
                       :to="{ name: 'Tambah Administrator' }"
                       >+&nbsp; Tambah Administrator
                     </router-link>
-                  </div>
-                  <div class="my-0">
-                    <button
-                      type="button"
-                      class="mx-2 mb-0 btn btn-primary btn-sm"
-                      data-bs-toggle="modal"
-                      data-bs-target="#import-admin"
-                    >
-                      Impor
-                    </button>
-                  </div>
-                  <div
-                    id="import-admin"
-                    class="modal fade"
-                    tabindex="-1"
-                    aria-hidden="true"
-                  >
-                    <div class="modal-dialog mt-lg-10">
-                      <div class="modal-content">
-                        <div class="modal-header">
-                          <h5 id="ModalLabel" class="modal-title text-wrap">
-                            Impor Data Administrator via File Excel
-                          </h5>
-                          <i class="fas fa-upload ms-3"></i>
-                          <button
-                            type="button"
-                            class="btn-close"
-                            data-bs-dismiss="modal"
-                            aria-label="Close"
-                          ></button>
-                        </div>
-                        <div class="modal-body">
-                          <p>
-                            Silahkan cari dan pilih file excel berisi data
-                            administrator
-                          </p>
-                          <input
-                            type="file"
-                            placeholder="Browse file..."
-                            class="mb-1 form-control"
-                          />
-                          <div>
-                            <small class="text-danger text-sm-start">
-                              <i class="fas fa-info-circle"></i>
-                              File yang diizinkan hanya file excel dengan
-                              ekstensi .xls atau .xlsx
-                            </small>
-                          </div>
-                        </div>
-                        <div class="modal-footer">
-                          <button
-                            type="button"
-                            class="btn bg-gradient-secondary btn-sm"
-                            data-bs-dismiss="modal"
-                          >
-                            Batal
-                          </button>
-                          <button
-                            type="button"
-                            class="btn bg-gradient-success btn-sm"
-                          >
-                            Unggah
-                          </button>
-                        </div>
-                      </div>
-                    </div>
                   </div>
                   <div id="button-table"></div>
                 </div>

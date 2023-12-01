@@ -115,7 +115,7 @@
               <div class="modal-dialog mt-lg-6">
                 <div class="modal-content">
                   <div class="modal-header">
-                    <h5 id="ModalLabel" class="modal-title text-wrap text-2xl">
+                    <h5 id="ModalLabel" class="modal-title text-wrap text-xl">
                       Logout
                     </h5>
                     <button
@@ -126,11 +126,11 @@
                     ></button>
                   </div>
                   <div class="modal-body">
-                    <p class="mb-1 text-lg">
+                    <p class="mb-1">
                       Apakah Anda yakin ingin keluar dari aplikasi?
                     </p>
                   </div>
-                  <div class="modal-footer">
+                  <div class="d-inline-flex px-4 justify-content-end gap-2">
                     <button
                       id="button-close-modal-navbar"
                       type="button"
