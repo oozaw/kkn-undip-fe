@@ -241,7 +241,11 @@
                 </div>
               </div>
               <div
-                v-if="g$user.role === 'ADMIN' || g$user.role === 'PIMPINAN'"
+                v-if="
+                  g$user.role === 'ADMIN' ||
+                  g$user.role === 'PIMPINAN' ||
+                  g$user.role === 'SUPERADMIN'
+                "
                 class="row"
               >
                 <div class="col-lg-6 col-md-6 col-12">
@@ -420,7 +424,11 @@
           <div class="col-12">
             <div
               class="mt-lg-4 mt-0"
-              v-if="g$user.role === 'ADMIN' || g$user.role === 'PIMPINAN'"
+              v-if="
+                g$user.role === 'ADMIN' ||
+                g$user.role === 'PIMPINAN' ||
+                g$user.role === 'SUPERADMIN'
+              "
             >
               <TimelineCardContentLoader v-if="isLoading" :col="12" />
               <timeline-list
@@ -449,7 +457,11 @@
           </div>
           <div
             class="col-lg-12 col-sm-12"
-            v-if="g$user.role === 'ADMIN' || g$user.role === 'PIMPINAN'"
+            v-if="
+              g$user.role === 'ADMIN' ||
+              g$user.role === 'PIMPINAN' ||
+              g$user.role === 'SUPERADMIN'
+            "
           >
             <TableContentLoader v-if="isLoading" />
             <div class="bg-white card mt-4" :hidden="isLoading">
@@ -626,6 +638,7 @@ export default {
         // this.checkProgressLRK();
         break;
 
+      case "SUPERADMIN":
       case "ADMIN":
         // tema
         await this.getDataTema();
