@@ -2,27 +2,7 @@
   <div class="container-fluid">
     <div class="row mb-5 mt-4">
       <div class="col-lg-12 mt-lg-0 mt-4">
-        <HeaderProfileCard>
-          <template #button>
-            <argon-button
-              type="button"
-              :onclick="() => $router.push({ name: 'Kalender' })"
-              class="mb-0 me-2"
-              color="secondary"
-              size="sm"
-              >Batal</argon-button
-            >
-            <argon-button
-              type="submit"
-              form="form-add-kegiatan"
-              class="mb-0 me-lg-2"
-              color="success"
-              variant="gradient"
-              size="sm"
-              >Tambah Kegiatan</argon-button
-            >
-          </template>
-        </HeaderProfileCard>
+        <HeaderProfileCard> </HeaderProfileCard>
         <div class="card mt-4">
           <div class="card-header">
             <h5>Tambah Kegiatan Baru</h5>

@@ -2,27 +2,7 @@
   <div class="py-4 container-fluid">
     <div class="row">
       <div class="col-lg-12 mt-lg-0">
-        <HeaderProfileCard>
-          <template #button>
-            <argon-button
-              type="button"
-              :onclick="() => $router.push({ name: 'Mahasiswa' })"
-              class="mb-0 me-2"
-              color="secondary"
-              size="sm"
-              >Batal</argon-button
-            >
-            <argon-button
-              type="submit"
-              form="form-mahasiswa"
-              class="mb-0 me-lg-2"
-              color="success"
-              variant="gradient"
-              size="sm"
-              >Tambah Mahasiswa</argon-button
-            >
-          </template>
-        </HeaderProfileCard>
+        <HeaderProfileCard></HeaderProfileCard>
       </div>
     </div>
     <div class="mt-4">
@@ -33,7 +13,7 @@
             role="form"
             @submit.prevent="addMahasiswa()"
           >
-            <div class="card-body pb-5">
+            <div class="card-body pb-4">
               <h5 class="font-weight-bolder mb-3">Tambah Mahasiswa</h5>
               <div class="row">
                 <div class="col-12 col-sm-6">
@@ -91,6 +71,27 @@
                   >
                     <option value="" disabled>-- Pilih prodi --</option>
                   </select>
+                </div>
+              </div>
+              <div class="row mt-4">
+                <div class="d-inline-flex justify-content-end">
+                  <argon-button
+                    type="button"
+                    :onclick="() => $router.push({ name: 'Mahasiswa' })"
+                    class="mb-0 me-2"
+                    color="secondary"
+                    size="sm"
+                    >Batal</argon-button
+                  >
+                  <argon-button
+                    type="submit"
+                    form="form-mahasiswa"
+                    class="mb-0 me-lg-2"
+                    color="success"
+                    variant="gradient"
+                    size="sm"
+                    >Tambah Mahasiswa</argon-button
+                  >
                 </div>
               </div>
             </div>

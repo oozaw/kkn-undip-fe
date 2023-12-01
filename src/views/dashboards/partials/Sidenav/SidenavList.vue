@@ -424,12 +424,12 @@
                 mini-icon="S"
                 text="Struktur"
               />
-              <sidenav-item
+              <!-- <sidenav-item
                 :isActive="getRoute2() === 'galeri' && getRoute() === 'landing'"
                 :to="{ name: 'Landing Galeri' }"
                 mini-icon="G"
                 text="Galeri"
-              />
+              /> -->
             </ul>
           </template>
         </sidenav-collapse>
@@ -582,8 +582,10 @@
                 mini-icon="P"
                 text="Presensi"
                 :isDisabled="!isAccepted()"
+                v-if="a$checkAuth(['MAHASISWA'])"
               />
               <sidenav-item
+                :isActive="getRoute2() === 'presensi-mhs'"
                 :to="{ name: 'Review Presensi Mahasiswa' }"
                 mini-icon="P"
                 text="Presensi Mahasiswa"
@@ -603,7 +605,7 @@
       </li>
 
       <!-- Export -->
-      <li class="nav-item" v-if="a$checkAuth(['ADMIN', 'PIMPINAN'])">
+      <li class="nav-item" v-if="a$checkAuth(['ADMIN', 'PIMPINAN', 'DOSEN'])">
         <router-link :to="{ name: 'Export' }">
           <sidenav-collapse
             nav-text="Ekspor Area"

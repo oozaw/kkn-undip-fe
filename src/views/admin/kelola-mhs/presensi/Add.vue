@@ -2,41 +2,7 @@
   <div class="py-4 container-fluid">
     <div class="row">
       <div class="col-lg-12 mt-lg-0">
-        <HeaderProfileCard>
-          <template #button>
-            <argon-button
-              v-if="this.g$user.role === 'ADMIN'"
-              type="button"
-              :onclick="
-                () => $router.push({ name: 'Presensi Mahasiswa Admin' })
-              "
-              class="mb-0 me-2"
-              color="secondary"
-              size="sm"
-              >Batal</argon-button
-            >
-            <argon-button
-              v-else-if="this.g$user.role === 'DOSEN'"
-              type="button"
-              :onclick="
-                () => $router.push({ name: 'Review Mahasiswa Presensi' })
-              "
-              class="mb-0 me-2"
-              color="secondary"
-              size="sm"
-              >Batal</argon-button
-            >
-            <argon-button
-              type="submit"
-              form="form-add-presensi-mhs"
-              class="mb-0 me-lg-2"
-              color="success"
-              variant="gradient"
-              size="sm"
-              >Tambah Presensi</argon-button
-            >
-          </template>
-        </HeaderProfileCard>
+        <HeaderProfileCard> </HeaderProfileCard>
       </div>
     </div>
     <div class="mt-4">
@@ -47,7 +13,7 @@
             role="form"
             @submit.prevent="addPresensi()"
           >
-            <div class="card-body pb-5">
+            <div class="card-body pb-4">
               <h5 class="font-weight-bolder mb-3">Tambah Presensi</h5>
               <div class="row">
                 <div class="col-12">

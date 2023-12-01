@@ -42,8 +42,8 @@
                 </p>
               </div>
               <div class="my-auto mt-4 ms-auto mt-lg-0">
-                <div class="my-auto ms-auto d-flex flex-wra">
-                  <div id="button-table"></div>
+                <div class="my-auto ms-auto d-flex flex-wrap">
+                  <div id="button-table" :key="indexComponent"></div>
                 </div>
               </div>
             </div>

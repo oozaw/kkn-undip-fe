@@ -2,27 +2,7 @@
   <div class="container-fluid">
     <div class="row mb-5 mt-4">
       <div class="col-lg-12 mt-lg-0 mt-4">
-        <HeaderProfileCard>
-          <template #button>
-            <argon-button
-              type="button"
-              :onclick="() => $router.push({ name: 'Gelombang' })"
-              class="mb-0 me-2"
-              color="secondary"
-              size="sm"
-              >Batal</argon-button
-            >
-            <argon-button
-              type="submit"
-              form="form-gelombang"
-              class="mb-0 me-lg-2"
-              color="primary"
-              variant="gradient"
-              size="sm"
-              >Simpan Gelombang</argon-button
-            >
-          </template>
-        </HeaderProfileCard>
+        <HeaderProfileCard></HeaderProfileCard>
         <div class="card mt-4">
           <div class="card-header pb-0">
             <h5>Edit Gelombang</h5>
