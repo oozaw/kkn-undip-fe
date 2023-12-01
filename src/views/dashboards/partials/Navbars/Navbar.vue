@@ -132,7 +132,7 @@
                   </div>
                   <div class="modal-footer">
                     <button
-                      id="button-close-modal"
+                      id="button-close-modal-navbar"
                       type="button"
                       class="btn bg-gradient-secondary btn-sm"
                       data-bs-dismiss="modal"
@@ -205,7 +205,7 @@ export default {
     ...mapActionsPinia(d$auth, ["a$logout"]),
 
     async logout() {
-      document.getElementById("button-close-modal").click();
+      document.getElementById("button-close-modal-navbar").click();
       this.indexComponent++;
 
       try {
