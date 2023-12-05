@@ -622,6 +622,7 @@ export default {
             window.open(res, "_blank");
           })
           .catch((err) => {
+            console.log(err);
             outerThis.showSwal("close");
             outerThis.showSwal("failed-message", "Gagal memuat dokumen!");
           });
@@ -639,6 +640,7 @@ export default {
             window.open(res, "_blank");
           })
           .catch((err) => {
+            console.log(err);
             outerThis.showSwal("close");
             outerThis.showSwal("failed-message", "Gagal memuat dokumen! ");
           });
@@ -659,6 +661,7 @@ export default {
               window.open(res, "_blank");
             })
             .catch((err) => {
+              console.log(err);
               outerThis.showSwal("close");
               outerThis.showSwal("failed-message", "Gagal memuat dokumen!");
             });

@@ -132,7 +132,7 @@
                         tabindex="-1"
                         aria-hidden="true"
                       >
-                        <div class="modal-dialog mt-lg-5">
+                        <div class="modal-dialog modal-lg mt-lg-5">
                           <div class="modal-content">
                             <div class="modal-header">
                               <h5 id="ModalLabel" class="modal-title text-wrap">
@@ -149,121 +149,187 @@
                               </button>
                             </div>
                             <div class="modal-body p-4">
-                              <ul class="list-group">
-                                <li
-                                  class="pt-0 text-sm border-0 list-group-item ps-0 text-wrap"
+                              <div class="row">
+                                <div
+                                  class="col-lg-6 col-12 pt-0 text-sm text-wrap"
                                 >
                                   <strong class="text-dark"
                                     >Nama Lengkap:</strong
                                   >
                                   &nbsp;
-                                  {{ pendaftar.mahasiswa.nama }}
-                                </li>
-                                <li
-                                  class="text-sm border-0 list-group-item ps-0 text-wrap"
-                                >
-                                  <strong class="text-dark">Angkatan:</strong>
-                                  &nbsp;
-                                  {{ pendaftar.mahasiswa.angkatan }}
-                                </li>
-                                <li
-                                  class="text-sm border-0 list-group-item ps-0 text-wrap"
+                                  {{ pendaftar?.mahasiswa.nama }}
+                                </div>
+                                <div
+                                  class="col-lg-6 col-12 mt-2 mt-lg-0 pt-0 text-sm text-wrap"
                                 >
                                   <strong class="text-dark">NIM:</strong>
                                   &nbsp;
-                                  {{ pendaftar.mahasiswa.nim }}
-                                </li>
-                                <li
-                                  class="text-sm border-0 list-group-item ps-0 text-wrap"
+                                  {{ pendaftar?.mahasiswa.nim }}
+                                </div>
+                              </div>
+                              <div class="row mt-2">
+                                <div
+                                  class="col-lg-6 col-12 pt-0 text-sm text-wrap"
                                 >
                                   <strong class="text-dark">Fakultas:</strong>
                                   &nbsp;
-                                  {{ pendaftar.mahasiswa.prodi?.fakultas.nama }}
-                                </li>
-                                <li
-                                  class="text-sm border-0 list-group-item ps-0 text-wrap"
+                                  {{
+                                    pendaftar?.mahasiswa.prodi?.fakultas.nama
+                                  }}
+                                </div>
+                                <div
+                                  class="col-lg-6 col-12 mt-2 mt-lg-0 pt-0 text-sm text-wrap"
                                 >
                                   <strong class="text-dark">Prodi:</strong>
                                   &nbsp;
-                                  {{ pendaftar.mahasiswa.prodi?.nama }}
-                                </li>
-
-                                <li
-                                  class="text-sm border-0 list-group-item ps-0 text-wrap"
-                                >
-                                  <strong class="text-dark">Email:</strong>
-                                  &nbsp;
-                                  {{ pendaftar.mahasiswa.email }}
-                                </li>
-                                <li
-                                  class="text-sm border-0 list-group-item ps-0 text-wrap"
+                                  {{ pendaftar?.mahasiswa.prodi?.nama }}
+                                </div>
+                              </div>
+                              <div class="row mt-2">
+                                <div
+                                  class="col-lg-6 col-12 pt-0 text-sm text-wrap"
                                 >
                                   <strong class="text-dark">No. HP:</strong>
                                   &nbsp;
-                                  {{ pendaftar.mahasiswa.no_hp }}
-                                </li>
-                                <li
-                                  class="text-sm border-0 list-group-item ps-0 text-wrap"
+                                  {{ pendaftar?.mahasiswa.no_hp }}
+                                </div>
+                                <div
+                                  class="col-lg-6 col-12 mt-2 mt-lg-0 pt-0 text-sm text-wrap"
                                 >
-                                  <strong class="text-dark">Domisili:</strong>
+                                  <strong class="text-dark">Alamat:</strong>
                                   &nbsp;
-                                  {{ pendaftar.mahasiswa.domisili }}
-                                </li>
-                                <li
-                                  class="text-sm border-0 list-group-item ps-0 text-wrap"
+                                  {{ pendaftar?.mahasiswa.alamat }}
+                                </div>
+                              </div>
+                              <div class="row mt-2">
+                                <div
+                                  class="col-lg-6 col-12 pt-0 text-sm text-wrap"
                                 >
                                   <strong class="text-dark">Tema:</strong>
                                   &nbsp;
-                                  {{ pendaftar.kecamatan.kabupaten.tema.nama }}
-                                </li>
-                                <li
-                                  class="text-sm border-0 list-group-item ps-0 text-wrap"
+                                  {{ pendaftar?.kecamatan.kabupaten.tema.nama }}
+                                </div>
+                                <div
+                                  class="col-lg-6 col-12 mt-2 mt-lg-0 pt-0 text-sm text-wrap"
                                 >
                                   <strong class="text-dark">Gelombang:</strong>
                                   &nbsp;
-                                  {{ pendaftar.gelombang.nama }}
-                                </li>
-                                <li
-                                  class="text-sm border-0 list-group-item ps-0 text-wrap"
+                                  {{ pendaftar?.gelombang.nama }}
+                                </div>
+                              </div>
+                              <div class="row mt-2">
+                                <div
+                                  class="col-lg-6 col-12 pt-0 text-sm text-wrap"
                                 >
                                   <strong class="text-dark">Kabupaten:</strong>
                                   &nbsp;
-                                  {{ pendaftar.kecamatan.kabupaten.nama }}
-                                </li>
-                                <li
-                                  class="text-sm border-0 list-group-item ps-0 text-wrap"
+                                  {{ pendaftar?.kecamatan.kabupaten.nama }}
+                                </div>
+                                <div
+                                  class="col-lg-6 col-12 mt-2 mt-lg-0 pt-0 text-sm text-wrap"
                                 >
                                   <strong class="text-dark">Kecamatan:</strong>
                                   &nbsp;
-                                  {{ pendaftar.kecamatan.nama }}
-                                </li>
-                                <li
-                                  class="pb-0 border-0 list-group-item ps-0 text-wrap"
+                                  {{ pendaftar?.kecamatan.nama }}
+                                </div>
+                              </div>
+                              <div class="row mt-2">
+                                <div
+                                  class="col-lg-6 col-12 pt-0 text-sm text-wrap"
                                 >
                                   <strong class="text-sm text-dark"
                                     >Status:</strong
                                   >
                                   &nbsp;
                                   <span
-                                    v-if="pendaftar.mahasiswa.status == 2"
+                                    v-if="pendaftar?.mahasiswa.status == 2"
                                     class="badge badge-success"
                                     >Diterima</span
                                   >
                                   <span
-                                    v-else-if="pendaftar.mahasiswa.status == 1"
+                                    v-else-if="pendaftar?.mahasiswa.status == 1"
                                     class="badge badge-primary"
                                     >Sedang diproses</span
                                   >
                                   <span
-                                    v-else-if="pendaftar.mahasiswa.status == 0"
+                                    v-else-if="pendaftar?.mahasiswa.status == 0"
                                     class="badge badge-secondary"
                                     >Belum terdaftar</span
                                   >
                                   <span v-else class="badge badge-danger"
                                     >Ditolak</span
                                   >
-                                </li>
-                              </ul>
+                                </div>
+                                <div
+                                  class="col-lg-6 col-12 mt-2 mt-lg-0 pt-0 text-sm text-wrap"
+                                >
+                                  <strong class="text-dark">Pas Foto:</strong>
+                                  &nbsp;
+                                  <span
+                                    v-if="pendaftar?.mahasiswa.foto_profile"
+                                  >
+                                    <a
+                                      :id="
+                                        pendaftar?.mahasiswa.foto_profile ?? ''
+                                      "
+                                      type="button"
+                                      target="_blank"
+                                      class="pas-foto-button text-primary"
+                                      >Lihat</a
+                                    >
+                                  </span>
+                                  <span v-else class="text-danger"
+                                    >Belum diunggah</span
+                                  >
+                                </div>
+                              </div>
+                              <div class="row mt-2">
+                                <div
+                                  class="col-lg-6 col-12 pt-0 text-sm text-wrap"
+                                >
+                                  <strong class="text-sm text-dark"
+                                    >KHS:</strong
+                                  >
+                                  &nbsp;
+                                  <span v-if="pendaftar?.mahasiswa.khs">
+                                    <a
+                                      :id="pendaftar?.mahasiswa.khs ?? ''"
+                                      type="button"
+                                      target="_blank"
+                                      class="khs-button text-primary"
+                                      >Lihat</a
+                                    >
+                                  </span>
+                                  <span v-else class="text-danger"
+                                    >Belum diunggah</span
+                                  >
+                                </div>
+                                <div
+                                  class="col-lg-6 col-12 mt-2 mt-lg-0 pt-0 text-sm text-wrap"
+                                >
+                                  <strong class="text-dark"
+                                    >Surat Pernyataan:</strong
+                                  >
+                                  &nbsp;
+                                  <span
+                                    v-if="pendaftar?.mahasiswa.surat_pernyataan"
+                                  >
+                                    <a
+                                      :id="
+                                        pendaftar?.mahasiswa
+                                          ?.surat_pernyataan ?? ''
+                                      "
+                                      type="button"
+                                      target="_blank"
+                                      class="surat-pernyataan-button text-primary"
+                                      >Lihat</a
+                                    >
+                                  </span>
+                                  <span v-else class="text-danger"
+                                    >Belum diunggah</span
+                                  >
+                                </div>
+                              </div>
                             </div>
                             <div class="modal-footer"></div>
                           </div>
@@ -347,6 +413,7 @@ import { mapState, mapActions } from "pinia";
 import d$proposal from "@/store/proposal";
 import d$tema from "@/store/tema";
 import d$mahasiswa from "@/store/mahasiswa";
+import d$dokumen from "@/store/dokumen";
 
 export default {
   name: "IndexSeleksiMhs",
@@ -387,6 +454,7 @@ export default {
       "a$decMahasiswa",
       "a$deleteDaftarLokasi",
     ]),
+    ...mapActions(d$dokumen, ["a$getDokumenEmbedLink"]),
 
     async getInitData() {
       this.isLoadingOnInit = true;
@@ -548,6 +616,60 @@ export default {
           mhs.id,
           true
         );
+        e.preventDefault();
+      });
+
+      // pas foto
+      $("#mhs-list").on("click", `.pas-foto-button`, function (e) {
+        let id = this.id;
+        outerThis.showSwal("loading");
+        outerThis
+          .a$getDokumenEmbedLink(id)
+          .then((res) => {
+            outerThis.showSwal("close");
+            window.open(res, "_blank");
+          })
+          .catch((err) => {
+            console.log(err);
+            outerThis.showSwal("close");
+            outerThis.showSwal("failed-message", "Gagal memuat dokumen!");
+          });
+        e.preventDefault();
+      });
+
+      // khs
+      $("#mhs-list").on("click", `.khs-button`, function (e) {
+        let id = this.id;
+        outerThis.showSwal("loading");
+        outerThis
+          .a$getDokumenEmbedLink(id)
+          .then((res) => {
+            outerThis.showSwal("close");
+            window.open(res, "_blank");
+          })
+          .catch((err) => {
+            console.log(err);
+            outerThis.showSwal("close");
+            outerThis.showSwal("failed-message", "Gagal memuat dokumen! ");
+          });
+        e.preventDefault();
+      });
+
+      // surat pernyataan
+      $("#mhs-list").on("click", `.surat-pernyataan-button`, function (e) {
+        let id = this.id;
+        outerThis.showSwal("loading");
+        outerThis
+          .a$getDokumenEmbedLink(id)
+          .then((res) => {
+            outerThis.showSwal("close");
+            window.open(res, "_blank");
+          })
+          .catch((err) => {
+            console.log(err);
+            outerThis.showSwal("close");
+            outerThis.showSwal("failed-message", "Gagal memuat dokumen!");
+          });
         e.preventDefault();
       });
     },
