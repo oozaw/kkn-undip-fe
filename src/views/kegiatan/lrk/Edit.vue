@@ -3,27 +3,7 @@
     <div class="row mb-5 mt-4">
       <div class="col-lg-12 mt-lg-0 mt-4">
         <section v-if="g$statusHalaman">
-          <header-profile-card>
-            <template #button>
-              <argon-button
-                type="button"
-                :onclick="() => $router.push({ name: 'LRK' })"
-                class="mb-0 me-2"
-                color="secondary"
-                size="sm"
-                >Batal</argon-button
-              >
-              <argon-button
-                type="submit"
-                form="form-edit-lrk"
-                class="mb-0 me-lg-2"
-                color="success"
-                variant="gradient"
-                size="sm"
-                >Simpan LRK</argon-button
-              >
-            </template>
-          </header-profile-card>
+          <header-profile-card />
           <div class="bg-white pb-2 card mt-4">
             <!-- Card header -->
             <div class="pb-0 card-header">
@@ -137,7 +117,7 @@
                       type="submit"
                       form="form-edit-lrk"
                       class="mb-0 me-lg-2"
-                      color="success"
+                      color="primary"
                       variant="primary"
                       size="sm"
                       >Simpan LRK</argon-button
