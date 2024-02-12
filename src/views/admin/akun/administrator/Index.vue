@@ -284,7 +284,10 @@
                         </div>
                       </div>
                       <a
-                        href="javascript:;"
+                        :id="admin.id_admin"
+                        :name="admin.nama"
+                        class="delete"
+                        href="#"
                         data-bs-toggle="tooltip"
                         data-bs-original-title="Hapus Administrator"
                         title="Hapus Administrator"
@@ -350,7 +353,7 @@ export default {
     await this.getInitData();
   },
   methods: {
-    ...mapActions(d$admin, ["a$listAdmin", "a$editAdmin"]),
+    ...mapActions(d$admin, ["a$listAdmin", "a$editAdmin", "a$deleteAdmin"]),
 
     async getInitData() {
       this.isLoading = true;
@@ -400,7 +403,7 @@ export default {
       try {
         document.getElementById(`button-close-modal-${id}`).click();
         await this.a$editAdmin(id, data);
-        this.showSwal("success-message", "Data reviewer berhasil disimpan!");
+        this.showSwal("success-message", "Data admin berhasil disimpan!");
 
         await this.getInitData();
       } catch (error) {
@@ -408,7 +411,25 @@ export default {
         let msg = "";
         if (error.error && error.error != undefined) msg = error.error;
         else msg = error;
-        this.showSwal("failed-message", "Data reviewer gagal disimpan! " + msg);
+        this.showSwal("failed-message", "Data admin gagal disimpan! " + msg);
+      }
+    },
+
+    async deleteAdmin(id) {
+      this.showSwal("loading");
+
+      id = parseInt(id);
+
+      try {
+        await this.a$deleteAdmin(id);
+        await this.getInitData();
+        this.showSwal("success-message", "Data admin berhasil dihapus!");
+      } catch (error) {
+        console.log(error);
+        let msg = "";
+        if (error.error && error.error != undefined) msg = error.error;
+        else msg = error;
+        this.showSwal("failed-message", "Data admin gagal dihapus! " + msg);
       }
     },
 
@@ -422,16 +443,16 @@ export default {
       });
 
       // delete
-      // $("#admin-list").on("click", `.delete`, function (e) {
-      //   let admin = this;
-      //   outerThis.showSwal(
-      //     "warning-confirmation",
-      //     `Hapus akun admin ${admin.name}?`,
-      //     "Berhasil menghapus data",
-      //     admin.id
-      //   );
-      //   e.preventDefault();
-      // });
+      $("#admin-list").on("click", `.delete`, function (e) {
+        let admin = this;
+        outerThis.showSwal(
+          "warning-confirmation",
+          `Hapus akun admin ${admin.name}?`,
+          "Berhasil menghapus data",
+          admin.id
+        );
+        e.preventDefault();
+      });
     },
 
     setupDataTable() {
@@ -569,7 +590,7 @@ export default {
           },
         }).then((result) => {
           if (result.isConfirmed) {
-            this.deleteReviewer(id_admin);
+            this.deleteAdmin(id_admin);
             this.$swal({
               toast: true,
               position: "top-end",

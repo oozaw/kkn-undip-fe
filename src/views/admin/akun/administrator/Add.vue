@@ -2,34 +2,14 @@
   <div class="py-4 container-fluid">
     <div class="row">
       <div class="col-lg-12 mt-lg-0">
-        <HeaderProfileCard>
-          <template #button>
-            <argon-button
-              type="button"
-              :onclick="() => $router.push({ name: 'Administrator' })"
-              class="mb-0 me-2"
-              color="secondary"
-              size="sm"
-              >Batal</argon-button
-            >
-            <argon-button
-              type="submit"
-              form="form-admin"
-              class="mb-0 me-lg-2"
-              color="success"
-              variant="gradient"
-              size="sm"
-              >Tambah Administrator</argon-button
-            >
-          </template>
-        </HeaderProfileCard>
+        <HeaderProfileCard />
       </div>
     </div>
     <div class="mt-4">
       <div class="mt-4 mt-lg-0">
         <div class="card">
           <form id="form-admin" role="form" @submit.prevent="addAdmin()">
-            <div class="card-body pb-5">
+            <div class="card-body pb-4">
               <h5 class="font-weight-bolder mb-3">Tambah Administrator</h5>
               <div class="row">
                 <div class="col-12 col-sm-6">
@@ -57,25 +37,27 @@
                   />
                 </div>
               </div>
-              <!-- Username & Password Section -->
-              <!-- <div class="row">
-              <div class="col-6">
-                <label class="mt-4">Username</label>
-                <input
-                  class="form-control"
-                  type="text"
-                  placeholder="Masukkan username"
-                />
+              <div class="row mt-4">
+                <div class="d-inline-flex justify-content-end">
+                  <argon-button
+                    type="button"
+                    :onclick="() => $router.push({ name: 'Administrator' })"
+                    class="mb-0 me-2"
+                    color="secondary"
+                    size="sm"
+                    >Batal</argon-button
+                  >
+                  <argon-button
+                    type="submit"
+                    form="form-admin"
+                    class="mb-0"
+                    color="success"
+                    variant="gradient"
+                    size="sm"
+                    >Tambah Administrator</argon-button
+                  >
+                </div>
               </div>
-              <div class="col-6">
-                <label class="mt-4">Password</label>
-                <input
-                  class="form-control"
-                  type="password"
-                  placeholder="Masukkan password"
-                />
-              </div>
-            </div> -->
             </div>
           </form>
         </div>
