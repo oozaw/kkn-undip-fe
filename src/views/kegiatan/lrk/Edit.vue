@@ -118,7 +118,7 @@
                       form="form-edit-lrk"
                       class="mb-0 me-lg-2"
                       color="primary"
-                      variant="primary"
+                      variant="gradient"
                       size="sm"
                       >Simpan LRK</argon-button
                     >
