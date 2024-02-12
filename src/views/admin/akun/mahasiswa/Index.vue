@@ -696,12 +696,12 @@ export default {
     async deleteMahasiswa(id_mahasiswa) {
       this.showSwal("loading");
 
-      this.indexComponent++;
-
       try {
         await this.a$deleteMahasiswa(parseInt(id_mahasiswa));
-        await this.getListMahasiswa();
         this.showSwal("success-message", "Data mahasiswa berhasil dihapus!");
+        setTimeout(async () => {
+          await this.getListMahasiswa();
+        }, 1500);
       } catch (error) {
         console.log(error);
         let msg = "";
