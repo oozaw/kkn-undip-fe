@@ -50,6 +50,16 @@ const d$admin = defineStore("adminStore", {
         throw error;
       }
     },
+
+    async a$deleteAdmin(id_admin) {
+      try {
+        const status = await s$admin.deleteAdmin(id_admin);
+        this.status = status;
+      } catch (error) {
+        this.status = false;
+        throw error;
+      }
+    },
   },
   getters: {
     g$listAdmin: ({ listAdmin }) => listAdmin,

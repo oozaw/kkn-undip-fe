@@ -11,4 +11,6 @@ const addAdmin = (body) => baseApi.post(`${api}admin`, body);
 const editAdmin = (id_admin, body) =>
   baseApi.put(`${api}admin/${id_admin}`, body);
 
-export { listAdmin, getAdmin, addAdmin, editAdmin };
+const deleteAdmin = (id_admin) => baseApi.delete(`${api}admin/${id_admin}`);
+
+export { listAdmin, getAdmin, addAdmin, editAdmin, deleteAdmin };
