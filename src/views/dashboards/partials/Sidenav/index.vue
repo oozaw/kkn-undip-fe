@@ -17,7 +17,7 @@
 
   <aside
     id="sidenav-main"
-    class="sidenav navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 ms-4"
+    class="sidenav navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 ms-4 z-index-0"
     :class="` ${sidebarType} ${
       isRTL ? 'fixed-end me-3 rotate-caret' : 'fixed-start ms-3'
     } ${layout === 'landing' ? 'bg-transparent shadow-none' : ''}`"
