@@ -172,21 +172,34 @@ export default {
       isUserHaveSuratPernyataan: false,
     };
   },
-  created() {
-    this.getInitData();
+  async created() {
+    await this.getInitData();
   },
   methods: {
+    ...mapActions(d$auth, ["a$getUser"]),
     ...mapActions(d$mahasiswa, [
       "a$addKHS",
       "a$addSuratPernyataan",
       "a$addFoto",
     ]),
 
-    getInitData() {
-      if (this.g$infoUser.khs) this.isUserHaveKHS = true;
-      if (this.g$infoUser.surat_pernyataan)
-        this.isUserHaveSuratPernyataan = true;
-      if (this.g$infoUser.foto_profile) this.isUserHaveFoto = true;
+    async getInitData() {
+      try {
+        await this.a$getUser();
+        if (this.g$infoUser.khs) this.isUserHaveKHS = true;
+        if (this.g$infoUser.surat_pernyataan)
+          this.isUserHaveSuratPernyataan = true;
+        if (this.g$infoUser.foto_profile) this.isUserHaveFoto = true;
+      } catch (error) {
+        console.log(error);
+        let msg = "";
+        if (error.error && error.error != undefined) msg = error.error;
+        else msg = error;
+        this.showSwal(
+          "failed-message",
+          "Terjadi kesalahan saat memuat data! " + msg
+        );
+      }
     },
 
     async submitData() {
