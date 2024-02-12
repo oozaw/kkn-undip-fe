@@ -2,27 +2,7 @@
   <div class="container-fluid">
     <div class="row mb-5 mt-4">
       <div class="col-lg-12 mt-lg-0 mt-4">
-        <HeaderProfileCard>
-          <template #button>
-            <argon-button
-              type="button"
-              :onclick="() => $router.push({ name: 'Pengajuan Lokasi' })"
-              class="mb-0 me-2"
-              color="secondary"
-              size="sm"
-              >Batal</argon-button
-            >
-            <argon-button
-              type="submit"
-              form="form-desa"
-              class="mb-0 me-lg-2"
-              color="success"
-              variant="gradient"
-              size="sm"
-              >Tambah Desa</argon-button
-            >
-          </template>
-        </HeaderProfileCard>
+        <HeaderProfileCard />
         <div id="card-profile-wilayah" class="card mt-4 pb-2">
           <div class="card-header">
             <h5>Tambah Desa</h5>
