@@ -2,27 +2,7 @@
   <div class="container-fluid">
     <div class="row mb-5 mt-4">
       <div class="col-lg-12 mt-lg-0 mt-4">
-        <header-profile-card>
-          <template #button>
-            <argon-button
-              type="button"
-              :onclick="() => $router.push({ name: 'Pendaftaran Dosen Admin' })"
-              class="mb-0 me-2"
-              color="secondary"
-              size="sm"
-              >Batal</argon-button
-            >
-            <argon-button
-              type="submit"
-              form="form-add-evaluasi"
-              class="mb-0 me-lg-2"
-              color="primary"
-              variant="gradient"
-              size="sm"
-              >Simpan</argon-button
-            >
-          </template>
-        </header-profile-card>
+        <header-profile-card />
         <div class="row ms-1 mt-4 me-0">
           <div class="col-md-4 col-12 p-0">
             <div class="card h-100">

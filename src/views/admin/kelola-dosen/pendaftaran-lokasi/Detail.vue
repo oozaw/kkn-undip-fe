@@ -137,7 +137,7 @@
                 >
                   <strong class="text-dark">Komentar:</strong>
                   &nbsp;
-                  {{ g$proposal?.komentar }}
+                  {{ getOutOfTagP(g$proposal?.komentar) }}
                 </li>
               </div>
               <div class="row">
@@ -194,6 +194,7 @@
 </template>
 
 <script>
+import $ from "jquery";
 import moment from "moment";
 import HeaderProfileCard from "@/views/dashboards/components/HeaderProfileCard.vue";
 import ArgonButton from "@/components/ArgonButton.vue";
@@ -280,6 +281,20 @@ export default {
         else msg = error;
         this.showSwal("failed-message", "Data gagal diperbarui! " + msg);
       }
+    },
+
+    getOutOfTagP(element) {
+      var temp = $("<div>").html(element);
+      temp.find("p").each(function () {
+        $(this).replaceWith(this.childNodes);
+      });
+
+      var output = temp.html();
+      return output;
+      // var div = document.createElement("div");
+      // div.innerHTML = element;
+      // var text = div.textContent || div.innerHTML || "";
+      // return text;
     },
 
     showSwal(type, text, toastText, id_proposal, status) {

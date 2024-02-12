@@ -146,7 +146,7 @@
                         class="d-inline"
                       >
                         <a
-                          v-if="proposal.status == 1"
+                          v-if="proposal.status != -1"
                           :id="proposal.id_proposal"
                           :name="proposal.dosen.nama"
                           class="me-3 tolak"
@@ -162,7 +162,7 @@
                           />
                         </a>
                         <a
-                          v-else
+                          v-if="proposal.status != 1"
                           :id="proposal.id_proposal"
                           :name="proposal.dosen.nama"
                           class="me-3 terima"
