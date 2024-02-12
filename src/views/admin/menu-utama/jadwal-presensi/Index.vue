@@ -174,9 +174,9 @@
                           <button
                             form="form-edit-jadwal"
                             type="submit"
-                            class="btn bg-gradient-success btn-sm edit"
+                            class="btn bg-gradient-primary btn-sm edit"
                           >
-                            Tambah
+                            Simpan
                           </button>
                         </div>
                       </div>
